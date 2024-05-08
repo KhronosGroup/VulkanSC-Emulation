@@ -1,0 +1,755 @@
+// *** THIS FILE IS GENERATED - DO NOT EDIT ***
+// See vk_dispatch_table_generator.py for modifications
+
+/*
+ * Copyright (c) 2024 The Khronos Group Inc.
+ * Copyright (c) 2024 RasterGrid Kft.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+// NOLINTBEGIN
+
+#pragma once
+
+#include <vulkan/vulkan.h>
+
+namespace vk {
+
+class DispatchTable {
+  public:
+    DispatchTable(VkInstance instance, PFN_vkGetInstanceProcAddr get_proc_addr);
+
+    const PFN_vkDestroyInstance DestroyInstance;
+    const PFN_vkEnumeratePhysicalDevices EnumeratePhysicalDevices;
+    const PFN_vkGetPhysicalDeviceFeatures GetPhysicalDeviceFeatures;
+    const PFN_vkGetPhysicalDeviceFormatProperties GetPhysicalDeviceFormatProperties;
+    const PFN_vkGetPhysicalDeviceImageFormatProperties GetPhysicalDeviceImageFormatProperties;
+    const PFN_vkGetPhysicalDeviceProperties GetPhysicalDeviceProperties;
+    const PFN_vkGetPhysicalDeviceQueueFamilyProperties GetPhysicalDeviceQueueFamilyProperties;
+    const PFN_vkGetPhysicalDeviceMemoryProperties GetPhysicalDeviceMemoryProperties;
+    const PFN_vkGetInstanceProcAddr GetInstanceProcAddr;
+    const PFN_vkGetDeviceProcAddr GetDeviceProcAddr;
+    const PFN_vkCreateDevice CreateDevice;
+    const PFN_vkDestroyDevice DestroyDevice;
+    const PFN_vkEnumerateDeviceExtensionProperties EnumerateDeviceExtensionProperties;
+    const PFN_vkEnumerateDeviceLayerProperties EnumerateDeviceLayerProperties;
+    const PFN_vkGetDeviceQueue GetDeviceQueue;
+    const PFN_vkQueueSubmit QueueSubmit;
+    const PFN_vkQueueWaitIdle QueueWaitIdle;
+    const PFN_vkDeviceWaitIdle DeviceWaitIdle;
+    const PFN_vkAllocateMemory AllocateMemory;
+    const PFN_vkFreeMemory FreeMemory;
+    const PFN_vkMapMemory MapMemory;
+    const PFN_vkUnmapMemory UnmapMemory;
+    const PFN_vkFlushMappedMemoryRanges FlushMappedMemoryRanges;
+    const PFN_vkInvalidateMappedMemoryRanges InvalidateMappedMemoryRanges;
+    const PFN_vkGetDeviceMemoryCommitment GetDeviceMemoryCommitment;
+    const PFN_vkBindBufferMemory BindBufferMemory;
+    const PFN_vkBindImageMemory BindImageMemory;
+    const PFN_vkGetBufferMemoryRequirements GetBufferMemoryRequirements;
+    const PFN_vkGetImageMemoryRequirements GetImageMemoryRequirements;
+    const PFN_vkGetImageSparseMemoryRequirements GetImageSparseMemoryRequirements;
+    const PFN_vkGetPhysicalDeviceSparseImageFormatProperties GetPhysicalDeviceSparseImageFormatProperties;
+    const PFN_vkQueueBindSparse QueueBindSparse;
+    const PFN_vkCreateFence CreateFence;
+    const PFN_vkDestroyFence DestroyFence;
+    const PFN_vkResetFences ResetFences;
+    const PFN_vkGetFenceStatus GetFenceStatus;
+    const PFN_vkWaitForFences WaitForFences;
+    const PFN_vkCreateSemaphore CreateSemaphore;
+    const PFN_vkDestroySemaphore DestroySemaphore;
+    const PFN_vkCreateEvent CreateEvent;
+    const PFN_vkDestroyEvent DestroyEvent;
+    const PFN_vkGetEventStatus GetEventStatus;
+    const PFN_vkSetEvent SetEvent;
+    const PFN_vkResetEvent ResetEvent;
+    const PFN_vkCreateQueryPool CreateQueryPool;
+    const PFN_vkDestroyQueryPool DestroyQueryPool;
+    const PFN_vkGetQueryPoolResults GetQueryPoolResults;
+    const PFN_vkCreateBuffer CreateBuffer;
+    const PFN_vkDestroyBuffer DestroyBuffer;
+    const PFN_vkCreateBufferView CreateBufferView;
+    const PFN_vkDestroyBufferView DestroyBufferView;
+    const PFN_vkCreateImage CreateImage;
+    const PFN_vkDestroyImage DestroyImage;
+    const PFN_vkGetImageSubresourceLayout GetImageSubresourceLayout;
+    const PFN_vkCreateImageView CreateImageView;
+    const PFN_vkDestroyImageView DestroyImageView;
+    const PFN_vkCreateShaderModule CreateShaderModule;
+    const PFN_vkDestroyShaderModule DestroyShaderModule;
+    const PFN_vkCreatePipelineCache CreatePipelineCache;
+    const PFN_vkDestroyPipelineCache DestroyPipelineCache;
+    const PFN_vkGetPipelineCacheData GetPipelineCacheData;
+    const PFN_vkMergePipelineCaches MergePipelineCaches;
+    const PFN_vkCreateGraphicsPipelines CreateGraphicsPipelines;
+    const PFN_vkCreateComputePipelines CreateComputePipelines;
+    const PFN_vkDestroyPipeline DestroyPipeline;
+    const PFN_vkCreatePipelineLayout CreatePipelineLayout;
+    const PFN_vkDestroyPipelineLayout DestroyPipelineLayout;
+    const PFN_vkCreateSampler CreateSampler;
+    const PFN_vkDestroySampler DestroySampler;
+    const PFN_vkCreateDescriptorSetLayout CreateDescriptorSetLayout;
+    const PFN_vkDestroyDescriptorSetLayout DestroyDescriptorSetLayout;
+    const PFN_vkCreateDescriptorPool CreateDescriptorPool;
+    const PFN_vkDestroyDescriptorPool DestroyDescriptorPool;
+    const PFN_vkResetDescriptorPool ResetDescriptorPool;
+    const PFN_vkAllocateDescriptorSets AllocateDescriptorSets;
+    const PFN_vkFreeDescriptorSets FreeDescriptorSets;
+    const PFN_vkUpdateDescriptorSets UpdateDescriptorSets;
+    const PFN_vkCreateFramebuffer CreateFramebuffer;
+    const PFN_vkDestroyFramebuffer DestroyFramebuffer;
+    const PFN_vkCreateRenderPass CreateRenderPass;
+    const PFN_vkDestroyRenderPass DestroyRenderPass;
+    const PFN_vkGetRenderAreaGranularity GetRenderAreaGranularity;
+    const PFN_vkCreateCommandPool CreateCommandPool;
+    const PFN_vkDestroyCommandPool DestroyCommandPool;
+    const PFN_vkResetCommandPool ResetCommandPool;
+    const PFN_vkAllocateCommandBuffers AllocateCommandBuffers;
+    const PFN_vkFreeCommandBuffers FreeCommandBuffers;
+    const PFN_vkBeginCommandBuffer BeginCommandBuffer;
+    const PFN_vkEndCommandBuffer EndCommandBuffer;
+    const PFN_vkResetCommandBuffer ResetCommandBuffer;
+    const PFN_vkCmdBindPipeline CmdBindPipeline;
+    const PFN_vkCmdSetViewport CmdSetViewport;
+    const PFN_vkCmdSetScissor CmdSetScissor;
+    const PFN_vkCmdSetLineWidth CmdSetLineWidth;
+    const PFN_vkCmdSetDepthBias CmdSetDepthBias;
+    const PFN_vkCmdSetBlendConstants CmdSetBlendConstants;
+    const PFN_vkCmdSetDepthBounds CmdSetDepthBounds;
+    const PFN_vkCmdSetStencilCompareMask CmdSetStencilCompareMask;
+    const PFN_vkCmdSetStencilWriteMask CmdSetStencilWriteMask;
+    const PFN_vkCmdSetStencilReference CmdSetStencilReference;
+    const PFN_vkCmdBindDescriptorSets CmdBindDescriptorSets;
+    const PFN_vkCmdBindIndexBuffer CmdBindIndexBuffer;
+    const PFN_vkCmdBindVertexBuffers CmdBindVertexBuffers;
+    const PFN_vkCmdDraw CmdDraw;
+    const PFN_vkCmdDrawIndexed CmdDrawIndexed;
+    const PFN_vkCmdDrawIndirect CmdDrawIndirect;
+    const PFN_vkCmdDrawIndexedIndirect CmdDrawIndexedIndirect;
+    const PFN_vkCmdDispatch CmdDispatch;
+    const PFN_vkCmdDispatchIndirect CmdDispatchIndirect;
+    const PFN_vkCmdCopyBuffer CmdCopyBuffer;
+    const PFN_vkCmdCopyImage CmdCopyImage;
+    const PFN_vkCmdBlitImage CmdBlitImage;
+    const PFN_vkCmdCopyBufferToImage CmdCopyBufferToImage;
+    const PFN_vkCmdCopyImageToBuffer CmdCopyImageToBuffer;
+    const PFN_vkCmdUpdateBuffer CmdUpdateBuffer;
+    const PFN_vkCmdFillBuffer CmdFillBuffer;
+    const PFN_vkCmdClearColorImage CmdClearColorImage;
+    const PFN_vkCmdClearDepthStencilImage CmdClearDepthStencilImage;
+    const PFN_vkCmdClearAttachments CmdClearAttachments;
+    const PFN_vkCmdResolveImage CmdResolveImage;
+    const PFN_vkCmdSetEvent CmdSetEvent;
+    const PFN_vkCmdResetEvent CmdResetEvent;
+    const PFN_vkCmdWaitEvents CmdWaitEvents;
+    const PFN_vkCmdPipelineBarrier CmdPipelineBarrier;
+    const PFN_vkCmdBeginQuery CmdBeginQuery;
+    const PFN_vkCmdEndQuery CmdEndQuery;
+    const PFN_vkCmdResetQueryPool CmdResetQueryPool;
+    const PFN_vkCmdWriteTimestamp CmdWriteTimestamp;
+    const PFN_vkCmdCopyQueryPoolResults CmdCopyQueryPoolResults;
+    const PFN_vkCmdPushConstants CmdPushConstants;
+    const PFN_vkCmdBeginRenderPass CmdBeginRenderPass;
+    const PFN_vkCmdNextSubpass CmdNextSubpass;
+    const PFN_vkCmdEndRenderPass CmdEndRenderPass;
+    const PFN_vkCmdExecuteCommands CmdExecuteCommands;
+    const PFN_vkBindBufferMemory2 BindBufferMemory2;
+    const PFN_vkBindImageMemory2 BindImageMemory2;
+    const PFN_vkGetDeviceGroupPeerMemoryFeatures GetDeviceGroupPeerMemoryFeatures;
+    const PFN_vkCmdSetDeviceMask CmdSetDeviceMask;
+    const PFN_vkCmdDispatchBase CmdDispatchBase;
+    const PFN_vkEnumeratePhysicalDeviceGroups EnumeratePhysicalDeviceGroups;
+    const PFN_vkGetImageMemoryRequirements2 GetImageMemoryRequirements2;
+    const PFN_vkGetBufferMemoryRequirements2 GetBufferMemoryRequirements2;
+    const PFN_vkGetImageSparseMemoryRequirements2 GetImageSparseMemoryRequirements2;
+    const PFN_vkGetPhysicalDeviceFeatures2 GetPhysicalDeviceFeatures2;
+    const PFN_vkGetPhysicalDeviceProperties2 GetPhysicalDeviceProperties2;
+    const PFN_vkGetPhysicalDeviceFormatProperties2 GetPhysicalDeviceFormatProperties2;
+    const PFN_vkGetPhysicalDeviceImageFormatProperties2 GetPhysicalDeviceImageFormatProperties2;
+    const PFN_vkGetPhysicalDeviceQueueFamilyProperties2 GetPhysicalDeviceQueueFamilyProperties2;
+    const PFN_vkGetPhysicalDeviceMemoryProperties2 GetPhysicalDeviceMemoryProperties2;
+    const PFN_vkGetPhysicalDeviceSparseImageFormatProperties2 GetPhysicalDeviceSparseImageFormatProperties2;
+    const PFN_vkTrimCommandPool TrimCommandPool;
+    const PFN_vkGetDeviceQueue2 GetDeviceQueue2;
+    const PFN_vkCreateSamplerYcbcrConversion CreateSamplerYcbcrConversion;
+    const PFN_vkDestroySamplerYcbcrConversion DestroySamplerYcbcrConversion;
+    const PFN_vkCreateDescriptorUpdateTemplate CreateDescriptorUpdateTemplate;
+    const PFN_vkDestroyDescriptorUpdateTemplate DestroyDescriptorUpdateTemplate;
+    const PFN_vkUpdateDescriptorSetWithTemplate UpdateDescriptorSetWithTemplate;
+    const PFN_vkGetPhysicalDeviceExternalBufferProperties GetPhysicalDeviceExternalBufferProperties;
+    const PFN_vkGetPhysicalDeviceExternalFenceProperties GetPhysicalDeviceExternalFenceProperties;
+    const PFN_vkGetPhysicalDeviceExternalSemaphoreProperties GetPhysicalDeviceExternalSemaphoreProperties;
+    const PFN_vkGetDescriptorSetLayoutSupport GetDescriptorSetLayoutSupport;
+    const PFN_vkCmdDrawIndirectCount CmdDrawIndirectCount;
+    const PFN_vkCmdDrawIndexedIndirectCount CmdDrawIndexedIndirectCount;
+    const PFN_vkCreateRenderPass2 CreateRenderPass2;
+    const PFN_vkCmdBeginRenderPass2 CmdBeginRenderPass2;
+    const PFN_vkCmdNextSubpass2 CmdNextSubpass2;
+    const PFN_vkCmdEndRenderPass2 CmdEndRenderPass2;
+    const PFN_vkResetQueryPool ResetQueryPool;
+    const PFN_vkGetSemaphoreCounterValue GetSemaphoreCounterValue;
+    const PFN_vkWaitSemaphores WaitSemaphores;
+    const PFN_vkSignalSemaphore SignalSemaphore;
+    const PFN_vkGetBufferDeviceAddress GetBufferDeviceAddress;
+    const PFN_vkGetBufferOpaqueCaptureAddress GetBufferOpaqueCaptureAddress;
+    const PFN_vkGetDeviceMemoryOpaqueCaptureAddress GetDeviceMemoryOpaqueCaptureAddress;
+    const PFN_vkGetPhysicalDeviceToolProperties GetPhysicalDeviceToolProperties;
+    const PFN_vkCreatePrivateDataSlot CreatePrivateDataSlot;
+    const PFN_vkDestroyPrivateDataSlot DestroyPrivateDataSlot;
+    const PFN_vkSetPrivateData SetPrivateData;
+    const PFN_vkGetPrivateData GetPrivateData;
+    const PFN_vkCmdSetEvent2 CmdSetEvent2;
+    const PFN_vkCmdResetEvent2 CmdResetEvent2;
+    const PFN_vkCmdWaitEvents2 CmdWaitEvents2;
+    const PFN_vkCmdPipelineBarrier2 CmdPipelineBarrier2;
+    const PFN_vkCmdWriteTimestamp2 CmdWriteTimestamp2;
+    const PFN_vkQueueSubmit2 QueueSubmit2;
+    const PFN_vkCmdCopyBuffer2 CmdCopyBuffer2;
+    const PFN_vkCmdCopyImage2 CmdCopyImage2;
+    const PFN_vkCmdCopyBufferToImage2 CmdCopyBufferToImage2;
+    const PFN_vkCmdCopyImageToBuffer2 CmdCopyImageToBuffer2;
+    const PFN_vkCmdBlitImage2 CmdBlitImage2;
+    const PFN_vkCmdResolveImage2 CmdResolveImage2;
+    const PFN_vkCmdBeginRendering CmdBeginRendering;
+    const PFN_vkCmdEndRendering CmdEndRendering;
+    const PFN_vkCmdSetCullMode CmdSetCullMode;
+    const PFN_vkCmdSetFrontFace CmdSetFrontFace;
+    const PFN_vkCmdSetPrimitiveTopology CmdSetPrimitiveTopology;
+    const PFN_vkCmdSetViewportWithCount CmdSetViewportWithCount;
+    const PFN_vkCmdSetScissorWithCount CmdSetScissorWithCount;
+    const PFN_vkCmdBindVertexBuffers2 CmdBindVertexBuffers2;
+    const PFN_vkCmdSetDepthTestEnable CmdSetDepthTestEnable;
+    const PFN_vkCmdSetDepthWriteEnable CmdSetDepthWriteEnable;
+    const PFN_vkCmdSetDepthCompareOp CmdSetDepthCompareOp;
+    const PFN_vkCmdSetDepthBoundsTestEnable CmdSetDepthBoundsTestEnable;
+    const PFN_vkCmdSetStencilTestEnable CmdSetStencilTestEnable;
+    const PFN_vkCmdSetStencilOp CmdSetStencilOp;
+    const PFN_vkCmdSetRasterizerDiscardEnable CmdSetRasterizerDiscardEnable;
+    const PFN_vkCmdSetDepthBiasEnable CmdSetDepthBiasEnable;
+    const PFN_vkCmdSetPrimitiveRestartEnable CmdSetPrimitiveRestartEnable;
+    const PFN_vkGetDeviceBufferMemoryRequirements GetDeviceBufferMemoryRequirements;
+    const PFN_vkGetDeviceImageMemoryRequirements GetDeviceImageMemoryRequirements;
+    const PFN_vkGetDeviceImageSparseMemoryRequirements GetDeviceImageSparseMemoryRequirements;
+    const PFN_vkDestroySurfaceKHR DestroySurfaceKHR;
+    const PFN_vkGetPhysicalDeviceSurfaceSupportKHR GetPhysicalDeviceSurfaceSupportKHR;
+    const PFN_vkGetPhysicalDeviceSurfaceCapabilitiesKHR GetPhysicalDeviceSurfaceCapabilitiesKHR;
+    const PFN_vkGetPhysicalDeviceSurfaceFormatsKHR GetPhysicalDeviceSurfaceFormatsKHR;
+    const PFN_vkGetPhysicalDeviceSurfacePresentModesKHR GetPhysicalDeviceSurfacePresentModesKHR;
+    const PFN_vkCreateSwapchainKHR CreateSwapchainKHR;
+    const PFN_vkDestroySwapchainKHR DestroySwapchainKHR;
+    const PFN_vkGetSwapchainImagesKHR GetSwapchainImagesKHR;
+    const PFN_vkAcquireNextImageKHR AcquireNextImageKHR;
+    const PFN_vkQueuePresentKHR QueuePresentKHR;
+    const PFN_vkGetDeviceGroupPresentCapabilitiesKHR GetDeviceGroupPresentCapabilitiesKHR;
+    const PFN_vkGetDeviceGroupSurfacePresentModesKHR GetDeviceGroupSurfacePresentModesKHR;
+    const PFN_vkGetPhysicalDevicePresentRectanglesKHR GetPhysicalDevicePresentRectanglesKHR;
+    const PFN_vkAcquireNextImage2KHR AcquireNextImage2KHR;
+    const PFN_vkGetPhysicalDeviceDisplayPropertiesKHR GetPhysicalDeviceDisplayPropertiesKHR;
+    const PFN_vkGetPhysicalDeviceDisplayPlanePropertiesKHR GetPhysicalDeviceDisplayPlanePropertiesKHR;
+    const PFN_vkGetDisplayPlaneSupportedDisplaysKHR GetDisplayPlaneSupportedDisplaysKHR;
+    const PFN_vkGetDisplayModePropertiesKHR GetDisplayModePropertiesKHR;
+    const PFN_vkCreateDisplayModeKHR CreateDisplayModeKHR;
+    const PFN_vkGetDisplayPlaneCapabilitiesKHR GetDisplayPlaneCapabilitiesKHR;
+    const PFN_vkCreateDisplayPlaneSurfaceKHR CreateDisplayPlaneSurfaceKHR;
+    const PFN_vkCreateSharedSwapchainsKHR CreateSharedSwapchainsKHR;
+#ifdef VK_USE_PLATFORM_XLIB_KHR
+    const PFN_vkCreateXlibSurfaceKHR CreateXlibSurfaceKHR;
+    const PFN_vkGetPhysicalDeviceXlibPresentationSupportKHR GetPhysicalDeviceXlibPresentationSupportKHR;
+#endif  // VK_USE_PLATFORM_XLIB_KHR
+#ifdef VK_USE_PLATFORM_XCB_KHR
+    const PFN_vkCreateXcbSurfaceKHR CreateXcbSurfaceKHR;
+    const PFN_vkGetPhysicalDeviceXcbPresentationSupportKHR GetPhysicalDeviceXcbPresentationSupportKHR;
+#endif  // VK_USE_PLATFORM_XCB_KHR
+#ifdef VK_USE_PLATFORM_WAYLAND_KHR
+    const PFN_vkCreateWaylandSurfaceKHR CreateWaylandSurfaceKHR;
+    const PFN_vkGetPhysicalDeviceWaylandPresentationSupportKHR GetPhysicalDeviceWaylandPresentationSupportKHR;
+#endif  // VK_USE_PLATFORM_WAYLAND_KHR
+#ifdef VK_USE_PLATFORM_ANDROID_KHR
+    const PFN_vkCreateAndroidSurfaceKHR CreateAndroidSurfaceKHR;
+#endif  // VK_USE_PLATFORM_ANDROID_KHR
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+    const PFN_vkCreateWin32SurfaceKHR CreateWin32SurfaceKHR;
+    const PFN_vkGetPhysicalDeviceWin32PresentationSupportKHR GetPhysicalDeviceWin32PresentationSupportKHR;
+#endif  // VK_USE_PLATFORM_WIN32_KHR
+    const PFN_vkGetPhysicalDeviceVideoCapabilitiesKHR GetPhysicalDeviceVideoCapabilitiesKHR;
+    const PFN_vkGetPhysicalDeviceVideoFormatPropertiesKHR GetPhysicalDeviceVideoFormatPropertiesKHR;
+    const PFN_vkCreateVideoSessionKHR CreateVideoSessionKHR;
+    const PFN_vkDestroyVideoSessionKHR DestroyVideoSessionKHR;
+    const PFN_vkGetVideoSessionMemoryRequirementsKHR GetVideoSessionMemoryRequirementsKHR;
+    const PFN_vkBindVideoSessionMemoryKHR BindVideoSessionMemoryKHR;
+    const PFN_vkCreateVideoSessionParametersKHR CreateVideoSessionParametersKHR;
+    const PFN_vkUpdateVideoSessionParametersKHR UpdateVideoSessionParametersKHR;
+    const PFN_vkDestroyVideoSessionParametersKHR DestroyVideoSessionParametersKHR;
+    const PFN_vkCmdBeginVideoCodingKHR CmdBeginVideoCodingKHR;
+    const PFN_vkCmdEndVideoCodingKHR CmdEndVideoCodingKHR;
+    const PFN_vkCmdControlVideoCodingKHR CmdControlVideoCodingKHR;
+    const PFN_vkCmdDecodeVideoKHR CmdDecodeVideoKHR;
+    const PFN_vkCmdBeginRenderingKHR CmdBeginRenderingKHR;
+    const PFN_vkCmdEndRenderingKHR CmdEndRenderingKHR;
+    const PFN_vkGetPhysicalDeviceFeatures2KHR GetPhysicalDeviceFeatures2KHR;
+    const PFN_vkGetPhysicalDeviceProperties2KHR GetPhysicalDeviceProperties2KHR;
+    const PFN_vkGetPhysicalDeviceFormatProperties2KHR GetPhysicalDeviceFormatProperties2KHR;
+    const PFN_vkGetPhysicalDeviceImageFormatProperties2KHR GetPhysicalDeviceImageFormatProperties2KHR;
+    const PFN_vkGetPhysicalDeviceQueueFamilyProperties2KHR GetPhysicalDeviceQueueFamilyProperties2KHR;
+    const PFN_vkGetPhysicalDeviceMemoryProperties2KHR GetPhysicalDeviceMemoryProperties2KHR;
+    const PFN_vkGetPhysicalDeviceSparseImageFormatProperties2KHR GetPhysicalDeviceSparseImageFormatProperties2KHR;
+    const PFN_vkGetDeviceGroupPeerMemoryFeaturesKHR GetDeviceGroupPeerMemoryFeaturesKHR;
+    const PFN_vkCmdSetDeviceMaskKHR CmdSetDeviceMaskKHR;
+    const PFN_vkCmdDispatchBaseKHR CmdDispatchBaseKHR;
+    const PFN_vkTrimCommandPoolKHR TrimCommandPoolKHR;
+    const PFN_vkEnumeratePhysicalDeviceGroupsKHR EnumeratePhysicalDeviceGroupsKHR;
+    const PFN_vkGetPhysicalDeviceExternalBufferPropertiesKHR GetPhysicalDeviceExternalBufferPropertiesKHR;
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+    const PFN_vkGetMemoryWin32HandleKHR GetMemoryWin32HandleKHR;
+    const PFN_vkGetMemoryWin32HandlePropertiesKHR GetMemoryWin32HandlePropertiesKHR;
+#endif  // VK_USE_PLATFORM_WIN32_KHR
+    const PFN_vkGetMemoryFdKHR GetMemoryFdKHR;
+    const PFN_vkGetMemoryFdPropertiesKHR GetMemoryFdPropertiesKHR;
+    const PFN_vkGetPhysicalDeviceExternalSemaphorePropertiesKHR GetPhysicalDeviceExternalSemaphorePropertiesKHR;
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+    const PFN_vkImportSemaphoreWin32HandleKHR ImportSemaphoreWin32HandleKHR;
+    const PFN_vkGetSemaphoreWin32HandleKHR GetSemaphoreWin32HandleKHR;
+#endif  // VK_USE_PLATFORM_WIN32_KHR
+    const PFN_vkImportSemaphoreFdKHR ImportSemaphoreFdKHR;
+    const PFN_vkGetSemaphoreFdKHR GetSemaphoreFdKHR;
+    const PFN_vkCmdPushDescriptorSetKHR CmdPushDescriptorSetKHR;
+    const PFN_vkCmdPushDescriptorSetWithTemplateKHR CmdPushDescriptorSetWithTemplateKHR;
+    const PFN_vkCreateDescriptorUpdateTemplateKHR CreateDescriptorUpdateTemplateKHR;
+    const PFN_vkDestroyDescriptorUpdateTemplateKHR DestroyDescriptorUpdateTemplateKHR;
+    const PFN_vkUpdateDescriptorSetWithTemplateKHR UpdateDescriptorSetWithTemplateKHR;
+    const PFN_vkCreateRenderPass2KHR CreateRenderPass2KHR;
+    const PFN_vkCmdBeginRenderPass2KHR CmdBeginRenderPass2KHR;
+    const PFN_vkCmdNextSubpass2KHR CmdNextSubpass2KHR;
+    const PFN_vkCmdEndRenderPass2KHR CmdEndRenderPass2KHR;
+    const PFN_vkGetSwapchainStatusKHR GetSwapchainStatusKHR;
+    const PFN_vkGetPhysicalDeviceExternalFencePropertiesKHR GetPhysicalDeviceExternalFencePropertiesKHR;
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+    const PFN_vkImportFenceWin32HandleKHR ImportFenceWin32HandleKHR;
+    const PFN_vkGetFenceWin32HandleKHR GetFenceWin32HandleKHR;
+#endif  // VK_USE_PLATFORM_WIN32_KHR
+    const PFN_vkImportFenceFdKHR ImportFenceFdKHR;
+    const PFN_vkGetFenceFdKHR GetFenceFdKHR;
+    const PFN_vkEnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR
+        EnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR;
+    const PFN_vkGetPhysicalDeviceQueueFamilyPerformanceQueryPassesKHR GetPhysicalDeviceQueueFamilyPerformanceQueryPassesKHR;
+    const PFN_vkAcquireProfilingLockKHR AcquireProfilingLockKHR;
+    const PFN_vkReleaseProfilingLockKHR ReleaseProfilingLockKHR;
+    const PFN_vkGetPhysicalDeviceSurfaceCapabilities2KHR GetPhysicalDeviceSurfaceCapabilities2KHR;
+    const PFN_vkGetPhysicalDeviceSurfaceFormats2KHR GetPhysicalDeviceSurfaceFormats2KHR;
+    const PFN_vkGetPhysicalDeviceDisplayProperties2KHR GetPhysicalDeviceDisplayProperties2KHR;
+    const PFN_vkGetPhysicalDeviceDisplayPlaneProperties2KHR GetPhysicalDeviceDisplayPlaneProperties2KHR;
+    const PFN_vkGetDisplayModeProperties2KHR GetDisplayModeProperties2KHR;
+    const PFN_vkGetDisplayPlaneCapabilities2KHR GetDisplayPlaneCapabilities2KHR;
+    const PFN_vkGetImageMemoryRequirements2KHR GetImageMemoryRequirements2KHR;
+    const PFN_vkGetBufferMemoryRequirements2KHR GetBufferMemoryRequirements2KHR;
+    const PFN_vkGetImageSparseMemoryRequirements2KHR GetImageSparseMemoryRequirements2KHR;
+    const PFN_vkCreateSamplerYcbcrConversionKHR CreateSamplerYcbcrConversionKHR;
+    const PFN_vkDestroySamplerYcbcrConversionKHR DestroySamplerYcbcrConversionKHR;
+    const PFN_vkBindBufferMemory2KHR BindBufferMemory2KHR;
+    const PFN_vkBindImageMemory2KHR BindImageMemory2KHR;
+    const PFN_vkGetDescriptorSetLayoutSupportKHR GetDescriptorSetLayoutSupportKHR;
+    const PFN_vkCmdDrawIndirectCountKHR CmdDrawIndirectCountKHR;
+    const PFN_vkCmdDrawIndexedIndirectCountKHR CmdDrawIndexedIndirectCountKHR;
+    const PFN_vkGetSemaphoreCounterValueKHR GetSemaphoreCounterValueKHR;
+    const PFN_vkWaitSemaphoresKHR WaitSemaphoresKHR;
+    const PFN_vkSignalSemaphoreKHR SignalSemaphoreKHR;
+    const PFN_vkGetPhysicalDeviceFragmentShadingRatesKHR GetPhysicalDeviceFragmentShadingRatesKHR;
+    const PFN_vkCmdSetFragmentShadingRateKHR CmdSetFragmentShadingRateKHR;
+    const PFN_vkCmdSetRenderingAttachmentLocationsKHR CmdSetRenderingAttachmentLocationsKHR;
+    const PFN_vkCmdSetRenderingInputAttachmentIndicesKHR CmdSetRenderingInputAttachmentIndicesKHR;
+    const PFN_vkWaitForPresentKHR WaitForPresentKHR;
+    const PFN_vkGetBufferDeviceAddressKHR GetBufferDeviceAddressKHR;
+    const PFN_vkGetBufferOpaqueCaptureAddressKHR GetBufferOpaqueCaptureAddressKHR;
+    const PFN_vkGetDeviceMemoryOpaqueCaptureAddressKHR GetDeviceMemoryOpaqueCaptureAddressKHR;
+    const PFN_vkCreateDeferredOperationKHR CreateDeferredOperationKHR;
+    const PFN_vkDestroyDeferredOperationKHR DestroyDeferredOperationKHR;
+    const PFN_vkGetDeferredOperationMaxConcurrencyKHR GetDeferredOperationMaxConcurrencyKHR;
+    const PFN_vkGetDeferredOperationResultKHR GetDeferredOperationResultKHR;
+    const PFN_vkDeferredOperationJoinKHR DeferredOperationJoinKHR;
+    const PFN_vkGetPipelineExecutablePropertiesKHR GetPipelineExecutablePropertiesKHR;
+    const PFN_vkGetPipelineExecutableStatisticsKHR GetPipelineExecutableStatisticsKHR;
+    const PFN_vkGetPipelineExecutableInternalRepresentationsKHR GetPipelineExecutableInternalRepresentationsKHR;
+    const PFN_vkMapMemory2KHR MapMemory2KHR;
+    const PFN_vkUnmapMemory2KHR UnmapMemory2KHR;
+    const PFN_vkGetPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR GetPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR;
+    const PFN_vkGetEncodedVideoSessionParametersKHR GetEncodedVideoSessionParametersKHR;
+    const PFN_vkCmdEncodeVideoKHR CmdEncodeVideoKHR;
+    const PFN_vkCmdSetEvent2KHR CmdSetEvent2KHR;
+    const PFN_vkCmdResetEvent2KHR CmdResetEvent2KHR;
+    const PFN_vkCmdWaitEvents2KHR CmdWaitEvents2KHR;
+    const PFN_vkCmdPipelineBarrier2KHR CmdPipelineBarrier2KHR;
+    const PFN_vkCmdWriteTimestamp2KHR CmdWriteTimestamp2KHR;
+    const PFN_vkQueueSubmit2KHR QueueSubmit2KHR;
+    const PFN_vkCmdWriteBufferMarker2AMD CmdWriteBufferMarker2AMD;
+    const PFN_vkGetQueueCheckpointData2NV GetQueueCheckpointData2NV;
+    const PFN_vkCmdCopyBuffer2KHR CmdCopyBuffer2KHR;
+    const PFN_vkCmdCopyImage2KHR CmdCopyImage2KHR;
+    const PFN_vkCmdCopyBufferToImage2KHR CmdCopyBufferToImage2KHR;
+    const PFN_vkCmdCopyImageToBuffer2KHR CmdCopyImageToBuffer2KHR;
+    const PFN_vkCmdBlitImage2KHR CmdBlitImage2KHR;
+    const PFN_vkCmdResolveImage2KHR CmdResolveImage2KHR;
+    const PFN_vkCmdTraceRaysIndirect2KHR CmdTraceRaysIndirect2KHR;
+    const PFN_vkGetDeviceBufferMemoryRequirementsKHR GetDeviceBufferMemoryRequirementsKHR;
+    const PFN_vkGetDeviceImageMemoryRequirementsKHR GetDeviceImageMemoryRequirementsKHR;
+    const PFN_vkGetDeviceImageSparseMemoryRequirementsKHR GetDeviceImageSparseMemoryRequirementsKHR;
+    const PFN_vkCmdBindIndexBuffer2KHR CmdBindIndexBuffer2KHR;
+    const PFN_vkGetRenderingAreaGranularityKHR GetRenderingAreaGranularityKHR;
+    const PFN_vkGetDeviceImageSubresourceLayoutKHR GetDeviceImageSubresourceLayoutKHR;
+    const PFN_vkGetImageSubresourceLayout2KHR GetImageSubresourceLayout2KHR;
+    const PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesKHR GetPhysicalDeviceCooperativeMatrixPropertiesKHR;
+    const PFN_vkCmdSetLineStippleKHR CmdSetLineStippleKHR;
+    const PFN_vkGetPhysicalDeviceCalibrateableTimeDomainsKHR GetPhysicalDeviceCalibrateableTimeDomainsKHR;
+    const PFN_vkGetCalibratedTimestampsKHR GetCalibratedTimestampsKHR;
+    const PFN_vkCmdBindDescriptorSets2KHR CmdBindDescriptorSets2KHR;
+    const PFN_vkCmdPushConstants2KHR CmdPushConstants2KHR;
+    const PFN_vkCmdPushDescriptorSet2KHR CmdPushDescriptorSet2KHR;
+    const PFN_vkCmdPushDescriptorSetWithTemplate2KHR CmdPushDescriptorSetWithTemplate2KHR;
+    const PFN_vkCmdSetDescriptorBufferOffsets2EXT CmdSetDescriptorBufferOffsets2EXT;
+    const PFN_vkCmdBindDescriptorBufferEmbeddedSamplers2EXT CmdBindDescriptorBufferEmbeddedSamplers2EXT;
+    const PFN_vkCreateDebugReportCallbackEXT CreateDebugReportCallbackEXT;
+    const PFN_vkDestroyDebugReportCallbackEXT DestroyDebugReportCallbackEXT;
+    const PFN_vkDebugReportMessageEXT DebugReportMessageEXT;
+    const PFN_vkDebugMarkerSetObjectTagEXT DebugMarkerSetObjectTagEXT;
+    const PFN_vkDebugMarkerSetObjectNameEXT DebugMarkerSetObjectNameEXT;
+    const PFN_vkCmdDebugMarkerBeginEXT CmdDebugMarkerBeginEXT;
+    const PFN_vkCmdDebugMarkerEndEXT CmdDebugMarkerEndEXT;
+    const PFN_vkCmdDebugMarkerInsertEXT CmdDebugMarkerInsertEXT;
+    const PFN_vkCmdBindTransformFeedbackBuffersEXT CmdBindTransformFeedbackBuffersEXT;
+    const PFN_vkCmdBeginTransformFeedbackEXT CmdBeginTransformFeedbackEXT;
+    const PFN_vkCmdEndTransformFeedbackEXT CmdEndTransformFeedbackEXT;
+    const PFN_vkCmdBeginQueryIndexedEXT CmdBeginQueryIndexedEXT;
+    const PFN_vkCmdEndQueryIndexedEXT CmdEndQueryIndexedEXT;
+    const PFN_vkCmdDrawIndirectByteCountEXT CmdDrawIndirectByteCountEXT;
+    const PFN_vkCreateCuModuleNVX CreateCuModuleNVX;
+    const PFN_vkCreateCuFunctionNVX CreateCuFunctionNVX;
+    const PFN_vkDestroyCuModuleNVX DestroyCuModuleNVX;
+    const PFN_vkDestroyCuFunctionNVX DestroyCuFunctionNVX;
+    const PFN_vkCmdCuLaunchKernelNVX CmdCuLaunchKernelNVX;
+    const PFN_vkGetImageViewHandleNVX GetImageViewHandleNVX;
+    const PFN_vkGetImageViewAddressNVX GetImageViewAddressNVX;
+    const PFN_vkCmdDrawIndirectCountAMD CmdDrawIndirectCountAMD;
+    const PFN_vkCmdDrawIndexedIndirectCountAMD CmdDrawIndexedIndirectCountAMD;
+    const PFN_vkGetShaderInfoAMD GetShaderInfoAMD;
+#ifdef VK_USE_PLATFORM_GGP
+    const PFN_vkCreateStreamDescriptorSurfaceGGP CreateStreamDescriptorSurfaceGGP;
+#endif  // VK_USE_PLATFORM_GGP
+    const PFN_vkGetPhysicalDeviceExternalImageFormatPropertiesNV GetPhysicalDeviceExternalImageFormatPropertiesNV;
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+    const PFN_vkGetMemoryWin32HandleNV GetMemoryWin32HandleNV;
+#endif  // VK_USE_PLATFORM_WIN32_KHR
+#ifdef VK_USE_PLATFORM_VI_NN
+    const PFN_vkCreateViSurfaceNN CreateViSurfaceNN;
+#endif  // VK_USE_PLATFORM_VI_NN
+    const PFN_vkCmdBeginConditionalRenderingEXT CmdBeginConditionalRenderingEXT;
+    const PFN_vkCmdEndConditionalRenderingEXT CmdEndConditionalRenderingEXT;
+    const PFN_vkCmdSetViewportWScalingNV CmdSetViewportWScalingNV;
+    const PFN_vkReleaseDisplayEXT ReleaseDisplayEXT;
+#ifdef VK_USE_PLATFORM_XLIB_XRANDR_EXT
+    const PFN_vkAcquireXlibDisplayEXT AcquireXlibDisplayEXT;
+    const PFN_vkGetRandROutputDisplayEXT GetRandROutputDisplayEXT;
+#endif  // VK_USE_PLATFORM_XLIB_XRANDR_EXT
+    const PFN_vkGetPhysicalDeviceSurfaceCapabilities2EXT GetPhysicalDeviceSurfaceCapabilities2EXT;
+    const PFN_vkDisplayPowerControlEXT DisplayPowerControlEXT;
+    const PFN_vkRegisterDeviceEventEXT RegisterDeviceEventEXT;
+    const PFN_vkRegisterDisplayEventEXT RegisterDisplayEventEXT;
+    const PFN_vkGetSwapchainCounterEXT GetSwapchainCounterEXT;
+    const PFN_vkGetRefreshCycleDurationGOOGLE GetRefreshCycleDurationGOOGLE;
+    const PFN_vkGetPastPresentationTimingGOOGLE GetPastPresentationTimingGOOGLE;
+    const PFN_vkCmdSetDiscardRectangleEXT CmdSetDiscardRectangleEXT;
+    const PFN_vkCmdSetDiscardRectangleEnableEXT CmdSetDiscardRectangleEnableEXT;
+    const PFN_vkCmdSetDiscardRectangleModeEXT CmdSetDiscardRectangleModeEXT;
+    const PFN_vkSetHdrMetadataEXT SetHdrMetadataEXT;
+#ifdef VK_USE_PLATFORM_IOS_MVK
+    const PFN_vkCreateIOSSurfaceMVK CreateIOSSurfaceMVK;
+#endif  // VK_USE_PLATFORM_IOS_MVK
+#ifdef VK_USE_PLATFORM_MACOS_MVK
+    const PFN_vkCreateMacOSSurfaceMVK CreateMacOSSurfaceMVK;
+#endif  // VK_USE_PLATFORM_MACOS_MVK
+    const PFN_vkSetDebugUtilsObjectNameEXT SetDebugUtilsObjectNameEXT;
+    const PFN_vkSetDebugUtilsObjectTagEXT SetDebugUtilsObjectTagEXT;
+    const PFN_vkQueueBeginDebugUtilsLabelEXT QueueBeginDebugUtilsLabelEXT;
+    const PFN_vkQueueEndDebugUtilsLabelEXT QueueEndDebugUtilsLabelEXT;
+    const PFN_vkQueueInsertDebugUtilsLabelEXT QueueInsertDebugUtilsLabelEXT;
+    const PFN_vkCmdBeginDebugUtilsLabelEXT CmdBeginDebugUtilsLabelEXT;
+    const PFN_vkCmdEndDebugUtilsLabelEXT CmdEndDebugUtilsLabelEXT;
+    const PFN_vkCmdInsertDebugUtilsLabelEXT CmdInsertDebugUtilsLabelEXT;
+    const PFN_vkCreateDebugUtilsMessengerEXT CreateDebugUtilsMessengerEXT;
+    const PFN_vkDestroyDebugUtilsMessengerEXT DestroyDebugUtilsMessengerEXT;
+    const PFN_vkSubmitDebugUtilsMessageEXT SubmitDebugUtilsMessageEXT;
+#ifdef VK_USE_PLATFORM_ANDROID_KHR
+    const PFN_vkGetAndroidHardwareBufferPropertiesANDROID GetAndroidHardwareBufferPropertiesANDROID;
+    const PFN_vkGetMemoryAndroidHardwareBufferANDROID GetMemoryAndroidHardwareBufferANDROID;
+#endif  // VK_USE_PLATFORM_ANDROID_KHR
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+    const PFN_vkCreateExecutionGraphPipelinesAMDX CreateExecutionGraphPipelinesAMDX;
+    const PFN_vkGetExecutionGraphPipelineScratchSizeAMDX GetExecutionGraphPipelineScratchSizeAMDX;
+    const PFN_vkGetExecutionGraphPipelineNodeIndexAMDX GetExecutionGraphPipelineNodeIndexAMDX;
+    const PFN_vkCmdInitializeGraphScratchMemoryAMDX CmdInitializeGraphScratchMemoryAMDX;
+    const PFN_vkCmdDispatchGraphAMDX CmdDispatchGraphAMDX;
+    const PFN_vkCmdDispatchGraphIndirectAMDX CmdDispatchGraphIndirectAMDX;
+    const PFN_vkCmdDispatchGraphIndirectCountAMDX CmdDispatchGraphIndirectCountAMDX;
+#endif  // VK_ENABLE_BETA_EXTENSIONS
+    const PFN_vkCmdSetSampleLocationsEXT CmdSetSampleLocationsEXT;
+    const PFN_vkGetPhysicalDeviceMultisamplePropertiesEXT GetPhysicalDeviceMultisamplePropertiesEXT;
+    const PFN_vkGetImageDrmFormatModifierPropertiesEXT GetImageDrmFormatModifierPropertiesEXT;
+    const PFN_vkCreateValidationCacheEXT CreateValidationCacheEXT;
+    const PFN_vkDestroyValidationCacheEXT DestroyValidationCacheEXT;
+    const PFN_vkMergeValidationCachesEXT MergeValidationCachesEXT;
+    const PFN_vkGetValidationCacheDataEXT GetValidationCacheDataEXT;
+    const PFN_vkCmdBindShadingRateImageNV CmdBindShadingRateImageNV;
+    const PFN_vkCmdSetViewportShadingRatePaletteNV CmdSetViewportShadingRatePaletteNV;
+    const PFN_vkCmdSetCoarseSampleOrderNV CmdSetCoarseSampleOrderNV;
+    const PFN_vkCreateAccelerationStructureNV CreateAccelerationStructureNV;
+    const PFN_vkDestroyAccelerationStructureNV DestroyAccelerationStructureNV;
+    const PFN_vkGetAccelerationStructureMemoryRequirementsNV GetAccelerationStructureMemoryRequirementsNV;
+    const PFN_vkBindAccelerationStructureMemoryNV BindAccelerationStructureMemoryNV;
+    const PFN_vkCmdBuildAccelerationStructureNV CmdBuildAccelerationStructureNV;
+    const PFN_vkCmdCopyAccelerationStructureNV CmdCopyAccelerationStructureNV;
+    const PFN_vkCmdTraceRaysNV CmdTraceRaysNV;
+    const PFN_vkCreateRayTracingPipelinesNV CreateRayTracingPipelinesNV;
+    const PFN_vkGetRayTracingShaderGroupHandlesKHR GetRayTracingShaderGroupHandlesKHR;
+    const PFN_vkGetRayTracingShaderGroupHandlesNV GetRayTracingShaderGroupHandlesNV;
+    const PFN_vkGetAccelerationStructureHandleNV GetAccelerationStructureHandleNV;
+    const PFN_vkCmdWriteAccelerationStructuresPropertiesNV CmdWriteAccelerationStructuresPropertiesNV;
+    const PFN_vkCompileDeferredNV CompileDeferredNV;
+    const PFN_vkGetMemoryHostPointerPropertiesEXT GetMemoryHostPointerPropertiesEXT;
+    const PFN_vkCmdWriteBufferMarkerAMD CmdWriteBufferMarkerAMD;
+    const PFN_vkGetPhysicalDeviceCalibrateableTimeDomainsEXT GetPhysicalDeviceCalibrateableTimeDomainsEXT;
+    const PFN_vkGetCalibratedTimestampsEXT GetCalibratedTimestampsEXT;
+    const PFN_vkCmdDrawMeshTasksNV CmdDrawMeshTasksNV;
+    const PFN_vkCmdDrawMeshTasksIndirectNV CmdDrawMeshTasksIndirectNV;
+    const PFN_vkCmdDrawMeshTasksIndirectCountNV CmdDrawMeshTasksIndirectCountNV;
+    const PFN_vkCmdSetExclusiveScissorEnableNV CmdSetExclusiveScissorEnableNV;
+    const PFN_vkCmdSetExclusiveScissorNV CmdSetExclusiveScissorNV;
+    const PFN_vkCmdSetCheckpointNV CmdSetCheckpointNV;
+    const PFN_vkGetQueueCheckpointDataNV GetQueueCheckpointDataNV;
+    const PFN_vkInitializePerformanceApiINTEL InitializePerformanceApiINTEL;
+    const PFN_vkUninitializePerformanceApiINTEL UninitializePerformanceApiINTEL;
+    const PFN_vkCmdSetPerformanceMarkerINTEL CmdSetPerformanceMarkerINTEL;
+    const PFN_vkCmdSetPerformanceStreamMarkerINTEL CmdSetPerformanceStreamMarkerINTEL;
+    const PFN_vkCmdSetPerformanceOverrideINTEL CmdSetPerformanceOverrideINTEL;
+    const PFN_vkAcquirePerformanceConfigurationINTEL AcquirePerformanceConfigurationINTEL;
+    const PFN_vkReleasePerformanceConfigurationINTEL ReleasePerformanceConfigurationINTEL;
+    const PFN_vkQueueSetPerformanceConfigurationINTEL QueueSetPerformanceConfigurationINTEL;
+    const PFN_vkGetPerformanceParameterINTEL GetPerformanceParameterINTEL;
+    const PFN_vkSetLocalDimmingAMD SetLocalDimmingAMD;
+#ifdef VK_USE_PLATFORM_FUCHSIA
+    const PFN_vkCreateImagePipeSurfaceFUCHSIA CreateImagePipeSurfaceFUCHSIA;
+#endif  // VK_USE_PLATFORM_FUCHSIA
+#ifdef VK_USE_PLATFORM_METAL_EXT
+    const PFN_vkCreateMetalSurfaceEXT CreateMetalSurfaceEXT;
+#endif  // VK_USE_PLATFORM_METAL_EXT
+    const PFN_vkGetBufferDeviceAddressEXT GetBufferDeviceAddressEXT;
+    const PFN_vkGetPhysicalDeviceToolPropertiesEXT GetPhysicalDeviceToolPropertiesEXT;
+    const PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesNV GetPhysicalDeviceCooperativeMatrixPropertiesNV;
+    const PFN_vkGetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV
+        GetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV;
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+    const PFN_vkGetPhysicalDeviceSurfacePresentModes2EXT GetPhysicalDeviceSurfacePresentModes2EXT;
+    const PFN_vkAcquireFullScreenExclusiveModeEXT AcquireFullScreenExclusiveModeEXT;
+    const PFN_vkReleaseFullScreenExclusiveModeEXT ReleaseFullScreenExclusiveModeEXT;
+    const PFN_vkGetDeviceGroupSurfacePresentModes2EXT GetDeviceGroupSurfacePresentModes2EXT;
+#endif  // VK_USE_PLATFORM_WIN32_KHR
+    const PFN_vkCreateHeadlessSurfaceEXT CreateHeadlessSurfaceEXT;
+    const PFN_vkCmdSetLineStippleEXT CmdSetLineStippleEXT;
+    const PFN_vkResetQueryPoolEXT ResetQueryPoolEXT;
+    const PFN_vkCmdSetCullModeEXT CmdSetCullModeEXT;
+    const PFN_vkCmdSetFrontFaceEXT CmdSetFrontFaceEXT;
+    const PFN_vkCmdSetPrimitiveTopologyEXT CmdSetPrimitiveTopologyEXT;
+    const PFN_vkCmdSetViewportWithCountEXT CmdSetViewportWithCountEXT;
+    const PFN_vkCmdSetScissorWithCountEXT CmdSetScissorWithCountEXT;
+    const PFN_vkCmdBindVertexBuffers2EXT CmdBindVertexBuffers2EXT;
+    const PFN_vkCmdSetDepthTestEnableEXT CmdSetDepthTestEnableEXT;
+    const PFN_vkCmdSetDepthWriteEnableEXT CmdSetDepthWriteEnableEXT;
+    const PFN_vkCmdSetDepthCompareOpEXT CmdSetDepthCompareOpEXT;
+    const PFN_vkCmdSetDepthBoundsTestEnableEXT CmdSetDepthBoundsTestEnableEXT;
+    const PFN_vkCmdSetStencilTestEnableEXT CmdSetStencilTestEnableEXT;
+    const PFN_vkCmdSetStencilOpEXT CmdSetStencilOpEXT;
+    const PFN_vkCopyMemoryToImageEXT CopyMemoryToImageEXT;
+    const PFN_vkCopyImageToMemoryEXT CopyImageToMemoryEXT;
+    const PFN_vkCopyImageToImageEXT CopyImageToImageEXT;
+    const PFN_vkTransitionImageLayoutEXT TransitionImageLayoutEXT;
+    const PFN_vkGetImageSubresourceLayout2EXT GetImageSubresourceLayout2EXT;
+    const PFN_vkReleaseSwapchainImagesEXT ReleaseSwapchainImagesEXT;
+    const PFN_vkGetGeneratedCommandsMemoryRequirementsNV GetGeneratedCommandsMemoryRequirementsNV;
+    const PFN_vkCmdPreprocessGeneratedCommandsNV CmdPreprocessGeneratedCommandsNV;
+    const PFN_vkCmdExecuteGeneratedCommandsNV CmdExecuteGeneratedCommandsNV;
+    const PFN_vkCmdBindPipelineShaderGroupNV CmdBindPipelineShaderGroupNV;
+    const PFN_vkCreateIndirectCommandsLayoutNV CreateIndirectCommandsLayoutNV;
+    const PFN_vkDestroyIndirectCommandsLayoutNV DestroyIndirectCommandsLayoutNV;
+    const PFN_vkCmdSetDepthBias2EXT CmdSetDepthBias2EXT;
+    const PFN_vkAcquireDrmDisplayEXT AcquireDrmDisplayEXT;
+    const PFN_vkGetDrmDisplayEXT GetDrmDisplayEXT;
+    const PFN_vkCreatePrivateDataSlotEXT CreatePrivateDataSlotEXT;
+    const PFN_vkDestroyPrivateDataSlotEXT DestroyPrivateDataSlotEXT;
+    const PFN_vkSetPrivateDataEXT SetPrivateDataEXT;
+    const PFN_vkGetPrivateDataEXT GetPrivateDataEXT;
+    const PFN_vkCreateCudaModuleNV CreateCudaModuleNV;
+    const PFN_vkGetCudaModuleCacheNV GetCudaModuleCacheNV;
+    const PFN_vkCreateCudaFunctionNV CreateCudaFunctionNV;
+    const PFN_vkDestroyCudaModuleNV DestroyCudaModuleNV;
+    const PFN_vkDestroyCudaFunctionNV DestroyCudaFunctionNV;
+    const PFN_vkCmdCudaLaunchKernelNV CmdCudaLaunchKernelNV;
+#ifdef VK_USE_PLATFORM_METAL_EXT
+    const PFN_vkExportMetalObjectsEXT ExportMetalObjectsEXT;
+#endif  // VK_USE_PLATFORM_METAL_EXT
+    const PFN_vkGetDescriptorSetLayoutSizeEXT GetDescriptorSetLayoutSizeEXT;
+    const PFN_vkGetDescriptorSetLayoutBindingOffsetEXT GetDescriptorSetLayoutBindingOffsetEXT;
+    const PFN_vkGetDescriptorEXT GetDescriptorEXT;
+    const PFN_vkCmdBindDescriptorBuffersEXT CmdBindDescriptorBuffersEXT;
+    const PFN_vkCmdSetDescriptorBufferOffsetsEXT CmdSetDescriptorBufferOffsetsEXT;
+    const PFN_vkCmdBindDescriptorBufferEmbeddedSamplersEXT CmdBindDescriptorBufferEmbeddedSamplersEXT;
+    const PFN_vkGetBufferOpaqueCaptureDescriptorDataEXT GetBufferOpaqueCaptureDescriptorDataEXT;
+    const PFN_vkGetImageOpaqueCaptureDescriptorDataEXT GetImageOpaqueCaptureDescriptorDataEXT;
+    const PFN_vkGetImageViewOpaqueCaptureDescriptorDataEXT GetImageViewOpaqueCaptureDescriptorDataEXT;
+    const PFN_vkGetSamplerOpaqueCaptureDescriptorDataEXT GetSamplerOpaqueCaptureDescriptorDataEXT;
+    const PFN_vkGetAccelerationStructureOpaqueCaptureDescriptorDataEXT GetAccelerationStructureOpaqueCaptureDescriptorDataEXT;
+    const PFN_vkCmdSetFragmentShadingRateEnumNV CmdSetFragmentShadingRateEnumNV;
+    const PFN_vkGetDeviceFaultInfoEXT GetDeviceFaultInfoEXT;
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+    const PFN_vkAcquireWinrtDisplayNV AcquireWinrtDisplayNV;
+    const PFN_vkGetWinrtDisplayNV GetWinrtDisplayNV;
+#endif  // VK_USE_PLATFORM_WIN32_KHR
+#ifdef VK_USE_PLATFORM_DIRECTFB_EXT
+    const PFN_vkCreateDirectFBSurfaceEXT CreateDirectFBSurfaceEXT;
+    const PFN_vkGetPhysicalDeviceDirectFBPresentationSupportEXT GetPhysicalDeviceDirectFBPresentationSupportEXT;
+#endif  // VK_USE_PLATFORM_DIRECTFB_EXT
+    const PFN_vkCmdSetVertexInputEXT CmdSetVertexInputEXT;
+#ifdef VK_USE_PLATFORM_FUCHSIA
+    const PFN_vkGetMemoryZirconHandleFUCHSIA GetMemoryZirconHandleFUCHSIA;
+    const PFN_vkGetMemoryZirconHandlePropertiesFUCHSIA GetMemoryZirconHandlePropertiesFUCHSIA;
+    const PFN_vkImportSemaphoreZirconHandleFUCHSIA ImportSemaphoreZirconHandleFUCHSIA;
+    const PFN_vkGetSemaphoreZirconHandleFUCHSIA GetSemaphoreZirconHandleFUCHSIA;
+    const PFN_vkCreateBufferCollectionFUCHSIA CreateBufferCollectionFUCHSIA;
+    const PFN_vkSetBufferCollectionImageConstraintsFUCHSIA SetBufferCollectionImageConstraintsFUCHSIA;
+    const PFN_vkSetBufferCollectionBufferConstraintsFUCHSIA SetBufferCollectionBufferConstraintsFUCHSIA;
+    const PFN_vkDestroyBufferCollectionFUCHSIA DestroyBufferCollectionFUCHSIA;
+    const PFN_vkGetBufferCollectionPropertiesFUCHSIA GetBufferCollectionPropertiesFUCHSIA;
+#endif  // VK_USE_PLATFORM_FUCHSIA
+    const PFN_vkGetDeviceSubpassShadingMaxWorkgroupSizeHUAWEI GetDeviceSubpassShadingMaxWorkgroupSizeHUAWEI;
+    const PFN_vkCmdSubpassShadingHUAWEI CmdSubpassShadingHUAWEI;
+    const PFN_vkCmdBindInvocationMaskHUAWEI CmdBindInvocationMaskHUAWEI;
+    const PFN_vkGetMemoryRemoteAddressNV GetMemoryRemoteAddressNV;
+    const PFN_vkGetPipelinePropertiesEXT GetPipelinePropertiesEXT;
+    const PFN_vkCmdSetPatchControlPointsEXT CmdSetPatchControlPointsEXT;
+    const PFN_vkCmdSetRasterizerDiscardEnableEXT CmdSetRasterizerDiscardEnableEXT;
+    const PFN_vkCmdSetDepthBiasEnableEXT CmdSetDepthBiasEnableEXT;
+    const PFN_vkCmdSetLogicOpEXT CmdSetLogicOpEXT;
+    const PFN_vkCmdSetPrimitiveRestartEnableEXT CmdSetPrimitiveRestartEnableEXT;
+#ifdef VK_USE_PLATFORM_SCREEN_QNX
+    const PFN_vkCreateScreenSurfaceQNX CreateScreenSurfaceQNX;
+    const PFN_vkGetPhysicalDeviceScreenPresentationSupportQNX GetPhysicalDeviceScreenPresentationSupportQNX;
+#endif  // VK_USE_PLATFORM_SCREEN_QNX
+    const PFN_vkCmdSetColorWriteEnableEXT CmdSetColorWriteEnableEXT;
+    const PFN_vkCmdDrawMultiEXT CmdDrawMultiEXT;
+    const PFN_vkCmdDrawMultiIndexedEXT CmdDrawMultiIndexedEXT;
+    const PFN_vkCreateMicromapEXT CreateMicromapEXT;
+    const PFN_vkDestroyMicromapEXT DestroyMicromapEXT;
+    const PFN_vkCmdBuildMicromapsEXT CmdBuildMicromapsEXT;
+    const PFN_vkBuildMicromapsEXT BuildMicromapsEXT;
+    const PFN_vkCopyMicromapEXT CopyMicromapEXT;
+    const PFN_vkCopyMicromapToMemoryEXT CopyMicromapToMemoryEXT;
+    const PFN_vkCopyMemoryToMicromapEXT CopyMemoryToMicromapEXT;
+    const PFN_vkWriteMicromapsPropertiesEXT WriteMicromapsPropertiesEXT;
+    const PFN_vkCmdCopyMicromapEXT CmdCopyMicromapEXT;
+    const PFN_vkCmdCopyMicromapToMemoryEXT CmdCopyMicromapToMemoryEXT;
+    const PFN_vkCmdCopyMemoryToMicromapEXT CmdCopyMemoryToMicromapEXT;
+    const PFN_vkCmdWriteMicromapsPropertiesEXT CmdWriteMicromapsPropertiesEXT;
+    const PFN_vkGetDeviceMicromapCompatibilityEXT GetDeviceMicromapCompatibilityEXT;
+    const PFN_vkGetMicromapBuildSizesEXT GetMicromapBuildSizesEXT;
+    const PFN_vkCmdDrawClusterHUAWEI CmdDrawClusterHUAWEI;
+    const PFN_vkCmdDrawClusterIndirectHUAWEI CmdDrawClusterIndirectHUAWEI;
+    const PFN_vkSetDeviceMemoryPriorityEXT SetDeviceMemoryPriorityEXT;
+    const PFN_vkGetDescriptorSetLayoutHostMappingInfoVALVE GetDescriptorSetLayoutHostMappingInfoVALVE;
+    const PFN_vkGetDescriptorSetHostMappingVALVE GetDescriptorSetHostMappingVALVE;
+    const PFN_vkCmdCopyMemoryIndirectNV CmdCopyMemoryIndirectNV;
+    const PFN_vkCmdCopyMemoryToImageIndirectNV CmdCopyMemoryToImageIndirectNV;
+    const PFN_vkCmdDecompressMemoryNV CmdDecompressMemoryNV;
+    const PFN_vkCmdDecompressMemoryIndirectCountNV CmdDecompressMemoryIndirectCountNV;
+    const PFN_vkGetPipelineIndirectMemoryRequirementsNV GetPipelineIndirectMemoryRequirementsNV;
+    const PFN_vkCmdUpdatePipelineIndirectBufferNV CmdUpdatePipelineIndirectBufferNV;
+    const PFN_vkGetPipelineIndirectDeviceAddressNV GetPipelineIndirectDeviceAddressNV;
+    const PFN_vkCmdSetDepthClampEnableEXT CmdSetDepthClampEnableEXT;
+    const PFN_vkCmdSetPolygonModeEXT CmdSetPolygonModeEXT;
+    const PFN_vkCmdSetRasterizationSamplesEXT CmdSetRasterizationSamplesEXT;
+    const PFN_vkCmdSetSampleMaskEXT CmdSetSampleMaskEXT;
+    const PFN_vkCmdSetAlphaToCoverageEnableEXT CmdSetAlphaToCoverageEnableEXT;
+    const PFN_vkCmdSetAlphaToOneEnableEXT CmdSetAlphaToOneEnableEXT;
+    const PFN_vkCmdSetLogicOpEnableEXT CmdSetLogicOpEnableEXT;
+    const PFN_vkCmdSetColorBlendEnableEXT CmdSetColorBlendEnableEXT;
+    const PFN_vkCmdSetColorBlendEquationEXT CmdSetColorBlendEquationEXT;
+    const PFN_vkCmdSetColorWriteMaskEXT CmdSetColorWriteMaskEXT;
+    const PFN_vkCmdSetTessellationDomainOriginEXT CmdSetTessellationDomainOriginEXT;
+    const PFN_vkCmdSetRasterizationStreamEXT CmdSetRasterizationStreamEXT;
+    const PFN_vkCmdSetConservativeRasterizationModeEXT CmdSetConservativeRasterizationModeEXT;
+    const PFN_vkCmdSetExtraPrimitiveOverestimationSizeEXT CmdSetExtraPrimitiveOverestimationSizeEXT;
+    const PFN_vkCmdSetDepthClipEnableEXT CmdSetDepthClipEnableEXT;
+    const PFN_vkCmdSetSampleLocationsEnableEXT CmdSetSampleLocationsEnableEXT;
+    const PFN_vkCmdSetColorBlendAdvancedEXT CmdSetColorBlendAdvancedEXT;
+    const PFN_vkCmdSetProvokingVertexModeEXT CmdSetProvokingVertexModeEXT;
+    const PFN_vkCmdSetLineRasterizationModeEXT CmdSetLineRasterizationModeEXT;
+    const PFN_vkCmdSetLineStippleEnableEXT CmdSetLineStippleEnableEXT;
+    const PFN_vkCmdSetDepthClipNegativeOneToOneEXT CmdSetDepthClipNegativeOneToOneEXT;
+    const PFN_vkCmdSetViewportWScalingEnableNV CmdSetViewportWScalingEnableNV;
+    const PFN_vkCmdSetViewportSwizzleNV CmdSetViewportSwizzleNV;
+    const PFN_vkCmdSetCoverageToColorEnableNV CmdSetCoverageToColorEnableNV;
+    const PFN_vkCmdSetCoverageToColorLocationNV CmdSetCoverageToColorLocationNV;
+    const PFN_vkCmdSetCoverageModulationModeNV CmdSetCoverageModulationModeNV;
+    const PFN_vkCmdSetCoverageModulationTableEnableNV CmdSetCoverageModulationTableEnableNV;
+    const PFN_vkCmdSetCoverageModulationTableNV CmdSetCoverageModulationTableNV;
+    const PFN_vkCmdSetShadingRateImageEnableNV CmdSetShadingRateImageEnableNV;
+    const PFN_vkCmdSetRepresentativeFragmentTestEnableNV CmdSetRepresentativeFragmentTestEnableNV;
+    const PFN_vkCmdSetCoverageReductionModeNV CmdSetCoverageReductionModeNV;
+    const PFN_vkGetShaderModuleIdentifierEXT GetShaderModuleIdentifierEXT;
+    const PFN_vkGetShaderModuleCreateInfoIdentifierEXT GetShaderModuleCreateInfoIdentifierEXT;
+    const PFN_vkGetPhysicalDeviceOpticalFlowImageFormatsNV GetPhysicalDeviceOpticalFlowImageFormatsNV;
+    const PFN_vkCreateOpticalFlowSessionNV CreateOpticalFlowSessionNV;
+    const PFN_vkDestroyOpticalFlowSessionNV DestroyOpticalFlowSessionNV;
+    const PFN_vkBindOpticalFlowSessionImageNV BindOpticalFlowSessionImageNV;
+    const PFN_vkCmdOpticalFlowExecuteNV CmdOpticalFlowExecuteNV;
+    const PFN_vkCreateShadersEXT CreateShadersEXT;
+    const PFN_vkDestroyShaderEXT DestroyShaderEXT;
+    const PFN_vkGetShaderBinaryDataEXT GetShaderBinaryDataEXT;
+    const PFN_vkCmdBindShadersEXT CmdBindShadersEXT;
+    const PFN_vkGetFramebufferTilePropertiesQCOM GetFramebufferTilePropertiesQCOM;
+    const PFN_vkGetDynamicRenderingTilePropertiesQCOM GetDynamicRenderingTilePropertiesQCOM;
+    const PFN_vkSetLatencySleepModeNV SetLatencySleepModeNV;
+    const PFN_vkLatencySleepNV LatencySleepNV;
+    const PFN_vkSetLatencyMarkerNV SetLatencyMarkerNV;
+    const PFN_vkGetLatencyTimingsNV GetLatencyTimingsNV;
+    const PFN_vkQueueNotifyOutOfBandNV QueueNotifyOutOfBandNV;
+    const PFN_vkCmdSetAttachmentFeedbackLoopEnableEXT CmdSetAttachmentFeedbackLoopEnableEXT;
+#ifdef VK_USE_PLATFORM_SCREEN_QNX
+    const PFN_vkGetScreenBufferPropertiesQNX GetScreenBufferPropertiesQNX;
+#endif  // VK_USE_PLATFORM_SCREEN_QNX
+    const PFN_vkCreateAccelerationStructureKHR CreateAccelerationStructureKHR;
+    const PFN_vkDestroyAccelerationStructureKHR DestroyAccelerationStructureKHR;
+    const PFN_vkCmdBuildAccelerationStructuresKHR CmdBuildAccelerationStructuresKHR;
+    const PFN_vkCmdBuildAccelerationStructuresIndirectKHR CmdBuildAccelerationStructuresIndirectKHR;
+    const PFN_vkBuildAccelerationStructuresKHR BuildAccelerationStructuresKHR;
+    const PFN_vkCopyAccelerationStructureKHR CopyAccelerationStructureKHR;
+    const PFN_vkCopyAccelerationStructureToMemoryKHR CopyAccelerationStructureToMemoryKHR;
+    const PFN_vkCopyMemoryToAccelerationStructureKHR CopyMemoryToAccelerationStructureKHR;
+    const PFN_vkWriteAccelerationStructuresPropertiesKHR WriteAccelerationStructuresPropertiesKHR;
+    const PFN_vkCmdCopyAccelerationStructureKHR CmdCopyAccelerationStructureKHR;
+    const PFN_vkCmdCopyAccelerationStructureToMemoryKHR CmdCopyAccelerationStructureToMemoryKHR;
+    const PFN_vkCmdCopyMemoryToAccelerationStructureKHR CmdCopyMemoryToAccelerationStructureKHR;
+    const PFN_vkGetAccelerationStructureDeviceAddressKHR GetAccelerationStructureDeviceAddressKHR;
+    const PFN_vkCmdWriteAccelerationStructuresPropertiesKHR CmdWriteAccelerationStructuresPropertiesKHR;
+    const PFN_vkGetDeviceAccelerationStructureCompatibilityKHR GetDeviceAccelerationStructureCompatibilityKHR;
+    const PFN_vkGetAccelerationStructureBuildSizesKHR GetAccelerationStructureBuildSizesKHR;
+    const PFN_vkCmdTraceRaysKHR CmdTraceRaysKHR;
+    const PFN_vkCreateRayTracingPipelinesKHR CreateRayTracingPipelinesKHR;
+    const PFN_vkGetRayTracingCaptureReplayShaderGroupHandlesKHR GetRayTracingCaptureReplayShaderGroupHandlesKHR;
+    const PFN_vkCmdTraceRaysIndirectKHR CmdTraceRaysIndirectKHR;
+    const PFN_vkGetRayTracingShaderGroupStackSizeKHR GetRayTracingShaderGroupStackSizeKHR;
+    const PFN_vkCmdSetRayTracingPipelineStackSizeKHR CmdSetRayTracingPipelineStackSizeKHR;
+    const PFN_vkCmdDrawMeshTasksEXT CmdDrawMeshTasksEXT;
+    const PFN_vkCmdDrawMeshTasksIndirectEXT CmdDrawMeshTasksIndirectEXT;
+    const PFN_vkCmdDrawMeshTasksIndirectCountEXT CmdDrawMeshTasksIndirectCountEXT;
+    const PFN_vkVoidFunction terminator_;
+};
+
+}  // namespace vk
+
+// NOLINTEND
