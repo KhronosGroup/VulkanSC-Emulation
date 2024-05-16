@@ -11,6 +11,7 @@
 #include "icd_env_helper.h"
 
 #include <vulkan/vulkan.h>
+#include <vector>
 
 namespace vksc {
 
@@ -29,10 +30,17 @@ class Global {
     const icd::EnvironmentHelper& Environment() const { return environment_; }
     const icd::Logger& Log() const { return logger_; }
 
+    bool IsValid() const { return valid_; }
+
     const DispatchTable& VkDispatch() const { return vk_dispatch_table_; }
     PFN_vkGetInstanceProcAddr VkGetProcAddr() const { return vk_get_instance_proc_addr_; }
 
+    VkResult EnumerateInstanceExtensionProperties(const char* pLayerName, uint32_t* pPropertyCount,
+                                                  VkExtensionProperties* pProperties);
+
   private:
+    bool valid_{true};
+
     icd::EnvironmentHelper environment_;
 
     icd::Logger logger_;
@@ -40,6 +48,8 @@ class Global {
     void* vk_loader_module_{nullptr};
     PFN_vkGetInstanceProcAddr vk_get_instance_proc_addr_{nullptr};
     DispatchTable vk_dispatch_table_{};
+
+    std::vector<VkExtensionProperties> instance_extensions_{};
 };
 
 extern Global ICD;

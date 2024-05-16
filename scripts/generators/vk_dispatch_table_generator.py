@@ -5,7 +5,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
-import sys
 import os
 from generators.base_generator import BaseGenerator
 from generators.generator_utils import PlatformGuardHelper
@@ -64,8 +63,7 @@ class VkDispatchTableGenerator(BaseGenerator):
             }}  // namespace vk
             ''')
 
-        self.write("".
-        join(out))
+        self.write("".join(out))
 
     def generateSource(self):
         out = []

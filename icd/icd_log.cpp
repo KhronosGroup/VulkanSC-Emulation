@@ -16,7 +16,7 @@ namespace icd {
 static VKAPI_ATTR VkBool32 VKAPI_CALL StderrCallback(bool fatal, VkDebugUtilsMessageSeverityFlagBitsEXT severity,
                                                      VkDebugUtilsMessageTypeFlagsEXT types, const char* msg_id, const char* msg) {
     static const std::unordered_map<VkDebugUtilsMessageSeverityFlagBitsEXT, const char*> severity_texts = {
-        {VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT, "VERBOSE"},
+        {VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT, "DEBUG"},
         {VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT, "INFO"},
         {VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT, "WARNING"},
         {VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT, "ERROR"}};

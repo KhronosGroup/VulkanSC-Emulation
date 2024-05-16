@@ -15,6 +15,8 @@ target_sources(icd PRIVATE
     generated/vk_device.cpp
     generated/vk_dispatch_table.h
     generated/vk_dispatch_table.cpp
+    generated/vk_extension_helper.h
+    generated/vk_extension_helper.cpp
     generated/vk_instance.h
     generated/vk_instance.cpp
     generated/vk_physical_device.h
@@ -22,11 +24,15 @@ target_sources(icd PRIVATE
     generated/vk_queue.h
     generated/vk_queue.cpp
     generated/vksc_entry_points.cpp
+    generated/vksc_extension_helper.h
+    generated/vksc_extension_helper.cpp
     generated/vksc_proc_addr_helper.h
     generated/vksc_proc_addr_helper.cpp
     icd_defs.h
     icd_env_helper.h
     icd_env_helper.cpp
+    icd_extension_helper.h
+    icd_extension_helper.cpp
     icd_log.h
     icd_log.cpp
     icd_main.cpp

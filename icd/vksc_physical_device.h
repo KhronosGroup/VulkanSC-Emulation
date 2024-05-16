@@ -11,6 +11,8 @@
 #include "vk_physical_device.h"
 #include "icd_log.h"
 
+#include <vector>
+
 namespace vksc {
 
 class Instance;
@@ -21,6 +23,11 @@ class PhysicalDevice : public Dispatchable<PhysicalDevice, VkPhysicalDevice>, pu
 
     icd::Logger& Log() { return logger_; }
 
+    bool IsValid() const { return valid_; }
+
+    VkResult EnumerateDeviceExtensionProperties(const char* pLayerName, uint32_t* pPropertyCount,
+                                                VkExtensionProperties* pProperties);
+
     VkResult CreateDevice(const VkDeviceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDevice* pDevice);
 
     VkResult GetPhysicalDeviceRefreshableObjectTypesKHR(uint32_t* pRefreshableObjectTypeCount,
@@ -30,7 +37,11 @@ class PhysicalDevice : public Dispatchable<PhysicalDevice, VkPhysicalDevice>, pu
     }
 
   private:
+    bool valid_{true};
+
     icd::Logger logger_;
+
+    std::vector<VkExtensionProperties> device_extensions_{};
 };
 
 }  // namespace vksc

@@ -46,6 +46,7 @@ def RunGenerators(api: str, registry: str, directory: str, styleFile: str, targe
     from generators.proc_addr_helper_generator import ProcAddrHelperGenerator
     from generators.vk_dispatchable_generator import VkDispatchableGenerator
     from generators.vk_dispatch_table_generator import VkDispatchTableGenerator
+    from generators.extension_helper_generator import ExtensionHelperGenerator
 
     # These set fields that are needed by both OutputGenerator and BaseGenerator,
     # but are uniform and don't need to be set at a per-generated file level
@@ -127,6 +128,26 @@ def RunGenerators(api: str, registry: str, directory: str, styleFile: str, targe
         'vk_dispatch_table.cpp': {
             'generator': VkDispatchTableGenerator,
             'api': 'vulkan',
+            'genCombined': False
+        },
+        'vk_extension_helper.h': {
+            'generator': ExtensionHelperGenerator,
+            'api': 'vulkan',
+            'genCombined': False
+        },
+        'vk_extension_helper.cpp': {
+            'generator': ExtensionHelperGenerator,
+            'api': 'vulkan',
+            'genCombined': False
+        },
+        'vksc_extension_helper.h': {
+            'generator': ExtensionHelperGenerator,
+            'api': 'vulkansc',
+            'genCombined': False
+        },
+        'vksc_extension_helper.cpp': {
+            'generator': ExtensionHelperGenerator,
+            'api': 'vulkansc',
             'genCombined': False
         }
     }
