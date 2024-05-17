@@ -87,8 +87,6 @@ Global::Global() : environment_(), logger_(Environment().LogSeverityEnv()) {
 
     // Initialize version and extensions from the underlying Vulkan implementation
     {
-        icd::EnvironmentOverride override(vksc::ICD.Environment());
-
         uint32_t vk_api_version = 0;
         VkDispatch().EnumerateInstanceVersion(&vk_api_version);
         if (vk_api_version < VK_API_VERSION_1_2) {

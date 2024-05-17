@@ -79,6 +79,9 @@ elseif(MSVC)
     add_compile_options("/w34057")
     # Warn about signed/unsigned mismatch.
     add_compile_options("/w34245")
+
+    # Allow usage of unsafe CRT functions and minimize what Windows.h leaks
+    add_compile_definitions(_CRT_SECURE_NO_WARNINGS NOMINMAX WIN32_LEAN_AND_MEAN)
 endif()
 
 option(EMU_CODEGEN "Enable helper codegen target")
