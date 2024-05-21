@@ -200,6 +200,10 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateInstance(const VkInstanceCreateInfo* pCre
     VkResult result = vksc::ICD.VkDispatch().CreateInstance(&create_info, pAllocator, &instance);
     if (result >= VK_SUCCESS) {
         *pInstance = vksc::Instance::Create(instance, vksc::ICD, create_info);
+        if (!vksc::Instance::FromHandle(*pInstance)->IsValid()) {
+            vksc::Instance::FromHandle(*pInstance)->DestroyInstance(pAllocator);
+            result = VK_ERROR_INCOMPATIBLE_DRIVER;
+        }
     }
 
     return result;

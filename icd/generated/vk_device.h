@@ -18,7 +18,6 @@ namespace vk {
 class Device {
   public:
     Device(VkDevice handle, const DispatchTable& dispatch_table) : handle_(handle), dispatch_table_(dispatch_table) {}
-
     PFN_vkVoidFunction GetDeviceProcAddr(const char* pName);
     void DestroyDevice(const VkAllocationCallbacks* pAllocator);
     void GetDeviceQueue(uint32_t queueFamilyIndex, uint32_t queueIndex, VkQueue* pQueue);
@@ -178,30 +177,24 @@ class Device {
     void DestroyVideoSessionParametersKHR(VkVideoSessionParametersKHR videoSessionParameters,
                                           const VkAllocationCallbacks* pAllocator);
 #ifdef VK_USE_PLATFORM_WIN32_KHR
-
     VkResult GetMemoryWin32HandleKHR(const VkMemoryGetWin32HandleInfoKHR* pGetWin32HandleInfo, HANDLE* pHandle);
     VkResult GetMemoryWin32HandlePropertiesKHR(VkExternalMemoryHandleTypeFlagBits handleType, HANDLE handle,
                                                VkMemoryWin32HandlePropertiesKHR* pMemoryWin32HandleProperties);
 #endif  // VK_USE_PLATFORM_WIN32_KHR
-
     VkResult GetMemoryFdKHR(const VkMemoryGetFdInfoKHR* pGetFdInfo, int* pFd);
     VkResult GetMemoryFdPropertiesKHR(VkExternalMemoryHandleTypeFlagBits handleType, int fd,
                                       VkMemoryFdPropertiesKHR* pMemoryFdProperties);
 #ifdef VK_USE_PLATFORM_WIN32_KHR
-
     VkResult ImportSemaphoreWin32HandleKHR(const VkImportSemaphoreWin32HandleInfoKHR* pImportSemaphoreWin32HandleInfo);
     VkResult GetSemaphoreWin32HandleKHR(const VkSemaphoreGetWin32HandleInfoKHR* pGetWin32HandleInfo, HANDLE* pHandle);
 #endif  // VK_USE_PLATFORM_WIN32_KHR
-
     VkResult ImportSemaphoreFdKHR(const VkImportSemaphoreFdInfoKHR* pImportSemaphoreFdInfo);
     VkResult GetSemaphoreFdKHR(const VkSemaphoreGetFdInfoKHR* pGetFdInfo, int* pFd);
     VkResult GetSwapchainStatusKHR(VkSwapchainKHR swapchain);
 #ifdef VK_USE_PLATFORM_WIN32_KHR
-
     VkResult ImportFenceWin32HandleKHR(const VkImportFenceWin32HandleInfoKHR* pImportFenceWin32HandleInfo);
     VkResult GetFenceWin32HandleKHR(const VkFenceGetWin32HandleInfoKHR* pGetWin32HandleInfo, HANDLE* pHandle);
 #endif  // VK_USE_PLATFORM_WIN32_KHR
-
     VkResult ImportFenceFdKHR(const VkImportFenceFdInfoKHR* pImportFenceFdInfo);
     VkResult GetFenceFdKHR(const VkFenceGetFdInfoKHR* pGetFdInfo, int* pFd);
     VkResult AcquireProfilingLockKHR(const VkAcquireProfilingLockInfoKHR* pInfo);
@@ -242,10 +235,8 @@ class Device {
     VkResult GetShaderInfoAMD(VkPipeline pipeline, VkShaderStageFlagBits shaderStage, VkShaderInfoTypeAMD infoType,
                               size_t* pInfoSize, void* pInfo);
 #ifdef VK_USE_PLATFORM_WIN32_KHR
-
     VkResult GetMemoryWin32HandleNV(VkDeviceMemory memory, VkExternalMemoryHandleTypeFlagsNV handleType, HANDLE* pHandle);
 #endif  // VK_USE_PLATFORM_WIN32_KHR
-
     VkResult DisplayPowerControlEXT(VkDisplayKHR display, const VkDisplayPowerInfoEXT* pDisplayPowerInfo);
     VkResult RegisterDeviceEventEXT(const VkDeviceEventInfoEXT* pDeviceEventInfo, const VkAllocationCallbacks* pAllocator,
                                     VkFence* pFence);
@@ -259,15 +250,12 @@ class Device {
     VkResult SetDebugUtilsObjectNameEXT(const VkDebugUtilsObjectNameInfoEXT* pNameInfo);
     VkResult SetDebugUtilsObjectTagEXT(const VkDebugUtilsObjectTagInfoEXT* pTagInfo);
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
-
     VkResult GetAndroidHardwareBufferPropertiesANDROID(const struct AHardwareBuffer* buffer,
                                                        VkAndroidHardwareBufferPropertiesANDROID* pProperties);
     VkResult GetMemoryAndroidHardwareBufferANDROID(const VkMemoryGetAndroidHardwareBufferInfoANDROID* pInfo,
                                                    struct AHardwareBuffer** pBuffer);
 #endif  // VK_USE_PLATFORM_ANDROID_KHR
-
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-
     VkResult CreateExecutionGraphPipelinesAMDX(VkPipelineCache pipelineCache, uint32_t createInfoCount,
                                                const VkExecutionGraphPipelineCreateInfoAMDX* pCreateInfos,
                                                const VkAllocationCallbacks* pAllocator, VkPipeline* pPipelines);
@@ -276,7 +264,6 @@ class Device {
     VkResult GetExecutionGraphPipelineNodeIndexAMDX(VkPipeline executionGraph,
                                                     const VkPipelineShaderStageNodeCreateInfoAMDX* pNodeInfo, uint32_t* pNodeIndex);
 #endif  // VK_ENABLE_BETA_EXTENSIONS
-
     VkResult GetImageDrmFormatModifierPropertiesEXT(VkImage image, VkImageDrmFormatModifierPropertiesEXT* pProperties);
     VkResult CreateValidationCacheEXT(const VkValidationCacheCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                                       VkValidationCacheEXT* pValidationCache);
@@ -308,13 +295,11 @@ class Device {
     VkResult GetPerformanceParameterINTEL(VkPerformanceParameterTypeINTEL parameter, VkPerformanceValueINTEL* pValue);
     void SetLocalDimmingAMD(VkSwapchainKHR swapChain, VkBool32 localDimmingEnable);
 #ifdef VK_USE_PLATFORM_WIN32_KHR
-
     VkResult AcquireFullScreenExclusiveModeEXT(VkSwapchainKHR swapchain);
     VkResult ReleaseFullScreenExclusiveModeEXT(VkSwapchainKHR swapchain);
     VkResult GetDeviceGroupSurfacePresentModes2EXT(const VkPhysicalDeviceSurfaceInfo2KHR* pSurfaceInfo,
                                                    VkDeviceGroupPresentModeFlagsKHR* pModes);
 #endif  // VK_USE_PLATFORM_WIN32_KHR
-
     VkResult CopyMemoryToImageEXT(const VkCopyMemoryToImageInfoEXT* pCopyMemoryToImageInfo);
     VkResult CopyImageToMemoryEXT(const VkCopyImageToMemoryInfoEXT* pCopyImageToMemoryInfo);
     VkResult CopyImageToImageEXT(const VkCopyImageToImageInfoEXT* pCopyImageToImageInfo);
@@ -335,10 +320,8 @@ class Device {
     void DestroyCudaModuleNV(VkCudaModuleNV module, const VkAllocationCallbacks* pAllocator);
     void DestroyCudaFunctionNV(VkCudaFunctionNV function, const VkAllocationCallbacks* pAllocator);
 #ifdef VK_USE_PLATFORM_METAL_EXT
-
     void ExportMetalObjectsEXT(VkExportMetalObjectsInfoEXT* pMetalObjectsInfo);
 #endif  // VK_USE_PLATFORM_METAL_EXT
-
     void GetDescriptorSetLayoutSizeEXT(VkDescriptorSetLayout layout, VkDeviceSize* pLayoutSizeInBytes);
     void GetDescriptorSetLayoutBindingOffsetEXT(VkDescriptorSetLayout layout, uint32_t binding, VkDeviceSize* pOffset);
     void GetDescriptorEXT(const VkDescriptorGetInfoEXT* pDescriptorInfo, size_t dataSize, void* pDescriptor);
@@ -350,7 +333,6 @@ class Device {
         const VkAccelerationStructureCaptureDescriptorDataInfoEXT* pInfo, void* pData);
     VkResult GetDeviceFaultInfoEXT(VkDeviceFaultCountsEXT* pFaultCounts, VkDeviceFaultInfoEXT* pFaultInfo);
 #ifdef VK_USE_PLATFORM_FUCHSIA
-
     VkResult GetMemoryZirconHandleFUCHSIA(const VkMemoryGetZirconHandleInfoFUCHSIA* pGetZirconHandleInfo,
                                           zx_handle_t* pZirconHandle);
     VkResult GetMemoryZirconHandlePropertiesFUCHSIA(VkExternalMemoryHandleTypeFlagBits handleType, zx_handle_t zirconHandle,
@@ -368,7 +350,6 @@ class Device {
     VkResult GetBufferCollectionPropertiesFUCHSIA(VkBufferCollectionFUCHSIA collection,
                                                   VkBufferCollectionPropertiesFUCHSIA* pProperties);
 #endif  // VK_USE_PLATFORM_FUCHSIA
-
     VkResult GetDeviceSubpassShadingMaxWorkgroupSizeHUAWEI(VkRenderPass renderpass, VkExtent2D* pMaxWorkgroupSize);
     VkResult GetMemoryRemoteAddressNV(const VkMemoryGetRemoteAddressInfoNV* pMemoryGetRemoteAddressInfo,
                                       VkRemoteAddressNV* pAddress);
@@ -413,10 +394,8 @@ class Device {
     void SetLatencyMarkerNV(VkSwapchainKHR swapchain, const VkSetLatencyMarkerInfoNV* pLatencyMarkerInfo);
     void GetLatencyTimingsNV(VkSwapchainKHR swapchain, VkGetLatencyMarkerInfoNV* pLatencyMarkerInfo);
 #ifdef VK_USE_PLATFORM_SCREEN_QNX
-
     VkResult GetScreenBufferPropertiesQNX(const struct _screen_buffer* buffer, VkScreenBufferPropertiesQNX* pProperties);
 #endif  // VK_USE_PLATFORM_SCREEN_QNX
-
     VkResult CreateAccelerationStructureKHR(const VkAccelerationStructureCreateInfoKHR* pCreateInfo,
                                             const VkAllocationCallbacks* pAllocator,
                                             VkAccelerationStructureKHR* pAccelerationStructure);

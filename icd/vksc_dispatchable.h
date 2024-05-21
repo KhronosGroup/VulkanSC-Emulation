@@ -59,6 +59,8 @@ class DispatchableChildren {
             auto obj = OBJ::CreateUnique(vk_handle, std::forward<ARGS>(args)...);
             if (obj != nullptr && obj->IsValid()) {
                 it = children_.emplace(vk_handle, std::move(obj)).first;
+            } else {
+                return nullptr;
             }
         }
         return it->second.get();

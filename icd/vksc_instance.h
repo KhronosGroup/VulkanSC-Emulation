@@ -26,6 +26,8 @@ class Instance : public Dispatchable<Instance, VkInstance>, public vk::Instance 
 
     icd::Logger& Log() { return logger_; }
 
+    bool IsValid() const { return valid_; }
+
     void DestroyInstance(const VkAllocationCallbacks* pAllocator);
     VkResult EnumeratePhysicalDevices(uint32_t* pPhysicalDeviceCount, VkPhysicalDevice* pPhysicalDevices);
     VkResult EnumeratePhysicalDeviceGroups(uint32_t* pPhysicalDeviceGroupCount,
@@ -37,6 +39,11 @@ class Instance : public Dispatchable<Instance, VkInstance>, public vk::Instance 
 
   private:
     icd::Logger CreateLogger(const VkInstanceCreateInfo& create_info);
+
+    VkResult GetCompatiblePhysicalDeviceList(std::vector<VkPhysicalDevice>& physical_devices);
+    VkResult GetCompatiblePhysicalDeviceGroupList(std::vector<VkPhysicalDeviceGroupProperties>& physical_device_groups);
+
+    bool valid_{true};
 
     icd::Logger logger_;
 

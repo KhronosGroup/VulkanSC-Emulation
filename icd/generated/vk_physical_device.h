@@ -19,7 +19,6 @@ class PhysicalDevice {
   public:
     PhysicalDevice(VkPhysicalDevice handle, const DispatchTable& dispatch_table)
         : handle_(handle), dispatch_table_(dispatch_table) {}
-
     void GetPhysicalDeviceFeatures(VkPhysicalDeviceFeatures* pFeatures);
     void GetPhysicalDeviceFormatProperties(VkFormat format, VkFormatProperties* pFormatProperties);
     VkResult GetPhysicalDeviceImageFormatProperties(VkFormat format, VkImageType type, VkImageTiling tiling,
@@ -69,26 +68,18 @@ class PhysicalDevice {
     VkResult GetDisplayPlaneCapabilitiesKHR(VkDisplayModeKHR mode, uint32_t planeIndex,
                                             VkDisplayPlaneCapabilitiesKHR* pCapabilities);
 #ifdef VK_USE_PLATFORM_XLIB_KHR
-
     VkBool32 GetPhysicalDeviceXlibPresentationSupportKHR(uint32_t queueFamilyIndex, Display* dpy, VisualID visualID);
 #endif  // VK_USE_PLATFORM_XLIB_KHR
-
 #ifdef VK_USE_PLATFORM_XCB_KHR
-
     VkBool32 GetPhysicalDeviceXcbPresentationSupportKHR(uint32_t queueFamilyIndex, xcb_connection_t* connection,
                                                         xcb_visualid_t visual_id);
 #endif  // VK_USE_PLATFORM_XCB_KHR
-
 #ifdef VK_USE_PLATFORM_WAYLAND_KHR
-
     VkBool32 GetPhysicalDeviceWaylandPresentationSupportKHR(uint32_t queueFamilyIndex, struct wl_display* display);
 #endif  // VK_USE_PLATFORM_WAYLAND_KHR
-
 #ifdef VK_USE_PLATFORM_WIN32_KHR
-
     VkBool32 GetPhysicalDeviceWin32PresentationSupportKHR(uint32_t queueFamilyIndex);
 #endif  // VK_USE_PLATFORM_WIN32_KHR
-
     VkResult GetPhysicalDeviceVideoCapabilitiesKHR(const VkVideoProfileInfoKHR* pVideoProfile,
                                                    VkVideoCapabilitiesKHR* pCapabilities);
     VkResult GetPhysicalDeviceVideoFormatPropertiesKHR(const VkPhysicalDeviceVideoFormatInfoKHR* pVideoFormatInfo,
@@ -122,11 +113,9 @@ class PhysicalDevice {
                                                               VkExternalImageFormatPropertiesNV* pExternalImageFormatProperties);
     VkResult ReleaseDisplayEXT(VkDisplayKHR display);
 #ifdef VK_USE_PLATFORM_XLIB_XRANDR_EXT
-
     VkResult AcquireXlibDisplayEXT(Display* dpy, VkDisplayKHR display);
     VkResult GetRandROutputDisplayEXT(Display* dpy, RROutput rrOutput, VkDisplayKHR* pDisplay);
 #endif  // VK_USE_PLATFORM_XLIB_XRANDR_EXT
-
     VkResult GetPhysicalDeviceSurfaceCapabilities2EXT(VkSurfaceKHR surface, VkSurfaceCapabilities2EXT* pSurfaceCapabilities);
     void GetPhysicalDeviceMultisamplePropertiesEXT(VkSampleCountFlagBits samples,
                                                    VkMultisamplePropertiesEXT* pMultisampleProperties);
@@ -134,29 +123,21 @@ class PhysicalDevice {
     VkResult GetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV(uint32_t* pCombinationCount,
                                                                              VkFramebufferMixedSamplesCombinationNV* pCombinations);
 #ifdef VK_USE_PLATFORM_WIN32_KHR
-
     VkResult GetPhysicalDeviceSurfacePresentModes2EXT(const VkPhysicalDeviceSurfaceInfo2KHR* pSurfaceInfo,
                                                       uint32_t* pPresentModeCount, VkPresentModeKHR* pPresentModes);
 #endif  // VK_USE_PLATFORM_WIN32_KHR
-
     VkResult AcquireDrmDisplayEXT(int32_t drmFd, VkDisplayKHR display);
     VkResult GetDrmDisplayEXT(int32_t drmFd, uint32_t connectorId, VkDisplayKHR* display);
 #ifdef VK_USE_PLATFORM_WIN32_KHR
-
     VkResult AcquireWinrtDisplayNV(VkDisplayKHR display);
     VkResult GetWinrtDisplayNV(uint32_t deviceRelativeId, VkDisplayKHR* pDisplay);
 #endif  // VK_USE_PLATFORM_WIN32_KHR
-
 #ifdef VK_USE_PLATFORM_DIRECTFB_EXT
-
     VkBool32 GetPhysicalDeviceDirectFBPresentationSupportEXT(uint32_t queueFamilyIndex, IDirectFB* dfb);
 #endif  // VK_USE_PLATFORM_DIRECTFB_EXT
-
 #ifdef VK_USE_PLATFORM_SCREEN_QNX
-
     VkBool32 GetPhysicalDeviceScreenPresentationSupportQNX(uint32_t queueFamilyIndex, struct _screen_window* window);
 #endif  // VK_USE_PLATFORM_SCREEN_QNX
-
     VkResult GetPhysicalDeviceOpticalFlowImageFormatsNV(const VkOpticalFlowImageFormatInfoNV* pOpticalFlowImageFormatInfo,
                                                         uint32_t* pFormatCount,
                                                         VkOpticalFlowImageFormatPropertiesNV* pImageFormatProperties);

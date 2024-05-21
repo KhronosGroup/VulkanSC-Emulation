@@ -18,7 +18,6 @@ namespace vk {
 class CommandBuffer {
   public:
     CommandBuffer(VkCommandBuffer handle, const DispatchTable& dispatch_table) : handle_(handle), dispatch_table_(dispatch_table) {}
-
     VkResult BeginCommandBuffer(const VkCommandBufferBeginInfo* pBeginInfo);
     VkResult EndCommandBuffer();
     VkResult ResetCommandBuffer(VkCommandBufferResetFlags flags);
@@ -173,13 +172,11 @@ class CommandBuffer {
     void CmdEndDebugUtilsLabelEXT();
     void CmdInsertDebugUtilsLabelEXT(const VkDebugUtilsLabelEXT* pLabelInfo);
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-
     void CmdInitializeGraphScratchMemoryAMDX(VkDeviceAddress scratch);
     void CmdDispatchGraphAMDX(VkDeviceAddress scratch, const VkDispatchGraphCountInfoAMDX* pCountInfo);
     void CmdDispatchGraphIndirectAMDX(VkDeviceAddress scratch, const VkDispatchGraphCountInfoAMDX* pCountInfo);
     void CmdDispatchGraphIndirectCountAMDX(VkDeviceAddress scratch, VkDeviceAddress countInfo);
 #endif  // VK_ENABLE_BETA_EXTENSIONS
-
     void CmdSetSampleLocationsEXT(const VkSampleLocationsInfoEXT* pSampleLocationsInfo);
     void CmdBindShadingRateImageNV(VkImageView imageView, VkImageLayout imageLayout);
     void CmdSetViewportShadingRatePaletteNV(uint32_t firstViewport, uint32_t viewportCount,

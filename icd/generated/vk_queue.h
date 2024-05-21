@@ -18,7 +18,6 @@ namespace vk {
 class Queue {
   public:
     Queue(VkQueue handle, const DispatchTable& dispatch_table) : handle_(handle), dispatch_table_(dispatch_table) {}
-
     VkResult QueueSubmit(uint32_t submitCount, const VkSubmitInfo* pSubmits, VkFence fence);
     VkResult QueueWaitIdle();
     VkResult QueueBindSparse(uint32_t bindInfoCount, const VkBindSparseInfo* pBindInfo, VkFence fence);

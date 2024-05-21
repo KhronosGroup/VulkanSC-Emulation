@@ -55,7 +55,10 @@ if (${CMAKE_CXX_COMPILER_ID} MATCHES "(GNU|Clang)")
     )
 
     if (${CMAKE_CXX_COMPILER_ID} MATCHES "GNU")
-        add_compile_options(-Wno-stringop-truncation)
+        add_compile_options(
+            -Wno-stringop-truncation
+            -Wl,--no-undefined
+        )
     endif()
 
     if (${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
@@ -117,6 +120,8 @@ if (GIT_FOUND AND EXISTS "${CMAKE_CURRENT_LIST_DIR}/.git/HEAD")
         string(REGEX REPLACE "\n$" "" GIT_BRANCH_NAME "${GIT_BRANCH_NAME}")
     endif()
 endif()
+
+include_directories(utils)
 
 if(BUILD_ICD)
     add_subdirectory(icd)

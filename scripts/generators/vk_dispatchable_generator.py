@@ -6,6 +6,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import os
+from generators import vulkan_object
 from generators.base_generator import BaseGenerator
 from generators.generator_utils import PlatformGuardHelper
 
@@ -80,7 +81,7 @@ class VkDispatchableGenerator(BaseGenerator):
                 params = []
                 for param in command.params[1:]:
                     params.append(param.cDeclaration)
-                out.append(f'{command.returnType} {command.name[2:]}({", ".join(params)});')
+                out.append(f'{command.returnType} {command.name[2:]}({", ".join(params)});\n')
         out.extend(guard_helper.add_guard(None))
 
         out.append(f'''
@@ -94,12 +95,13 @@ class VkDispatchableGenerator(BaseGenerator):
             }}  // namespace vk
             ''')
 
-        self.write("\n".join(out))
+        self.write("".join(out))
 
     def generateSource(self, handle_type: str):
         out = []
         out.append(f'''
             #include "{self.filename.replace('.cpp', '.h')}"
+            #include "vksc_output_struct_sanitizer.h"
 
             namespace vk {{
 
@@ -119,11 +121,44 @@ class VkDispatchableGenerator(BaseGenerator):
                 for param in command.params[1:]:
                     params_decl.append(param.cDeclaration)
                     params_pass.append(param.name)
-                out.append(f'''
-                    {command.returnType} {handle_type[2:]}::{command.name[2:]}({", ".join(params_decl)}) {{
-                        return dispatch_table_.{command.name[2:]}({", ".join(params_pass)});
-                    }}
-                    ''')
+
+                out.append(f'{command.returnType} {handle_type[2:]}::{command.name[2:]}({", ".join(params_decl)}) {{\n')
+
+                # Determine if command has any output structure parameters
+                output_structure_params : list[vulkan_object.Param] = []
+                for param in command.params:
+                    if not param.const and param.pointer and param.type in self.vk.structs:
+                        output_structure_params.append(param)
+
+                if command.returnType != 'void':
+                    if len(output_structure_params) > 0:
+                        out.append(f'{command.returnType} result = ')
+                    else:
+                        out.append('return ')
+
+                out.append(f'dispatch_table_.{command.name[2:]}({", ".join(params_pass)});\n')
+
+                # Sanitize output structure parameters if needed
+                if len(output_structure_params) > 0:
+                    for param in output_structure_params:
+                        out.append(f'if ({param.name} != nullptr) {{\n')
+                        struct = self.vk.structs[param.type]
+                        arg = param.name
+                        if param.length:
+                            for p in command.params:
+                                if p.name == param.length:
+                                    length = f'*{param.length}' if p.pointer else param.length
+                                    out.append(f'for (uint32_t i = 0; i < {length}; ++i)\n')
+                                    arg = f'&{param.name}[i]'
+                        if struct.sType:
+                            out.append(f'vksc::ConvertOutStructChainToVulkanSC<{param.type}>({arg});\n')
+                        else:
+                            out.append(f'vksc::ConvertOutStructToVulkanSC<{param.type}>({arg});\n')
+                        out.append('}\n')
+                    if command.returnType != 'void':
+                        out.append('return result;\n')
+
+                out.append('}\n')
         out.extend(guard_helper.add_guard(None))
 
         out.append(f'''
@@ -131,4 +166,4 @@ class VkDispatchableGenerator(BaseGenerator):
             }}  // namespace vk
             ''')
 
-        self.write("\n".join(out))
+        self.write("".join(out))

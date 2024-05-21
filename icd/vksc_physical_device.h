@@ -10,6 +10,7 @@
 #include "vksc_dispatchable.h"
 #include "vk_physical_device.h"
 #include "icd_log.h"
+#include "uuid.h"
 
 #include <vector>
 
@@ -30,6 +31,12 @@ class PhysicalDevice : public Dispatchable<PhysicalDevice, VkPhysicalDevice>, pu
 
     VkResult CreateDevice(const VkDeviceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDevice* pDevice);
 
+    void GetPhysicalDeviceFeatures(VkPhysicalDeviceFeatures* pFeatures);
+    void GetPhysicalDeviceFeatures2(VkPhysicalDeviceFeatures2* pFeatures);
+
+    void GetPhysicalDeviceProperties(VkPhysicalDeviceProperties* pProperties);
+    void GetPhysicalDeviceProperties2(VkPhysicalDeviceProperties2* pProperties);
+
     VkResult GetPhysicalDeviceRefreshableObjectTypesKHR(uint32_t* pRefreshableObjectTypeCount,
                                                         VkObjectType* pRefreshableObjectTypes) {
         // TODO
@@ -37,6 +44,9 @@ class PhysicalDevice : public Dispatchable<PhysicalDevice, VkPhysicalDevice>, pu
     }
 
   private:
+    void UpdatePhysicalDeviceFeaturesForVulkanSC(VkPhysicalDeviceFeatures& features);
+    void UpdatePhysicalDevicePropertiesForVulkanSC(VkPhysicalDeviceProperties& properties);
+
     bool valid_{true};
 
     icd::Logger logger_;
