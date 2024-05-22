@@ -158,7 +158,7 @@ VkResult Global::EnumerateInstanceExtensionProperties(const char* pLayerName, ui
 extern "C" {
 
 VKAPI_ATTR VkResult VKAPI_CALL vkEnumerateInstanceVersion(uint32_t* pApiVersion) {
-    *pApiVersion = VKSC_API_VERSION_1_0;
+    *pApiVersion = VK_HEADER_VERSION_COMPLETE;
     return VK_SUCCESS;
 }
 

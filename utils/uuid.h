@@ -41,4 +41,8 @@ class UUID {
 static const std::array<uint8_t, VK_UUID_SIZE> EmulationPipelineCacheUUID = {0x27, 0xA8, 0x32, 0x5A, 0x71, 0x38, 0x4C, 0xA3,
                                                                              0x89, 0x15, 0x68, 0x72, 0xE8, 0x61, 0x42, 0x1A};
 
+// TODO: Remove these once we've added the official IDs to the registry
+#define VK_VENDOR_ID_KHRONOS ((VkVendorId)0x10000)
+#define VK_DRIVER_ID_VULKAN_SC_EMULATION_ON_VULKAN ((VkDriverId)27)
+
 }  // namespace utils

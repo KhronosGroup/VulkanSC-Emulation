@@ -9,6 +9,8 @@
 #include "vksc_instance.h"
 #include "vksc_device.h"
 #include "icd_extension_helper.h"
+#include "icd_defs.h"
+#include "uuid.h"
 
 namespace vksc {
 
@@ -129,11 +131,9 @@ void PhysicalDevice::UpdatePhysicalDevicePropertiesForVulkanSC(VkPhysicalDeviceP
 
     // Patch values that need to be customized as we are an emulation layer
     properties.apiVersion = VK_HEADER_VERSION_COMPLETE;
-    // TODO: Figure out versioning scheme
-    properties.driverVersion = 1;
-    // TODO: Reserve vendor ID for Khronos/RasterGrid to expose here
-    // properties.vendorID = VK_VENDOR_ID_...
-    // properties.deviceID = ???
+    properties.driverVersion = VKSC_EMU_ICD_VERSION;
+    properties.vendorID = VK_VENDOR_ID_KHRONOS;
+    properties.deviceID = VK_VENDOR_ID_KHRONOS | properties.deviceID;
     utils::UUID(utils::EmulationPipelineCacheUUID).CopyToArray(properties.pipelineCacheUUID);
 }
 
@@ -180,8 +180,7 @@ void PhysicalDevice::GetPhysicalDeviceProperties2(VkPhysicalDeviceProperties2* p
     }
     auto driver_props = vku::FindStructInPNextChain<VkPhysicalDeviceDriverProperties>(pProperties->pNext);
     if (driver_props) {
-        // TODO: Reserve driver ID for Vulkan SC Emulation on top of Vulkan to expose here
-        // driver_props->driverID = VK_DRIVER_ID_...
+        driver_props->driverID = VK_DRIVER_ID_VULKAN_SC_EMULATION_ON_VULKAN;
         auto driver_info = GenerateDriverInfo(driver_props->driverName, driver_props->driverInfo);
         memset(driver_props->driverName, 0, VK_MAX_DRIVER_NAME_SIZE);
         strncpy(driver_props->driverName, driver_name, VK_MAX_DRIVER_NAME_SIZE - 1);
@@ -190,8 +189,7 @@ void PhysicalDevice::GetPhysicalDeviceProperties2(VkPhysicalDeviceProperties2* p
     }
     auto vk12_props = vku::FindStructInPNextChain<VkPhysicalDeviceVulkan12Properties>(pProperties->pNext);
     if (vk12_props) {
-        // TODO: Reserve driver ID for Vulkan SC Emulation on top of Vulkan to expose here
-        // vk12_props->driverID = VK_DRIVER_ID_...
+        vk12_props->driverID = VK_DRIVER_ID_VULKAN_SC_EMULATION_ON_VULKAN;
         auto driver_info = GenerateDriverInfo(vk12_props->driverName, vk12_props->driverInfo);
         memset(vk12_props->driverName, 0, VK_MAX_DRIVER_NAME_SIZE);
         strncpy(vk12_props->driverName, driver_name, VK_MAX_DRIVER_NAME_SIZE - 1);

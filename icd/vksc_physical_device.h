@@ -10,7 +10,6 @@
 #include "vksc_dispatchable.h"
 #include "vk_physical_device.h"
 #include "icd_log.h"
-#include "uuid.h"
 
 #include <vector>
 
