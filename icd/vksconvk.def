@@ -7,7 +7,7 @@
 ;
 ;;;;  End Copyright Notice ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-LIBRARY VKSC_emulation
+LIBRARY vksconvk
 EXPORTS
 vk_icdGetInstanceProcAddr
 vk_icdGetPhysicalDeviceProcAddr

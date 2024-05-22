@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # ~~~
 
-set(ICD_NAME "VKSC_emulation")
+set(ICD_NAME "vksconvk")
 
 add_library(icd MODULE)
 target_sources(icd PRIVATE
@@ -88,8 +88,8 @@ if (DEFINED GIT_BRANCH_NAME AND DEFINED GIT_TAG_INFO)
 endif()
 
 # There are 2 primary deliverables for the ICD.
-# - The actual library (lib)VKSC_emulation.(dll|so|dylib)
-# - The respective json file, VKSC_emulation.json
+# - The actual library (lib)vksconvk.(dll|so|dylib)
+# - The respective json file, vksconvk.json
 # This code generates the appropriate json for both local testing and the installation.
 # NOTE: For WIN32 the JSON and dll MUST be placed in the same location, due to Win32 using a relative path for installation.
 set(INPUT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/${ICD_NAME}.json.in")

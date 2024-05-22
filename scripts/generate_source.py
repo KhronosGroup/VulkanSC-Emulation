@@ -244,7 +244,7 @@ def main(argv):
     # Update the api_version in the respective json files
     if args.generated_version:
         json_files = []
-        json_files.append(repo_relative('icd/VKSC_emulation.json.in'))
+        json_files.append(repo_relative('icd/vksconvk.json.in'))
         for json_file in json_files:
             with open(json_file) as f:
                 data = json.load(f)
