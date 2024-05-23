@@ -53,7 +53,15 @@ VkResult Instance::GetCompatiblePhysicalDeviceList(std::vector<VkPhysicalDevice>
                     vk_obj.GetPhysicalDeviceFeatures2(&features);
                     if (memory_model_features.vulkanMemoryModel) {
                         physical_devices.push_back(physical_device);
+                    } else {
+                        Log().Debug("VKSC-EMU-PhysicalDeviceFiltering",
+                            "Physical device (%p) '{%s}' filterred out due to no support for Vulkan Memory Model",
+                            physical_device, props.deviceName);
                     }
+                } else {
+                    Log().Debug("VKSC-EMU-PhysicalDeviceFiltering",
+                        "Physical device (%p) '{%s}' filterred out due to no support for Vulkan 1.2",
+                        physical_device, props.deviceName);
                 }
             }
         }
