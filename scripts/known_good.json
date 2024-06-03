@@ -26,6 +26,28 @@
             ]
         },
         {
+            "name": "SPIRV-Headers",
+            "url": "https://github.com/KhronosGroup/SPIRV-Headers.git",
+            "sub_dir": "SPIRV-Headers",
+            "build_dir": "SPIRV-Headers/build",
+            "install_dir": "SPIRV-Headers/build/install",
+            "commit": "1c9115b562bab79ee2160fbd845f41b815b9f21f"
+        },
+        {
+            "name": "SPIRV-Tools",
+            "url": "https://github.com/KhronosGroup/SPIRV-Tools.git",
+            "sub_dir": "SPIRV-Tools",
+            "build_dir": "SPIRV-Tools/build",
+            "install_dir": "SPIRV-Tools/build/install",
+            "cmake_options": [
+                "-DSPIRV-Headers_SOURCE_DIR={repo_dir}/../SPIRV-Headers",
+                "-DSPIRV_WERROR=OFF",
+                "-DSPIRV_SKIP_TESTS=ON",
+                "-DSPIRV_SKIP_EXECUTABLES=ON"
+            ],
+            "commit": "784b064f90a597d2478064161438f4986485b5d4"
+        },
+        {
             "name": "googletest",
             "url": "https://github.com/google/googletest.git",
             "sub_dir": "googletest",
@@ -40,11 +62,49 @@
             "optional": [
                 "tests"
             ]
+        },
+        {
+            "name": "jsoncpp",
+            "api": "vulkansc",
+            "url": "https://github.com/open-source-parsers/jsoncpp.git",
+            "sub_dir": "jsoncpp",
+            "build_dir": "jsoncpp/build",
+            "install_dir": "jsoncpp/build/install",
+            "commit": "1.9.5",
+            "cmake_options": [
+                "-DCMAKE_POSITION_INDEPENDENT_CODE=ON",
+                "-DJSONCPP_WITH_TESTS=OFF",
+                "-DJSONCPP_WITH_POST_BUILD_UNITTEST=OFF",
+                "-DJSONCPP_WITH_WARNING_AS_ERROR=OFF",
+                "-DJSONCPP_WITH_PKGCONFIG_SUPPORT=OFF",
+                "-DJSONCPP_STATIC_WINDOWS_RUNTIME=ON"
+            ]
+        },
+        {
+            "name": "valijson",
+            "url": "https://github.com/tristanpenman/valijson.git",
+            "sub_dir": "valijson",
+            "build_dir": "valijson/build",
+            "install_dir": "valijson/build/install",
+            "commit": "v1.0.1"
+        },
+        {
+            "name": "cxxopts",
+            "url": "https://github.com/jarro2783/cxxopts.git",
+            "sub_dir": "cxxopts",
+            "build_dir": "cxxopts/build",
+            "install_dir": "cxxopts/build/install",
+            "commit": "v3.2.1"
         }
     ],
     "install_names": {
         "Vulkan-Headers": "VULKAN_HEADERS_INSTALL_DIR",
         "Vulkan-Utility-Libraries": "VULKAN_UTILITY_LIBRARIES_INSTALL_DIR",
-        "googletest": "GOOGLETEST_INSTALL_DIR"
+        "SPIRV-Headers": "SPIRV_HEADERS_INSTALL_DIR",
+        "SPIRV-Tools": "SPIRV_TOOLS_INSTALL_DIR",
+        "googletest": "GOOGLETEST_INSTALL_DIR",
+        "jsoncpp": "JSONCPP_INSTALL_DIR",
+        "valijson": "VALIJSON_INSTALL_DIR",
+        "cxxopts": "CXXOPTS_INSTALL_DIR"
     }
 }

@@ -25,6 +25,7 @@ set(CMAKE_C_EXTENSIONS OFF)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 option(BUILD_ICD "Build Vulkan SC emulation ICD" ON)
+option(BUILD_PCC "Build Vulkan SC emulation PCC" ON)
 
 option(ENABLE_ADDRESS_SANITIZER "Use address sanitization")
 if (ENABLE_ADDRESS_SANITIZER)
@@ -36,8 +37,10 @@ endif()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-find_package(VulkanHeaders REQUIRED QUIET CONFIG)
+find_package(VulkanHeaders REQUIRED CONFIG QUIET)
 find_package(VulkanUtilityLibraries REQUIRED CONFIG QUIET)
+find_package(SPIRV-Headers REQUIRED CONFIG QUIET)
+find_package(SPIRV-Tools REQUIRED CONFIG)
 
 include(GNUInstallDirs)
 
@@ -52,6 +55,7 @@ if (${CMAKE_CXX_COMPILER_ID} MATCHES "(GNU|Clang)")
         -Wextra
         -Wno-unused-parameter
         -Wno-missing-field-initializers
+        -Wno-format-security
     )
 
     if (${CMAKE_CXX_COMPILER_ID} MATCHES "GNU")
@@ -125,6 +129,10 @@ include_directories(utils)
 
 if(BUILD_ICD)
     add_subdirectory(icd)
+endif()
+
+if(BUILD_PCC)
+    add_subdirectory(pcc)
 endif()
 
 option(BUILD_TESTS "Build the tests")

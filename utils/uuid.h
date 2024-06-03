@@ -29,7 +29,10 @@ class UUID {
         return std::string(str);
     }
 
-    void CopyToArray(uint8_t (&id)[VK_UUID_SIZE]) { memcpy(&id[0], &id_[0], VK_UUID_SIZE); }
+    uint8_t& operator[](size_t i) { return id_[i]; }
+    const uint8_t& operator[](size_t i) const { return id_[i]; }
+
+    void CopyToArray(uint8_t (&id)[VK_UUID_SIZE]) const { memcpy(&id[0], &id_[0], VK_UUID_SIZE); }
 
     bool operator==(const UUID& rhs) const { return memcmp(id_, rhs.id_, VK_UUID_SIZE) == 0; }
 
@@ -40,6 +43,9 @@ class UUID {
 // Pipeline cache UUID used by the emulation stack (shared between the PCC and ICD)
 static const std::array<uint8_t, VK_UUID_SIZE> EmulationPipelineCacheUUID = {0x27, 0xA8, 0x32, 0x5A, 0x71, 0x38, 0x4C, 0xA3,
                                                                              0x89, 0x15, 0x68, 0x72, 0xE8, 0x61, 0x42, 0x1A};
+
+// Custom device ID we use to indicate that the pipeline cache is compatible with all devices
+#define VK_DEVICE_ID_PORTABLE UINT32_MAX
 
 // TODO: Remove these once we've added the official IDs to the registry
 #define VK_VENDOR_ID_KHRONOS ((VkVendorId)0x10000)

@@ -63,14 +63,6 @@ target_include_directories(icd PRIVATE
     .
 )
 
-if(${CMAKE_CXX_COMPILER_ID} MATCHES "GNU|Clang")
-    target_compile_options(icd PRIVATE
-        -Wpointer-arith
-        -Wno-unused-function
-        -Wno-sign-compare
-    )
-endif()
-
 if(MSVC)
     target_compile_options(icd PRIVATE /bigobj)
     target_compile_definitions(icd PRIVATE _CRT_SECURE_NO_WARNINGS)
@@ -82,10 +74,6 @@ else()
 endif()
 
 set_target_properties(icd PROPERTIES OUTPUT_NAME ${ICD_NAME})
-
-if (DEFINED GIT_BRANCH_NAME AND DEFINED GIT_TAG_INFO)
-    target_compile_definitions(icd PRIVATE GIT_BRANCH_NAME="${GIT_BRANCH_NAME}" GIT_TAG_INFO="${GIT_TAG_INFO}")
-endif()
 
 # There are 2 primary deliverables for the ICD.
 # - The actual library (lib)vksconvk.(dll|so|dylib)
