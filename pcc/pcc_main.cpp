@@ -87,9 +87,10 @@ static std::optional<std::vector<std::vector<uint32_t>>> load_shader_spirv(const
 
             logger.Write(logger.INFO, "  %s\n", filepath.c_str());
 
-            FILE* fp = fopen(filepath.c_str(), "rb");
+            FILE* fp = fopen(filepath.string().c_str(), "rb");
             if (!fp) {
-                logger.Write(logger.ERROR, "Failed to open SPIR-V file '%s' for ShaderFileNames[%u]\n", filepath.c_str(), file_idx);
+                logger.Write(logger.ERROR, "Failed to open SPIR-V file '%s' for ShaderFileNames[%u]\n", filepath.string().c_str(),
+                             file_idx);
                 result.reset();
                 return result;
             }
@@ -98,7 +99,7 @@ static std::optional<std::vector<std::vector<uint32_t>>> load_shader_spirv(const
             auto file_size = ftell(fp);
             if (file_size % sizeof(uint32_t) != 0) {
                 logger.Write(logger.ERROR, "Size of SPIR-V file '%s' (%ld) for ShaderFileNames[%u] is not a multiple of 4\n",
-                             filepath.c_str(), file_size, file_idx);
+                             filepath.string().c_str(), file_size, file_idx);
                 fclose(fp);
                 result.reset();
                 return result;
@@ -109,7 +110,8 @@ static std::optional<std::vector<std::vector<uint32_t>>> load_shader_spirv(const
             spirv.resize(file_size / sizeof(uint32_t));
             size_t read_count = fread(spirv.data(), sizeof(uint32_t), spirv.size(), fp);
             if (read_count != spirv.size()) {
-                logger.Write(logger.ERROR, "Failed to read SPIR-V file '%s' for ShaderFileNames[%u]\n", filepath.c_str(), file_idx);
+                logger.Write(logger.ERROR, "Failed to read SPIR-V file '%s' for ShaderFileNames[%u]\n", filepath.string().c_str(),
+                             file_idx);
                 fclose(fp);
                 result.reset();
                 return result;

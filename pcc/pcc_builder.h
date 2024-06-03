@@ -132,7 +132,7 @@ class PipelineCacheBuilder {
     }
 
     template <typename PrivateData = void, typename PipelinePrivateData = void>
-    StageValIndexEntry<PrivateData> GetStageValidation(SCIndexEntry<PipelinePrivateData>& pipeline, uint32_t index) {
+    StageValIndexEntry<PrivateData> GetStageValidation(SCIndexEntry<PipelinePrivateData>& pipeline, size_t index) {
         assert(index < pipeline->stageIndexCount);
         return StageValIndexEntry<PrivateData>(
             data_, static_cast<size_t>(pipeline->stageIndexOffset) + index * pipeline->stageIndexStride);
