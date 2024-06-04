@@ -11,6 +11,9 @@
 
 #include <cxxopts.hpp>
 #include <json/json.h>
+#include <spirv-tools/libspirv.hpp>
+#include <spirv-tools/optimizer.hpp>
+#include <spirv/unified1/spirv.hpp>
 #include <stdlib.h>
 #include <stdio.h>
 #include <optional>
@@ -37,10 +40,153 @@ static Json::Value load_json_file(const std::filesystem::path& filepath) {
     return result;
 }
 
-static std::optional<std::vector<std::vector<uint32_t>>> load_shader_spirv(const std::string& path, const Json::Value& stages,
-                                                                           const Json::Value& filenames) {
+static bool validate_spirv(const Json::Value& enabled_extensions, const Json::Value& pipeline_state, const Json::Value& stage_info,
+                           const std::vector<uint32_t>& spirv) {
+    spv_result_t spv_valid = SPV_SUCCESS;
+    spv_target_env target_env = SPV_ENV_VULKAN_1_2;
+    spv_context ctx = spvContextCreate(target_env);
+    spv_const_binary_t binary{spirv.data(), spirv.size()};
+    spv_diagnostic diag = nullptr;
+    spvtools::ValidatorOptions options;
+
+    // Adjust SPIR-V validation options based on the enabled extensions and features
+    if (enabled_extensions.isArray()) {
+        for (Json::ArrayIndex ext_idx = 0; ext_idx < enabled_extensions.size(); ++ext_idx) {
+            if (enabled_extensions[ext_idx].asString() == "VK_KHR_relaxed_block_layout") {
+                options.SetRelaxBlockLayout(true);
+            }
+        }
+    }
+    auto features_struct = pipeline_state["PhysicalDeviceFeatures"]["pNext"];
+    while (features_struct.isObject()) {
+        auto is_feature_enabled = [&](const char* feature) {
+            return features_struct[feature].isBool() && features_struct[feature].asBool();
+        };
+        if (is_feature_enabled("uniformBufferStandardLayout")) {
+            options.SetUniformBufferStandardLayout(true);
+        }
+        if (is_feature_enabled("scalarBlockLayout")) {
+            options.SetScalarBlockLayout(true);
+        }
+        features_struct = features_struct["pNext"];
+    }
+
+    // Validate without specialization constants
+    spv_valid = spvValidateWithOptions(ctx, options, &binary, &diag);
+    if (spv_valid != SPV_SUCCESS) {
+        if (spv_valid == SPV_WARNING) {
+            logger.Write(logger.WARNING, "spirv-val: %s\n", diag && diag->error ? diag->error : "(no error text)");
+        } else {
+            logger.Write(logger.ERROR, "spirv-val: %s\n", diag && diag->error ? diag->error : "(no error text)");
+        }
+    }
+    spvDiagnosticDestroy(diag);
+
+    // Apply specialization constants, if needed
+    auto specialization_info = stage_info["pSpecializationInfo"];
+    if (specialization_info.isObject() && (spv_valid == SPV_SUCCESS || spv_valid == SPV_WARNING)) {
+        // First, we need to flatten group decorations in case there are any
+        std::vector<uint32_t> flattened_spirv{};
+        {
+            spvtools::Optimizer optimizer(target_env);
+            optimizer.RegisterPass(spvtools::CreateFlattenDecorationPass());
+            optimizer.Run(binary.code, binary.wordCount, &flattened_spirv, spvtools::ValidatorOptions(), true);
+        }
+
+        // Then parse SPIR-V instructions to collect the SPIR-V ID of specialization constant IDs
+        std::unordered_map<uint32_t, uint32_t> id_to_spec_id;
+        spvtools::SpirvTools parser(target_env);
+        parser.Parse(
+            spirv, [](const spv_endianness_t endianess, const spv_parsed_header_t& instruction) { return SPV_SUCCESS; },
+            [&](const spv_parsed_instruction_t& instruction) {
+                if (instruction.opcode == spv::OpDecorate && instruction.words[2] == spv::DecorationSpecId) {
+                    id_to_spec_id[instruction.words[1]] = instruction.words[3];
+                }
+                return SPV_SUCCESS;
+            },
+            nullptr);
+
+        // Now we can apply the specialization info
+        std::vector<uint32_t> specialized_spirv{};
+        auto map_entry_count = specialization_info["mapEntryCount"].asUInt();
+        auto map_entries = specialization_info["pMapEntries"];
+        auto specialization_data = specialization_info["pData"];
+        std::vector<uint8_t> data(specialization_info["dataSize"].asUInt(), 0);
+        if (specialization_data.isArray() && specialization_data.size() == data.size() && map_entries.isArray() &&
+            map_entries.size() == map_entry_count) {
+            // Parse specialization data
+            for (uint32_t data_idx = 0; data_idx < data.size(); ++data_idx) {
+                data[data_idx] = specialization_data[data_idx].asUInt();
+            }
+
+            // Initialize ID value map for applying specialization data
+            std::unordered_map<uint32_t, std::vector<uint32_t>> id_value_map{};
+            id_value_map.reserve(map_entry_count);
+            for (const auto& it : id_to_spec_id) {
+                const uint32_t spec_id = it.second;
+
+                // Find specialization map entry
+                VkSpecializationMapEntry map_entry = {UINT32_MAX, 0, 0};
+                for (uint32_t map_entry_idx = 0; map_entry_idx < map_entry_count; ++map_entry_idx) {
+                    if (map_entries[map_entry_idx]["constantID"].asUInt() == spec_id) {
+                        map_entry.constantID = spec_id;
+                        map_entry.offset = map_entries[map_entry_idx]["offset"].asUInt();
+                        map_entry.size = map_entries[map_entry_idx]["size"].asUInt();
+                        break;
+                    }
+                }
+                if (map_entry.constantID == UINT32_MAX) continue;
+
+                std::vector<uint32_t> entry_data((map_entry.size + sizeof(uint32_t) - 1) / sizeof(uint32_t), 0);
+                const uint8_t* map_data = reinterpret_cast<const uint8_t*>(data.data()) + map_entry.offset;
+                memcpy(entry_data.data(), map_data, map_entry.size);
+                id_value_map.emplace(map_entry.constantID, std::move(entry_data));
+            }
+
+            // Finally, apply the optimizer steps
+            {
+                spvtools::Optimizer optimizer(target_env);
+                optimizer.RegisterPass(spvtools::CreateSetSpecConstantDefaultValuePass(id_value_map));
+                optimizer.RegisterPass(spvtools::CreateFreezeSpecConstantValuePass());
+                optimizer.RegisterPass(spvtools::CreateFoldSpecConstantOpAndCompositePass());
+                if (!optimizer.Run(flattened_spirv.data(), flattened_spirv.size(), &specialized_spirv, options, true)) {
+                    logger.Write(logger.ERROR, "Failed to apply specialized constants\n");
+                    specialized_spirv.clear();
+                    spv_valid = SPV_ERROR_INVALID_BINARY;
+                }
+            }
+        } else {
+            logger.Write(logger.ERROR, "Invalid SPIR-V specialization info\n");
+            spv_valid = SPV_ERROR_INVALID_BINARY;
+        }
+
+        // Now we only have to revalidate specialized SPIR-V code
+        if (specialized_spirv.size() > 0) {
+            spv_const_binary_t specialized_binary{specialized_spirv.data(), specialized_spirv.size()};
+            spv_valid = spvValidateWithOptions(ctx, options, &specialized_binary, &diag);
+            if (spv_valid != SPV_SUCCESS) {
+                if (spv_valid == SPV_WARNING) {
+                    logger.Write(logger.WARNING, "spirv-val: %s\n", diag && diag->error ? diag->error : "(no error text)");
+                } else {
+                    logger.Write(logger.ERROR, "spirv-val: %s\n", diag && diag->error ? diag->error : "(no error text)");
+                }
+            }
+            spvDiagnosticDestroy(diag);
+        }
+    }
+
+    spvContextDestroy(ctx);
+
+    return spv_valid == SPV_SUCCESS || spv_valid == SPV_WARNING;
+}
+
+static std::optional<std::vector<std::vector<uint32_t>>> load_shader_spirv(const std::string& path,
+                                                                           const Json::Value& enabled_extensions,
+                                                                           const Json::Value& pipeline_state,
+                                                                           const Json::Value& stages) {
     std::optional<std::vector<std::vector<uint32_t>>> result{};
     uint32_t stage_count = stages.isArray() ? stages.size() : 1;
+    auto filenames = pipeline_state["ShaderFileNames"];
 
     // Collect the set of stages in the pipeline
     std::unordered_map<std::string, uint32_t> stage_indices{};
@@ -78,6 +224,7 @@ static std::optional<std::vector<std::vector<uint32_t>>> load_shader_spirv(const
     result = std::vector<std::vector<uint32_t>>(stage_count);
     for (uint32_t file_idx = 0; file_idx < stage_count; ++file_idx) {
         uint32_t stage_idx = filename_stage_index_remap[file_idx];
+        auto stage_info = stages.isArray() ? stages[stage_idx] : stages;
 
         auto filename = filenames[file_idx]["filename"].asString();
         if (filename.size() > 0) {
@@ -117,7 +264,14 @@ static std::optional<std::vector<std::vector<uint32_t>>> load_shader_spirv(const
                 return result;
             }
 
-            // TODO: Validate SPIR-V
+            // Validate SPIR-V
+            if (!validate_spirv(enabled_extensions, pipeline_state, stage_info, spirv)) {
+                logger.Write(logger.ERROR, "Failed to validate SPIR-V file '%s' for ShaderFileNames[%u]\n",
+                             filepath.string().c_str(), file_idx);
+                fclose(fp);
+                result.reset();
+                return result;
+            }
 
             fclose(fp);
         } else {
@@ -242,7 +396,7 @@ int main(int argc, char* argv[]) {
                 if (shader_stages.isArray() && shader_stages.size() == stage_count) {
                     auto shader_filenames = graphics_pipe_state["ShaderFileNames"];
                     if (shader_filenames.size() == stage_count) {
-                        spirv = load_shader_spirv(path, shader_stages, shader_filenames);
+                        spirv = load_shader_spirv(path, json["EnabledExtensions"], graphics_pipe_state, shader_stages);
                     } else {
                         logger.Write(logger.ERROR, "The size of ShaderFileNames array (%u) does not match stageCount (%u)",
                                      shader_filenames.size(), stage_count);
@@ -258,7 +412,8 @@ int main(int argc, char* argv[]) {
         if (compute_pipe_state != Json::nullValue) {
             auto shader_filenames = compute_pipe_state["ShaderFileNames"];
             if (shader_filenames.size() == 1) {
-                spirv = load_shader_spirv(path, compute_pipe_state["ComputePipeline"]["stage"], shader_filenames);
+                spirv = load_shader_spirv(path, json["EnabledExtensions"], compute_pipe_state,
+                                          compute_pipe_state["ComputePipeline"]["stage"]);
             } else {
                 logger.Write(logger.ERROR, "The size of ShaderFileNames array (%u) is not 1 for compute pipeline\n",
                              shader_filenames.size());
@@ -271,8 +426,8 @@ int main(int argc, char* argv[]) {
         if (spirv.has_value()) {
             pipeline_info.spirv = std::move(*spirv);
             // Calculate pipeline memory size as the sum of the sizes of the SPIR-V module data
-            for (const auto& spv : pipeline_info.spirv) {
-                pipeline_info.pipeline_memory_size += spv.size() * sizeof(uint32_t);
+            for (const auto& pipeline_spv : pipeline_info.spirv) {
+                pipeline_info.pipeline_memory_size += pipeline_spv.size() * sizeof(uint32_t);
             }
         } else {
             logger.Write(logger.ERROR, "Failed to load SPIR-V data!\n");

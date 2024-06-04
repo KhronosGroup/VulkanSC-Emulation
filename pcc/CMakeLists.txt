@@ -24,6 +24,7 @@ target_link_libraries(pcc PRIVATE
     cxxopts::cxxopts
     Vulkan::Headers
     Vulkan::UtilityHeaders
+    SPIRV-Tools-opt
     SPIRV-Tools-static
     SPIRV-Headers::SPIRV-Headers
 )
