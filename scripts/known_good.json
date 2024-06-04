@@ -43,7 +43,8 @@
                 "-DSPIRV-Headers_SOURCE_DIR={repo_dir}/../SPIRV-Headers",
                 "-DSPIRV_WERROR=OFF",
                 "-DSPIRV_SKIP_TESTS=ON",
-                "-DSPIRV_SKIP_EXECUTABLES=ON"
+                "-DSPIRV_SKIP_EXECUTABLES=ON",
+                "-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded$<$<CONFIG:Debug>:Debug>"
             ],
             "commit": "784b064f90a597d2478064161438f4986485b5d4"
         },
