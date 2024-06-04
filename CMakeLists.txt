@@ -102,9 +102,6 @@ if (EMU_CODEGEN)
     )
 endif()
 
-# Default to using the static CRT
-set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-
 # Find the Git branch & tag info for use in the generated artifacts
 find_package (Git)
 if (GIT_FOUND AND EXISTS "${CMAKE_CURRENT_LIST_DIR}/.git/HEAD")
