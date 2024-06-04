@@ -40,7 +40,8 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 find_package(VulkanHeaders REQUIRED CONFIG QUIET)
 find_package(VulkanUtilityLibraries REQUIRED CONFIG QUIET)
 find_package(SPIRV-Headers REQUIRED CONFIG QUIET)
-find_package(SPIRV-Tools REQUIRED CONFIG)
+find_package(SPIRV-Tools REQUIRED CONFIG QUIET)
+find_package(SPIRV-Tools-opt REQUIRED CONFIG QUIET)
 
 include(GNUInstallDirs)
 
