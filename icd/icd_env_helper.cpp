@@ -16,7 +16,8 @@
 
 namespace icd {
 
-EnvironmentHelper::EnvironmentHelper() : log_severity_(ParseLogSeverity()), private_envs_(InitPrivateEnvs()) {}
+EnvironmentHelper::EnvironmentHelper()
+    : log_severity_(ParseLogSeverity()), private_envs_(InitPrivateEnvs()), layered_envs_(InitLayeredEnvs()) {}
 
 VkDebugUtilsMessageSeverityFlagsEXT EnvironmentHelper::ParseLogSeverity() {
     VkDebugUtilsMessageSeverityFlagsEXT log_severity = 0;
@@ -50,6 +51,18 @@ const std::unordered_map<const char*, std::string> EnvironmentHelper::InitPrivat
     return private_envs;
 }
 
+const std::unordered_map<const char*, std::string> EnvironmentHelper::InitLayeredEnvs() {
+    std::unordered_map<const char*, std::string> layered_envs;
+    for (auto loader_env_var : s_loader_env_vars) {
+        auto layered_env_var = std::string("VKSC_EMU_") + loader_env_var;
+        auto env_var_value = getenv(layered_env_var.c_str());
+        if (env_var_value != nullptr) {
+            layered_envs.emplace(loader_env_var, env_var_value);
+        }
+    }
+    return layered_envs;
+}
+
 EnvironmentOverride::EnvironmentOverride(const EnvironmentHelper& env) : env_(env) {
     for (const auto& it : env_.PrivateEnvs()) {
 #ifdef _WIN32
@@ -58,9 +71,23 @@ EnvironmentOverride::EnvironmentOverride(const EnvironmentHelper& env) : env_(en
         unsetenv(it.first);
 #endif
     }
+    for (const auto& it : env_.LayeredEnvs()) {
+#ifdef _WIN32
+        _putenv_s(it.first, it.second.c_str());
+#else
+        setenv(it.first, it.second.c_str(), 1);
+#endif
+    }
 }
 
 EnvironmentOverride::~EnvironmentOverride() {
+    for (const auto& it : env_.LayeredEnvs()) {
+#ifdef _WIN32
+        _putenv_s(it.first, "");
+#else
+        unsetenv(it.first);
+#endif
+    }
     for (const auto& it : env_.PrivateEnvs()) {
 #ifdef _WIN32
         _putenv_s(it.first, it.second.c_str());

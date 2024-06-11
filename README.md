@@ -6,7 +6,8 @@ This project provides Vulkan SC emulation tools on top of Vulkan implementations
 
 The following components are available in this repository:
 
-- [*Vulkan SC emulation ICD*](icd/)
+- [*Vulkan SC Emulation ICD*](icd/)
+- [*Vulkan SC Emulation Pipeline Cache Compiler (Mock PCC)*](pcc/)
 
 ## Contact Information
 * [Daniel Rakos](mailto:daniel.rakos@rastergrid.com)

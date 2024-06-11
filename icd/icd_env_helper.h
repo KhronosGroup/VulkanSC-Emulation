@@ -21,6 +21,7 @@ class EnvironmentHelper {
 
     VkDebugUtilsMessageSeverityFlagsEXT LogSeverityEnv() const { return log_severity_; }
     const std::unordered_map<const char*, std::string> PrivateEnvs() const { return private_envs_; }
+    const std::unordered_map<const char*, std::string> LayeredEnvs() const { return layered_envs_; }
 
   private:
     // Loader environment variables that may conflict with Vulkan vs Vulkan SC loader configuration
@@ -46,9 +47,11 @@ class EnvironmentHelper {
 
     VkDebugUtilsMessageSeverityFlagsEXT ParseLogSeverity();
     const std::unordered_map<const char*, std::string> InitPrivateEnvs();
+    const std::unordered_map<const char*, std::string> InitLayeredEnvs();
 
     const VkDebugUtilsMessageSeverityFlagsEXT log_severity_;
     const std::unordered_map<const char*, std::string> private_envs_;
+    const std::unordered_map<const char*, std::string> layered_envs_;
 };
 
 class EnvironmentOverride {
