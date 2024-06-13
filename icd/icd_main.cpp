@@ -19,7 +19,8 @@ EXPORT VKAPI_ATTR PFN_vkVoidFunction VKAPI_CALL vk_icdGetPhysicalDeviceProcAddr(
     return icd::GetProcAddr(icd::ProcTypeMask::PhysicalDevice, pName);
 }
 
-VKAPI_ATTR PFN_vkVoidFunction VKAPI_CALL vkGetInstanceProcAddr(VkInstance instance, const char* pName) {
+// TODO: We export this symbol because the CTS expects this to be exported even when doing direct driver loading
+EXPORT VKAPI_ATTR PFN_vkVoidFunction VKAPI_CALL vkGetInstanceProcAddr(VkInstance instance, const char* pName) {
     return icd::GetProcAddr(icd::ProcTypeMask::Instance, pName);
 }
 

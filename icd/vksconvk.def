@@ -9,6 +9,7 @@
 
 LIBRARY vksconvk
 EXPORTS
+vkGetInstanceProcAddr
 vk_icdGetInstanceProcAddr
 vk_icdGetPhysicalDeviceProcAddr
 vk_icdNegotiateLoaderICDInterfaceVersion
