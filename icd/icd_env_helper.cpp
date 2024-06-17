@@ -17,7 +17,10 @@
 namespace icd {
 
 EnvironmentHelper::EnvironmentHelper()
-    : log_severity_(ParseLogSeverity()), private_envs_(InitPrivateEnvs()), layered_envs_(InitLayeredEnvs()) {}
+    : log_severity_(ParseLogSeverity()),
+      recycle_pipeline_memory_(ParseRecyclePipelineMemory()),
+      private_envs_(InitPrivateEnvs()),
+      layered_envs_(InitLayeredEnvs()) {}
 
 VkDebugUtilsMessageSeverityFlagsEXT EnvironmentHelper::ParseLogSeverity() {
     VkDebugUtilsMessageSeverityFlagsEXT log_severity = 0;
@@ -38,6 +41,16 @@ VkDebugUtilsMessageSeverityFlagsEXT EnvironmentHelper::ParseLogSeverity() {
         }
     }
     return log_severity;
+}
+
+bool EnvironmentHelper::ParseRecyclePipelineMemory() {
+    auto env_var_value = getenv("VKSC_EMULATION_RECYCLE_PIPELINE_MEMORY");
+    if (env_var_value != nullptr) {
+        std::string_view value(env_var_value);
+        if (value == "1") return false;
+    }
+    // Default to recycling
+    return true;
 }
 
 const std::unordered_map<const char*, std::string> EnvironmentHelper::InitPrivateEnvs() {

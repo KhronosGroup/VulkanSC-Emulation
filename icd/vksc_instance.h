@@ -28,6 +28,8 @@ class Instance : public Dispatchable<Instance, VkInstance>, public vk::Instance 
 
     bool IsValid() const { return valid_; }
 
+    uint32_t GetApiVersion() const { return api_version_; }
+
     void DestroyInstance(const VkAllocationCallbacks* pAllocator);
     VkResult EnumeratePhysicalDevices(uint32_t* pPhysicalDeviceCount, VkPhysicalDevice* pPhysicalDevices);
     VkResult EnumeratePhysicalDeviceGroups(uint32_t* pPhysicalDeviceGroupCount,
@@ -46,6 +48,8 @@ class Instance : public Dispatchable<Instance, VkInstance>, public vk::Instance 
     bool valid_{true};
 
     icd::Logger logger_;
+
+    uint32_t api_version_;
 
     DispatchableChildren<PhysicalDevice, VkPhysicalDevice> physical_devices_;
 };

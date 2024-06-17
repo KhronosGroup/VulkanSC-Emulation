@@ -42,6 +42,8 @@ find_package(VulkanUtilityLibraries REQUIRED CONFIG QUIET)
 find_package(SPIRV-Headers REQUIRED CONFIG QUIET)
 find_package(SPIRV-Tools REQUIRED CONFIG QUIET)
 find_package(SPIRV-Tools-opt REQUIRED CONFIG QUIET)
+find_package(jsoncpp REQUIRED CONFIG QUIET)
+find_package(valijson REQUIRED CONFIG QUIET)
 
 include(GNUInstallDirs)
 
@@ -76,7 +78,6 @@ if (${CMAKE_CXX_COMPILER_ID} MATCHES "(GNU|Clang)")
         )
     endif()
 elseif(MSVC)
-    # TODO: Update to /W4
     add_compile_options("/W3")
     # Warn about nested declarations
     add_compile_options("/w34456")

@@ -9,6 +9,7 @@
 #include "vksc_global.h"
 #include "vksc_physical_device.h"
 
+#include <vulkan/utility/vk_struct_helper.hpp>
 #include <unordered_set>
 
 namespace vksc {
@@ -17,11 +18,11 @@ Instance::Instance(VkInstance instance, Global& global, const VkInstanceCreateIn
     : Dispatchable(),
       vk::Instance(instance, vk::DispatchTable(instance, global.VkGetProcAddr())),
       logger_(CreateLogger(create_info), VK_OBJECT_TYPE_INSTANCE, instance),
+      api_version_(create_info.pApplicationInfo != nullptr ? create_info.pApplicationInfo->apiVersion : VKSC_API_VERSION_1_0),
       physical_devices_() {}
 
 void Instance::DestroyInstance(const VkAllocationCallbacks* pAllocator) {
-    vk::Instance::DestroyInstance(pAllocator);
-    Destroy();
+    Destroy(VkDispatch().DestroyInstance, VkHandle(), pAllocator);
 }
 
 icd::Logger Instance::CreateLogger(const VkInstanceCreateInfo& create_info) {

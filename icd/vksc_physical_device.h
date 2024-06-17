@@ -25,6 +25,10 @@ class PhysicalDevice : public Dispatchable<PhysicalDevice, VkPhysicalDevice>, pu
 
     bool IsValid() const { return valid_; }
 
+    bool RecyclePipelineMemory() const;
+
+    const Instance& GetInstance() const { return instance_; }
+
     VkResult EnumerateDeviceExtensionProperties(const char* pLayerName, uint32_t* pPropertyCount,
                                                 VkExtensionProperties* pProperties);
 
@@ -37,10 +41,7 @@ class PhysicalDevice : public Dispatchable<PhysicalDevice, VkPhysicalDevice>, pu
     void GetPhysicalDeviceProperties2(VkPhysicalDeviceProperties2* pProperties);
 
     VkResult GetPhysicalDeviceRefreshableObjectTypesKHR(uint32_t* pRefreshableObjectTypeCount,
-                                                        VkObjectType* pRefreshableObjectTypes) {
-        // TODO
-        return VK_SUCCESS;
-    }
+                                                        VkObjectType* pRefreshableObjectTypes);
 
   private:
     void UpdatePhysicalDeviceFeaturesForVulkanSC(VkPhysicalDeviceFeatures& features);
@@ -48,6 +49,7 @@ class PhysicalDevice : public Dispatchable<PhysicalDevice, VkPhysicalDevice>, pu
 
     bool valid_{true};
 
+    const Instance& instance_;
     icd::Logger logger_;
 
     std::vector<VkExtensionProperties> device_extensions_{};

@@ -8,9 +8,12 @@
 #include "vksc_physical_device.h"
 #include "vksc_instance.h"
 #include "vksc_device.h"
+#include "vksc_global.h"
 #include "icd_extension_helper.h"
 #include "icd_defs.h"
 #include "uuid.h"
+
+#include <vulkan/utility/vk_struct_helper.hpp>
 
 namespace vksc {
 
@@ -31,6 +34,7 @@ static std::string GenerateDriverInfo(char driver_name[VK_MAX_DRIVER_NAME_SIZE],
 PhysicalDevice::PhysicalDevice(VkPhysicalDevice physical_device, Instance& instance)
     : Dispatchable(),
       vk::PhysicalDevice(physical_device, instance.VkDispatch()),
+      instance_(instance),
       logger_(instance.Log(), VK_OBJECT_TYPE_PHYSICAL_DEVICE, physical_device) {
     // Initialize extensions from the underlying Vulkan implementation
     uint32_t device_extension_count = 0;
@@ -55,6 +59,8 @@ PhysicalDevice::PhysicalDevice(VkPhysicalDevice physical_device, Instance& insta
         return;
     }
 }
+
+bool PhysicalDevice::RecyclePipelineMemory() const { return ICD.Environment().RecyclePipelineMemory(); }
 
 VkResult PhysicalDevice::EnumerateDeviceExtensionProperties(const char* pLayerName, uint32_t* pPropertyCount,
                                                             VkExtensionProperties* pProperties) {
@@ -82,11 +88,14 @@ VkResult PhysicalDevice::EnumerateDeviceExtensionProperties(const char* pLayerNa
 
 VkResult PhysicalDevice::CreateDevice(const VkDeviceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                                       VkDevice* pDevice) {
-    // TODO: Refine this
     VkDevice device = VK_NULL_HANDLE;
     VkResult result = vk::PhysicalDevice::CreateDevice(pCreateInfo, pAllocator, &device);
     if (result >= VK_SUCCESS) {
-        *pDevice = vksc::Device::Create(device, *this);
+        *pDevice = vksc::Device::Create(device, *this, *pCreateInfo);
+        if (!vksc::Device::FromHandle(*pDevice)->IsValid()) {
+            result = vksc::Device::FromHandle(*pDevice)->GetStatus();
+            vksc::Device::FromHandle(*pDevice)->DestroyDevice(pAllocator);
+        }
     }
     return result;
 }
@@ -156,7 +165,7 @@ void PhysicalDevice::GetPhysicalDeviceProperties2(VkPhysicalDeviceProperties2* p
         sc_10_props->commandBufferSimultaneousUse = VK_TRUE;
         sc_10_props->secondaryCommandBufferNullOrImagelessFramebuffer = VK_TRUE;
         sc_10_props->recycleDescriptorSetMemory = VK_TRUE;
-        sc_10_props->recyclePipelineMemory = VK_TRUE;
+        sc_10_props->recyclePipelineMemory = RecyclePipelineMemory() ? VK_TRUE : VK_FALSE;
         sc_10_props->maxRenderPassSubpasses = 1;
         sc_10_props->maxRenderPassDependencies = 18;
         sc_10_props->maxSubpassInputAttachments = 0;
@@ -196,6 +205,12 @@ void PhysicalDevice::GetPhysicalDeviceProperties2(VkPhysicalDeviceProperties2* p
         strncpy(vk12_props->driverInfo, driver_info.c_str(), VK_MAX_DRIVER_INFO_SIZE - 1);
         vk12_props->conformanceVersion = {0, 0, 0, 0};
     }
+}
+
+VkResult PhysicalDevice::GetPhysicalDeviceRefreshableObjectTypesKHR(uint32_t* pRefreshableObjectTypeCount,
+                                                                    VkObjectType* pRefreshableObjectTypes) {
+    // TODO: Add implementation
+    return VK_SUCCESS;
 }
 
 }  // namespace vksc

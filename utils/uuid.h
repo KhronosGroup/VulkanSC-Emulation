@@ -9,6 +9,7 @@
 
 #include <vulkan/vulkan.h>
 #include <array>
+#include <utility>
 #include <string>
 #include <string.h>
 
@@ -35,6 +36,7 @@ class UUID {
     void CopyToArray(uint8_t (&id)[VK_UUID_SIZE]) const { memcpy(&id[0], &id_[0], VK_UUID_SIZE); }
 
     bool operator==(const UUID& rhs) const { return memcmp(id_, rhs.id_, VK_UUID_SIZE) == 0; }
+    bool operator!=(const UUID& rhs) const { return memcmp(id_, rhs.id_, VK_UUID_SIZE) != 0; }
 
   private:
     uint8_t id_[VK_UUID_SIZE];
@@ -52,3 +54,14 @@ static const std::array<uint8_t, VK_UUID_SIZE> EmulationPipelineCacheUUID = {0x2
 #define VK_DRIVER_ID_VULKAN_SC_EMULATION_ON_VULKAN ((VkDriverId)27)
 
 }  // namespace utils
+
+template <>
+struct std::hash<utils::UUID> {
+    std::size_t operator()(const utils::UUID& id) const {
+        std::size_t value = 0;
+        for (uint32_t i = 0; i < VK_UUID_SIZE / sizeof(uint32_t); ++i) {
+            value ^= std::hash<uint32_t>{}(*reinterpret_cast<const uint32_t*>(&id[i * sizeof(uint32_t)]));
+        }
+        return value;
+    }
+};

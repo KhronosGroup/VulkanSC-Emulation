@@ -40,7 +40,13 @@ class Dispatchable {
 
     HANDLE VkSCHandle() { return reinterpret_cast<HANDLE>(&static_cast<Dispatchable*>(this)->loader_data_); }
 
-    void Destroy() { delete static_cast<OBJ*>(this); }
+    template <typename DESTROY_FN, typename... ARGS>
+    void Destroy(DESTROY_FN destroy_fn, HANDLE handle, ARGS&&... args) {
+        delete static_cast<OBJ*>(this);
+        destroy_fn(handle, std::forward<ARGS>(args)...);
+    }
+
+    void Free() { delete static_cast<OBJ*>(this); }
 
   protected:
     Dispatchable() { loader_data_.loaderMagic = ICD_LOADER_MAGIC; }

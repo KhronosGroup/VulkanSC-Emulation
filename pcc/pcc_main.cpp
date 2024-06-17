@@ -41,11 +41,11 @@ static Json::Value load_json_file(const std::filesystem::path& filepath) {
 }
 
 static bool validate_spirv(const Json::Value& enabled_extensions, const Json::Value& pipeline_state, const Json::Value& stage_info,
-                           const std::vector<uint32_t>& spirv) {
+                           std::vector<uint32_t>* spirv, bool spirv_dis) {
     spv_result_t spv_valid = SPV_SUCCESS;
     spv_target_env target_env = SPV_ENV_VULKAN_1_2;
     spv_context ctx = spvContextCreate(target_env);
-    spv_const_binary_t binary{spirv.data(), spirv.size()};
+    spv_const_binary_t binary{spirv->data(), spirv->size()};
     spv_diagnostic diag = nullptr;
     spvtools::ValidatorOptions options;
 
@@ -82,6 +82,86 @@ static bool validate_spirv(const Json::Value& enabled_extensions, const Json::Va
     }
     spvDiagnosticDestroy(diag);
 
+    // Check entry point
+    auto stage_flag = stage_info["stage"].asString();
+    auto entry_point_name = stage_info["pName"];
+    if (entry_point_name.isString()) {
+        bool entry_point_found = false;
+        spvtools::SpirvTools parser(target_env);
+        parser.Parse(
+            *spirv, [](const spv_endianness_t endianess, const spv_parsed_header_t& instruction) { return SPV_SUCCESS; },
+            [&](const spv_parsed_instruction_t& instruction) {
+                if (instruction.opcode == spv::OpEntryPoint) {
+                    auto name = reinterpret_cast<const char*>(&instruction.words[3]);
+                    if (name == entry_point_name.asString()) {
+                        auto exec_model = spv::ExecutionModel(instruction.words[1]);
+                        switch (exec_model) {
+                            case spv::ExecutionModelVertex:
+                                if (stage_flag != "VK_SHADER_STAGE_VERTEX_BIT") {
+                                    logger.Write(
+                                        logger.ERROR,
+                                        "Pipeline stage flag (%s) incompatible with ExecutionModelVertex for entry point '%s'\n",
+                                        stage_flag.c_str(), entry_point_name.asCString());
+                                }
+                                break;
+                            case spv::ExecutionModelTessellationControl:
+                                if (stage_flag != "VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT") {
+                                    logger.Write(logger.ERROR,
+                                                 "Pipeline stage flag (%s) incompatible with ExecutionModelTessellationControl for "
+                                                 "entry point '%s'\n",
+                                                 stage_flag.c_str(), entry_point_name.asCString());
+                                }
+                                break;
+                            case spv::ExecutionModelTessellationEvaluation:
+                                if (stage_flag != "VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT") {
+                                    logger.Write(logger.ERROR,
+                                                 "Pipeline stage flag (%s) incompatible with ExecutionModelTessellationEvaluation "
+                                                 "for entry point '%s'\n",
+                                                 stage_flag.c_str(), entry_point_name.asCString());
+                                }
+                                break;
+                            case spv::ExecutionModelGeometry:
+                                if (stage_flag != "VK_SHADER_STAGE_GEOMETRY_BIT") {
+                                    logger.Write(
+                                        logger.ERROR,
+                                        "Pipeline stage flag (%s) incompatible with ExecutionModelGeometry for entry point '%s'\n",
+                                        stage_flag.c_str(), entry_point_name.asCString());
+                                }
+                                break;
+                            case spv::ExecutionModelFragment:
+                                if (stage_flag != "VK_SHADER_STAGE_FRAGMENT_BIT") {
+                                    logger.Write(
+                                        logger.ERROR,
+                                        "Pipeline stage flag (%s) incompatible with ExecutionModelFragment for entry point '%s'\n",
+                                        stage_flag.c_str(), entry_point_name.asCString());
+                                }
+                                break;
+                            case spv::ExecutionModelGLCompute:
+                                if (stage_flag != "VK_SHADER_STAGE_COMPUTE_BIT") {
+                                    logger.Write(
+                                        logger.ERROR,
+                                        "Pipeline stage flag (%s) incompatible with ExecutionModelGLCompute for entry point '%s'\n",
+                                        stage_flag.c_str(), entry_point_name.asCString());
+                                }
+                                break;
+                            default:
+                                logger.Write(logger.ERROR, "Unsupported execution model (%d) for entry point '%s'\n", exec_model,
+                                             entry_point_name.asCString());
+                                break;
+                        }
+                        entry_point_found = true;
+                    }
+                }
+                return SPV_SUCCESS;
+            },
+            nullptr);
+        if (!entry_point_found) {
+            logger.Write(logger.ERROR, "Entry point '%s' not found!\n", entry_point_name.asCString());
+        }
+    } else {
+        logger.Write(logger.ERROR, "Missing entry point name from stage info\n");
+    }
+
     // Apply specialization constants, if needed
     auto specialization_info = stage_info["pSpecializationInfo"];
     if (specialization_info.isObject() && (spv_valid == SPV_SUCCESS || spv_valid == SPV_WARNING)) {
@@ -97,7 +177,7 @@ static bool validate_spirv(const Json::Value& enabled_extensions, const Json::Va
         std::unordered_map<uint32_t, uint32_t> id_to_spec_id;
         spvtools::SpirvTools parser(target_env);
         parser.Parse(
-            spirv, [](const spv_endianness_t endianess, const spv_parsed_header_t& instruction) { return SPV_SUCCESS; },
+            *spirv, [](const spv_endianness_t endianess, const spv_parsed_header_t& instruction) { return SPV_SUCCESS; },
             [&](const spv_parsed_instruction_t& instruction) {
                 if (instruction.opcode == spv::OpDecorate && instruction.words[2] == spv::DecorationSpecId) {
                     id_to_spec_id[instruction.words[1]] = instruction.words[3];
@@ -173,6 +253,21 @@ static bool validate_spirv(const Json::Value& enabled_extensions, const Json::Va
             }
             spvDiagnosticDestroy(diag);
         }
+
+        // We will store the specialized SPIR-V binary in the pipeline cache to not have to redo this on the ICD side
+        *spirv = specialized_spirv;
+    }
+
+    if (spirv_dis) {
+        spv_text text = nullptr;
+        spv_result_t error = spvBinaryToText(ctx, spirv->data(), spirv->size(), SPV_BINARY_TO_TEXT_OPTION_INDENT, &text, &diag);
+        if (error) {
+            logger.Write(logger.ERROR, "spirv-dis: %s\n", diag && diag->error ? diag->error : "(no error text)");
+            spvDiagnosticDestroy(diag);
+        } else {
+            logger.Write(logger.INFO, "spirv-dis:\n%s\n", text->str);
+            spvTextDestroy(text);
+        }
     }
 
     spvContextDestroy(ctx);
@@ -183,7 +278,7 @@ static bool validate_spirv(const Json::Value& enabled_extensions, const Json::Va
 static std::optional<std::vector<std::vector<uint32_t>>> load_shader_spirv(const std::string& path,
                                                                            const Json::Value& enabled_extensions,
                                                                            const Json::Value& pipeline_state,
-                                                                           const Json::Value& stages) {
+                                                                           const Json::Value& stages, bool spirv_dis) {
     std::optional<std::vector<std::vector<uint32_t>>> result{};
     uint32_t stage_count = stages.isArray() ? stages.size() : 1;
     auto filenames = pipeline_state["ShaderFileNames"];
@@ -265,7 +360,7 @@ static std::optional<std::vector<std::vector<uint32_t>>> load_shader_spirv(const
             }
 
             // Validate SPIR-V
-            if (!validate_spirv(enabled_extensions, pipeline_state, stage_info, spirv)) {
+            if (!validate_spirv(enabled_extensions, pipeline_state, stage_info, &spirv, spirv_dis)) {
                 logger.Write(logger.ERROR, "Failed to validate SPIR-V file '%s' for ShaderFileNames[%u]\n",
                              filepath.string().c_str(), file_idx);
                 fclose(fp);
@@ -285,17 +380,25 @@ static std::optional<std::vector<std::vector<uint32_t>>> load_shader_spirv(const
 }
 
 int main(int argc, char* argv[]) {
+    // clang-format off
     cxxopts::Options options(argv[0], "Pipeline Cache Compiler for Vulkan SC Emulation on Vulkan ICD");
-    options.add_options()("prefix", "Pipeline JSON file name prefix used to select the subset of JSON files to compile.",
-                          cxxopts::value<std::string>(), "<prefix>")(
-        "path",
-        "Path containing pipeline JSON files. All JSON files will be parsed in the path that start with the specified prefix.",
-        cxxopts::value<std::string>(), "<path>")("out", "Output file name.", cxxopts::value<std::string>(), "<filename>")(
-        "hex", "Output C++ hex string to enable embedding the binary in source code.",
-        cxxopts::value<bool>()->default_value("false"))(
-        "debug", "Include pipeline and SPIR-V debug data (always included when outputting device independent pipeline cache).",
-        cxxopts::value<bool>()->default_value("true"))("log", "Log file name.", cxxopts::value<std::string>(), "<filename>")(
-        "help", "Show this help.");
+    options.add_options()
+        ("prefix", "Pipeline JSON file name prefix used to select the subset of JSON files to compile.",
+            cxxopts::value<std::string>(), "<prefix>")
+        ("path", "Path containing pipeline JSON files. All JSON files will be parsed in the path that start with the specified prefix.",
+            cxxopts::value<std::string>(), "<path>")
+        ("out", "Output file name.",
+            cxxopts::value<std::string>(), "<filename>")
+        ("hex", "Output C++ hex string to enable embedding the binary in source code.",
+            cxxopts::value<bool>()->default_value("false"))
+        ("debug", "Include pipeline and SPIR-V debug data (always included when outputting device independent pipeline cache).",
+            cxxopts::value<bool>()->default_value("true"))
+        ("spirv-dis", "Output SPIR-V disassembly",
+            cxxopts::value<bool>()->default_value("false"))
+        ("log", "Log file name.",
+            cxxopts::value<std::string>(), "<filename>")
+        ("help", "Show this help.");
+    // clang-format on
 
     cxxopts::ParseResult args{};
     try {
@@ -396,7 +499,8 @@ int main(int argc, char* argv[]) {
                 if (shader_stages.isArray() && shader_stages.size() == stage_count) {
                     auto shader_filenames = graphics_pipe_state["ShaderFileNames"];
                     if (shader_filenames.size() == stage_count) {
-                        spirv = load_shader_spirv(path, json["EnabledExtensions"], graphics_pipe_state, shader_stages);
+                        spirv = load_shader_spirv(path, json["EnabledExtensions"], graphics_pipe_state, shader_stages,
+                                                  args.count("spirv-dis"));
                     } else {
                         logger.Write(logger.ERROR, "The size of ShaderFileNames array (%u) does not match stageCount (%u)",
                                      shader_filenames.size(), stage_count);
@@ -413,7 +517,7 @@ int main(int argc, char* argv[]) {
             auto shader_filenames = compute_pipe_state["ShaderFileNames"];
             if (shader_filenames.size() == 1) {
                 spirv = load_shader_spirv(path, json["EnabledExtensions"], compute_pipe_state,
-                                          compute_pipe_state["ComputePipeline"]["stage"]);
+                                          compute_pipe_state["ComputePipeline"]["stage"], args.count("spirv-dis"));
             } else {
                 logger.Write(logger.ERROR, "The size of ShaderFileNames array (%u) is not 1 for compute pipeline\n",
                              shader_filenames.size());

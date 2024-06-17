@@ -14,8 +14,6 @@ target_sources(pcc PRIVATE
     pcc_main.cpp
 )
 
-find_package(jsoncpp REQUIRED CONFIG)
-find_package(valijson REQUIRED CONFIG)
 find_package(cxxopts REQUIRED CONFIG)
 
 target_link_libraries(pcc PRIVATE

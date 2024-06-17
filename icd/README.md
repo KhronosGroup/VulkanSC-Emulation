@@ -13,3 +13,10 @@ To enable using the Vulkan SC Emulation ICD, make sure to install it to any of t
 ## Loader environment variable handling
 
 Both the Vulkan SC Loader and the Vulkan Loader use the same set of environment variable names for their configuration. As using the Vulkan SC Emulation ICD means that both the Vulkan SC and Vulkan Loader are part of the system (as the emulation ICD loads the Vulkan API per usual), the default environment variable names will only be applied for the Vulkan SC driver. If the user needs to configure any of the environment variables to be used by the Vulkan Loader instead of the Vulkan SC Loader (e.g. for development purposes), then the user should set an environment variable with the `VKSC_EMU_` prefix instead (e.g. `VKSC_EMU_VK_LAYER_PATH`).
+
+## Configuration environment variables
+
+The behavior of the Vulkan SC Emulation ICD can be controlled with the following environment variables:
+
+  * `VKSC_EMULATION_DEBUG` works similarly to the loader environment variable `VK_LOADER_DEBUG` and enables different levels of debug output to be generated to `stderr` and/or to API debug callbacks.
+  * `VKSC_EMULATION_RECYCLE_PIPELINE_MEMORY` controls whether the ICD reports support for the `recyclePipelineMemory` Vulkan SC 1.0 device property. If set to `0`, then the ICD will report `recyclePipelineMemory` as `VK_FALSE`, otherwise (by default) as `VK_TRUE`.

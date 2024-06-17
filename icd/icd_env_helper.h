@@ -20,6 +20,7 @@ class EnvironmentHelper {
     EnvironmentHelper();
 
     VkDebugUtilsMessageSeverityFlagsEXT LogSeverityEnv() const { return log_severity_; }
+    bool RecyclePipelineMemory() const { return recycle_pipeline_memory_; }
     const std::unordered_map<const char*, std::string> PrivateEnvs() const { return private_envs_; }
     const std::unordered_map<const char*, std::string> LayeredEnvs() const { return layered_envs_; }
 
@@ -46,10 +47,12 @@ class EnvironmentHelper {
                                                                       "VK_LOADER_DISABLE_SELECT"};
 
     VkDebugUtilsMessageSeverityFlagsEXT ParseLogSeverity();
+    bool ParseRecyclePipelineMemory();
     const std::unordered_map<const char*, std::string> InitPrivateEnvs();
     const std::unordered_map<const char*, std::string> InitLayeredEnvs();
 
     const VkDebugUtilsMessageSeverityFlagsEXT log_severity_;
+    const bool recycle_pipeline_memory_;
     const std::unordered_map<const char*, std::string> private_envs_;
     const std::unordered_map<const char*, std::string> layered_envs_;
 };

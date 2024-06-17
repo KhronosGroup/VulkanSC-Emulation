@@ -14,4 +14,4 @@ It supports all the standard command line arguments that are also expected by th
 
 Currently it generates device-independent pipeline caches without no target device compilation and the resulting Vulkan SC pipeline cache will only contain so called "debug information" (i.e. it only embeds the pipeline JSON and shader SPIR-V data). This is sufficient for the Vulkan SC Emulation ICD to build these pipelines on the underlying Vulkan implementation.
 
-As part of the compilation process, the Mock PCC will validate the SPIR-V binaries both before and after applying any specialization constant information present in the encompassing pipeline JSON.
+As part of the compilation process, the Mock PCC will validate the SPIR-V binaries both before and after applying any specialization constant information present in the encompassing pipeline JSON, and the resulting pipeline cache will contain the already specialized version of the shader SPIR-V.

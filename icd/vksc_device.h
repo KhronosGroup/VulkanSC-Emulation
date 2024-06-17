@@ -8,22 +8,33 @@
 #pragma once
 
 #include "vksc_dispatchable.h"
+#include "vksc_physical_device.h"
 #include "vk_device.h"
 #include "icd_log.h"
+#include "icd_pipeline_cache_data.h"
 
 #include <vector>
 #include <memory>
+#include <atomic>
 
 namespace vksc {
 
+class Instance;
 class PhysicalDevice;
 class Queue;
 
 class Device : public Dispatchable<Device, VkDevice>, public vk::Device {
   public:
-    Device(VkDevice device, PhysicalDevice& physical_device);
+    Device(VkDevice device, PhysicalDevice& physical_device, const VkDeviceCreateInfo& create_info);
 
     icd::Logger& Log() { return logger_; }
+
+    bool RecyclePipelineMemory() const { return physical_device_.RecyclePipelineMemory(); }
+
+    bool IsValid() const { return status_ == VK_SUCCESS; }
+    VkResult GetStatus() const { return status_; }
+
+    const Instance& GetInstance() const { return instance_; }
 
     PFN_vkVoidFunction GetDeviceProcAddr(const char* pName);
     void DestroyDevice(const VkAllocationCallbacks* pAllocator);
@@ -36,13 +47,42 @@ class Device : public Dispatchable<Device, VkDevice>, public vk::Device {
     void GetCommandPoolMemoryConsumption(VkCommandPool commandPool, VkCommandBuffer commandBuffer,
                                          VkCommandPoolMemoryConsumption* pConsumption);
 
+    VkResult CreatePipelineCache(const VkPipelineCacheCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                                 VkPipelineCache* pPipelineCache);
+    void DestroyPipelineCache(VkPipelineCache pipelineCache, const VkAllocationCallbacks* pAllocator);
+
+    VkResult CreateGraphicsPipelines(VkPipelineCache pipelineCache, uint32_t createInfoCount,
+                                     const VkGraphicsPipelineCreateInfo* pCreateInfos, const VkAllocationCallbacks* pAllocator,
+                                     VkPipeline* pPipelines);
+    VkResult CreateComputePipelines(VkPipelineCache pipelineCache, uint32_t createInfoCount,
+                                    const VkComputePipelineCreateInfo* pCreateInfos, const VkAllocationCallbacks* pAllocator,
+                                    VkPipeline* pPipelines);
+    void DestroyPipeline(VkPipeline pipeline, const VkAllocationCallbacks* pAllocator);
+
     VkResult GetFaultData(VkFaultQueryBehavior faultQueryBehavior, VkBool32* pUnrecordedFaults, uint32_t* pFaultCount,
                           VkFaultData* pFaults);
 
   private:
+    VkResult SetupDevice(const VkDeviceCreateInfo& create_info);
+    const icd::Pipeline* GetPipelineFromCache(const icd::PipelineCache& pipeline_cache,
+                                              const VkPipelineOfflineCreateInfo* offline_info, VkResult& out_result);
+
+    VkResult status_{VK_SUCCESS};
+
+    const Instance& instance_;
+    const PhysicalDevice& physical_device_;
     icd::Logger logger_;
 
     DispatchableChildren<Queue, VkQueue> device_queues_;
+
+    // Map of pipeline cache data pointers to pipeline cache data
+    std::unordered_map<const void*, icd::PipelineCache> pipeline_cache_map_;
+    // Map of reserved and currently used pipeline pool entries keyed by entry size
+    std::unordered_map<uint64_t, uint32_t> reserved_pipeline_pool_entries_map_;
+    std::unordered_map<uint64_t, std::atomic_uint32_t> used_pipeline_pool_entries_map_;
+
+    // Map of pipelines and corresponding pool entry sizes (used only when pipeline pool entry recycling is enabled)
+    std::unordered_map<VkPipeline, uint64_t> pipeline_pool_size_map_;
 };
 
 }  // namespace vksc

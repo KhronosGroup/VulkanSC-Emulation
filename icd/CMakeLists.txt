@@ -38,6 +38,8 @@ target_sources(icd PRIVATE
     icd_log.h
     icd_log.cpp
     icd_main.cpp
+    icd_pipeline_cache_data.cpp
+    icd_pipeline_cache_data.h
     icd_proc_addr.h
     vksc_command_buffer.h
     vksc_command_buffer.cpp
@@ -54,8 +56,12 @@ target_sources(icd PRIVATE
 )
 
 target_link_libraries(icd PRIVATE
+    jsoncpp_static
+    valijson
     Vulkan::Headers
     Vulkan::UtilityHeaders
+    SPIRV-Tools-opt
+    SPIRV-Tools-static
 )
 
 target_include_directories(icd PRIVATE
