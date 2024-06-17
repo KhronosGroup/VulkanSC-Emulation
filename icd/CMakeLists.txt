@@ -62,6 +62,7 @@ target_link_libraries(icd PRIVATE
     Vulkan::UtilityHeaders
     SPIRV-Tools-opt
     SPIRV-Tools-static
+    SPIRV-Headers::SPIRV-Headers
 )
 
 target_include_directories(icd PRIVATE
