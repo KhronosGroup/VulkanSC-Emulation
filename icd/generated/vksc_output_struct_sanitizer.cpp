@@ -514,6 +514,13 @@ template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceShaderClockFeaturesKHR>(VkPhysicalDeviceShaderClockFeaturesKHR* p) {}
 
 template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceGlobalPriorityQueryFeaturesKHR>(VkPhysicalDeviceGlobalPriorityQueryFeaturesKHR* p) {
+}
+
+template <>
+void ConvertOutStructToVulkanSC<VkQueueFamilyGlobalPriorityPropertiesKHR>(VkQueueFamilyGlobalPriorityPropertiesKHR* p) {}
+
+template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceFragmentShadingRateFeaturesKHR>(VkPhysicalDeviceFragmentShadingRateFeaturesKHR* p) {
 }
 
@@ -528,6 +535,24 @@ void ConvertOutStructToVulkanSC<VkPhysicalDeviceFragmentShadingRatePropertiesKHR
 template <>
 void ConvertOutStructToVulkanSC<VkQueueFamilyCheckpointProperties2NV>(VkQueueFamilyCheckpointProperties2NV* p) {
     p->checkpointExecutionStageMask = p->checkpointExecutionStageMask & AllVkPipelineStageFlagBits2;
+}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceVertexAttributeDivisorPropertiesKHR>(
+    VkPhysicalDeviceVertexAttributeDivisorPropertiesKHR* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR>(
+    VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceIndexTypeUint8FeaturesKHR>(VkPhysicalDeviceIndexTypeUint8FeaturesKHR* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceLineRasterizationFeaturesKHR>(VkPhysicalDeviceLineRasterizationFeaturesKHR* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceLineRasterizationPropertiesKHR>(VkPhysicalDeviceLineRasterizationPropertiesKHR* p) {
 }
 
 template <>
@@ -580,14 +605,6 @@ void ConvertOutStructToVulkanSC<VkPhysicalDeviceExternalMemoryHostPropertiesEXT>
     VkPhysicalDeviceExternalMemoryHostPropertiesEXT* p) {}
 
 template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT>(
-    VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT* p) {}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR>(
-    VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR* p) {}
-
-template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDevicePCIBusInfoPropertiesEXT>(VkPhysicalDevicePCIBusInfoPropertiesEXT* p) {}
 
 template <>
@@ -605,17 +622,7 @@ template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceYcbcrImageArraysFeaturesEXT>(VkPhysicalDeviceYcbcrImageArraysFeaturesEXT* p) {}
 
 template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceLineRasterizationFeaturesKHR>(VkPhysicalDeviceLineRasterizationFeaturesKHR* p) {}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceLineRasterizationPropertiesKHR>(VkPhysicalDeviceLineRasterizationPropertiesKHR* p) {
-}
-
-template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceShaderAtomicFloatFeaturesEXT>(VkPhysicalDeviceShaderAtomicFloatFeaturesEXT* p) {}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceIndexTypeUint8FeaturesKHR>(VkPhysicalDeviceIndexTypeUint8FeaturesKHR* p) {}
 
 template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceExtendedDynamicStateFeaturesEXT>(
@@ -939,8 +946,24 @@ void ConvertOutStructChainToVulkanSC<VkPhysicalDeviceFeatures2>(VkPhysicalDevice
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceShaderClockFeaturesKHR*>(base));
                 break;
 
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_GLOBAL_PRIORITY_QUERY_FEATURES_KHR:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceGlobalPriorityQueryFeaturesKHR*>(base));
+                break;
+
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_SHADING_RATE_FEATURES_KHR:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceFragmentShadingRateFeaturesKHR*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES_KHR:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INDEX_TYPE_UINT8_FEATURES_KHR:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceIndexTypeUint8FeaturesKHR*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_FEATURES_KHR:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceLineRasterizationFeaturesKHR*>(base));
                 break;
 
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ASTC_DECODE_FEATURES_EXT:
@@ -955,10 +978,6 @@ void ConvertOutStructChainToVulkanSC<VkPhysicalDeviceFeatures2>(VkPhysicalDevice
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT*>(base));
                 break;
 
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES_KHR:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR*>(base));
-                break;
-
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_IMAGE_ATOMIC_INT64_FEATURES_EXT:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceShaderImageAtomicInt64FeaturesEXT*>(base));
                 break;
@@ -971,16 +990,8 @@ void ConvertOutStructChainToVulkanSC<VkPhysicalDeviceFeatures2>(VkPhysicalDevice
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceYcbcrImageArraysFeaturesEXT*>(base));
                 break;
 
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_FEATURES_KHR:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceLineRasterizationFeaturesKHR*>(base));
-                break;
-
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_ATOMIC_FLOAT_FEATURES_EXT:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceShaderAtomicFloatFeaturesEXT*>(base));
-                break;
-
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INDEX_TYPE_UINT8_FEATURES_KHR:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceIndexTypeUint8FeaturesKHR*>(base));
                 break;
 
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTENDED_DYNAMIC_STATE_FEATURES_EXT:
@@ -1149,6 +1160,14 @@ void ConvertOutStructChainToVulkanSC<VkPhysicalDeviceProperties2>(VkPhysicalDevi
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceFragmentShadingRatePropertiesKHR*>(base));
                 break;
 
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_PROPERTIES_KHR:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceVertexAttributeDivisorPropertiesKHR*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_PROPERTIES_KHR:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceLineRasterizationPropertiesKHR*>(base));
+                break;
+
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DISCARD_RECTANGLE_PROPERTIES_EXT:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceDiscardRectanglePropertiesEXT*>(base));
                 break;
@@ -1169,16 +1188,8 @@ void ConvertOutStructChainToVulkanSC<VkPhysicalDeviceProperties2>(VkPhysicalDevi
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceExternalMemoryHostPropertiesEXT*>(base));
                 break;
 
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_PROPERTIES_EXT:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT*>(base));
-                break;
-
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PCI_BUS_INFO_PROPERTIES_EXT:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDevicePCIBusInfoPropertiesEXT*>(base));
-                break;
-
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_PROPERTIES_KHR:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceLineRasterizationPropertiesKHR*>(base));
                 break;
 
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ROBUSTNESS_2_PROPERTIES_EXT:
@@ -1259,6 +1270,10 @@ void ConvertOutStructChainToVulkanSC<VkQueueFamilyProperties2>(VkQueueFamilyProp
         switch (base->sType) {
             case VK_STRUCTURE_TYPE_QUEUE_FAMILY_PROPERTIES_2:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkQueueFamilyProperties2*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_QUEUE_FAMILY_GLOBAL_PRIORITY_PROPERTIES_KHR:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkQueueFamilyGlobalPriorityPropertiesKHR*>(base));
                 break;
 
             case VK_STRUCTURE_TYPE_QUEUE_FAMILY_CHECKPOINT_PROPERTIES_2_NV:
