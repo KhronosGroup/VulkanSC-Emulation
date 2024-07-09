@@ -12,6 +12,7 @@
 #include "vk_device.h"
 #include "icd_log.h"
 #include "icd_pipeline_cache_data.h"
+#include "icd_object_tracker.h"
 
 #include <vector>
 #include <memory>
@@ -62,10 +63,25 @@ class Device : public Dispatchable<Device, VkDevice>, public vk::Device {
     VkResult GetFaultData(VkFaultQueryBehavior faultQueryBehavior, VkBool32* pUnrecordedFaults, uint32_t* pFaultCount,
                           VkFaultData* pFaults);
 
+    VkResult AllocateMemory(const VkMemoryAllocateInfo* pAllocateInfo, const VkAllocationCallbacks* pAllocator,
+                            VkDeviceMemory* pMemory);
+    VkResult CreateCommandPool(const VkCommandPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                               VkCommandPool* pCommandPool);
+    VkResult CreateDescriptorPool(const VkDescriptorPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                                  VkDescriptorPool* pDescriptorPool);
+    VkResult CreateQueryPool(const VkQueryPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                             VkQueryPool* pQueryPool);
+    VkResult CreateSwapchainKHR(const VkSwapchainCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                                VkSwapchainKHR* pSwapchain);
+    VkResult CreateSharedSwapchainsKHR(uint32_t swapchainCount, const VkSwapchainCreateInfoKHR* pCreateInfos,
+                                       const VkAllocationCallbacks* pAllocator, VkSwapchainKHR* pSwapchains);
+
   private:
     VkResult SetupDevice(const VkDeviceCreateInfo& create_info);
     const icd::Pipeline* GetPipelineFromCache(const icd::PipelineCache& pipeline_cache,
                                               const VkPipelineOfflineCreateInfo* offline_info, VkResult& out_result);
+
+    icd::DeviceObjectTracker& GetObjectTracker() { return object_tracker_; }
 
     VkResult status_{VK_SUCCESS};
 
@@ -83,6 +99,8 @@ class Device : public Dispatchable<Device, VkDevice>, public vk::Device {
 
     // Map of pipelines and corresponding pool entry sizes (used only when pipeline pool entry recycling is enabled)
     std::unordered_map<VkPipeline, uint64_t> pipeline_pool_size_map_;
+
+    icd::DeviceObjectTracker object_tracker_;
 };
 
 }  // namespace vksc

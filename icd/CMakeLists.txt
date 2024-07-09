@@ -38,6 +38,7 @@ target_sources(icd PRIVATE
     icd_log.h
     icd_log.cpp
     icd_main.cpp
+    icd_object_tracker.h
     icd_pipeline_cache_data.cpp
     icd_pipeline_cache_data.h
     icd_proc_addr.h

@@ -29,7 +29,8 @@ Device::Device(VkDevice device, PhysicalDevice& physical_device, const VkDeviceC
       pipeline_cache_map_(),
       reserved_pipeline_pool_entries_map_(),
       used_pipeline_pool_entries_map_(),
-      pipeline_pool_size_map_() {
+      pipeline_pool_size_map_(),
+      object_tracker_(*this, create_info) {
     status_ = SetupDevice(create_info);
 }
 
@@ -290,6 +291,90 @@ VkResult Device::GetFaultData(VkFaultQueryBehavior faultQueryBehavior, VkBool32*
                               VkFaultData* pFaults) {
     // TODO: Add implementation
     return VK_SUCCESS;
+}
+
+VkResult Device::AllocateMemory(const VkMemoryAllocateInfo* pAllocateInfo, const VkAllocationCallbacks* pAllocator,
+                                VkDeviceMemory* pMemory) {
+    if (auto reservation = GetObjectTracker().ReserveDeviceMemory()) {
+        VkResult result = vk::Device::AllocateMemory(pAllocateInfo, pAllocator, pMemory);
+        if (result >= VK_SUCCESS) {
+            reservation.Commit(pMemory);
+        }
+        return result;
+    } else {
+        // We ran out of requested device memory objects
+        return VK_ERROR_OUT_OF_HOST_MEMORY;
+    }
+}
+
+VkResult Device::CreateCommandPool(const VkCommandPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                                   VkCommandPool* pCommandPool) {
+    if (auto reservation = GetObjectTracker().ReserveCommandPool()) {
+        VkResult result = vk::Device::CreateCommandPool(pCreateInfo, pAllocator, pCommandPool);
+        if (result >= VK_SUCCESS) {
+            reservation.Commit(pCommandPool);
+        }
+        return result;
+    } else {
+        // We ran out of requested command pool objects
+        return VK_ERROR_OUT_OF_HOST_MEMORY;
+    }
+}
+
+VkResult Device::CreateDescriptorPool(const VkDescriptorPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                                      VkDescriptorPool* pDescriptorPool) {
+    if (auto reservation = GetObjectTracker().ReserveDescriptorPool()) {
+        VkResult result = vk::Device::CreateDescriptorPool(pCreateInfo, pAllocator, pDescriptorPool);
+        if (result >= VK_SUCCESS) {
+            reservation.Commit(pDescriptorPool);
+        }
+        return result;
+    } else {
+        // We ran out of requested descriptor pool objects
+        return VK_ERROR_OUT_OF_HOST_MEMORY;
+    }
+}
+
+VkResult Device::CreateQueryPool(const VkQueryPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                                 VkQueryPool* pQueryPool) {
+    if (auto reservation = GetObjectTracker().ReserveQueryPool()) {
+        VkResult result = vk::Device::CreateQueryPool(pCreateInfo, pAllocator, pQueryPool);
+        if (result >= VK_SUCCESS) {
+            reservation.Commit(pQueryPool);
+        }
+        return result;
+    } else {
+        // We ran out of requested query pool objects
+        return VK_ERROR_OUT_OF_HOST_MEMORY;
+    }
+}
+
+VkResult Device::CreateSwapchainKHR(const VkSwapchainCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                                    VkSwapchainKHR* pSwapchain) {
+    if (auto reservation = GetObjectTracker().ReserveSwapchainKHR()) {
+        VkResult result = vk::Device::CreateSwapchainKHR(pCreateInfo, pAllocator, pSwapchain);
+        if (result >= VK_SUCCESS) {
+            reservation.Commit(pSwapchain);
+        }
+        return result;
+    } else {
+        // We ran out of requested query pool objects
+        return VK_ERROR_OUT_OF_HOST_MEMORY;
+    }
+}
+
+VkResult Device::CreateSharedSwapchainsKHR(uint32_t swapchainCount, const VkSwapchainCreateInfoKHR* pCreateInfos,
+                                           const VkAllocationCallbacks* pAllocator, VkSwapchainKHR* pSwapchains) {
+    if (auto reservation = GetObjectTracker().ReserveSwapchainKHR(swapchainCount)) {
+        VkResult result = vk::Device::CreateSharedSwapchainsKHR(swapchainCount, pCreateInfos, pAllocator, pSwapchains);
+        if (result >= VK_SUCCESS) {
+            reservation.Commit(pSwapchains);
+        }
+        return result;
+    } else {
+        // We ran out of requested query pool objects
+        return VK_ERROR_OUT_OF_HOST_MEMORY;
+    }
 }
 
 }  // namespace vksc
