@@ -298,28 +298,12 @@ void ConvertOutStructToVulkanSC<VkPhysicalDevicePerformanceQueryPropertiesKHR>(V
 template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceShaderClockFeaturesKHR>(VkPhysicalDeviceShaderClockFeaturesKHR* p);
 template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceGlobalPriorityQueryFeaturesKHR>(VkPhysicalDeviceGlobalPriorityQueryFeaturesKHR* p);
-template <>
-void ConvertOutStructToVulkanSC<VkQueueFamilyGlobalPriorityPropertiesKHR>(VkQueueFamilyGlobalPriorityPropertiesKHR* p);
-template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceFragmentShadingRateFeaturesKHR>(VkPhysicalDeviceFragmentShadingRateFeaturesKHR* p);
 template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceFragmentShadingRatePropertiesKHR>(
     VkPhysicalDeviceFragmentShadingRatePropertiesKHR* p);
 template <>
 void ConvertOutStructToVulkanSC<VkQueueFamilyCheckpointProperties2NV>(VkQueueFamilyCheckpointProperties2NV* p);
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceVertexAttributeDivisorPropertiesKHR>(
-    VkPhysicalDeviceVertexAttributeDivisorPropertiesKHR* p);
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR>(
-    VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR* p);
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceIndexTypeUint8FeaturesKHR>(VkPhysicalDeviceIndexTypeUint8FeaturesKHR* p);
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceLineRasterizationFeaturesKHR>(VkPhysicalDeviceLineRasterizationFeaturesKHR* p);
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceLineRasterizationPropertiesKHR>(VkPhysicalDeviceLineRasterizationPropertiesKHR* p);
 template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceASTCDecodeFeaturesEXT>(VkPhysicalDeviceASTCDecodeFeaturesEXT* p);
 template <>
@@ -347,6 +331,12 @@ template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceExternalMemoryHostPropertiesEXT>(
     VkPhysicalDeviceExternalMemoryHostPropertiesEXT* p);
 template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT>(
+    VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT* p);
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR>(
+    VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR* p);
+template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDevicePCIBusInfoPropertiesEXT>(VkPhysicalDevicePCIBusInfoPropertiesEXT* p);
 template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceShaderImageAtomicInt64FeaturesEXT>(
@@ -359,7 +349,13 @@ void ConvertOutStructToVulkanSC<VkPhysicalDeviceFragmentShaderInterlockFeaturesE
 template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceYcbcrImageArraysFeaturesEXT>(VkPhysicalDeviceYcbcrImageArraysFeaturesEXT* p);
 template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceLineRasterizationFeaturesKHR>(VkPhysicalDeviceLineRasterizationFeaturesKHR* p);
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceLineRasterizationPropertiesKHR>(VkPhysicalDeviceLineRasterizationPropertiesKHR* p);
+template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceShaderAtomicFloatFeaturesEXT>(VkPhysicalDeviceShaderAtomicFloatFeaturesEXT* p);
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceIndexTypeUint8FeaturesKHR>(VkPhysicalDeviceIndexTypeUint8FeaturesKHR* p);
 template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceExtendedDynamicStateFeaturesEXT>(
     VkPhysicalDeviceExtendedDynamicStateFeaturesEXT* p);

@@ -83,14 +83,10 @@ const std::unordered_map<std::string, PFN_vkVoidFunction>& GetPhysicalDeviceProc
         {"vkGetDisplayPlaneCapabilities2KHR", (PFN_vkVoidFunction)vkGetDisplayPlaneCapabilities2KHR},
         {"vkGetPhysicalDeviceFragmentShadingRatesKHR", (PFN_vkVoidFunction)vkGetPhysicalDeviceFragmentShadingRatesKHR},
         {"vkGetPhysicalDeviceRefreshableObjectTypesKHR", (PFN_vkVoidFunction)vkGetPhysicalDeviceRefreshableObjectTypesKHR},
-        {"vkGetPhysicalDeviceCalibrateableTimeDomainsKHR", (PFN_vkVoidFunction)vkGetPhysicalDeviceCalibrateableTimeDomainsKHR},
         {"vkReleaseDisplayEXT", (PFN_vkVoidFunction)vkReleaseDisplayEXT},
         {"vkGetPhysicalDeviceSurfaceCapabilities2EXT", (PFN_vkVoidFunction)vkGetPhysicalDeviceSurfaceCapabilities2EXT},
         {"vkGetPhysicalDeviceMultisamplePropertiesEXT", (PFN_vkVoidFunction)vkGetPhysicalDeviceMultisamplePropertiesEXT},
-#ifdef VK_USE_PLATFORM_WIN32_KHR
-        {"vkAcquireWinrtDisplayNV", (PFN_vkVoidFunction)vkAcquireWinrtDisplayNV},
-        {"vkGetWinrtDisplayNV", (PFN_vkVoidFunction)vkGetWinrtDisplayNV},
-#endif  // VK_USE_PLATFORM_WIN32_KHR
+        {"vkGetPhysicalDeviceCalibrateableTimeDomainsEXT", (PFN_vkVoidFunction)vkGetPhysicalDeviceCalibrateableTimeDomainsEXT},
 #ifdef VK_USE_PLATFORM_SCI
         {"vkGetPhysicalDeviceSciSyncAttributesNV", (PFN_vkVoidFunction)vkGetPhysicalDeviceSciSyncAttributesNV},
         {"vkGetPhysicalDeviceExternalMemorySciBufPropertiesNV",
@@ -309,8 +305,6 @@ const std::unordered_map<std::string, PFN_vkVoidFunction>& GetDeviceProcAddrMap(
         {"vkCmdCopyImageToBuffer2KHR", (PFN_vkVoidFunction)vkCmdCopyImageToBuffer2KHR},
         {"vkCmdBlitImage2KHR", (PFN_vkVoidFunction)vkCmdBlitImage2KHR},
         {"vkCmdResolveImage2KHR", (PFN_vkVoidFunction)vkCmdResolveImage2KHR},
-        {"vkCmdSetLineStippleKHR", (PFN_vkVoidFunction)vkCmdSetLineStippleKHR},
-        {"vkGetCalibratedTimestampsKHR", (PFN_vkVoidFunction)vkGetCalibratedTimestampsKHR},
         {"vkDisplayPowerControlEXT", (PFN_vkVoidFunction)vkDisplayPowerControlEXT},
         {"vkRegisterDeviceEventEXT", (PFN_vkVoidFunction)vkRegisterDeviceEventEXT},
         {"vkRegisterDisplayEventEXT", (PFN_vkVoidFunction)vkRegisterDisplayEventEXT},
@@ -330,6 +324,7 @@ const std::unordered_map<std::string, PFN_vkVoidFunction>& GetDeviceProcAddrMap(
         {"vkCmdSetSampleLocationsEXT", (PFN_vkVoidFunction)vkCmdSetSampleLocationsEXT},
         {"vkGetImageDrmFormatModifierPropertiesEXT", (PFN_vkVoidFunction)vkGetImageDrmFormatModifierPropertiesEXT},
         {"vkGetMemoryHostPointerPropertiesEXT", (PFN_vkVoidFunction)vkGetMemoryHostPointerPropertiesEXT},
+        {"vkGetCalibratedTimestampsEXT", (PFN_vkVoidFunction)vkGetCalibratedTimestampsEXT},
         {"vkCmdSetLineStippleEXT", (PFN_vkVoidFunction)vkCmdSetLineStippleEXT},
         {"vkCmdSetCullModeEXT", (PFN_vkVoidFunction)vkCmdSetCullModeEXT},
         {"vkCmdSetFrontFaceEXT", (PFN_vkVoidFunction)vkCmdSetFrontFaceEXT},

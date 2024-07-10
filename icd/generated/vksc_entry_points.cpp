@@ -1276,25 +1276,6 @@ VKAPI_ATTR void VKAPI_CALL vkCmdResolveImage2KHR(VkCommandBuffer commandBuffer, 
     return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdResolveImage2(pResolveImageInfo);
 }
 
-VKAPI_ATTR void VKAPI_CALL vkCmdSetLineStippleKHR(VkCommandBuffer commandBuffer, uint32_t lineStippleFactor,
-                                                  uint16_t lineStipplePattern) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetLineStippleKHR(lineStippleFactor, lineStipplePattern);
-}
-
-VKAPI_ATTR VkResult VKAPI_CALL vkGetPhysicalDeviceCalibrateableTimeDomainsKHR(VkPhysicalDevice physicalDevice,
-                                                                              uint32_t* pTimeDomainCount,
-                                                                              VkTimeDomainKHR* pTimeDomains) {
-    return vksc::PhysicalDevice::FromHandle(physicalDevice)
-        ->GetPhysicalDeviceCalibrateableTimeDomainsKHR(pTimeDomainCount, pTimeDomains);
-}
-
-VKAPI_ATTR VkResult VKAPI_CALL vkGetCalibratedTimestampsKHR(VkDevice device, uint32_t timestampCount,
-                                                            const VkCalibratedTimestampInfoKHR* pTimestampInfos,
-                                                            uint64_t* pTimestamps, uint64_t* pMaxDeviation) {
-    return vksc::Device::FromHandle(device)->GetCalibratedTimestampsKHR(timestampCount, pTimestampInfos, pTimestamps,
-                                                                        pMaxDeviation);
-}
-
 VKAPI_ATTR VkResult VKAPI_CALL vkReleaseDisplayEXT(VkPhysicalDevice physicalDevice, VkDisplayKHR display) {
     return vksc::PhysicalDevice::FromHandle(physicalDevice)->ReleaseDisplayEXT(display);
 }
@@ -1420,6 +1401,20 @@ VKAPI_ATTR VkResult VKAPI_CALL vkGetMemoryHostPointerPropertiesEXT(VkDevice devi
                                                                                pMemoryHostPointerProperties);
 }
 
+VKAPI_ATTR VkResult VKAPI_CALL vkGetPhysicalDeviceCalibrateableTimeDomainsEXT(VkPhysicalDevice physicalDevice,
+                                                                              uint32_t* pTimeDomainCount,
+                                                                              VkTimeDomainKHR* pTimeDomains) {
+    return vksc::PhysicalDevice::FromHandle(physicalDevice)
+        ->GetPhysicalDeviceCalibrateableTimeDomainsKHR(pTimeDomainCount, pTimeDomains);
+}
+
+VKAPI_ATTR VkResult VKAPI_CALL vkGetCalibratedTimestampsEXT(VkDevice device, uint32_t timestampCount,
+                                                            const VkCalibratedTimestampInfoKHR* pTimestampInfos,
+                                                            uint64_t* pTimestamps, uint64_t* pMaxDeviation) {
+    return vksc::Device::FromHandle(device)->GetCalibratedTimestampsKHR(timestampCount, pTimestampInfos, pTimestamps,
+                                                                        pMaxDeviation);
+}
+
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateHeadlessSurfaceEXT(VkInstance instance, const VkHeadlessSurfaceCreateInfoEXT* pCreateInfo,
                                                           const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface) {
     return vksc::Instance::FromHandle(instance)->CreateHeadlessSurfaceEXT(pCreateInfo, pAllocator, pSurface);
@@ -1484,17 +1479,6 @@ VKAPI_ATTR void VKAPI_CALL vkCmdSetStencilOpEXT(VkCommandBuffer commandBuffer, V
     return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetStencilOp(faceMask, failOp, passOp, depthFailOp, compareOp);
 }
 
-#ifdef VK_USE_PLATFORM_WIN32_KHR
-VKAPI_ATTR VkResult VKAPI_CALL vkAcquireWinrtDisplayNV(VkPhysicalDevice physicalDevice, VkDisplayKHR display) {
-    return vksc::PhysicalDevice::FromHandle(physicalDevice)->AcquireWinrtDisplayNV(display);
-}
-
-VKAPI_ATTR VkResult VKAPI_CALL vkGetWinrtDisplayNV(VkPhysicalDevice physicalDevice, uint32_t deviceRelativeId,
-                                                   VkDisplayKHR* pDisplay) {
-    return vksc::PhysicalDevice::FromHandle(physicalDevice)->GetWinrtDisplayNV(deviceRelativeId, pDisplay);
-}
-
-#endif  // VK_USE_PLATFORM_WIN32_KHR
 VKAPI_ATTR void VKAPI_CALL vkCmdSetVertexInputEXT(VkCommandBuffer commandBuffer, uint32_t vertexBindingDescriptionCount,
                                                   const VkVertexInputBindingDescription2EXT* pVertexBindingDescriptions,
                                                   uint32_t vertexAttributeDescriptionCount,
