@@ -12,55 +12,41 @@
 namespace vksc {
 
 Queue::Queue(VkQueue queue, Device& device)
-    : Dispatchable(), vk::Queue(queue, device.VkDispatch()), logger_(device.Log(), VK_OBJECT_TYPE_QUEUE, queue) {}
+    : Dispatchable(), vk::Queue(queue, device.VkDispatch()), shadow_stack_(), logger_(device.Log(), VK_OBJECT_TYPE_QUEUE, queue) {}
 
 VkResult Queue::QueueSubmit(uint32_t submitCount, const VkSubmitInfo* pSubmits, VkFence fence) {
-    std::vector<VkSubmitInfo> submit_info(submitCount);
-    std::vector<VkCommandBuffer> cmd_buffers{};
+    auto stack_frame = StackFrame();
+    auto submit_info = stack_frame.Alloc<VkSubmitInfo>(submitCount);
 
-    size_t cmd_buffer_count = 0;
     for (uint32_t submit_idx = 0; submit_idx < submitCount; ++submit_idx) {
         submit_info[submit_idx] = pSubmits[submit_idx];
-        cmd_buffer_count = pSubmits[submit_idx].commandBufferCount;
-    }
-
-    cmd_buffers.resize(cmd_buffer_count);
-    cmd_buffer_count = 0;
-    for (uint32_t submit_idx = 0; submit_idx < submitCount; ++submit_idx) {
-        submit_info[submit_idx].pCommandBuffers = &cmd_buffers[cmd_buffer_count];
+        auto cmd_buffers = stack_frame.Alloc<VkCommandBuffer>(pSubmits[submit_idx].commandBufferCount);
         for (uint32_t cmd_buffer_idx = 0; cmd_buffer_idx < pSubmits[submit_idx].commandBufferCount; ++cmd_buffer_idx) {
-            cmd_buffers[cmd_buffer_count] =
+            cmd_buffers[cmd_buffer_idx] =
                 CommandBuffer::FromHandle(pSubmits[submit_idx].pCommandBuffers[cmd_buffer_idx])->VkHandle();
-            cmd_buffer_count++;
         }
+        submit_info[submit_idx].pCommandBuffers = cmd_buffers;
     }
 
-    return vk::Queue::QueueSubmit(submitCount, submit_info.data(), fence);
+    return vk::Queue::QueueSubmit(submitCount, submit_info, fence);
 }
 
 VkResult Queue::QueueSubmit2(uint32_t submitCount, const VkSubmitInfo2* pSubmits, VkFence fence) {
-    std::vector<VkSubmitInfo2> submit_info(submitCount);
-    std::vector<VkCommandBufferSubmitInfo> cmd_buffer_info{};
+    auto stack_frame = StackFrame();
+    auto submit_info = stack_frame.Alloc<VkSubmitInfo2>(submitCount);
 
-    size_t cmd_buffer_count = 0;
     for (uint32_t submit_idx = 0; submit_idx < submitCount; ++submit_idx) {
         submit_info[submit_idx] = pSubmits[submit_idx];
-        cmd_buffer_count = pSubmits[submit_idx].commandBufferInfoCount;
-    }
-
-    cmd_buffer_info.resize(cmd_buffer_count);
-    cmd_buffer_count = 0;
-    for (uint32_t submit_idx = 0; submit_idx < submitCount; ++submit_idx) {
-        submit_info[submit_idx].pCommandBufferInfos = &cmd_buffer_info[cmd_buffer_count];
+        auto cmd_buffer_info = stack_frame.Alloc<VkCommandBufferSubmitInfo>(pSubmits[submit_idx].commandBufferInfoCount);
         for (uint32_t cmd_buffer_idx = 0; cmd_buffer_idx < pSubmits[submit_idx].commandBufferInfoCount; ++cmd_buffer_idx) {
-            cmd_buffer_info[cmd_buffer_count] = pSubmits[submit_idx].pCommandBufferInfos[cmd_buffer_idx];
-            cmd_buffer_info[cmd_buffer_count].commandBuffer =
+            cmd_buffer_info[cmd_buffer_idx] = pSubmits[submit_idx].pCommandBufferInfos[cmd_buffer_idx];
+            cmd_buffer_info[cmd_buffer_idx].commandBuffer =
                 CommandBuffer::FromHandle(pSubmits[submit_idx].pCommandBufferInfos[cmd_buffer_idx].commandBuffer)->VkHandle();
-            cmd_buffer_count++;
         }
+        submit_info[submit_idx].pCommandBufferInfos = cmd_buffer_info;
     }
 
-    return vk::Queue::QueueSubmit2(submitCount, submit_info.data(), fence);
+    return vk::Queue::QueueSubmit2(submitCount, submit_info, fence);
 }
 
 }  // namespace vksc

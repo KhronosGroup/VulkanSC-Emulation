@@ -10,6 +10,7 @@
 #include "vksc_dispatchable.h"
 #include "vk_queue.h"
 #include "icd_log.h"
+#include "icd_shadow_stack.h"
 
 namespace vksc {
 
@@ -27,6 +28,9 @@ class Queue : public Dispatchable<Queue, VkQueue>, public vk::Queue {
     VkResult QueueSubmit2(uint32_t submitCount, const VkSubmitInfo2* pSubmits, VkFence fence);
 
   private:
+    icd::ShadowStack::Frame StackFrame() { return shadow_stack_; }
+
+    icd::ShadowStack shadow_stack_;
     icd::Logger logger_;
 };
 

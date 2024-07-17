@@ -24,6 +24,7 @@ Device::Device(VkDevice device, PhysicalDevice& physical_device, const VkDeviceC
       status_(VK_SUCCESS),
       instance_(physical_device.GetInstance()),
       physical_device_(physical_device),
+      shadow_stack_(),
       logger_(physical_device.Log(), VK_OBJECT_TYPE_DEVICE, device),
       device_queues_(),
       pipeline_cache_map_(),
@@ -99,13 +100,14 @@ VkResult Device::AllocateCommandBuffers(const VkCommandBufferAllocateInfo* pAllo
 }
 
 void Device::FreeCommandBuffers(VkCommandPool commandPool, uint32_t commandBufferCount, const VkCommandBuffer* pCommandBuffers) {
-    std::vector<VkCommandBuffer> cmd_buffers(commandBufferCount);
+    auto stack_frame = StackFrame();
+    auto cmd_buffers = stack_frame.Alloc<VkCommandBuffer>(commandBufferCount);
     for (uint32_t i = 0; i < commandBufferCount; ++i) {
         CommandBuffer* cmd_buffer = CommandBuffer::FromHandle(pCommandBuffers[i]);
         cmd_buffers[i] = cmd_buffer->VkHandle();
         cmd_buffer->Free();
     }
-    vk::Device::FreeCommandBuffers(commandPool, commandBufferCount, cmd_buffers.data());
+    vk::Device::FreeCommandBuffers(commandPool, commandBufferCount, cmd_buffers);
 }
 
 VkResult Device::CreatePipelineCache(const VkPipelineCacheCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
@@ -180,8 +182,9 @@ VkResult Device::CreateGraphicsPipelines(VkPipelineCache pipelineCache, uint32_t
         }
 
         auto create_info = pCreateInfos[i];
-        std::vector<VkPipelineShaderStageCreateInfo> stages(create_info.stageCount);
-        create_info.pStages = stages.data();
+        auto stack_frame = StackFrame();
+        auto stages = stack_frame.Alloc<VkPipelineShaderStageCreateInfo>(create_info.stageCount);
+        create_info.pStages = stages;
 
         for (uint32_t stage_idx = 0; stage_idx < create_info.stageCount; ++stage_idx) {
             auto& stage = stages[stage_idx];

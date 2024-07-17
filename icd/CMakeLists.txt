@@ -42,6 +42,7 @@ target_sources(icd PRIVATE
     icd_pipeline_cache_data.cpp
     icd_pipeline_cache_data.h
     icd_proc_addr.h
+    icd_shadow_stack.h
     vksc_command_buffer.h
     vksc_command_buffer.cpp
     vksc_device.h
