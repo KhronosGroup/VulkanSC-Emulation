@@ -11,6 +11,8 @@
 #include "vksc_global.h"
 #include "icd_extension_helper.h"
 #include "icd_defs.h"
+#include "icd_shadow_stack.h"
+#include "icd_pnext_chain_utils.h"
 #include "uuid.h"
 
 #include <vulkan/utility/vk_struct_helper.hpp>
@@ -88,8 +90,27 @@ VkResult PhysicalDevice::EnumerateDeviceExtensionProperties(const char* pLayerNa
 
 VkResult PhysicalDevice::CreateDevice(const VkDeviceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                                       VkDevice* pDevice) {
+    // Construct the Vulkan version of the create info with appropriate filtering and handle unwrapping
+    icd::ShadowStack::Frame stack_frame{};
+    VkDeviceCreateInfo vk_create_info = *pCreateInfo;
+    icd::ModifiablePNextChain vk_mod_pnext_chain(stack_frame, vk_create_info);
+
+    auto vk_mod_device_group_info = vk_mod_pnext_chain.GetStruct<VkDeviceGroupDeviceCreateInfo>();
+    if (vk_mod_device_group_info != nullptr) {
+        auto physical_devices = stack_frame.Alloc<VkPhysicalDevice>(vk_mod_device_group_info->physicalDeviceCount);
+        for (uint32_t i = 0; i < vk_mod_device_group_info->physicalDeviceCount; ++i) {
+            physical_devices[i] = vksc::PhysicalDevice::FromHandle(vk_mod_device_group_info->pPhysicalDevices[i])->VkHandle();
+        }
+        vk_mod_device_group_info->pPhysicalDevices = physical_devices;
+    }
+
+    vk_create_info.pNext = vk_mod_pnext_chain.RemoveAllStructsFromChain<VkDeviceObjectReservationCreateInfo>()
+                               .RemoveAllStructsFromChain<VkPerformanceQueryReservationInfoKHR>()
+                               .GetModifiedPNext();
+
+    // Create device
     VkDevice device = VK_NULL_HANDLE;
-    VkResult result = vk::PhysicalDevice::CreateDevice(pCreateInfo, pAllocator, &device);
+    VkResult result = vk::PhysicalDevice::CreateDevice(&vk_create_info, pAllocator, &device);
     if (result >= VK_SUCCESS) {
         *pDevice = vksc::Device::Create(device, *this, *pCreateInfo);
         if (!vksc::Device::FromHandle(*pDevice)->IsValid()) {

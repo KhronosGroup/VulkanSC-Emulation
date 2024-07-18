@@ -12,10 +12,10 @@
 namespace vksc {
 
 Queue::Queue(VkQueue queue, Device& device)
-    : Dispatchable(), vk::Queue(queue, device.VkDispatch()), shadow_stack_(), logger_(device.Log(), VK_OBJECT_TYPE_QUEUE, queue) {}
+    : Dispatchable(), vk::Queue(queue, device.VkDispatch()), logger_(device.Log(), VK_OBJECT_TYPE_QUEUE, queue) {}
 
 VkResult Queue::QueueSubmit(uint32_t submitCount, const VkSubmitInfo* pSubmits, VkFence fence) {
-    auto stack_frame = StackFrame();
+    icd::ShadowStack::Frame stack_frame{};
     auto submit_info = stack_frame.Alloc<VkSubmitInfo>(submitCount);
 
     for (uint32_t submit_idx = 0; submit_idx < submitCount; ++submit_idx) {
@@ -32,7 +32,7 @@ VkResult Queue::QueueSubmit(uint32_t submitCount, const VkSubmitInfo* pSubmits, 
 }
 
 VkResult Queue::QueueSubmit2(uint32_t submitCount, const VkSubmitInfo2* pSubmits, VkFence fence) {
-    auto stack_frame = StackFrame();
+    icd::ShadowStack::Frame stack_frame{};
     auto submit_info = stack_frame.Alloc<VkSubmitInfo2>(submitCount);
 
     for (uint32_t submit_idx = 0; submit_idx < submitCount; ++submit_idx) {

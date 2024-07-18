@@ -21,6 +21,7 @@ target_sources(icd PRIVATE
     generated/vk_instance.cpp
     generated/vk_physical_device.h
     generated/vk_physical_device.cpp
+    generated/vk_pnext_chain_helper.h
     generated/vk_queue.h
     generated/vk_queue.cpp
     generated/vksc_entry_points.cpp
@@ -28,6 +29,7 @@ target_sources(icd PRIVATE
     generated/vksc_extension_helper.cpp
     generated/vksc_output_struct_sanitizer.h
     generated/vksc_output_struct_sanitizer.cpp
+    generated/vksc_pnext_chain_helper.h
     generated/vksc_proc_addr_helper.h
     generated/vksc_proc_addr_helper.cpp
     icd_defs.h
@@ -43,6 +45,7 @@ target_sources(icd PRIVATE
     icd_pipeline_cache_data.h
     icd_proc_addr.h
     icd_shadow_stack.h
+    icd_shadow_stack.cpp
     vksc_command_buffer.h
     vksc_command_buffer.cpp
     vksc_device.h

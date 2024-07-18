@@ -11,6 +11,7 @@
 #include "vksc_command_buffer.h"
 #include "vksc_instance.h"
 #include "icd_proc_addr.h"
+#include "icd_pnext_chain_utils.h"
 
 #include <string>
 #include <sstream>
@@ -24,7 +25,6 @@ Device::Device(VkDevice device, PhysicalDevice& physical_device, const VkDeviceC
       status_(VK_SUCCESS),
       instance_(physical_device.GetInstance()),
       physical_device_(physical_device),
-      shadow_stack_(),
       logger_(physical_device.Log(), VK_OBJECT_TYPE_DEVICE, device),
       device_queues_(),
       pipeline_cache_map_(),
@@ -100,7 +100,7 @@ VkResult Device::AllocateCommandBuffers(const VkCommandBufferAllocateInfo* pAllo
 }
 
 void Device::FreeCommandBuffers(VkCommandPool commandPool, uint32_t commandBufferCount, const VkCommandBuffer* pCommandBuffers) {
-    auto stack_frame = StackFrame();
+    icd::ShadowStack::Frame stack_frame{};
     auto cmd_buffers = stack_frame.Alloc<VkCommandBuffer>(commandBufferCount);
     for (uint32_t i = 0; i < commandBufferCount; ++i) {
         CommandBuffer* cmd_buffer = CommandBuffer::FromHandle(pCommandBuffers[i]);
@@ -163,6 +163,8 @@ VkResult Device::CreateGraphicsPipelines(VkPipelineCache pipelineCache, uint32_t
     VkResult result = VK_SUCCESS;
     auto pipeline_cache = icd::PipelineCache::FromHandle(pipelineCache);
     for (uint32_t i = 0; i < createInfoCount; ++i) {
+        icd::ShadowStack::Frame stack_frame{};
+
         auto offline_info = vku::FindStructInPNextChain<VkPipelineOfflineCreateInfo>(pCreateInfos[i].pNext);
         VkResult cache_result = VK_SUCCESS;
         auto pipeline = GetPipelineFromCache(*pipeline_cache, offline_info, cache_result);
@@ -181,27 +183,31 @@ VkResult Device::CreateGraphicsPipelines(VkPipelineCache pipelineCache, uint32_t
             continue;
         }
 
-        auto create_info = pCreateInfos[i];
-        auto stack_frame = StackFrame();
-        auto stages = stack_frame.Alloc<VkPipelineShaderStageCreateInfo>(create_info.stageCount);
-        create_info.pStages = stages;
+        auto vk_create_info = pCreateInfos[i];
+        auto vk_stages = stack_frame.Alloc<VkPipelineShaderStageCreateInfo>(vk_create_info.stageCount);
+        vk_create_info.pStages = vk_stages;
 
-        for (uint32_t stage_idx = 0; stage_idx < create_info.stageCount; ++stage_idx) {
-            auto& stage = stages[stage_idx];
-            stage = pCreateInfos[i].pStages[stage_idx];
+        for (uint32_t stage_idx = 0; stage_idx < vk_create_info.stageCount; ++stage_idx) {
+            auto& vk_stage = vk_stages[stage_idx];
+            vk_stage = pCreateInfos[i].pStages[stage_idx];
 
-            stage.module = pipeline->GetStage(stage_idx).GetShaderModule();
-            stage.pName = pipeline->GetStage(stage_idx).GetEntryPoint().c_str();
+            vk_stage.module = pipeline->GetStage(stage_idx).GetShaderModule();
+            vk_stage.pName = pipeline->GetStage(stage_idx).GetEntryPoint().c_str();
 
             // We use already specialized SPIR-V as input from the PCC
-            stage.pSpecializationInfo = nullptr;
+            vk_stage.pSpecializationInfo = nullptr;
         }
 
         // Set Vulkan defaults for base pipeline info
-        create_info.basePipelineHandle = VK_NULL_HANDLE;
-        create_info.basePipelineIndex = -1;
+        vk_create_info.basePipelineHandle = VK_NULL_HANDLE;
+        vk_create_info.basePipelineIndex = -1;
 
-        VkResult vk_result = vk::Device::CreateGraphicsPipelines(VK_NULL_HANDLE, 1, &create_info, pAllocator, &pPipelines[i]);
+        // Remove VkPipelineOfflineCreateInfo from Vulkan create info pNext chain
+        vk_create_info.pNext = icd::ModifiablePNextChain(stack_frame, vk_create_info)
+                                   .RemoveStructFromChain<VkPipelineOfflineCreateInfo>()
+                                   .GetModifiedPNext();
+
+        VkResult vk_result = vk::Device::CreateGraphicsPipelines(VK_NULL_HANDLE, 1, &vk_create_info, pAllocator, &pPipelines[i]);
         if (vk_result != VK_SUCCESS) {
             Log().Error("VKSC-EMU-CreatePipeline-ExhaustedPoolEntrySize",
                         "Failed to create underlying Vulkan graphics pipeline for pipeline (%s)",
@@ -225,6 +231,8 @@ VkResult Device::CreateComputePipelines(VkPipelineCache pipelineCache, uint32_t 
     VkResult result = VK_SUCCESS;
     auto pipeline_cache = icd::PipelineCache::FromHandle(pipelineCache);
     for (uint32_t i = 0; i < createInfoCount; ++i) {
+        icd::ShadowStack::Frame stack_frame{};
+
         auto offline_info = vku::FindStructInPNextChain<VkPipelineOfflineCreateInfo>(pCreateInfos[i].pNext);
         VkResult cache_result = VK_SUCCESS;
         auto pipeline = GetPipelineFromCache(*pipeline_cache, offline_info, cache_result);
@@ -243,19 +251,24 @@ VkResult Device::CreateComputePipelines(VkPipelineCache pipelineCache, uint32_t 
             continue;
         }
 
-        auto create_info = pCreateInfos[i];
+        auto vk_create_info = pCreateInfos[i];
 
-        create_info.stage.module = pipeline->GetStage(0).GetShaderModule();
-        create_info.stage.pName = pipeline->GetStage(0).GetEntryPoint().c_str();
+        vk_create_info.stage.module = pipeline->GetStage(0).GetShaderModule();
+        vk_create_info.stage.pName = pipeline->GetStage(0).GetEntryPoint().c_str();
 
         // We use already specialized SPIR-V as input from the PCC
-        create_info.stage.pSpecializationInfo = nullptr;
+        vk_create_info.stage.pSpecializationInfo = nullptr;
 
         // Set Vulkan defaults for base pipeline info
-        create_info.basePipelineHandle = VK_NULL_HANDLE;
-        create_info.basePipelineIndex = -1;
+        vk_create_info.basePipelineHandle = VK_NULL_HANDLE;
+        vk_create_info.basePipelineIndex = -1;
 
-        VkResult vk_result = vk::Device::CreateComputePipelines(VK_NULL_HANDLE, 1, &create_info, pAllocator, &pPipelines[i]);
+        // Remove VkPipelineOfflineCreateInfo from Vulkan create info pNext chain
+        vk_create_info.pNext = icd::ModifiablePNextChain(stack_frame, vk_create_info)
+                                   .RemoveStructFromChain<VkPipelineOfflineCreateInfo>()
+                                   .GetModifiedPNext();
+
+        VkResult vk_result = vk::Device::CreateComputePipelines(VK_NULL_HANDLE, 1, &vk_create_info, pAllocator, &pPipelines[i]);
         if (vk_result != VK_SUCCESS) {
             Log().Error("VKSC-EMU-CreatePipeline-ExhaustedPoolEntrySize",
                         "Failed to create underlying Vulkan compute pipeline for pipeline (%s)", pipeline->ID().toString().c_str());
@@ -313,7 +326,22 @@ VkResult Device::AllocateMemory(const VkMemoryAllocateInfo* pAllocateInfo, const
 VkResult Device::CreateCommandPool(const VkCommandPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                                    VkCommandPool* pCommandPool) {
     if (auto reservation = GetObjectTracker().ReserveCommandPool()) {
-        VkResult result = vk::Device::CreateCommandPool(pCreateInfo, pAllocator, pCommandPool);
+        icd::ShadowStack::Frame stack_frame{};
+
+        auto memory_reservation = vku::FindStructInPNextChain<VkCommandPoolMemoryReservationCreateInfo>(pCreateInfo->pNext);
+        if (memory_reservation == nullptr) {
+            Log().Error("VKSC-EMU-CreateCommandPool-MissingMemoryReservationInfo",
+                        "Command pool creation called with missing VkCommandPoolMemoryReservationCreateInfo");
+            return VK_ERROR_OUT_OF_HOST_MEMORY;
+        }
+
+        // Remove VkCommandPoolMemoryReservationCreateInfo from Vulkan create info pNext chain
+        auto vk_create_info = *pCreateInfo;
+        vk_create_info.pNext = icd::ModifiablePNextChain(stack_frame, vk_create_info)
+                                   .RemoveStructFromChain<VkCommandPoolMemoryReservationCreateInfo>()
+                                   .GetModifiedPNext();
+
+        VkResult result = vk::Device::CreateCommandPool(&vk_create_info, pAllocator, pCommandPool);
         if (result >= VK_SUCCESS) {
             reservation.Commit(pCommandPool);
         }

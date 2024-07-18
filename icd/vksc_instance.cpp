@@ -145,6 +145,10 @@ VkResult Instance::EnumeratePhysicalDeviceGroups(uint32_t* pPhysicalDeviceGroupC
             *pPhysicalDeviceGroupCount = std::min(*pPhysicalDeviceGroupCount, static_cast<uint32_t>(physical_device_groups.size()));
             for (uint32_t i = 0; i < *pPhysicalDeviceGroupCount; ++i) {
                 pPhysicalDeviceGroupProperties[i] = physical_device_groups[i];
+                for (uint32_t j = 0; j < physical_device_groups[i].physicalDeviceCount; ++j) {
+                    pPhysicalDeviceGroupProperties[i].physicalDevices[j] =
+                        physical_devices_.GetOrAddChild(physical_device_groups[i].physicalDevices[j], *this)->VkSCHandle();
+                }
             }
         }
     }

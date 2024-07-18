@@ -83,13 +83,11 @@ class Device : public Dispatchable<Device, VkDevice>, public vk::Device {
                                               const VkPipelineOfflineCreateInfo* offline_info, VkResult& out_result);
 
     icd::DeviceObjectTracker& GetObjectTracker() { return object_tracker_; }
-    icd::ShadowStack::Frame StackFrame() { return shadow_stack_; }
 
     VkResult status_{VK_SUCCESS};
 
     const Instance& instance_;
     const PhysicalDevice& physical_device_;
-    icd::ShadowStack shadow_stack_;
     icd::Logger logger_;
 
     DispatchableChildren<Queue, VkQueue> device_queues_;
