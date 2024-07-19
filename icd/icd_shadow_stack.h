@@ -36,7 +36,11 @@ class ShadowStack {
                 return stack_.data_ + aligned_alloc_offset;
             } else {
                 // Fall back to regular allocation
+#ifdef _MSC_VER
+                excess_allocations_.push_back(_aligned_malloc(size, alignment));
+#else
                 excess_allocations_.push_back(aligned_alloc(alignment, size));
+#endif
                 return excess_allocations_.back();
             }
         }
