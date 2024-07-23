@@ -15,10 +15,18 @@
 #include <unordered_map>
 #include <string>
 
+#include "vksc_extension_helper.h"
+
 namespace vksc {
-const std::unordered_map<std::string, PFN_vkVoidFunction>& GetGlobalProcAddrMap();
-const std::unordered_map<std::string, PFN_vkVoidFunction>& GetInstanceProcAddrMap();
-const std::unordered_map<std::string, PFN_vkVoidFunction>& GetPhysicalDeviceProcAddrMap();
-const std::unordered_map<std::string, PFN_vkVoidFunction>& GetDeviceProcAddrMap();
+
+struct ProcAddrInfo {
+    PFN_vkVoidFunction pfn;
+    std::vector<ExtensionNumber> enabled_by;
+};
+
+const std::unordered_map<std::string, ProcAddrInfo>& GetGlobalProcAddrMap();
+const std::unordered_map<std::string, ProcAddrInfo>& GetInstanceProcAddrMap();
+const std::unordered_map<std::string, ProcAddrInfo>& GetPhysicalDeviceProcAddrMap();
+const std::unordered_map<std::string, ProcAddrInfo>& GetDeviceProcAddrMap();
 }  // namespace vksc
 // NOLINTEND

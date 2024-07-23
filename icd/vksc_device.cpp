@@ -31,6 +31,7 @@ Device::Device(VkDevice device, PhysicalDevice& physical_device, const VkDeviceC
       reserved_pipeline_pool_entries_map_(),
       used_pipeline_pool_entries_map_(),
       pipeline_pool_size_map_(),
+      enabled_exts_(),
       object_tracker_(*this, create_info) {
     status_ = SetupDevice(create_info);
 }
@@ -68,7 +69,24 @@ VkResult Device::SetupDevice(const VkDeviceCreateInfo& create_info) {
         used_pipeline_pool_entries_map_[it.first] = 0;
     }
 
+    // Remember enabled extensions
+    if (create_info.ppEnabledExtensionNames && create_info.enabledExtensionCount != 0) {
+        enabled_exts_.reserve(create_info.enabledExtensionCount);
+        for (uint32_t i = 0; i < create_info.enabledExtensionCount; ++i) {
+            ExtensionNumber num = GetExtensionNumber(create_info.ppEnabledExtensionNames[i]);
+            if (num != ExtensionNumber::unknown) {
+                enabled_exts_.push_back(num);
+            } else {
+                return VK_ERROR_EXTENSION_NOT_PRESENT;
+            }
+        }
+    }
+
     return result;
+}
+
+bool Device::IsExtensionEnabled(ExtensionNumber ext) {
+    return std::find(enabled_exts_.cbegin(), enabled_exts_.cend(), ext) != enabled_exts_.cend();
 }
 
 PFN_vkVoidFunction Device::GetDeviceProcAddr(const char* pName) { return icd::GetProcAddr(icd::ProcTypeMask::Device, pName); }

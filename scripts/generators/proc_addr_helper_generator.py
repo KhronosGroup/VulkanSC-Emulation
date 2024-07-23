@@ -8,6 +8,7 @@
 import os
 from generators.base_generator import BaseGenerator
 from generators.generator_utils import PlatformGuardHelper
+from generators.vulkan_object import Command
 
 class ProcAddrHelperGenerator(BaseGenerator):
     def __init__(self):
@@ -34,7 +35,7 @@ class ProcAddrHelperGenerator(BaseGenerator):
 
         self.write('// NOLINTEND') # Wrap for clang-tidy to ignore
 
-    def getCommands(self):
+    def getCommands(self) -> dict[str,list[Command]]:
         commands = {
             'Global': [],
             'Instance': [],
@@ -63,15 +64,25 @@ class ProcAddrHelperGenerator(BaseGenerator):
             #include <vulkan/vulkan.h>
             #include <unordered_map>
             #include <string>
+                   
+            #include "vksc_extension_helper.h"
 
             namespace vksc {
             ''')
 
         guard_helper = PlatformGuardHelper()
 
+        out.append('''
+            struct ProcAddrInfo {
+                PFN_vkVoidFunction pfn;
+                std::vector<ExtensionNumber> enabled_by;
+            }; 
+
+                   ''')
+
         commands = self.getCommands()
         for command_type in commands.keys():
-            out.append(f'const std::unordered_map<std::string, PFN_vkVoidFunction>& Get{command_type}ProcAddrMap();\n')
+            out.append(f'const std::unordered_map<std::string, ProcAddrInfo>& Get{command_type}ProcAddrMap();\n')
 
         out.append('}  // namespace vksc')
 
@@ -81,6 +92,7 @@ class ProcAddrHelperGenerator(BaseGenerator):
         out = []
         out.append('''
             #include "vksc_proc_addr_helper.h"
+            #include "vksc_extension_helper.h"
 
             namespace vksc {
             ''')
@@ -90,13 +102,17 @@ class ProcAddrHelperGenerator(BaseGenerator):
         commands = self.getCommands()
         for command_type in commands.keys():
             out.append(f'''
-                const std::unordered_map<std::string, PFN_vkVoidFunction>& Get{command_type}ProcAddrMap() {{
-                    static const std::unordered_map<std::string, PFN_vkVoidFunction> proc_addr_map = {{
+                const std::unordered_map<std::string, ProcAddrInfo>& Get{command_type}ProcAddrMap() {{
+                    static const std::unordered_map<std::string, ProcAddrInfo> proc_addr_map = {{
                 ''')
 
             for command in commands[command_type]:
                 out.extend(guard_helper.add_guard(command.protect))
-                out.append(f'{{"{command.name}", (PFN_vkVoidFunction){command.name}}},\n')
+                if command.extensions:
+                    proc_addr_ext_info = f'{{{", ".join([f'GetExtensionNumber("{ext.name}")' for ext in command.extensions])}}}'
+                else:
+                    proc_addr_ext_info = "{}"
+                out.append(f'{{"{command.name}", {{(PFN_vkVoidFunction){command.name}, {proc_addr_ext_info}}}}},\n')
             out.extend(guard_helper.add_guard(None))
 
             out.append('''};

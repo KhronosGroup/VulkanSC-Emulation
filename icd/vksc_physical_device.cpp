@@ -217,6 +217,13 @@ void PhysicalDevice::GetPhysicalDeviceProperties2(VkPhysicalDeviceProperties2* p
         strncpy(driver_props->driverInfo, driver_info.c_str(), VK_MAX_DRIVER_INFO_SIZE - 1);
         driver_props->conformanceVersion = {0, 0, 0, 0};
     }
+    auto vk11_props = vku::FindStructInPNextChain<VkPhysicalDeviceVulkan11Properties>(pProperties->pNext);
+    if (vk11_props) {
+        // Customize UUIDs / LUIDs to avoid collisions
+        GenerateUUID(vk11_props->deviceUUID).CopyToArray(vk11_props->deviceUUID);
+        GenerateUUID(vk11_props->driverUUID).CopyToArray(vk11_props->driverUUID);
+        vk11_props->deviceLUIDValid = VK_FALSE;
+    }
     auto vk12_props = vku::FindStructInPNextChain<VkPhysicalDeviceVulkan12Properties>(pProperties->pNext);
     if (vk12_props) {
         vk12_props->driverID = VK_DRIVER_ID_VULKAN_SC_EMULATION_ON_VULKAN;

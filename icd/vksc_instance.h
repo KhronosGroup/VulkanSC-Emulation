@@ -11,6 +11,8 @@
 #include "vk_instance.h"
 #include "icd_log.h"
 
+#include "generated/vksc_extension_helper.h"
+
 #include <unordered_map>
 #include <vector>
 #include <memory>
@@ -35,11 +37,15 @@ class Instance : public Dispatchable<Instance, VkInstance>, public vk::Instance 
     VkResult EnumeratePhysicalDeviceGroups(uint32_t* pPhysicalDeviceGroupCount,
                                            VkPhysicalDeviceGroupProperties* pPhysicalDeviceGroupProperties);
 
+    bool IsExtensionEnabled(ExtensionNumber ext);
+
     VkResult CreateDebugUtilsMessengerEXT(const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
                                           const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pMessenger);
     void DestroyDebugUtilsMessengerEXT(VkDebugUtilsMessengerEXT messenger, const VkAllocationCallbacks* pAllocator);
 
   private:
+    VkResult status_{VK_SUCCESS};
+    VkResult SetupInstance(const VkInstanceCreateInfo& create_info);
     icd::Logger CreateLogger(const VkInstanceCreateInfo& create_info);
 
     VkResult GetCompatiblePhysicalDeviceList(std::vector<VkPhysicalDevice>& physical_devices);
@@ -52,6 +58,8 @@ class Instance : public Dispatchable<Instance, VkInstance>, public vk::Instance 
     uint32_t api_version_;
 
     DispatchableChildren<PhysicalDevice, VkPhysicalDevice> physical_devices_;
+
+    std::vector<ExtensionNumber> enabled_exts_;
 };
 
 }  // namespace vksc
