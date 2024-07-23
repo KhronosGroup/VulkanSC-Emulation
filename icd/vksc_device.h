@@ -15,6 +15,8 @@
 #include "icd_pipeline_cache_data.h"
 #include "icd_object_tracker.h"
 
+#include "generated/vksc_extension_helper.h"
+
 #include <vector>
 #include <memory>
 #include <atomic>
@@ -37,6 +39,8 @@ class Device : public Dispatchable<Device, VkDevice>, public vk::Device {
     VkResult GetStatus() const { return status_; }
 
     const Instance& GetInstance() const { return instance_; }
+
+    bool IsExtensionEnabled(ExtensionNumber ext);
 
     PFN_vkVoidFunction GetDeviceProcAddr(const char* pName);
     void DestroyDevice(const VkAllocationCallbacks* pAllocator);
@@ -100,6 +104,8 @@ class Device : public Dispatchable<Device, VkDevice>, public vk::Device {
 
     // Map of pipelines and corresponding pool entry sizes (used only when pipeline pool entry recycling is enabled)
     std::unordered_map<VkPipeline, uint64_t> pipeline_pool_size_map_;
+
+    std::vector<ExtensionNumber> enabled_exts_;
 
     icd::DeviceObjectTracker object_tracker_;
 };

@@ -186,7 +186,8 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateInstance(const VkInstanceCreateInfo* pCre
     VkApplicationInfo app_info;
     if (create_info.pApplicationInfo != nullptr) {
         if (create_info.pApplicationInfo != 0) {
-            if (VK_API_VERSION_VARIANT(create_info.pApplicationInfo->apiVersion) != VKSC_API_VARIANT) {
+            if (create_info.pApplicationInfo->apiVersion != 0 &&
+                VK_API_VERSION_VARIANT(create_info.pApplicationInfo->apiVersion) != VKSC_API_VARIANT) {
                 // Unsupported API variant
                 return VK_ERROR_INCOMPATIBLE_DRIVER;
             }

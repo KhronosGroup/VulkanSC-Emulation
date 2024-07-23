@@ -8,18 +8,39 @@
 #include "vksc_instance.h"
 #include "vksc_global.h"
 #include "vksc_physical_device.h"
+#include "vksc_extension_helper.h"
 
 #include <vulkan/utility/vk_struct_helper.hpp>
 #include <unordered_set>
+#include <algorithm>
 
 namespace vksc {
 
 Instance::Instance(VkInstance instance, Global& global, const VkInstanceCreateInfo& create_info)
     : Dispatchable(),
       vk::Instance(instance, vk::DispatchTable(instance, global.VkGetProcAddr())),
+      status_(VK_SUCCESS),
       logger_(CreateLogger(create_info), VK_OBJECT_TYPE_INSTANCE, instance),
       api_version_(create_info.pApplicationInfo != nullptr ? create_info.pApplicationInfo->apiVersion : VKSC_API_VERSION_1_0),
-      physical_devices_() {}
+      physical_devices_() {
+    status_ = SetupInstance(create_info);
+}
+
+VkResult Instance::SetupInstance(const VkInstanceCreateInfo& create_info) {
+    // Remember enabled extensions
+    if (create_info.ppEnabledExtensionNames && create_info.enabledExtensionCount != 0) {
+        enabled_exts_.reserve(create_info.enabledExtensionCount);
+        for (uint32_t i = 0; i < create_info.enabledExtensionCount; ++i) {
+            ExtensionNumber num = GetExtensionNumber(create_info.ppEnabledExtensionNames[i]);
+            if (num != ExtensionNumber::unknown) {
+                enabled_exts_.push_back(num);
+            } else {
+                return VK_ERROR_EXTENSION_NOT_PRESENT;
+            }
+        }
+    }
+    return VK_SUCCESS;
+}
 
 void Instance::DestroyInstance(const VkAllocationCallbacks* pAllocator) {
     Destroy(VkDispatch().DestroyInstance, VkHandle(), pAllocator);
@@ -56,13 +77,13 @@ VkResult Instance::GetCompatiblePhysicalDeviceList(std::vector<VkPhysicalDevice>
                         physical_devices.push_back(physical_device);
                     } else {
                         Log().Debug("VKSC-EMU-PhysicalDeviceFiltering",
-                            "Physical device (%p) '{%s}' filterred out due to no support for Vulkan Memory Model",
-                            physical_device, props.deviceName);
+                                    "Physical device (%p) '{%s}' filterred out due to no support for Vulkan Memory Model",
+                                    physical_device, props.deviceName);
                     }
                 } else {
                     Log().Debug("VKSC-EMU-PhysicalDeviceFiltering",
-                        "Physical device (%p) '{%s}' filterred out due to no support for Vulkan 1.2",
-                        physical_device, props.deviceName);
+                                "Physical device (%p) '{%s}' filterred out due to no support for Vulkan 1.2", physical_device,
+                                props.deviceName);
                 }
             }
         }
@@ -153,6 +174,10 @@ VkResult Instance::EnumeratePhysicalDeviceGroups(uint32_t* pPhysicalDeviceGroupC
         }
     }
     return result;
+}
+
+bool Instance::IsExtensionEnabled(ExtensionNumber ext) {
+    return std::find(enabled_exts_.cbegin(), enabled_exts_.cend(), ext) != enabled_exts_.cend();
 }
 
 VkResult Instance::CreateDebugUtilsMessengerEXT(const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,

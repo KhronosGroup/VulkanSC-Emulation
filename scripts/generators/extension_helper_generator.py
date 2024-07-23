@@ -46,11 +46,25 @@ class ExtensionHelperGenerator(BaseGenerator):
 
             namespace {namespace} {{
 
-            using ExtensionMap = std::unordered_map<std::string, uint32_t>;
+            enum class ExtensionNumber {{''')
+
+        guard_helper = PlatformGuardHelper()
+
+        for i, extension in enumerate(self.vk.extensions.values()):
+            out.extend(guard_helper.add_guard(extension.protect))
+            out.append(f'{extension.name[3:]} = {i},\n')
+        out.extend(guard_helper.add_guard(None))
+
+        out.append(f'''unknown = {len(self.vk.extensions)}
+            }};
+
+            using ExtensionMap = std::unordered_map<ExtensionNumber, uint32_t>;
 
             const ExtensionMap& GetInstanceExtensionsMap();
             const ExtensionMap& GetDeviceExtensionsMap();
 
+            ExtensionNumber GetExtensionNumber(const char* extension_name);
+            const char* GetExtensionName(ExtensionNumber extension_number);
             }}  // namespace {namespace}
             ''')
 
@@ -73,7 +87,7 @@ class ExtensionHelperGenerator(BaseGenerator):
         for extension in self.vk.extensions.values():
             if extension.instance:
                 out.extend(guard_helper.add_guard(extension.protect))
-                out.append(f'{{{extension.nameString}, {extension.nameString.replace("_EXTENSION_NAME", "_SPEC_VERSION")}}},\n')
+                out.append(f'{{ExtensionNumber::{extension.name[3:]}, {extension.nameString.replace("_EXTENSION_NAME", "_SPEC_VERSION")}}},\n')
         out.extend(guard_helper.add_guard(None))
 
         out.append(f'''}};
@@ -86,14 +100,47 @@ class ExtensionHelperGenerator(BaseGenerator):
         for extension in self.vk.extensions.values():
             if extension.device:
                 out.extend(guard_helper.add_guard(extension.protect))
-                out.append(f'{{{extension.nameString}, {extension.nameString.replace("_EXTENSION_NAME", "_SPEC_VERSION")}}},\n')
+                out.append(f'{{ExtensionNumber::{extension.name[3:]}, {extension.nameString.replace("_EXTENSION_NAME", "_SPEC_VERSION")}}},\n')
         out.extend(guard_helper.add_guard(None))
 
         out.append(f'''}};
                 return ext_map;
             }}
 
-            }}  // namespace {namespace}
+            ExtensionNumber GetExtensionNumber(const char* extension_name) {{
+                   static const std::unordered_map<std::string, ExtensionNumber> ext_map = {{
             ''')
+
+        for extension in self.vk.extensions.values():
+            out.extend(guard_helper.add_guard(extension.protect))
+            out.append(f'{{"{extension.name}", ExtensionNumber::{extension.name[3:]}}},\n')
+        out.extend(guard_helper.add_guard(None))
+        out.append(f'''
+            }};
+                const auto it = ext_map.find(extension_name);
+                if (it != ext_map.cend()) {{
+                    return it->second;
+                }} else {{
+                    return ExtensionNumber::unknown;
+                }}
+        }}
+
+        const char* GetExtensionName(ExtensionNumber extension_number){{
+            switch (extension_number) {{
+        ''')
+
+        for extension in self.vk.extensions.values():
+            out.extend(guard_helper.add_guard(extension.protect))
+            out.append(f'case ExtensionNumber::{extension.name[3:]}: return "{extension.name}"; break;\n')
+        out.extend(guard_helper.add_guard(None))
+
+        out.append(f'default: return nullptr;')
+
+        out.append(f'''
+            }}
+        }}
+
+        }}  // namespace {namespace}
+        ''')
 
         self.write("".join(out))

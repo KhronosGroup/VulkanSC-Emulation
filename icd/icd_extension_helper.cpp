@@ -18,15 +18,15 @@ std::vector<VkExtensionProperties> GetVulkanSCExtensionList(const Logger& log,
                                                             const std::vector<VkExtensionProperties> vulkan_extension_list,
                                                             const vksc::ExtensionMap& allowed_vulkan_sc_extensions,
                                                             const vksc::ExtensionMap& icd_implemented_extensions) {
-    std::map<std::string, uint32_t> merged_sorted;
+    std::map<vksc::ExtensionNumber, uint32_t> merged_sorted;
 
     for (const auto& icd_extension : icd_implemented_extensions) {
         merged_sorted.emplace(icd_extension);
     }
 
     for (const auto& vulkan_extension : vulkan_extension_list) {
-        if (merged_sorted.find(vulkan_extension.extensionName) == merged_sorted.end()) {
-            auto it = allowed_vulkan_sc_extensions.find(vulkan_extension.extensionName);
+        if (merged_sorted.find(vksc::GetExtensionNumber(vulkan_extension.extensionName)) == merged_sorted.end()) {
+            auto it = allowed_vulkan_sc_extensions.find(vksc::GetExtensionNumber(vulkan_extension.extensionName));
             if (it != allowed_vulkan_sc_extensions.end()) {
                 if (it->second != vulkan_extension.specVersion) {
                     log.Debug("VKSC-EMU-ExtensionFiltering-VersionClamp",
@@ -34,8 +34,8 @@ std::vector<VkExtensionProperties> GetVulkanSCExtensionList(const Logger& log,
                               "by the underlying Vulkan implementation is clamped",
                               it->second, &vulkan_extension.extensionName[0], vulkan_extension.specVersion);
                 }
-                merged_sorted.emplace(
-                    std::make_pair(vulkan_extension.extensionName, std::min(it->second, vulkan_extension.specVersion)));
+                merged_sorted.emplace(std::make_pair(vksc::GetExtensionNumber(vulkan_extension.extensionName),
+                                                     std::min(it->second, vulkan_extension.specVersion)));
             } else {
                 log.Debug("VKSC-EMU-ExtensionFiltering-Hide",
                           "Extension %s supported by the underlying Vulkan implementation is hidden "
@@ -53,7 +53,7 @@ std::vector<VkExtensionProperties> GetVulkanSCExtensionList(const Logger& log,
     std::vector<VkExtensionProperties> result;
     for (const auto& extension : merged_sorted) {
         VkExtensionProperties props;
-        strncpy(props.extensionName, extension.first.c_str(), VK_MAX_EXTENSION_NAME_SIZE - 1);
+        strncpy(props.extensionName, vksc::GetExtensionName(extension.first), VK_MAX_EXTENSION_NAME_SIZE - 1);
         props.specVersion = extension.second;
         result.emplace_back(props);
     }
