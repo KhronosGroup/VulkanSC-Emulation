@@ -89,7 +89,7 @@ bool Device::IsExtensionEnabled(ExtensionNumber ext) {
     return std::find(enabled_exts_.cbegin(), enabled_exts_.cend(), ext) != enabled_exts_.cend();
 }
 
-PFN_vkVoidFunction Device::GetDeviceProcAddr(const char* pName) { return icd::GetProcAddr(icd::ProcTypeMask::Device, pName); }
+PFN_vkVoidFunction Device::GetDeviceProcAddr(const char* pName) { return icd::GetDeviceProcAddr(VkSCHandle(), pName); }
 
 void Device::DestroyDevice(const VkAllocationCallbacks* pAllocator) { Destroy(VkDispatch().DestroyDevice, VkHandle(), pAllocator); }
 

@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <mutex>
 
 namespace icd {
 
@@ -63,6 +64,8 @@ class EnvironmentOverride {
     ~EnvironmentOverride();
 
   private:
+    inline static std::mutex mutex_;
+    std::lock_guard<std::mutex> lock_;
     const EnvironmentHelper& env_;
 };
 
