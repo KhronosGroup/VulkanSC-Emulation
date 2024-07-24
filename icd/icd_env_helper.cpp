@@ -76,7 +76,7 @@ const std::unordered_map<const char*, std::string> EnvironmentHelper::InitLayere
     return layered_envs;
 }
 
-EnvironmentOverride::EnvironmentOverride(const EnvironmentHelper& env) : env_(env) {
+EnvironmentOverride::EnvironmentOverride(const EnvironmentHelper& env) : lock_(mutex_), env_(env) {
     for (const auto& it : env_.PrivateEnvs()) {
 #ifdef _WIN32
         _putenv_s(it.first, "");
