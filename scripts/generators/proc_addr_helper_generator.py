@@ -64,7 +64,8 @@ class ProcAddrHelperGenerator(BaseGenerator):
             #include <vulkan/vulkan.h>
             #include <unordered_map>
             #include <string>
-                   
+            #include <vector>
+
             #include "vksc_extension_helper.h"
 
             namespace vksc {
