@@ -192,8 +192,28 @@ static bool validate_spirv(const Json::Value& enabled_extensions, const Json::Va
         auto map_entries = specialization_info["pMapEntries"];
         auto specialization_data = specialization_info["pData"];
         std::vector<uint8_t> data(specialization_info["dataSize"].asUInt(), 0);
-        if (specialization_data.isArray() && specialization_data.size() == data.size() && map_entries.isArray() &&
-            map_entries.size() == map_entry_count) {
+
+        bool data_parsed = false;
+        if (specialization_data.isArray()) {
+            // Parse specialization data as array
+            if (specialization_data.size() == data.size()) {
+                for (uint32_t data_idx = 0; data_idx < data.size(); ++data_idx) {
+                    data[data_idx] = specialization_data[data_idx].asUInt();
+                }
+                data_parsed = true;
+            }
+        } else if (specialization_data.isString()) {
+            // Parse specialization data as string
+            auto spec_data_str = specialization_data.asString();
+            if (spec_data_str.size() == data.size()) {
+                for (uint32_t data_idx = 0; data_idx < data.size(); ++data_idx) {
+                    data[data_idx] = *(reinterpret_cast<const uint8_t*>(spec_data_str.data()) + data_idx);
+                }
+                data_parsed = true;
+            }
+        }
+
+        if (data_parsed && map_entries.isArray() && map_entries.size() == map_entry_count) {
             // Parse specialization data
             for (uint32_t data_idx = 0; data_idx < data.size(); ++data_idx) {
                 data[data_idx] = specialization_data[data_idx].asUInt();
