@@ -96,6 +96,19 @@
             "build_dir": "cxxopts/build",
             "install_dir": "cxxopts/build/install",
             "commit": "v3.2.1"
+        },
+        {
+            "name": "cppcodec",
+            "url": "https://github.com/tplgy/cppcodec.git",
+            "sub_dir": "cppcodec",
+            "build_dir": "cppcodec/build",
+            "install_dir": "cppcodec/build/install",
+            "commit": "8019b8b580f8573c33c50372baec7039dfe5a8ce",
+            "cmake_options": [
+                "-DCPPCODEC_BUILD_EXAMPLES=OFF",
+                "-DCPPCODEC_BUILD_TESTING=OFF",
+                "-DCPPCODEC_BUILD_TOOLS=OFF"
+            ]
         }
     ],
     "install_names": {
@@ -106,6 +119,7 @@
         "googletest": "GOOGLETEST_INSTALL_DIR",
         "jsoncpp": "JSONCPP_INSTALL_DIR",
         "valijson": "VALIJSON_INSTALL_DIR",
-        "cxxopts": "CXXOPTS_INSTALL_DIR"
+        "cxxopts": "CXXOPTS_INSTALL_DIR",
+        "cppcodec": "CPPCODEC_INSTALL_DIR"
     }
 }

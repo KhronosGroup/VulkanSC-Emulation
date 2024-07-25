@@ -9,6 +9,7 @@
 #include "pcc_builder.h"
 #include "uuid.h"
 
+#include <cppcodec/base64_rfc4648.hpp>
 #include <cxxopts.hpp>
 #include <json/json.h>
 #include <spirv-tools/libspirv.hpp>
@@ -191,14 +192,28 @@ static bool validate_spirv(const Json::Value& enabled_extensions, const Json::Va
         auto map_entry_count = specialization_info["mapEntryCount"].asUInt();
         auto map_entries = specialization_info["pMapEntries"];
         auto specialization_data = specialization_info["pData"];
-        std::vector<uint8_t> data(specialization_info["dataSize"].asUInt(), 0);
-        if (specialization_data.isArray() && specialization_data.size() == data.size() && map_entries.isArray() &&
-            map_entries.size() == map_entry_count) {
-            // Parse specialization data
-            for (uint32_t data_idx = 0; data_idx < data.size(); ++data_idx) {
-                data[data_idx] = specialization_data[data_idx].asUInt();
-            }
+        auto data_size = specialization_info["dataSize"].asUInt();
 
+        std::vector<uint8_t> data;
+        bool data_parsed = false;
+        if (specialization_data.isArray()) {
+            // Parse specialization data as array
+            if (specialization_data.size() == data_size) {
+                data.resize(data_size);
+                for (uint32_t data_idx = 0; data_idx < data.size(); ++data_idx) {
+                    data[data_idx] = specialization_data[data_idx].asUInt();
+                }
+                data_parsed = true;
+            }
+        } else if (specialization_data.isString()) {
+            // Parse specialization data as Base64 string
+            data = cppcodec::base64_rfc4648::decode(specialization_data.asString());
+            if (data.size() == data_size) {
+                data_parsed = true;
+            }
+        }
+
+        if (data_parsed && map_entries.isArray() && map_entries.size() == map_entry_count) {
             // Initialize ID value map for applying specialization data
             std::unordered_map<uint32_t, std::vector<uint32_t>> id_value_map{};
             id_value_map.reserve(map_entry_count);
