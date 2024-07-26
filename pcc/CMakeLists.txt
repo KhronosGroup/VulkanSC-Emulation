@@ -17,7 +17,6 @@ target_sources(pcc PRIVATE
 find_package(cxxopts REQUIRED CONFIG)
 
 target_link_libraries(pcc PRIVATE
-    cppcodec
     jsoncpp_static
     valijson
     cxxopts::cxxopts
