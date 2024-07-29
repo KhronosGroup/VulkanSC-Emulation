@@ -30,6 +30,7 @@ Device::Device(VkDevice device, PhysicalDevice& physical_device, const VkDeviceC
       pipeline_cache_map_(),
       reserved_pipeline_pool_entries_map_(),
       used_pipeline_pool_entries_map_(),
+      pipeline_pool_size_map_mutex_(),
       pipeline_pool_size_map_(),
       enabled_exts_(),
       object_tracker_(*this, create_info) {
@@ -191,13 +192,20 @@ VkResult Device::CreateGraphicsPipelines(VkPipelineCache pipelineCache, uint32_t
             continue;
         }
 
-        if (used_pipeline_pool_entries_map_[offline_info->poolEntrySize].fetch_add(1) >=
-            reserved_pipeline_pool_entries_map_[offline_info->poolEntrySize]) {
+        auto pipeline_pool_entry_it = used_pipeline_pool_entries_map_.find(offline_info->poolEntrySize);
+        if (pipeline_pool_entry_it == used_pipeline_pool_entries_map_.end()) {
+            Log().Error("VKSC-EMU-CreatePipeline-ExhaustedPoolEntrySize",
+                        "Attempted to create pipeline (%s) with poolEntrySize (%" PRIu64
+                        ") but no such pool entry size was reserved at device creation time",
+                        pipeline->ID().toString().c_str(), offline_info->poolEntrySize);
+            continue;
+        }
+        if (pipeline_pool_entry_it->second.fetch_add(1) >= reserved_pipeline_pool_entries_map_[offline_info->poolEntrySize]) {
             Log().Error("VKSC-EMU-CreatePipeline-ExhaustedPoolEntrySize",
                         "Attempted to create pipeline (%s) but pool entries with poolEntrySize (%" PRIu64 ") are exhausted",
                         pipeline->ID().toString().c_str(), offline_info->poolEntrySize);
             result = VK_ERROR_OUT_OF_POOL_MEMORY;
-            used_pipeline_pool_entries_map_[offline_info->poolEntrySize].fetch_sub(1);
+            pipeline_pool_entry_it->second.fetch_sub(1);
             continue;
         }
 
@@ -231,12 +239,13 @@ VkResult Device::CreateGraphicsPipelines(VkPipelineCache pipelineCache, uint32_t
                         "Failed to create underlying Vulkan graphics pipeline for pipeline (%s)",
                         pipeline->ID().toString().c_str());
             result = vk_result;
-            used_pipeline_pool_entries_map_[offline_info->poolEntrySize].fetch_sub(1);
+            pipeline_pool_entry_it->second.fetch_sub(1);
             continue;
         }
 
         if (RecyclePipelineMemory()) {
             // Need to remember the pipeline's pool entry size to recycle it upon destruction
+            std::unique_lock pipeline_pool_size_map_lock(pipeline_pool_size_map_mutex_);
             pipeline_pool_size_map_[pPipelines[i]] = offline_info->poolEntrySize;
         }
     }
@@ -259,13 +268,20 @@ VkResult Device::CreateComputePipelines(VkPipelineCache pipelineCache, uint32_t 
             continue;
         }
 
-        if (used_pipeline_pool_entries_map_[offline_info->poolEntrySize].fetch_add(1) >=
-            reserved_pipeline_pool_entries_map_[offline_info->poolEntrySize]) {
+        auto pipeline_pool_entry_it = used_pipeline_pool_entries_map_.find(offline_info->poolEntrySize);
+        if (pipeline_pool_entry_it == used_pipeline_pool_entries_map_.end()) {
+            Log().Error("VKSC-EMU-CreatePipeline-ExhaustedPoolEntrySize",
+                        "Attempted to create pipeline (%s) with poolEntrySize (%" PRIu64
+                        ") but no such pool entry size was reserved",
+                        pipeline->ID().toString().c_str(), offline_info->poolEntrySize);
+            continue;
+        }
+        if (pipeline_pool_entry_it->second.fetch_add(1) >= reserved_pipeline_pool_entries_map_[offline_info->poolEntrySize]) {
             Log().Error("VKSC-EMU-CreatePipeline-ExhaustedPoolEntrySize",
                         "Attempted to create pipeline (%s) but pool entries with poolEntrySize (%" PRIu64 ") are exhausted",
                         pipeline->ID().toString().c_str(), offline_info->poolEntrySize);
             result = VK_ERROR_OUT_OF_POOL_MEMORY;
-            used_pipeline_pool_entries_map_[offline_info->poolEntrySize].fetch_sub(1);
+            pipeline_pool_entry_it->second.fetch_sub(1);
             continue;
         }
 
@@ -291,12 +307,13 @@ VkResult Device::CreateComputePipelines(VkPipelineCache pipelineCache, uint32_t 
             Log().Error("VKSC-EMU-CreatePipeline-ExhaustedPoolEntrySize",
                         "Failed to create underlying Vulkan compute pipeline for pipeline (%s)", pipeline->ID().toString().c_str());
             result = vk_result;
-            used_pipeline_pool_entries_map_[offline_info->poolEntrySize].fetch_sub(1);
+            pipeline_pool_entry_it->second.fetch_sub(1);
             continue;
         }
 
         if (RecyclePipelineMemory()) {
             // Need to remember the pipeline's pool entry size to recycle it upon destruction
+            std::unique_lock pipeline_pool_size_map_lock(pipeline_pool_size_map_mutex_);
             pipeline_pool_size_map_[pPipelines[i]] = offline_info->poolEntrySize;
         }
     }
@@ -305,9 +322,11 @@ VkResult Device::CreateComputePipelines(VkPipelineCache pipelineCache, uint32_t 
 
 void Device::DestroyPipeline(VkPipeline pipeline, const VkAllocationCallbacks* pAllocator) {
     if (pipeline != VK_NULL_HANDLE && RecyclePipelineMemory()) {
+        std::unique_lock pipeline_pool_size_map_lock(pipeline_pool_size_map_mutex_);
         auto it = pipeline_pool_size_map_.find(pipeline);
         if (it != pipeline_pool_size_map_.end()) {
             used_pipeline_pool_entries_map_[it->second].fetch_sub(1);
+            pipeline_pool_size_map_.erase(it);
         } else {
             Log().Error("VKSC-EMU-DestroyPipeline-MissingPipelinePoolEntrySize",
                         "Missing pipeline pool entry size tracking information for pipeline (%s)", pipeline);
