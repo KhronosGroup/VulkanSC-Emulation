@@ -44,12 +44,6 @@ find_package(SPIRV-Tools REQUIRED CONFIG QUIET)
 find_package(SPIRV-Tools-opt REQUIRED CONFIG QUIET)
 find_package(jsoncpp REQUIRED CONFIG QUIET)
 find_package(valijson REQUIRED CONFIG QUIET)
-find_path(CPPCODEC_INCLUDE_DIR cppcodec/base64_rfc4648.hpp
-    PATH_SUFFIXES include
-    REQUIRED
-)
-add_library(cppcodec INTERFACE)
-target_include_directories(cppcodec INTERFACE "${CPPCODEC_INCLUDE_DIR}")
 
 include(GNUInstallDirs)
 

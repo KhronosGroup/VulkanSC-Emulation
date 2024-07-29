@@ -9,7 +9,7 @@
 #include "pcc_builder.h"
 #include "uuid.h"
 
-#include <cppcodec/base64_rfc4648.hpp>
+#include "base64.h"
 #include <cxxopts.hpp>
 #include <json/json.h>
 #include <spirv-tools/libspirv.hpp>
@@ -207,8 +207,9 @@ static bool validate_spirv(const Json::Value& enabled_extensions, const Json::Va
             }
         } else if (specialization_data.isString()) {
             // Parse specialization data as Base64 string
-            data = cppcodec::base64_rfc4648::decode(specialization_data.asString());
-            if (data.size() == data_size) {
+            auto parsed_data = utils::decode_base64(specialization_data.asString());
+            if (parsed_data.has_value() && parsed_data->size() == data_size) {
+                data = std::move(*parsed_data);
                 data_parsed = true;
             }
         }
