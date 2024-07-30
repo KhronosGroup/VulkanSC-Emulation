@@ -12,6 +12,7 @@
 #include <unordered_map>
 #include <utility>
 #include <memory>
+#include <mutex>
 
 namespace vksc {
 
@@ -60,6 +61,7 @@ class DispatchableChildren {
   public:
     template <typename... ARGS>
     OBJ* GetOrAddChild(HANDLE vk_handle, ARGS&&... args) {
+        std::unique_lock lock(mutex_);
         auto it = children_.find(vk_handle);
         if (it == children_.end()) {
             auto obj = OBJ::CreateUnique(vk_handle, std::forward<ARGS>(args)...);
@@ -73,6 +75,7 @@ class DispatchableChildren {
     }
 
   private:
+    std::mutex mutex_{};
     std::unordered_map<HANDLE, std::unique_ptr<OBJ>> children_{};
 };
 

@@ -20,6 +20,7 @@
 #include <vector>
 #include <memory>
 #include <atomic>
+#include <mutex>
 
 namespace vksc {
 
@@ -98,11 +99,13 @@ class Device : public Dispatchable<Device, VkDevice>, public vk::Device {
 
     // Map of pipeline cache data pointers to pipeline cache data
     std::unordered_map<const void*, icd::PipelineCache> pipeline_cache_map_;
+
     // Map of reserved and currently used pipeline pool entries keyed by entry size
     std::unordered_map<uint64_t, uint32_t> reserved_pipeline_pool_entries_map_;
     std::unordered_map<uint64_t, std::atomic_uint32_t> used_pipeline_pool_entries_map_;
 
     // Map of pipelines and corresponding pool entry sizes (used only when pipeline pool entry recycling is enabled)
+    std::mutex pipeline_pool_size_map_mutex_;
     std::unordered_map<VkPipeline, uint64_t> pipeline_pool_size_map_;
 
     std::vector<ExtensionNumber> enabled_exts_;
