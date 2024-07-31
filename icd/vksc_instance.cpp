@@ -144,14 +144,17 @@ VkResult Instance::GetCompatiblePhysicalDeviceGroupList(std::vector<VkPhysicalDe
 
 VkResult Instance::EnumeratePhysicalDeviceGroups(uint32_t* pPhysicalDeviceGroupCount,
                                                  VkPhysicalDeviceGroupProperties* pPhysicalDeviceGroupProperties) {
-    for (uint32_t i = 0; i < *pPhysicalDeviceGroupCount; ++i) {
-        // NOTE: This code assumes that nothing is chained to the pNext (which is currently the case)
-        // This could be handled in the future with a more general solution, but none of the current
-        // VulkanSC-Utility-Libraries utilities, nor the safe struct chain utilities are sufficient
-        // to handle copying pNext chains into an application allocated pNext chain.
-        if (pPhysicalDeviceGroupProperties[i].pNext != nullptr) {
-            Log().Error("VKSC-EMU-DeviceGroupProperties", "Unsupported structures in VkPhysicalDeviceGroupProperties::pNext chain");
-            return VK_ERROR_INITIALIZATION_FAILED;
+    if (pPhysicalDeviceGroupProperties != nullptr) {
+        for (uint32_t i = 0; i < *pPhysicalDeviceGroupCount; ++i) {
+            // NOTE: This code assumes that nothing is chained to the pNext (which is currently the case)
+            // This could be handled in the future with a more general solution, but none of the current
+            // VulkanSC-Utility-Libraries utilities, nor the safe struct chain utilities are sufficient
+            // to handle copying pNext chains into an application allocated pNext chain.
+            if (pPhysicalDeviceGroupProperties[i].pNext != nullptr) {
+                Log().Error("VKSC-EMU-DeviceGroupProperties",
+                            "Unsupported structures in VkPhysicalDeviceGroupProperties::pNext chain");
+                return VK_ERROR_INITIALIZATION_FAILED;
+            }
         }
     }
     std::vector<VkPhysicalDeviceGroupProperties> physical_device_groups{};
