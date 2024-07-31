@@ -47,7 +47,7 @@ static const std::array<uint8_t, VK_UUID_SIZE> EmulationPipelineCacheUUID = {0x2
                                                                              0x89, 0x15, 0x68, 0x72, 0xE8, 0x61, 0x42, 0x1A};
 
 // Custom device ID we use to indicate that the pipeline cache is compatible with all devices
-#define VK_DEVICE_ID_PORTABLE UINT32_MAX
+#define VK_DEVICE_ID_PORTABLE 0xD19CDA7A
 
 // TODO: Remove these once we've added the official IDs to the registry
 #define VK_VENDOR_ID_KHRONOS ((VkVendorId)0x10000)
