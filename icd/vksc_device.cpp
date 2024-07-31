@@ -183,6 +183,7 @@ VkResult Device::CreateGraphicsPipelines(VkPipelineCache pipelineCache, uint32_t
     auto pipeline_cache = icd::PipelineCache::FromHandle(pipelineCache);
     for (uint32_t i = 0; i < createInfoCount; ++i) {
         icd::ShadowStack::Frame stack_frame{};
+        pPipelines[i] = VK_NULL_HANDLE;
 
         auto offline_info = vku::FindStructInPNextChain<VkPipelineOfflineCreateInfo>(pCreateInfos[i].pNext);
         VkResult cache_result = VK_SUCCESS;
@@ -259,6 +260,7 @@ VkResult Device::CreateComputePipelines(VkPipelineCache pipelineCache, uint32_t 
     auto pipeline_cache = icd::PipelineCache::FromHandle(pipelineCache);
     for (uint32_t i = 0; i < createInfoCount; ++i) {
         icd::ShadowStack::Frame stack_frame{};
+        pPipelines[i] = VK_NULL_HANDLE;
 
         auto offline_info = vku::FindStructInPNextChain<VkPipelineOfflineCreateInfo>(pCreateInfos[i].pNext);
         VkResult cache_result = VK_SUCCESS;
@@ -329,7 +331,7 @@ void Device::DestroyPipeline(VkPipeline pipeline, const VkAllocationCallbacks* p
             pipeline_pool_size_map_.erase(it);
         } else {
             Log().Error("VKSC-EMU-DestroyPipeline-MissingPipelinePoolEntrySize",
-                        "Missing pipeline pool entry size tracking information for pipeline (%s)", pipeline);
+                        "Missing pipeline pool entry size tracking information for pipeline (%p)", pipeline);
         }
     }
     vk::Device::DestroyPipeline(pipeline, pAllocator);
