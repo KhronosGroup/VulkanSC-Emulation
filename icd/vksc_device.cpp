@@ -331,7 +331,7 @@ void Device::DestroyPipeline(VkPipeline pipeline, const VkAllocationCallbacks* p
             pipeline_pool_size_map_.erase(it);
         } else {
             Log().Error("VKSC-EMU-DestroyPipeline-MissingPipelinePoolEntrySize",
-                        "Missing pipeline pool entry size tracking information for pipeline (%s)", pipeline);
+                        "Missing pipeline pool entry size tracking information for pipeline (%p)", pipeline);
         }
     }
     vk::Device::DestroyPipeline(pipeline, pAllocator);
