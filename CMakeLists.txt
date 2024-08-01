@@ -90,6 +90,8 @@ elseif(MSVC)
     add_compile_options("/w34245")
     # Do not warn about switch statements with no case labels
     add_compile_options("/wd4065")
+    # Stricter ISO conformance
+    add_compile_options("/permissive-")
 
     # Allow usage of unsafe CRT functions and minimize what Windows.h leaks
     add_compile_definitions(_CRT_SECURE_NO_WARNINGS NOMINMAX WIN32_LEAN_AND_MEAN)
