@@ -169,8 +169,9 @@ VKAPI_ATTR VkResult VKAPI_CALL vkEnumerateInstanceExtensionProperties(const char
 }
 
 VKAPI_ATTR VkResult VKAPI_CALL vkEnumerateInstanceLayerProperties(uint32_t* pPropertyCount, VkLayerProperties* pProperties) {
-    icd::EnvironmentOverride override(vksc::ICD.Environment());
-    return vksc::ICD.VkDispatch().EnumerateInstanceLayerProperties(pPropertyCount, pProperties);
+    // We don't want to report back Vulkan layers
+    *pPropertyCount = 0;
+    return VK_SUCCESS;
 }
 
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateInstance(const VkInstanceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
