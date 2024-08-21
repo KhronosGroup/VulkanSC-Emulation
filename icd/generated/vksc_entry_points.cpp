@@ -15,7 +15,7 @@
 #include "vksc_physical_device.h"
 #include "vksc_queue.h"
 VKAPI_ATTR void VKAPI_CALL vkDestroyInstance(VkInstance instance, const VkAllocationCallbacks* pAllocator) {
-    return vksc::Instance::FromHandle(instance)->DestroyInstance(pAllocator);
+    if (instance != VK_NULL_HANDLE) return vksc::Instance::FromHandle(instance)->DestroyInstance(pAllocator);
 }
 
 VKAPI_ATTR VkResult VKAPI_CALL vkEnumeratePhysicalDevices(VkInstance instance, uint32_t* pPhysicalDeviceCount,
@@ -66,7 +66,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateDevice(VkPhysicalDevice physicalDevice, c
 }
 
 VKAPI_ATTR void VKAPI_CALL vkDestroyDevice(VkDevice device, const VkAllocationCallbacks* pAllocator) {
-    return vksc::Device::FromHandle(device)->DestroyDevice(pAllocator);
+    if (device != VK_NULL_HANDLE) return vksc::Device::FromHandle(device)->DestroyDevice(pAllocator);
 }
 
 VKAPI_ATTR VkResult VKAPI_CALL vkEnumerateDeviceExtensionProperties(VkPhysicalDevice physicalDevice, const char* pLayerName,

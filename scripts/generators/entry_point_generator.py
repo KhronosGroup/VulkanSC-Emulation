@@ -6,6 +6,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import os
+import re
 from generators.base_generator import BaseGenerator
 from generators.generator_utils import PlatformGuardHelper
 
@@ -56,6 +57,9 @@ class EntryPointGenerator(BaseGenerator):
                     method = command.alias[2:]
                 else:
                     method = command.name[2:]
+
+                if (command.name.startswith('vkDestroy') or command.name.startswith('vkFree')) and len(command.params) == 2 and command.params[1].type == 'VkAllocationCallbacks':
+                    out.append(f'if ({command.params[0].name} != VK_NULL_HANDLE)')
 
                 out.append(f'return vksc::{handle_type[2:]}::FromHandle({command.params[0].name})->{method}({", ".join(params)});')
                 out.append('}\n\n')
