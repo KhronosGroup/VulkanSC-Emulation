@@ -17,7 +17,20 @@
 
 #include <vulkan/utility/vk_struct_helper.hpp>
 
+#include <cstddef>
+#include <array>
+
 namespace vksc {
+
+constexpr std::array<size_t, 10> UnsupportedFeatureOffsets() {
+    // Vulkan SC limits the available physical device features.
+    return {
+        offsetof(VkPhysicalDeviceFeatures, shaderResourceResidency),  offsetof(VkPhysicalDeviceFeatures, sparseBinding),
+        offsetof(VkPhysicalDeviceFeatures, sparseResidencyBuffer),    offsetof(VkPhysicalDeviceFeatures, sparseResidencyImage2D),
+        offsetof(VkPhysicalDeviceFeatures, sparseResidencyImage3D),   offsetof(VkPhysicalDeviceFeatures, sparseResidency2Samples),
+        offsetof(VkPhysicalDeviceFeatures, sparseResidency4Samples),  offsetof(VkPhysicalDeviceFeatures, sparseResidency8Samples),
+        offsetof(VkPhysicalDeviceFeatures, sparseResidency16Samples), offsetof(VkPhysicalDeviceFeatures, sparseResidencyAliased)};
+}
 
 static utils::UUID GenerateUUID(const uint8_t uuid[VK_UUID_SIZE]) {
     // Mask XOR'd with the incoming UUID to update its timestamp to something new and unique
@@ -90,6 +103,16 @@ VkResult PhysicalDevice::EnumerateDeviceExtensionProperties(const char* pLayerNa
 
 VkResult PhysicalDevice::CreateDevice(const VkDeviceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                                       VkDevice* pDevice) {
+    // Vulkan SC limits the supported physical device features. If a logical device is requested with any of those features,
+    // VK_ERROR_FEATURE_NOT_PRESENT shall be returned, even if the underlying device would support them.
+    if (pCreateInfo->pEnabledFeatures != nullptr) {
+        for (const auto& offset : UnsupportedFeatureOffsets()) {
+            if (*reinterpret_cast<const VkBool32*>(reinterpret_cast<const char*>(pCreateInfo->pEnabledFeatures) + offset) ==
+                VK_TRUE) {
+                return VK_ERROR_FEATURE_NOT_PRESENT;
+            }
+        }
+    }
     // Construct the Vulkan version of the create info with appropriate filtering and handle unwrapping
     icd::ShadowStack::Frame stack_frame{};
     VkDeviceCreateInfo vk_create_info = *pCreateInfo;
@@ -123,16 +146,9 @@ VkResult PhysicalDevice::CreateDevice(const VkDeviceCreateInfo* pCreateInfo, con
 
 void PhysicalDevice::UpdatePhysicalDeviceFeaturesForVulkanSC(VkPhysicalDeviceFeatures& features) {
     // Update physical device features to reflect Vulkan SC limitations
-    features.shaderResourceResidency = VK_FALSE;
-    features.sparseBinding = VK_FALSE;
-    features.sparseResidencyBuffer = VK_FALSE;
-    features.sparseResidencyImage2D = VK_FALSE;
-    features.sparseResidencyImage3D = VK_FALSE;
-    features.sparseResidency2Samples = VK_FALSE;
-    features.sparseResidency4Samples = VK_FALSE;
-    features.sparseResidency8Samples = VK_FALSE;
-    features.sparseResidency16Samples = VK_FALSE;
-    features.sparseResidencyAliased = VK_FALSE;
+    for (const auto& offset : UnsupportedFeatureOffsets()) {
+        *reinterpret_cast<VkBool32*>(reinterpret_cast<char*>(&features) + offset) = VK_FALSE;
+    }
 }
 
 void PhysicalDevice::GetPhysicalDeviceFeatures(VkPhysicalDeviceFeatures* pFeatures) {

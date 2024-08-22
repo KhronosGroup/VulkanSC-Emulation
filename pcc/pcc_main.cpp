@@ -169,112 +169,123 @@ static bool validate_spirv(const Json::Value& enabled_extensions, const Json::Va
     // Apply specialization constants, if needed
     auto specialization_info = stage_info["pSpecializationInfo"];
     if (specialization_info.isObject() && (spv_valid == SPV_SUCCESS || spv_valid == SPV_WARNING)) {
-        // First, we need to flatten group decorations in case there are any
-        std::vector<uint32_t> flattened_spirv{};
-        {
-            spvtools::Optimizer optimizer(target_env);
-            optimizer.RegisterPass(spvtools::CreateFlattenDecorationPass());
-            optimizer.Run(binary.code, binary.wordCount, &flattened_spirv, spvtools::ValidatorOptions(), true);
-        }
-
-        // Then parse SPIR-V instructions to collect the SPIR-V ID of specialization constant IDs
-        std::unordered_map<uint32_t, uint32_t> id_to_spec_id;
-        spvtools::SpirvTools parser(target_env);
-        parser.Parse(
-            *spirv, [](const spv_endianness_t endianess, const spv_parsed_header_t& instruction) { return SPV_SUCCESS; },
-            [&](const spv_parsed_instruction_t& instruction) {
-                if (instruction.opcode == spv::OpDecorate && instruction.words[2] == spv::DecorationSpecId) {
-                    id_to_spec_id[instruction.words[1]] = instruction.words[3];
-                }
-                return SPV_SUCCESS;
-            },
-            nullptr);
-
-        // Now we can apply the specialization info
-        std::vector<uint32_t> specialized_spirv{};
-        auto map_entry_count = specialization_info["mapEntryCount"].asUInt();
+        // First we check if the spec info well formed and has any meaningful payload (CTS captures tell us this is needed)
+        auto map_entry_count = specialization_info["mapEntryCount"];
         auto map_entries = specialization_info["pMapEntries"];
+        auto data_size = specialization_info["dataSize"];
         auto specialization_data = specialization_info["pData"];
-        auto data_size = specialization_info["dataSize"].asUInt();
 
-        std::vector<uint8_t> data;
-        bool data_parsed = false;
-        if (specialization_data.isArray()) {
-            // Parse specialization data as array
-            if (specialization_data.size() == data_size) {
-                data.resize(data_size);
-                for (uint32_t data_idx = 0; data_idx < data.size(); ++data_idx) {
-                    data[data_idx] = specialization_data[data_idx].asUInt();
-                }
-                data_parsed = true;
-            }
-        } else if (specialization_data.isString()) {
-            // Parse specialization data as Base64 string
-            auto parsed_data = utils::decode_base64(specialization_data.asString());
-            if (parsed_data.has_value() && parsed_data->size() == data_size) {
-                data = std::move(*parsed_data);
-                data_parsed = true;
-            }
-        }
+        bool map_entry_count_valid = map_entry_count.isUInt() && map_entry_count.asUInt() != 0;
+        bool map_entries_valid = map_entries.isArray() || (map_entries.isString() && map_entries.asString() == "NULL");
+        bool data_size_valid = data_size.isUInt() && data_size.asUInt() != 0;
+        bool specialization_data_valid = specialization_data.isArray() || specialization_data.isString();
 
-        if (data_parsed && map_entries.isArray() && map_entries.size() == map_entry_count) {
-            // Initialize ID value map for applying specialization data
-            std::unordered_map<uint32_t, std::vector<uint32_t>> id_value_map{};
-            id_value_map.reserve(map_entry_count);
-            for (const auto& it : id_to_spec_id) {
-                const uint32_t spec_id = it.second;
-
-                // Find specialization map entry
-                VkSpecializationMapEntry map_entry = {UINT32_MAX, 0, 0};
-                for (uint32_t map_entry_idx = 0; map_entry_idx < map_entry_count; ++map_entry_idx) {
-                    if (map_entries[map_entry_idx]["constantID"].asUInt() == spec_id) {
-                        map_entry.constantID = spec_id;
-                        map_entry.offset = map_entries[map_entry_idx]["offset"].asUInt();
-                        map_entry.size = map_entries[map_entry_idx]["size"].asUInt();
-                        break;
-                    }
-                }
-                if (map_entry.constantID == UINT32_MAX) continue;
-
-                std::vector<uint32_t> entry_data((map_entry.size + sizeof(uint32_t) - 1) / sizeof(uint32_t), 0);
-                const uint8_t* map_data = reinterpret_cast<const uint8_t*>(data.data()) + map_entry.offset;
-                memcpy(entry_data.data(), map_data, map_entry.size);
-                id_value_map.emplace(map_entry.constantID, std::move(entry_data));
-            }
-
-            // Finally, apply the optimizer steps
+        if (map_entry_count_valid && map_entries_valid && data_size_valid && specialization_data_valid) {
+            // Then we need to flatten group decorations in case there are any
+            std::vector<uint32_t> flattened_spirv{};
             {
                 spvtools::Optimizer optimizer(target_env);
-                optimizer.RegisterPass(spvtools::CreateSetSpecConstantDefaultValuePass(id_value_map));
-                optimizer.RegisterPass(spvtools::CreateFreezeSpecConstantValuePass());
-                optimizer.RegisterPass(spvtools::CreateFoldSpecConstantOpAndCompositePass());
-                if (!optimizer.Run(flattened_spirv.data(), flattened_spirv.size(), &specialized_spirv, options, true)) {
-                    logger.Write(logger.ERROR, "Failed to apply specialized constants\n");
-                    specialized_spirv.clear();
-                    spv_valid = SPV_ERROR_INVALID_BINARY;
+                optimizer.RegisterPass(spvtools::CreateFlattenDecorationPass());
+                optimizer.Run(binary.code, binary.wordCount, &flattened_spirv, spvtools::ValidatorOptions(), true);
+            }
+
+            // Then parse SPIR-V instructions to collect the SPIR-V ID of specialization constant IDs
+            std::unordered_map<uint32_t, uint32_t> id_to_spec_id;
+            spvtools::SpirvTools parser(target_env);
+            parser.Parse(
+                *spirv, [](const spv_endianness_t endianess, const spv_parsed_header_t& instruction) { return SPV_SUCCESS; },
+                [&](const spv_parsed_instruction_t& instruction) {
+                    if (instruction.opcode == spv::OpDecorate && instruction.words[2] == spv::DecorationSpecId) {
+                        id_to_spec_id[instruction.words[1]] = instruction.words[3];
+                    }
+                    return SPV_SUCCESS;
+                },
+                nullptr);
+
+            // Now we can apply the specialization info
+            std::vector<uint32_t> specialized_spirv{};
+            auto map_entry_count_val = specialization_info["mapEntryCount"].asUInt();
+            auto data_size_val = specialization_info["dataSize"].asUInt();
+
+            std::vector<uint8_t> data;
+            bool data_parsed = false;
+            if (specialization_data.isArray()) {
+                // Parse specialization data as array
+                if (specialization_data.size() == data_size_val) {
+                    data.resize(data_size_val);
+                    for (uint32_t data_idx = 0; data_idx < data.size(); ++data_idx) {
+                        data[data_idx] = specialization_data[data_idx].asUInt();
+                    }
+                    data_parsed = true;
+                }
+            } else if (specialization_data.isString()) {
+                // Parse specialization data as Base64 string
+                auto parsed_data = utils::decode_base64(specialization_data.asString());
+                if (parsed_data.has_value() && parsed_data->size() == data_size_val) {
+                    data = std::move(*parsed_data);
+                    data_parsed = true;
                 }
             }
-        } else {
-            logger.Write(logger.ERROR, "Invalid SPIR-V specialization info\n");
-            spv_valid = SPV_ERROR_INVALID_BINARY;
-        }
 
-        // Now we only have to revalidate specialized SPIR-V code
-        if (specialized_spirv.size() > 0) {
-            spv_const_binary_t specialized_binary{specialized_spirv.data(), specialized_spirv.size()};
-            spv_valid = spvValidateWithOptions(ctx, options, &specialized_binary, &diag);
-            if (spv_valid != SPV_SUCCESS) {
-                if (spv_valid == SPV_WARNING) {
-                    logger.Write(logger.WARNING, "spirv-val: %s\n", diag && diag->error ? diag->error : "(no error text)");
-                } else {
-                    logger.Write(logger.ERROR, "spirv-val: %s\n", diag && diag->error ? diag->error : "(no error text)");
+            if (data_parsed && map_entries.isArray() && map_entries.size() == map_entry_count_val) {
+                // Initialize ID value map for applying specialization data
+                std::unordered_map<uint32_t, std::vector<uint32_t>> id_value_map{};
+                id_value_map.reserve(map_entry_count_val);
+                for (const auto& it : id_to_spec_id) {
+                    const uint32_t spec_id = it.second;
+
+                    // Find specialization map entry
+                    VkSpecializationMapEntry map_entry = {UINT32_MAX, 0, 0};
+                    for (uint32_t map_entry_idx = 0; map_entry_idx < map_entry_count_val; ++map_entry_idx) {
+                        if (map_entries[map_entry_idx]["constantID"].asUInt() == spec_id) {
+                            map_entry.constantID = spec_id;
+                            map_entry.offset = map_entries[map_entry_idx]["offset"].asUInt();
+                            map_entry.size = map_entries[map_entry_idx]["size"].asUInt();
+                            break;
+                        }
+                    }
+                    if (map_entry.constantID == UINT32_MAX) continue;
+
+                    std::vector<uint32_t> entry_data((map_entry.size + sizeof(uint32_t) - 1) / sizeof(uint32_t), 0);
+                    const uint8_t* map_data = reinterpret_cast<const uint8_t*>(data.data()) + map_entry.offset;
+                    memcpy(entry_data.data(), map_data, map_entry.size);
+                    id_value_map.emplace(map_entry.constantID, std::move(entry_data));
                 }
-            }
-            spvDiagnosticDestroy(diag);
-        }
 
-        // We will store the specialized SPIR-V binary in the pipeline cache to not have to redo this on the ICD side
-        *spirv = specialized_spirv;
+                // Finally, apply the optimizer steps
+                {
+                    spvtools::Optimizer optimizer(target_env);
+                    optimizer.RegisterPass(spvtools::CreateSetSpecConstantDefaultValuePass(id_value_map));
+                    optimizer.RegisterPass(spvtools::CreateFreezeSpecConstantValuePass());
+                    optimizer.RegisterPass(spvtools::CreateFoldSpecConstantOpAndCompositePass());
+                    if (!optimizer.Run(flattened_spirv.data(), flattened_spirv.size(), &specialized_spirv, options, true)) {
+                        logger.Write(logger.ERROR, "Failed to apply specialized constants\n");
+                        specialized_spirv.clear();
+                        spv_valid = SPV_ERROR_INVALID_BINARY;
+                    }
+                }
+            } else {
+                logger.Write(logger.ERROR, "Invalid SPIR-V specialization info\n");
+                spv_valid = SPV_ERROR_INVALID_BINARY;
+            }
+
+            // Now we only have to revalidate specialized SPIR-V code
+            if (specialized_spirv.size() > 0) {
+                spv_const_binary_t specialized_binary{specialized_spirv.data(), specialized_spirv.size()};
+                spv_valid = spvValidateWithOptions(ctx, options, &specialized_binary, &diag);
+                if (spv_valid != SPV_SUCCESS) {
+                    if (spv_valid == SPV_WARNING) {
+                        logger.Write(logger.WARNING, "spirv-val: %s\n", diag && diag->error ? diag->error : "(no error text)");
+                    } else {
+                        logger.Write(logger.ERROR, "spirv-val: %s\n", diag && diag->error ? diag->error : "(no error text)");
+                    }
+                }
+                spvDiagnosticDestroy(diag);
+            }
+
+            // We will store the specialized SPIR-V binary in the pipeline cache to not have to redo this on the ICD side
+            *spirv = specialized_spirv;
+        }
     }
 
     if (spirv_dis) {
@@ -346,7 +357,7 @@ static std::optional<std::vector<std::vector<uint32_t>>> load_shader_spirv(const
             filepath += std::filesystem::path::preferred_separator;
             filepath += filename;
 
-            logger.Write(logger.INFO, "  %s\n", filepath.c_str());
+            logger.Write(logger.INFO, "  %s\n", filepath.string().c_str());
 
             FILE* fp = fopen(filepath.string().c_str(), "rb");
             if (!fp) {
@@ -484,7 +495,7 @@ int main(int argc, char* argv[]) {
             continue;
 
         // Load JSON file
-        logger.Write(logger.INFO, "Parsing pipeline JSON '%s'\n", entry.path().c_str());
+        logger.Write(logger.INFO, "Parsing pipeline JSON '%s'\n", entry.path().string().c_str());
         auto json = load_json_file(entry.path());
         if (json == Json::nullValue) {
             return EXIT_FAILURE;
@@ -559,7 +570,7 @@ int main(int argc, char* argv[]) {
 
         pipelines.emplace_back(std::move(pipeline_info));
 
-        logger.Write(logger.INFO, "Compiled pipeline JSON '%s' successfully.\n\n", entry.path().c_str());
+        logger.Write(logger.INFO, "Compiled pipeline JSON '%s' successfully.\n\n", entry.path().string().c_str());
     }
 
     // Build pipeline cache

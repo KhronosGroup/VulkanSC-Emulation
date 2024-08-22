@@ -122,9 +122,13 @@ void Device::FreeCommandBuffers(VkCommandPool commandPool, uint32_t commandBuffe
     icd::ShadowStack::Frame stack_frame{};
     auto cmd_buffers = stack_frame.Alloc<VkCommandBuffer>(commandBufferCount);
     for (uint32_t i = 0; i < commandBufferCount; ++i) {
-        CommandBuffer* cmd_buffer = CommandBuffer::FromHandle(pCommandBuffers[i]);
-        cmd_buffers[i] = cmd_buffer->VkHandle();
-        cmd_buffer->Free();
+        if (pCommandBuffers[i] == nullptr) {
+            cmd_buffers[i] = nullptr;
+        } else {
+            CommandBuffer* cmd_buffer = CommandBuffer::FromHandle(pCommandBuffers[i]);
+            cmd_buffers[i] = cmd_buffer->VkHandle();
+            cmd_buffer->Free();
+        }
     }
     vk::Device::FreeCommandBuffers(commandPool, commandBufferCount, cmd_buffers);
 }
