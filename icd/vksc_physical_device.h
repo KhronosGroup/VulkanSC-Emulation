@@ -43,7 +43,7 @@ class PhysicalDevice : public Dispatchable<PhysicalDevice, VkPhysicalDevice>, pu
     VkResult GetPhysicalDeviceRefreshableObjectTypesKHR(uint32_t* pRefreshableObjectTypeCount,
                                                         VkObjectType* pRefreshableObjectTypes);
 
-    constexpr uint32_t GetMaxQueryFaultCount() const;
+    constexpr uint32_t GetMaxQueryFaultCount() const { return 16; }
 
   private:
     void UpdatePhysicalDeviceFeaturesForVulkanSC(VkPhysicalDeviceFeatures& features);

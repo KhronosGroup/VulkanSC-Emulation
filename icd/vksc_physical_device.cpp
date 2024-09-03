@@ -257,6 +257,4 @@ VkResult PhysicalDevice::GetPhysicalDeviceRefreshableObjectTypesKHR(uint32_t* pR
     return VK_SUCCESS;
 }
 
-constexpr uint32_t PhysicalDevice::GetMaxQueryFaultCount() const { return 16; }
-
 }  // namespace vksc
