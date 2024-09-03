@@ -359,6 +359,8 @@ void Device::ReportFault(VkFaultLevel faultLevel, VkFaultType faultType) {
         fault_callback_.value().pfnFaultCallback(unrecorded_faults_, 1, &fault_data);
     }
 
+    std::lock_guard<std::mutex> lock{faults_mutex_};
+
     if (faults_.size() < physical_device_.GetMaxQueryFaultCount()) {
         faults_.push_back(fault_data);
     } else {
