@@ -21,6 +21,7 @@
 #include <memory>
 #include <atomic>
 #include <mutex>
+#include <optional>
 
 namespace vksc {
 
@@ -66,6 +67,8 @@ class Device : public Dispatchable<Device, VkDevice>, public vk::Device {
                                     VkPipeline* pPipelines);
     void DestroyPipeline(VkPipeline pipeline, const VkAllocationCallbacks* pAllocator);
 
+    void ReportFault(VkFaultLevel faultLevel, VkFaultType faultType);
+
     VkResult GetFaultData(VkFaultQueryBehavior faultQueryBehavior, VkBool32* pUnrecordedFaults, uint32_t* pFaultCount,
                           VkFaultData* pFaults);
 
@@ -83,6 +86,11 @@ class Device : public Dispatchable<Device, VkDevice>, public vk::Device {
                                        const VkAllocationCallbacks* pAllocator, VkSwapchainKHR* pSwapchains);
 
   private:
+    struct FaultCallbackInfo {
+        uint32_t faultCount;
+        VkFaultData* pFaults;
+        PFN_vkFaultCallbackFunction pfnFaultCallback;
+    };
     VkResult SetupDevice(const VkDeviceCreateInfo& create_info);
     const icd::Pipeline* GetPipelineFromCache(const icd::PipelineCache& pipeline_cache,
                                               const VkPipelineOfflineCreateInfo* offline_info, VkResult& out_result);
@@ -111,6 +119,11 @@ class Device : public Dispatchable<Device, VkDevice>, public vk::Device {
     std::vector<ExtensionNumber> enabled_exts_;
 
     icd::DeviceObjectTracker object_tracker_;
+
+    std::mutex faults_mutex_;
+    std::vector<VkFaultData> faults_;
+    std::optional<FaultCallbackInfo> fault_callback_;
+    VkBool32 unrecorded_faults_;
 };
 
 }  // namespace vksc
