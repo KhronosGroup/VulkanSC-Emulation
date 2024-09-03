@@ -209,7 +209,7 @@ void PhysicalDevice::GetPhysicalDeviceProperties2(VkPhysicalDeviceProperties2* p
         sc_10_props->maxSubpassPreserveAttachments = 0;
         sc_10_props->maxFramebufferAttachments = std::max(pProperties->properties.limits.maxColorAttachments * 2u + 1u, 9u);
         sc_10_props->maxDescriptorSetLayoutBindings = 64;
-        sc_10_props->maxQueryFaultCount = 16;
+        sc_10_props->maxQueryFaultCount = GetMaxQueryFaultCount();
         sc_10_props->maxCallbackFaultCount = 1;
         sc_10_props->maxCommandPoolCommandBuffers = 256;
         sc_10_props->maxCommandBufferSize = 1 << 20;
@@ -256,5 +256,7 @@ VkResult PhysicalDevice::GetPhysicalDeviceRefreshableObjectTypesKHR(uint32_t* pR
     // TODO: Add implementation
     return VK_SUCCESS;
 }
+
+constexpr uint32_t PhysicalDevice::GetMaxQueryFaultCount() const { return 16; }
 
 }  // namespace vksc
