@@ -86,6 +86,18 @@ static bool validate_spirv(const Json::Value& enabled_extensions, const Json::Va
     }
     spvDiagnosticDestroy(diag);
 
+    if (spirv_dis) {
+        spv_text text = nullptr;
+        spv_result_t error = spvBinaryToText(ctx, spirv->data(), spirv->size(), SPV_BINARY_TO_TEXT_OPTION_INDENT, &text, &diag);
+        if (error) {
+            logger.Write(logger.ERROR, "spirv-dis: %s\n", diag && diag->error ? diag->error : "(no error text)");
+            spvDiagnosticDestroy(diag);
+        } else {
+            logger.Write(logger.INFO, "spirv-dis:\n%s\n", text->str);
+            spvTextDestroy(text);
+        }
+    }
+
     // Check entry point
     auto stage_flag = stage_info["stage"].asString();
     auto entry_point_name = stage_info["pName"];
@@ -257,7 +269,8 @@ static bool validate_spirv(const Json::Value& enabled_extensions, const Json::Va
                     spvtools::Optimizer optimizer(target_env);
                     optimizer.RegisterPass(spvtools::CreateSetSpecConstantDefaultValuePass(id_value_map));
                     optimizer.RegisterPass(spvtools::CreateFreezeSpecConstantValuePass());
-                    optimizer.RegisterPass(spvtools::CreateFoldSpecConstantOpAndCompositePass());
+                    // Pass doesn't support OpQuantizeF16
+                    // optimizer.RegisterPass(spvtools::CreateFoldSpecConstantOpAndCompositePass());
                     if (!optimizer.Run(flattened_spirv.data(), flattened_spirv.size(), &specialized_spirv, options, true)) {
                         logger.Write(logger.ERROR, "Failed to apply specialized constants\n");
                         specialized_spirv.clear();
@@ -285,18 +298,20 @@ static bool validate_spirv(const Json::Value& enabled_extensions, const Json::Va
 
             // We will store the specialized SPIR-V binary in the pipeline cache to not have to redo this on the ICD side
             *spirv = specialized_spirv;
-        }
-    }
 
-    if (spirv_dis) {
-        spv_text text = nullptr;
-        spv_result_t error = spvBinaryToText(ctx, spirv->data(), spirv->size(), SPV_BINARY_TO_TEXT_OPTION_INDENT, &text, &diag);
-        if (error) {
-            logger.Write(logger.ERROR, "spirv-dis: %s\n", diag && diag->error ? diag->error : "(no error text)");
-            spvDiagnosticDestroy(diag);
-        } else {
-            logger.Write(logger.INFO, "spirv-dis:\n%s\n", text->str);
-            spvTextDestroy(text);
+            if (spirv_dis) {
+                spv_text text = nullptr;
+                spv_result_t error =
+                    spvBinaryToText(ctx, spirv->data(), spirv->size(), SPV_BINARY_TO_TEXT_OPTION_INDENT, &text, &diag);
+                if (error) {
+                    logger.Write(logger.ERROR, "spirv-dis (after specialization): %s\n",
+                                 diag && diag->error ? diag->error : "(no error text)");
+                    spvDiagnosticDestroy(diag);
+                } else {
+                    logger.Write(logger.INFO, "spirv-dis (after specialization):\n%s\n", text->str);
+                    spvTextDestroy(text);
+                }
+            }
         }
     }
 
