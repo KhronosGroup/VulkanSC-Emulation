@@ -7,23 +7,24 @@
 
 #pragma once
 
+#include "vksc_command_pool.h"
 #include "vksc_dispatchable.h"
-#include "vk_command_buffer.h"
+#include "vksc_command_buffer_memory_tracker.h"
 #include "icd_log.h"
 
 namespace vksc {
 
-class Device;
-
-class CommandBuffer : public Dispatchable<CommandBuffer, VkCommandBuffer>, public vk::CommandBuffer {
+class CommandBuffer : public Dispatchable<CommandBuffer, VkCommandBuffer>, public CommandBufferMemoryTracker {
   public:
-    CommandBuffer(VkCommandBuffer command_buffer, Device& device);
+    using NEXT = CommandBufferMemoryTracker;
+
+    CommandBuffer(VkCommandBuffer command_buffer, CommandPool& command_pool);
 
     icd::Logger& Log() { return logger_; }
 
     void CmdExecuteCommands(uint32_t commandBufferCount, const VkCommandBuffer* pCommandBuffers);
-
     void CmdRefreshObjectsKHR(const VkRefreshObjectListKHR* pRefreshObjects);
+    VkResult EndCommandBuffer();
 
   private:
     icd::Logger logger_;

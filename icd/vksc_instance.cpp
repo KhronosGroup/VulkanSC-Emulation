@@ -18,7 +18,7 @@ namespace vksc {
 
 Instance::Instance(VkInstance instance, Global& global, const VkInstanceCreateInfo& create_info)
     : Dispatchable(),
-      vk::Instance(instance, vk::DispatchTable(instance, global.VkGetProcAddr())),
+      NEXT(instance, vk::DispatchTable(instance, global.VkGetProcAddr())),
       status_(VK_SUCCESS),
       logger_(CreateLogger(create_info), VK_OBJECT_TYPE_INSTANCE, instance),
       api_version_(create_info.pApplicationInfo != nullptr ? create_info.pApplicationInfo->apiVersion : VKSC_API_VERSION_1_0),
@@ -59,11 +59,11 @@ icd::Logger Instance::CreateLogger(const VkInstanceCreateInfo& create_info) {
 VkResult Instance::GetCompatiblePhysicalDeviceList(std::vector<VkPhysicalDevice>& physical_devices) {
     // We have to filter out physical devices that do not support Vulkan 1.2 or the Vulkan Memory Model
     uint32_t physical_device_count = 0;
-    VkResult result = vk::Instance::EnumeratePhysicalDevices(&physical_device_count, nullptr);
+    VkResult result = NEXT::EnumeratePhysicalDevices(&physical_device_count, nullptr);
     if (result >= VK_SUCCESS) {
         physical_devices.reserve(physical_device_count);
         std::vector<VkPhysicalDevice> all_physical_devices(physical_device_count);
-        result = vk::Instance::EnumeratePhysicalDevices(&physical_device_count, all_physical_devices.data());
+        result = NEXT::EnumeratePhysicalDevices(&physical_device_count, all_physical_devices.data());
         if (result >= VK_SUCCESS) {
             for (const auto physical_device : all_physical_devices) {
                 vk::PhysicalDevice vk_obj(physical_device, VkDispatch());
@@ -117,12 +117,12 @@ VkResult Instance::GetCompatiblePhysicalDeviceGroupList(std::vector<VkPhysicalDe
     std::unordered_set<VkPhysicalDevice> physical_device_set(physical_devices.begin(), physical_devices.end());
     if (result >= VK_SUCCESS) {
         uint32_t physical_device_group_count = 0;
-        result = vk::Instance::EnumeratePhysicalDeviceGroups(&physical_device_group_count, nullptr);
+        result = NEXT::EnumeratePhysicalDeviceGroups(&physical_device_group_count, nullptr);
         if (result >= VK_SUCCESS) {
             physical_device_groups.reserve(physical_device_group_count);
             std::vector<VkPhysicalDeviceGroupProperties> all_physical_device_groups(
                 physical_device_group_count, vku::InitStruct<VkPhysicalDeviceGroupProperties>());
-            result = vk::Instance::EnumeratePhysicalDeviceGroups(&physical_device_group_count, all_physical_device_groups.data());
+            result = NEXT::EnumeratePhysicalDeviceGroups(&physical_device_group_count, all_physical_device_groups.data());
             if (result >= VK_SUCCESS) {
                 for (const auto& physical_device_group : all_physical_device_groups) {
                     bool all_physical_devices_compatible = true;
@@ -185,7 +185,7 @@ bool Instance::IsExtensionEnabled(ExtensionNumber ext) {
 
 VkResult Instance::CreateDebugUtilsMessengerEXT(const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
                                                 const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pMessenger) {
-    VkResult result = vk::Instance::CreateDebugUtilsMessengerEXT(pCreateInfo, pAllocator, pMessenger);
+    VkResult result = NEXT::CreateDebugUtilsMessengerEXT(pCreateInfo, pAllocator, pMessenger);
     if (result >= VK_SUCCESS) {
         Log().AddDebugMessenger(*pMessenger, *pCreateInfo);
     }
@@ -194,7 +194,7 @@ VkResult Instance::CreateDebugUtilsMessengerEXT(const VkDebugUtilsMessengerCreat
 
 void Instance::DestroyDebugUtilsMessengerEXT(VkDebugUtilsMessengerEXT messenger, const VkAllocationCallbacks* pAllocator) {
     Log().RemoveDebugMessenger(messenger);
-    vk::Instance::DestroyDebugUtilsMessengerEXT(messenger, pAllocator);
+    NEXT::DestroyDebugUtilsMessengerEXT(messenger, pAllocator);
 }
 
 }  // namespace vksc

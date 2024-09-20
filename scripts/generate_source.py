@@ -42,6 +42,7 @@ def RunGenerators(api: str, registry: str, directory: str, styleFile: str, targe
 
     from generators.base_generator import BaseGeneratorOptions
 
+    from generators.command_buffer_memory_tracker_generator import CommandBufferMemoryTrackerGenerator
     from generators.entry_point_generator import EntryPointGenerator
     from generators.proc_addr_helper_generator import ProcAddrHelperGenerator
     from generators.vk_dispatchable_generator import VkDispatchableGenerator
@@ -57,6 +58,16 @@ def RunGenerators(api: str, registry: str, directory: str, styleFile: str, targe
 
     # Build up a list of all generators and custom options
     generators = {
+        'vksc_command_buffer_memory_tracker.h': {
+            'generator': CommandBufferMemoryTrackerGenerator,
+            'api': 'vulkansc',
+            'genCombined': False
+        },
+        'vksc_command_buffer_memory_tracker.cpp': {
+            'generator': CommandBufferMemoryTrackerGenerator,
+            'api': 'vulkansc',
+            'genCombined': False
+        },
         'vksc_entry_points.cpp': {
             'generator': EntryPointGenerator,
             'api': 'vulkansc',

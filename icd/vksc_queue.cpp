@@ -12,7 +12,7 @@
 namespace vksc {
 
 Queue::Queue(VkQueue queue, Device& device)
-    : Dispatchable(), vk::Queue(queue, device.VkDispatch()), logger_(device.Log(), VK_OBJECT_TYPE_QUEUE, queue) {}
+    : Dispatchable(), NEXT(queue, device.VkDispatch()), logger_(device.Log(), VK_OBJECT_TYPE_QUEUE, queue) {}
 
 VkResult Queue::QueueSubmit(uint32_t submitCount, const VkSubmitInfo* pSubmits, VkFence fence) {
     icd::ShadowStack::Frame stack_frame{};
@@ -28,7 +28,7 @@ VkResult Queue::QueueSubmit(uint32_t submitCount, const VkSubmitInfo* pSubmits, 
         submit_info[submit_idx].pCommandBuffers = cmd_buffers;
     }
 
-    return vk::Queue::QueueSubmit(submitCount, submit_info, fence);
+    return NEXT::QueueSubmit(submitCount, submit_info, fence);
 }
 
 VkResult Queue::QueueSubmit2(uint32_t submitCount, const VkSubmitInfo2* pSubmits, VkFence fence) {
@@ -46,7 +46,7 @@ VkResult Queue::QueueSubmit2(uint32_t submitCount, const VkSubmitInfo2* pSubmits
         submit_info[submit_idx].pCommandBufferInfos = cmd_buffer_info;
     }
 
-    return vk::Queue::QueueSubmit2(submitCount, submit_info, fence);
+    return NEXT::QueueSubmit2(submitCount, submit_info, fence);
 }
 
 }  // namespace vksc

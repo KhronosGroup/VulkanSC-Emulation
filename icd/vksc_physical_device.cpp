@@ -48,16 +48,15 @@ static std::string GenerateDriverInfo(char driver_name[VK_MAX_DRIVER_NAME_SIZE],
 
 PhysicalDevice::PhysicalDevice(VkPhysicalDevice physical_device, Instance& instance)
     : Dispatchable(),
-      vk::PhysicalDevice(physical_device, instance.VkDispatch()),
+      NEXT(physical_device, instance.VkDispatch()),
       instance_(instance),
       logger_(instance.Log(), VK_OBJECT_TYPE_PHYSICAL_DEVICE, physical_device) {
     // Initialize extensions from the underlying Vulkan implementation
     uint32_t device_extension_count = 0;
-    VkResult result = vk::PhysicalDevice::EnumerateDeviceExtensionProperties(nullptr, &device_extension_count, nullptr);
+    VkResult result = NEXT::EnumerateDeviceExtensionProperties(nullptr, &device_extension_count, nullptr);
     if (result >= VK_SUCCESS) {
         device_extensions_.resize(device_extension_count);
-        result =
-            vk::PhysicalDevice::EnumerateDeviceExtensionProperties(nullptr, &device_extension_count, device_extensions_.data());
+        result = NEXT::EnumerateDeviceExtensionProperties(nullptr, &device_extension_count, device_extensions_.data());
         if (result >= VK_SUCCESS) {
             device_extensions_ = icd::GetVulkanSCExtensionList(Log(), device_extensions_, vksc::GetDeviceExtensionsMap());
         } else {
@@ -133,7 +132,7 @@ VkResult PhysicalDevice::CreateDevice(const VkDeviceCreateInfo* pCreateInfo, con
 
     // Create device
     VkDevice device = VK_NULL_HANDLE;
-    VkResult result = vk::PhysicalDevice::CreateDevice(&vk_create_info, pAllocator, &device);
+    VkResult result = NEXT::CreateDevice(&vk_create_info, pAllocator, &device);
     if (result >= VK_SUCCESS) {
         *pDevice = vksc::Device::Create(device, *this, *pCreateInfo);
         if (!vksc::Device::FromHandle(*pDevice)->IsValid()) {
@@ -152,12 +151,12 @@ void PhysicalDevice::UpdatePhysicalDeviceFeaturesForVulkanSC(VkPhysicalDeviceFea
 }
 
 void PhysicalDevice::GetPhysicalDeviceFeatures(VkPhysicalDeviceFeatures* pFeatures) {
-    vk::PhysicalDevice::GetPhysicalDeviceFeatures(pFeatures);
+    NEXT::GetPhysicalDeviceFeatures(pFeatures);
     UpdatePhysicalDeviceFeaturesForVulkanSC(*pFeatures);
 }
 
 void PhysicalDevice::GetPhysicalDeviceFeatures2(VkPhysicalDeviceFeatures2* pFeatures) {
-    vk::PhysicalDevice::GetPhysicalDeviceFeatures2(pFeatures);
+    NEXT::GetPhysicalDeviceFeatures2(pFeatures);
     UpdatePhysicalDeviceFeaturesForVulkanSC(pFeatures->features);
 
     // Handle Vulkan SC specific features
@@ -184,12 +183,12 @@ void PhysicalDevice::UpdatePhysicalDevicePropertiesForVulkanSC(VkPhysicalDeviceP
 }
 
 void PhysicalDevice::GetPhysicalDeviceProperties(VkPhysicalDeviceProperties* pProperties) {
-    vk::PhysicalDevice::GetPhysicalDeviceProperties(pProperties);
+    NEXT::GetPhysicalDeviceProperties(pProperties);
     UpdatePhysicalDevicePropertiesForVulkanSC(*pProperties);
 }
 
 void PhysicalDevice::GetPhysicalDeviceProperties2(VkPhysicalDeviceProperties2* pProperties) {
-    vk::PhysicalDevice::GetPhysicalDeviceProperties2(pProperties);
+    NEXT::GetPhysicalDeviceProperties2(pProperties);
     UpdatePhysicalDevicePropertiesForVulkanSC(pProperties->properties);
 
     // Handle Vulkan SC specific properties
@@ -212,7 +211,7 @@ void PhysicalDevice::GetPhysicalDeviceProperties2(VkPhysicalDeviceProperties2* p
         sc_10_props->maxQueryFaultCount = GetMaxQueryFaultCount();
         sc_10_props->maxCallbackFaultCount = 1;
         sc_10_props->maxCommandPoolCommandBuffers = 256;
-        sc_10_props->maxCommandBufferSize = 1 << 20;
+        sc_10_props->maxCommandBufferSize = GetMaxCommandBufferSize();
     }
 
     // Update device ID and driver properties

@@ -24,6 +24,8 @@ class PhysicalDevice;
 
 class Instance : public Dispatchable<Instance, VkInstance>, public vk::Instance {
   public:
+    using NEXT = vk::Instance;
+
     Instance(VkInstance instance, Global& global, const VkInstanceCreateInfo& create_info);
 
     icd::Logger& Log() { return logger_; }
