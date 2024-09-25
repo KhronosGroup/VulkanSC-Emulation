@@ -24,6 +24,8 @@ target_sources(icd PRIVATE
     generated/vk_pnext_chain_helper.h
     generated/vk_queue.h
     generated/vk_queue.cpp
+    generated/vksc_command_buffer_memory_tracker.h
+    generated/vksc_command_buffer_memory_tracker.cpp
     generated/vksc_entry_points.cpp
     generated/vksc_extension_helper.h
     generated/vksc_extension_helper.cpp
@@ -48,6 +50,8 @@ target_sources(icd PRIVATE
     icd_shadow_stack.cpp
     vksc_command_buffer.h
     vksc_command_buffer.cpp
+    vksc_command_pool.h
+    vksc_command_pool.cpp
     vksc_device.h
     vksc_device.cpp
     vksc_global.h

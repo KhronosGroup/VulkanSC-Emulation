@@ -17,10 +17,9 @@
 namespace icd {
 
 // RAII object reservation template
-template <typename T>
+template <typename T, typename HandleType>
 class ObjectReservation {
   public:
-    using HandleType = typename T::HandleType;
     ObjectReservation(T& tracker, uint32_t count) : tracker_(tracker), count_(tracker.ReserveInternal(count)) {}
     ~ObjectReservation() {
         if (count_ > 0) tracker_.CancelInternal();
@@ -92,7 +91,7 @@ class ImplicitlyDestroyedDeviceObjectTracker {
         }
     }
 
-    template <class TRACKER>
+    template <class TRACKER, typename HANDLETYPE>
     friend class ObjectReservation;
 
     vk::Device& device_;
@@ -125,8 +124,8 @@ class DeviceObjectTracker {
     } object_type##_tracker_;                                                                                                  \
                                                                                                                                \
   public:                                                                                                                      \
-    ObjectReservation<object_type##Tracker> Reserve##object_type(uint32_t count = 1) {                                         \
-        return ObjectReservation<object_type##Tracker>(object_type##_tracker_, count);                                         \
+    ObjectReservation<object_type##Tracker, Vk##object_type> Reserve##object_type(uint32_t count = 1) {                        \
+        return ObjectReservation<object_type##Tracker, Vk##object_type>(object_type##_tracker_, count);                        \
     }
 
     // clang-format off

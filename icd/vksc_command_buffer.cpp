@@ -10,10 +10,10 @@
 
 namespace vksc {
 
-CommandBuffer::CommandBuffer(VkCommandBuffer command_buffer, Device& device)
+CommandBuffer::CommandBuffer(VkCommandBuffer command_buffer, CommandPool& command_pool)
     : Dispatchable(),
-      vk::CommandBuffer(command_buffer, device.VkDispatch()),
-      logger_(device.Log(), VK_OBJECT_TYPE_COMMAND_BUFFER, command_buffer) {}
+      CommandBufferMemoryTracker(command_buffer, command_pool),
+      logger_(command_pool.GetDevice().Log(), VK_OBJECT_TYPE_COMMAND_BUFFER, command_buffer) {}
 
 void CommandBuffer::CmdExecuteCommands(uint32_t commandBufferCount, const VkCommandBuffer* pCommandBuffers) {
     icd::ShadowStack::Frame stack_frame{};
@@ -23,11 +23,19 @@ void CommandBuffer::CmdExecuteCommands(uint32_t commandBufferCount, const VkComm
         command_buffers[i] = CommandBuffer::FromHandle(pCommandBuffers[i])->VkHandle();
     }
 
-    return vk::CommandBuffer::CmdExecuteCommands(commandBufferCount, command_buffers);
+    return NEXT::CmdExecuteCommands(commandBufferCount, command_buffers);
 }
 
 void CommandBuffer::CmdRefreshObjectsKHR(const VkRefreshObjectListKHR* pRefreshObjects) {
     // TODO: Add implementation
+}
+
+VkResult CommandBuffer::EndCommandBuffer() {
+    if (GetStatus() != VK_SUCCESS) {
+        return GetStatus();
+    } else {
+        return NEXT::EndCommandBuffer();
+    }
 }
 
 }  // namespace vksc

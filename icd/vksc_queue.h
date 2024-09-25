@@ -18,6 +18,8 @@ class Device;
 
 class Queue : public Dispatchable<Queue, VkQueue>, public vk::Queue {
   public:
+    using NEXT = vk::Queue;
+
     Queue(VkQueue queue, Device& device);
 
     icd::Logger& Log() { return logger_; }

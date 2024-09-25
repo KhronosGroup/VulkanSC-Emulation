@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include "vksc_command_pool.h"
 #include "vksc_dispatchable.h"
 #include "vksc_physical_device.h"
 #include "vk_device.h"
@@ -22,6 +23,8 @@
 #include <atomic>
 #include <mutex>
 #include <optional>
+#include <unordered_map>
+#include <unordered_set>
 
 namespace vksc {
 
@@ -31,6 +34,8 @@ class Queue;
 
 class Device : public Dispatchable<Device, VkDevice>, public vk::Device {
   public:
+    using NEXT = vk::Device;
+
     Device(VkDevice device, PhysicalDevice& physical_device, const VkDeviceCreateInfo& create_info);
 
     icd::Logger& Log() { return logger_; }
@@ -41,6 +46,7 @@ class Device : public Dispatchable<Device, VkDevice>, public vk::Device {
     VkResult GetStatus() const { return status_; }
 
     const Instance& GetInstance() const { return instance_; }
+    const PhysicalDevice& GetPhysicalDevice() const { return physical_device_; }
 
     bool IsExtensionEnabled(ExtensionNumber ext);
 
@@ -54,6 +60,8 @@ class Device : public Dispatchable<Device, VkDevice>, public vk::Device {
 
     void GetCommandPoolMemoryConsumption(VkCommandPool commandPool, VkCommandBuffer commandBuffer,
                                          VkCommandPoolMemoryConsumption* pConsumption);
+
+    VkResult ResetCommandPool(VkCommandPool commandPool, VkCommandPoolResetFlags flags);
 
     VkResult CreatePipelineCache(const VkPipelineCacheCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                                  VkPipelineCache* pPipelineCache);
@@ -124,6 +132,10 @@ class Device : public Dispatchable<Device, VkDevice>, public vk::Device {
     std::vector<VkFaultData> faults_;
     std::optional<FaultCallbackInfo> fault_callback_;
     VkBool32 unrecorded_faults_;
+
+    std::mutex command_pool_mutex_;
+    std::unordered_map<VkCommandPool, std::unique_ptr<CommandPool>> command_pools_;
+    uint32_t max_command_buffer_count_;
 };
 
 }  // namespace vksc

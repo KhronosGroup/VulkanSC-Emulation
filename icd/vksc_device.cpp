@@ -22,7 +22,7 @@ namespace vksc {
 
 Device::Device(VkDevice device, PhysicalDevice& physical_device, const VkDeviceCreateInfo& create_info)
     : Dispatchable(),
-      vk::Device(device, physical_device.VkDispatch()),
+      NEXT(device, physical_device.VkDispatch()),
       status_(VK_SUCCESS),
       instance_(physical_device.GetInstance()),
       physical_device_(physical_device),
@@ -38,7 +38,10 @@ Device::Device(VkDevice device, PhysicalDevice& physical_device, const VkDeviceC
       faults_mutex_(),
       faults_(),
       fault_callback_(std::nullopt),
-      unrecorded_faults_(VK_FALSE) {
+      unrecorded_faults_(VK_FALSE),
+      command_pool_mutex_(),
+      command_pools_(),
+      max_command_buffer_count_() {
     status_ = SetupDevice(create_info);
 }
 
@@ -66,6 +69,9 @@ VkResult Device::SetupDevice(const VkDeviceCreateInfo& create_info) {
             const auto& pool_size = object_reservation_info->pPipelinePoolSizes[i];
             reserved_pipeline_pool_entries_map_[pool_size.poolEntrySize] += pool_size.poolEntryCount;
         }
+
+        command_pools_.reserve(object_reservation_info->commandPoolRequestCount);
+        max_command_buffer_count_ = object_reservation_info->commandBufferRequestCount;
 
         object_reservation_info = vku::FindStructInPNextChain<VkDeviceObjectReservationCreateInfo>(object_reservation_info->pNext);
     }
@@ -106,30 +112,65 @@ PFN_vkVoidFunction Device::GetDeviceProcAddr(const char* pName) { return icd::Ge
 void Device::DestroyDevice(const VkAllocationCallbacks* pAllocator) { Destroy(VkDispatch().DestroyDevice, VkHandle(), pAllocator); }
 
 void Device::GetDeviceQueue(uint32_t queueFamilyIndex, uint32_t queueIndex, VkQueue* pQueue) {
-    vk::Device::GetDeviceQueue(queueFamilyIndex, queueIndex, pQueue);
+    NEXT::GetDeviceQueue(queueFamilyIndex, queueIndex, pQueue);
     if (*pQueue != VK_NULL_HANDLE) {
         *pQueue = device_queues_.GetOrAddChild(*pQueue, *this)->VkSCHandle();
     }
 }
 
 void Device::GetDeviceQueue2(const VkDeviceQueueInfo2* pQueueInfo, VkQueue* pQueue) {
-    vk::Device::GetDeviceQueue2(pQueueInfo, pQueue);
+    NEXT::GetDeviceQueue2(pQueueInfo, pQueue);
     if (*pQueue != VK_NULL_HANDLE) {
         *pQueue = device_queues_.GetOrAddChild(*pQueue, *this)->VkSCHandle();
     }
 }
 
 VkResult Device::AllocateCommandBuffers(const VkCommandBufferAllocateInfo* pAllocateInfo, VkCommandBuffer* pCommandBuffers) {
-    VkResult result = vk::Device::AllocateCommandBuffers(pAllocateInfo, pCommandBuffers);
-    if (result >= VK_SUCCESS) {
-        for (uint32_t i = 0; i < pAllocateInfo->commandBufferCount; ++i) {
-            pCommandBuffers[i] = CommandBuffer::Create(pCommandBuffers[i], *this);
-        }
+    const std::lock_guard<std::mutex> lock{command_pool_mutex_};
+
+    auto command_pool = command_pools_.find(pAllocateInfo->commandPool);
+    if (command_pool == command_pools_.end()) {
+        Log().Error("VKSC-EMU-AllocateCommandBuffers-UnknownCommandPool",
+                    "vkAllocateCommandBuffer called with a VkCommandBufferAllocateInfo holding an unknown commandPool pointer (%p)",
+                    pAllocateInfo->commandPool);
+        return VK_ERROR_UNKNOWN;
     }
+
+    auto reservation = command_pool->second->ReserveCommandBuffers(pAllocateInfo->commandBufferCount, pCommandBuffers);
+    if (!reservation) {
+        Log().Error("VKSC-EMU-AllocateCommandBuffers-OutOfCommandBuffers",
+                    "Ran out of command buffers reserved for the command pool (%p)", VkHandle());
+        return VK_ERROR_OUT_OF_HOST_MEMORY;
+    }
+
+    VkResult result = NEXT::AllocateCommandBuffers(pAllocateInfo, pCommandBuffers);
+    if (result < VK_SUCCESS) {
+        return result;
+    }
+
+    for (uint32_t i = 0; i < pAllocateInfo->commandBufferCount; ++i) {
+        auto command_buffer = CommandBuffer::Create(pCommandBuffers[i], *command_pool->second.get());
+        pCommandBuffers[i] = command_buffer;
+    }
+    reservation.Commit(pCommandBuffers);
+
     return result;
 }
 
 void Device::FreeCommandBuffers(VkCommandPool commandPool, uint32_t commandBufferCount, const VkCommandBuffer* pCommandBuffers) {
+    const std::lock_guard<std::mutex> lock{command_pool_mutex_};
+
+    auto command_pool = command_pools_.find(commandPool);
+    if (command_pool == command_pools_.end()) {
+        ReportFault(VK_FAULT_LEVEL_WARNING, VK_FAULT_TYPE_INVALID_API_USAGE);
+        Log().Error("VKSC-EMU-FreeCommandBuffers-UnknownCommandPool",
+                    "vkFreeCommandBuffers called with an unknown commandPool pointer (%p)", commandPool);
+    }
+
+    if (command_pool->second->FreeCommandBuffers(commandBufferCount, pCommandBuffers) != VK_SUCCESS) {
+        return;
+    }
+
     icd::ShadowStack::Frame stack_frame{};
     auto cmd_buffers = stack_frame.Alloc<VkCommandBuffer>(commandBufferCount);
     for (uint32_t i = 0; i < commandBufferCount; ++i) {
@@ -141,7 +182,7 @@ void Device::FreeCommandBuffers(VkCommandPool commandPool, uint32_t commandBuffe
             cmd_buffer->Free();
         }
     }
-    vk::Device::FreeCommandBuffers(commandPool, commandBufferCount, cmd_buffers);
+    NEXT::FreeCommandBuffers(commandPool, commandBufferCount, cmd_buffers);
 }
 
 VkResult Device::CreatePipelineCache(const VkPipelineCacheCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
@@ -249,7 +290,7 @@ VkResult Device::CreateGraphicsPipelines(VkPipelineCache pipelineCache, uint32_t
                                    .RemoveStructFromChain<VkPipelineOfflineCreateInfo>()
                                    .GetModifiedPNext();
 
-        VkResult vk_result = vk::Device::CreateGraphicsPipelines(VK_NULL_HANDLE, 1, &vk_create_info, pAllocator, &pPipelines[i]);
+        VkResult vk_result = NEXT::CreateGraphicsPipelines(VK_NULL_HANDLE, 1, &vk_create_info, pAllocator, &pPipelines[i]);
         if (vk_result != VK_SUCCESS) {
             Log().Error("VKSC-EMU-CreatePipeline-ExhaustedPoolEntrySize",
                         "Failed to create underlying Vulkan graphics pipeline for pipeline (%s)",
@@ -319,7 +360,7 @@ VkResult Device::CreateComputePipelines(VkPipelineCache pipelineCache, uint32_t 
                                    .RemoveStructFromChain<VkPipelineOfflineCreateInfo>()
                                    .GetModifiedPNext();
 
-        VkResult vk_result = vk::Device::CreateComputePipelines(VK_NULL_HANDLE, 1, &vk_create_info, pAllocator, &pPipelines[i]);
+        VkResult vk_result = NEXT::CreateComputePipelines(VK_NULL_HANDLE, 1, &vk_create_info, pAllocator, &pPipelines[i]);
         if (vk_result != VK_SUCCESS) {
             Log().Error("VKSC-EMU-CreatePipeline-ExhaustedPoolEntrySize",
                         "Failed to create underlying Vulkan compute pipeline for pipeline (%s)", pipeline->ID().toString().c_str());
@@ -349,7 +390,7 @@ void Device::DestroyPipeline(VkPipeline pipeline, const VkAllocationCallbacks* p
                         "Missing pipeline pool entry size tracking information for pipeline (%p)", pipeline);
         }
     }
-    vk::Device::DestroyPipeline(pipeline, pAllocator);
+    NEXT::DestroyPipeline(pipeline, pAllocator);
 }
 
 void Device::ReportFault(VkFaultLevel faultLevel, VkFaultType faultType) {
@@ -370,7 +411,37 @@ void Device::ReportFault(VkFaultLevel faultLevel, VkFaultType faultType) {
 
 void Device::GetCommandPoolMemoryConsumption(VkCommandPool commandPool, VkCommandBuffer commandBuffer,
                                              VkCommandPoolMemoryConsumption* pConsumption) {
-    // TODO: Add implementation
+    const std::lock_guard<std::mutex> lock{command_pool_mutex_};
+
+    auto command_pool = command_pools_.find(commandPool);
+    if (command_pool == command_pools_.end()) {
+        ReportFault(VK_FAULT_LEVEL_WARNING, VK_FAULT_TYPE_INVALID_API_USAGE);
+        Log().Error("VKSC-EMU-GetCommandPoolMemoryConsumption-UnknownCommandPool",
+                    "vkGetCommandPoolMemoryConsumption called with an unknown commandPool pointer (%p)", commandPool);
+        return;
+    }
+
+    pConsumption->commandPoolReservedSize = command_pool->second.get()->GetReservedSize();
+    pConsumption->commandPoolAllocated = command_pool->second.get()->GetAllocatedSize();
+
+    if (commandBuffer) {
+        CommandBuffer* command_buffer = CommandBuffer::FromHandle(commandBuffer);
+        pConsumption->commandBufferAllocated = command_buffer->GetAllocatedSize();
+    }
+}
+
+VkResult Device::ResetCommandPool(VkCommandPool commandPool, VkCommandPoolResetFlags flags) {
+    const std::lock_guard<std::mutex> lock{command_pool_mutex_};
+
+    auto command_pool = command_pools_.find(commandPool);
+    if (command_pool == command_pools_.end()) {
+        ReportFault(VK_FAULT_LEVEL_WARNING, VK_FAULT_TYPE_INVALID_API_USAGE);
+        Log().Error("VKSC-EMU-ResetCommandPool-UnknownCommandPool",
+                    "vkResetCommandPool called with an unknown commandPool pointer (%p)", commandPool);
+        return VK_ERROR_OUT_OF_DEVICE_MEMORY;
+    }
+
+    return command_pool->second->ResetCommandPool();
 }
 
 VkResult Device::GetFaultData(VkFaultQueryBehavior faultQueryBehavior, VkBool32* pUnrecordedFaults, uint32_t* pFaultCount,
@@ -408,7 +479,7 @@ VkResult Device::GetFaultData(VkFaultQueryBehavior faultQueryBehavior, VkBool32*
 VkResult Device::AllocateMemory(const VkMemoryAllocateInfo* pAllocateInfo, const VkAllocationCallbacks* pAllocator,
                                 VkDeviceMemory* pMemory) {
     if (auto reservation = GetObjectTracker().ReserveDeviceMemory()) {
-        VkResult result = vk::Device::AllocateMemory(pAllocateInfo, pAllocator, pMemory);
+        VkResult result = NEXT::AllocateMemory(pAllocateInfo, pAllocator, pMemory);
         if (result >= VK_SUCCESS) {
             reservation.Commit(pMemory);
         }
@@ -437,9 +508,14 @@ VkResult Device::CreateCommandPool(const VkCommandPoolCreateInfo* pCreateInfo, c
                                    .RemoveStructFromChain<VkCommandPoolMemoryReservationCreateInfo>()
                                    .GetModifiedPNext();
 
-        VkResult result = vk::Device::CreateCommandPool(&vk_create_info, pAllocator, pCommandPool);
+        const std::lock_guard<std::mutex> lock{command_pool_mutex_};
+
+        VkResult result = NEXT::CreateCommandPool(&vk_create_info, pAllocator, pCommandPool);
         if (result >= VK_SUCCESS) {
             reservation.Commit(pCommandPool);
+            command_pools_.emplace(*pCommandPool,
+                                   std::make_unique<CommandPool>(*pCommandPool, *this, memory_reservation->commandPoolReservedSize,
+                                                                 memory_reservation->commandPoolMaxCommandBuffers));
         }
         return result;
     } else {
@@ -451,7 +527,7 @@ VkResult Device::CreateCommandPool(const VkCommandPoolCreateInfo* pCreateInfo, c
 VkResult Device::CreateDescriptorPool(const VkDescriptorPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                                       VkDescriptorPool* pDescriptorPool) {
     if (auto reservation = GetObjectTracker().ReserveDescriptorPool()) {
-        VkResult result = vk::Device::CreateDescriptorPool(pCreateInfo, pAllocator, pDescriptorPool);
+        VkResult result = NEXT::CreateDescriptorPool(pCreateInfo, pAllocator, pDescriptorPool);
         if (result >= VK_SUCCESS) {
             reservation.Commit(pDescriptorPool);
         }
@@ -465,7 +541,7 @@ VkResult Device::CreateDescriptorPool(const VkDescriptorPoolCreateInfo* pCreateI
 VkResult Device::CreateQueryPool(const VkQueryPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                                  VkQueryPool* pQueryPool) {
     if (auto reservation = GetObjectTracker().ReserveQueryPool()) {
-        VkResult result = vk::Device::CreateQueryPool(pCreateInfo, pAllocator, pQueryPool);
+        VkResult result = NEXT::CreateQueryPool(pCreateInfo, pAllocator, pQueryPool);
         if (result >= VK_SUCCESS) {
             reservation.Commit(pQueryPool);
         }
@@ -479,7 +555,7 @@ VkResult Device::CreateQueryPool(const VkQueryPoolCreateInfo* pCreateInfo, const
 VkResult Device::CreateSwapchainKHR(const VkSwapchainCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                                     VkSwapchainKHR* pSwapchain) {
     if (auto reservation = GetObjectTracker().ReserveSwapchainKHR()) {
-        VkResult result = vk::Device::CreateSwapchainKHR(pCreateInfo, pAllocator, pSwapchain);
+        VkResult result = NEXT::CreateSwapchainKHR(pCreateInfo, pAllocator, pSwapchain);
         if (result >= VK_SUCCESS) {
             reservation.Commit(pSwapchain);
         }
@@ -493,7 +569,7 @@ VkResult Device::CreateSwapchainKHR(const VkSwapchainCreateInfoKHR* pCreateInfo,
 VkResult Device::CreateSharedSwapchainsKHR(uint32_t swapchainCount, const VkSwapchainCreateInfoKHR* pCreateInfos,
                                            const VkAllocationCallbacks* pAllocator, VkSwapchainKHR* pSwapchains) {
     if (auto reservation = GetObjectTracker().ReserveSwapchainKHR(swapchainCount)) {
-        VkResult result = vk::Device::CreateSharedSwapchainsKHR(swapchainCount, pCreateInfos, pAllocator, pSwapchains);
+        VkResult result = NEXT::CreateSharedSwapchainsKHR(swapchainCount, pCreateInfos, pAllocator, pSwapchains);
         if (result >= VK_SUCCESS) {
             reservation.Commit(pSwapchains);
         }

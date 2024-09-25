@@ -19,6 +19,8 @@ class Instance;
 
 class PhysicalDevice : public Dispatchable<PhysicalDevice, VkPhysicalDevice>, public vk::PhysicalDevice {
   public:
+    using NEXT = vk::PhysicalDevice;
+
     PhysicalDevice(VkPhysicalDevice physical_device, Instance& instance);
 
     icd::Logger& Log() { return logger_; }
@@ -44,6 +46,7 @@ class PhysicalDevice : public Dispatchable<PhysicalDevice, VkPhysicalDevice>, pu
                                                         VkObjectType* pRefreshableObjectTypes);
 
     constexpr uint32_t GetMaxQueryFaultCount() const { return 16; }
+    constexpr VkDeviceSize GetMaxCommandBufferSize() const { return 1 << 20; }
 
   private:
     void UpdatePhysicalDeviceFeaturesForVulkanSC(VkPhysicalDeviceFeatures& features);
