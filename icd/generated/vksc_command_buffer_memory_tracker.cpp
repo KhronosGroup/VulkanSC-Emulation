@@ -42,7 +42,7 @@ void CommandBufferMemoryTracker::CmdBindPipeline(VkPipelineBindPoint pipelineBin
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdBindPipeline(pipelineBindPoint, pipeline);
     }
@@ -52,7 +52,7 @@ void CommandBufferMemoryTracker::CmdSetViewport(uint32_t firstViewport, uint32_t
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate((1 + viewportCount) * 4);
+    VkResult res = Allocate(8 + viewportCount * 4);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetViewport(firstViewport, viewportCount, pViewports);
     }
@@ -62,7 +62,7 @@ void CommandBufferMemoryTracker::CmdSetScissor(uint32_t firstScissor, uint32_t s
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(8 + scissorCount * 4);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetScissor(firstScissor, scissorCount, pScissors);
     }
@@ -72,7 +72,7 @@ void CommandBufferMemoryTracker::CmdSetLineWidth(float lineWidth) {
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetLineWidth(lineWidth);
     }
@@ -82,7 +82,7 @@ void CommandBufferMemoryTracker::CmdSetDepthBias(float depthBiasConstantFactor, 
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetDepthBias(depthBiasConstantFactor, depthBiasClamp, depthBiasSlopeFactor);
     }
@@ -92,7 +92,7 @@ void CommandBufferMemoryTracker::CmdSetBlendConstants(const float blendConstants
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetBlendConstants(blendConstants);
     }
@@ -102,7 +102,7 @@ void CommandBufferMemoryTracker::CmdSetDepthBounds(float minDepthBounds, float m
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetDepthBounds(minDepthBounds, maxDepthBounds);
     }
@@ -112,7 +112,7 @@ void CommandBufferMemoryTracker::CmdSetStencilCompareMask(VkStencilFaceFlags fac
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetStencilCompareMask(faceMask, compareMask);
     }
@@ -122,7 +122,7 @@ void CommandBufferMemoryTracker::CmdSetStencilWriteMask(VkStencilFaceFlags faceM
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetStencilWriteMask(faceMask, writeMask);
     }
@@ -132,7 +132,7 @@ void CommandBufferMemoryTracker::CmdSetStencilReference(VkStencilFaceFlags faceM
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetStencilReference(faceMask, reference);
     }
@@ -145,7 +145,7 @@ void CommandBufferMemoryTracker::CmdBindDescriptorSets(VkPipelineBindPoint pipel
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(8 + (descriptorSetCount + dynamicOffsetCount) * 4);
     if (res == VK_SUCCESS) {
         NEXT::CmdBindDescriptorSets(pipelineBindPoint, layout, firstSet, descriptorSetCount, pDescriptorSets, dynamicOffsetCount,
                                     pDynamicOffsets);
@@ -156,7 +156,7 @@ void CommandBufferMemoryTracker::CmdBindIndexBuffer(VkBuffer buffer, VkDeviceSiz
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdBindIndexBuffer(buffer, offset, indexType);
     }
@@ -167,7 +167,7 @@ void CommandBufferMemoryTracker::CmdBindVertexBuffers(uint32_t firstBinding, uin
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(8 + bindingCount * 16);
     if (res == VK_SUCCESS) {
         NEXT::CmdBindVertexBuffers(firstBinding, bindingCount, pBuffers, pOffsets);
     }
@@ -178,7 +178,7 @@ void CommandBufferMemoryTracker::CmdDraw(uint32_t vertexCount, uint32_t instance
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdDraw(vertexCount, instanceCount, firstVertex, firstInstance);
     }
@@ -189,7 +189,7 @@ void CommandBufferMemoryTracker::CmdDrawIndexed(uint32_t indexCount, uint32_t in
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdDrawIndexed(indexCount, instanceCount, firstIndex, vertexOffset, firstInstance);
     }
@@ -199,7 +199,7 @@ void CommandBufferMemoryTracker::CmdDrawIndirect(VkBuffer buffer, VkDeviceSize o
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdDrawIndirect(buffer, offset, drawCount, stride);
     }
@@ -209,7 +209,7 @@ void CommandBufferMemoryTracker::CmdDrawIndexedIndirect(VkBuffer buffer, VkDevic
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdDrawIndexedIndirect(buffer, offset, drawCount, stride);
     }
@@ -219,7 +219,7 @@ void CommandBufferMemoryTracker::CmdDispatch(uint32_t groupCountX, uint32_t grou
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdDispatch(groupCountX, groupCountY, groupCountZ);
     }
@@ -229,7 +229,7 @@ void CommandBufferMemoryTracker::CmdDispatchIndirect(VkBuffer buffer, VkDeviceSi
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdDispatchIndirect(buffer, offset);
     }
@@ -240,7 +240,7 @@ void CommandBufferMemoryTracker::CmdCopyBuffer(VkBuffer srcBuffer, VkBuffer dstB
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdCopyBuffer(srcBuffer, dstBuffer, regionCount, pRegions);
     }
@@ -251,7 +251,7 @@ void CommandBufferMemoryTracker::CmdCopyImage(VkImage srcImage, VkImageLayout sr
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdCopyImage(srcImage, srcImageLayout, dstImage, dstImageLayout, regionCount, pRegions);
     }
@@ -263,7 +263,7 @@ void CommandBufferMemoryTracker::CmdBlitImage(VkImage srcImage, VkImageLayout sr
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdBlitImage(srcImage, srcImageLayout, dstImage, dstImageLayout, regionCount, pRegions, filter);
     }
@@ -274,7 +274,7 @@ void CommandBufferMemoryTracker::CmdCopyBufferToImage(VkBuffer srcBuffer, VkImag
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdCopyBufferToImage(srcBuffer, dstImage, dstImageLayout, regionCount, pRegions);
     }
@@ -285,7 +285,7 @@ void CommandBufferMemoryTracker::CmdCopyImageToBuffer(VkImage srcImage, VkImageL
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdCopyImageToBuffer(srcImage, srcImageLayout, dstBuffer, regionCount, pRegions);
     }
@@ -296,7 +296,7 @@ void CommandBufferMemoryTracker::CmdUpdateBuffer(VkBuffer dstBuffer, VkDeviceSiz
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(16 + dataSize);
     if (res == VK_SUCCESS) {
         NEXT::CmdUpdateBuffer(dstBuffer, dstOffset, dataSize, pData);
     }
@@ -306,7 +306,7 @@ void CommandBufferMemoryTracker::CmdFillBuffer(VkBuffer dstBuffer, VkDeviceSize 
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdFillBuffer(dstBuffer, dstOffset, size, data);
     }
@@ -317,7 +317,7 @@ void CommandBufferMemoryTracker::CmdClearColorImage(VkImage image, VkImageLayout
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdClearColorImage(image, imageLayout, pColor, rangeCount, pRanges);
     }
@@ -329,7 +329,7 @@ void CommandBufferMemoryTracker::CmdClearDepthStencilImage(VkImage image, VkImag
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdClearDepthStencilImage(image, imageLayout, pDepthStencil, rangeCount, pRanges);
     }
@@ -340,7 +340,7 @@ void CommandBufferMemoryTracker::CmdClearAttachments(uint32_t attachmentCount, c
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdClearAttachments(attachmentCount, pAttachments, rectCount, pRects);
     }
@@ -352,7 +352,7 @@ void CommandBufferMemoryTracker::CmdResolveImage(VkImage srcImage, VkImageLayout
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdResolveImage(srcImage, srcImageLayout, dstImage, dstImageLayout, regionCount, pRegions);
     }
@@ -362,7 +362,7 @@ void CommandBufferMemoryTracker::CmdSetEvent(VkEvent event, VkPipelineStageFlags
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetEvent(event, stageMask);
     }
@@ -372,7 +372,7 @@ void CommandBufferMemoryTracker::CmdResetEvent(VkEvent event, VkPipelineStageFla
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdResetEvent(event, stageMask);
     }
@@ -386,7 +386,7 @@ void CommandBufferMemoryTracker::CmdWaitEvents(uint32_t eventCount, const VkEven
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdWaitEvents(eventCount, pEvents, srcStageMask, dstStageMask, memoryBarrierCount, pMemoryBarriers,
                             bufferMemoryBarrierCount, pBufferMemoryBarriers, imageMemoryBarrierCount, pImageMemoryBarriers);
@@ -402,7 +402,7 @@ void CommandBufferMemoryTracker::CmdPipelineBarrier(VkPipelineStageFlags srcStag
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdPipelineBarrier(srcStageMask, dstStageMask, dependencyFlags, memoryBarrierCount, pMemoryBarriers,
                                  bufferMemoryBarrierCount, pBufferMemoryBarriers, imageMemoryBarrierCount, pImageMemoryBarriers);
@@ -413,7 +413,7 @@ void CommandBufferMemoryTracker::CmdBeginQuery(VkQueryPool queryPool, uint32_t q
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdBeginQuery(queryPool, query, flags);
     }
@@ -423,7 +423,7 @@ void CommandBufferMemoryTracker::CmdEndQuery(VkQueryPool queryPool, uint32_t que
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdEndQuery(queryPool, query);
     }
@@ -433,7 +433,7 @@ void CommandBufferMemoryTracker::CmdResetQueryPool(VkQueryPool queryPool, uint32
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdResetQueryPool(queryPool, firstQuery, queryCount);
     }
@@ -443,7 +443,7 @@ void CommandBufferMemoryTracker::CmdWriteTimestamp(VkPipelineStageFlagBits pipel
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdWriteTimestamp(pipelineStage, queryPool, query);
     }
@@ -455,7 +455,7 @@ void CommandBufferMemoryTracker::CmdCopyQueryPoolResults(VkQueryPool queryPool, 
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdCopyQueryPoolResults(queryPool, firstQuery, queryCount, dstBuffer, dstOffset, stride, flags);
     }
@@ -466,7 +466,7 @@ void CommandBufferMemoryTracker::CmdPushConstants(VkPipelineLayout layout, VkSha
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdPushConstants(layout, stageFlags, offset, size, pValues);
     }
@@ -476,7 +476,7 @@ void CommandBufferMemoryTracker::CmdBeginRenderPass(const VkRenderPassBeginInfo*
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdBeginRenderPass(pRenderPassBegin, contents);
     }
@@ -486,7 +486,7 @@ void CommandBufferMemoryTracker::CmdNextSubpass(VkSubpassContents contents) {
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdNextSubpass(contents);
     }
@@ -496,7 +496,7 @@ void CommandBufferMemoryTracker::CmdEndRenderPass() {
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdEndRenderPass();
     }
@@ -506,7 +506,7 @@ void CommandBufferMemoryTracker::CmdExecuteCommands(uint32_t commandBufferCount,
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdExecuteCommands(commandBufferCount, pCommandBuffers);
     }
@@ -516,7 +516,7 @@ void CommandBufferMemoryTracker::CmdSetDeviceMask(uint32_t deviceMask) {
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetDeviceMask(deviceMask);
     }
@@ -527,7 +527,7 @@ void CommandBufferMemoryTracker::CmdDispatchBase(uint32_t baseGroupX, uint32_t b
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdDispatchBase(baseGroupX, baseGroupY, baseGroupZ, groupCountX, groupCountY, groupCountZ);
     }
@@ -538,7 +538,7 @@ void CommandBufferMemoryTracker::CmdDrawIndirectCount(VkBuffer buffer, VkDeviceS
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdDrawIndirectCount(buffer, offset, countBuffer, countBufferOffset, maxDrawCount, stride);
     }
@@ -550,7 +550,7 @@ void CommandBufferMemoryTracker::CmdDrawIndexedIndirectCount(VkBuffer buffer, Vk
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdDrawIndexedIndirectCount(buffer, offset, countBuffer, countBufferOffset, maxDrawCount, stride);
     }
@@ -561,7 +561,7 @@ void CommandBufferMemoryTracker::CmdBeginRenderPass2(const VkRenderPassBeginInfo
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdBeginRenderPass2(pRenderPassBegin, pSubpassBeginInfo);
     }
@@ -572,7 +572,7 @@ void CommandBufferMemoryTracker::CmdNextSubpass2(const VkSubpassBeginInfo* pSubp
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdNextSubpass2(pSubpassBeginInfo, pSubpassEndInfo);
     }
@@ -582,7 +582,7 @@ void CommandBufferMemoryTracker::CmdEndRenderPass2(const VkSubpassEndInfo* pSubp
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdEndRenderPass2(pSubpassEndInfo);
     }
@@ -592,7 +592,7 @@ void CommandBufferMemoryTracker::CmdSetEvent2(VkEvent event, const VkDependencyI
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetEvent2(event, pDependencyInfo);
     }
@@ -602,7 +602,7 @@ void CommandBufferMemoryTracker::CmdResetEvent2(VkEvent event, VkPipelineStageFl
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdResetEvent2(event, stageMask);
     }
@@ -613,7 +613,7 @@ void CommandBufferMemoryTracker::CmdWaitEvents2(uint32_t eventCount, const VkEve
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdWaitEvents2(eventCount, pEvents, pDependencyInfos);
     }
@@ -623,7 +623,7 @@ void CommandBufferMemoryTracker::CmdPipelineBarrier2(const VkDependencyInfo* pDe
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdPipelineBarrier2(pDependencyInfo);
     }
@@ -633,7 +633,7 @@ void CommandBufferMemoryTracker::CmdWriteTimestamp2(VkPipelineStageFlags2 stage,
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdWriteTimestamp2(stage, queryPool, query);
     }
@@ -643,7 +643,7 @@ void CommandBufferMemoryTracker::CmdCopyBuffer2(const VkCopyBufferInfo2* pCopyBu
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdCopyBuffer2(pCopyBufferInfo);
     }
@@ -653,7 +653,7 @@ void CommandBufferMemoryTracker::CmdCopyImage2(const VkCopyImageInfo2* pCopyImag
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdCopyImage2(pCopyImageInfo);
     }
@@ -663,7 +663,7 @@ void CommandBufferMemoryTracker::CmdCopyBufferToImage2(const VkCopyBufferToImage
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdCopyBufferToImage2(pCopyBufferToImageInfo);
     }
@@ -673,7 +673,7 @@ void CommandBufferMemoryTracker::CmdCopyImageToBuffer2(const VkCopyImageToBuffer
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdCopyImageToBuffer2(pCopyImageToBufferInfo);
     }
@@ -683,7 +683,7 @@ void CommandBufferMemoryTracker::CmdBlitImage2(const VkBlitImageInfo2* pBlitImag
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdBlitImage2(pBlitImageInfo);
     }
@@ -693,7 +693,7 @@ void CommandBufferMemoryTracker::CmdResolveImage2(const VkResolveImageInfo2* pRe
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdResolveImage2(pResolveImageInfo);
     }
@@ -703,7 +703,7 @@ void CommandBufferMemoryTracker::CmdBeginRendering(const VkRenderingInfo* pRende
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdBeginRendering(pRenderingInfo);
     }
@@ -713,7 +713,7 @@ void CommandBufferMemoryTracker::CmdEndRendering() {
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdEndRendering();
     }
@@ -723,7 +723,7 @@ void CommandBufferMemoryTracker::CmdSetCullMode(VkCullModeFlags cullMode) {
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetCullMode(cullMode);
     }
@@ -733,7 +733,7 @@ void CommandBufferMemoryTracker::CmdSetFrontFace(VkFrontFace frontFace) {
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetFrontFace(frontFace);
     }
@@ -743,7 +743,7 @@ void CommandBufferMemoryTracker::CmdSetPrimitiveTopology(VkPrimitiveTopology pri
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetPrimitiveTopology(primitiveTopology);
     }
@@ -753,7 +753,7 @@ void CommandBufferMemoryTracker::CmdSetViewportWithCount(uint32_t viewportCount,
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(8 + viewportCount * 4);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetViewportWithCount(viewportCount, pViewports);
     }
@@ -763,7 +763,7 @@ void CommandBufferMemoryTracker::CmdSetScissorWithCount(uint32_t scissorCount, c
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(8 + scissorCount * 4);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetScissorWithCount(scissorCount, pScissors);
     }
@@ -775,7 +775,7 @@ void CommandBufferMemoryTracker::CmdBindVertexBuffers2(uint32_t firstBinding, ui
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(8 + bindingCount * 24);
     if (res == VK_SUCCESS) {
         NEXT::CmdBindVertexBuffers2(firstBinding, bindingCount, pBuffers, pOffsets, pSizes, pStrides);
     }
@@ -785,7 +785,7 @@ void CommandBufferMemoryTracker::CmdSetDepthTestEnable(VkBool32 depthTestEnable)
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetDepthTestEnable(depthTestEnable);
     }
@@ -795,7 +795,7 @@ void CommandBufferMemoryTracker::CmdSetDepthWriteEnable(VkBool32 depthWriteEnabl
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetDepthWriteEnable(depthWriteEnable);
     }
@@ -805,7 +805,7 @@ void CommandBufferMemoryTracker::CmdSetDepthCompareOp(VkCompareOp depthCompareOp
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetDepthCompareOp(depthCompareOp);
     }
@@ -815,7 +815,7 @@ void CommandBufferMemoryTracker::CmdSetDepthBoundsTestEnable(VkBool32 depthBound
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetDepthBoundsTestEnable(depthBoundsTestEnable);
     }
@@ -825,7 +825,7 @@ void CommandBufferMemoryTracker::CmdSetStencilTestEnable(VkBool32 stencilTestEna
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetStencilTestEnable(stencilTestEnable);
     }
@@ -836,7 +836,7 @@ void CommandBufferMemoryTracker::CmdSetStencilOp(VkStencilFaceFlags faceMask, Vk
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetStencilOp(faceMask, failOp, passOp, depthFailOp, compareOp);
     }
@@ -846,7 +846,7 @@ void CommandBufferMemoryTracker::CmdSetRasterizerDiscardEnable(VkBool32 rasteriz
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetRasterizerDiscardEnable(rasterizerDiscardEnable);
     }
@@ -856,7 +856,7 @@ void CommandBufferMemoryTracker::CmdSetDepthBiasEnable(VkBool32 depthBiasEnable)
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetDepthBiasEnable(depthBiasEnable);
     }
@@ -866,7 +866,7 @@ void CommandBufferMemoryTracker::CmdSetPrimitiveRestartEnable(VkBool32 primitive
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetPrimitiveRestartEnable(primitiveRestartEnable);
     }
@@ -877,7 +877,7 @@ void CommandBufferMemoryTracker::CmdSetFragmentShadingRateKHR(const VkExtent2D* 
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetFragmentShadingRateKHR(pFragmentSize, combinerOps);
     }
@@ -888,7 +888,7 @@ void CommandBufferMemoryTracker::CmdWriteBufferMarker2AMD(VkPipelineStageFlags2 
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdWriteBufferMarker2AMD(stage, dstBuffer, dstOffset, marker);
     }
@@ -899,7 +899,7 @@ void CommandBufferMemoryTracker::CmdSetDiscardRectangleEXT(uint32_t firstDiscard
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetDiscardRectangleEXT(firstDiscardRectangle, discardRectangleCount, pDiscardRectangles);
     }
@@ -909,7 +909,7 @@ void CommandBufferMemoryTracker::CmdSetDiscardRectangleEnableEXT(VkBool32 discar
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetDiscardRectangleEnableEXT(discardRectangleEnable);
     }
@@ -919,7 +919,7 @@ void CommandBufferMemoryTracker::CmdSetDiscardRectangleModeEXT(VkDiscardRectangl
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetDiscardRectangleModeEXT(discardRectangleMode);
     }
@@ -929,7 +929,7 @@ void CommandBufferMemoryTracker::CmdBeginDebugUtilsLabelEXT(const VkDebugUtilsLa
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdBeginDebugUtilsLabelEXT(pLabelInfo);
     }
@@ -939,7 +939,7 @@ void CommandBufferMemoryTracker::CmdEndDebugUtilsLabelEXT() {
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdEndDebugUtilsLabelEXT();
     }
@@ -949,7 +949,7 @@ void CommandBufferMemoryTracker::CmdInsertDebugUtilsLabelEXT(const VkDebugUtilsL
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdInsertDebugUtilsLabelEXT(pLabelInfo);
     }
@@ -959,7 +959,7 @@ void CommandBufferMemoryTracker::CmdSetSampleLocationsEXT(const VkSampleLocation
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetSampleLocationsEXT(pSampleLocationsInfo);
     }
@@ -972,7 +972,7 @@ void CommandBufferMemoryTracker::CmdSetVertexInputEXT(uint32_t vertexBindingDesc
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetVertexInputEXT(vertexBindingDescriptionCount, pVertexBindingDescriptions, vertexAttributeDescriptionCount,
                                    pVertexAttributeDescriptions);
@@ -983,7 +983,7 @@ void CommandBufferMemoryTracker::CmdSetPatchControlPointsEXT(uint32_t patchContr
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetPatchControlPointsEXT(patchControlPoints);
     }
@@ -993,7 +993,7 @@ void CommandBufferMemoryTracker::CmdSetLogicOpEXT(VkLogicOp logicOp) {
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetLogicOpEXT(logicOp);
     }
@@ -1003,7 +1003,7 @@ void CommandBufferMemoryTracker::CmdSetColorWriteEnableEXT(uint32_t attachmentCo
     if (status_ != VK_SUCCESS) {
         return;
     }
-    VkResult res = Allocate(4);
+    VkResult res = Allocate(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetColorWriteEnableEXT(attachmentCount, pColorWriteEnables);
     }

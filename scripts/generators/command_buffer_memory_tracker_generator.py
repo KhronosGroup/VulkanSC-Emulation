@@ -37,13 +37,20 @@ class CommandBufferMemoryTrackerGenerator(BaseGenerator):
 
     def cmdCost(self, name):
         cost_dict = {
-            'SetViewport': '(1 + viewportCount) * 4'
+            'SetViewport': '8 + viewportCount * 4',
+            'SetViewportWithCount': '8 + viewportCount * 4',
+            'SetScissor': '8 + scissorCount * 4',
+            'SetScissorWithCount': '8 + scissorCount * 4',
+            'BindDescriptorSets': '8 + (descriptorSetCount + dynamicOffsetCount) * 4',
+            'BindVertexBuffers': '8 + bindingCount * 16',
+            'BindVertexBuffers2': '8 + bindingCount * 24',
+            'UpdateBuffer': '16 + dataSize'
         }
 
         if name in cost_dict:
             return cost_dict[name]
         else:
-            return 4
+            return 32
 
     manual_commands = [
         "vkCmdRefreshObjectsKHR"
