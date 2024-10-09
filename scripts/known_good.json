@@ -49,6 +49,18 @@
             "commit": "784b064f90a597d2478064161438f4986485b5d4"
         },
         {
+            "name": "Vulkan-Loader",
+            "url": "https://github.com/KhronosGroup/VulkanSC-Loader.git",
+            "sub_dir": "Vulkan-Loader",
+            "build_dir": "Vulkan-Loader/build",
+            "install_dir": "Vulkan-Loader/build/install",
+            "commit": "vksc1.0.14",
+            "build_step": "skip",
+            "optional": [
+                "tests"
+            ]
+        },
+        {
             "name": "googletest",
             "url": "https://github.com/google/googletest.git",
             "sub_dir": "googletest",
@@ -56,7 +68,6 @@
             "install_dir": "googletest/build/install",
             "cmake_options": [
                 "-DBUILD_GMOCK=OFF",
-                "-Dgtest_force_shared_crt=ON",
                 "-DBUILD_SHARED_LIBS=OFF"
             ],
             "commit": "v1.14.0",
@@ -101,6 +112,7 @@
     "install_names": {
         "Vulkan-Headers": "VULKAN_HEADERS_INSTALL_DIR",
         "Vulkan-Utility-Libraries": "VULKAN_UTILITY_LIBRARIES_INSTALL_DIR",
+        "Vulkan-Loader": "VULKAN_LOADER_INSTALL_DIR",
         "SPIRV-Headers": "SPIRV_HEADERS_INSTALL_DIR",
         "SPIRV-Tools": "SPIRV_TOOLS_INSTALL_DIR",
         "googletest": "GOOGLETEST_INSTALL_DIR",

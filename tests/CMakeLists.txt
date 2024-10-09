@@ -4,3 +4,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # ~~~
+
+if(BUILD_ICD)
+    add_subdirectory(icd)
+endif()

@@ -32,45 +32,58 @@ Global::Global() : environment_(), logger_(Environment().LogSeverityEnv()) {
 
     icd::EnvironmentOverride override(Environment());
 
+    auto custom_library_path = getenv("VKSC_EMU_VULKAN_LIB_PATH");
+    if (custom_library_path != nullptr) {
 #if defined(_WIN32)
-    HMODULE module = LoadLibraryA("vulkan-1.dll");
-    if (!module) {
-        return;
-    }
-    vk_get_instance_proc_addr_ = (PFN_vkGetInstanceProcAddr)(void (*)(void))GetProcAddress(module, "vkGetInstanceProcAddr");
+        vk_loader_module_ = LoadLibraryA(custom_library_path);
+#else
+        vk_loader_module_ = dlopen(custom_library_path, RTLD_NOW | RTLD_LOCAL);
+#endif
+        if (!vk_loader_module_) {
+            Log().Fatal("VKSC-EMU-Custom-Vulkan-Library", "Failed to load custom Vulkan library '%s'", custom_library_path);
+            valid_ = false;
+            return;
+        }
+    } else {
+#if defined(_WIN32)
+        vk_loader_module_ = LoadLibraryA("vulkan-1.dll");
 #elif defined(__APPLE__)
-    void* module = dlopen("libvulkan.dylib", RTLD_NOW | RTLD_LOCAL);
-    if (!module) {
-        module = dlopen("libvulkan.1.dylib", RTLD_NOW | RTLD_LOCAL);
-    }
-    if (!module) {
-        module = dlopen("libMoltenVK.dylib", RTLD_NOW | RTLD_LOCAL);
-    }
-    // modern versions of macOS don't search /usr/local/lib automatically contrary to what man dlopen says
-    // Vulkan SDK uses this as the system-wide installation location, so we're going to fallback to this if all else fails
-    if (!module && getenv("DYLD_FALLBACK_LIBRARY_PATH") == NULL) {
-        module = dlopen("/usr/local/lib/libvulkan.dylib", RTLD_NOW | RTLD_LOCAL);
-    }
-    if (!module) {
-        return;
+        vk_loader_module_ = dlopen("libvulkan.dylib", RTLD_NOW | RTLD_LOCAL);
+        if (!vk_loader_module_) {
+            vk_loader_module_ = dlopen("libvulkan.1.dylib", RTLD_NOW | RTLD_LOCAL);
+        }
+        if (!vk_loader_module_) {
+            vk_loader_module_ = dlopen("libMoltenVK.dylib", RTLD_NOW | RTLD_LOCAL);
+        }
+        // modern versions of macOS don't search /usr/local/lib automatically contrary to what man dlopen says
+        // Vulkan SDK uses this as the system-wide installation location, so we're going to fallback to this if all else fails
+        if (!vk_loader_module_ && getenv("DYLD_FALLBACK_LIBRARY_PATH") == NULL) {
+            vk_loader_module_ = dlopen("/usr/local/lib/libvulkan.dylib", RTLD_NOW | RTLD_LOCAL);
+        }
+#else
+        vk_loader_module_ = dlopen("libvulkan.so.1", RTLD_NOW | RTLD_LOCAL);
+        if (!vk_loader_module_) {
+            vk_loader_module_ = dlopen("libvulkan.so", RTLD_NOW | RTLD_LOCAL);
+        }
+#endif
+        if (!vk_loader_module_) {
+            Log().Fatal("VKSC-EMU-Vulkan-Loader", "Failed to load the Vulkan Loader");
+            valid_ = false;
+            return;
+        }
     }
 
-    vk_get_instance_proc_addr_ = (PFN_vkGetInstanceProcAddr)dlsym(module, "vkGetInstanceProcAddr");
+#if defined(_WIN32)
+    vk_get_instance_proc_addr_ =
+        (PFN_vkGetInstanceProcAddr)(void (*)(void))GetProcAddress((HMODULE)vk_loader_module_, "vkGetInstanceProcAddr");
 #else
-    void* module = dlopen("libvulkan.so.1", RTLD_NOW | RTLD_LOCAL);
-    if (!module) {
-        module = dlopen("libvulkan.so", RTLD_NOW | RTLD_LOCAL);
-    }
-    if (!module) {
-        Log().Fatal("VKSC-EMU-Vulkan-Loader", "Failed to load the Vulkan Loader");
+    vk_get_instance_proc_addr_ = (PFN_vkGetInstanceProcAddr)dlsym(vk_loader_module_, "vkGetInstanceProcAddr");
+#endif
+    if (vk_get_instance_proc_addr_ == nullptr) {
+        Log().Fatal("VKSC-EMU-GetInstanceProcAddr", "Failed to load entry point vkGetInstanceProcAddr");
         valid_ = false;
         return;
     }
-
-    vk_get_instance_proc_addr_ = (PFN_vkGetInstanceProcAddr)dlsym(module, "vkGetInstanceProcAddr");
-#endif
-
-    vk_loader_module_ = module;
 
     // Load global entry points
 #define VK_GET_PROC_ADDR(name)                                                                                 \

@@ -51,6 +51,9 @@ def RunGenerators(api: str, registry: str, directory: str, styleFile: str, targe
     from generators.output_struct_sanitizer_generator import OutputStructSanitizerGenerator
     from generators.pnext_chain_helper_generator import PNextChainHelperGenerator
 
+    from generators.test_vksc_dispatch_table_generator import TestVkSCDispatchTableGenerator
+    from generators.test_vkmock_framework_generator import TestVkMockFrameworkGenerator
+
     # These set fields that are needed by both OutputGenerator and BaseGenerator,
     # but are uniform and don't need to be set at a per-generated file level
     from generators.base_generator import SetOutputDirectory, SetTargetApiName, SetMergedApiNames
@@ -181,6 +184,21 @@ def RunGenerators(api: str, registry: str, directory: str, styleFile: str, targe
         'vksc_pnext_chain_helper.h': {
             'generator': PNextChainHelperGenerator,
             'api': 'vulkansc',
+            'genCombined': False
+        },
+        'test_vksc_dispatch_table.h': {
+            'generator': TestVkSCDispatchTableGenerator,
+            'api': 'vulkansc',
+            'genCombined': False
+        },
+        'test_vkmock_framework.h': {
+            'generator': TestVkMockFrameworkGenerator,
+            'api': 'vulkan',
+            'genCombined': False
+        },
+        'test_vkmock_framework.cpp': {
+            'generator': TestVkMockFrameworkGenerator,
+            'api': 'vulkan',
             'genCombined': False
         }
     }

@@ -16,6 +16,33 @@
 
 namespace icd {
 
+// We have to declare this mutex as a plain-old static global because if declared as an inline
+// static variable in EnvironmentOverride then compilers generate code such that the mutex is
+// only initialized the first time the shared library is loaded and it is not initialized if
+// the shared library is later unloaded and reloaded which could cause soft-hangs
+static std::mutex g_environment_override_mutex{};
+
+// Loader environment variables that may conflict with Vulkan vs Vulkan SC loader configuration
+// These environment variables will only affect the Vulkan SC loader and the emulation ICD will
+// clear these when calling down the Vulkan loader in order to avoid the conflicts.
+// If the user needs to configure any of these environment variables to be used by the Vulkan
+// loader instead of the Vulkan SC loader (e.g. for development purposes), then the user should
+// set an environment variable with the VKSC_EMU_ prefix instead (e.g. VKSC_EMU_VK_LAYER_PATH).
+static const std::vector<const char*> g_loader_env_vars = {"VK_ICD_FILENAMES",
+                                                           "VK_DRIVER_FILES",
+                                                           "VK_LAYER_PATH",
+                                                           "VK_ADD_DRIVER_FILES",
+                                                           "VK_ADD_LAYER_PATH",
+                                                           "VK_LOADER_LAYERS_ENABLE",
+                                                           "VK_LOADER_LAYERS_DISABLE",
+                                                           "VK_LOADER_LAYERS_ALLOW",
+                                                           "VK_LOADER_DRIVERS_SELECT",
+                                                           "VK_LOADER_DRIVERS_DISABLE",
+                                                           "VK_INSTANCE_LAYERS",
+                                                           "VK_LOADER_DEVICE_SELECT",
+                                                           "VK_LOADER_DISABLE_INST_EXT_FILTER",
+                                                           "VK_LOADER_DISABLE_SELECT"};
+
 EnvironmentHelper::EnvironmentHelper()
     : log_severity_(ParseLogSeverity()),
       recycle_pipeline_memory_(ParseRecyclePipelineMemory()),
@@ -55,7 +82,7 @@ bool EnvironmentHelper::ParseRecyclePipelineMemory() {
 
 const std::unordered_map<const char*, std::string> EnvironmentHelper::InitPrivateEnvs() {
     std::unordered_map<const char*, std::string> private_envs;
-    for (auto loader_env_var : s_loader_env_vars) {
+    for (auto loader_env_var : g_loader_env_vars) {
         auto env_var_value = getenv(loader_env_var);
         if (env_var_value != nullptr) {
             private_envs.emplace(loader_env_var, env_var_value);
@@ -66,7 +93,7 @@ const std::unordered_map<const char*, std::string> EnvironmentHelper::InitPrivat
 
 const std::unordered_map<const char*, std::string> EnvironmentHelper::InitLayeredEnvs() {
     std::unordered_map<const char*, std::string> layered_envs;
-    for (auto loader_env_var : s_loader_env_vars) {
+    for (auto loader_env_var : g_loader_env_vars) {
         auto layered_env_var = std::string("VKSC_EMU_") + loader_env_var;
         auto env_var_value = getenv(layered_env_var.c_str());
         if (env_var_value != nullptr) {
@@ -76,7 +103,7 @@ const std::unordered_map<const char*, std::string> EnvironmentHelper::InitLayere
     return layered_envs;
 }
 
-EnvironmentOverride::EnvironmentOverride(const EnvironmentHelper& env) : lock_(mutex_), env_(env) {
+EnvironmentOverride::EnvironmentOverride(const EnvironmentHelper& env) : lock_(g_environment_override_mutex), env_(env) {
     for (const auto& it : env_.PrivateEnvs()) {
 #ifdef _WIN32
         _putenv_s(it.first, "");

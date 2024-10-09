@@ -12,6 +12,7 @@
 #include <utility>
 #include <string>
 #include <string.h>
+#include <assert.h>
 
 namespace utils {
 
@@ -20,6 +21,34 @@ class UUID {
     UUID() : id_() { memset(&id_[0], 0, VK_UUID_SIZE); }
     UUID(const uint8_t id[VK_UUID_SIZE]) : id_() { memcpy(&id_[0], &id[0], VK_UUID_SIZE); }
     UUID(const std::array<uint8_t, VK_UUID_SIZE> id) : id_() { memcpy(&id_[0], &id[0], VK_UUID_SIZE); }
+
+    UUID(const char* str) {
+        uint32_t bytes_read = 0;
+        while (bytes_read < VK_UUID_SIZE && str[0] != '\0' && str[1] != '\0') {
+            id_[bytes_read] = 0;
+            for (uint32_t i = 0; i < 2; ++i) {
+                if (*str >= '0' && *str <= '9') {
+                    id_[bytes_read] |= *str - '0';
+                } else if (*str >= 'a' && *str <= 'f') {
+                    id_[bytes_read] |= *str - 'a' + 10;
+                } else if (*str == '-' && i == 0 && (bytes_read == 4 || bytes_read == 6 || bytes_read == 8 || bytes_read == 10)) {
+                    str++;
+                    bytes_read--;
+                    break;
+                } else {
+                    // Unexpected character in UUID
+                    assert(false);
+                    str++;
+                    break;
+                }
+                if (i == 0) {
+                    id_[bytes_read] <<= 4;
+                }
+                str++;
+            }
+            bytes_read++;
+        }
+    }
 
     bool IsValid() const { return !(*this == UUID()); }
 
