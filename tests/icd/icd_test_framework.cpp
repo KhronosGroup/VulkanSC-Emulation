@@ -11,31 +11,31 @@
 #include <string_view>
 
 static void InitDefaultMockHandlers(IcdTest *test_case = nullptr) {
-    static VkMockObject<VkInstance> kPlaceholderInstance{};
-    static VkMockObject<VkPhysicalDevice> kPlaceholderPhysicalDevice{};
-    static VkMockObject<VkDevice> kPlaceholderDevice{};
+    static VkMockObject<VkInstance> mock_instance{};
+    static VkMockObject<VkPhysicalDevice> mock_physical_device{};
+    static VkMockObject<VkDevice> mock_device{};
 
     vkmock::Reset();
 
-    vkmock::GetInstanceProcAddr = [&](auto instance, auto pName) { return vkmock::GetProcAddr(pName); };
-    vkmock::GetDeviceProcAddr = [&](auto device, auto pName) { return vkmock::GetProcAddr(pName); };
+    vkmock::GetInstanceProcAddr = [&](auto, auto pName) { return vkmock::GetProcAddr(pName); };
+    vkmock::GetDeviceProcAddr = [&](auto, auto pName) { return vkmock::GetProcAddr(pName); };
     vkmock::EnumerateInstanceVersion = [&](auto pApiVersion) {
         *pApiVersion = VK_API_VERSION_1_2;
         return VK_SUCCESS;
     };
-    vkmock::EnumerateInstanceExtensionProperties = [&](auto pLayerName, auto pPropertyCount, auto pProperties) {
+    vkmock::EnumerateInstanceExtensionProperties = [&](auto, auto pPropertyCount, auto) {
         *pPropertyCount = 0;
         return VK_SUCCESS;
     };
-    vkmock::EnumerateDeviceExtensionProperties = [&](auto physicalDevice, auto pLayerName, auto pPropertyCount, auto pProperties) {
+    vkmock::EnumerateDeviceExtensionProperties = [&](auto, auto, auto pPropertyCount, auto) {
         *pPropertyCount = 0;
         return VK_SUCCESS;
     };
-    vkmock::EnumeratePhysicalDevices = [&](auto instance, auto pPhysicalDeviceCount, auto pPhysicalDevices) {
+    vkmock::EnumeratePhysicalDevices = [&](auto, auto pPhysicalDeviceCount, auto pPhysicalDevices) {
         if (pPhysicalDevices != nullptr) {
             if (*pPhysicalDeviceCount > 0) {
                 *pPhysicalDeviceCount = 1;
-                *pPhysicalDevices = kPlaceholderPhysicalDevice;
+                *pPhysicalDevices = mock_physical_device;
                 return VK_SUCCESS;
             } else {
                 return VK_INCOMPLETE;
@@ -45,18 +45,15 @@ static void InitDefaultMockHandlers(IcdTest *test_case = nullptr) {
             return VK_SUCCESS;
         }
     };
-    vkmock::EnumeratePhysicalDeviceGroups = [&](auto instance, auto pPhysicalDeviceGroupCount,
-                                                auto pPhysicalDeviceGroupProperties) {
+    vkmock::EnumeratePhysicalDeviceGroups = [&](auto, auto pPhysicalDeviceGroupCount, auto) {
         *pPhysicalDeviceGroupCount = 0;
         return VK_SUCCESS;
     };
-    vkmock::GetPhysicalDeviceProperties = [&](auto physicalDevice, auto pProperties) {
-        pProperties->apiVersion = VK_API_VERSION_1_2;
-    };
+    vkmock::GetPhysicalDeviceProperties = [&](auto, auto pProperties) { pProperties->apiVersion = VK_API_VERSION_1_2; };
     vkmock::GetPhysicalDeviceProperties2 = [&](auto physicalDevice, auto pProperties) {
         vkmock::GetPhysicalDeviceProperties(physicalDevice, &pProperties->properties);
     };
-    vkmock::GetPhysicalDeviceFeatures = [&](auto physicalDevice, auto pFeatures) {};
+    vkmock::GetPhysicalDeviceFeatures = [&](auto, auto pFeatures) {};
     vkmock::GetPhysicalDeviceFeatures2 = [&](auto physicalDevice, auto pFeatures) {
         vkmock::GetPhysicalDeviceFeatures(physicalDevice, &pFeatures->features);
         auto vulkan_memory_model_features =
@@ -65,16 +62,16 @@ static void InitDefaultMockHandlers(IcdTest *test_case = nullptr) {
             vulkan_memory_model_features->vulkanMemoryModel = VK_TRUE;
         }
     };
-    vkmock::CreateInstance = [&](auto pCreateInfo, auto pAllocator, auto pInstance) {
-        *pInstance = kPlaceholderInstance;
+    vkmock::CreateInstance = [&](auto, auto, auto pInstance) {
+        *pInstance = mock_instance;
         return VK_SUCCESS;
     };
-    vkmock::DestroyInstance = [&](auto instance, auto pAllocator) {};
-    vkmock::CreateDevice = [&](auto physicalDevice, auto pCreateInfo, auto pAllocator, auto pDevice) {
-        *pDevice = kPlaceholderDevice;
+    vkmock::DestroyInstance = [&](auto, auto) {};
+    vkmock::CreateDevice = [&](auto, auto, auto, auto pDevice) {
+        *pDevice = mock_device;
         return VK_SUCCESS;
     };
-    vkmock::DestroyDevice = [&](auto device, auto pAllocator) {};
+    vkmock::DestroyDevice = [&](auto, auto) {};
 }
 
 void Framework::SetUp() {

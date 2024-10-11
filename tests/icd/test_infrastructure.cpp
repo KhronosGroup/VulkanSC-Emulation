@@ -54,7 +54,7 @@ TEST_F(InfrastructureTest, EnvironmentVariables) {
 
     bool vkmock_create_instance_called = false;
 
-    vkmock::CreateInstance = [&](auto pCreateInfo, auto pAllocator, auto pInstance) {
+    vkmock::CreateInstance = [&](auto, auto, auto pInstance) {
         vkmock_create_instance_called = true;
 
         // If running without loaders, make sure that the environment variables
@@ -80,8 +80,8 @@ TEST_F(InfrastructureTest, EnvironmentVariables) {
             }
         }
 
-        static VkMockObject<VkInstance> kPlaceholderInstance{};
-        *pInstance = kPlaceholderInstance;
+        static VkMockObject<VkInstance> mock_instance{};
+        *pInstance = mock_instance;
         return VK_SUCCESS;
     };
 
@@ -91,16 +91,16 @@ TEST_F(InfrastructureTest, EnvironmentVariables) {
 }
 
 TEST_F(InfrastructureTest, DeviceFiltering) {
-    VkMockObject<VkPhysicalDevice> kPhysicalDeviceVulkan11{};
-    VkMockObject<VkPhysicalDevice> kPhysicalDeviceVulkan12{};
-    VkMockObject<VkPhysicalDevice> kPhysicalDeviceVulkan12NoMemoryModel{};
-    VkMockObject<VkPhysicalDevice> kPhysicalDeviceVulkan13{};
-    VkMockObject<VkPhysicalDevice> kPhysicalDeviceVulkan13NoMemoryModel{};
+    VkMockObject<VkPhysicalDevice> mock_physdev_vulkan11{};
+    VkMockObject<VkPhysicalDevice> mock_physdev_vulkan12{};
+    VkMockObject<VkPhysicalDevice> mock_physdev_vulkan12_no_memory_model{};
+    VkMockObject<VkPhysicalDevice> mock_physdev_vulkan13{};
+    VkMockObject<VkPhysicalDevice> mock_physdev_vulkan13_no_memory_model{};
 
-    vkmock::EnumeratePhysicalDevices = [&](auto instance, auto pPhysicalDeviceCount, auto pPhysicalDevices) {
-        static const std::vector<VkPhysicalDevice> physical_devices = {
-            kPhysicalDeviceVulkan11, kPhysicalDeviceVulkan12, kPhysicalDeviceVulkan12NoMemoryModel, kPhysicalDeviceVulkan13,
-            kPhysicalDeviceVulkan13NoMemoryModel};
+    vkmock::EnumeratePhysicalDevices = [&](auto, auto pPhysicalDeviceCount, auto pPhysicalDevices) {
+        static const std::vector<VkPhysicalDevice> physical_devices = {mock_physdev_vulkan11, mock_physdev_vulkan12,
+                                                                       mock_physdev_vulkan12_no_memory_model, mock_physdev_vulkan13,
+                                                                       mock_physdev_vulkan13_no_memory_model};
 
         VkResult result = VK_SUCCESS;
         if (pPhysicalDevices == nullptr) {
@@ -117,9 +117,9 @@ TEST_F(InfrastructureTest, DeviceFiltering) {
         return result;
     };
     vkmock::GetPhysicalDeviceProperties = [&](auto physicalDevice, auto pProperties) {
-        if (physicalDevice == kPhysicalDeviceVulkan11) {
+        if (physicalDevice == mock_physdev_vulkan11) {
             pProperties->apiVersion = VK_API_VERSION_1_1;
-        } else if (physicalDevice == kPhysicalDeviceVulkan12 || physicalDevice == kPhysicalDeviceVulkan12NoMemoryModel) {
+        } else if (physicalDevice == mock_physdev_vulkan12 || physicalDevice == mock_physdev_vulkan12_no_memory_model) {
             pProperties->apiVersion = VK_API_VERSION_1_2;
         } else {
             pProperties->apiVersion = VK_API_VERSION_1_3;
@@ -131,7 +131,7 @@ TEST_F(InfrastructureTest, DeviceFiltering) {
             vku::FindStructInPNextChain<VkPhysicalDeviceVulkanMemoryModelFeatures>(pFeatures->pNext);
         if (vulkan_memory_model_features) {
             vulkan_memory_model_features->vulkanMemoryModel =
-                (physicalDevice == kPhysicalDeviceVulkan12 || physicalDevice == kPhysicalDeviceVulkan13) ? VK_TRUE : VK_FALSE;
+                (physicalDevice == mock_physdev_vulkan12 || physicalDevice == mock_physdev_vulkan13) ? VK_TRUE : VK_FALSE;
         }
     };
 
@@ -154,10 +154,10 @@ TEST_F(InfrastructureTest, DeviceFiltering) {
     EXPECT_EQ(count, 1);
 
     VkPhysicalDevice parent_of_device = VK_NULL_HANDLE;
-    vkmock::CreateDevice = [&](auto physicalDevice, auto pCreateInfo, auto pAllocator, auto pDevice) {
+    vkmock::CreateDevice = [&](auto physicalDevice, auto, auto, auto pDevice) {
         parent_of_device = physicalDevice;
-        static VkMockObject<VkDevice> kPlaceholderDevices[2] = {};
-        *pDevice = (physicalDevice == kPhysicalDeviceVulkan12) ? kPlaceholderDevices[0] : kPlaceholderDevices[1];
+        static VkMockObject<VkDevice> mock_devices[2] = {};
+        *pDevice = (physicalDevice == mock_physdev_vulkan12) ? mock_devices[0] : mock_devices[1];
         return VK_SUCCESS;
     };
 
@@ -176,16 +176,16 @@ TEST_F(InfrastructureTest, DeviceFiltering) {
     VkDevice device = VK_NULL_HANDLE;
 
     EXPECT_EQ(vksc::CreateDevice(physdevs[0], &create_info, nullptr, &device), VK_SUCCESS);
-    EXPECT_EQ(parent_of_device, kPhysicalDeviceVulkan12.handle());
+    EXPECT_EQ(parent_of_device, mock_physdev_vulkan12.handle());
     vksc::DestroyDevice(device, nullptr);
 
     EXPECT_EQ(vksc::CreateDevice(physdevs[1], &create_info, nullptr, &device), VK_SUCCESS);
-    EXPECT_EQ(parent_of_device, kPhysicalDeviceVulkan13.handle());
+    EXPECT_EQ(parent_of_device, mock_physdev_vulkan13.handle());
     vksc::DestroyDevice(device, nullptr);
 }
 
 TEST_F(InfrastructureTest, ExtensionFiltering) {
-    vkmock::EnumerateDeviceExtensionProperties = [&](auto physicalDevice, auto pLayerName, auto pPropertyCount, auto pProperties) {
+    vkmock::EnumerateDeviceExtensionProperties = [&](auto, auto, auto pPropertyCount, auto pProperties) {
         static const std::vector<VkExtensionProperties> extensions = {
             {VK_EXT_DEBUG_MARKER_EXTENSION_NAME, VK_EXT_DEBUG_MARKER_SPEC_VERSION},
             {VK_KHR_SWAPCHAIN_EXTENSION_NAME, VK_KHR_SWAPCHAIN_SPEC_VERSION},
@@ -303,7 +303,11 @@ TEST_F(InfrastructureTest, DebugUtilsMessenger) {
     EXPECT_EQ(callback_data.call_count, 2);
 
     // Create an additional messenger
-    vkmock::CreateDebugUtilsMessengerEXT = [](auto, auto, auto, auto) { return VK_SUCCESS; };
+    vkmock::CreateDebugUtilsMessengerEXT = [](auto, auto, auto, auto pMessenger) {
+        static VkMockObject<VkDebugUtilsMessengerEXT> mock_messenger{};
+        *pMessenger = mock_messenger;
+        return VK_SUCCESS;
+    };
     VkDebugUtilsMessengerEXT messenger = VK_NULL_HANDLE;
     EXPECT_EQ(vksc::CreateDebugUtilsMessengerEXT(instance, &messenger_info, nullptr, &messenger), VK_SUCCESS);
 
