@@ -9,6 +9,7 @@
 #include <string>
 
 #include <vulkan/utility/vk_struct_helper.hpp>
+#include <vulkan/vk_icd.h>
 
 #include "icd_test_defs.h"
 #include "test_vkmock_framework.h"
@@ -27,6 +28,17 @@ class Framework : public ::testing::Environment {
   private:
     inline static bool with_vulkan_loader_{false};
     inline static bool with_vulkansc_loader_{false};
+};
+
+template <typename T>
+class VkMockObject {
+  public:
+    VkMockObject() { set_loader_magic_value(this); }
+    T handle() { return (T)this; }
+    operator T() { return (T)this; }
+
+  private:
+    VK_LOADER_DATA loader_data_;
 };
 
 class IcdTest : public ::testing::Test {

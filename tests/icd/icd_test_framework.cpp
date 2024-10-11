@@ -11,12 +11,14 @@
 #include <string_view>
 
 static void InitDefaultMockHandlers(IcdTest *test_case = nullptr) {
-    static const VkInstance kPlaceholderInstance = (VkInstance)0x1457A4CE;
-    static const VkPhysicalDevice kPlaceholderPhysicalDevice = (VkPhysicalDevice)0x94DE71CE;
-    static const VkDevice kPlaceholderDevice = (VkDevice)0x10DE71CE;
+    static VkMockObject<VkInstance> kPlaceholderInstance{};
+    static VkMockObject<VkPhysicalDevice> kPlaceholderPhysicalDevice{};
+    static VkMockObject<VkDevice> kPlaceholderDevice{};
 
     vkmock::Reset();
 
+    vkmock::GetInstanceProcAddr = [&](auto instance, auto pName) { return vkmock::GetProcAddr(pName); };
+    vkmock::GetDeviceProcAddr = [&](auto device, auto pName) { return vkmock::GetProcAddr(pName); };
     vkmock::EnumerateInstanceVersion = [&](auto pApiVersion) {
         *pApiVersion = VK_API_VERSION_1_2;
         return VK_SUCCESS;

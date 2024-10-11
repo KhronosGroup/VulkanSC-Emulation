@@ -80,7 +80,8 @@ TEST_F(InfrastructureTest, EnvironmentVariables) {
             }
         }
 
-        *pInstance = (VkInstance)0xDEADBEEF;
+        static VkMockObject<VkInstance> kPlaceholderInstance{};
+        *pInstance = kPlaceholderInstance;
         return VK_SUCCESS;
     };
 
@@ -90,11 +91,11 @@ TEST_F(InfrastructureTest, EnvironmentVariables) {
 }
 
 TEST_F(InfrastructureTest, DeviceFiltering) {
-    const VkPhysicalDevice kPhysicalDeviceVulkan11 = (VkPhysicalDevice)0x94DE7001;
-    const VkPhysicalDevice kPhysicalDeviceVulkan12 = (VkPhysicalDevice)0x94DE7002;
-    const VkPhysicalDevice kPhysicalDeviceVulkan12NoMemoryModel = (VkPhysicalDevice)0x94DE7003;
-    const VkPhysicalDevice kPhysicalDeviceVulkan13 = (VkPhysicalDevice)0x94DE7004;
-    const VkPhysicalDevice kPhysicalDeviceVulkan13NoMemoryModel = (VkPhysicalDevice)0x94DE7005;
+    VkMockObject<VkPhysicalDevice> kPhysicalDeviceVulkan11{};
+    VkMockObject<VkPhysicalDevice> kPhysicalDeviceVulkan12{};
+    VkMockObject<VkPhysicalDevice> kPhysicalDeviceVulkan12NoMemoryModel{};
+    VkMockObject<VkPhysicalDevice> kPhysicalDeviceVulkan13{};
+    VkMockObject<VkPhysicalDevice> kPhysicalDeviceVulkan13NoMemoryModel{};
 
     vkmock::EnumeratePhysicalDevices = [&](auto instance, auto pPhysicalDeviceCount, auto pPhysicalDevices) {
         static const std::vector<VkPhysicalDevice> physical_devices = {
@@ -155,7 +156,8 @@ TEST_F(InfrastructureTest, DeviceFiltering) {
     VkPhysicalDevice parent_of_device = VK_NULL_HANDLE;
     vkmock::CreateDevice = [&](auto physicalDevice, auto pCreateInfo, auto pAllocator, auto pDevice) {
         parent_of_device = physicalDevice;
-        *pDevice = (VkDevice)0x10DE71CE;
+        static VkMockObject<VkDevice> kPlaceholderDevices[2] = {};
+        *pDevice = (physicalDevice == kPhysicalDeviceVulkan12) ? kPlaceholderDevices[0] : kPlaceholderDevices[1];
         return VK_SUCCESS;
     };
 
@@ -174,11 +176,11 @@ TEST_F(InfrastructureTest, DeviceFiltering) {
     VkDevice device = VK_NULL_HANDLE;
 
     EXPECT_EQ(vksc::CreateDevice(physdevs[0], &create_info, nullptr, &device), VK_SUCCESS);
-    EXPECT_EQ(parent_of_device, kPhysicalDeviceVulkan12);
+    EXPECT_EQ(parent_of_device, kPhysicalDeviceVulkan12.handle());
     vksc::DestroyDevice(device, nullptr);
 
     EXPECT_EQ(vksc::CreateDevice(physdevs[1], &create_info, nullptr, &device), VK_SUCCESS);
-    EXPECT_EQ(parent_of_device, kPhysicalDeviceVulkan13);
+    EXPECT_EQ(parent_of_device, kPhysicalDeviceVulkan13.handle());
     vksc::DestroyDevice(device, nullptr);
 }
 
