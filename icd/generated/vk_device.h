@@ -220,6 +220,14 @@ class Device {
     void GetRenderingAreaGranularityKHR(const VkRenderingAreaInfoKHR* pRenderingAreaInfo, VkExtent2D* pGranularity);
     void GetDeviceImageSubresourceLayoutKHR(const VkDeviceImageSubresourceInfoKHR* pInfo, VkSubresourceLayout2KHR* pLayout);
     void GetImageSubresourceLayout2KHR(VkImage image, const VkImageSubresource2KHR* pSubresource, VkSubresourceLayout2KHR* pLayout);
+    VkResult CreatePipelineBinariesKHR(const VkPipelineBinaryCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                                       VkPipelineBinaryHandlesInfoKHR* pBinaries);
+    void DestroyPipelineBinaryKHR(VkPipelineBinaryKHR pipelineBinary, const VkAllocationCallbacks* pAllocator);
+    VkResult GetPipelineKeyKHR(const VkPipelineCreateInfoKHR* pPipelineCreateInfo, VkPipelineBinaryKeyKHR* pPipelineKey);
+    VkResult GetPipelineBinaryDataKHR(const VkPipelineBinaryDataInfoKHR* pInfo, VkPipelineBinaryKeyKHR* pPipelineBinaryKey,
+                                      size_t* pPipelineBinaryDataSize, void* pPipelineBinaryData);
+    VkResult ReleaseCapturedPipelineDataKHR(const VkReleaseCapturedPipelineDataInfoKHR* pInfo,
+                                            const VkAllocationCallbacks* pAllocator);
     VkResult GetCalibratedTimestampsKHR(uint32_t timestampCount, const VkCalibratedTimestampInfoKHR* pTimestampInfos,
                                         uint64_t* pTimestamps, uint64_t* pMaxDeviation);
     VkResult DebugMarkerSetObjectTagEXT(const VkDebugMarkerObjectTagInfoEXT* pTagInfo);
@@ -382,6 +390,7 @@ class Device {
     void DestroyOpticalFlowSessionNV(VkOpticalFlowSessionNV session, const VkAllocationCallbacks* pAllocator);
     VkResult BindOpticalFlowSessionImageNV(VkOpticalFlowSessionNV session, VkOpticalFlowSessionBindingPointNV bindingPoint,
                                            VkImageView view, VkImageLayout layout);
+    void AntiLagUpdateAMD(const VkAntiLagDataAMD* pData);
     VkResult CreateShadersEXT(uint32_t createInfoCount, const VkShaderCreateInfoEXT* pCreateInfos,
                               const VkAllocationCallbacks* pAllocator, VkShaderEXT* pShaders);
     void DestroyShaderEXT(VkShaderEXT shader, const VkAllocationCallbacks* pAllocator);

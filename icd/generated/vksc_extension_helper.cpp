@@ -26,6 +26,7 @@ const ExtensionMap& GetInstanceExtensionsMap() {
         {ExtensionNumber::EXT_validation_features, VK_EXT_VALIDATION_FEATURES_SPEC_VERSION},
         {ExtensionNumber::EXT_headless_surface, VK_EXT_HEADLESS_SURFACE_SPEC_VERSION},
         {ExtensionNumber::EXT_application_parameters, VK_EXT_APPLICATION_PARAMETERS_SPEC_VERSION},
+        {ExtensionNumber::EXT_layer_settings, VK_EXT_LAYER_SETTINGS_SPEC_VERSION},
     };
     return ext_map;
 }
@@ -41,12 +42,17 @@ const ExtensionMap& GetDeviceExtensionsMap() {
         {ExtensionNumber::KHR_external_fence_fd, VK_KHR_EXTERNAL_FENCE_FD_SPEC_VERSION},
         {ExtensionNumber::KHR_performance_query, VK_KHR_PERFORMANCE_QUERY_SPEC_VERSION},
         {ExtensionNumber::KHR_shader_clock, VK_KHR_SHADER_CLOCK_SPEC_VERSION},
+        {ExtensionNumber::KHR_global_priority, VK_KHR_GLOBAL_PRIORITY_SPEC_VERSION},
         {ExtensionNumber::KHR_swapchain_mutable_format, VK_KHR_SWAPCHAIN_MUTABLE_FORMAT_SPEC_VERSION},
         {ExtensionNumber::KHR_shader_terminate_invocation, VK_KHR_SHADER_TERMINATE_INVOCATION_SPEC_VERSION},
         {ExtensionNumber::KHR_fragment_shading_rate, VK_KHR_FRAGMENT_SHADING_RATE_SPEC_VERSION},
         {ExtensionNumber::KHR_object_refresh, VK_KHR_OBJECT_REFRESH_SPEC_VERSION},
         {ExtensionNumber::KHR_synchronization2, VK_KHR_SYNCHRONIZATION_2_SPEC_VERSION},
         {ExtensionNumber::KHR_copy_commands2, VK_KHR_COPY_COMMANDS_2_SPEC_VERSION},
+        {ExtensionNumber::KHR_vertex_attribute_divisor, VK_KHR_VERTEX_ATTRIBUTE_DIVISOR_SPEC_VERSION},
+        {ExtensionNumber::KHR_index_type_uint8, VK_KHR_INDEX_TYPE_UINT8_SPEC_VERSION},
+        {ExtensionNumber::KHR_line_rasterization, VK_KHR_LINE_RASTERIZATION_SPEC_VERSION},
+        {ExtensionNumber::KHR_calibrated_timestamps, VK_KHR_CALIBRATED_TIMESTAMPS_SPEC_VERSION},
         {ExtensionNumber::EXT_depth_range_unrestricted, VK_EXT_DEPTH_RANGE_UNRESTRICTED_SPEC_VERSION},
         {ExtensionNumber::NV_private_vendor_info, VK_NV_PRIVATE_VENDOR_INFO_SPEC_VERSION},
         {ExtensionNumber::EXT_texture_compression_astc_hdr, VK_EXT_TEXTURE_COMPRESSION_ASTC_HDR_SPEC_VERSION},
@@ -64,10 +70,7 @@ const ExtensionMap& GetDeviceExtensionsMap() {
         {ExtensionNumber::EXT_post_depth_coverage, VK_EXT_POST_DEPTH_COVERAGE_SPEC_VERSION},
         {ExtensionNumber::EXT_image_drm_format_modifier, VK_EXT_IMAGE_DRM_FORMAT_MODIFIER_SPEC_VERSION},
         {ExtensionNumber::EXT_filter_cubic, VK_EXT_FILTER_CUBIC_SPEC_VERSION},
-        {ExtensionNumber::EXT_global_priority, VK_EXT_GLOBAL_PRIORITY_SPEC_VERSION},
         {ExtensionNumber::EXT_external_memory_host, VK_EXT_EXTERNAL_MEMORY_HOST_SPEC_VERSION},
-        {ExtensionNumber::EXT_calibrated_timestamps, VK_EXT_CALIBRATED_TIMESTAMPS_SPEC_VERSION},
-        {ExtensionNumber::EXT_vertex_attribute_divisor, VK_EXT_VERTEX_ATTRIBUTE_DIVISOR_SPEC_VERSION},
         {ExtensionNumber::EXT_pci_bus_info, VK_EXT_PCI_BUS_INFO_SPEC_VERSION},
         {ExtensionNumber::EXT_subgroup_size_control, VK_EXT_SUBGROUP_SIZE_CONTROL_SPEC_VERSION},
         {ExtensionNumber::EXT_shader_image_atomic_int64, VK_EXT_SHADER_IMAGE_ATOMIC_INT64_SPEC_VERSION},
@@ -85,6 +88,9 @@ const ExtensionMap& GetDeviceExtensionsMap() {
         {ExtensionNumber::EXT_ycbcr_2plane_444_formats, VK_EXT_YCBCR_2PLANE_444_FORMATS_SPEC_VERSION},
         {ExtensionNumber::EXT_image_robustness, VK_EXT_IMAGE_ROBUSTNESS_SPEC_VERSION},
         {ExtensionNumber::EXT_4444_formats, VK_EXT_4444_FORMATS_SPEC_VERSION},
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+        {ExtensionNumber::NV_acquire_winrt_display, VK_NV_ACQUIRE_WINRT_DISPLAY_SPEC_VERSION},
+#endif  // VK_USE_PLATFORM_WIN32_KHR
         {ExtensionNumber::EXT_vertex_input_dynamic_state, VK_EXT_VERTEX_INPUT_DYNAMIC_STATE_SPEC_VERSION},
 #ifdef VK_USE_PLATFORM_SCI
         {ExtensionNumber::NV_external_sci_sync, VK_NV_EXTERNAL_SCI_SYNC_SPEC_VERSION},
@@ -117,12 +123,17 @@ ExtensionNumber GetExtensionNumber(const char* extension_name) {
         {"VK_KHR_get_surface_capabilities2", ExtensionNumber::KHR_get_surface_capabilities2},
         {"VK_KHR_get_display_properties2", ExtensionNumber::KHR_get_display_properties2},
         {"VK_KHR_shader_clock", ExtensionNumber::KHR_shader_clock},
+        {"VK_KHR_global_priority", ExtensionNumber::KHR_global_priority},
         {"VK_KHR_swapchain_mutable_format", ExtensionNumber::KHR_swapchain_mutable_format},
         {"VK_KHR_shader_terminate_invocation", ExtensionNumber::KHR_shader_terminate_invocation},
         {"VK_KHR_fragment_shading_rate", ExtensionNumber::KHR_fragment_shading_rate},
         {"VK_KHR_object_refresh", ExtensionNumber::KHR_object_refresh},
         {"VK_KHR_synchronization2", ExtensionNumber::KHR_synchronization2},
         {"VK_KHR_copy_commands2", ExtensionNumber::KHR_copy_commands2},
+        {"VK_KHR_vertex_attribute_divisor", ExtensionNumber::KHR_vertex_attribute_divisor},
+        {"VK_KHR_index_type_uint8", ExtensionNumber::KHR_index_type_uint8},
+        {"VK_KHR_line_rasterization", ExtensionNumber::KHR_line_rasterization},
+        {"VK_KHR_calibrated_timestamps", ExtensionNumber::KHR_calibrated_timestamps},
         {"VK_EXT_depth_range_unrestricted", ExtensionNumber::EXT_depth_range_unrestricted},
         {"VK_NV_private_vendor_info", ExtensionNumber::NV_private_vendor_info},
         {"VK_EXT_texture_compression_astc_hdr", ExtensionNumber::EXT_texture_compression_astc_hdr},
@@ -144,10 +155,7 @@ ExtensionNumber GetExtensionNumber(const char* extension_name) {
         {"VK_EXT_post_depth_coverage", ExtensionNumber::EXT_post_depth_coverage},
         {"VK_EXT_image_drm_format_modifier", ExtensionNumber::EXT_image_drm_format_modifier},
         {"VK_EXT_filter_cubic", ExtensionNumber::EXT_filter_cubic},
-        {"VK_EXT_global_priority", ExtensionNumber::EXT_global_priority},
         {"VK_EXT_external_memory_host", ExtensionNumber::EXT_external_memory_host},
-        {"VK_EXT_calibrated_timestamps", ExtensionNumber::EXT_calibrated_timestamps},
-        {"VK_EXT_vertex_attribute_divisor", ExtensionNumber::EXT_vertex_attribute_divisor},
         {"VK_EXT_pci_bus_info", ExtensionNumber::EXT_pci_bus_info},
         {"VK_EXT_subgroup_size_control", ExtensionNumber::EXT_subgroup_size_control},
         {"VK_EXT_shader_image_atomic_int64", ExtensionNumber::EXT_shader_image_atomic_int64},
@@ -167,6 +175,9 @@ ExtensionNumber GetExtensionNumber(const char* extension_name) {
         {"VK_EXT_ycbcr_2plane_444_formats", ExtensionNumber::EXT_ycbcr_2plane_444_formats},
         {"VK_EXT_image_robustness", ExtensionNumber::EXT_image_robustness},
         {"VK_EXT_4444_formats", ExtensionNumber::EXT_4444_formats},
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+        {"VK_NV_acquire_winrt_display", ExtensionNumber::NV_acquire_winrt_display},
+#endif  // VK_USE_PLATFORM_WIN32_KHR
         {"VK_EXT_vertex_input_dynamic_state", ExtensionNumber::EXT_vertex_input_dynamic_state},
 #ifdef VK_USE_PLATFORM_SCI
         {"VK_NV_external_sci_sync", ExtensionNumber::NV_external_sci_sync},
@@ -178,6 +189,7 @@ ExtensionNumber GetExtensionNumber(const char* extension_name) {
 #ifdef VK_USE_PLATFORM_SCI
         {"VK_NV_external_sci_sync2", ExtensionNumber::NV_external_sci_sync2},
 #endif  // VK_USE_PLATFORM_SCI
+        {"VK_EXT_layer_settings", ExtensionNumber::EXT_layer_settings},
 #ifdef VK_USE_PLATFORM_SCREEN_QNX
         {"VK_QNX_external_memory_screen_buffer", ExtensionNumber::QNX_external_memory_screen_buffer},
 #endif  // VK_USE_PLATFORM_SCREEN_QNX
@@ -232,6 +244,9 @@ const char* GetExtensionName(ExtensionNumber extension_number) {
         case ExtensionNumber::KHR_shader_clock:
             return "VK_KHR_shader_clock";
             break;
+        case ExtensionNumber::KHR_global_priority:
+            return "VK_KHR_global_priority";
+            break;
         case ExtensionNumber::KHR_swapchain_mutable_format:
             return "VK_KHR_swapchain_mutable_format";
             break;
@@ -249,6 +264,18 @@ const char* GetExtensionName(ExtensionNumber extension_number) {
             break;
         case ExtensionNumber::KHR_copy_commands2:
             return "VK_KHR_copy_commands2";
+            break;
+        case ExtensionNumber::KHR_vertex_attribute_divisor:
+            return "VK_KHR_vertex_attribute_divisor";
+            break;
+        case ExtensionNumber::KHR_index_type_uint8:
+            return "VK_KHR_index_type_uint8";
+            break;
+        case ExtensionNumber::KHR_line_rasterization:
+            return "VK_KHR_line_rasterization";
+            break;
+        case ExtensionNumber::KHR_calibrated_timestamps:
+            return "VK_KHR_calibrated_timestamps";
             break;
         case ExtensionNumber::EXT_depth_range_unrestricted:
             return "VK_EXT_depth_range_unrestricted";
@@ -313,17 +340,8 @@ const char* GetExtensionName(ExtensionNumber extension_number) {
         case ExtensionNumber::EXT_filter_cubic:
             return "VK_EXT_filter_cubic";
             break;
-        case ExtensionNumber::EXT_global_priority:
-            return "VK_EXT_global_priority";
-            break;
         case ExtensionNumber::EXT_external_memory_host:
             return "VK_EXT_external_memory_host";
-            break;
-        case ExtensionNumber::EXT_calibrated_timestamps:
-            return "VK_EXT_calibrated_timestamps";
-            break;
-        case ExtensionNumber::EXT_vertex_attribute_divisor:
-            return "VK_EXT_vertex_attribute_divisor";
             break;
         case ExtensionNumber::EXT_pci_bus_info:
             return "VK_EXT_pci_bus_info";
@@ -382,6 +400,11 @@ const char* GetExtensionName(ExtensionNumber extension_number) {
         case ExtensionNumber::EXT_4444_formats:
             return "VK_EXT_4444_formats";
             break;
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+        case ExtensionNumber::NV_acquire_winrt_display:
+            return "VK_NV_acquire_winrt_display";
+            break;
+#endif  // VK_USE_PLATFORM_WIN32_KHR
         case ExtensionNumber::EXT_vertex_input_dynamic_state:
             return "VK_EXT_vertex_input_dynamic_state";
             break;
@@ -407,6 +430,9 @@ const char* GetExtensionName(ExtensionNumber extension_number) {
             return "VK_NV_external_sci_sync2";
             break;
 #endif  // VK_USE_PLATFORM_SCI
+        case ExtensionNumber::EXT_layer_settings:
+            return "VK_EXT_layer_settings";
+            break;
 #ifdef VK_USE_PLATFORM_SCREEN_QNX
         case ExtensionNumber::QNX_external_memory_screen_buffer:
             return "VK_QNX_external_memory_screen_buffer";

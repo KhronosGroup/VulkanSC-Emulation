@@ -396,6 +396,11 @@ class DispatchTable {
     const PFN_vkGetRenderingAreaGranularityKHR GetRenderingAreaGranularityKHR;
     const PFN_vkGetDeviceImageSubresourceLayoutKHR GetDeviceImageSubresourceLayoutKHR;
     const PFN_vkGetImageSubresourceLayout2KHR GetImageSubresourceLayout2KHR;
+    const PFN_vkCreatePipelineBinariesKHR CreatePipelineBinariesKHR;
+    const PFN_vkDestroyPipelineBinaryKHR DestroyPipelineBinaryKHR;
+    const PFN_vkGetPipelineKeyKHR GetPipelineKeyKHR;
+    const PFN_vkGetPipelineBinaryDataKHR GetPipelineBinaryDataKHR;
+    const PFN_vkReleaseCapturedPipelineDataKHR ReleaseCapturedPipelineDataKHR;
     const PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesKHR GetPhysicalDeviceCooperativeMatrixPropertiesKHR;
     const PFN_vkCmdSetLineStippleKHR CmdSetLineStippleKHR;
     const PFN_vkGetPhysicalDeviceCalibrateableTimeDomainsKHR GetPhysicalDeviceCalibrateableTimeDomainsKHR;
@@ -707,6 +712,7 @@ class DispatchTable {
     const PFN_vkDestroyOpticalFlowSessionNV DestroyOpticalFlowSessionNV;
     const PFN_vkBindOpticalFlowSessionImageNV BindOpticalFlowSessionImageNV;
     const PFN_vkCmdOpticalFlowExecuteNV CmdOpticalFlowExecuteNV;
+    const PFN_vkAntiLagUpdateAMD AntiLagUpdateAMD;
     const PFN_vkCreateShadersEXT CreateShadersEXT;
     const PFN_vkDestroyShaderEXT DestroyShaderEXT;
     const PFN_vkGetShaderBinaryDataEXT GetShaderBinaryDataEXT;

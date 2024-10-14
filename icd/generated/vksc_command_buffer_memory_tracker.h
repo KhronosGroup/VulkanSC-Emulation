@@ -138,6 +138,7 @@ class CommandBufferMemoryTracker : public vk::CommandBuffer {
     void CmdSetPrimitiveRestartEnable(VkBool32 primitiveRestartEnable);
     void CmdSetFragmentShadingRateKHR(const VkExtent2D* pFragmentSize, const VkFragmentShadingRateCombinerOpKHR combinerOps[2]);
     void CmdWriteBufferMarker2AMD(VkPipelineStageFlags2 stage, VkBuffer dstBuffer, VkDeviceSize dstOffset, uint32_t marker);
+    void CmdSetLineStippleKHR(uint32_t lineStippleFactor, uint16_t lineStipplePattern);
     void CmdSetDiscardRectangleEXT(uint32_t firstDiscardRectangle, uint32_t discardRectangleCount,
                                    const VkRect2D* pDiscardRectangles);
     void CmdSetDiscardRectangleEnableEXT(VkBool32 discardRectangleEnable);

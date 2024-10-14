@@ -50,6 +50,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkInstanceC
     switch (type) {
         case VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT:
             return {alignof(VkDebugUtilsMessengerCreateInfoEXT), sizeof(VkDebugUtilsMessengerCreateInfoEXT)};
+        case VK_STRUCTURE_TYPE_LAYER_SETTINGS_CREATE_INFO_EXT:
+            return {alignof(VkLayerSettingsCreateInfoEXT), sizeof(VkLayerSettingsCreateInfoEXT)};
         case VK_STRUCTURE_TYPE_VALIDATION_FEATURES_EXT:
             return {alignof(VkValidationFeaturesEXT), sizeof(VkValidationFeaturesEXT)};
 
@@ -144,6 +146,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceCre
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_SHADING_RATE_FEATURES_KHR:
             return {alignof(VkPhysicalDeviceFragmentShadingRateFeaturesKHR),
                     sizeof(VkPhysicalDeviceFragmentShadingRateFeaturesKHR)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_GLOBAL_PRIORITY_QUERY_FEATURES_KHR:
+            return {alignof(VkPhysicalDeviceGlobalPriorityQueryFeaturesKHR),
+                    sizeof(VkPhysicalDeviceGlobalPriorityQueryFeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_QUERY_RESET_FEATURES:
             return {alignof(VkPhysicalDeviceHostQueryResetFeatures), sizeof(VkPhysicalDeviceHostQueryResetFeatures)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_ROBUSTNESS_FEATURES:
@@ -778,6 +783,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_SHADING_RATE_FEATURES_KHR:
             return {alignof(VkPhysicalDeviceFragmentShadingRateFeaturesKHR),
                     sizeof(VkPhysicalDeviceFragmentShadingRateFeaturesKHR)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_GLOBAL_PRIORITY_QUERY_FEATURES_KHR:
+            return {alignof(VkPhysicalDeviceGlobalPriorityQueryFeaturesKHR),
+                    sizeof(VkPhysicalDeviceGlobalPriorityQueryFeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_QUERY_RESET_FEATURES:
             return {alignof(VkPhysicalDeviceHostQueryResetFeatures), sizeof(VkPhysicalDeviceHostQueryResetFeatures)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_ROBUSTNESS_FEATURES:
@@ -953,9 +961,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
                     sizeof(VkPhysicalDeviceTexelBufferAlignmentProperties)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TIMELINE_SEMAPHORE_PROPERTIES:
             return {alignof(VkPhysicalDeviceTimelineSemaphoreProperties), sizeof(VkPhysicalDeviceTimelineSemaphoreProperties)};
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_PROPERTIES_EXT:
-            return {alignof(VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT),
-                    sizeof(VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_PROPERTIES_KHR:
+            return {alignof(VkPhysicalDeviceVertexAttributeDivisorPropertiesKHR),
+                    sizeof(VkPhysicalDeviceVertexAttributeDivisorPropertiesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_1_PROPERTIES:
             return {alignof(VkPhysicalDeviceVulkan11Properties), sizeof(VkPhysicalDeviceVulkan11Properties)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_PROPERTIES:
@@ -1029,6 +1037,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkQueueFami
     switch (type) {
         case VK_STRUCTURE_TYPE_QUEUE_FAMILY_CHECKPOINT_PROPERTIES_2_NV:
             return {alignof(VkQueueFamilyCheckpointProperties2NV), sizeof(VkQueueFamilyCheckpointProperties2NV)};
+        case VK_STRUCTURE_TYPE_QUEUE_FAMILY_GLOBAL_PRIORITY_PROPERTIES_KHR:
+            return {alignof(VkQueueFamilyGlobalPriorityPropertiesKHR), sizeof(VkQueueFamilyGlobalPriorityPropertiesKHR)};
 
         default:
             // Unknown structure

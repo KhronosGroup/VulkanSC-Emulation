@@ -176,7 +176,7 @@ void PhysicalDevice::UpdatePhysicalDevicePropertiesForVulkanSC(VkPhysicalDeviceP
 
     // Patch values that need to be customized as we are an emulation layer
     properties.apiVersion = VK_HEADER_VERSION_COMPLETE;
-    properties.driverVersion = VKSC_EMU_ICD_VERSION;
+    properties.driverVersion = VK_HEADER_VERSION_COMPLETE;
     properties.vendorID = VK_VENDOR_ID_KHRONOS;
     properties.deviceID = VK_VENDOR_ID_KHRONOS | properties.deviceID;
     utils::UUID(utils::EmulationPipelineCacheUUID).CopyToArray(properties.pipelineCacheUUID);

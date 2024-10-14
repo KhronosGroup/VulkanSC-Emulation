@@ -550,6 +550,15 @@ DispatchTable::DispatchTable(VkInstance instance, PFN_vkGetInstanceProcAddr get_
           get_proc_addr(instance, "vkGetDeviceImageSubresourceLayoutKHR"))),
       GetImageSubresourceLayout2KHR(
           reinterpret_cast<PFN_vkGetImageSubresourceLayout2KHR>(get_proc_addr(instance, "vkGetImageSubresourceLayout2KHR"))),
+      CreatePipelineBinariesKHR(
+          reinterpret_cast<PFN_vkCreatePipelineBinariesKHR>(get_proc_addr(instance, "vkCreatePipelineBinariesKHR"))),
+      DestroyPipelineBinaryKHR(
+          reinterpret_cast<PFN_vkDestroyPipelineBinaryKHR>(get_proc_addr(instance, "vkDestroyPipelineBinaryKHR"))),
+      GetPipelineKeyKHR(reinterpret_cast<PFN_vkGetPipelineKeyKHR>(get_proc_addr(instance, "vkGetPipelineKeyKHR"))),
+      GetPipelineBinaryDataKHR(
+          reinterpret_cast<PFN_vkGetPipelineBinaryDataKHR>(get_proc_addr(instance, "vkGetPipelineBinaryDataKHR"))),
+      ReleaseCapturedPipelineDataKHR(
+          reinterpret_cast<PFN_vkReleaseCapturedPipelineDataKHR>(get_proc_addr(instance, "vkReleaseCapturedPipelineDataKHR"))),
       GetPhysicalDeviceCooperativeMatrixPropertiesKHR(reinterpret_cast<PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesKHR>(
           get_proc_addr(instance, "vkGetPhysicalDeviceCooperativeMatrixPropertiesKHR"))),
       CmdSetLineStippleKHR(reinterpret_cast<PFN_vkCmdSetLineStippleKHR>(get_proc_addr(instance, "vkCmdSetLineStippleKHR"))),
@@ -1069,6 +1078,7 @@ DispatchTable::DispatchTable(VkInstance instance, PFN_vkGetInstanceProcAddr get_
           reinterpret_cast<PFN_vkBindOpticalFlowSessionImageNV>(get_proc_addr(instance, "vkBindOpticalFlowSessionImageNV"))),
       CmdOpticalFlowExecuteNV(
           reinterpret_cast<PFN_vkCmdOpticalFlowExecuteNV>(get_proc_addr(instance, "vkCmdOpticalFlowExecuteNV"))),
+      AntiLagUpdateAMD(reinterpret_cast<PFN_vkAntiLagUpdateAMD>(get_proc_addr(instance, "vkAntiLagUpdateAMD"))),
       CreateShadersEXT(reinterpret_cast<PFN_vkCreateShadersEXT>(get_proc_addr(instance, "vkCreateShadersEXT"))),
       DestroyShaderEXT(reinterpret_cast<PFN_vkDestroyShaderEXT>(get_proc_addr(instance, "vkDestroyShaderEXT"))),
       GetShaderBinaryDataEXT(reinterpret_cast<PFN_vkGetShaderBinaryDataEXT>(get_proc_addr(instance, "vkGetShaderBinaryDataEXT"))),

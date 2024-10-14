@@ -302,8 +302,9 @@ void CommandBuffer::CmdSetFragmentShadingRateKHR(const VkExtent2D* pFragmentSize
 void CommandBuffer::CmdSetRenderingAttachmentLocationsKHR(const VkRenderingAttachmentLocationInfoKHR* pLocationInfo) {
     dispatch_table_.CmdSetRenderingAttachmentLocationsKHR(handle_, pLocationInfo);
 }
-void CommandBuffer::CmdSetRenderingInputAttachmentIndicesKHR(const VkRenderingInputAttachmentIndexInfoKHR* pLocationInfo) {
-    dispatch_table_.CmdSetRenderingInputAttachmentIndicesKHR(handle_, pLocationInfo);
+void CommandBuffer::CmdSetRenderingInputAttachmentIndicesKHR(
+    const VkRenderingInputAttachmentIndexInfoKHR* pInputAttachmentIndexInfo) {
+    dispatch_table_.CmdSetRenderingInputAttachmentIndicesKHR(handle_, pInputAttachmentIndexInfo);
 }
 void CommandBuffer::CmdEncodeVideoKHR(const VkVideoEncodeInfoKHR* pEncodeInfo) {
     dispatch_table_.CmdEncodeVideoKHR(handle_, pEncodeInfo);

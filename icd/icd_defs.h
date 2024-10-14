@@ -9,9 +9,6 @@
 
 #include <vulkan/vulkan.h>
 
-// TODO: Figure out versioning scheme
-#define VKSC_EMU_ICD_VERSION 1
-
 #if defined(__GNUC__) && __GNUC__ >= 4
 #define EXPORT __attribute__((visibility("default")))
 #elif defined(__SUNPRO_C) && (__SUNPRO_C >= 0x590)

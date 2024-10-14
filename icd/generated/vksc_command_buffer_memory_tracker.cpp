@@ -894,6 +894,16 @@ void CommandBufferMemoryTracker::CmdWriteBufferMarker2AMD(VkPipelineStageFlags2 
     }
 }
 
+void CommandBufferMemoryTracker::CmdSetLineStippleKHR(uint32_t lineStippleFactor, uint16_t lineStipplePattern) {
+    if (status_ != VK_SUCCESS) {
+        return;
+    }
+    VkResult res = Allocate(32);
+    if (res == VK_SUCCESS) {
+        NEXT::CmdSetLineStippleKHR(lineStippleFactor, lineStipplePattern);
+    }
+}
+
 void CommandBufferMemoryTracker::CmdSetDiscardRectangleEXT(uint32_t firstDiscardRectangle, uint32_t discardRectangleCount,
                                                            const VkRect2D* pDiscardRectangles) {
     if (status_ != VK_SUCCESS) {

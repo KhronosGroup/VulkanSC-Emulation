@@ -1758,8 +1758,8 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_CmdSetRenderingAttachmentLocationsKHR(
 }
 
 static VKAPI_ATTR void VKAPI_CALL vkmock_CmdSetRenderingInputAttachmentIndicesKHR(
-    VkCommandBuffer commandBuffer, const VkRenderingInputAttachmentIndexInfoKHR* pLocationInfo) {
-    return vkmock::CmdSetRenderingInputAttachmentIndicesKHR(commandBuffer, pLocationInfo);
+    VkCommandBuffer commandBuffer, const VkRenderingInputAttachmentIndexInfoKHR* pInputAttachmentIndexInfo) {
+    return vkmock::CmdSetRenderingInputAttachmentIndicesKHR(commandBuffer, pInputAttachmentIndexInfo);
 }
 
 static VKAPI_ATTR VkResult VKAPI_CALL vkmock_WaitForPresentKHR(VkDevice device, VkSwapchainKHR swapchain, uint64_t presentId,
@@ -1965,6 +1965,35 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_GetImageSubresourceLayout2KHR(VkDevice 
                                                                        const VkImageSubresource2KHR* pSubresource,
                                                                        VkSubresourceLayout2KHR* pLayout) {
     return vkmock::GetImageSubresourceLayout2KHR(device, image, pSubresource, pLayout);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreatePipelineBinariesKHR(VkDevice device,
+                                                                       const VkPipelineBinaryCreateInfoKHR* pCreateInfo,
+                                                                       const VkAllocationCallbacks* pAllocator,
+                                                                       VkPipelineBinaryHandlesInfoKHR* pBinaries) {
+    return vkmock::CreatePipelineBinariesKHR(device, pCreateInfo, pAllocator, pBinaries);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_DestroyPipelineBinaryKHR(VkDevice device, VkPipelineBinaryKHR pipelineBinary,
+                                                                  const VkAllocationCallbacks* pAllocator) {
+    return vkmock::DestroyPipelineBinaryKHR(device, pipelineBinary, pAllocator);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetPipelineKeyKHR(VkDevice device, const VkPipelineCreateInfoKHR* pPipelineCreateInfo,
+                                                               VkPipelineBinaryKeyKHR* pPipelineKey) {
+    return vkmock::GetPipelineKeyKHR(device, pPipelineCreateInfo, pPipelineKey);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetPipelineBinaryDataKHR(VkDevice device, const VkPipelineBinaryDataInfoKHR* pInfo,
+                                                                      VkPipelineBinaryKeyKHR* pPipelineBinaryKey,
+                                                                      size_t* pPipelineBinaryDataSize, void* pPipelineBinaryData) {
+    return vkmock::GetPipelineBinaryDataKHR(device, pInfo, pPipelineBinaryKey, pPipelineBinaryDataSize, pPipelineBinaryData);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_ReleaseCapturedPipelineDataKHR(VkDevice device,
+                                                                            const VkReleaseCapturedPipelineDataInfoKHR* pInfo,
+                                                                            const VkAllocationCallbacks* pAllocator) {
+    return vkmock::ReleaseCapturedPipelineDataKHR(device, pInfo, pAllocator);
 }
 
 static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetPhysicalDeviceCooperativeMatrixPropertiesKHR(
@@ -3497,6 +3526,10 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_CmdOpticalFlowExecuteNV(VkCommandBuffer
     return vkmock::CmdOpticalFlowExecuteNV(commandBuffer, session, pExecuteInfo);
 }
 
+static VKAPI_ATTR void VKAPI_CALL vkmock_AntiLagUpdateAMD(VkDevice device, const VkAntiLagDataAMD* pData) {
+    return vkmock::AntiLagUpdateAMD(device, pData);
+}
+
 static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateShadersEXT(VkDevice device, uint32_t createInfoCount,
                                                               const VkShaderCreateInfoEXT* pCreateInfos,
                                                               const VkAllocationCallbacks* pAllocator, VkShaderEXT* pShaders) {
@@ -4835,6 +4868,21 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     if (strcmp(pName, "vkGetImageSubresourceLayout2KHR") == 0) {
         return (PFN_vkVoidFunction)vkmock_GetImageSubresourceLayout2KHR;
     }
+    if (strcmp(pName, "vkCreatePipelineBinariesKHR") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CreatePipelineBinariesKHR;
+    }
+    if (strcmp(pName, "vkDestroyPipelineBinaryKHR") == 0) {
+        return (PFN_vkVoidFunction)vkmock_DestroyPipelineBinaryKHR;
+    }
+    if (strcmp(pName, "vkGetPipelineKeyKHR") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetPipelineKeyKHR;
+    }
+    if (strcmp(pName, "vkGetPipelineBinaryDataKHR") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetPipelineBinaryDataKHR;
+    }
+    if (strcmp(pName, "vkReleaseCapturedPipelineDataKHR") == 0) {
+        return (PFN_vkVoidFunction)vkmock_ReleaseCapturedPipelineDataKHR;
+    }
     if (strcmp(pName, "vkGetPhysicalDeviceCooperativeMatrixPropertiesKHR") == 0) {
         return (PFN_vkVoidFunction)vkmock_GetPhysicalDeviceCooperativeMatrixPropertiesKHR;
     }
@@ -5701,6 +5749,9 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     if (strcmp(pName, "vkCmdOpticalFlowExecuteNV") == 0) {
         return (PFN_vkVoidFunction)vkmock_CmdOpticalFlowExecuteNV;
     }
+    if (strcmp(pName, "vkAntiLagUpdateAMD") == 0) {
+        return (PFN_vkVoidFunction)vkmock_AntiLagUpdateAMD;
+    }
     if (strcmp(pName, "vkCreateShadersEXT") == 0) {
         return (PFN_vkVoidFunction)vkmock_CreateShadersEXT;
     }
@@ -6201,6 +6252,11 @@ void vkmock::Reset() {
     GetRenderingAreaGranularityKHR = {};
     GetDeviceImageSubresourceLayoutKHR = {};
     GetImageSubresourceLayout2KHR = {};
+    CreatePipelineBinariesKHR = {};
+    DestroyPipelineBinaryKHR = {};
+    GetPipelineKeyKHR = {};
+    GetPipelineBinaryDataKHR = {};
+    ReleaseCapturedPipelineDataKHR = {};
     GetPhysicalDeviceCooperativeMatrixPropertiesKHR = {};
     CmdSetLineStippleKHR = {};
     GetPhysicalDeviceCalibrateableTimeDomainsKHR = {};
@@ -6511,6 +6567,7 @@ void vkmock::Reset() {
     DestroyOpticalFlowSessionNV = {};
     BindOpticalFlowSessionImageNV = {};
     CmdOpticalFlowExecuteNV = {};
+    AntiLagUpdateAMD = {};
     CreateShadersEXT = {};
     DestroyShaderEXT = {};
     GetShaderBinaryDataEXT = {};

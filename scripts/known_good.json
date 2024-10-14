@@ -9,7 +9,7 @@
             "cmake_options": [
                 "-DGEN_VULKANSC_COMBINED=ON"
             ],
-            "commit": "fb874b731b9097af396411c0d19362419f798200"
+            "commit": "vksc1.0.16"
         },
         {
             "name": "Vulkan-Utility-Libraries",
@@ -17,7 +17,7 @@
             "sub_dir": "Vulkan-Utility-Libraries",
             "build_dir": "Vulkan-Utility-Libraries/build",
             "install_dir": "Vulkan-Utility-Libraries/build/install",
-            "commit": "7dc142c45f5a37e2b0e60c202863579b33443052",
+            "commit": "vksc1.0.16",
             "deps": [
                 {
                     "var_name": "VULKAN_HEADERS_INSTALL_DIR",
@@ -54,7 +54,7 @@
             "sub_dir": "Vulkan-Loader",
             "build_dir": "Vulkan-Loader/build",
             "install_dir": "Vulkan-Loader/build/install",
-            "commit": "vksc1.0.14",
+            "commit": "vksc1.0.16",
             "build_step": "skip",
             "optional": [
                 "tests"

@@ -582,6 +582,37 @@ void Device::GetImageSubresourceLayout2KHR(VkImage image, const VkImageSubresour
         vksc::ConvertOutStructChainToVulkanSC<VkSubresourceLayout2KHR>(pLayout);
     }
 }
+VkResult Device::CreatePipelineBinariesKHR(const VkPipelineBinaryCreateInfoKHR* pCreateInfo,
+                                           const VkAllocationCallbacks* pAllocator, VkPipelineBinaryHandlesInfoKHR* pBinaries) {
+    VkResult result = dispatch_table_.CreatePipelineBinariesKHR(handle_, pCreateInfo, pAllocator, pBinaries);
+    if (pBinaries != nullptr) {
+        vksc::ConvertOutStructChainToVulkanSC<VkPipelineBinaryHandlesInfoKHR>(pBinaries);
+    }
+    return result;
+}
+void Device::DestroyPipelineBinaryKHR(VkPipelineBinaryKHR pipelineBinary, const VkAllocationCallbacks* pAllocator) {
+    dispatch_table_.DestroyPipelineBinaryKHR(handle_, pipelineBinary, pAllocator);
+}
+VkResult Device::GetPipelineKeyKHR(const VkPipelineCreateInfoKHR* pPipelineCreateInfo, VkPipelineBinaryKeyKHR* pPipelineKey) {
+    VkResult result = dispatch_table_.GetPipelineKeyKHR(handle_, pPipelineCreateInfo, pPipelineKey);
+    if (pPipelineKey != nullptr) {
+        vksc::ConvertOutStructChainToVulkanSC<VkPipelineBinaryKeyKHR>(pPipelineKey);
+    }
+    return result;
+}
+VkResult Device::GetPipelineBinaryDataKHR(const VkPipelineBinaryDataInfoKHR* pInfo, VkPipelineBinaryKeyKHR* pPipelineBinaryKey,
+                                          size_t* pPipelineBinaryDataSize, void* pPipelineBinaryData) {
+    VkResult result =
+        dispatch_table_.GetPipelineBinaryDataKHR(handle_, pInfo, pPipelineBinaryKey, pPipelineBinaryDataSize, pPipelineBinaryData);
+    if (pPipelineBinaryKey != nullptr) {
+        vksc::ConvertOutStructChainToVulkanSC<VkPipelineBinaryKeyKHR>(pPipelineBinaryKey);
+    }
+    return result;
+}
+VkResult Device::ReleaseCapturedPipelineDataKHR(const VkReleaseCapturedPipelineDataInfoKHR* pInfo,
+                                                const VkAllocationCallbacks* pAllocator) {
+    return dispatch_table_.ReleaseCapturedPipelineDataKHR(handle_, pInfo, pAllocator);
+}
 VkResult Device::GetCalibratedTimestampsKHR(uint32_t timestampCount, const VkCalibratedTimestampInfoKHR* pTimestampInfos,
                                             uint64_t* pTimestamps, uint64_t* pMaxDeviation) {
     return dispatch_table_.GetCalibratedTimestampsKHR(handle_, timestampCount, pTimestampInfos, pTimestamps, pMaxDeviation);
@@ -1033,6 +1064,7 @@ VkResult Device::BindOpticalFlowSessionImageNV(VkOpticalFlowSessionNV session, V
                                                VkImageView view, VkImageLayout layout) {
     return dispatch_table_.BindOpticalFlowSessionImageNV(handle_, session, bindingPoint, view, layout);
 }
+void Device::AntiLagUpdateAMD(const VkAntiLagDataAMD* pData) { dispatch_table_.AntiLagUpdateAMD(handle_, pData); }
 VkResult Device::CreateShadersEXT(uint32_t createInfoCount, const VkShaderCreateInfoEXT* pCreateInfos,
                                   const VkAllocationCallbacks* pAllocator, VkShaderEXT* pShaders) {
     return dispatch_table_.CreateShadersEXT(handle_, createInfoCount, pCreateInfos, pAllocator, pShaders);

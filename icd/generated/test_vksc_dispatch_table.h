@@ -378,6 +378,11 @@ class vksc {
         CmdCopyImageToBuffer2KHR = (PFN_vkCmdCopyImageToBuffer2KHR)GetInstanceProcAddr(instance, "vkCmdCopyImageToBuffer2KHR");
         CmdBlitImage2KHR = (PFN_vkCmdBlitImage2KHR)GetInstanceProcAddr(instance, "vkCmdBlitImage2KHR");
         CmdResolveImage2KHR = (PFN_vkCmdResolveImage2KHR)GetInstanceProcAddr(instance, "vkCmdResolveImage2KHR");
+        CmdSetLineStippleKHR = (PFN_vkCmdSetLineStippleKHR)GetInstanceProcAddr(instance, "vkCmdSetLineStippleKHR");
+        GetPhysicalDeviceCalibrateableTimeDomainsKHR = (PFN_vkGetPhysicalDeviceCalibrateableTimeDomainsKHR)GetInstanceProcAddr(
+            instance, "vkGetPhysicalDeviceCalibrateableTimeDomainsKHR");
+        GetCalibratedTimestampsKHR =
+            (PFN_vkGetCalibratedTimestampsKHR)GetInstanceProcAddr(instance, "vkGetCalibratedTimestampsKHR");
         ReleaseDisplayEXT = (PFN_vkReleaseDisplayEXT)GetInstanceProcAddr(instance, "vkReleaseDisplayEXT");
         GetPhysicalDeviceSurfaceCapabilities2EXT = (PFN_vkGetPhysicalDeviceSurfaceCapabilities2EXT)GetInstanceProcAddr(
             instance, "vkGetPhysicalDeviceSurfaceCapabilities2EXT");
@@ -418,10 +423,6 @@ class vksc {
             (PFN_vkGetImageDrmFormatModifierPropertiesEXT)GetInstanceProcAddr(instance, "vkGetImageDrmFormatModifierPropertiesEXT");
         GetMemoryHostPointerPropertiesEXT =
             (PFN_vkGetMemoryHostPointerPropertiesEXT)GetInstanceProcAddr(instance, "vkGetMemoryHostPointerPropertiesEXT");
-        GetPhysicalDeviceCalibrateableTimeDomainsEXT = (PFN_vkGetPhysicalDeviceCalibrateableTimeDomainsEXT)GetInstanceProcAddr(
-            instance, "vkGetPhysicalDeviceCalibrateableTimeDomainsEXT");
-        GetCalibratedTimestampsEXT =
-            (PFN_vkGetCalibratedTimestampsEXT)GetInstanceProcAddr(instance, "vkGetCalibratedTimestampsEXT");
         CreateHeadlessSurfaceEXT = (PFN_vkCreateHeadlessSurfaceEXT)GetInstanceProcAddr(instance, "vkCreateHeadlessSurfaceEXT");
         CmdSetLineStippleEXT = (PFN_vkCmdSetLineStippleEXT)GetInstanceProcAddr(instance, "vkCmdSetLineStippleEXT");
         CmdSetCullModeEXT = (PFN_vkCmdSetCullModeEXT)GetInstanceProcAddr(instance, "vkCmdSetCullModeEXT");
@@ -440,6 +441,10 @@ class vksc {
         CmdSetStencilTestEnableEXT =
             (PFN_vkCmdSetStencilTestEnableEXT)GetInstanceProcAddr(instance, "vkCmdSetStencilTestEnableEXT");
         CmdSetStencilOpEXT = (PFN_vkCmdSetStencilOpEXT)GetInstanceProcAddr(instance, "vkCmdSetStencilOpEXT");
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+        AcquireWinrtDisplayNV = (PFN_vkAcquireWinrtDisplayNV)GetInstanceProcAddr(instance, "vkAcquireWinrtDisplayNV");
+        GetWinrtDisplayNV = (PFN_vkGetWinrtDisplayNV)GetInstanceProcAddr(instance, "vkGetWinrtDisplayNV");
+#endif  // VK_USE_PLATFORM_WIN32_KHR
         CmdSetVertexInputEXT = (PFN_vkCmdSetVertexInputEXT)GetInstanceProcAddr(instance, "vkCmdSetVertexInputEXT");
 #ifdef VK_USE_PLATFORM_SCI
         GetFenceSciSyncFenceNV = (PFN_vkGetFenceSciSyncFenceNV)GetInstanceProcAddr(instance, "vkGetFenceSciSyncFenceNV");
@@ -735,6 +740,9 @@ class vksc {
     inline static PFN_vkCmdCopyImageToBuffer2KHR CmdCopyImageToBuffer2KHR{nullptr};
     inline static PFN_vkCmdBlitImage2KHR CmdBlitImage2KHR{nullptr};
     inline static PFN_vkCmdResolveImage2KHR CmdResolveImage2KHR{nullptr};
+    inline static PFN_vkCmdSetLineStippleKHR CmdSetLineStippleKHR{nullptr};
+    inline static PFN_vkGetPhysicalDeviceCalibrateableTimeDomainsKHR GetPhysicalDeviceCalibrateableTimeDomainsKHR{nullptr};
+    inline static PFN_vkGetCalibratedTimestampsKHR GetCalibratedTimestampsKHR{nullptr};
     inline static PFN_vkReleaseDisplayEXT ReleaseDisplayEXT{nullptr};
     inline static PFN_vkGetPhysicalDeviceSurfaceCapabilities2EXT GetPhysicalDeviceSurfaceCapabilities2EXT{nullptr};
     inline static PFN_vkDisplayPowerControlEXT DisplayPowerControlEXT{nullptr};
@@ -760,8 +768,6 @@ class vksc {
     inline static PFN_vkGetPhysicalDeviceMultisamplePropertiesEXT GetPhysicalDeviceMultisamplePropertiesEXT{nullptr};
     inline static PFN_vkGetImageDrmFormatModifierPropertiesEXT GetImageDrmFormatModifierPropertiesEXT{nullptr};
     inline static PFN_vkGetMemoryHostPointerPropertiesEXT GetMemoryHostPointerPropertiesEXT{nullptr};
-    inline static PFN_vkGetPhysicalDeviceCalibrateableTimeDomainsEXT GetPhysicalDeviceCalibrateableTimeDomainsEXT{nullptr};
-    inline static PFN_vkGetCalibratedTimestampsEXT GetCalibratedTimestampsEXT{nullptr};
     inline static PFN_vkCreateHeadlessSurfaceEXT CreateHeadlessSurfaceEXT{nullptr};
     inline static PFN_vkCmdSetLineStippleEXT CmdSetLineStippleEXT{nullptr};
     inline static PFN_vkCmdSetCullModeEXT CmdSetCullModeEXT{nullptr};
@@ -776,6 +782,10 @@ class vksc {
     inline static PFN_vkCmdSetDepthBoundsTestEnableEXT CmdSetDepthBoundsTestEnableEXT{nullptr};
     inline static PFN_vkCmdSetStencilTestEnableEXT CmdSetStencilTestEnableEXT{nullptr};
     inline static PFN_vkCmdSetStencilOpEXT CmdSetStencilOpEXT{nullptr};
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+    inline static PFN_vkAcquireWinrtDisplayNV AcquireWinrtDisplayNV{nullptr};
+    inline static PFN_vkGetWinrtDisplayNV GetWinrtDisplayNV{nullptr};
+#endif  // VK_USE_PLATFORM_WIN32_KHR
     inline static PFN_vkCmdSetVertexInputEXT CmdSetVertexInputEXT{nullptr};
 #ifdef VK_USE_PLATFORM_SCI
     inline static PFN_vkGetFenceSciSyncFenceNV GetFenceSciSyncFenceNV{nullptr};

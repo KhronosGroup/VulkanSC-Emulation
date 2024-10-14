@@ -858,7 +858,8 @@ class vkmock {
         CmdSetFragmentShadingRateKHR{};
     inline static std::function<void(VkCommandBuffer commandBuffer, const VkRenderingAttachmentLocationInfoKHR* pLocationInfo)>
         CmdSetRenderingAttachmentLocationsKHR{};
-    inline static std::function<void(VkCommandBuffer commandBuffer, const VkRenderingInputAttachmentIndexInfoKHR* pLocationInfo)>
+    inline static std::function<void(VkCommandBuffer commandBuffer,
+                                     const VkRenderingInputAttachmentIndexInfoKHR* pInputAttachmentIndexInfo)>
         CmdSetRenderingInputAttachmentIndicesKHR{};
     inline static std::function<VkResult(VkDevice device, VkSwapchainKHR swapchain, uint64_t presentId, uint64_t timeout)>
         WaitForPresentKHR{};
@@ -949,6 +950,21 @@ class vkmock {
     inline static std::function<void(VkDevice device, VkImage image, const VkImageSubresource2KHR* pSubresource,
                                      VkSubresourceLayout2KHR* pLayout)>
         GetImageSubresourceLayout2KHR{};
+    inline static std::function<VkResult(VkDevice device, const VkPipelineBinaryCreateInfoKHR* pCreateInfo,
+                                         const VkAllocationCallbacks* pAllocator, VkPipelineBinaryHandlesInfoKHR* pBinaries)>
+        CreatePipelineBinariesKHR{};
+    inline static std::function<void(VkDevice device, VkPipelineBinaryKHR pipelineBinary, const VkAllocationCallbacks* pAllocator)>
+        DestroyPipelineBinaryKHR{};
+    inline static std::function<VkResult(VkDevice device, const VkPipelineCreateInfoKHR* pPipelineCreateInfo,
+                                         VkPipelineBinaryKeyKHR* pPipelineKey)>
+        GetPipelineKeyKHR{};
+    inline static std::function<VkResult(VkDevice device, const VkPipelineBinaryDataInfoKHR* pInfo,
+                                         VkPipelineBinaryKeyKHR* pPipelineBinaryKey, size_t* pPipelineBinaryDataSize,
+                                         void* pPipelineBinaryData)>
+        GetPipelineBinaryDataKHR{};
+    inline static std::function<VkResult(VkDevice device, const VkReleaseCapturedPipelineDataInfoKHR* pInfo,
+                                         const VkAllocationCallbacks* pAllocator)>
+        ReleaseCapturedPipelineDataKHR{};
     inline static std::function<VkResult(VkPhysicalDevice physicalDevice, uint32_t* pPropertyCount,
                                          VkCooperativeMatrixPropertiesKHR* pProperties)>
         GetPhysicalDeviceCooperativeMatrixPropertiesKHR{};
@@ -1668,6 +1684,7 @@ class vkmock {
     inline static std::function<void(VkCommandBuffer commandBuffer, VkOpticalFlowSessionNV session,
                                      const VkOpticalFlowExecuteInfoNV* pExecuteInfo)>
         CmdOpticalFlowExecuteNV{};
+    inline static std::function<void(VkDevice device, const VkAntiLagDataAMD* pData)> AntiLagUpdateAMD{};
     inline static std::function<VkResult(VkDevice device, uint32_t createInfoCount, const VkShaderCreateInfoEXT* pCreateInfos,
                                          const VkAllocationCallbacks* pAllocator, VkShaderEXT* pShaders)>
         CreateShadersEXT{};

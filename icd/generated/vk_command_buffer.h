@@ -134,7 +134,7 @@ class CommandBuffer {
                                              uint32_t set, const void* pData);
     void CmdSetFragmentShadingRateKHR(const VkExtent2D* pFragmentSize, const VkFragmentShadingRateCombinerOpKHR combinerOps[2]);
     void CmdSetRenderingAttachmentLocationsKHR(const VkRenderingAttachmentLocationInfoKHR* pLocationInfo);
-    void CmdSetRenderingInputAttachmentIndicesKHR(const VkRenderingInputAttachmentIndexInfoKHR* pLocationInfo);
+    void CmdSetRenderingInputAttachmentIndicesKHR(const VkRenderingInputAttachmentIndexInfoKHR* pInputAttachmentIndexInfo);
     void CmdEncodeVideoKHR(const VkVideoEncodeInfoKHR* pEncodeInfo);
     void CmdWriteBufferMarker2AMD(VkPipelineStageFlags2 stage, VkBuffer dstBuffer, VkDeviceSize dstOffset, uint32_t marker);
     void CmdTraceRaysIndirect2KHR(VkDeviceAddress indirectDeviceAddress);
