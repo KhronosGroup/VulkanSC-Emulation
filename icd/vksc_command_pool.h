@@ -51,15 +51,15 @@ class CommandPool {
 
     VkCommandPool handle_;
     Device& device_;
+    icd::Logger logger_;
 
     VkDeviceSize reserved_size_;
-    VkDeviceSize allocated_size_;
-    std::unordered_set<VkCommandBuffer> command_buffers_;
+    VkDeviceSize allocated_size_{0};
+
     uint32_t max_command_buffer_count_;
+    std::unordered_set<VkCommandBuffer> command_buffers_{};
 
-    mutable std::recursive_mutex mutex_;
-
-    icd::Logger logger_;
+    mutable std::recursive_mutex mutex_{};
 };
 
 }  // namespace vksc

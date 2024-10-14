@@ -55,12 +55,21 @@ PhysicalDevice::PhysicalDevice(VkPhysicalDevice physical_device, Instance& insta
     uint32_t device_extension_count = 0;
     VkResult result = NEXT::EnumerateDeviceExtensionProperties(nullptr, &device_extension_count, nullptr);
     if (result >= VK_SUCCESS) {
-        device_extensions_.resize(device_extension_count);
-        result = NEXT::EnumerateDeviceExtensionProperties(nullptr, &device_extension_count, device_extensions_.data());
+        device_extension_list_.resize(device_extension_count);
+        result = NEXT::EnumerateDeviceExtensionProperties(nullptr, &device_extension_count, device_extension_list_.data());
         if (result >= VK_SUCCESS) {
-            device_extensions_ = icd::GetVulkanSCExtensionList(Log(), device_extensions_, vksc::GetDeviceExtensionsMap());
+            // Save original Vulkan extensions
+            for (const auto& device_extension : device_extension_list_) {
+                vk_device_extensions_.insert(vk::GetExtensionNumber(device_extension.extensionName));
+            }
+            // Filter and add Vulkan SC extensions
+            device_extension_list_ = icd::GetVulkanSCExtensionList(Log(), device_extension_list_, vksc::GetDeviceExtensionsMap());
+            // Save updated Vulkan SC exensions
+            for (const auto& device_extension : device_extension_list_) {
+                device_extensions_.insert(GetExtensionNumber(device_extension.extensionName));
+            }
         } else {
-            device_extensions_.clear();
+            device_extension_list_.clear();
             Log().Error("VKSC-EMU-DeviceExtensions",
                         "Failed to retrieve device extension list from the underlying Vulkan implementation");
             valid_ = false;
@@ -86,14 +95,14 @@ VkResult PhysicalDevice::EnumerateDeviceExtensionProperties(const char* pLayerNa
     }
 
     if (pProperties == nullptr) {
-        *pPropertyCount = static_cast<uint32_t>(device_extensions_.size());
+        *pPropertyCount = static_cast<uint32_t>(device_extension_list_.size());
     } else {
-        if (*pPropertyCount < device_extensions_.size()) {
+        if (*pPropertyCount < device_extension_list_.size()) {
             result = VK_INCOMPLETE;
         }
-        *pPropertyCount = std::min(*pPropertyCount, static_cast<uint32_t>(device_extensions_.size()));
+        *pPropertyCount = std::min(*pPropertyCount, static_cast<uint32_t>(device_extension_list_.size()));
         for (uint32_t i = 0; i < *pPropertyCount; ++i) {
-            pProperties[i] = device_extensions_[i];
+            pProperties[i] = device_extension_list_[i];
         }
     }
 
@@ -117,6 +126,7 @@ VkResult PhysicalDevice::CreateDevice(const VkDeviceCreateInfo* pCreateInfo, con
     VkDeviceCreateInfo vk_create_info = *pCreateInfo;
     icd::ModifiablePNextChain vk_mod_pnext_chain(stack_frame, vk_create_info);
 
+    // We need to unwrap physical device handles in the device group info
     auto vk_mod_device_group_info = vk_mod_pnext_chain.GetStruct<VkDeviceGroupDeviceCreateInfo>();
     if (vk_mod_device_group_info != nullptr) {
         auto physical_devices = stack_frame.Alloc<VkPhysicalDevice>(vk_mod_device_group_info->physicalDeviceCount);
@@ -126,8 +136,28 @@ VkResult PhysicalDevice::CreateDevice(const VkDeviceCreateInfo* pCreateInfo, con
         vk_mod_device_group_info->pPhysicalDevices = physical_devices;
     }
 
+    // We need to filter emulated extensions
+    auto vk_enabled_extension_names = stack_frame.Alloc<const char*>(pCreateInfo->enabledExtensionCount);
+    vk_create_info.enabledExtensionCount = 0;
+    vk_create_info.ppEnabledExtensionNames = vk_enabled_extension_names;
+    for (uint32_t i = 0; i < pCreateInfo->enabledExtensionCount; ++i) {
+        vksc::ExtensionNumber ext_num = vksc::GetExtensionNumber(pCreateInfo->ppEnabledExtensionNames[i]);
+        if (IsDeviceExtensionSupported(ext_num)) {
+            if (!IsDeviceExtensionEmulated(ext_num)) {
+                // Not an emulated extension, include it in the Vulkan create info
+                vk_enabled_extension_names[vk_create_info.enabledExtensionCount++] = pCreateInfo->ppEnabledExtensionNames[i];
+            }
+        } else {
+            Log().Error("VKSC-EMU-CreateDevice-UnsupportedExtension", "Unsupported device extension '%s'",
+                        pCreateInfo->ppEnabledExtensionNames[i]);
+            return VK_ERROR_EXTENSION_NOT_PRESENT;
+        }
+    }
+
+    // Filter all Vulkan SC structures
     vk_create_info.pNext = vk_mod_pnext_chain.RemoveAllStructsFromChain<VkDeviceObjectReservationCreateInfo>()
                                .RemoveAllStructsFromChain<VkPerformanceQueryReservationInfoKHR>()
+                               .RemoveAllStructsFromChain<VkPhysicalDeviceVulkanSC10Features>()
                                .GetModifiedPNext();
 
     // Create device
@@ -135,8 +165,8 @@ VkResult PhysicalDevice::CreateDevice(const VkDeviceCreateInfo* pCreateInfo, con
     VkResult result = NEXT::CreateDevice(&vk_create_info, pAllocator, &device);
     if (result >= VK_SUCCESS) {
         *pDevice = vksc::Device::Create(device, *this, *pCreateInfo);
-        if (!vksc::Device::FromHandle(*pDevice)->IsValid()) {
-            result = vksc::Device::FromHandle(*pDevice)->GetStatus();
+        result = vksc::Device::FromHandle(*pDevice)->GetStatus();
+        if (result < VK_SUCCESS) {
             vksc::Device::FromHandle(*pDevice)->DestroyDevice(pAllocator);
         }
     }

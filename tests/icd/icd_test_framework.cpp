@@ -167,7 +167,8 @@ IcdTest::IcdTest() {
     InitDefaultMockHandlers(this);
 
     // Initialize default object reservation info
-    object_reservation_ = vku::InitStruct<VkDeviceObjectReservationCreateInfo>();
+    static auto vksc10_features = vku::InitStruct<VkPhysicalDeviceVulkanSC10Features>();
+    object_reservation_ = vku::InitStruct<VkDeviceObjectReservationCreateInfo>(&vksc10_features);
 
     // Use some reasonable upper bounds for object request counts
     object_reservation_.semaphoreRequestCount = 65536;
@@ -220,22 +221,37 @@ IcdTest::~IcdTest() {
     }
 }
 
-VkInstance IcdTest::InitInstance(const VkInstanceCreateInfo *pCreateInfo) {
-    auto app_info = vku::InitStruct<VkApplicationInfo>();
-    auto create_info = vku::InitStruct<VkInstanceCreateInfo>();
-    if (pCreateInfo == nullptr) {
-        app_info.pApplicationName = "Vulkan SC Emulation ICD Test";
-        app_info.applicationVersion = 1;
-        app_info.apiVersion = VKSC_API_VERSION_1_0;
+void IcdTest::EnableInstanceExtension(const char *extension_name) { instance_extensions_.push_back(extension_name); }
 
-        create_info.pApplicationInfo = &app_info;
+const VkInstanceCreateInfo IcdTest::GetDefaultInstanceCreateInfo(void *pnext_chain) const {
+    static auto result = [] {
+        static auto create_info = vku::InitStruct<VkInstanceCreateInfo>();
+        create_info.pApplicationInfo = [] {
+            static auto app_info = vku::InitStruct<VkApplicationInfo>();
+            app_info.pApplicationName = "Vulkan SC Emulation ICD Test";
+            app_info.applicationVersion = 1;
+            app_info.apiVersion = VKSC_API_VERSION_1_0;
+            return &app_info;
+        }();
+        return create_info;
+    }();
 
-        pCreateInfo = &create_info;
+    result.pNext = pnext_chain;
+    result.enabledExtensionCount = static_cast<uint32_t>(instance_extensions_.size());
+    result.ppEnabledExtensionNames = instance_extensions_.data();
+
+    return result;
+}
+
+VkInstance IcdTest::InitInstance(VkInstanceCreateInfo *create_info) {
+    if (create_info == nullptr) {
+        static auto default_ci = GetDefaultInstanceCreateInfo();
+        create_info = &default_ci;
     }
-
-    VkResult result = vksc::CreateInstance(pCreateInfo, nullptr, &instance_);
+    VkResult result = vksc::CreateInstance(create_info, nullptr, &instance_);
     if (result != VK_SUCCESS) {
-        GTEST_MESSAGE_AT_(__FILE__, __LINE__, "", ::testing::TestPartResult::kFatalFailure) << "Failed to create instance";
+        GTEST_MESSAGE_AT_(__FILE__, __LINE__, "", ::testing::TestPartResult::kFatalFailure)
+            << "Failed to create instance: " << result;
         throw testing::AssertionException(testing::TestPartResult(testing::TestPartResult::kFatalFailure, __FILE__, __LINE__, ""));
     }
 
@@ -244,33 +260,56 @@ VkInstance IcdTest::InitInstance(const VkInstanceCreateInfo *pCreateInfo) {
     return instance_;
 }
 
-VkDevice IcdTest::InitDevice(const VkDeviceCreateInfo *pCreateInfo) {
-    VkPhysicalDevice phys_dev = VK_NULL_HANDLE;
-    uint32_t phys_dev_count = 1;
-    vksc::EnumeratePhysicalDevices(instance_, &phys_dev_count, &phys_dev);
-    if (phys_dev == VK_NULL_HANDLE) {
+void IcdTest::EnableDeviceExtension(const char *extension_name) { device_extensions_.push_back(extension_name); }
+
+const VkDeviceCreateInfo IcdTest::GetDefaultDeviceCreateInfo(void *pnext_chain) const {
+    static auto result = [] {
+        static auto create_info = vku::InitStruct<VkDeviceCreateInfo>();
+        create_info.queueCreateInfoCount = 1;
+        create_info.pQueueCreateInfos = [] {
+            static float queue_priority = 1.f;
+            static auto queue_info = vku::InitStruct<VkDeviceQueueCreateInfo>();
+            queue_info.queueCount = 1;
+            queue_info.pQueuePriorities = &queue_priority;
+            return &queue_info;
+        }();
+        return create_info;
+    }();
+
+    if (pnext_chain) {
+        result.pNext = pnext_chain;
+        auto last_struct = vku::FindLastStructInPNextChain(pnext_chain);
+        if (last_struct != nullptr) {
+            last_struct->pNext =
+                const_cast<VkBaseOutStructure *>(reinterpret_cast<const VkBaseOutStructure *>(&object_reservation_));
+        }
+    } else {
+        result.pNext = &object_reservation_;
+    }
+    result.enabledExtensionCount = static_cast<uint32_t>(device_extensions_.size());
+    result.ppEnabledExtensionNames = device_extensions_.data();
+
+    return result;
+}
+
+VkDevice IcdTest::InitDevice(VkDeviceCreateInfo *create_info) {
+    VkPhysicalDevice physdev = VK_NULL_HANDLE;
+    uint32_t physdev_count = 1;
+    vksc::EnumeratePhysicalDevices(instance_, &physdev_count, &physdev);
+    if (physdev == VK_NULL_HANDLE) {
         GTEST_MESSAGE_AT_(__FILE__, __LINE__, "", ::testing::TestPartResult::kFatalFailure) << "Failed to find physical device";
         throw testing::AssertionException(testing::TestPartResult(testing::TestPartResult::kFatalFailure, __FILE__, __LINE__, ""));
     }
 
-    auto vksc10_features = vku::InitStruct<VkPhysicalDeviceVulkanSC10Features>(&object_reservation_);
-
-    float queue_priority = 1.f;
-    auto queue_info = vku::InitStruct<VkDeviceQueueCreateInfo>();
-    auto create_info = vku::InitStruct<VkDeviceCreateInfo>(&vksc10_features);
-    if (pCreateInfo == nullptr) {
-        queue_info.queueCount = 1;
-        queue_info.pQueuePriorities = &queue_priority;
-
-        create_info.queueCreateInfoCount = 1;
-        create_info.pQueueCreateInfos = &queue_info;
-
-        pCreateInfo = &create_info;
+    if (create_info == nullptr) {
+        static auto default_ci = GetDefaultDeviceCreateInfo();
+        create_info = &default_ci;
     }
 
-    VkResult result = vksc::CreateDevice(phys_dev, pCreateInfo, nullptr, &device_);
+    VkResult result = vksc::CreateDevice(physdev, create_info, nullptr, &device_);
     if (result != VK_SUCCESS) {
-        GTEST_MESSAGE_AT_(__FILE__, __LINE__, "", ::testing::TestPartResult::kFatalFailure) << "Failed to create device";
+        GTEST_MESSAGE_AT_(__FILE__, __LINE__, "", ::testing::TestPartResult::kFatalFailure)
+            << "Failed to create device: " << result;
         throw testing::AssertionException(testing::TestPartResult(testing::TestPartResult::kFatalFailure, __FILE__, __LINE__, ""));
     }
 

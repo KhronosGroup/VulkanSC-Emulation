@@ -14,12 +14,9 @@ namespace vksc {
 CommandPool::CommandPool(VkCommandPool command_pool, Device& device, VkDeviceSize reserved_size, uint32_t reserved_count)
     : handle_(command_pool),
       device_(device),
+      logger_(device.Log(), VK_OBJECT_TYPE_COMMAND_POOL, command_pool),
       reserved_size_(reserved_size),
-      allocated_size_(0),
-      command_buffers_(),
-      max_command_buffer_count_(reserved_count),
-      mutex_(),
-      logger_(device.Log(), VK_OBJECT_TYPE_COMMAND_POOL, command_pool) {
+      max_command_buffer_count_(reserved_count) {
     command_buffers_.reserve(reserved_count);
 }
 

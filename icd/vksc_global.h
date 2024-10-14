@@ -9,8 +9,12 @@
 
 #include "icd_log.h"
 #include "icd_env_helper.h"
+#include "icd_extension_helper.h"
+#include "vk_extension_helper.h"
+#include "vksc_extension_helper.h"
 
 #include <vulkan/vulkan.h>
+#include <unordered_set>
 #include <vector>
 
 namespace vksc {
@@ -32,6 +36,18 @@ class Global {
 
     bool IsValid() const { return valid_; }
 
+    bool IsInstanceExtensionSupported(ExtensionNumber ext_num) const {
+        return instance_extensions_.find(ext_num) != instance_extensions_.end();
+    }
+
+    bool IsInstanceExtensionSupported(vk::ExtensionNumber ext_num) const {
+        return vk_instance_extensions_.find(ext_num) != vk_instance_extensions_.end();
+    }
+
+    bool IsInstanceExtensionEmulated(ExtensionNumber ext_num) const {
+        return IsInstanceExtensionSupported(ext_num) && !IsInstanceExtensionSupported(icd::ConvertExtensionNumber(ext_num));
+    }
+
     const DispatchTable& VkDispatch() const { return vk_dispatch_table_; }
     PFN_vkGetInstanceProcAddr VkGetProcAddr() const { return vk_get_instance_proc_addr_; }
 
@@ -49,7 +65,9 @@ class Global {
     PFN_vkGetInstanceProcAddr vk_get_instance_proc_addr_{nullptr};
     DispatchTable vk_dispatch_table_{};
 
-    std::vector<VkExtensionProperties> instance_extensions_{};
+    std::vector<VkExtensionProperties> instance_extension_list_{};
+    std::unordered_set<ExtensionNumber> instance_extensions_{};
+    std::unordered_set<vk::ExtensionNumber> vk_instance_extensions_{};
 };
 
 extern Global ICD;

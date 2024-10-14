@@ -135,7 +135,7 @@ TEST_F(InfrastructureTest, DeviceFiltering) {
         }
     };
 
-    VkInstance instance = InitInstance();
+    auto instance = InitInstance();
 
     uint32_t count = 0;
     EXPECT_EQ(vksc::EnumeratePhysicalDevices(instance, &count, nullptr), VK_SUCCESS);
@@ -161,18 +161,7 @@ TEST_F(InfrastructureTest, DeviceFiltering) {
         return VK_SUCCESS;
     };
 
-    auto object_reservation = vku::InitStruct<VkDeviceObjectReservationCreateInfo>();
-    auto vksc10_features = vku::InitStruct<VkPhysicalDeviceVulkanSC10Features>(&object_reservation);
-
-    float queue_priority = 1.f;
-    auto queue_info = vku::InitStruct<VkDeviceQueueCreateInfo>();
-    queue_info.queueCount = 1;
-    queue_info.pQueuePriorities = &queue_priority;
-
-    auto create_info = vku::InitStruct<VkDeviceCreateInfo>(&vksc10_features);
-    create_info.queueCreateInfoCount = 1;
-    create_info.pQueueCreateInfos = &queue_info;
-
+    auto create_info = GetDefaultDeviceCreateInfo();
     VkDevice device = VK_NULL_HANDLE;
 
     EXPECT_EQ(vksc::CreateDevice(physdevs[0], &create_info, nullptr, &device), VK_SUCCESS);
@@ -209,7 +198,7 @@ TEST_F(InfrastructureTest, ExtensionFiltering) {
         return result;
     };
 
-    VkInstance instance = InitInstance();
+    auto instance = InitInstance();
 
     uint32_t count = 1;
     VkPhysicalDevice physdev = VK_NULL_HANDLE;
@@ -259,41 +248,10 @@ TEST_F(InfrastructureTest, DebugUtilsMessenger) {
     auto messenger_info2 = messenger_info;
     messenger_info2.pNext = &messenger_info;
 
-    auto app_info = vku::InitStruct<VkApplicationInfo>();
-    app_info.pApplicationName = "Vulkan SC Emulation ICD Test";
-    app_info.applicationVersion = 1;
-    app_info.apiVersion = VKSC_API_VERSION_1_0;
-
-    const char* debug_utils_ext = "VK_EXT_debug_utils";
-    auto create_info = vku::InitStruct<VkInstanceCreateInfo>(&messenger_info2);
-    create_info.pApplicationInfo = &app_info;
-    create_info.enabledExtensionCount = 1;
-    create_info.ppEnabledExtensionNames = &debug_utils_ext;
-
-    VkInstance instance = VK_NULL_HANDLE;
-    EXPECT_EQ(vksc::CreateInstance(&create_info, nullptr, &instance), VK_SUCCESS);
-
-    // Create a device
-    vksc::LoadInstanceEntryPoints(instance);
-
-    uint32_t count = 1;
-    VkPhysicalDevice physdev = VK_NULL_HANDLE;
-    vksc::EnumeratePhysicalDevices(instance, &count, &physdev);
-
-    auto object_reservation = vku::InitStruct<VkDeviceObjectReservationCreateInfo>();
-    auto vksc10_features = vku::InitStruct<VkPhysicalDeviceVulkanSC10Features>(&object_reservation);
-
-    float queue_priority = 1.f;
-    auto queue_info = vku::InitStruct<VkDeviceQueueCreateInfo>();
-    queue_info.queueCount = 1;
-    queue_info.pQueuePriorities = &queue_priority;
-
-    auto device_ci = vku::InitStruct<VkDeviceCreateInfo>(&vksc10_features);
-    device_ci.queueCreateInfoCount = 1;
-    device_ci.pQueueCreateInfos = &queue_info;
-
-    VkDevice device = VK_NULL_HANDLE;
-    EXPECT_EQ(vksc::CreateDevice(physdev, &device_ci, nullptr, &device), VK_SUCCESS);
+    EnableInstanceExtension(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+    auto instance_ci = GetDefaultInstanceCreateInfo(&messenger_info2);
+    auto instance = InitInstance(&instance_ci);
+    auto device = InitDevice();
 
     // Force out an error which should be reported on both messengers
     auto pipeline_cache_ci = vku::InitStruct<VkPipelineCacheCreateInfo>();
@@ -303,11 +261,15 @@ TEST_F(InfrastructureTest, DebugUtilsMessenger) {
     EXPECT_EQ(callback_data.call_count, 2);
 
     // Create an additional messenger
-    vkmock::CreateDebugUtilsMessengerEXT = [](auto, auto, auto, auto pMessenger) {
-        static VkMockObject<VkDebugUtilsMessengerEXT> mock_messenger{};
-        *pMessenger = mock_messenger;
-        return VK_SUCCESS;
-    };
+    if (Framework::WithVulkanLoader()) {
+        // The Vulkan loader exposes support for VK_EXT_debug_utils so we need mocks
+        vkmock::CreateDebugUtilsMessengerEXT = [](auto, auto, auto, auto pMessenger) {
+            static VkMockObject<VkDebugUtilsMessengerEXT> mock_messenger{};
+            *pMessenger = mock_messenger;
+            return VK_SUCCESS;
+        };
+        vkmock::DestroyDebugUtilsMessengerEXT = [](auto, auto, auto) {};
+    }
     VkDebugUtilsMessengerEXT messenger = VK_NULL_HANDLE;
     EXPECT_EQ(vksc::CreateDebugUtilsMessengerEXT(instance, &messenger_info, nullptr, &messenger), VK_SUCCESS);
 
@@ -316,14 +278,10 @@ TEST_F(InfrastructureTest, DebugUtilsMessenger) {
               VK_ERROR_INVALID_PIPELINE_CACHE_DATA);
     EXPECT_EQ(callback_data.call_count, 5);
 
-    vkmock::DestroyDebugUtilsMessengerEXT = [](auto, auto, auto) {};
     vksc::DestroyDebugUtilsMessengerEXT(instance, messenger, nullptr);
 
     // After deleting the additional messenger, once again, only 2 calls are triggered
     EXPECT_EQ(vksc::CreatePipelineCache(device, &pipeline_cache_ci, nullptr, &pipeline_cache),
               VK_ERROR_INVALID_PIPELINE_CACHE_DATA);
     EXPECT_EQ(callback_data.call_count, 7);
-
-    vksc::DestroyDevice(device, nullptr);
-    vksc::DestroyInstance(instance, nullptr);
 }

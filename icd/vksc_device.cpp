@@ -23,36 +23,37 @@ namespace vksc {
 Device::Device(VkDevice device, PhysicalDevice& physical_device, const VkDeviceCreateInfo& create_info)
     : Dispatchable(),
       NEXT(device, physical_device.VkDispatch()),
-      status_(VK_SUCCESS),
       instance_(physical_device.GetInstance()),
       physical_device_(physical_device),
       logger_(physical_device.Log(), VK_OBJECT_TYPE_DEVICE, device),
       device_queues_(),
-      pipeline_cache_map_(),
-      reserved_pipeline_pool_entries_map_(),
-      used_pipeline_pool_entries_map_(),
-      pipeline_pool_size_map_mutex_(),
-      pipeline_pool_size_map_(),
-      enabled_exts_(),
-      object_tracker_(*this, create_info),
-      faults_mutex_(),
-      faults_(),
-      fault_callback_(std::nullopt),
-      unrecorded_faults_(VK_FALSE),
-      command_pool_mutex_(),
-      command_pools_(),
-      max_command_buffer_count_() {
+      object_tracker_(*this, create_info) {
     status_ = SetupDevice(create_info);
 }
 
 VkResult Device::SetupDevice(const VkDeviceCreateInfo& create_info) {
     VkResult result = VK_SUCCESS;
+
+    // Check required structures
+    if (vku::FindStructInPNextChain<VkPhysicalDeviceVulkanSC10Features>(create_info.pNext) == nullptr) {
+        Log().Error("VKSC-EMU-CreateDevice-MissingPhysicalDeviceVulkanSC10Features",
+                    "Missing VkPhysicalDeviceVulkanSC10Features from the pNext chain of VkDeviceCreateInfo");
+        return VK_ERROR_INITIALIZATION_FAILED;
+    }
     const auto* object_reservation_info = vku::FindStructInPNextChain<VkDeviceObjectReservationCreateInfo>(create_info.pNext);
+    if (object_reservation_info == nullptr) {
+        Log().Error("VKSC-EMU-CreateDevice-MissingDeviceObjectReservationInfo",
+                    "Missing VkDeviceObjectReservationCreateInfo from the pNext chain of VkDeviceCreateInfo");
+        return VK_ERROR_INITIALIZATION_FAILED;
+    }
+
     while (object_reservation_info != nullptr) {
         // Initialize pipeline cache info
         for (uint32_t i = 0; i < object_reservation_info->pipelineCacheCreateInfoCount; ++i) {
             const auto& cache_create_info = object_reservation_info->pPipelineCacheCreateInfos[i];
             if (cache_create_info.pInitialData == nullptr) {
+                Log().Error("VKSC-EMU-CreateDevice-MissingPipelineCacheData",
+                            "VkPipelineCacheCreateInfo with pInitialData = NULL in VkDeviceObjectReservationCreateInfo");
                 return VK_ERROR_INVALID_PIPELINE_CACHE_DATA;
             }
 
@@ -71,7 +72,6 @@ VkResult Device::SetupDevice(const VkDeviceCreateInfo& create_info) {
         }
 
         command_pools_.reserve(object_reservation_info->commandPoolRequestCount);
-        max_command_buffer_count_ = object_reservation_info->commandBufferRequestCount;
 
         object_reservation_info = vku::FindStructInPNextChain<VkDeviceObjectReservationCreateInfo>(object_reservation_info->pNext);
     }
@@ -83,11 +83,10 @@ VkResult Device::SetupDevice(const VkDeviceCreateInfo& create_info) {
 
     // Remember enabled extensions
     if (create_info.ppEnabledExtensionNames && create_info.enabledExtensionCount != 0) {
-        enabled_exts_.reserve(create_info.enabledExtensionCount);
         for (uint32_t i = 0; i < create_info.enabledExtensionCount; ++i) {
-            ExtensionNumber num = GetExtensionNumber(create_info.ppEnabledExtensionNames[i]);
-            if (num != ExtensionNumber::unknown) {
-                enabled_exts_.push_back(num);
+            ExtensionNumber ext_num = GetExtensionNumber(create_info.ppEnabledExtensionNames[i]);
+            if (physical_device_.IsDeviceExtensionSupported(ext_num)) {
+                enabled_extensions_.insert(ext_num);
             } else {
                 return VK_ERROR_EXTENSION_NOT_PRESENT;
             }
@@ -101,10 +100,6 @@ VkResult Device::SetupDevice(const VkDeviceCreateInfo& create_info) {
     }
 
     return result;
-}
-
-bool Device::IsExtensionEnabled(ExtensionNumber ext) {
-    return std::find(enabled_exts_.cbegin(), enabled_exts_.cend(), ext) != enabled_exts_.cend();
 }
 
 PFN_vkVoidFunction Device::GetDeviceProcAddr(const char* pName) { return icd::GetDeviceProcAddr(VkSCHandle(), pName); }

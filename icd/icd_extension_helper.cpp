@@ -61,4 +61,12 @@ std::vector<VkExtensionProperties> GetVulkanSCExtensionList(const Logger& log,
     return result;
 }
 
+vk::ExtensionNumber ConvertExtensionNumber(vksc::ExtensionNumber ext_num) {
+    return vk::GetExtensionNumber(vksc::GetExtensionName(ext_num));
+}
+
+vksc::ExtensionNumber ConvertExtensionNumber(vk::ExtensionNumber ext_num) {
+    return vksc::GetExtensionNumber(vk::GetExtensionName(ext_num));
+}
+
 }  // namespace icd

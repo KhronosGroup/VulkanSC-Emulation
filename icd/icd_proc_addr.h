@@ -42,23 +42,23 @@ inline PFN_vkVoidFunction GetInstanceProcAddr(VkInstance instance, const char *p
             for (auto ext_num : instance_proc->second.enabled_by) {
                 if (vksc::GetInstanceExtensionsMap().find(ext_num) != vksc::GetInstanceExtensionsMap().cend() &&
                     !vksc::Instance::FromHandle(instance)->IsExtensionEnabled(ext_num)) {
-                    // instance = valid && not enabled instance ext
+                    // instance = valid && not enabled instance extension
                     return nullptr;
                 }
             }
             // instance = valid && core dispatchable command
             return instance_proc->second.pfn;
         }
-        const auto &phys_dev_proc = vksc::GetPhysicalDeviceProcAddrMap().find(proc_name);
-        if (phys_dev_proc != vksc::GetPhysicalDeviceProcAddrMap().end()) {
-            for (auto ext_num : phys_dev_proc->second.enabled_by) {
+        const auto &physdev_proc = vksc::GetPhysicalDeviceProcAddrMap().find(proc_name);
+        if (physdev_proc != vksc::GetPhysicalDeviceProcAddrMap().end()) {
+            for (auto ext_num : physdev_proc->second.enabled_by) {
                 if (vksc::GetInstanceExtensionsMap().find(ext_num) != vksc::GetInstanceExtensionsMap().cend() &&
                     !vksc::Instance::FromHandle(instance)->IsExtensionEnabled(ext_num)) {
-                    // instance = valid && not enabled instance ext
+                    // instance = valid && not enabled instance extension
                     return nullptr;
                 }
             }
-            return phys_dev_proc->second.pfn;
+            return physdev_proc->second.pfn;
         }
         const auto &dev_proc = vksc::GetDeviceProcAddrMap().find(proc_name);
         if (dev_proc != vksc::GetDeviceProcAddrMap().end()) {
@@ -85,7 +85,7 @@ inline PFN_vkVoidFunction GetDeviceProcAddr(VkDevice device, const char *proc_na
             for (auto ext_num : proc->second.enabled_by) {
                 if (vksc::GetDeviceExtensionsMap().find(ext_num) != vksc::GetDeviceExtensionsMap().cend() &&
                     !vksc::Device::FromHandle(device)->IsExtensionEnabled(ext_num)) {
-                    // device = valid && not enabled device ext
+                    // device = valid && not enabled device extension
                     return nullptr;
                 }
             }

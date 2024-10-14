@@ -7,6 +7,7 @@
 
 #include <gtest/gtest.h>
 #include <string>
+#include <vector>
 
 #include <vulkan/utility/vk_struct_helper.hpp>
 #include <vulkan/vk_icd.h>
@@ -46,13 +47,21 @@ class IcdTest : public ::testing::Test {
     IcdTest();
     virtual ~IcdTest();
 
-    VkInstance InitInstance(const VkInstanceCreateInfo* pCreateInfo = nullptr);
-    VkDevice InitDevice(const VkDeviceCreateInfo* pCreateInfo = nullptr);
+    void EnableInstanceExtension(const char* extension_name);
+    const VkInstanceCreateInfo GetDefaultInstanceCreateInfo(void* pnext_chain = nullptr) const;
+    VkInstance InitInstance(VkInstanceCreateInfo* create_info = nullptr);
+
+    void EnableDeviceExtension(const char* extension_name);
+    const VkDeviceCreateInfo GetDefaultDeviceCreateInfo(void* pnext_chain = nullptr) const;
+    VkDevice InitDevice(VkDeviceCreateInfo* create_info = nullptr);
 
     VkDeviceObjectReservationCreateInfo& ObjectReservation() { return object_reservation_; }
 
   private:
     VkInstance instance_{VK_NULL_HANDLE};
     VkDevice device_{VK_NULL_HANDLE};
+
     VkDeviceObjectReservationCreateInfo object_reservation_{};
+    std::vector<const char*> instance_extensions_{};
+    std::vector<const char*> device_extensions_{};
 };

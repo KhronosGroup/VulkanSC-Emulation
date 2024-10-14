@@ -10,13 +10,12 @@
 #include "vksc_command_pool.h"
 #include "vksc_dispatchable.h"
 #include "vksc_physical_device.h"
+#include "vksc_extension_helper.h"
 #include "vk_device.h"
 #include "icd_log.h"
 #include "icd_shadow_stack.h"
 #include "icd_pipeline_cache_data.h"
 #include "icd_object_tracker.h"
-
-#include "generated/vksc_extension_helper.h"
 
 #include <vector>
 #include <memory>
@@ -42,13 +41,14 @@ class Device : public Dispatchable<Device, VkDevice>, public vk::Device {
 
     bool RecyclePipelineMemory() const { return physical_device_.RecyclePipelineMemory(); }
 
-    bool IsValid() const { return status_ == VK_SUCCESS; }
     VkResult GetStatus() const { return status_; }
 
     const Instance& GetInstance() const { return instance_; }
     const PhysicalDevice& GetPhysicalDevice() const { return physical_device_; }
 
-    bool IsExtensionEnabled(ExtensionNumber ext);
+    bool IsExtensionEnabled(ExtensionNumber ext_num) const {
+        return enabled_extensions_.find(ext_num) != enabled_extensions_.end();
+    }
 
     PFN_vkVoidFunction GetDeviceProcAddr(const char* pName);
     void DestroyDevice(const VkAllocationCallbacks* pAllocator);
@@ -112,30 +112,28 @@ class Device : public Dispatchable<Device, VkDevice>, public vk::Device {
     icd::Logger logger_;
 
     DispatchableChildren<Queue, VkQueue> device_queues_;
-
-    // Map of pipeline cache data pointers to pipeline cache data
-    std::unordered_map<const void*, icd::PipelineCache> pipeline_cache_map_;
-
-    // Map of reserved and currently used pipeline pool entries keyed by entry size
-    std::unordered_map<uint64_t, uint32_t> reserved_pipeline_pool_entries_map_;
-    std::unordered_map<uint64_t, std::atomic_uint32_t> used_pipeline_pool_entries_map_;
-
-    // Map of pipelines and corresponding pool entry sizes (used only when pipeline pool entry recycling is enabled)
-    std::mutex pipeline_pool_size_map_mutex_;
-    std::unordered_map<VkPipeline, uint64_t> pipeline_pool_size_map_;
-
-    std::vector<ExtensionNumber> enabled_exts_;
-
     icd::DeviceObjectTracker object_tracker_;
 
-    std::mutex faults_mutex_;
-    std::vector<VkFaultData> faults_;
-    std::optional<FaultCallbackInfo> fault_callback_;
-    VkBool32 unrecorded_faults_;
+    std::unordered_set<ExtensionNumber> enabled_extensions_{};
 
-    std::mutex command_pool_mutex_;
-    std::unordered_map<VkCommandPool, std::unique_ptr<CommandPool>> command_pools_;
-    uint32_t max_command_buffer_count_;
+    // Map of pipeline cache data pointers to pipeline cache data
+    std::unordered_map<const void*, icd::PipelineCache> pipeline_cache_map_{};
+
+    // Map of reserved and currently used pipeline pool entries keyed by entry size
+    std::unordered_map<uint64_t, uint32_t> reserved_pipeline_pool_entries_map_{};
+    std::unordered_map<uint64_t, std::atomic_uint32_t> used_pipeline_pool_entries_map_{};
+
+    // Map of pipelines and corresponding pool entry sizes (used only when pipeline pool entry recycling is enabled)
+    std::mutex pipeline_pool_size_map_mutex_{};
+    std::unordered_map<VkPipeline, uint64_t> pipeline_pool_size_map_{};
+
+    std::mutex faults_mutex_{};
+    std::vector<VkFaultData> faults_{};
+    std::optional<FaultCallbackInfo> fault_callback_{std::nullopt};
+    VkBool32 unrecorded_faults_{VK_FALSE};
+
+    std::mutex command_pool_mutex_{};
+    std::unordered_map<VkCommandPool, std::unique_ptr<CommandPool>> command_pools_{};
 };
 
 }  // namespace vksc

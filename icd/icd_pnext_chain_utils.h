@@ -8,7 +8,7 @@
 #pragma once
 
 #include <vulkan/utility/vk_struct_helper.hpp>
-#include "generated/vksc_pnext_chain_helper.h"
+#include "vksc_pnext_chain_helper.h"
 #include "icd_shadow_stack.h"
 
 #include <memory.h>
@@ -53,17 +53,17 @@ class ModifiablePNextChain {
                         // Update the last copied pointer
                         last_copied_ = reinterpret_cast<VkBaseInStructure*>(copy_dst);
                         current = last_copied_;
+
+                        if (desired_sType == current->sType) {
+                            return reinterpret_cast<T*>(const_cast<VkBaseInStructure*>(current));
+                        }
+
+                        if (prev != nullptr) {
+                            *prev = const_cast<VkBaseInStructure*>(current);
+                        }
                     } else {
                         // Ignore unknown structures (effectively removes them from the pNext chain)
                     }
-                }
-
-                if (desired_sType == current->sType) {
-                    return reinterpret_cast<T*>(const_cast<VkBaseInStructure*>(current));
-                }
-
-                if (prev != nullptr) {
-                    *prev = const_cast<VkBaseInStructure*>(current);
                 }
 
                 current = current->pNext;

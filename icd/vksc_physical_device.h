@@ -8,9 +8,13 @@
 #pragma once
 
 #include "vksc_dispatchable.h"
+#include "vksc_extension_helper.h"
+#include "vk_extension_helper.h"
 #include "vk_physical_device.h"
 #include "icd_log.h"
+#include "icd_extension_helper.h"
 
+#include <unordered_set>
 #include <vector>
 
 namespace vksc {
@@ -26,6 +30,18 @@ class PhysicalDevice : public Dispatchable<PhysicalDevice, VkPhysicalDevice>, pu
     icd::Logger& Log() { return logger_; }
 
     bool IsValid() const { return valid_; }
+
+    bool IsDeviceExtensionSupported(ExtensionNumber ext_num) const {
+        return device_extensions_.find(ext_num) != device_extensions_.end();
+    }
+
+    bool IsDeviceExtensionSupported(vk::ExtensionNumber ext_num) const {
+        return vk_device_extensions_.find(ext_num) != vk_device_extensions_.end();
+    }
+
+    bool IsDeviceExtensionEmulated(ExtensionNumber ext_num) const {
+        return IsDeviceExtensionSupported(ext_num) && !IsDeviceExtensionSupported(icd::ConvertExtensionNumber(ext_num));
+    }
 
     bool RecyclePipelineMemory() const;
 
@@ -57,7 +73,9 @@ class PhysicalDevice : public Dispatchable<PhysicalDevice, VkPhysicalDevice>, pu
     const Instance& instance_;
     icd::Logger logger_;
 
-    std::vector<VkExtensionProperties> device_extensions_{};
+    std::vector<VkExtensionProperties> device_extension_list_{};
+    std::unordered_set<ExtensionNumber> device_extensions_{};
+    std::unordered_set<vk::ExtensionNumber> vk_device_extensions_{};
 };
 
 }  // namespace vksc

@@ -9,7 +9,10 @@
 #include "vksc_instance.h"
 #include "icd_env_helper.h"
 #include "icd_extension_helper.h"
+#include "icd_shadow_stack.h"
+#include "icd_pnext_chain_utils.h"
 
+#include <algorithm>
 #include <string>
 
 #ifdef _WIN32
@@ -25,6 +28,10 @@ namespace vksc {
 Global ICD;
 
 Global::Global() : environment_(), logger_(Environment().LogSeverityEnv()) {
+    // List of instance extensions implemented by the ICD even if the underlying Vulkan implementation does not support them
+    static const ExtensionMap s_icd_implemented_instance_extensions = {
+        {ExtensionNumber::EXT_debug_utils, VK_EXT_DEBUG_UTILS_SPEC_VERSION}};
+
     for (const auto& private_env : Environment().PrivateEnvs()) {
         Log().Debug("VKSC-EMU-PrivateEnvs", "Environment variable %s=%s is shadowed", private_env.first,
                     private_env.second.c_str());
@@ -111,13 +118,23 @@ Global::Global() : environment_(), logger_(Environment().LogSeverityEnv()) {
         uint32_t instance_extension_count = 0;
         VkResult result = VkDispatch().EnumerateInstanceExtensionProperties(nullptr, &instance_extension_count, nullptr);
         if (result >= VK_SUCCESS) {
-            instance_extensions_.resize(instance_extension_count);
-            result =
-                VkDispatch().EnumerateInstanceExtensionProperties(nullptr, &instance_extension_count, instance_extensions_.data());
+            instance_extension_list_.resize(instance_extension_count);
+            result = VkDispatch().EnumerateInstanceExtensionProperties(nullptr, &instance_extension_count,
+                                                                       instance_extension_list_.data());
             if (result >= VK_SUCCESS) {
-                instance_extensions_ = icd::GetVulkanSCExtensionList(Log(), instance_extensions_, vksc::GetInstanceExtensionsMap());
+                // Save original Vulkan extensions
+                for (const auto& instance_extension : instance_extension_list_) {
+                    vk_instance_extensions_.insert(vk::GetExtensionNumber(instance_extension.extensionName));
+                }
+                // Filter and add Vulkan SC extensions
+                instance_extension_list_ = icd::GetVulkanSCExtensionList(
+                    Log(), instance_extension_list_, vksc::GetInstanceExtensionsMap(), s_icd_implemented_instance_extensions);
+                // Save updated Vulkan SC exensions
+                for (const auto& instance_extension : instance_extension_list_) {
+                    instance_extensions_.insert(GetExtensionNumber(instance_extension.extensionName));
+                }
             } else {
-                instance_extensions_.clear();
+                instance_extension_list_.clear();
                 Log().Fatal("VKSC-EMU-InstanceExtensions",
                             "Failed to retrieve instance extension list from the underlying Vulkan implementation");
                 valid_ = false;
@@ -152,14 +169,14 @@ VkResult Global::EnumerateInstanceExtensionProperties(const char* pLayerName, ui
     }
 
     if (pProperties == nullptr) {
-        *pPropertyCount = static_cast<uint32_t>(instance_extensions_.size());
+        *pPropertyCount = static_cast<uint32_t>(instance_extension_list_.size());
     } else {
-        if (*pPropertyCount < instance_extensions_.size()) {
+        if (*pPropertyCount < instance_extension_list_.size()) {
             result = VK_INCOMPLETE;
         }
-        *pPropertyCount = std::min(*pPropertyCount, static_cast<uint32_t>(instance_extensions_.size()));
+        *pPropertyCount = std::min(*pPropertyCount, static_cast<uint32_t>(instance_extension_list_.size()));
         for (uint32_t i = 0; i < *pPropertyCount; ++i) {
-            pProperties[i] = instance_extensions_[i];
+            pProperties[i] = instance_extension_list_[i];
         }
     }
 
@@ -195,29 +212,60 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateInstance(const VkInstanceCreateInfo* pCre
 
     icd::EnvironmentOverride override(vksc::ICD.Environment());
 
+    // Construct the Vulkan version of the create info with appropriate filtering
+    icd::ShadowStack::Frame stack_frame{};
+    VkInstanceCreateInfo vk_create_info = *pCreateInfo;
+    icd::ModifiablePNextChain vk_mod_pnext_chain(stack_frame, vk_create_info);
+
     // We need to override the target API version
-    VkInstanceCreateInfo create_info = *pCreateInfo;
-    VkApplicationInfo app_info;
-    if (create_info.pApplicationInfo != nullptr) {
-        if (create_info.pApplicationInfo != 0) {
-            if (create_info.pApplicationInfo->apiVersion != 0 &&
-                VK_API_VERSION_VARIANT(create_info.pApplicationInfo->apiVersion) != VKSC_API_VARIANT) {
-                // Unsupported API variant
-                return VK_ERROR_INCOMPATIBLE_DRIVER;
-            }
+    VkApplicationInfo vk_app_info;
+    if (pCreateInfo->pApplicationInfo != nullptr) {
+        if (pCreateInfo->pApplicationInfo->apiVersion != 0 &&
+            VK_API_VERSION_VARIANT(pCreateInfo->pApplicationInfo->apiVersion) != VKSC_API_VARIANT) {
+            // Unsupported API variant
+            return VK_ERROR_INCOMPATIBLE_DRIVER;
         }
-        app_info = *create_info.pApplicationInfo;
-        app_info.apiVersion = VK_API_VERSION_1_2;
-        create_info.pApplicationInfo = &app_info;
+        vk_app_info = *vk_create_info.pApplicationInfo;
+        vk_app_info.apiVersion = VK_API_VERSION_1_2;
+        vk_create_info.pApplicationInfo = &vk_app_info;
     }
 
+    // We need to filter emulated extensions
+    auto vk_enabled_extension_names = stack_frame.Alloc<const char*>(pCreateInfo->enabledExtensionCount);
+    vk_create_info.enabledExtensionCount = 0;
+    vk_create_info.ppEnabledExtensionNames = vk_enabled_extension_names;
+    for (uint32_t i = 0; i < pCreateInfo->enabledExtensionCount; ++i) {
+        vksc::ExtensionNumber ext_num = vksc::GetExtensionNumber(pCreateInfo->ppEnabledExtensionNames[i]);
+        if (vksc::ICD.IsInstanceExtensionSupported(ext_num)) {
+            if (vksc::ICD.IsInstanceExtensionEmulated(ext_num)) {
+                if (ext_num == vksc::ExtensionNumber::EXT_debug_utils) {
+                    // If we are emulating VK_EXT_debug_utils (e.g. because we don't have the Vulkan loader enabled in the
+                    // stack and the Vulkan ICD does not support it) then we need to filter out any callback create infos
+                    vk_create_info.pNext =
+                        vk_mod_pnext_chain.RemoveAllStructsFromChain<VkDebugUtilsMessengerCreateInfoEXT>().GetModifiedPNext();
+                }
+            } else {
+                // Not an emulated extension, include it in the Vulkan create info
+                vk_enabled_extension_names[vk_create_info.enabledExtensionCount++] = pCreateInfo->ppEnabledExtensionNames[i];
+            }
+        } else {
+            vksc::ICD.Log().Error("VKSC-EMU-CreateInstance-UnsupportedExtension", "Unsupported instance extension '%s'",
+                                  pCreateInfo->ppEnabledExtensionNames[i]);
+            return VK_ERROR_EXTENSION_NOT_PRESENT;
+        }
+    }
+
+    // We don't want to enable the underlying Vulkan layers
+    vk_create_info.enabledLayerCount = 0;
+    vk_create_info.ppEnabledLayerNames = nullptr;
+
     VkInstance instance = VK_NULL_HANDLE;
-    VkResult result = vksc::ICD.VkDispatch().CreateInstance(&create_info, pAllocator, &instance);
+    VkResult result = vksc::ICD.VkDispatch().CreateInstance(&vk_create_info, pAllocator, &instance);
     if (result >= VK_SUCCESS) {
-        *pInstance = vksc::Instance::Create(instance, vksc::ICD, create_info);
-        if (!vksc::Instance::FromHandle(*pInstance)->IsValid()) {
+        *pInstance = vksc::Instance::Create(instance, vksc::ICD, *pCreateInfo);
+        result = vksc::Instance::FromHandle(*pInstance)->GetStatus();
+        if (result < VK_SUCCESS) {
             vksc::Instance::FromHandle(*pInstance)->DestroyInstance(pAllocator);
-            result = VK_ERROR_INCOMPATIBLE_DRIVER;
         }
     }
 

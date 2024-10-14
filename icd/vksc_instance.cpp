@@ -16,10 +16,18 @@
 
 namespace vksc {
 
+// Placeholder debug utils messenger object class
+class DebugUtilsMessengerEXT {
+  public:
+    static DebugUtilsMessengerEXT* FromHandle(VkDebugUtilsMessengerEXT handle) {
+        return reinterpret_cast<DebugUtilsMessengerEXT*>(handle);
+    }
+    VkDebugUtilsMessengerEXT VkSCHandle() { return reinterpret_cast<VkDebugUtilsMessengerEXT>(this); }
+};
+
 Instance::Instance(VkInstance instance, Global& global, const VkInstanceCreateInfo& create_info)
     : Dispatchable(),
       NEXT(instance, vk::DispatchTable(instance, global.VkGetProcAddr())),
-      status_(VK_SUCCESS),
       logger_(CreateLogger(create_info), VK_OBJECT_TYPE_INSTANCE, instance),
       api_version_(create_info.pApplicationInfo != nullptr ? create_info.pApplicationInfo->apiVersion : VKSC_API_VERSION_1_0),
       physical_devices_() {
@@ -29,11 +37,10 @@ Instance::Instance(VkInstance instance, Global& global, const VkInstanceCreateIn
 VkResult Instance::SetupInstance(const VkInstanceCreateInfo& create_info) {
     // Remember enabled extensions
     if (create_info.ppEnabledExtensionNames && create_info.enabledExtensionCount != 0) {
-        enabled_exts_.reserve(create_info.enabledExtensionCount);
         for (uint32_t i = 0; i < create_info.enabledExtensionCount; ++i) {
-            ExtensionNumber num = GetExtensionNumber(create_info.ppEnabledExtensionNames[i]);
-            if (num != ExtensionNumber::unknown) {
-                enabled_exts_.push_back(num);
+            ExtensionNumber ext_num = GetExtensionNumber(create_info.ppEnabledExtensionNames[i]);
+            if (ICD.IsInstanceExtensionSupported(ext_num)) {
+                enabled_extensions_.insert(ext_num);
             } else {
                 return VK_ERROR_EXTENSION_NOT_PRESENT;
             }
@@ -179,13 +186,19 @@ VkResult Instance::EnumeratePhysicalDeviceGroups(uint32_t* pPhysicalDeviceGroupC
     return result;
 }
 
-bool Instance::IsExtensionEnabled(ExtensionNumber ext) {
-    return std::find(enabled_exts_.cbegin(), enabled_exts_.cend(), ext) != enabled_exts_.cend();
-}
-
 VkResult Instance::CreateDebugUtilsMessengerEXT(const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
                                                 const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pMessenger) {
-    VkResult result = NEXT::CreateDebugUtilsMessengerEXT(pCreateInfo, pAllocator, pMessenger);
+    VkResult result = VK_SUCCESS;
+    if (ICD.IsInstanceExtensionEmulated(ExtensionNumber::EXT_debug_utils)) {
+        // Create placeholder object ourselves because the Vulkan stack does not support VK_EXT_debug_utils
+        *pMessenger = (new DebugUtilsMessengerEXT)->VkSCHandle();
+        if (pMessenger == nullptr) {
+            result = VK_ERROR_OUT_OF_HOST_MEMORY;
+        }
+    } else {
+        // Forward call to the Vulkan stack to also capture Vulkan debug messages
+        result = NEXT::CreateDebugUtilsMessengerEXT(pCreateInfo, pAllocator, pMessenger);
+    }
     if (result >= VK_SUCCESS) {
         Log().AddDebugMessenger(*pMessenger, *pCreateInfo);
     }
@@ -194,7 +207,13 @@ VkResult Instance::CreateDebugUtilsMessengerEXT(const VkDebugUtilsMessengerCreat
 
 void Instance::DestroyDebugUtilsMessengerEXT(VkDebugUtilsMessengerEXT messenger, const VkAllocationCallbacks* pAllocator) {
     Log().RemoveDebugMessenger(messenger);
-    NEXT::DestroyDebugUtilsMessengerEXT(messenger, pAllocator);
+    if (ICD.IsInstanceExtensionEmulated(ExtensionNumber::EXT_debug_utils)) {
+        // Destroy placeholder object because the Vulkan stack does not support VK_EXT_debug_utils
+        delete DebugUtilsMessengerEXT::FromHandle(messenger);
+    } else {
+        // Forward call to the Vulkan stack
+        NEXT::DestroyDebugUtilsMessengerEXT(messenger, pAllocator);
+    }
 }
 
 }  // namespace vksc

@@ -8,12 +8,12 @@
 #pragma once
 
 #include "vksc_dispatchable.h"
+#include "vksc_extension_helper.h"
 #include "vk_instance.h"
 #include "icd_log.h"
 
-#include "generated/vksc_extension_helper.h"
-
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 #include <memory>
 
@@ -30,7 +30,7 @@ class Instance : public Dispatchable<Instance, VkInstance>, public vk::Instance 
 
     icd::Logger& Log() { return logger_; }
 
-    bool IsValid() const { return valid_; }
+    VkResult GetStatus() const { return status_; }
 
     uint32_t GetApiVersion() const { return api_version_; }
 
@@ -39,21 +39,22 @@ class Instance : public Dispatchable<Instance, VkInstance>, public vk::Instance 
     VkResult EnumeratePhysicalDeviceGroups(uint32_t* pPhysicalDeviceGroupCount,
                                            VkPhysicalDeviceGroupProperties* pPhysicalDeviceGroupProperties);
 
-    bool IsExtensionEnabled(ExtensionNumber ext);
+    bool IsExtensionEnabled(ExtensionNumber ext_num) const {
+        return enabled_extensions_.find(ext_num) != enabled_extensions_.end();
+    }
 
     VkResult CreateDebugUtilsMessengerEXT(const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
                                           const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pMessenger);
     void DestroyDebugUtilsMessengerEXT(VkDebugUtilsMessengerEXT messenger, const VkAllocationCallbacks* pAllocator);
 
   private:
-    VkResult status_{VK_SUCCESS};
     VkResult SetupInstance(const VkInstanceCreateInfo& create_info);
     icd::Logger CreateLogger(const VkInstanceCreateInfo& create_info);
 
     VkResult GetCompatiblePhysicalDeviceList(std::vector<VkPhysicalDevice>& physical_devices);
     VkResult GetCompatiblePhysicalDeviceGroupList(std::vector<VkPhysicalDeviceGroupProperties>& physical_device_groups);
 
-    bool valid_{true};
+    VkResult status_{VK_SUCCESS};
 
     icd::Logger logger_;
 
@@ -61,7 +62,7 @@ class Instance : public Dispatchable<Instance, VkInstance>, public vk::Instance 
 
     DispatchableChildren<PhysicalDevice, VkPhysicalDevice> physical_devices_;
 
-    std::vector<ExtensionNumber> enabled_exts_;
+    std::unordered_set<ExtensionNumber> enabled_extensions_{};
 };
 
 }  // namespace vksc
