@@ -285,3 +285,20 @@ TEST_F(InfrastructureTest, DebugUtilsMessenger) {
               VK_ERROR_INVALID_PIPELINE_CACHE_DATA);
     EXPECT_EQ(callback_data.call_count, 7);
 }
+
+TEST_F(InfrastructureTest, DeviceCreateStructChain) {
+    auto obj_res_info = vku::InitStruct<VkDeviceObjectReservationCreateInfo>();
+    auto sc10_features = vku::InitStruct<VkPhysicalDeviceVulkanSC10Features>(&obj_res_info);
+    auto fault_info = vku::InitStruct<VkFaultCallbackInfo>(&sc10_features);
+    auto create_info = vku::InitStruct<VkDeviceCreateInfo>(&fault_info);
+    create_info.queueCreateInfoCount = 1;
+    create_info.pQueueCreateInfos = [] {
+        static float queue_priority = 1.f;
+        static auto queue_info = vku::InitStruct<VkDeviceQueueCreateInfo>();
+        queue_info.queueCount = 1;
+        queue_info.pQueuePriorities = &queue_priority;
+        return &queue_info;
+    }();
+    InitInstance();
+    InitDevice(&create_info);
+}

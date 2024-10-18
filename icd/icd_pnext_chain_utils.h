@@ -63,7 +63,17 @@ class ModifiablePNextChain {
                         }
                     } else {
                         // Ignore unknown structures (effectively removes them from the pNext chain)
+                        current = current->pNext;
+                        continue;
                     }
+                }
+
+                if (desired_sType == current->sType) {
+                    return reinterpret_cast<T*>(const_cast<VkBaseInStructure*>(current));
+                }
+
+                if (prev != nullptr) {
+                    *prev = const_cast<VkBaseInStructure*>(current);
                 }
 
                 current = current->pNext;
