@@ -16,6 +16,9 @@
 #include "test_vkmock_framework.h"
 #include "test_vksc_dispatch_table.h"
 
+// Can be used by tests to record additional details / description of test
+#define TEST_DESCRIPTION(desc) RecordProperty("description", desc)
+
 class Framework : public ::testing::Environment {
   public:
     virtual void SetUp() override;

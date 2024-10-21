@@ -16,6 +16,8 @@
 class InfrastructureTest : public IcdTest {};
 
 TEST_F(InfrastructureTest, EnvironmentVariables) {
+    TEST_DESCRIPTION("Test handling and translation of loader environment variables");
+
     const std::vector<std::string> loader_env_vars = {"VK_ICD_FILENAMES",
                                                       "VK_DRIVER_FILES",
                                                       "VK_LAYER_PATH",
@@ -91,6 +93,8 @@ TEST_F(InfrastructureTest, EnvironmentVariables) {
 }
 
 TEST_F(InfrastructureTest, DeviceFiltering) {
+    TEST_DESCRIPTION("Test filtering of devices and device groups");
+
     VkMockObject<VkPhysicalDevice> mock_physdev_vulkan11{};
     VkMockObject<VkPhysicalDevice> mock_physdev_vulkan12{};
     VkMockObject<VkPhysicalDevice> mock_physdev_vulkan12_no_memory_model{};
@@ -116,6 +120,27 @@ TEST_F(InfrastructureTest, DeviceFiltering) {
         }
         return result;
     };
+    vkmock::EnumeratePhysicalDeviceGroups = [&](auto, auto pPhysicalDeviceGroupCount, auto pPhysicalDeviceGroupProperties) {
+        static const std::vector<std::vector<VkPhysicalDevice>> physical_device_groups = {
+            {mock_physdev_vulkan11, mock_physdev_vulkan12_no_memory_model, mock_physdev_vulkan13_no_memory_model},
+            {mock_physdev_vulkan12, mock_physdev_vulkan13}};
+        VkResult result = VK_SUCCESS;
+        if (pPhysicalDeviceGroupProperties == nullptr) {
+            *pPhysicalDeviceGroupCount = static_cast<uint32_t>(physical_device_groups.size());
+        } else {
+            if (*pPhysicalDeviceGroupCount < physical_device_groups.size()) {
+                result = VK_INCOMPLETE;
+            }
+            *pPhysicalDeviceGroupCount = std::min(*pPhysicalDeviceGroupCount, static_cast<uint32_t>(physical_device_groups.size()));
+            for (uint32_t i = 0; i < *pPhysicalDeviceGroupCount; ++i) {
+                pPhysicalDeviceGroupProperties[i].physicalDeviceCount = static_cast<uint32_t>(physical_device_groups[i].size());
+                for (size_t j = 0; j < physical_device_groups[i].size(); ++j) {
+                    pPhysicalDeviceGroupProperties[i].physicalDevices[j] = physical_device_groups[i][j];
+                }
+            }
+        }
+        return result;
+    };
     vkmock::GetPhysicalDeviceProperties = [&](auto physicalDevice, auto pProperties) {
         if (physicalDevice == mock_physdev_vulkan11) {
             pProperties->apiVersion = VK_API_VERSION_1_1;
@@ -137,6 +162,7 @@ TEST_F(InfrastructureTest, DeviceFiltering) {
 
     auto instance = InitInstance();
 
+    // Device filtering
     uint32_t count = 0;
     EXPECT_EQ(vksc::EnumeratePhysicalDevices(instance, &count, nullptr), VK_SUCCESS);
     EXPECT_EQ(count, 2);
@@ -171,9 +197,44 @@ TEST_F(InfrastructureTest, DeviceFiltering) {
     EXPECT_EQ(vksc::CreateDevice(physdevs[1], &create_info, nullptr, &device), VK_SUCCESS);
     EXPECT_EQ(parent_of_device, mock_physdev_vulkan13.handle());
     vksc::DestroyDevice(device, nullptr);
+
+    // Device group filtering
+    vkmock::CreateDevice = [&](auto physicalDevice, auto pCreateInfo, auto, auto pDevice) {
+        auto device_group_ci = vku::FindStructInPNextChain<VkDeviceGroupDeviceCreateInfo>(pCreateInfo->pNext);
+        EXPECT_NE(device_group_ci, nullptr);
+        if (device_group_ci != nullptr) {
+            EXPECT_EQ(device_group_ci->physicalDeviceCount, 2);
+            if (device_group_ci->physicalDeviceCount == 2) {
+                EXPECT_EQ(device_group_ci->pPhysicalDevices[0], mock_physdev_vulkan12.handle());
+                EXPECT_EQ(device_group_ci->pPhysicalDevices[1], mock_physdev_vulkan13.handle());
+            }
+        }
+        static VkMockObject<VkDevice> mock_device{};
+        *pDevice = mock_device;
+        return VK_SUCCESS;
+    };
+
+    count = 0;
+    EXPECT_EQ(vksc::EnumeratePhysicalDeviceGroups(instance, &count, nullptr), VK_SUCCESS);
+    EXPECT_EQ(count, 1);
+
+    auto device_group_props = vku::InitStruct<VkPhysicalDeviceGroupProperties>();
+    EXPECT_EQ(vksc::EnumeratePhysicalDeviceGroups(instance, &count, &device_group_props), VK_SUCCESS);
+    EXPECT_EQ(count, 1);
+    EXPECT_EQ(device_group_props.physicalDeviceCount, 2);
+
+    auto device_group_ci = vku::InitStruct<VkDeviceGroupDeviceCreateInfo>();
+    device_group_ci.physicalDeviceCount = device_group_props.physicalDeviceCount;
+    device_group_ci.pPhysicalDevices = &device_group_props.physicalDevices[0];
+    create_info = GetDefaultDeviceCreateInfo(&device_group_ci);
+
+    EXPECT_EQ(vksc::CreateDevice(physdevs[1], &create_info, nullptr, &device), VK_SUCCESS);
+    vksc::DestroyDevice(device, nullptr);
 }
 
 TEST_F(InfrastructureTest, ExtensionFiltering) {
+    TEST_DESCRIPTION("Test filtering of extensions");
+
     vkmock::EnumerateDeviceExtensionProperties = [&](auto, auto, auto pPropertyCount, auto pProperties) {
         static const std::vector<VkExtensionProperties> extensions = {
             {VK_EXT_DEBUG_MARKER_EXTENSION_NAME, VK_EXT_DEBUG_MARKER_SPEC_VERSION},
@@ -226,6 +287,8 @@ TEST_F(InfrastructureTest, ExtensionFiltering) {
 }
 
 TEST_F(InfrastructureTest, DebugUtilsMessenger) {
+    TEST_DESCRIPTION("Test debug utils messengers");
+
     struct CallbackData {
         uint32_t call_count = 0;
         void Call() { call_count++; }
@@ -287,6 +350,8 @@ TEST_F(InfrastructureTest, DebugUtilsMessenger) {
 }
 
 TEST_F(InfrastructureTest, DeviceCreateStructChain) {
+    TEST_DESCRIPTION("Test device create struct chain handling dealing with loader private structs");
+
     auto obj_res_info = vku::InitStruct<VkDeviceObjectReservationCreateInfo>();
     auto sc10_features = vku::InitStruct<VkPhysicalDeviceVulkanSC10Features>(&obj_res_info);
     auto fault_info = vku::InitStruct<VkFaultCallbackInfo>(&sc10_features);
