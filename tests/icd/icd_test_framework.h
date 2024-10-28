@@ -54,14 +54,17 @@ class IcdTest : public ::testing::Test {
     const VkInstanceCreateInfo GetDefaultInstanceCreateInfo(void* pnext_chain = nullptr) const;
     VkInstance InitInstance(VkInstanceCreateInfo* create_info = nullptr);
 
+    VkPhysicalDevice InitPhysicalDevice();
+
     void EnableDeviceExtension(const char* extension_name);
     const VkDeviceCreateInfo GetDefaultDeviceCreateInfo(void* pnext_chain = nullptr) const;
     VkDevice InitDevice(VkDeviceCreateInfo* create_info = nullptr);
 
     VkDeviceObjectReservationCreateInfo& ObjectReservation() { return object_reservation_; }
 
-  private:
+  protected:
     VkInstance instance_{VK_NULL_HANDLE};
+    VkPhysicalDevice physical_device_{VK_NULL_HANDLE};
     VkDevice device_{VK_NULL_HANDLE};
 
     VkDeviceObjectReservationCreateInfo object_reservation_{};

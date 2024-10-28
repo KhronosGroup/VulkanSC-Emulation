@@ -292,21 +292,32 @@ const VkDeviceCreateInfo IcdTest::GetDefaultDeviceCreateInfo(void *pnext_chain) 
     return result;
 }
 
-VkDevice IcdTest::InitDevice(VkDeviceCreateInfo *create_info) {
-    VkPhysicalDevice physdev = VK_NULL_HANDLE;
-    uint32_t physdev_count = 1;
-    vksc::EnumeratePhysicalDevices(instance_, &physdev_count, &physdev);
-    if (physdev == VK_NULL_HANDLE) {
+VkPhysicalDevice IcdTest::InitPhysicalDevice() {
+    if (instance_ == VK_NULL_HANDLE) {
+        InitInstance();
+    }
+
+    uint32_t phys_device_count = 1;
+    vksc::EnumeratePhysicalDevices(instance_, &phys_device_count, &physical_device_);
+    if (physical_device_ == VK_NULL_HANDLE) {
         GTEST_MESSAGE_AT_(__FILE__, __LINE__, "", ::testing::TestPartResult::kFatalFailure) << "Failed to find physical device";
         throw testing::AssertionException(testing::TestPartResult(testing::TestPartResult::kFatalFailure, __FILE__, __LINE__, ""));
     }
 
+    return physical_device_;
+}
+
+VkDevice IcdTest::InitDevice(VkDeviceCreateInfo *create_info) {
     if (create_info == nullptr) {
         static auto default_ci = GetDefaultDeviceCreateInfo();
         create_info = &default_ci;
     }
 
-    VkResult result = vksc::CreateDevice(physdev, create_info, nullptr, &device_);
+    if (physical_device_ == VK_NULL_HANDLE) {
+        InitPhysicalDevice();
+    }
+
+    VkResult result = vksc::CreateDevice(physical_device_, create_info, nullptr, &device_);
     if (result != VK_SUCCESS) {
         GTEST_MESSAGE_AT_(__FILE__, __LINE__, "", ::testing::TestPartResult::kFatalFailure)
             << "Failed to create device: " << result;
