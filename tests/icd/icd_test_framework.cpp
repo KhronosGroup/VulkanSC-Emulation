@@ -11,6 +11,16 @@
 #include <string_view>
 #include <array>
 
+// Shorthand to throw GTest exception, causing the test to fail with user-provided message stream fragment
+#define FAIL_TEST_IF(pred, msg_stream)                                                                         \
+    do {                                                                                                       \
+        if (pred) {                                                                                            \
+            GTEST_MESSAGE_AT_(__FILE__, __LINE__, "", ::testing::TestPartResult::kFatalFailure) << msg_stream; \
+            throw testing::AssertionException(                                                                 \
+                testing::TestPartResult(testing::TestPartResult::kFatalFailure, __FILE__, __LINE__, ""));      \
+        }                                                                                                      \
+    } while (0)
+
 static void InitDefaultMockHandlers(IcdTest *test_case = nullptr) {
     static VkMockObject<VkInstance> mock_instance{};
     static VkMockObject<VkPhysicalDevice> mock_physical_device{};
