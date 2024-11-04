@@ -23,7 +23,9 @@ TEST_F(MemConsumptionTest, CornerCases) {
     // Test params
     const VkDeviceSize pool_reservation_size = 1'000;
 
-    auto physical_device = InitPhysicalDevice();
+    vkmock::CmdSetDeviceMask = [&](auto, auto) {};
+
+    auto physical_device = GetPhysicalDevice();
     auto vksc_physical_device_props = vku::InitStruct<VkPhysicalDeviceVulkanSC10Properties>();
     auto physical_device_props = vku::InitStruct<VkPhysicalDeviceProperties2>(&vksc_physical_device_props);
     vksc::GetPhysicalDeviceProperties2(physical_device, &physical_device_props);
@@ -33,9 +35,9 @@ TEST_F(MemConsumptionTest, CornerCases) {
     device_object_reservation_info.commandBufferRequestCount = 1;
     auto device_info = GetDefaultDeviceCreateInfo(&device_object_reservation_info);
     auto device = InitDevice(&device_info);
-    auto command_pool = GetCommandPool(pool_reservation_size, GetUniversalQueueFamilyIndex());
-    auto command_buffers = GetCommandBuffers(command_pool);
-    VkCommandBuffer command_buffer = command_buffers.front();
+    auto command_pool = CreateCommandPool(pool_reservation_size);
+    auto command_buffers = CreateCommandBuffers(command_pool);
+    auto command_buffer = command_buffers.front();
 
     auto begin_info = vku::InitStruct<VkCommandBufferBeginInfo>();
     vksc::BeginCommandBuffer(command_buffer, &begin_info);
@@ -54,15 +56,17 @@ TEST_F(MemConsumptionTest, CornerCases) {
     EXPECT_EQ(command_pool_mem_consumption.commandBufferAllocated, 0);
 }
 
-TEST_F(MemConsumptionTest, Overallocate) {
-    TEST_DESCRIPTION("Test whether command buffer errors when overallocating");
+TEST_F(MemConsumptionTest, OverallocatePool) {
+    TEST_DESCRIPTION("Test whether command buffer errors and faults when overallocating pool reservation");
 
     // Test params
     const VkDeviceSize pool_reservation_size = 1'000;
     const VkDeviceSize buffer_update_size = 2 * pool_reservation_size;
-    EXPECT_LE(pool_reservation_size, 65536);  // VkCmdUpdateBuffer is capped at 65536
+    EXPECT_LE(pool_reservation_size, 65536);  // test param assertion. VkCmdUpdateBuffer is capped at 65536
 
-    auto physical_device = InitPhysicalDevice();
+    vkmock::CmdUpdateBuffer = [&](auto, auto, auto, auto, auto) {};
+
+    auto physical_device = GetPhysicalDevice();
     auto vksc_physical_device_props = vku::InitStruct<VkPhysicalDeviceVulkanSC10Properties>();
     auto physical_device_props = vku::InitStruct<VkPhysicalDeviceProperties2>(&vksc_physical_device_props);
     vksc::GetPhysicalDeviceProperties2(physical_device, &physical_device_props);
@@ -72,17 +76,73 @@ TEST_F(MemConsumptionTest, Overallocate) {
     device_object_reservation_info.commandBufferRequestCount = 1;
     auto device_info = GetDefaultDeviceCreateInfo(&device_object_reservation_info);
     auto device = InitDevice(&device_info);
-    auto command_pool = GetCommandPool(pool_reservation_size, GetUniversalQueueFamilyIndex());
-    auto command_buffers = GetCommandBuffers(command_pool);
-    VkCommandBuffer command_buffer = command_buffers.front();
+    auto command_pool = CreateCommandPool(pool_reservation_size);
+    auto command_buffers = CreateCommandBuffers(command_pool);
+    auto [buffer, memory] = CreateBufferWithBoundMemory(buffer_update_size);
+    auto command_buffer = command_buffers.front();
 
-    auto buffer = GetBuffer(buffer_update_size, VK_BUFFER_USAGE_STORAGE_BUFFER_BIT, {GetUniversalQueueFamilyIndex()});
-    auto memory = AllocateMemory(buffer, buffer_update_size);
-    BindMemory(memory, buffer);
     std::vector<unsigned char> payload(buffer_update_size);
 
+    // Test error
     auto begin_info = vku::InitStruct<VkCommandBufferBeginInfo>();
     vksc::BeginCommandBuffer(command_buffer, &begin_info);
     vksc::CmdUpdateBuffer(command_buffer, buffer, 0, buffer_update_size, payload.data());
     EXPECT_EQ(vksc::EndCommandBuffer(command_buffer), VK_ERROR_OUT_OF_DEVICE_MEMORY);
+
+    // Test fault emission
+    const auto max_fault_count = GetMaxQueryFaultCount();
+    std::vector<VkFaultData> faults(max_fault_count);
+    uint32_t fault_count;
+    vksc::GetFaultData(device, VK_FAULT_QUERY_BEHAVIOR_GET_AND_CLEAR_ALL_FAULTS, nullptr, &fault_count, faults.data());
+    EXPECT_EQ(fault_count, 1);
+    EXPECT_EQ(faults[0].faultType, VK_FAULT_TYPE_COMMAND_BUFFER_FULL);
+
+    vksc::DestroyBuffer(device, buffer, nullptr);
+    vksc::FreeCommandBuffers(device, command_pool, command_buffers.size(), command_buffers.data());
+}
+
+TEST_F(MemConsumptionTest, OverallocateDeviceLimit) {
+    TEST_DESCRIPTION("Test whether command buffer errors and faults when overallocating device limit");
+
+    vkmock::CmdUpdateBuffer = [&](auto, auto, auto, auto, auto) {};
+
+    auto physical_device = GetPhysicalDevice();
+    auto vksc_physical_device_props = vku::InitStruct<VkPhysicalDeviceVulkanSC10Properties>();
+    auto physical_device_props = vku::InitStruct<VkPhysicalDeviceProperties2>(&vksc_physical_device_props);
+    vksc::GetPhysicalDeviceProperties2(physical_device, &physical_device_props);
+
+    // Test params
+    const VkDeviceSize buffer_update_size = 65536;  // maximal step size towards limit, VkCmdUpdateBuffer is capped at 65536
+    const VkDeviceSize pool_reservation_size = vksc_physical_device_props.maxCommandBufferSize + buffer_update_size;
+
+    auto device_object_reservation_info = vku::InitStruct<VkDeviceObjectReservationCreateInfo>();
+    device_object_reservation_info.commandPoolRequestCount = 1;
+    device_object_reservation_info.commandBufferRequestCount = 1;
+    auto device_info = GetDefaultDeviceCreateInfo(&device_object_reservation_info);
+    auto device = InitDevice(&device_info);
+    auto command_pool = CreateCommandPool(pool_reservation_size);
+    auto command_buffers = CreateCommandBuffers(command_pool);
+    auto [buffer, memory] = CreateBufferWithBoundMemory(buffer_update_size);
+    auto command_buffer = command_buffers.front();
+
+    std::vector<unsigned char> payload(buffer_update_size);
+
+    // Test error
+    auto begin_info = vku::InitStruct<VkCommandBufferBeginInfo>();
+    vksc::BeginCommandBuffer(command_buffer, &begin_info);
+    for (VkDeviceSize i = 0; i < pool_reservation_size; i += buffer_update_size) {
+        vksc::CmdUpdateBuffer(command_buffer, buffer, i, buffer_update_size, payload.data());
+    }
+    EXPECT_EQ(vksc::EndCommandBuffer(command_buffer), VK_ERROR_OUT_OF_DEVICE_MEMORY);
+
+    // Test fault emission
+    const auto max_fault_count = GetMaxQueryFaultCount();
+    std::vector<VkFaultData> faults(max_fault_count);
+    uint32_t fault_count;
+    vksc::GetFaultData(device, VK_FAULT_QUERY_BEHAVIOR_GET_AND_CLEAR_ALL_FAULTS, nullptr, &fault_count, faults.data());
+    EXPECT_GE(fault_count, 1);
+    EXPECT_EQ(faults[0].faultType, VK_FAULT_TYPE_COMMAND_BUFFER_FULL);
+
+    vksc::DestroyBuffer(device, buffer, nullptr);
+    vksc::FreeCommandBuffers(device, command_pool, command_buffers.size(), command_buffers.data());
 }

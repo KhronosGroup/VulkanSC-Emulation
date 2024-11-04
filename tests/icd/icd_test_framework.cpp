@@ -122,10 +122,10 @@ static void InitDefaultMockHandlers(IcdTest *test_case = nullptr) {
         return VK_SUCCESS;
     };
     vkmock::FreeMemory = [&](auto, auto, auto) {};
+    vkmock::DestroyBuffer = [&](auto, auto, auto) {};
+    vkmock::FreeCommandBuffers = [&](auto, auto, auto, auto) {};
     vkmock::BindBufferMemory2 = [&](auto, auto, auto) { return VK_SUCCESS; };
     vkmock::BeginCommandBuffer = [&](auto, auto) { return VK_SUCCESS; };
-    vkmock::CmdSetDeviceMask = [&](auto, auto) {};
-    vkmock::CmdUpdateBuffer = [&](auto, auto, auto, auto, auto) {};
     vkmock::EndCommandBuffer = [&](auto) { return VK_SUCCESS; };
     vkmock::DestroyCommandPool = [&](auto, auto, auto) {};
     vkmock::CreateInstance = [&](auto, auto, auto pInstance) {
@@ -277,16 +277,20 @@ IcdTest::IcdTest() {
     object_reservation_.maxImmutableSamplersPerDescriptorSetLayout = 256;
 }
 
-uint32_t IcdTest::GetUniversalQueueFamilyIndex() {
-    return GetQueueFamilyIndex(has_flag<VkCommandPool>(VK_QUEUE_TRANSFER_BIT | VK_QUEUE_COMPUTE_BIT | VK_QUEUE_GRAPHICS_BIT));
+uint32_t IcdTest::GetMaxQueryFaultCount() {
+    auto physical_device = GetPhysicalDevice();
+    auto vksc_physical_device_props = vku::InitStruct<VkPhysicalDeviceVulkanSC10Properties>();
+    auto physical_device_props = vku::InitStruct<VkPhysicalDeviceProperties2>(&vksc_physical_device_props);
+    vksc::GetPhysicalDeviceProperties2(physical_device, &physical_device_props);
+
+    return vksc_physical_device_props.maxQueryFaultCount;
 }
 
-VkCommandPool IcdTest::GetCommandPool(VkDeviceSize reserved_size, uint32_t queue_family_index, uint32_t max_command_buffers) {
+VkCommandPool IcdTest::CreateCommandPool(VkDeviceSize reserved_size, uint32_t max_command_buffers) {
     auto command_pool_reservation_info = vku::InitStruct<VkCommandPoolMemoryReservationCreateInfo>();
     command_pool_reservation_info.commandPoolMaxCommandBuffers = max_command_buffers;
     command_pool_reservation_info.commandPoolReservedSize = reserved_size;
     auto command_pool_info = vku::InitStruct<VkCommandPoolCreateInfo>(&command_pool_reservation_info);
-    command_pool_info.queueFamilyIndex = queue_family_index;
     VkCommandPool command_pool;
     FAIL_TEST_IF(vksc::CreateCommandPool(device_, &command_pool_info, nullptr, &command_pool) != VK_SUCCESS,
                  "Failed to create command pool.");
@@ -294,7 +298,7 @@ VkCommandPool IcdTest::GetCommandPool(VkDeviceSize reserved_size, uint32_t queue
     return command_pool;
 }
 
-std::vector<VkCommandBuffer> IcdTest::GetCommandBuffers(VkCommandPool command_pool, uint32_t count, VkCommandBufferLevel level) {
+std::vector<VkCommandBuffer> IcdTest::CreateCommandBuffers(VkCommandPool command_pool, uint32_t count, VkCommandBufferLevel level) {
     auto command_buffer_info = vku::InitStruct<VkCommandBufferAllocateInfo>();
     command_buffer_info.commandPool = command_pool;
     command_buffer_info.level = level;
@@ -304,6 +308,19 @@ std::vector<VkCommandBuffer> IcdTest::GetCommandBuffers(VkCommandPool command_po
                  "Failed to create command buffers.");
 
     return command_buffers;
+}
+
+VkBuffer IcdTest::GetBuffer(VkDeviceSize size, VkBufferUsageFlags usage) {
+    auto buf_info = vku::InitStruct<VkBufferCreateInfo>();
+    buf_info.flags = 0;
+    buf_info.size = size;
+    buf_info.usage = usage;
+    buf_info.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+    VkBuffer buffer;
+    FAIL_TEST_IF(vksc::CreateBuffer(device_, &buf_info, NULL, &buffer) != VK_SUCCESS, "Failed to create buffer.");
+    buffer_size_ = size;
+
+    return buffer;
 }
 
 VkDeviceMemory IcdTest::AllocateMemory(VkBuffer buffer, VkDeviceSize size, VkMemoryPropertyFlags mem_flags) {
@@ -344,13 +361,31 @@ void IcdTest::BindMemory(VkDeviceMemory memory, VkBuffer buffer) {
     FAIL_TEST_IF(vksc::BindBufferMemory2(device_, 1, &buf_mem_bind_info) != VK_SUCCESS, "Failed to bind memory to buffer.");
 }
 
+std::tuple<VkBuffer, VkDeviceMemory> IcdTest::CreateBufferWithBoundMemory(VkDeviceSize size, VkBufferUsageFlags usage,
+                                                                          VkMemoryPropertyFlags mem_flags) {
+    auto buffer = GetBuffer(size, usage);
+    auto memory = AllocateMemory(buffer, size, mem_flags);
+    BindMemory(memory, buffer);
+
+    return {buffer, memory};
+}
+
 IcdTest::~IcdTest() {
+    DestroyDevice();
+    DestroyInstance();
+}
+
+void IcdTest::DestroyDevice() {
     if (device_ != VK_NULL_HANDLE) {
         vksc::DestroyDevice(device_, nullptr);
+        device_ = VK_NULL_HANDLE;
     }
+}
 
+void IcdTest::DestroyInstance() {
     if (instance_ != VK_NULL_HANDLE) {
         vksc::DestroyInstance(instance_, nullptr);
+        instance_ = VK_NULL_HANDLE;
     }
 }
 
@@ -425,7 +460,7 @@ const VkDeviceCreateInfo IcdTest::GetDefaultDeviceCreateInfo(void *pnext_chain) 
     return result;
 }
 
-VkPhysicalDevice IcdTest::InitPhysicalDevice() {
+VkPhysicalDevice IcdTest::GetPhysicalDevice() {
     if (instance_ == VK_NULL_HANDLE) {
         InitInstance();
     }
@@ -447,7 +482,7 @@ VkDevice IcdTest::InitDevice(VkDeviceCreateInfo *create_info) {
     }
 
     if (physical_device_ == VK_NULL_HANDLE) {
-        InitPhysicalDevice();
+        GetPhysicalDevice();
     }
 
     VkResult result = vksc::CreateDevice(physical_device_, create_info, nullptr, &device_);

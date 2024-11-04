@@ -15,15 +15,6 @@
 class FaultDataTest : public IcdTest {
   public:
     void GenerateFault() { vksc::ResetCommandPool(device_, VK_NULL_HANDLE, 0); }
-
-    uint32_t GetMaxQueryFaultCount() {
-        auto physical_device = InitPhysicalDevice();
-        auto vksc_physical_device_props = vku::InitStruct<VkPhysicalDeviceVulkanSC10Properties>();
-        auto physical_device_props = vku::InitStruct<VkPhysicalDeviceProperties2>(&vksc_physical_device_props);
-        vksc::GetPhysicalDeviceProperties2(physical_device, &physical_device_props);
-
-        return vksc_physical_device_props.maxQueryFaultCount;
-    }
 };
 
 TEST_F(FaultDataTest, MaxQueryFaultCount) {
@@ -116,7 +107,7 @@ struct ThreadSafeCallbackData {
     void Call() { ++call_count; }
 } threadsafe_callback_data;
 
-TEST_F(FaultDataTest, FaultHandlingThreadSafety) {
+TEST_F(FaultDataTest, CallbackThreadSafetyInternallySync) {
     TEST_DESCRIPTION("Test whether faults are triggered with adequate thread safety");
 
     // Test params
@@ -124,14 +115,12 @@ TEST_F(FaultDataTest, FaultHandlingThreadSafety) {
     const size_t parallel_call_count = 100'000;
     const VkDeviceSize pool_reservation_size = 1'000;
 
-    const auto max_fault_count = GetMaxQueryFaultCount();
-
     // trigger faults on on a single internally synchronized object
-    PFN_vkFaultCallbackFunction callback = [](VkBool32, uint32_t, const VkFaultData*) -> void { callback_data.Call(); };
     auto reservation_info = vku::InitStruct<VkCommandPoolMemoryReservationCreateInfo>();
     reservation_info.commandPoolMaxCommandBuffers = num_of_threads;
     reservation_info.commandPoolReservedSize = pool_reservation_size;
     auto callback_info = vku::InitStruct<VkFaultCallbackInfo>(&reservation_info);
+    PFN_vkFaultCallbackFunction callback = [](VkBool32, uint32_t, const VkFaultData*) -> void { callback_data.Call(); };
     callback_info.pfnFaultCallback = callback;
     auto device_info = GetDefaultDeviceCreateInfo(&callback_info);
     auto device = InitDevice(&device_info);
@@ -151,35 +140,51 @@ TEST_F(FaultDataTest, FaultHandlingThreadSafety) {
         future.wait();
     }
     EXPECT_EQ(callback_data.call_count, parallel_call_count);
+}
 
-    // trigger faults on multiple instances of externally synchronized objects
+TEST_F(FaultDataTest, CallbackThreadSafetyExternallySync) {
+    TEST_DESCRIPTION("Test whether faults are triggered with adequate thread safety");
+
+    // Test params
+    const unsigned int num_of_threads = std::thread::hardware_concurrency();
+    const size_t parallel_call_count = 100'000;
+    const VkDeviceSize pool_reservation_size = 1'000;
+    const VkDeviceSize buffer_update_size = 2 * pool_reservation_size;
+    const VkDeviceSize buffer_size = num_of_threads * buffer_update_size;
+    EXPECT_LE(pool_reservation_size, 65536);  // test param assertion. VkCmdUpdateBuffer is capped at 65536
+
+    vkmock::CmdUpdateBuffer = [&](auto, auto, auto, auto, auto) {};
+
+    auto physical_device = GetPhysicalDevice();
+    auto vksc_physical_device_props = vku::InitStruct<VkPhysicalDeviceVulkanSC10Properties>();
+    auto physical_device_props = vku::InitStruct<VkPhysicalDeviceProperties2>(&vksc_physical_device_props);
+    vksc::GetPhysicalDeviceProperties2(physical_device, &physical_device_props);
+
+    auto device_object_reservation_info = vku::InitStruct<VkDeviceObjectReservationCreateInfo>();
+    device_object_reservation_info.commandPoolRequestCount = 1;
+    device_object_reservation_info.commandBufferRequestCount = num_of_threads;
+    auto threadsafe_callback_info = vku::InitStruct<VkFaultCallbackInfo>(&device_object_reservation_info);
     PFN_vkFaultCallbackFunction threadsafe_callback = [](VkBool32, uint32_t, const VkFaultData*) -> void {
         threadsafe_callback_data.Call();
     };
-    auto threadsafe_callback_info = vku::InitStruct<VkFaultCallbackInfo>(&reservation_info);
     threadsafe_callback_info.pfnFaultCallback = threadsafe_callback;
-    auto device_info2 = GetDefaultDeviceCreateInfo(&threadsafe_callback_info);
-    auto device2 = InitDevice(&device_info);
+    auto device_info = GetDefaultDeviceCreateInfo(&threadsafe_callback_info);
+    auto device = InitDevice(&device_info);
+    auto command_pool = CreateCommandPool(pool_reservation_size, num_of_threads);
+    auto command_buffers = CreateCommandBuffers(command_pool, num_of_threads);
+    auto [buffer, memory] = CreateBufferWithBoundMemory(buffer_update_size);
 
-    auto command_pool_info = vku::InitStruct<VkCommandPoolCreateInfo>();
-    command_pool_info.queueFamilyIndex = GetQueueFamilyIndex(has_flag<VkCommandPool>(VK_QUEUE_COMPUTE_BIT));
-    VkCommandPool command_pool;
-    VkResult result = vksc::CreateCommandPool(device2, &command_pool_info, nullptr, &command_pool);
-    FAIL_TEST_IF(result != VK_SUCCESS, "Failed to create command pool: " << result);
-
-    auto command_buffer_info = vku::InitStruct<VkCommandBufferAllocateInfo>();
-    command_buffer_info.commandPool = command_pool;
-    command_buffer_info.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-    command_buffer_info.commandBufferCount = num_of_threads;
-    std::vector<VkCommandBuffer> command_buffers(num_of_threads);
-    result = vksc::AllocateCommandBuffers(device2, &command_buffer_info, command_buffers.data());
-    FAIL_TEST_IF(result != VK_SUCCESS, "Failed to allocate command buffers: " << result);
-
+    std::vector<unsigned char> payload(buffer_update_size);
+    std::vector<std::future<void>> futures(num_of_threads);
     for (size_t i = 0; i < futures.size(); ++i) {
         futures[i] = std::async(
             std::launch::async,
             [&](const size_t I) {
                 for (size_t j = I * parallel_call_count / futures.size(); j < (I + 1) * parallel_call_count / futures.size(); ++j) {
+                    auto begin_info = vku::InitStruct<VkCommandBufferBeginInfo>();
+                    vksc::BeginCommandBuffer(command_buffers[I], &begin_info);
+                    vksc::CmdUpdateBuffer(command_buffers[I], buffer, I * buffer_update_size, buffer_update_size, payload.data());
+                    vksc::EndCommandBuffer(command_buffers[I]);
                 }
             },
             i);
@@ -188,4 +193,7 @@ TEST_F(FaultDataTest, FaultHandlingThreadSafety) {
         future.wait();
     }
     EXPECT_EQ(threadsafe_callback_data.call_count, parallel_call_count);
+
+    vksc::DestroyBuffer(device, buffer, nullptr);
+    vksc::FreeCommandBuffers(device, command_pool, command_buffers.size(), command_buffers.data());
 }
