@@ -8,6 +8,7 @@
 #include <gtest/gtest.h>
 #include <string>
 #include <vector>
+#include <utility>
 
 #include <vulkan/utility/vk_struct_helper.hpp>
 #include <vulkan/vk_icd.h>
@@ -50,9 +51,14 @@ class IcdTest : public ::testing::Test {
     IcdTest();
     virtual ~IcdTest();
 
+    void DestroyDevice();
+    void DestroyInstance();
+
     void EnableInstanceExtension(const char* extension_name);
     const VkInstanceCreateInfo GetDefaultInstanceCreateInfo(void* pnext_chain = nullptr) const;
     VkInstance InitInstance(VkInstanceCreateInfo* create_info = nullptr);
+
+    VkPhysicalDevice GetPhysicalDevice();
 
     void EnableDeviceExtension(const char* extension_name);
     const VkDeviceCreateInfo GetDefaultDeviceCreateInfo(void* pnext_chain = nullptr) const;
@@ -60,9 +66,28 @@ class IcdTest : public ::testing::Test {
 
     VkDeviceObjectReservationCreateInfo& ObjectReservation() { return object_reservation_; }
 
-  private:
+    uint32_t GetMaxQueryFaultCount();
+
+    template <typename Pred>
+    uint32_t GetQueueFamilyIndex(Pred&& pred);
+    uint32_t GetUniversalQueueFamilyIndex();
+
+    VkCommandPool CreateCommandPool(VkDeviceSize reserved_size, uint32_t max_command_buffers = 1);
+    std::vector<VkCommandBuffer> CreateCommandBuffers(VkCommandPool command_pool, uint32_t count = 1,
+                                                      VkCommandBufferLevel level = VK_COMMAND_BUFFER_LEVEL_PRIMARY);
+
+    VkBuffer GetBuffer(VkDeviceSize size, VkBufferUsageFlags usage);
+    VkDeviceMemory AllocateMemory(VkBuffer buffer, VkDeviceSize size, VkMemoryPropertyFlags mem_flags = 0);
+    void BindMemory(VkDeviceMemory memory, VkBuffer buffer);
+    std::tuple<VkBuffer, VkDeviceMemory> CreateBufferWithBoundMemory(VkDeviceSize size,
+                                                                     VkBufferUsageFlags usage = VK_BUFFER_USAGE_STORAGE_BUFFER_BIT,
+                                                                     VkMemoryPropertyFlags mem_flags = 0);
+
+  protected:
     VkInstance instance_{VK_NULL_HANDLE};
+    VkPhysicalDevice physical_device_{VK_NULL_HANDLE};
     VkDevice device_{VK_NULL_HANDLE};
+    VkDeviceSize buffer_size_{0};
 
     VkDeviceObjectReservationCreateInfo object_reservation_{};
     std::vector<const char*> instance_extensions_{};

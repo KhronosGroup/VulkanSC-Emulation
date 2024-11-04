@@ -9,11 +9,27 @@
 
 #include <string.h>
 #include <string_view>
+#include <array>
+
+// Shorthand to throw GTest exception, causing the test to fail with user-provided message stream fragment
+#define FAIL_TEST_IF(pred, msg_stream)                                                                         \
+    do {                                                                                                       \
+        if (pred) {                                                                                            \
+            GTEST_MESSAGE_AT_(__FILE__, __LINE__, "", ::testing::TestPartResult::kFatalFailure) << msg_stream; \
+            throw testing::AssertionException(                                                                 \
+                testing::TestPartResult(testing::TestPartResult::kFatalFailure, __FILE__, __LINE__, ""));      \
+        }                                                                                                      \
+    } while (0)
 
 static void InitDefaultMockHandlers(IcdTest *test_case = nullptr) {
     static VkMockObject<VkInstance> mock_instance{};
     static VkMockObject<VkPhysicalDevice> mock_physical_device{};
     static VkMockObject<VkDevice> mock_device{};
+    static VkMockObject<VkCommandPool> mock_command_pool{};
+    static std::vector<VkMockObject<VkCommandBuffer>> mock_command_buffers{};
+    static VkMockObject<VkBuffer> mock_buffer{};
+    static VkDeviceSize mock_buffer_size = 0;
+    static VkMockObject<VkDeviceMemory> mock_memory{};
 
     vkmock::Reset();
 
@@ -62,6 +78,66 @@ static void InitDefaultMockHandlers(IcdTest *test_case = nullptr) {
             vulkan_memory_model_features->vulkanMemoryModel = VK_TRUE;
         }
     };
+    vkmock::GetPhysicalDeviceQueueFamilyProperties = [&](auto, auto pQueueFamilyPropertyCount, auto pQueueFamilyProperties) {
+        if (pQueueFamilyProperties == nullptr) {
+            *pQueueFamilyPropertyCount = 1;
+        } else {
+            pQueueFamilyProperties[0] = {VK_QUEUE_TRANSFER_BIT | VK_QUEUE_COMPUTE_BIT | VK_QUEUE_GRAPHICS_BIT, 1, 0, {0, 0, 0}};
+        }
+    };
+    vkmock::GetPhysicalDeviceQueueFamilyProperties2 = [&](auto, auto pQueueFamilyPropertyCount, auto pQueueFamilyProperties) {
+        if (pQueueFamilyProperties == nullptr) {
+            *pQueueFamilyPropertyCount = 1;
+        } else {
+            *pQueueFamilyProperties = vku::InitStruct<VkQueueFamilyProperties2>();
+            vkmock::GetPhysicalDeviceQueueFamilyProperties(mock_physical_device.handle(), pQueueFamilyPropertyCount,
+                                                           &pQueueFamilyProperties->queueFamilyProperties);
+        }
+    };
+    vkmock::GetPhysicalDeviceMemoryProperties2 = [&, mem_props = VkPhysicalDeviceMemoryProperties{}](
+                                                     auto, auto pMemoryProperties) mutable {
+        mem_props.memoryTypeCount = 1;
+        mem_props.memoryTypes[0] = {VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT | VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
+                                        VK_MEMORY_PROPERTY_HOST_COHERENT_BIT | VK_MEMORY_PROPERTY_HOST_CACHED_BIT,
+                                    0};
+        mem_props.memoryHeapCount = 1;
+        mem_props.memoryHeaps[0] = {1'048'576, VK_MEMORY_HEAP_DEVICE_LOCAL_BIT};
+        pMemoryProperties->memoryProperties = mem_props;
+    };
+    vkmock::GetBufferMemoryRequirements = [&](auto, auto, auto pMemoryRequirements) {
+        pMemoryRequirements->size = mock_buffer_size;
+        pMemoryRequirements->alignment = 4;
+        pMemoryRequirements->memoryTypeBits = 1;  // Buffers all need the first (and only) mem type
+    };
+    vkmock::GetBufferMemoryRequirements2 = [&](auto device, auto pInfo, auto pMemoryRequirements) {
+        vkmock::GetBufferMemoryRequirements(device, pInfo->buffer, &pMemoryRequirements->memoryRequirements);
+    };
+    vkmock::CreateBuffer = [&](auto, auto, auto, auto pBuffer) {
+        *pBuffer = mock_buffer;
+        return VK_SUCCESS;
+    };
+    vkmock::CreateCommandPool = [&](auto, const auto pCreateInfo, const auto, auto pCommandPool) {
+        *pCommandPool = mock_command_pool;
+        return VK_SUCCESS;
+    };
+    vkmock::AllocateCommandBuffers = [&](auto, auto pCreateInfo, auto pCommandBuffers) {
+        mock_command_buffers.resize(pCreateInfo->commandBufferCount);
+        for (size_t i = 0; i < mock_command_buffers.size(); ++i) {
+            pCommandBuffers[i] = mock_command_buffers[i];
+        }
+        return VK_SUCCESS;
+    };
+    vkmock::AllocateMemory = [&, mem = VkDeviceMemory{}](auto, auto, auto, auto pMemory) {
+        *pMemory = mem;
+        return VK_SUCCESS;
+    };
+    vkmock::FreeMemory = [&](auto, auto, auto) {};
+    vkmock::DestroyBuffer = [&](auto, auto, auto) {};
+    vkmock::FreeCommandBuffers = [&](auto, auto, auto, auto) {};
+    vkmock::BindBufferMemory2 = [&](auto, auto, auto) { return VK_SUCCESS; };
+    vkmock::BeginCommandBuffer = [&](auto, auto) { return VK_SUCCESS; };
+    vkmock::EndCommandBuffer = [&](auto) { return VK_SUCCESS; };
+    vkmock::DestroyCommandPool = [&](auto, auto, auto) {};
     vkmock::CreateInstance = [&](auto, auto, auto pInstance) {
         *pInstance = mock_instance;
         return VK_SUCCESS;
@@ -211,13 +287,115 @@ IcdTest::IcdTest() {
     object_reservation_.maxImmutableSamplersPerDescriptorSetLayout = 256;
 }
 
-IcdTest::~IcdTest() {
-    if (device_ != VK_NULL_HANDLE) {
-        vksc::DestroyDevice(device_, nullptr);
+uint32_t IcdTest::GetMaxQueryFaultCount() {
+    auto physical_device = GetPhysicalDevice();
+    auto vksc_physical_device_props = vku::InitStruct<VkPhysicalDeviceVulkanSC10Properties>();
+    auto physical_device_props = vku::InitStruct<VkPhysicalDeviceProperties2>(&vksc_physical_device_props);
+    vksc::GetPhysicalDeviceProperties2(physical_device, &physical_device_props);
+
+    return vksc_physical_device_props.maxQueryFaultCount;
+}
+
+VkCommandPool IcdTest::CreateCommandPool(VkDeviceSize reserved_size, uint32_t max_command_buffers) {
+    auto command_pool_reservation_info = vku::InitStruct<VkCommandPoolMemoryReservationCreateInfo>();
+    command_pool_reservation_info.commandPoolMaxCommandBuffers = max_command_buffers;
+    command_pool_reservation_info.commandPoolReservedSize = reserved_size;
+    auto command_pool_info = vku::InitStruct<VkCommandPoolCreateInfo>(&command_pool_reservation_info);
+    VkCommandPool command_pool;
+    FAIL_TEST_IF(vksc::CreateCommandPool(device_, &command_pool_info, nullptr, &command_pool) != VK_SUCCESS,
+                 "Failed to create command pool.");
+
+    return command_pool;
+}
+
+std::vector<VkCommandBuffer> IcdTest::CreateCommandBuffers(VkCommandPool command_pool, uint32_t count, VkCommandBufferLevel level) {
+    auto command_buffer_info = vku::InitStruct<VkCommandBufferAllocateInfo>();
+    command_buffer_info.commandPool = command_pool;
+    command_buffer_info.level = level;
+    command_buffer_info.commandBufferCount = count;
+    std::vector<VkCommandBuffer> command_buffers(count);
+    FAIL_TEST_IF(vksc::AllocateCommandBuffers(device_, &command_buffer_info, command_buffers.data()) != VK_SUCCESS,
+                 "Failed to create command buffers.");
+
+    return command_buffers;
+}
+
+VkBuffer IcdTest::GetBuffer(VkDeviceSize size, VkBufferUsageFlags usage) {
+    auto buf_info = vku::InitStruct<VkBufferCreateInfo>();
+    buf_info.flags = 0;
+    buf_info.size = size;
+    buf_info.usage = usage;
+    buf_info.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+    VkBuffer buffer;
+    FAIL_TEST_IF(vksc::CreateBuffer(device_, &buf_info, NULL, &buffer) != VK_SUCCESS, "Failed to create buffer.");
+    buffer_size_ = size;
+
+    return buffer;
+}
+
+VkDeviceMemory IcdTest::AllocateMemory(VkBuffer buffer, VkDeviceSize size, VkMemoryPropertyFlags mem_flags) {
+    auto mem_reqs = vku::InitStruct<VkMemoryRequirements2>();
+    auto buf_reqs = vku::InitStruct<VkBufferMemoryRequirementsInfo2>();
+    buf_reqs.buffer = buffer;
+    vksc::GetBufferMemoryRequirements2(device_, &buf_reqs, &mem_reqs);
+
+    auto phys_dev_mem_props = vku::InitStruct<VkPhysicalDeviceMemoryProperties2>();
+    vksc::GetPhysicalDeviceMemoryProperties2(physical_device_, &phys_dev_mem_props);
+
+    uint32_t mem_type_index = UINT32_MAX;
+    for (uint32_t i = 0; i < phys_dev_mem_props.memoryProperties.memoryTypeCount; ++i) {
+        VkMemoryType type = phys_dev_mem_props.memoryProperties.memoryTypes[i];
+        VkMemoryHeap heap = phys_dev_mem_props.memoryProperties.memoryHeaps[type.heapIndex];
+        if ((type.propertyFlags & mem_flags) == mem_flags && mem_reqs.memoryRequirements.memoryTypeBits & (1 << i) &&
+            heap.size >= mem_reqs.memoryRequirements.size) {
+            mem_type_index = i;
+            break;
+        }
     }
 
+    auto alloc_info = vku::InitStruct<VkMemoryAllocateInfo>();
+    alloc_info.allocationSize = mem_reqs.memoryRequirements.size;
+    alloc_info.memoryTypeIndex = mem_type_index;
+    VkDeviceMemory mem;
+    FAIL_TEST_IF(vksc::AllocateMemory(device_, &alloc_info, NULL, &mem) != VK_SUCCESS, "Failed to allocate memory.");
+
+    return mem;
+}
+
+void IcdTest::BindMemory(VkDeviceMemory memory, VkBuffer buffer) {
+    auto buf_mem_bind_info = vku::InitStruct<VkBindBufferMemoryInfo>();
+    buf_mem_bind_info.buffer = buffer;
+    buf_mem_bind_info.memory = memory;
+    buf_mem_bind_info.memoryOffset = 0;
+
+    FAIL_TEST_IF(vksc::BindBufferMemory2(device_, 1, &buf_mem_bind_info) != VK_SUCCESS, "Failed to bind memory to buffer.");
+}
+
+std::tuple<VkBuffer, VkDeviceMemory> IcdTest::CreateBufferWithBoundMemory(VkDeviceSize size, VkBufferUsageFlags usage,
+                                                                          VkMemoryPropertyFlags mem_flags) {
+    auto buffer = GetBuffer(size, usage);
+    auto memory = AllocateMemory(buffer, size, mem_flags);
+    BindMemory(memory, buffer);
+
+    return {buffer, memory};
+}
+
+IcdTest::~IcdTest() {
+    DestroyDevice();
+    DestroyInstance();
+}
+
+void IcdTest::DestroyDevice() {
+    if (device_ != VK_NULL_HANDLE) {
+        vksc::DestroyDevice(device_, nullptr);
+        device_ = VK_NULL_HANDLE;
+    }
+}
+
+void IcdTest::DestroyInstance() {
     if (instance_ != VK_NULL_HANDLE) {
         vksc::DestroyInstance(instance_, nullptr);
+        instance_ = VK_NULL_HANDLE;
     }
 }
 
@@ -292,21 +470,32 @@ const VkDeviceCreateInfo IcdTest::GetDefaultDeviceCreateInfo(void *pnext_chain) 
     return result;
 }
 
-VkDevice IcdTest::InitDevice(VkDeviceCreateInfo *create_info) {
-    VkPhysicalDevice physdev = VK_NULL_HANDLE;
-    uint32_t physdev_count = 1;
-    vksc::EnumeratePhysicalDevices(instance_, &physdev_count, &physdev);
-    if (physdev == VK_NULL_HANDLE) {
+VkPhysicalDevice IcdTest::GetPhysicalDevice() {
+    if (instance_ == VK_NULL_HANDLE) {
+        InitInstance();
+    }
+
+    uint32_t phys_device_count = 1;
+    vksc::EnumeratePhysicalDevices(instance_, &phys_device_count, &physical_device_);
+    if (physical_device_ == VK_NULL_HANDLE) {
         GTEST_MESSAGE_AT_(__FILE__, __LINE__, "", ::testing::TestPartResult::kFatalFailure) << "Failed to find physical device";
         throw testing::AssertionException(testing::TestPartResult(testing::TestPartResult::kFatalFailure, __FILE__, __LINE__, ""));
     }
 
+    return physical_device_;
+}
+
+VkDevice IcdTest::InitDevice(VkDeviceCreateInfo *create_info) {
     if (create_info == nullptr) {
         static auto default_ci = GetDefaultDeviceCreateInfo();
         create_info = &default_ci;
     }
 
-    VkResult result = vksc::CreateDevice(physdev, create_info, nullptr, &device_);
+    if (physical_device_ == VK_NULL_HANDLE) {
+        GetPhysicalDevice();
+    }
+
+    VkResult result = vksc::CreateDevice(physical_device_, create_info, nullptr, &device_);
     if (result != VK_SUCCESS) {
         GTEST_MESSAGE_AT_(__FILE__, __LINE__, "", ::testing::TestPartResult::kFatalFailure)
             << "Failed to create device: " << result;

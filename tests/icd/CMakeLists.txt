@@ -73,6 +73,9 @@ target_sources(icd_tests PRIVATE
     icd_test_framework.h
     icd_test_framework.cpp
     test_infrastructure.cpp
+    test_fault_data.cpp
+    test_memory_consumption.cpp
+    test_cleanup.cpp
 )
 
 add_dependencies(icd_tests icd)

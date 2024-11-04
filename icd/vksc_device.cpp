@@ -422,6 +422,8 @@ void Device::GetCommandPoolMemoryConsumption(VkCommandPool commandPool, VkComman
     if (commandBuffer) {
         CommandBuffer* command_buffer = CommandBuffer::FromHandle(commandBuffer);
         pConsumption->commandBufferAllocated = command_buffer->GetAllocatedSize();
+    } else {
+        pConsumption->commandBufferAllocated = 0;
     }
 }
 
