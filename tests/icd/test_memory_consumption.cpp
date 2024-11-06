@@ -92,7 +92,7 @@ TEST_F(MemConsumptionTest, OverallocatePool) {
     // Test fault emission
     const auto max_fault_count = GetMaxQueryFaultCount();
     std::vector<VkFaultData> faults(max_fault_count);
-    uint32_t fault_count;
+    uint32_t fault_count = max_fault_count;
     vksc::GetFaultData(device, VK_FAULT_QUERY_BEHAVIOR_GET_AND_CLEAR_ALL_FAULTS, nullptr, &fault_count, faults.data());
     EXPECT_EQ(fault_count, 1);
     EXPECT_EQ(faults[0].faultType, VK_FAULT_TYPE_COMMAND_BUFFER_FULL);
@@ -138,7 +138,7 @@ TEST_F(MemConsumptionTest, OverallocateDeviceLimit) {
     // Test fault emission
     const auto max_fault_count = GetMaxQueryFaultCount();
     std::vector<VkFaultData> faults(max_fault_count);
-    uint32_t fault_count;
+    uint32_t fault_count = max_fault_count;
     vksc::GetFaultData(device, VK_FAULT_QUERY_BEHAVIOR_GET_AND_CLEAR_ALL_FAULTS, nullptr, &fault_count, faults.data());
     EXPECT_GE(fault_count, 1);
     EXPECT_EQ(faults[0].faultType, VK_FAULT_TYPE_COMMAND_BUFFER_FULL);

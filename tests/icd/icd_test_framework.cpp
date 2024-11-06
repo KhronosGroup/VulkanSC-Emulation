@@ -89,7 +89,6 @@ static void InitDefaultMockHandlers(IcdTest *test_case = nullptr) {
         if (pQueueFamilyProperties == nullptr) {
             *pQueueFamilyPropertyCount = 1;
         } else {
-            *pQueueFamilyProperties = vku::InitStruct<VkQueueFamilyProperties2>();
             vkmock::GetPhysicalDeviceQueueFamilyProperties(mock_physical_device.handle(), pQueueFamilyPropertyCount,
                                                            &pQueueFamilyProperties->queueFamilyProperties);
         }
