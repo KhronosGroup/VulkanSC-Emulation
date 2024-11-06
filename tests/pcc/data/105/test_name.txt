@@ -1,0 +1,1 @@
+dEQP-VKSC.pipeline.monolithic.extended_dynamic_state.before_draw.logic_op_or

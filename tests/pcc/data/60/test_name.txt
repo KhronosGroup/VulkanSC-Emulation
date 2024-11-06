@@ -1,0 +1,1 @@
+dEQP-VKSC.spirv_assembly.instruction.graphics.opconstantcomposite.array_of_struct_of_array_geom

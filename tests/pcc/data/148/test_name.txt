@@ -1,0 +1,1 @@
+dEQP-VKSC.subgroups.arithmetic.graphics.subgroupxor_bvec4

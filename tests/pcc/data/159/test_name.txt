@@ -1,0 +1,1 @@
+dEQP-VKSC.tessellation.geometry_interaction.limits.output_required_max_geometry

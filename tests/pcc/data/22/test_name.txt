@@ -1,0 +1,1 @@
+dEQP-VKSC.descriptor_indexing.sampled_image_in_loop

@@ -1,0 +1,1 @@
+dEQP-VKSC.compute.pipeline.builtin_var.work_group_size_component

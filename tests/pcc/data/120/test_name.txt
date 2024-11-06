@@ -1,0 +1,1 @@
+dEQP-VKSC.rasterization.frag_side_effects.color_at_beginning.depth_never

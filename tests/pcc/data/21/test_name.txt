@@ -1,0 +1,1 @@
+dEQP-VKSC.descriptor_indexing.sampler_with_lod

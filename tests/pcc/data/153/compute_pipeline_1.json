@@ -1,0 +1,238 @@
+{
+    "ComputePipelineState" :
+    {
+        "DescriptorSetLayouts" :
+        [
+            {
+                "30":
+                {
+                    "sType" : "VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO",
+                    "pNext":"NULL",
+                    "flags" : "0",
+                    "bindingCount" : 1,
+                    "pBindings": 
+                    [
+                    {
+                        "binding" : 0,
+                        "descriptorType" : "VK_DESCRIPTOR_TYPE_STORAGE_BUFFER",
+                        "descriptorCount" : 1,
+                        "stageFlags" : "VK_SHADER_STAGE_COMPUTE_BIT",
+                        "pImmutableSamplers":
+                        "NULL"
+                    }
+                    ]
+                }
+            }
+        ],
+        "PipelineLayout" : 
+        {
+            "sType" : "VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO",
+            "pNext":"NULL",
+            "flags" : 0,
+            "setLayoutCount" : 1,
+            "pSetLayouts":
+            [
+            30
+            ],
+            "pushConstantRangeCount" : 0,
+            "pPushConstantRanges": 
+            "NULL"
+        },
+        "ComputePipeline" : 
+        {
+            "sType" : "VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO",
+            "pNext":
+            {
+                "sType" : "VK_STRUCTURE_TYPE_PIPELINE_OFFLINE_CREATE_INFO",
+                "pNext":"NULL",
+                "pipelineIdentifier":
+                [
+                196,
+                35,
+                55,
+                65,
+                151,
+                35,
+                78,
+                88,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+                ],
+                "matchControl" : "VK_PIPELINE_MATCH_CONTROL_APPLICATION_UUID_EXACT_MATCH",
+                "poolEntrySize" : "0"
+            },
+            "flags" : "0",
+            "stage": 
+            {
+                "sType" : "VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO",
+                "pNext":"NULL",
+                "flags" : "0",
+                "stage" : "VK_SHADER_STAGE_COMPUTE_BIT",
+                "module" : 26,
+                "pName" : "main",
+                "pSpecializationInfo": 
+                "NULL"
+            },
+            "layout" : 31,
+            "basePipelineHandle" : "",
+            "basePipelineIndex" : 0
+        },
+        "ShaderFileNames" :
+        [
+            {
+                "stage" : "VK_SHADER_STAGE_COMPUTE_BIT",
+                "filename" : "shader_1_26.comp.spv"
+            }
+        ],
+        "PhysicalDeviceFeatures" : 
+        {
+            "sType" : "VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2",
+            "pNext":
+            {
+                "sType" : "VK_STRUCTURE_TYPE_FAULT_CALLBACK_INFO",
+                "pNext":
+                {
+                    "sType" : "VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_SC_1_0_FEATURES",
+                    "pNext":
+                    {
+                        "sType" : "VK_STRUCTURE_TYPE_DEVICE_OBJECT_RESERVATION_CREATE_INFO",
+                        "pNext":"NULL",
+                        "pipelineCacheCreateInfoCount" : 0,
+                        "pPipelineCacheCreateInfos": 
+                        "NULL",
+                        "pipelinePoolSizeCount" : 0,
+                        "pPipelinePoolSizes": 
+                        "NULL",
+                        "semaphoreRequestCount" : 0,
+                        "commandBufferRequestCount" : 0,
+                        "fenceRequestCount" : 0,
+                        "deviceMemoryRequestCount" : 0,
+                        "bufferRequestCount" : 0,
+                        "imageRequestCount" : 0,
+                        "eventRequestCount" : 0,
+                        "queryPoolRequestCount" : 0,
+                        "bufferViewRequestCount" : 0,
+                        "imageViewRequestCount" : 0,
+                        "layeredImageViewRequestCount" : 0,
+                        "pipelineCacheRequestCount" : 0,
+                        "pipelineLayoutRequestCount" : 0,
+                        "renderPassRequestCount" : 0,
+                        "graphicsPipelineRequestCount" : 0,
+                        "computePipelineRequestCount" : 0,
+                        "descriptorSetLayoutRequestCount" : 0,
+                        "samplerRequestCount" : 0,
+                        "descriptorPoolRequestCount" : 0,
+                        "descriptorSetRequestCount" : 0,
+                        "framebufferRequestCount" : 0,
+                        "commandPoolRequestCount" : 0,
+                        "samplerYcbcrConversionRequestCount" : 0,
+                        "surfaceRequestCount" : 0,
+                        "swapchainRequestCount" : 0,
+                        "displayModeRequestCount" : 0,
+                        "subpassDescriptionRequestCount" : 0,
+                        "attachmentDescriptionRequestCount" : 0,
+                        "descriptorSetLayoutBindingRequestCount" : 0,
+                        "descriptorSetLayoutBindingLimit" : 0,
+                        "maxImageViewMipLevels" : 0,
+                        "maxImageViewArrayLayers" : 0,
+                        "maxLayeredImageViewMipLevels" : 0,
+                        "maxOcclusionQueriesPerPool" : 0,
+                        "maxPipelineStatisticsQueriesPerPool" : 0,
+                        "maxTimestampQueriesPerPool" : 0,
+                        "maxImmutableSamplersPerDescriptorSetLayout" : 0
+                    },
+                    "shaderAtomicInstructions" : "VK_FALSE"
+                },
+                "faultCount" : 0,
+                "pFaults": 
+                "NULL",
+            },
+            "features": 
+            {
+                "robustBufferAccess" : "VK_TRUE",
+                "fullDrawIndexUint32" : "VK_TRUE",
+                "imageCubeArray" : "VK_TRUE",
+                "independentBlend" : "VK_TRUE",
+                "geometryShader" : "VK_TRUE",
+                "tessellationShader" : "VK_TRUE",
+                "sampleRateShading" : "VK_TRUE",
+                "dualSrcBlend" : "VK_TRUE",
+                "logicOp" : "VK_TRUE",
+                "multiDrawIndirect" : "VK_TRUE",
+                "drawIndirectFirstInstance" : "VK_TRUE",
+                "depthClamp" : "VK_TRUE",
+                "depthBiasClamp" : "VK_TRUE",
+                "fillModeNonSolid" : "VK_TRUE",
+                "depthBounds" : "VK_TRUE",
+                "wideLines" : "VK_TRUE",
+                "largePoints" : "VK_TRUE",
+                "alphaToOne" : "VK_TRUE",
+                "multiViewport" : "VK_TRUE",
+                "samplerAnisotropy" : "VK_TRUE",
+                "textureCompressionETC2" : "VK_FALSE",
+                "textureCompressionASTC_LDR" : "VK_FALSE",
+                "textureCompressionBC" : "VK_TRUE",
+                "occlusionQueryPrecise" : "VK_TRUE",
+                "pipelineStatisticsQuery" : "VK_TRUE",
+                "vertexPipelineStoresAndAtomics" : "VK_TRUE",
+                "fragmentStoresAndAtomics" : "VK_TRUE",
+                "shaderTessellationAndGeometryPointSize" : "VK_TRUE",
+                "shaderImageGatherExtended" : "VK_TRUE",
+                "shaderStorageImageExtendedFormats" : "VK_TRUE",
+                "shaderStorageImageMultisample" : "VK_TRUE",
+                "shaderStorageImageReadWithoutFormat" : "VK_TRUE",
+                "shaderStorageImageWriteWithoutFormat" : "VK_TRUE",
+                "shaderUniformBufferArrayDynamicIndexing" : "VK_TRUE",
+                "shaderSampledImageArrayDynamicIndexing" : "VK_TRUE",
+                "shaderStorageBufferArrayDynamicIndexing" : "VK_TRUE",
+                "shaderStorageImageArrayDynamicIndexing" : "VK_TRUE",
+                "shaderClipDistance" : "VK_TRUE",
+                "shaderCullDistance" : "VK_TRUE",
+                "shaderFloat64" : "VK_TRUE",
+                "shaderInt64" : "VK_TRUE",
+                "shaderInt16" : "VK_TRUE",
+                "shaderResourceResidency" : "VK_FALSE",
+                "shaderResourceMinLod" : "VK_TRUE",
+                "sparseBinding" : "VK_FALSE",
+                "sparseResidencyBuffer" : "VK_FALSE",
+                "sparseResidencyImage2D" : "VK_FALSE",
+                "sparseResidencyImage3D" : "VK_FALSE",
+                "sparseResidency2Samples" : "VK_FALSE",
+                "sparseResidency4Samples" : "VK_FALSE",
+                "sparseResidency8Samples" : "VK_FALSE",
+                "sparseResidency16Samples" : "VK_FALSE",
+                "sparseResidencyAliased" : "VK_FALSE",
+                "variableMultisampleRate" : "VK_TRUE",
+                "inheritedQueries" : "VK_TRUE"
+            }
+        }
+    },
+    "EnabledExtensions" : 
+    [
+    ],
+    "PipelineUUID" : 
+    [
+        196,
+        35,
+        55,
+        65,
+        151,
+        35,
+        78,
+        88,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+    ]
+}

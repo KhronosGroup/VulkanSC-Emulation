@@ -1,0 +1,1 @@
+dEQP-VKSC.binding_model.descriptor_update.samplerless.storage_img_sampler_zero

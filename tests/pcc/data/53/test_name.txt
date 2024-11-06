@@ -1,0 +1,1 @@
+dEQP-VKSC.glsl.texture_gather.offset.min_required_offset.2d_array.depth32f.size_npot.compare_less.clamp_to_edge_repeat

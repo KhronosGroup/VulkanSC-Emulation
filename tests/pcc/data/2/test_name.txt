@@ -1,0 +1,1 @@
+dEQP-VKSC.api.buffer_view.access.dedicated_alloc.buffer_view_memory_test_partial_offset1_with_buffer_dedicated_alloc_image_suballocated

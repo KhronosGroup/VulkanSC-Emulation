@@ -1,0 +1,1 @@
+dEQP-VKSC.glsl.builtin.precision_fp16_storage32b.comparison.compute.scalar

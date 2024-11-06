@@ -1,0 +1,1 @@
+dEQP-VKSC.glsl.swizzles.vector_swizzles.mediump_bvec3_bbbb_vertex

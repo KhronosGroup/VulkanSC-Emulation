@@ -1,0 +1,1 @@
+dEQP-VKSC.tessellation.user_defined_io.per_patch.vertex_io_array_size_implicit.triangles

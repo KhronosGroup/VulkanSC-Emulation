@@ -1,0 +1,1 @@
+dEQP-VKSC.clipping.user_defined.clip_distance_dynamic_index.vert_tess_geom.1

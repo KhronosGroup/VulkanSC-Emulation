@@ -1,0 +1,1 @@
+dEQP-VKSC.image.qualifiers.coherent.cube_array.r32f

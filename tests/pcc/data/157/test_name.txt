@@ -1,0 +1,1 @@
+dEQP-VKSC.tessellation.primitive_discard.quads_fractional_odd_spacing_cw_valid_levels

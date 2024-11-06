@@ -1,0 +1,1 @@
+dEQP-VKSC.subgroups.clustered.graphics.subgroupclusteredxor_u16vec4
