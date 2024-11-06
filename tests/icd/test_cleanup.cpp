@@ -60,7 +60,7 @@ TEST_F(CleanupTest, FreeMemory) {
     vkmock::FreeMemory = [&](auto, auto memory, auto) { actually_freed.push_back(memory); };
 
     auto device = InitDevice();
-    auto [buffer, memory] = CreateBufferWithBoundMemory(pool_reservation_size);
+    auto buffer = CreateBufferWithBoundMemory(pool_reservation_size);
 
     vksc::DestroyBuffer(device, buffer, nullptr);
     DestroyDevice();

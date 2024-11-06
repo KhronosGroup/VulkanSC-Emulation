@@ -371,13 +371,12 @@ void IcdTest::BindMemory(VkDeviceMemory memory, VkBuffer buffer) {
     FAIL_TEST_IF(vksc::BindBufferMemory2(device_, 1, &buf_mem_bind_info) != VK_SUCCESS, "Failed to bind memory to buffer.");
 }
 
-std::tuple<VkBuffer, VkDeviceMemory> IcdTest::CreateBufferWithBoundMemory(VkDeviceSize size, VkBufferUsageFlags usage,
-                                                                          VkMemoryPropertyFlags mem_flags) {
+VkBuffer IcdTest::CreateBufferWithBoundMemory(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags mem_flags) {
     auto buffer = GetBuffer(size, usage);
     auto memory = AllocateMemory(buffer, size, mem_flags);
     BindMemory(memory, buffer);
 
-    return {buffer, memory};
+    return buffer;
 }
 
 IcdTest::~IcdTest() {
