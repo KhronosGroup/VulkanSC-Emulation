@@ -123,7 +123,7 @@ TEST_F(FaultDataTest, CallbackThreadSafetyInternallySync) {
     PFN_vkFaultCallbackFunction callback = [](VkBool32, uint32_t, const VkFaultData*) -> void { callback_data.Call(); };
     callback_info.pfnFaultCallback = callback;
     auto device_info = GetDefaultDeviceCreateInfo(&callback_info);
-    auto device = InitDevice(&device_info);
+    InitDevice(&device_info);
 
     std::vector<std::future<void>> futures(num_of_threads);
     for (size_t i = 0; i < futures.size(); ++i) {
@@ -150,7 +150,6 @@ TEST_F(FaultDataTest, CallbackThreadSafetyExternallySync) {
     const size_t parallel_call_count = 100'000;
     const VkDeviceSize pool_reservation_size = 1'000;
     const VkDeviceSize buffer_update_size = 2 * pool_reservation_size;
-    const VkDeviceSize buffer_size = num_of_threads * buffer_update_size;
     EXPECT_LE(pool_reservation_size, 65536);  // test param assertion. VkCmdUpdateBuffer is capped at 65536
 
     vkmock::CmdUpdateBuffer = [&](auto, auto, auto, auto, auto) {};
@@ -172,7 +171,7 @@ TEST_F(FaultDataTest, CallbackThreadSafetyExternallySync) {
     auto device = InitDevice(&device_info);
     auto command_pool = CreateCommandPool(pool_reservation_size, num_of_threads);
     auto command_buffers = CreateCommandBuffers(command_pool, num_of_threads);
-    auto [buffer, memory] = CreateBufferWithBoundMemory(buffer_update_size);
+    auto buffer = CreateBufferWithBoundMemory(buffer_update_size);
 
     std::vector<unsigned char> payload(buffer_update_size);
     std::vector<std::future<void>> futures(num_of_threads);

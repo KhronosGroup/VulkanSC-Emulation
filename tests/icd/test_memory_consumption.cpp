@@ -78,7 +78,7 @@ TEST_F(MemConsumptionTest, OverallocatePool) {
     auto device = InitDevice(&device_info);
     auto command_pool = CreateCommandPool(pool_reservation_size);
     auto command_buffers = CreateCommandBuffers(command_pool);
-    auto [buffer, memory] = CreateBufferWithBoundMemory(buffer_update_size);
+    auto buffer = CreateBufferWithBoundMemory(buffer_update_size);
     auto command_buffer = command_buffers.front();
 
     std::vector<unsigned char> payload(buffer_update_size);
@@ -122,7 +122,7 @@ TEST_F(MemConsumptionTest, OverallocateDeviceLimit) {
     auto device = InitDevice(&device_info);
     auto command_pool = CreateCommandPool(pool_reservation_size);
     auto command_buffers = CreateCommandBuffers(command_pool);
-    auto [buffer, memory] = CreateBufferWithBoundMemory(buffer_update_size);
+    auto buffer = CreateBufferWithBoundMemory(buffer_update_size);
     auto command_buffer = command_buffers.front();
 
     std::vector<unsigned char> payload(buffer_update_size);

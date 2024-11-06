@@ -79,9 +79,8 @@ class IcdTest : public ::testing::Test {
     VkBuffer GetBuffer(VkDeviceSize size, VkBufferUsageFlags usage);
     VkDeviceMemory AllocateMemory(VkBuffer buffer, VkDeviceSize size, VkMemoryPropertyFlags mem_flags = 0);
     void BindMemory(VkDeviceMemory memory, VkBuffer buffer);
-    std::tuple<VkBuffer, VkDeviceMemory> CreateBufferWithBoundMemory(VkDeviceSize size,
-                                                                     VkBufferUsageFlags usage = VK_BUFFER_USAGE_STORAGE_BUFFER_BIT,
-                                                                     VkMemoryPropertyFlags mem_flags = 0);
+    VkBuffer CreateBufferWithBoundMemory(VkDeviceSize size, VkBufferUsageFlags usage = VK_BUFFER_USAGE_STORAGE_BUFFER_BIT,
+                                         VkMemoryPropertyFlags mem_flags = 0);
 
   protected:
     VkInstance instance_{VK_NULL_HANDLE};
