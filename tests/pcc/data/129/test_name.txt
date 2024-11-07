@@ -1,0 +1,1 @@
+dEQP-VKSC.robustness.robustness2.bind.notemplate.r32i.dontunroll.nonvolatile.uniform_buffer.no_fmt_qual.null_descriptor.samples_1.1d.comp

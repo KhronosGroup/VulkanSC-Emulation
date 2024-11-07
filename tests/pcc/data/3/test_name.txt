@@ -1,0 +1,1 @@
+dEQP-VKSC.api.buffer_view.access.storage_texel_buffer.r8g8b8a8_uint

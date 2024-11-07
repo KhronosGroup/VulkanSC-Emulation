@@ -1,0 +1,1 @@
+dEQP-VKSC.draw.renderpass.multiple_interpolation.structured.no_sample_decoration.8_samples

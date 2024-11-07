@@ -1,0 +1,1 @@
+dEQP-VKSC.ssbo.corner_case.long_shader_bitwise_and

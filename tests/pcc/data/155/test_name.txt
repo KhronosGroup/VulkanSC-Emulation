@@ -1,0 +1,1 @@
+dEQP-VKSC.tessellation.common_edge.triangles_equal_spacing_precise

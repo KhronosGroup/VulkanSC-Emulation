@@ -1,0 +1,1 @@
+dEQP-VKSC.glsl.opaque_type_indexing.atomic_counter.uniform_compute

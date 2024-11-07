@@ -1,0 +1,1 @@
+dEQP-VKSC.glsl.builtin.precision_fconvert.f64_to_f32_size_4

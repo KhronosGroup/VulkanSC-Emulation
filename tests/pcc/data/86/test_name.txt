@@ -1,0 +1,1 @@
+dEQP-VKSC.image.sample_texture.128_bit_compressed_format_cubemap

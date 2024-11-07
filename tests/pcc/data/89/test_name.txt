@@ -1,0 +1,1 @@
+dEQP-VKSC.image.image_size.2d.readonly_12x34

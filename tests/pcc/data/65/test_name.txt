@@ -1,0 +1,1 @@
+dEQP-VKSC.spirv_assembly.instruction.graphics.opquantize.spec_const_nan_vert

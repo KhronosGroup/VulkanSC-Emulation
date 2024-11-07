@@ -1,0 +1,1 @@
+dEQP-VKSC.image.image_size.cube_array.readonly_writeonly_32x32x12

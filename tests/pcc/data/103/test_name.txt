@@ -1,0 +1,1 @@
+dEQP-VKSC.pipeline.monolithic.dynamic_offset.graphics.single_set.uniform_buffer.numcmdbuffers_1.sameorder.numdescriptorsetbindings_1.numdynamicbindings_1.numnondynamicbindings_0

@@ -1,0 +1,1 @@
+dEQP-VKSC.texture.filtering_anisotropy.mipmap.anisotropy_2.mag_nearest_min_linear_mipmap_nearest

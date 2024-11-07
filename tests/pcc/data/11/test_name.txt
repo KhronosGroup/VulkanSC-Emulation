@@ -1,0 +1,1 @@
+dEQP-VKSC.clipping.clip_volume.inside.triangle_strip

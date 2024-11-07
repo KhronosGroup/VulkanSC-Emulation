@@ -1,0 +1,1 @@
+dEQP-VKSC.pipeline.monolithic.spec_constant.graphics.vertex.expression.array_size_spec_const_expression

@@ -1,0 +1,1 @@
+dEQP-VKSC.binding_model.descriptor_copy.compute.storage_buffer_array2

@@ -1,0 +1,1 @@
+dEQP-VKSC.spirv_assembly.instruction.graphics.opquantize.negative_too_small_vert

@@ -1,0 +1,1 @@
+dEQP-VKSC.texture.filtering_anisotropy.basic.anisotropy_max.mag_nearest_min_nearest

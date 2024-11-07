@@ -1,0 +1,1 @@
+dEQP-VKSC.subgroups.vote.compute.subgroupallequal_u64vec4

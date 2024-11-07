@@ -1,0 +1,1 @@
+dEQP-VKSC.robustness.vertex_access.r32_uint.draw_indexed.last_index_out_of_bounds

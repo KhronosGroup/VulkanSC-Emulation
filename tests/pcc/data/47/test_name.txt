@@ -1,0 +1,1 @@
+dEQP-VKSC.glsl.builtin_var.fragcoord_msaa_input.1_bit_no_sample_shading_centroid_interpolation

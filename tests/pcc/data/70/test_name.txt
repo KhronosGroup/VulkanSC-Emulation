@@ -1,0 +1,1 @@
+dEQP-VKSC.spirv_assembly.instruction.graphics.8bit_storage.storagebuffer_int_32_to_8.uniform_scalar_uint_tesse

@@ -1,0 +1,1 @@
+dEQP-VKSC.fragment_operations.scissor.triangles.partially_inside

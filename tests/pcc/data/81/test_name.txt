@@ -1,0 +1,1 @@
+dEQP-VKSC.image.atomic_operations.add.1d.notransfer.normal_read.normal_img.r32ui_intermediate_values

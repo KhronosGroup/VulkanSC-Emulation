@@ -1,0 +1,1 @@
+dEQP-VKSC.subgroups.builtin_var.compute.subgroupinvocationid_compute_requiredsubgroupsize

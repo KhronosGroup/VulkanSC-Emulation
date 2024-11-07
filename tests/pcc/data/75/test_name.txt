@@ -1,0 +1,1 @@
+dEQP-VKSC.spirv_assembly.instruction.graphics.image_sampler.imagesample.combined_image_sampler.all_local_variables.depth_property.depth.shader_vert
