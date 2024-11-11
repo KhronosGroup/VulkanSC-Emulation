@@ -25,6 +25,6 @@ foreach(CHILD IN LISTS PIPELINE_DIR_CHILDREN)
             "${CMAKE_CURRENT_SOURCE_DIR}/data/${CHILD}/pipeline_cache.bin"
             "${CMAKE_CURRENT_BINARY_DIR}/${CHILD}.bin"
     )
-    set_tests_properties(PCC.generate.${SHORT_TESTCASE_NAME} PROPERTIES FIXTURES_SETUP PCC)
-    set_tests_properties(PCC.compare.${SHORT_TESTCASE_NAME} PROPERTIES FIXTURES_REQUIRED PCC)
+    set_tests_properties(PCC.generate.${SHORT_TESTCASE_NAME} PROPERTIES FIXTURES_SETUP PCC_${SHORT_TESTCASE_NAME})
+    set_tests_properties(PCC.compare.${SHORT_TESTCASE_NAME} PROPERTIES FIXTURES_REQUIRED PCC_${SHORT_TESTCASE_NAME})
 endforeach()
