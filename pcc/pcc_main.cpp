@@ -494,20 +494,34 @@ int main(int argc, char* argv[]) {
     std::vector<PipelineInfo> pipelines;
 
     logger.Write(logger.INFO, "Reading JSON files from '%s'\n", path.c_str());
-    for (const auto& entry : std::filesystem::directory_iterator(path)) {
+    // We preprocess the directory entries, because there are no guarantees on the order of traversal.
+    // (MS-STL and libstdc++ disagree on the order of traversing a directory.)
+    std::vector<std::filesystem::directory_entry> entries;
+    auto is_pipeline_json_predicate = [=](const std::filesystem::directory_entry& entry) {
+        if (!std::filesystem::is_regular_file(entry)) return false;
+
+        if (!std::filesystem::is_regular_file(entry)) return false;
+
+        if (!entry.path().has_filename() || entry.path().filename().extension() != ".json") return false;
+
+        if (prefix.has_value()) {
+            auto filename = entry.path().filename();
+            // Skip all files whose name does not start with the specified prefix
+            return std::mismatch(prefix->begin(), prefix->end(), filename.string().begin()).first == prefix->end();
+        } else {
+            return true;
+        }
+    };
+    auto lexicographic_dir_entry_comparator = [](const std::filesystem::directory_entry& lhs,
+                                                 const std::filesystem::directory_entry& rhs) {
+        // Allocation eliding optimization assumes std::fs::path::native() orders alike on all platforms
+        return lhs.path().native() < rhs.path().native();
+    };
+    std::copy_if(std::filesystem::directory_iterator(path), std::filesystem::directory_iterator(), std::back_inserter(entries),
+                 is_pipeline_json_predicate);
+    std::sort(entries.begin(), entries.end(), lexicographic_dir_entry_comparator);
+    for (const auto& entry : entries) {
         PipelineInfo pipeline_info{};
-
-        // Skip directories
-        if (!std::filesystem::is_regular_file(entry)) continue;
-
-        auto filename = entry.path().filename();
-
-        // Skip all files except JSON files
-        if (filename.extension() != ".json") continue;
-
-        // Skip all files whose name does not start with the specified prefix
-        if (prefix.has_value() && std::mismatch(prefix->begin(), prefix->end(), filename.string().begin()).first != prefix->end())
-            continue;
 
         // Load JSON file
         logger.Write(logger.INFO, "Parsing pipeline JSON '%s'\n", entry.path().string().c_str());
