@@ -59,14 +59,15 @@ class VkDispatchableGenerator(BaseGenerator):
             #pragma once
 
             #include "vk_dispatch_table.h"
+            #include "icd_fault_handler.h"
             {"#include <utility>" if handle_type == 'VkInstance' else ""}
 
             namespace vk {{
 
             class {handle_type[2:]} {{
               public:
-                {handle_type[2:]}({handle_type} handle, {dispatch_table_param})
-                    : handle_(handle), {dispatch_table_init} {{}}
+                {handle_type[2:]}({handle_type} handle, {dispatch_table_param}, icd::FaultHandler& fault_handler)
+                    : handle_(handle), {dispatch_table_init}, fault_handler_(fault_handler) {{}}
             ''')
 
         guard_helper = PlatformGuardHelper()
@@ -87,9 +88,13 @@ class VkDispatchableGenerator(BaseGenerator):
         out.append(f'''
                 {handle_type} VkHandle() const {{ return handle_; }}
                 const DispatchTable& VkDispatch() const {{ return dispatch_table_; }}
+
+                void ReportFault(VkFaultLevel level, VkFaultType type) {{ fault_handler_.ReportFault(level, type); }}
+
               private:
                 const {handle_type} handle_;
                 {dispatch_table_member};
+                icd::FaultHandler& fault_handler_;
             }};
 
             }}  // namespace vk
@@ -130,13 +135,25 @@ class VkDispatchableGenerator(BaseGenerator):
                     if not param.const and param.pointer and param.type in self.vk.structs:
                         output_structure_params.append(param)
 
+                can_return_device_lost = (command.errorCodes is not None and 'VK_ERROR_DEVICE_LOST' in command.errorCodes)
+                # Additional processing of the outputs is necessary if:
+                # * the command has output structures that we have to sanitize, or
+                # * the command can return VK_ERROR_DEVICE_LOST which should generate a fault
+                capture_result = (len(output_structure_params) > 0 or can_return_device_lost)
+
                 if command.returnType != 'void':
-                    if len(output_structure_params) > 0:
+                    if capture_result:
                         out.append(f'{command.returnType} result = ')
                     else:
                         out.append('return ')
 
                 out.append(f'dispatch_table_.{command.name[2:]}({", ".join(params_pass)});\n')
+
+                # Handle VK_ERROR_DEVICE_LOST by generating a fault
+                if can_return_device_lost:
+                    out.append('if (result == VK_ERROR_DEVICE_LOST) {\n')
+                    out.append('    fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);\n')
+                    out.append('}\n')
 
                 # Sanitize output structure parameters if needed
                 if len(output_structure_params) > 0:
@@ -155,8 +172,9 @@ class VkDispatchableGenerator(BaseGenerator):
                         else:
                             out.append(f'vksc::ConvertOutStructToVulkanSC<{param.type}>({arg});\n')
                         out.append('}\n')
-                    if command.returnType != 'void':
-                        out.append('return result;\n')
+
+                if command.returnType != 'void' and capture_result:
+                    out.append('return result;\n')
 
                 out.append('}\n')
         out.extend(guard_helper.add_guard(None))

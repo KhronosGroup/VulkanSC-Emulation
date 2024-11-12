@@ -27,7 +27,7 @@ class DebugUtilsMessengerEXT {
 
 Instance::Instance(VkInstance instance, Global& global, const VkInstanceCreateInfo& create_info)
     : Dispatchable(),
-      NEXT(instance, vk::DispatchTable(instance, global.VkGetProcAddr())),
+      NEXT(instance, vk::DispatchTable(instance, global.VkGetProcAddr()), icd::FaultHandler::Nil()),
       logger_(CreateLogger(create_info), VK_OBJECT_TYPE_INSTANCE, instance),
       api_version_(create_info.pApplicationInfo != nullptr ? create_info.pApplicationInfo->apiVersion : VKSC_API_VERSION_1_0),
       physical_devices_() {
@@ -73,7 +73,7 @@ VkResult Instance::GetCompatiblePhysicalDeviceList(std::vector<VkPhysicalDevice>
         result = NEXT::EnumeratePhysicalDevices(&physical_device_count, all_physical_devices.data());
         if (result >= VK_SUCCESS) {
             for (const auto physical_device : all_physical_devices) {
-                vk::PhysicalDevice vk_obj(physical_device, VkDispatch());
+                vk::PhysicalDevice vk_obj(physical_device, VkDispatch(), icd::FaultHandler::Nil());
                 VkPhysicalDeviceProperties props{};
                 vk_obj.GetPhysicalDeviceProperties(&props);
                 if (props.apiVersion >= VK_API_VERSION_1_2) {

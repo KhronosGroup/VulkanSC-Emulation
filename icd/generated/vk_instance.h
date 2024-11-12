@@ -12,13 +12,15 @@
 #pragma once
 
 #include "vk_dispatch_table.h"
+#include "icd_fault_handler.h"
 #include <utility>
 
 namespace vk {
 
 class Instance {
   public:
-    Instance(VkInstance handle, DispatchTable&& dispatch_table) : handle_(handle), dispatch_table_(std::move(dispatch_table)) {}
+    Instance(VkInstance handle, DispatchTable&& dispatch_table, icd::FaultHandler& fault_handler)
+        : handle_(handle), dispatch_table_(std::move(dispatch_table)), fault_handler_(fault_handler) {}
     void DestroyInstance(const VkAllocationCallbacks* pAllocator);
     VkResult EnumeratePhysicalDevices(uint32_t* pPhysicalDeviceCount, VkPhysicalDevice* pPhysicalDevices);
     PFN_vkVoidFunction GetInstanceProcAddr(const char* pName);
@@ -96,9 +98,12 @@ class Instance {
     VkInstance VkHandle() const { return handle_; }
     const DispatchTable& VkDispatch() const { return dispatch_table_; }
 
+    void ReportFault(VkFaultLevel level, VkFaultType type) { fault_handler_.ReportFault(level, type); }
+
   private:
     const VkInstance handle_;
     const DispatchTable dispatch_table_;
+    icd::FaultHandler& fault_handler_;
 };
 
 }  // namespace vk

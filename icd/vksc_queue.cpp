@@ -12,7 +12,9 @@
 namespace vksc {
 
 Queue::Queue(VkQueue queue, Device& device)
-    : Dispatchable(), NEXT(queue, device.VkDispatch()), logger_(device.Log(), VK_OBJECT_TYPE_QUEUE, queue) {}
+    : Dispatchable(),
+      NEXT(queue, device.VkDispatch(), device.GetFaultHandler()),
+      logger_(device.Log(), VK_OBJECT_TYPE_QUEUE, queue) {}
 
 VkResult Queue::QueueSubmit(uint32_t submitCount, const VkSubmitInfo* pSubmits, VkFence fence) {
     icd::ShadowStack::Frame stack_frame{};

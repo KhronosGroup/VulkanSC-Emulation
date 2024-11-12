@@ -12,13 +12,14 @@
 #pragma once
 
 #include "vk_dispatch_table.h"
+#include "icd_fault_handler.h"
 
 namespace vk {
 
 class PhysicalDevice {
   public:
-    PhysicalDevice(VkPhysicalDevice handle, const DispatchTable& dispatch_table)
-        : handle_(handle), dispatch_table_(dispatch_table) {}
+    PhysicalDevice(VkPhysicalDevice handle, const DispatchTable& dispatch_table, icd::FaultHandler& fault_handler)
+        : handle_(handle), dispatch_table_(dispatch_table), fault_handler_(fault_handler) {}
     void GetPhysicalDeviceFeatures(VkPhysicalDeviceFeatures* pFeatures);
     void GetPhysicalDeviceFormatProperties(VkFormat format, VkFormatProperties* pFormatProperties);
     VkResult GetPhysicalDeviceImageFormatProperties(VkFormat format, VkImageType type, VkImageTiling tiling,
@@ -145,9 +146,12 @@ class PhysicalDevice {
     VkPhysicalDevice VkHandle() const { return handle_; }
     const DispatchTable& VkDispatch() const { return dispatch_table_; }
 
+    void ReportFault(VkFaultLevel level, VkFaultType type) { fault_handler_.ReportFault(level, type); }
+
   private:
     const VkPhysicalDevice handle_;
     const DispatchTable& dispatch_table_;
+    icd::FaultHandler& fault_handler_;
 };
 
 }  // namespace vk

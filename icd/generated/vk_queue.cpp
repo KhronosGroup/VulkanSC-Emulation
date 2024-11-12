@@ -15,17 +15,39 @@
 namespace vk {
 
 VkResult Queue::QueueSubmit(uint32_t submitCount, const VkSubmitInfo* pSubmits, VkFence fence) {
-    return dispatch_table_.QueueSubmit(handle_, submitCount, pSubmits, fence);
+    VkResult result = dispatch_table_.QueueSubmit(handle_, submitCount, pSubmits, fence);
+    if (result == VK_ERROR_DEVICE_LOST) {
+        fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);
+    }
+    return result;
 }
-VkResult Queue::QueueWaitIdle() { return dispatch_table_.QueueWaitIdle(handle_); }
+VkResult Queue::QueueWaitIdle() {
+    VkResult result = dispatch_table_.QueueWaitIdle(handle_);
+    if (result == VK_ERROR_DEVICE_LOST) {
+        fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);
+    }
+    return result;
+}
 VkResult Queue::QueueBindSparse(uint32_t bindInfoCount, const VkBindSparseInfo* pBindInfo, VkFence fence) {
-    return dispatch_table_.QueueBindSparse(handle_, bindInfoCount, pBindInfo, fence);
+    VkResult result = dispatch_table_.QueueBindSparse(handle_, bindInfoCount, pBindInfo, fence);
+    if (result == VK_ERROR_DEVICE_LOST) {
+        fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);
+    }
+    return result;
 }
 VkResult Queue::QueueSubmit2(uint32_t submitCount, const VkSubmitInfo2* pSubmits, VkFence fence) {
-    return dispatch_table_.QueueSubmit2(handle_, submitCount, pSubmits, fence);
+    VkResult result = dispatch_table_.QueueSubmit2(handle_, submitCount, pSubmits, fence);
+    if (result == VK_ERROR_DEVICE_LOST) {
+        fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);
+    }
+    return result;
 }
 VkResult Queue::QueuePresentKHR(const VkPresentInfoKHR* pPresentInfo) {
-    return dispatch_table_.QueuePresentKHR(handle_, pPresentInfo);
+    VkResult result = dispatch_table_.QueuePresentKHR(handle_, pPresentInfo);
+    if (result == VK_ERROR_DEVICE_LOST) {
+        fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);
+    }
+    return result;
 }
 void Queue::GetQueueCheckpointData2NV(uint32_t* pCheckpointDataCount, VkCheckpointData2NV* pCheckpointData) {
     dispatch_table_.GetQueueCheckpointData2NV(handle_, pCheckpointDataCount, pCheckpointData);

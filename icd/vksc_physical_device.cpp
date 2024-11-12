@@ -48,7 +48,7 @@ static std::string GenerateDriverInfo(char driver_name[VK_MAX_DRIVER_NAME_SIZE],
 
 PhysicalDevice::PhysicalDevice(VkPhysicalDevice physical_device, Instance& instance)
     : Dispatchable(),
-      NEXT(physical_device, instance.VkDispatch()),
+      NEXT(physical_device, instance.VkDispatch(), icd::FaultHandler::Nil()),
       instance_(instance),
       logger_(instance.Log(), VK_OBJECT_TYPE_PHYSICAL_DEVICE, physical_device) {
     // Initialize extensions from the underlying Vulkan implementation

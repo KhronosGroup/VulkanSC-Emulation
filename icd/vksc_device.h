@@ -11,6 +11,7 @@
 #include "vksc_dispatchable.h"
 #include "vksc_physical_device.h"
 #include "vksc_extension_helper.h"
+#include "icd_fault_handler.h"
 #include "vk_device.h"
 #include "icd_log.h"
 #include "icd_shadow_stack.h"
@@ -38,6 +39,7 @@ class Device : public Dispatchable<Device, VkDevice>, public vk::Device {
     Device(VkDevice device, PhysicalDevice& physical_device, const VkDeviceCreateInfo& create_info);
 
     icd::Logger& Log() { return logger_; }
+    icd::FaultHandler& GetFaultHandler() { return fault_handler_; }
 
     bool RecyclePipelineMemory() const { return physical_device_.RecyclePipelineMemory(); }
 
@@ -75,7 +77,7 @@ class Device : public Dispatchable<Device, VkDevice>, public vk::Device {
                                     VkPipeline* pPipelines);
     void DestroyPipeline(VkPipeline pipeline, const VkAllocationCallbacks* pAllocator);
 
-    void ReportFault(VkFaultLevel faultLevel, VkFaultType faultType);
+    void ReportFault(VkFaultLevel faultLevel, VkFaultType faultType) { fault_handler_.ReportFault(faultLevel, faultType); }
 
     VkResult GetFaultData(VkFaultQueryBehavior faultQueryBehavior, VkBool32* pUnrecordedFaults, uint32_t* pFaultCount,
                           VkFaultData* pFaults);
@@ -94,11 +96,6 @@ class Device : public Dispatchable<Device, VkDevice>, public vk::Device {
                                        const VkAllocationCallbacks* pAllocator, VkSwapchainKHR* pSwapchains);
 
   private:
-    struct FaultCallbackInfo {
-        uint32_t faultCount;
-        VkFaultData* pFaults;
-        PFN_vkFaultCallbackFunction pfnFaultCallback;
-    };
     VkResult SetupDevice(const VkDeviceCreateInfo& create_info);
     const icd::Pipeline* GetPipelineFromCache(const icd::PipelineCache& pipeline_cache,
                                               const VkPipelineOfflineCreateInfo* offline_info, VkResult& out_result);
@@ -110,6 +107,7 @@ class Device : public Dispatchable<Device, VkDevice>, public vk::Device {
     const Instance& instance_;
     const PhysicalDevice& physical_device_;
     icd::Logger logger_;
+    icd::FaultHandler fault_handler_;
 
     DispatchableChildren<Queue, VkQueue> device_queues_;
     icd::DeviceObjectTracker object_tracker_;
@@ -126,11 +124,6 @@ class Device : public Dispatchable<Device, VkDevice>, public vk::Device {
     // Map of pipelines and corresponding pool entry sizes (used only when pipeline pool entry recycling is enabled)
     std::mutex pipeline_pool_size_map_mutex_{};
     std::unordered_map<VkPipeline, uint64_t> pipeline_pool_size_map_{};
-
-    std::mutex faults_mutex_{};
-    std::vector<VkFaultData> faults_{};
-    std::optional<FaultCallbackInfo> fault_callback_{std::nullopt};
-    VkBool32 unrecorded_faults_{VK_FALSE};
 
     std::mutex command_pool_mutex_{};
     std::unordered_map<VkCommandPool, std::unique_ptr<CommandPool>> command_pools_{};

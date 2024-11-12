@@ -63,6 +63,7 @@ class IcdTest : public ::testing::Test {
     VkInstance GetInstance() const { return instance_; }
     VkPhysicalDevice GetPhysicalDevice();
     VkDevice GetDevice() const { return device_; }
+    VkQueue GetQueue() const { return queue_; }
 
     void EnableDeviceExtension(const char* extension_name);
     const VkDeviceCreateInfo GetDefaultDeviceCreateInfo(void* pnext_chain = nullptr) const;
@@ -71,10 +72,6 @@ class IcdTest : public ::testing::Test {
     VkDeviceObjectReservationCreateInfo& ObjectReservation() { return object_reservation_; }
 
     uint32_t GetMaxQueryFaultCount();
-
-    template <typename Pred>
-    uint32_t GetQueueFamilyIndex(Pred&& pred);
-    uint32_t GetUniversalQueueFamilyIndex();
 
     VkCommandPool CreateCommandPool(VkDeviceSize reserved_size, uint32_t max_command_buffers = 1);
     std::vector<VkCommandBuffer> CreateCommandBuffers(VkCommandPool command_pool, uint32_t count = 1,
@@ -90,6 +87,7 @@ class IcdTest : public ::testing::Test {
     VkInstance instance_{VK_NULL_HANDLE};
     VkPhysicalDevice physical_device_{VK_NULL_HANDLE};
     VkDevice device_{VK_NULL_HANDLE};
+    VkQueue queue_{VK_NULL_HANDLE};
     VkDeviceSize buffer_size_{0};
 
     VkDeviceObjectReservationCreateInfo object_reservation_{};

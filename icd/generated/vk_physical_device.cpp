@@ -58,7 +58,11 @@ void PhysicalDevice::GetPhysicalDeviceMemoryProperties(VkPhysicalDeviceMemoryPro
 }
 VkResult PhysicalDevice::CreateDevice(const VkDeviceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                                       VkDevice* pDevice) {
-    return dispatch_table_.CreateDevice(handle_, pCreateInfo, pAllocator, pDevice);
+    VkResult result = dispatch_table_.CreateDevice(handle_, pCreateInfo, pAllocator, pDevice);
+    if (result == VK_ERROR_DEVICE_LOST) {
+        fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);
+    }
+    return result;
 }
 VkResult PhysicalDevice::EnumerateDeviceExtensionProperties(const char* pLayerName, uint32_t* pPropertyCount,
                                                             VkExtensionProperties* pProperties) {
@@ -446,10 +450,18 @@ VkResult PhysicalDevice::GetDrmDisplayEXT(int32_t drmFd, uint32_t connectorId, V
 }
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 VkResult PhysicalDevice::AcquireWinrtDisplayNV(VkDisplayKHR display) {
-    return dispatch_table_.AcquireWinrtDisplayNV(handle_, display);
+    VkResult result = dispatch_table_.AcquireWinrtDisplayNV(handle_, display);
+    if (result == VK_ERROR_DEVICE_LOST) {
+        fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);
+    }
+    return result;
 }
 VkResult PhysicalDevice::GetWinrtDisplayNV(uint32_t deviceRelativeId, VkDisplayKHR* pDisplay) {
-    return dispatch_table_.GetWinrtDisplayNV(handle_, deviceRelativeId, pDisplay);
+    VkResult result = dispatch_table_.GetWinrtDisplayNV(handle_, deviceRelativeId, pDisplay);
+    if (result == VK_ERROR_DEVICE_LOST) {
+        fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);
+    }
+    return result;
 }
 #endif  // VK_USE_PLATFORM_WIN32_KHR
 #ifdef VK_USE_PLATFORM_DIRECTFB_EXT

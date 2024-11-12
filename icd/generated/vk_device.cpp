@@ -19,7 +19,13 @@ void Device::DestroyDevice(const VkAllocationCallbacks* pAllocator) { dispatch_t
 void Device::GetDeviceQueue(uint32_t queueFamilyIndex, uint32_t queueIndex, VkQueue* pQueue) {
     dispatch_table_.GetDeviceQueue(handle_, queueFamilyIndex, queueIndex, pQueue);
 }
-VkResult Device::DeviceWaitIdle() { return dispatch_table_.DeviceWaitIdle(handle_); }
+VkResult Device::DeviceWaitIdle() {
+    VkResult result = dispatch_table_.DeviceWaitIdle(handle_);
+    if (result == VK_ERROR_DEVICE_LOST) {
+        fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);
+    }
+    return result;
+}
 VkResult Device::AllocateMemory(const VkMemoryAllocateInfo* pAllocateInfo, const VkAllocationCallbacks* pAllocator,
                                 VkDeviceMemory* pMemory) {
     return dispatch_table_.AllocateMemory(handle_, pAllocateInfo, pAllocator, pMemory);
@@ -75,9 +81,19 @@ void Device::DestroyFence(VkFence fence, const VkAllocationCallbacks* pAllocator
 VkResult Device::ResetFences(uint32_t fenceCount, const VkFence* pFences) {
     return dispatch_table_.ResetFences(handle_, fenceCount, pFences);
 }
-VkResult Device::GetFenceStatus(VkFence fence) { return dispatch_table_.GetFenceStatus(handle_, fence); }
+VkResult Device::GetFenceStatus(VkFence fence) {
+    VkResult result = dispatch_table_.GetFenceStatus(handle_, fence);
+    if (result == VK_ERROR_DEVICE_LOST) {
+        fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);
+    }
+    return result;
+}
 VkResult Device::WaitForFences(uint32_t fenceCount, const VkFence* pFences, VkBool32 waitAll, uint64_t timeout) {
-    return dispatch_table_.WaitForFences(handle_, fenceCount, pFences, waitAll, timeout);
+    VkResult result = dispatch_table_.WaitForFences(handle_, fenceCount, pFences, waitAll, timeout);
+    if (result == VK_ERROR_DEVICE_LOST) {
+        fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);
+    }
+    return result;
 }
 VkResult Device::CreateSemaphore(const VkSemaphoreCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                                  VkSemaphore* pSemaphore) {
@@ -92,7 +108,13 @@ VkResult Device::CreateEvent(const VkEventCreateInfo* pCreateInfo, const VkAlloc
 void Device::DestroyEvent(VkEvent event, const VkAllocationCallbacks* pAllocator) {
     dispatch_table_.DestroyEvent(handle_, event, pAllocator);
 }
-VkResult Device::GetEventStatus(VkEvent event) { return dispatch_table_.GetEventStatus(handle_, event); }
+VkResult Device::GetEventStatus(VkEvent event) {
+    VkResult result = dispatch_table_.GetEventStatus(handle_, event);
+    if (result == VK_ERROR_DEVICE_LOST) {
+        fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);
+    }
+    return result;
+}
 VkResult Device::SetEvent(VkEvent event) { return dispatch_table_.SetEvent(handle_, event); }
 VkResult Device::ResetEvent(VkEvent event) { return dispatch_table_.ResetEvent(handle_, event); }
 VkResult Device::CreateQueryPool(const VkQueryPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
@@ -104,7 +126,12 @@ void Device::DestroyQueryPool(VkQueryPool queryPool, const VkAllocationCallbacks
 }
 VkResult Device::GetQueryPoolResults(VkQueryPool queryPool, uint32_t firstQuery, uint32_t queryCount, size_t dataSize, void* pData,
                                      VkDeviceSize stride, VkQueryResultFlags flags) {
-    return dispatch_table_.GetQueryPoolResults(handle_, queryPool, firstQuery, queryCount, dataSize, pData, stride, flags);
+    VkResult result =
+        dispatch_table_.GetQueryPoolResults(handle_, queryPool, firstQuery, queryCount, dataSize, pData, stride, flags);
+    if (result == VK_ERROR_DEVICE_LOST) {
+        fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);
+    }
+    return result;
 }
 VkResult Device::CreateBuffer(const VkBufferCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkBuffer* pBuffer) {
     return dispatch_table_.CreateBuffer(handle_, pCreateInfo, pAllocator, pBuffer);
@@ -322,10 +349,18 @@ void Device::ResetQueryPool(VkQueryPool queryPool, uint32_t firstQuery, uint32_t
     dispatch_table_.ResetQueryPool(handle_, queryPool, firstQuery, queryCount);
 }
 VkResult Device::GetSemaphoreCounterValue(VkSemaphore semaphore, uint64_t* pValue) {
-    return dispatch_table_.GetSemaphoreCounterValue(handle_, semaphore, pValue);
+    VkResult result = dispatch_table_.GetSemaphoreCounterValue(handle_, semaphore, pValue);
+    if (result == VK_ERROR_DEVICE_LOST) {
+        fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);
+    }
+    return result;
 }
 VkResult Device::WaitSemaphores(const VkSemaphoreWaitInfo* pWaitInfo, uint64_t timeout) {
-    return dispatch_table_.WaitSemaphores(handle_, pWaitInfo, timeout);
+    VkResult result = dispatch_table_.WaitSemaphores(handle_, pWaitInfo, timeout);
+    if (result == VK_ERROR_DEVICE_LOST) {
+        fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);
+    }
+    return result;
 }
 VkResult Device::SignalSemaphore(const VkSemaphoreSignalInfo* pSignalInfo) {
     return dispatch_table_.SignalSemaphore(handle_, pSignalInfo);
@@ -378,7 +413,11 @@ void Device::GetDeviceImageSparseMemoryRequirements(const VkDeviceImageMemoryReq
 }
 VkResult Device::CreateSwapchainKHR(const VkSwapchainCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                                     VkSwapchainKHR* pSwapchain) {
-    return dispatch_table_.CreateSwapchainKHR(handle_, pCreateInfo, pAllocator, pSwapchain);
+    VkResult result = dispatch_table_.CreateSwapchainKHR(handle_, pCreateInfo, pAllocator, pSwapchain);
+    if (result == VK_ERROR_DEVICE_LOST) {
+        fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);
+    }
+    return result;
 }
 void Device::DestroySwapchainKHR(VkSwapchainKHR swapchain, const VkAllocationCallbacks* pAllocator) {
     dispatch_table_.DestroySwapchainKHR(handle_, swapchain, pAllocator);
@@ -388,7 +427,11 @@ VkResult Device::GetSwapchainImagesKHR(VkSwapchainKHR swapchain, uint32_t* pSwap
 }
 VkResult Device::AcquireNextImageKHR(VkSwapchainKHR swapchain, uint64_t timeout, VkSemaphore semaphore, VkFence fence,
                                      uint32_t* pImageIndex) {
-    return dispatch_table_.AcquireNextImageKHR(handle_, swapchain, timeout, semaphore, fence, pImageIndex);
+    VkResult result = dispatch_table_.AcquireNextImageKHR(handle_, swapchain, timeout, semaphore, fence, pImageIndex);
+    if (result == VK_ERROR_DEVICE_LOST) {
+        fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);
+    }
+    return result;
 }
 VkResult Device::GetDeviceGroupPresentCapabilitiesKHR(VkDeviceGroupPresentCapabilitiesKHR* pDeviceGroupPresentCapabilities) {
     VkResult result = dispatch_table_.GetDeviceGroupPresentCapabilitiesKHR(handle_, pDeviceGroupPresentCapabilities);
@@ -401,11 +444,19 @@ VkResult Device::GetDeviceGroupSurfacePresentModesKHR(VkSurfaceKHR surface, VkDe
     return dispatch_table_.GetDeviceGroupSurfacePresentModesKHR(handle_, surface, pModes);
 }
 VkResult Device::AcquireNextImage2KHR(const VkAcquireNextImageInfoKHR* pAcquireInfo, uint32_t* pImageIndex) {
-    return dispatch_table_.AcquireNextImage2KHR(handle_, pAcquireInfo, pImageIndex);
+    VkResult result = dispatch_table_.AcquireNextImage2KHR(handle_, pAcquireInfo, pImageIndex);
+    if (result == VK_ERROR_DEVICE_LOST) {
+        fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);
+    }
+    return result;
 }
 VkResult Device::CreateSharedSwapchainsKHR(uint32_t swapchainCount, const VkSwapchainCreateInfoKHR* pCreateInfos,
                                            const VkAllocationCallbacks* pAllocator, VkSwapchainKHR* pSwapchains) {
-    return dispatch_table_.CreateSharedSwapchainsKHR(handle_, swapchainCount, pCreateInfos, pAllocator, pSwapchains);
+    VkResult result = dispatch_table_.CreateSharedSwapchainsKHR(handle_, swapchainCount, pCreateInfos, pAllocator, pSwapchains);
+    if (result == VK_ERROR_DEVICE_LOST) {
+        fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);
+    }
+    return result;
 }
 VkResult Device::CreateVideoSessionKHR(const VkVideoSessionCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                                        VkVideoSessionKHR* pVideoSession) {
@@ -480,7 +531,11 @@ VkResult Device::GetSemaphoreFdKHR(const VkSemaphoreGetFdInfoKHR* pGetFdInfo, in
     return dispatch_table_.GetSemaphoreFdKHR(handle_, pGetFdInfo, pFd);
 }
 VkResult Device::GetSwapchainStatusKHR(VkSwapchainKHR swapchain) {
-    return dispatch_table_.GetSwapchainStatusKHR(handle_, swapchain);
+    VkResult result = dispatch_table_.GetSwapchainStatusKHR(handle_, swapchain);
+    if (result == VK_ERROR_DEVICE_LOST) {
+        fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);
+    }
+    return result;
 }
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 VkResult Device::ImportFenceWin32HandleKHR(const VkImportFenceWin32HandleInfoKHR* pImportFenceWin32HandleInfo) {
@@ -501,7 +556,11 @@ VkResult Device::AcquireProfilingLockKHR(const VkAcquireProfilingLockInfoKHR* pI
 }
 void Device::ReleaseProfilingLockKHR() { dispatch_table_.ReleaseProfilingLockKHR(handle_); }
 VkResult Device::WaitForPresentKHR(VkSwapchainKHR swapchain, uint64_t presentId, uint64_t timeout) {
-    return dispatch_table_.WaitForPresentKHR(handle_, swapchain, presentId, timeout);
+    VkResult result = dispatch_table_.WaitForPresentKHR(handle_, swapchain, presentId, timeout);
+    if (result == VK_ERROR_DEVICE_LOST) {
+        fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);
+    }
+    return result;
 }
 VkResult Device::CreateDeferredOperationKHR(const VkAllocationCallbacks* pAllocator, VkDeferredOperationKHR* pDeferredOperation) {
     return dispatch_table_.CreateDeferredOperationKHR(handle_, pAllocator, pDeferredOperation);
@@ -668,10 +727,17 @@ VkResult Device::RegisterDisplayEventEXT(VkDisplayKHR display, const VkDisplayEv
     return dispatch_table_.RegisterDisplayEventEXT(handle_, display, pDisplayEventInfo, pAllocator, pFence);
 }
 VkResult Device::GetSwapchainCounterEXT(VkSwapchainKHR swapchain, VkSurfaceCounterFlagBitsEXT counter, uint64_t* pCounterValue) {
-    return dispatch_table_.GetSwapchainCounterEXT(handle_, swapchain, counter, pCounterValue);
+    VkResult result = dispatch_table_.GetSwapchainCounterEXT(handle_, swapchain, counter, pCounterValue);
+    if (result == VK_ERROR_DEVICE_LOST) {
+        fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);
+    }
+    return result;
 }
 VkResult Device::GetRefreshCycleDurationGOOGLE(VkSwapchainKHR swapchain, VkRefreshCycleDurationGOOGLE* pDisplayTimingProperties) {
     VkResult result = dispatch_table_.GetRefreshCycleDurationGOOGLE(handle_, swapchain, pDisplayTimingProperties);
+    if (result == VK_ERROR_DEVICE_LOST) {
+        fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);
+    }
     if (pDisplayTimingProperties != nullptr) {
         vksc::ConvertOutStructToVulkanSC<VkRefreshCycleDurationGOOGLE>(pDisplayTimingProperties);
     }
@@ -681,6 +747,9 @@ VkResult Device::GetPastPresentationTimingGOOGLE(VkSwapchainKHR swapchain, uint3
                                                  VkPastPresentationTimingGOOGLE* pPresentationTimings) {
     VkResult result =
         dispatch_table_.GetPastPresentationTimingGOOGLE(handle_, swapchain, pPresentationTimingCount, pPresentationTimings);
+    if (result == VK_ERROR_DEVICE_LOST) {
+        fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);
+    }
     if (pPresentationTimings != nullptr) {
         for (uint32_t i = 0; i < *pPresentationTimingCount; ++i)
             vksc::ConvertOutStructToVulkanSC<VkPastPresentationTimingGOOGLE>(&pPresentationTimings[i]);

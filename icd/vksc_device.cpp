@@ -22,10 +22,13 @@ namespace vksc {
 
 Device::Device(VkDevice device, PhysicalDevice& physical_device, const VkDeviceCreateInfo& create_info)
     : Dispatchable(),
-      NEXT(device, physical_device.VkDispatch()),
+      // NOTE: We are passing a reference to the yet uninitialized fault handler, but this should be no
+      // issue if no faults are being reported from within the parent class constructor
+      NEXT(device, physical_device.VkDispatch(), fault_handler_),
       instance_(physical_device.GetInstance()),
       physical_device_(physical_device),
       logger_(physical_device.Log(), VK_OBJECT_TYPE_DEVICE, device),
+      fault_handler_(physical_device.GetMaxQueryFaultCount(), vku::FindStructInPNextChain<VkFaultCallbackInfo>(create_info.pNext)),
       device_queues_(),
       object_tracker_(*this, create_info) {
     status_ = SetupDevice(create_info);
@@ -91,12 +94,6 @@ VkResult Device::SetupDevice(const VkDeviceCreateInfo& create_info) {
                 return VK_ERROR_EXTENSION_NOT_PRESENT;
             }
         }
-    }
-
-    faults_.reserve(physical_device_.GetMaxQueryFaultCount());
-    const auto* callback_info = vku::FindStructInPNextChain<VkFaultCallbackInfo>(create_info.pNext);
-    if (callback_info != nullptr) {
-        fault_callback_ = FaultCallbackInfo{callback_info->faultCount, callback_info->pFaults, callback_info->pfnFaultCallback};
     }
 
     return result;
@@ -390,22 +387,6 @@ void Device::DestroyPipeline(VkPipeline pipeline, const VkAllocationCallbacks* p
     NEXT::DestroyPipeline(pipeline, pAllocator);
 }
 
-void Device::ReportFault(VkFaultLevel faultLevel, VkFaultType faultType) {
-    VkFaultData fault_data = {VK_STRUCTURE_TYPE_FAULT_DATA, nullptr, faultLevel, faultType};
-
-    if (fault_callback_) {
-        fault_callback_.value().pfnFaultCallback(unrecorded_faults_, 1, &fault_data);
-    }
-
-    std::lock_guard<std::mutex> lock{faults_mutex_};
-
-    if (faults_.size() < physical_device_.GetMaxQueryFaultCount()) {
-        faults_.push_back(fault_data);
-    } else {
-        unrecorded_faults_ = VK_TRUE;
-    }
-}
-
 void Device::GetCommandPoolMemoryConsumption(VkCommandPool commandPool, VkCommandBuffer commandBuffer,
                                              VkCommandPoolMemoryConsumption* pConsumption) {
     const std::lock_guard<std::mutex> lock{command_pool_mutex_};
@@ -445,34 +426,7 @@ VkResult Device::ResetCommandPool(VkCommandPool commandPool, VkCommandPoolResetF
 
 VkResult Device::GetFaultData(VkFaultQueryBehavior faultQueryBehavior, VkBool32* pUnrecordedFaults, uint32_t* pFaultCount,
                               VkFaultData* pFaults) {
-    std::lock_guard<std::mutex> lock{faults_mutex_};
-
-    switch (faultQueryBehavior) {
-        case VkFaultQueryBehavior::VK_FAULT_QUERY_BEHAVIOR_GET_AND_CLEAR_ALL_FAULTS:
-            if (pUnrecordedFaults != nullptr) {
-                *pUnrecordedFaults = unrecorded_faults_;
-            }
-            unrecorded_faults_ = VK_FALSE;
-
-            if (pFaults == nullptr) {
-                *pFaultCount = static_cast<uint32_t>(faults_.size());
-                return VK_SUCCESS;
-            } else {
-                VkResult result = *pFaultCount < static_cast<uint32_t>(faults_.size()) ? VK_INCOMPLETE : VK_SUCCESS;
-                uint32_t elems_to_copy = std::min(*pFaultCount, static_cast<uint32_t>(faults_.size()));
-                for (uint32_t i = 0; i < elems_to_copy; ++i) {
-                    pFaults[i].faultLevel = faults_[i].faultLevel;
-                    pFaults[i].faultType = faults_[i].faultType;
-                }
-                faults_.erase(faults_.begin(), faults_.begin() + elems_to_copy);
-                *pFaultCount = elems_to_copy;
-                return result;
-            }
-            break;
-        default:
-            return VK_ERROR_UNKNOWN;
-            break;
-    }
+    return fault_handler_.GetFaultData(faultQueryBehavior, pUnrecordedFaults, pFaultCount, pFaults);
 }
 
 VkResult Device::AllocateMemory(const VkMemoryAllocateInfo* pAllocateInfo, const VkAllocationCallbacks* pAllocator,

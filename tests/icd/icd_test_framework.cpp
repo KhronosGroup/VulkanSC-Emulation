@@ -25,6 +25,7 @@ static void InitDefaultMockHandlers(IcdTest *test_case = nullptr) {
     static VkMockObject<VkInstance> mock_instance{};
     static VkMockObject<VkPhysicalDevice> mock_physical_device{};
     static VkMockObject<VkDevice> mock_device{};
+    static VkMockObject<VkQueue> mock_queue{};
     static VkMockObject<VkCommandPool> mock_command_pool{};
     static std::vector<VkMockObject<VkCommandBuffer>> mock_command_buffers{};
     static VkMockObject<VkBuffer> mock_buffer{};
@@ -103,6 +104,8 @@ static void InitDefaultMockHandlers(IcdTest *test_case = nullptr) {
         mem_props.memoryHeaps[0] = {1'048'576, VK_MEMORY_HEAP_DEVICE_LOCAL_BIT};
         pMemoryProperties->memoryProperties = mem_props;
     };
+    vkmock::GetDeviceQueue = [&](auto, auto, auto, auto pQueue) { *pQueue = mock_queue; };
+    vkmock::GetDeviceQueue2 = [&](auto, auto, auto pQueue) { *pQueue = mock_queue; };
     vkmock::GetBufferMemoryRequirements = [&](auto, auto, auto pMemoryRequirements) {
         pMemoryRequirements->size = mock_buffer_size;
         pMemoryRequirements->alignment = 4;
@@ -502,6 +505,8 @@ VkDevice IcdTest::InitDevice(VkDeviceCreateInfo *create_info) {
             << "Failed to create device: " << result;
         throw testing::AssertionException(testing::TestPartResult(testing::TestPartResult::kFatalFailure, __FILE__, __LINE__, ""));
     }
+
+    vksc::GetDeviceQueue(device_, 0, 0, &queue_);
 
     return device_;
 }

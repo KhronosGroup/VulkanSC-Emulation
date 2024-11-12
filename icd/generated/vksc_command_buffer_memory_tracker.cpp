@@ -15,7 +15,7 @@
 namespace vksc {
 
 CommandBufferMemoryTracker::CommandBufferMemoryTracker(VkCommandBuffer command_buffer, CommandPool& command_pool)
-    : vk::CommandBuffer(command_buffer, command_pool.GetDevice().VkDispatch()),
+    : vk::CommandBuffer(command_buffer, command_pool.GetDevice().VkDispatch(), command_pool.GetDevice().GetFaultHandler()),
       command_pool_(command_pool),
       allocated_size_(0),
       status_(VK_SUCCESS),

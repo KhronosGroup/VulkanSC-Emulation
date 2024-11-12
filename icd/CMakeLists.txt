@@ -39,6 +39,8 @@ target_sources(icd PRIVATE
     icd_env_helper.cpp
     icd_extension_helper.h
     icd_extension_helper.cpp
+    icd_fault_handler.h
+    icd_fault_handler.cpp
     icd_log.h
     icd_log.cpp
     icd_main.cpp

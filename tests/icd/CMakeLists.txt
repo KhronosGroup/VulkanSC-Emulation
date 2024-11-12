@@ -75,7 +75,7 @@ target_sources(icd_tests PRIVATE
     icd_test_pipeline_cache_utils.h
     icd_test_pipeline_cache_utils.cpp
     test_cleanup.cpp
-    test_fault_data.cpp
+    test_fault_reporting.cpp
     test_infrastructure.cpp
     test_memory_consumption.cpp
     test_pipeline_cache.cpp
