@@ -339,7 +339,7 @@ VkDeviceMemory IcdTest::AllocateMemory(VkBuffer buffer, VkDeviceSize size, VkMem
     vksc::GetBufferMemoryRequirements2(device_, &buf_reqs, &mem_reqs);
 
     auto phys_dev_mem_props = vku::InitStruct<VkPhysicalDeviceMemoryProperties2>();
-    vksc::GetPhysicalDeviceMemoryProperties2(physical_device_, &phys_dev_mem_props);
+    vksc::GetPhysicalDeviceMemoryProperties2(GetPhysicalDevice(), &phys_dev_mem_props);
 
     uint32_t mem_type_index = UINT32_MAX;
     for (uint32_t i = 0; i < phys_dev_mem_props.memoryProperties.memoryTypeCount; ++i) {
@@ -473,27 +473,30 @@ VkPhysicalDevice IcdTest::GetPhysicalDevice() {
         InitInstance();
     }
 
-    uint32_t phys_device_count = 1;
-    vksc::EnumeratePhysicalDevices(instance_, &phys_device_count, &physical_device_);
     if (physical_device_ == VK_NULL_HANDLE) {
-        GTEST_MESSAGE_AT_(__FILE__, __LINE__, "", ::testing::TestPartResult::kFatalFailure) << "Failed to find physical device";
-        throw testing::AssertionException(testing::TestPartResult(testing::TestPartResult::kFatalFailure, __FILE__, __LINE__, ""));
+        uint32_t phys_device_count = 1;
+        vksc::EnumeratePhysicalDevices(instance_, &phys_device_count, &physical_device_);
+        if (physical_device_ == VK_NULL_HANDLE) {
+            GTEST_MESSAGE_AT_(__FILE__, __LINE__, "", ::testing::TestPartResult::kFatalFailure) << "Failed to find physical device";
+            throw testing::AssertionException(
+                testing::TestPartResult(testing::TestPartResult::kFatalFailure, __FILE__, __LINE__, ""));
+        }
     }
 
     return physical_device_;
 }
 
 VkDevice IcdTest::InitDevice(VkDeviceCreateInfo *create_info) {
+    if (instance_ == VK_NULL_HANDLE) {
+        InitInstance();
+    }
+
     if (create_info == nullptr) {
         static auto default_ci = GetDefaultDeviceCreateInfo();
         create_info = &default_ci;
     }
 
-    if (physical_device_ == VK_NULL_HANDLE) {
-        GetPhysicalDevice();
-    }
-
-    VkResult result = vksc::CreateDevice(physical_device_, create_info, nullptr, &device_);
+    VkResult result = vksc::CreateDevice(GetPhysicalDevice(), create_info, nullptr, &device_);
     if (result != VK_SUCCESS) {
         GTEST_MESSAGE_AT_(__FILE__, __LINE__, "", ::testing::TestPartResult::kFatalFailure)
             << "Failed to create device: " << result;

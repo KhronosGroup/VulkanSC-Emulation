@@ -72,10 +72,13 @@ target_sources(icd_tests PRIVATE
     icd_test_defs.h
     icd_test_framework.h
     icd_test_framework.cpp
-    test_infrastructure.cpp
-    test_fault_data.cpp
-    test_memory_consumption.cpp
+    icd_test_pipeline_cache_utils.h
+    icd_test_pipeline_cache_utils.cpp
     test_cleanup.cpp
+    test_fault_data.cpp
+    test_infrastructure.cpp
+    test_memory_consumption.cpp
+    test_pipeline_cache.cpp
 )
 
 add_dependencies(icd_tests icd)

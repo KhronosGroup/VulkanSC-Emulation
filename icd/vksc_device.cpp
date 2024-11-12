@@ -250,6 +250,7 @@ VkResult Device::CreateGraphicsPipelines(VkPipelineCache pipelineCache, uint32_t
                         "Attempted to create pipeline (%s) with poolEntrySize (%" PRIu64
                         ") but no such pool entry size was reserved at device creation time",
                         pipeline->ID().toString().c_str(), offline_info->poolEntrySize);
+            result = VK_ERROR_OUT_OF_POOL_MEMORY;
             continue;
         }
         if (pipeline_pool_entry_it->second.fetch_add(1) >= reserved_pipeline_pool_entries_map_[offline_info->poolEntrySize]) {
@@ -327,6 +328,7 @@ VkResult Device::CreateComputePipelines(VkPipelineCache pipelineCache, uint32_t 
                         "Attempted to create pipeline (%s) with poolEntrySize (%" PRIu64
                         ") but no such pool entry size was reserved",
                         pipeline->ID().toString().c_str(), offline_info->poolEntrySize);
+            result = VK_ERROR_OUT_OF_POOL_MEMORY;
             continue;
         }
         if (pipeline_pool_entry_it->second.fetch_add(1) >= reserved_pipeline_pool_entries_map_[offline_info->poolEntrySize]) {

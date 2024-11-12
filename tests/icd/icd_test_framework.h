@@ -5,6 +5,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+#pragma once
+
 #include <gtest/gtest.h>
 #include <string>
 #include <vector>
@@ -58,7 +60,9 @@ class IcdTest : public ::testing::Test {
     const VkInstanceCreateInfo GetDefaultInstanceCreateInfo(void* pnext_chain = nullptr) const;
     VkInstance InitInstance(VkInstanceCreateInfo* create_info = nullptr);
 
+    VkInstance GetInstance() const { return instance_; }
     VkPhysicalDevice GetPhysicalDevice();
+    VkDevice GetDevice() const { return device_; }
 
     void EnableDeviceExtension(const char* extension_name);
     const VkDeviceCreateInfo GetDefaultDeviceCreateInfo(void* pnext_chain = nullptr) const;
@@ -82,7 +86,7 @@ class IcdTest : public ::testing::Test {
     VkBuffer CreateBufferWithBoundMemory(VkDeviceSize size, VkBufferUsageFlags usage = VK_BUFFER_USAGE_STORAGE_BUFFER_BIT,
                                          VkMemoryPropertyFlags mem_flags = 0);
 
-  protected:
+  private:
     VkInstance instance_{VK_NULL_HANDLE};
     VkPhysicalDevice physical_device_{VK_NULL_HANDLE};
     VkDevice device_{VK_NULL_HANDLE};

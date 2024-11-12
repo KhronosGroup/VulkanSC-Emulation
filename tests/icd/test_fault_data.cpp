@@ -14,7 +14,7 @@
 
 class FaultDataTest : public IcdTest {
   public:
-    void GenerateFault() { vksc::ResetCommandPool(device_, VK_NULL_HANDLE, 0); }
+    void GenerateFault() { vksc::ResetCommandPool(GetDevice(), VK_NULL_HANDLE, 0); }
 };
 
 TEST_F(FaultDataTest, MaxQueryFaultCount) {
