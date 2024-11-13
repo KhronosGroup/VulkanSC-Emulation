@@ -15,21 +15,21 @@ CommandPool::CommandPool(VkCommandPool command_pool, Device& device, VkDeviceSiz
     : handle_(command_pool),
       device_(device),
       logger_(device.Log(), VK_OBJECT_TYPE_COMMAND_POOL, command_pool),
-      reserved_size_(reserved_size),
+      reserved_memory_size_(reserved_size),
       max_command_buffer_count_(reserved_count) {
     command_buffers_.reserve(reserved_count);
 }
 
 bool CommandPool::operator==(const VkCommandPool& rhs) const { return this->handle_ == rhs; }
 
-VkDeviceSize CommandPool::GetReservedSize() const {
+VkDeviceSize CommandPool::GetReservedMemorySize() const {
     const std::lock_guard<std::recursive_mutex> lock{mutex_};
-    return reserved_size_;
+    return reserved_memory_size_;
 }
 
-VkDeviceSize CommandPool::GetAllocatedSize() const {
+VkDeviceSize CommandPool::GetAllocatedMemorySize() const {
     const std::lock_guard<std::recursive_mutex> lock{mutex_};
-    return allocated_size_;
+    return allocated_memory_size_;
 }
 
 uint32_t CommandPool::GetReservedCount() const {
@@ -43,8 +43,8 @@ uint32_t CommandPool::GetAllocatedCount() const {
 }
 
 VkResult CommandPool::AllocateMemory(VkDeviceSize size) {
-    if (const std::lock_guard<std::recursive_mutex> lock{mutex_}; allocated_size_ + size <= reserved_size_) {
-        allocated_size_ += size;
+    if (const std::lock_guard<std::recursive_mutex> lock{mutex_}; allocated_memory_size_ + size <= reserved_memory_size_) {
+        allocated_memory_size_ += size;
         return VK_SUCCESS;
     } else {
         Log().Error("VKSC-EMU-CommandPool-OutOfReservedMemory", "Ran out of the reserved memory for the command pool (%p)",
@@ -58,8 +58,8 @@ icd::ObjectReservation<CommandPool, VkCommandBuffer> CommandPool::ReserveCommand
 }
 
 VkResult CommandPool::FreeMemory(VkDeviceSize size) {
-    if (const std::lock_guard<std::recursive_mutex> lock{mutex_}; size <= allocated_size_) {
-        allocated_size_ -= size;
+    if (const std::lock_guard<std::recursive_mutex> lock{mutex_}; size <= allocated_memory_size_) {
+        allocated_memory_size_ -= size;
         return VK_SUCCESS;
     } else {
         GetDevice().ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_INVALID_API_USAGE);

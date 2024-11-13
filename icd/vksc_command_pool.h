@@ -28,8 +28,8 @@ class CommandPool {
 
     Device& GetDevice() const { return device_; }
 
-    VkDeviceSize GetReservedSize() const;
-    VkDeviceSize GetAllocatedSize() const;
+    VkDeviceSize GetReservedMemorySize() const;
+    VkDeviceSize GetAllocatedMemorySize() const;
     uint32_t GetReservedCount() const;
     uint32_t GetAllocatedCount() const;
 
@@ -53,8 +53,8 @@ class CommandPool {
     Device& device_;
     icd::Logger logger_;
 
-    VkDeviceSize reserved_size_;
-    VkDeviceSize allocated_size_{0};
+    VkDeviceSize reserved_memory_size_;
+    VkDeviceSize allocated_memory_size_{0};
 
     uint32_t max_command_buffer_count_;
     std::unordered_set<VkCommandBuffer> command_buffers_{};

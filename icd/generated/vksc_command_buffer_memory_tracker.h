@@ -28,7 +28,9 @@ class CommandBufferMemoryTracker : public vk::CommandBuffer {
     CommandBufferMemoryTracker(VkCommandBuffer command_buffer, CommandPool& command_pool);
 
     icd::Logger& Log() { return logger_; }
-    VkDeviceSize GetAllocatedSize() const { return allocated_size_; }
+    VkDeviceSize GetAllocatedMemorySize() const { return allocated_memory_size_; }
+
+    void FreeMemory();
 
     VkResult BeginCommandBuffer(const VkCommandBufferBeginInfo* pBeginInfo);
     VkResult ResetCommandBuffer(VkCommandBufferResetFlags flags);
@@ -162,10 +164,9 @@ class CommandBufferMemoryTracker : public vk::CommandBuffer {
     CommandPool& command_pool_;
 
   private:
-    void Reset();
-    VkResult Allocate(VkDeviceSize size);
+    VkResult AllocateMemory(VkDeviceSize size);
 
-    VkDeviceSize allocated_size_;
+    VkDeviceSize allocated_memory_size_;
     VkResult status_;
 
     icd::Logger logger_;

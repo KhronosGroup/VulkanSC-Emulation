@@ -170,6 +170,7 @@ void Device::FreeCommandBuffers(VkCommandPool commandPool, uint32_t commandBuffe
             cmd_buffers[i] = nullptr;
         } else {
             CommandBuffer* cmd_buffer = CommandBuffer::FromHandle(pCommandBuffers[i]);
+            cmd_buffer->FreeMemory();
             cmd_buffers[i] = cmd_buffer->VkHandle();
             cmd_buffer->Free();
         }
@@ -399,12 +400,12 @@ void Device::GetCommandPoolMemoryConsumption(VkCommandPool commandPool, VkComman
         return;
     }
 
-    pConsumption->commandPoolReservedSize = command_pool->second.get()->GetReservedSize();
-    pConsumption->commandPoolAllocated = command_pool->second.get()->GetAllocatedSize();
+    pConsumption->commandPoolReservedSize = command_pool->second.get()->GetReservedMemorySize();
+    pConsumption->commandPoolAllocated = command_pool->second.get()->GetAllocatedMemorySize();
 
     if (commandBuffer) {
         CommandBuffer* command_buffer = CommandBuffer::FromHandle(commandBuffer);
-        pConsumption->commandBufferAllocated = command_buffer->GetAllocatedSize();
+        pConsumption->commandBufferAllocated = command_buffer->GetAllocatedMemorySize();
     } else {
         pConsumption->commandBufferAllocated = 0;
     }
