@@ -170,7 +170,6 @@ void Device::FreeCommandBuffers(VkCommandPool commandPool, uint32_t commandBuffe
             cmd_buffers[i] = nullptr;
         } else {
             CommandBuffer* cmd_buffer = CommandBuffer::FromHandle(pCommandBuffers[i]);
-            cmd_buffer->FreeMemory();
             cmd_buffers[i] = cmd_buffer->VkHandle();
             cmd_buffer->Free();
         }

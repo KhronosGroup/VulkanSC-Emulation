@@ -76,11 +76,10 @@ class CommandBufferMemoryTrackerGenerator(BaseGenerator):
                 using NEXT = vk::CommandBuffer;
 
                 CommandBufferMemoryTracker(VkCommandBuffer command_buffer, CommandPool& command_pool);
+                ~CommandBufferMemoryTracker();
 
                 icd::Logger& Log() { return logger_; }
                 VkDeviceSize GetAllocatedMemorySize() const { return allocated_memory_size_; }
-
-                void FreeMemory();
 
                 VkResult BeginCommandBuffer(const VkCommandBufferBeginInfo* pBeginInfo);
                 VkResult ResetCommandBuffer(VkCommandBufferResetFlags flags);\n\n''')
@@ -104,6 +103,7 @@ class CommandBufferMemoryTrackerGenerator(BaseGenerator):
                 CommandPool& command_pool_;
 
               private:
+                void FreeMemory();
                 VkResult AllocateMemory(VkDeviceSize size);
 
                 VkDeviceSize allocated_memory_size_;
@@ -131,6 +131,10 @@ class CommandBufferMemoryTrackerGenerator(BaseGenerator):
                   allocated_memory_size_(0),
                   status_(VK_SUCCESS),
                   logger_(command_pool_.GetDevice().Log(), VK_OBJECT_TYPE_COMMAND_BUFFER, command_buffer) {}
+
+            CommandBufferMemoryTracker::~CommandBufferMemoryTracker() {
+                FreeMemory();
+            }
 
             VkResult CommandBufferMemoryTracker::BeginCommandBuffer(const VkCommandBufferBeginInfo* pBeginInfo) {
                 FreeMemory();

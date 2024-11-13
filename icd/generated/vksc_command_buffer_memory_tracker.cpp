@@ -21,6 +21,8 @@ CommandBufferMemoryTracker::CommandBufferMemoryTracker(VkCommandBuffer command_b
       status_(VK_SUCCESS),
       logger_(command_pool_.GetDevice().Log(), VK_OBJECT_TYPE_COMMAND_BUFFER, command_buffer) {}
 
+CommandBufferMemoryTracker::~CommandBufferMemoryTracker() { FreeMemory(); }
+
 VkResult CommandBufferMemoryTracker::BeginCommandBuffer(const VkCommandBufferBeginInfo* pBeginInfo) {
     FreeMemory();
     if (GetStatus() != VK_SUCCESS) {
