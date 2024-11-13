@@ -36,6 +36,7 @@ VkShaderModule PipelineStage::CreateShaderModule(const Pipeline& pipeline, const
     create_info.pCode = spirv.data();
     auto result = GetDevice().CreateShaderModule(&create_info, nullptr, &shader_module);
     if (result < VK_SUCCESS) {
+        GetDevice().ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_IMPLEMENTATION);
         GetDevice().Log().Error("VKSC-EMU-Shader-ShaderModuleCreateFailed",
                                 "Failed to create VkShaderModule for pipeline %s stage index %u (result: %d)",
                                 pipeline.ID().toString().c_str(), GetIndex(), result);

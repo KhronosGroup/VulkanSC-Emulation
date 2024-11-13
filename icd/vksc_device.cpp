@@ -122,6 +122,7 @@ VkResult Device::AllocateCommandBuffers(const VkCommandBufferAllocateInfo* pAllo
 
     auto command_pool = command_pools_.find(pAllocateInfo->commandPool);
     if (command_pool == command_pools_.end()) {
+        ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_INVALID_API_USAGE);
         Log().Error("VKSC-EMU-AllocateCommandBuffers-UnknownCommandPool",
                     "vkAllocateCommandBuffer called with a VkCommandBufferAllocateInfo holding an unknown commandPool pointer (%p)",
                     pAllocateInfo->commandPool);
@@ -130,6 +131,7 @@ VkResult Device::AllocateCommandBuffers(const VkCommandBufferAllocateInfo* pAllo
 
     auto reservation = command_pool->second->ReserveCommandBuffers(pAllocateInfo->commandBufferCount, pCommandBuffers);
     if (!reservation) {
+        ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_INVALID_API_USAGE);
         Log().Error("VKSC-EMU-AllocateCommandBuffers-OutOfCommandBuffers",
                     "Ran out of command buffers reserved for the command pool (%p)", VkHandle());
         return VK_ERROR_OUT_OF_HOST_MEMORY;
@@ -154,9 +156,10 @@ void Device::FreeCommandBuffers(VkCommandPool commandPool, uint32_t commandBuffe
 
     auto command_pool = command_pools_.find(commandPool);
     if (command_pool == command_pools_.end()) {
-        ReportFault(VK_FAULT_LEVEL_WARNING, VK_FAULT_TYPE_INVALID_API_USAGE);
+        ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_INVALID_API_USAGE);
         Log().Error("VKSC-EMU-FreeCommandBuffers-UnknownCommandPool",
                     "vkFreeCommandBuffers called with an unknown commandPool pointer (%p)", commandPool);
+        return;
     }
 
     if (command_pool->second->FreeCommandBuffers(commandBufferCount, pCommandBuffers) != VK_SUCCESS) {
@@ -185,6 +188,7 @@ VkResult Device::CreatePipelineCache(const VkPipelineCacheCreateInfo* pCreateInf
         *pPipelineCache = it->second.VkSCHandle();
         return VK_SUCCESS;
     } else {
+        ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_INVALID_API_USAGE);
         Log().Error("VKSC-EMU-CreatePipelineCache-UnknownData",
                     "vkCreatePipelineCache called with an unknown pipeline cache data pointer (%p)", pCreateInfo->pInitialData);
         return VK_ERROR_INVALID_PIPELINE_CACHE_DATA;
@@ -198,6 +202,7 @@ void Device::DestroyPipelineCache(VkPipelineCache pipelineCache, const VkAllocat
 const icd::Pipeline* Device::GetPipelineFromCache(const icd::PipelineCache& pipeline_cache,
                                                   const VkPipelineOfflineCreateInfo* offline_info, VkResult& out_result) {
     if (offline_info == nullptr) {
+        ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_INVALID_API_USAGE);
         Log().Error("VKSC-EMU-CreatePipeline-MissingOfflineInfo",
                     "Pipeline creation called with missing VkPipelineOfflineCreateInfo");
         out_result = VK_ERROR_NO_PIPELINE_MATCH;
@@ -206,6 +211,7 @@ const icd::Pipeline* Device::GetPipelineFromCache(const icd::PipelineCache& pipe
 
     auto pipeline = pipeline_cache.GetPipeline(utils::UUID(offline_info->pipelineIdentifier));
     if (pipeline == nullptr) {
+        ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_INVALID_API_USAGE);
         Log().Error("VKSC-EMU-CreatePipeline-NoMatchingPipeline", "Pipeline creation did not find matching pipeline (%s)",
                     utils::UUID(offline_info->pipelineIdentifier).toString().c_str());
         out_result = VK_ERROR_NO_PIPELINE_MATCH;
@@ -213,6 +219,7 @@ const icd::Pipeline* Device::GetPipelineFromCache(const icd::PipelineCache& pipe
     }
 
     if (pipeline->GetMemorySize() > offline_info->poolEntrySize) {
+        ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_INVALID_API_USAGE);
         Log().Error("VKSC-EMU-CreatePipeline-InvalidPoolEntrySize",
                     "Attempted to create pipeline (%s) with memory size %" PRIu64 " but poolEntrySize (%" PRIu64 ") is too small",
                     pipeline->ID().toString().c_str(), pipeline->GetMemorySize(), offline_info->poolEntrySize);
@@ -243,6 +250,7 @@ VkResult Device::CreateGraphicsPipelines(VkPipelineCache pipelineCache, uint32_t
 
         auto pipeline_pool_entry_it = used_pipeline_pool_entries_map_.find(offline_info->poolEntrySize);
         if (pipeline_pool_entry_it == used_pipeline_pool_entries_map_.end()) {
+            ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_INVALID_API_USAGE);
             Log().Error("VKSC-EMU-CreatePipeline-ExhaustedPoolEntrySize",
                         "Attempted to create pipeline (%s) with poolEntrySize (%" PRIu64
                         ") but no such pool entry size was reserved at device creation time",
@@ -251,6 +259,7 @@ VkResult Device::CreateGraphicsPipelines(VkPipelineCache pipelineCache, uint32_t
             continue;
         }
         if (pipeline_pool_entry_it->second.fetch_add(1) >= reserved_pipeline_pool_entries_map_[offline_info->poolEntrySize]) {
+            ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_INVALID_API_USAGE);
             Log().Error("VKSC-EMU-CreatePipeline-ExhaustedPoolEntrySize",
                         "Attempted to create pipeline (%s) but pool entries with poolEntrySize (%" PRIu64 ") are exhausted",
                         pipeline->ID().toString().c_str(), offline_info->poolEntrySize);
@@ -285,7 +294,8 @@ VkResult Device::CreateGraphicsPipelines(VkPipelineCache pipelineCache, uint32_t
 
         VkResult vk_result = NEXT::CreateGraphicsPipelines(VK_NULL_HANDLE, 1, &vk_create_info, pAllocator, &pPipelines[i]);
         if (vk_result != VK_SUCCESS) {
-            Log().Error("VKSC-EMU-CreatePipeline-ExhaustedPoolEntrySize",
+            ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_IMPLEMENTATION);
+            Log().Error("VKSC-EMU-CreatePipeline-CreateGraphicsPipelinesFailed",
                         "Failed to create underlying Vulkan graphics pipeline for pipeline (%s)",
                         pipeline->ID().toString().c_str());
             result = vk_result;
@@ -321,6 +331,7 @@ VkResult Device::CreateComputePipelines(VkPipelineCache pipelineCache, uint32_t 
 
         auto pipeline_pool_entry_it = used_pipeline_pool_entries_map_.find(offline_info->poolEntrySize);
         if (pipeline_pool_entry_it == used_pipeline_pool_entries_map_.end()) {
+            ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_INVALID_API_USAGE);
             Log().Error("VKSC-EMU-CreatePipeline-ExhaustedPoolEntrySize",
                         "Attempted to create pipeline (%s) with poolEntrySize (%" PRIu64
                         ") but no such pool entry size was reserved",
@@ -329,6 +340,7 @@ VkResult Device::CreateComputePipelines(VkPipelineCache pipelineCache, uint32_t 
             continue;
         }
         if (pipeline_pool_entry_it->second.fetch_add(1) >= reserved_pipeline_pool_entries_map_[offline_info->poolEntrySize]) {
+            ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_INVALID_API_USAGE);
             Log().Error("VKSC-EMU-CreatePipeline-ExhaustedPoolEntrySize",
                         "Attempted to create pipeline (%s) but pool entries with poolEntrySize (%" PRIu64 ") are exhausted",
                         pipeline->ID().toString().c_str(), offline_info->poolEntrySize);
@@ -356,7 +368,8 @@ VkResult Device::CreateComputePipelines(VkPipelineCache pipelineCache, uint32_t 
 
         VkResult vk_result = NEXT::CreateComputePipelines(VK_NULL_HANDLE, 1, &vk_create_info, pAllocator, &pPipelines[i]);
         if (vk_result != VK_SUCCESS) {
-            Log().Error("VKSC-EMU-CreatePipeline-ExhaustedPoolEntrySize",
+            ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_IMPLEMENTATION);
+            Log().Error("VKSC-EMU-CreatePipeline-CreateComputePipelinesFailed",
                         "Failed to create underlying Vulkan compute pipeline for pipeline (%s)", pipeline->ID().toString().c_str());
             result = vk_result;
             pipeline_pool_entry_it->second.fetch_sub(1);
@@ -380,6 +393,7 @@ void Device::DestroyPipeline(VkPipeline pipeline, const VkAllocationCallbacks* p
             used_pipeline_pool_entries_map_[it->second].fetch_sub(1);
             pipeline_pool_size_map_.erase(it);
         } else {
+            ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_INVALID_API_USAGE);
             Log().Error("VKSC-EMU-DestroyPipeline-MissingPipelinePoolEntrySize",
                         "Missing pipeline pool entry size tracking information for pipeline (%p)", pipeline);
         }
@@ -393,7 +407,7 @@ void Device::GetCommandPoolMemoryConsumption(VkCommandPool commandPool, VkComman
 
     auto command_pool = command_pools_.find(commandPool);
     if (command_pool == command_pools_.end()) {
-        ReportFault(VK_FAULT_LEVEL_WARNING, VK_FAULT_TYPE_INVALID_API_USAGE);
+        ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_INVALID_API_USAGE);
         Log().Error("VKSC-EMU-GetCommandPoolMemoryConsumption-UnknownCommandPool",
                     "vkGetCommandPoolMemoryConsumption called with an unknown commandPool pointer (%p)", commandPool);
         return;
@@ -415,7 +429,7 @@ VkResult Device::ResetCommandPool(VkCommandPool commandPool, VkCommandPoolResetF
 
     auto command_pool = command_pools_.find(commandPool);
     if (command_pool == command_pools_.end()) {
-        ReportFault(VK_FAULT_LEVEL_WARNING, VK_FAULT_TYPE_INVALID_API_USAGE);
+        ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_INVALID_API_USAGE);
         Log().Error("VKSC-EMU-ResetCommandPool-UnknownCommandPool",
                     "vkResetCommandPool called with an unknown commandPool pointer (%p)", commandPool);
         return VK_ERROR_OUT_OF_DEVICE_MEMORY;
@@ -450,6 +464,7 @@ VkResult Device::CreateCommandPool(const VkCommandPoolCreateInfo* pCreateInfo, c
 
         auto memory_reservation = vku::FindStructInPNextChain<VkCommandPoolMemoryReservationCreateInfo>(pCreateInfo->pNext);
         if (memory_reservation == nullptr) {
+            ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_INVALID_API_USAGE);
             Log().Error("VKSC-EMU-CreateCommandPool-MissingMemoryReservationInfo",
                         "Command pool creation called with missing VkCommandPoolMemoryReservationCreateInfo");
             return VK_ERROR_OUT_OF_HOST_MEMORY;
