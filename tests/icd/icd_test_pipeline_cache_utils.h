@@ -89,7 +89,10 @@ class VkMockShaderModules {
     std::unordered_set<VkShaderModule> mock_objects_;
 
     // Indexed by cache index, keyed by pipeline UUID, contains array of mock shader module objects
-    std::vector<std::unordered_map<utils::UUID, std::vector<std::unique_ptr<VkMockObject<VkShaderModule>>>>>
+    // NOTE: We only use a shared_ptr here instead of unique_ptr because the MSVC STL does not do the
+    // reasonable thing for a C++ spec typo that does not require unordered_map's move constructor
+    // to be noexcept (see https://github.com/microsoft/STL/issues/5084)
+    std::vector<std::unordered_map<utils::UUID, std::vector<std::shared_ptr<VkMockObject<VkShaderModule>>>>>
         per_pipeline_mock_objects_;
 };
 

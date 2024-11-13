@@ -40,7 +40,7 @@ VkMockShaderModules::VkMockShaderModules(const PipelineCacheInfo &info)
             return VK_ERROR_INITIALIZATION_FAILED;
         }
 
-        auto mock_object = std::make_unique<VkMockObject<VkShaderModule>>();
+        auto mock_object = std::make_shared<VkMockObject<VkShaderModule>>();
         mock_objects_.insert(mock_object->handle());
 
         *pShaderModule = mock_object->handle();
