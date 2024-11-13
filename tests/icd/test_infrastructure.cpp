@@ -92,6 +92,47 @@ TEST_F(InfrastructureTest, EnvironmentVariables) {
     EXPECT_TRUE(vkmock_create_instance_called);
 }
 
+TEST_F(InfrastructureTest, CreateInstanceLayerNotPresent) {
+    TEST_DESCRIPTION("Test that no layers can be used at the ICD level");
+
+    const char* placeholder_layer_name = "VK_LAYER_placeholder";
+
+    auto create_info = GetDefaultInstanceCreateInfo();
+    create_info.enabledLayerCount = 1;
+    create_info.ppEnabledLayerNames = &placeholder_layer_name;
+
+    VkInstance instance = VK_NULL_HANDLE;
+    EXPECT_EQ(vksc::CreateInstance(&create_info, nullptr, &instance), VK_ERROR_LAYER_NOT_PRESENT);
+}
+
+TEST_F(InfrastructureTest, CreateInstanceExtensionNotPresent) {
+    TEST_DESCRIPTION("Test that create instance fails with unsupported extensions");
+
+    const char* placeholder_ext_name = "VK_EXT_unsupported_extension";
+
+    auto create_info = GetDefaultInstanceCreateInfo();
+    create_info.enabledExtensionCount = 1;
+    create_info.ppEnabledExtensionNames = &placeholder_ext_name;
+
+    VkInstance instance = VK_NULL_HANDLE;
+    EXPECT_EQ(vksc::CreateInstance(&create_info, nullptr, &instance), VK_ERROR_EXTENSION_NOT_PRESENT);
+}
+
+TEST_F(InfrastructureTest, CreateDeviceExtensionNotPresent) {
+    TEST_DESCRIPTION("Test that create instance fails with unsupported extensions");
+
+    InitInstance();
+
+    const char* placeholder_ext_name = "VK_EXT_unsupported_extension";
+
+    auto create_info = GetDefaultDeviceCreateInfo();
+    create_info.enabledExtensionCount = 1;
+    create_info.ppEnabledExtensionNames = &placeholder_ext_name;
+
+    VkDevice device = VK_NULL_HANDLE;
+    EXPECT_EQ(vksc::CreateDevice(GetPhysicalDevice(), &create_info, nullptr, &device), VK_ERROR_EXTENSION_NOT_PRESENT);
+}
+
 TEST_F(InfrastructureTest, DeviceFiltering) {
     TEST_DESCRIPTION("Test filtering of devices and device groups");
 
@@ -349,7 +390,7 @@ TEST_F(InfrastructureTest, DebugUtilsMessenger) {
     EXPECT_EQ(callback_data.call_count, 7);
 }
 
-TEST_F(InfrastructureTest, DeviceCreateStructChain) {
+TEST_F(InfrastructureTest, CreateDeviceStructChain) {
     TEST_DESCRIPTION("Test device create struct chain handling dealing with loader private structs");
 
     auto obj_res_info = vku::InitStruct<VkDeviceObjectReservationCreateInfo>();

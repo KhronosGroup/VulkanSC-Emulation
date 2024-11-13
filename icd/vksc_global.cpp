@@ -230,6 +230,11 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateInstance(const VkInstanceCreateInfo* pCre
         vk_create_info.pApplicationInfo = &vk_app_info;
     }
 
+    // We don't support any layers and we do not want to pass down any layer enablement to the Vulkan stack anyway
+    if (pCreateInfo->enabledLayerCount != 0) {
+        return VK_ERROR_LAYER_NOT_PRESENT;
+    }
+
     // We need to filter emulated extensions
     auto vk_enabled_extension_names = stack_frame.Alloc<const char*>(pCreateInfo->enabledExtensionCount);
     vk_create_info.enabledExtensionCount = 0;
@@ -254,10 +259,6 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateInstance(const VkInstanceCreateInfo* pCre
             return VK_ERROR_EXTENSION_NOT_PRESENT;
         }
     }
-
-    // We don't want to enable the underlying Vulkan layers
-    vk_create_info.enabledLayerCount = 0;
-    vk_create_info.ppEnabledLayerNames = nullptr;
 
     VkInstance instance = VK_NULL_HANDLE;
     VkResult result = vksc::ICD.VkDispatch().CreateInstance(&vk_create_info, pAllocator, &instance);
