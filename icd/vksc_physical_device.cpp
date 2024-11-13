@@ -121,6 +121,14 @@ VkResult PhysicalDevice::CreateDevice(const VkDeviceCreateInfo* pCreateInfo, con
             }
         }
     }
+    auto features2 = vku::FindStructInPNextChain<VkPhysicalDeviceFeatures2>(pCreateInfo->pNext);
+    if (features2 != nullptr) {
+        for (const auto& offset : UnsupportedFeatureOffsets()) {
+            if (*reinterpret_cast<const VkBool32*>(reinterpret_cast<const char*>(&features2->features) + offset) == VK_TRUE) {
+                return VK_ERROR_FEATURE_NOT_PRESENT;
+            }
+        }
+    }
     // Construct the Vulkan version of the create info with appropriate filtering and handle unwrapping
     icd::ShadowStack::Frame stack_frame{};
     VkDeviceCreateInfo vk_create_info = *pCreateInfo;
@@ -155,9 +163,13 @@ VkResult PhysicalDevice::CreateDevice(const VkDeviceCreateInfo* pCreateInfo, con
     }
 
     // Filter all Vulkan SC structures
-    vk_create_info.pNext = vk_mod_pnext_chain.RemoveAllStructsFromChain<VkDeviceObjectReservationCreateInfo>()
-                               .RemoveAllStructsFromChain<VkPerformanceQueryReservationInfoKHR>()
+    vk_create_info.pNext = vk_mod_pnext_chain.RemoveAllStructsFromChain<VkPerformanceQueryReservationInfoKHR>()
+                               .RemoveAllStructsFromChain<VkFaultCallbackInfo>()
+                               .RemoveAllStructsFromChain<VkDeviceObjectReservationCreateInfo>()
                                .RemoveAllStructsFromChain<VkPhysicalDeviceVulkanSC10Features>()
+#ifdef VK_USE_PLATFORM_SCI
+                               .RemoveAllStructsFromChain<VkDeviceSemaphoreSciSyncPoolReservationCreateInfoNV>()
+#endif
                                .GetModifiedPNext();
 
     // Create device
