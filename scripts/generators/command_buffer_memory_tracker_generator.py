@@ -74,6 +74,7 @@ class CommandBufferMemoryTrackerGenerator(BaseGenerator):
             class CommandBufferMemoryTracker : public vk::CommandBuffer {
               public:
                 using NEXT = vk::CommandBuffer;
+                friend CommandPool;
 
                 CommandBufferMemoryTracker(VkCommandBuffer command_buffer, CommandPool& command_pool);
                 ~CommandBufferMemoryTracker();

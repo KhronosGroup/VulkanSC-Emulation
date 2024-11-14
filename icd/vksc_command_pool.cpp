@@ -94,7 +94,8 @@ VkResult CommandPool::ResetCommandPool(VkCommandPoolResetFlags) {
     VkResult result = VK_SUCCESS;
 
     for (auto& command_buffer : command_buffers_) {
-        if (vksc::CommandBuffer::FromHandle(command_buffer)->ResetCommandBuffer(0) != VK_SUCCESS) {
+        vksc::CommandBuffer::FromHandle(command_buffer)->FreeMemory();
+        if (vksc::CommandBuffer::FromHandle(command_buffer)->GetStatus() != VK_SUCCESS) {
             result = VK_ERROR_OUT_OF_DEVICE_MEMORY;
         }
     }

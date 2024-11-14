@@ -202,7 +202,6 @@ void Device::DestroyPipelineCache(VkPipelineCache pipelineCache, const VkAllocat
 const icd::Pipeline* Device::GetPipelineFromCache(const icd::PipelineCache& pipeline_cache,
                                                   const VkPipelineOfflineCreateInfo* offline_info, VkResult& out_result) {
     if (offline_info == nullptr) {
-        ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_INVALID_API_USAGE);
         Log().Error("VKSC-EMU-CreatePipeline-MissingOfflineInfo",
                     "Pipeline creation called with missing VkPipelineOfflineCreateInfo");
         out_result = VK_ERROR_NO_PIPELINE_MATCH;
