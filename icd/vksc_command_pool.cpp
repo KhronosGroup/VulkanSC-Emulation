@@ -89,12 +89,12 @@ VkResult CommandPool::FreeCommandBuffers(uint32_t count, const VkCommandBuffer* 
     return VK_SUCCESS;
 }
 
-VkResult CommandPool::ResetCommandPool(VkCommandPoolResetFlags flags) {
+VkResult CommandPool::ResetCommandPool(VkCommandPoolResetFlags) {
     const std::lock_guard<std::recursive_mutex> lock{mutex_};
     VkResult result = VK_SUCCESS;
 
     for (auto& command_buffer : command_buffers_) {
-        if (vksc::CommandBuffer::FromHandle(command_buffer)->ResetCommandBuffer(flags) != VK_SUCCESS) {
+        if (vksc::CommandBuffer::FromHandle(command_buffer)->ResetCommandBuffer(0) != VK_SUCCESS) {
             result = VK_ERROR_OUT_OF_DEVICE_MEMORY;
         }
     }
