@@ -211,7 +211,6 @@ const icd::Pipeline* Device::GetPipelineFromCache(const icd::PipelineCache& pipe
 
     auto pipeline = pipeline_cache.GetPipeline(utils::UUID(offline_info->pipelineIdentifier));
     if (pipeline == nullptr) {
-        ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_INVALID_API_USAGE);
         Log().Error("VKSC-EMU-CreatePipeline-NoMatchingPipeline", "Pipeline creation did not find matching pipeline (%s)",
                     utils::UUID(offline_info->pipelineIdentifier).toString().c_str());
         out_result = VK_ERROR_NO_PIPELINE_MATCH;
