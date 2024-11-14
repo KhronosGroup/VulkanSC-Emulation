@@ -442,7 +442,7 @@ VkInstance IcdTest::InitInstance(VkInstanceCreateInfo *create_info) {
 void IcdTest::EnableDeviceExtension(const char *extension_name) { device_extensions_.push_back(extension_name); }
 
 const VkDeviceCreateInfo IcdTest::GetDefaultDeviceCreateInfo(void *pnext_chain) const {
-    static auto result = [] {
+    auto result = [] {
         static auto create_info = vku::InitStruct<VkDeviceCreateInfo>();
         create_info.queueCreateInfoCount = 1;
         create_info.pQueueCreateInfos = [] {
@@ -457,10 +457,24 @@ const VkDeviceCreateInfo IcdTest::GetDefaultDeviceCreateInfo(void *pnext_chain) 
 
     if (pnext_chain) {
         result.pNext = pnext_chain;
-        auto last_struct = vku::FindLastStructInPNextChain(pnext_chain);
-        if (last_struct != nullptr) {
-            last_struct->pNext =
-                const_cast<VkBaseOutStructure *>(reinterpret_cast<const VkBaseOutStructure *>(&object_reservation_));
+
+        // Check if we already chained the default object reservation info to this pNext chain
+        auto obj_res_info = vku::FindStructInPNextChain<VkDeviceObjectReservationCreateInfo>(result.pNext);
+        bool already_on_chain = false;
+        while (obj_res_info != nullptr) {
+            if (obj_res_info == &object_reservation_) {
+                already_on_chain = true;
+                break;
+            }
+            obj_res_info = vku::FindStructInPNextChain<VkDeviceObjectReservationCreateInfo>(obj_res_info->pNext);
+        }
+
+        if (!already_on_chain) {
+            auto last_struct = vku::FindLastStructInPNextChain(pnext_chain);
+            if (last_struct != nullptr) {
+                last_struct->pNext =
+                    const_cast<VkBaseOutStructure *>(reinterpret_cast<const VkBaseOutStructure *>(&object_reservation_));
+            }
         }
     } else {
         result.pNext = &object_reservation_;

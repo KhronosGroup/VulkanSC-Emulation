@@ -42,17 +42,19 @@ TEST_F(DeviceTest, CreateInfo) {
     auto physical_device = GetPhysicalDevice();
     VkDevice device;
 
+    VkMockObject<VkDevice> mock_device{};
+
     // Test pNext chain filtering
-    vkmock::CreateDevice = [](auto, const auto ci, auto, auto) {
-        return vku::FindStructInPNextChain<VkPerformanceQueryReservationInfoKHR>(ci->pNext) == nullptr &&
+    vkmock::CreateDevice = [&](auto, const auto pCreateInfo, auto, auto pDevice) {
+        EXPECT_EQ(vku::FindStructInPNextChain<VkPerformanceQueryReservationInfoKHR>(pCreateInfo->pNext), nullptr);
 #ifdef VK_USE_PLATFORM_SCI
-                       vku::FindStructInPNextChain<VkDeviceSemaphoreSciSyncPoolReservationCreateInfoNV>(ci->pNext) == nullptr &&
+        EXPECT_EQ(vku::FindStructInPNextChain<VkDeviceSemaphoreSciSyncPoolReservationCreateInfoNV>(pCreateInfo->pNext), nullptr);
 #endif
-                       vku::FindStructInPNextChain<VkFaultCallbackInfo>(ci->pNext) == nullptr &&
-                       vku::FindStructInPNextChain<VkDeviceObjectReservationCreateInfo>(ci->pNext) == nullptr &&
-                       vku::FindStructInPNextChain<VkPhysicalDeviceVulkanSC10Features>(ci->pNext) == nullptr
-                   ? VK_SUCCESS
-                   : VK_ERROR_UNKNOWN;
+        EXPECT_EQ(vku::FindStructInPNextChain<VkFaultCallbackInfo>(pCreateInfo->pNext), nullptr);
+        EXPECT_EQ(vku::FindStructInPNextChain<VkDeviceObjectReservationCreateInfo>(pCreateInfo->pNext), nullptr);
+        EXPECT_EQ(vku::FindStructInPNextChain<VkPhysicalDeviceVulkanSC10Features>(pCreateInfo->pNext), nullptr);
+        *pDevice = mock_device;
+        return VK_SUCCESS;
     };
 
 #ifdef VK_USE_PLATFORM_SCI
@@ -66,9 +68,21 @@ TEST_F(DeviceTest, CreateInfo) {
     auto device_reservation_info = vku::InitStruct<VkDeviceObjectReservationCreateInfo>(&fallback_info);
     auto phys_dev_sc_features = vku::InitStruct<VkPhysicalDeviceVulkanSC10Features>(&device_reservation_info);
     auto create_info = vku::InitStruct<VkDeviceCreateInfo>(&phys_dev_sc_features);
+
+    const float queue_priority = 1.f;
+    auto queue_info = vku::InitStruct<VkDeviceQueueCreateInfo>();
+    queue_info.queueCount = 1;
+    queue_info.pQueuePriorities = &queue_priority;
+
+    create_info.queueCreateInfoCount = 1;
+    create_info.pQueueCreateInfos = &queue_info;
+
     EXPECT_EQ(vksc::CreateDevice(physical_device, &create_info, nullptr, &device), VK_SUCCESS);
 
-    vkmock::CreateDevice = [=](auto, auto, auto, auto) { return VK_SUCCESS; };
+    vkmock::CreateDevice = [&](auto, auto, auto, auto pDevice) {
+        *pDevice = mock_device;
+        return VK_SUCCESS;
+    };
 
     VkPhysicalDeviceFeatures features{};
     create_info.pEnabledFeatures = &features;
@@ -80,7 +94,7 @@ TEST_F(DeviceTest, CreateInfo) {
     }
 
     auto features2 = vku::InitStruct<VkPhysicalDeviceFeatures2>(&phys_dev_sc_features);
-    create_info = vku::InitStruct<VkDeviceCreateInfo>(&features2);
+    create_info.pNext = &features2;
     create_info.pEnabledFeatures = nullptr;
 
     for (auto& feature : get_unsupported_features(features2.features)) {
