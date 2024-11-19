@@ -80,6 +80,8 @@ target_sources(icd_tests PRIVATE
     test_memory_consumption.cpp
     test_pipeline_cache.cpp
     test_device.cpp
+    test_output_struct_sanitizer.cpp
+    test_handle_wrapping.cpp
 )
 
 add_dependencies(icd_tests icd)
