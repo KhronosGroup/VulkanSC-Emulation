@@ -206,3 +206,21 @@ TEST_F(DeviceTest, GetPhysicalDeviceProperties) {
     EXPECT_FALSE(std::equal(mock_uuid.begin(), mock_uuid.end(), dev_11_props.driverUUID));
     EXPECT_NE(dev_12_props.driverID, mock_driver_id);
 }
+
+TEST_F(DeviceTest, CommandPoolReservationInfo) {
+    TEST_DESCRIPTION("Test if physical device features are properly sanitized");
+
+    InitInstance();
+    auto physical_device = GetPhysicalDevice();
+    auto device = InitDevice();
+
+    vkmock::CreateCommandPool = [](auto, const VkCommandPoolCreateInfo* pCreateInfo, auto, VkCommandPool* pCommandPool) {
+        EXPECT_EQ(vku::FindStructInPNextChain<VkCommandPoolMemoryReservationCreateInfo>(pCreateInfo), nullptr);
+
+        static VkMockObject<VkCommandPool> mock_command_pool{};
+        *pCommandPool = mock_command_pool;
+        return VK_SUCCESS;
+    };
+
+    auto command_pool = CreateCommandPool(1'000);
+}
