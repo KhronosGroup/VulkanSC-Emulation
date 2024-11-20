@@ -84,10 +84,12 @@ elseif(MSVC)
     # Warn about potentially uninitialized variables
     add_compile_options("/w34701")
     add_compile_options("/w34703")
-    # Warn about different indirection types.
+    # Warn about different indirection types
     add_compile_options("/w34057")
-    # Warn about signed/unsigned mismatch.
+    # Warn about signed/unsigned mismatch
     add_compile_options("/w34245")
+    # Warn about unused variables
+    add_compile_options("/w34189")
     # Do not warn about switch statements with no case labels
     add_compile_options("/wd4065")
     # Stricter ISO conformance
