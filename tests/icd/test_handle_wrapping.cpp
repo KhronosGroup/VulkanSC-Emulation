@@ -30,11 +30,7 @@ TEST_F(HandleWrappingTest, CmdExecuteCommands) {
     vkmock::CmdUpdateBuffer = [&](auto, auto, auto, auto, auto) {};
 
     InitInstance();
-    auto physical_device = GetPhysicalDevice();
     auto device = InitDevice();
-    auto device_object_reservation_info = vku::InitStruct<VkDeviceObjectReservationCreateInfo>();
-    device_object_reservation_info.commandPoolRequestCount = 1;
-    device_object_reservation_info.commandBufferRequestCount = secondary_command_buffer_count + 1;
     auto command_pool =
         CreateCommandPool(secondary_command_buffer_count * (buffer_update_size + 2048), secondary_command_buffer_count + 1);
 
@@ -99,11 +95,7 @@ TEST_F(HandleWrappingTest, QueueSubmit) {
     vkmock::WaitForFences = [](auto, auto, auto, auto, auto) { return VK_SUCCESS; };
 
     InitInstance();
-    auto physical_device = GetPhysicalDevice();
     auto device = InitDevice();
-    auto device_object_reservation_info = vku::InitStruct<VkDeviceObjectReservationCreateInfo>();
-    device_object_reservation_info.commandPoolRequestCount = 1;
-    device_object_reservation_info.commandBufferRequestCount = command_buffer_count;
     auto command_pool = CreateCommandPool(command_buffer_count * (buffer_update_size + 2048), command_buffer_count);
 
     std::vector<VkMockObject<VkCommandBuffer>> mock_command_buffers(command_buffer_count);

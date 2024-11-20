@@ -211,8 +211,7 @@ TEST_F(DeviceTest, CommandPoolReservationInfo) {
     TEST_DESCRIPTION("Test if physical device features are properly sanitized");
 
     InitInstance();
-    auto physical_device = GetPhysicalDevice();
-    auto device = InitDevice();
+    InitDevice();
 
     vkmock::CreateCommandPool = [](auto, const VkCommandPoolCreateInfo* pCreateInfo, auto, VkCommandPool* pCommandPool) {
         EXPECT_EQ(vku::FindStructInPNextChain<VkCommandPoolMemoryReservationCreateInfo>(pCreateInfo), nullptr);
@@ -222,5 +221,5 @@ TEST_F(DeviceTest, CommandPoolReservationInfo) {
         return VK_SUCCESS;
     };
 
-    auto command_pool = CreateCommandPool(1'000);
+    CreateCommandPool(1'000);
 }
