@@ -19,22 +19,22 @@
 class DeviceTest : public IcdTest {
   public:
     DeviceTest() : IcdTest{} {}
+
+    template <typename T>
+    auto GetUnsupportedFeatures(T& f) -> std::array<std::reference_wrapper<decltype(f.shaderResourceResidency)>, 10> {
+        return {f.shaderResourceResidency,  f.sparseResidencyBuffer, f.sparseResidencyImage3D, f.sparseResidency4Samples,
+                f.sparseResidency16Samples, f.sparseBinding,         f.sparseResidencyImage2D, f.sparseResidency2Samples,
+                f.sparseResidency8Samples,  f.sparseResidencyAliased};
+    }
+
+    template <typename T>
+    auto GetUnsupportedProperties(T& p)
+        -> std::array<std::reference_wrapper<decltype(p.sparseProperties.residencyStandard2DBlockShape)>, 5> {
+        return {p.sparseProperties.residencyStandard2DBlockShape, p.sparseProperties.residencyStandard2DMultisampleBlockShape,
+                p.sparseProperties.residencyStandard3DBlockShape, p.sparseProperties.residencyAlignedMipSize,
+                p.sparseProperties.residencyNonResidentStrict};
+    }
 };
-
-template <typename T>
-auto get_unsupported_features(T&& f) -> std::array<std::reference_wrapper<decltype(f.shaderResourceResidency)>, 10> {
-    return {f.shaderResourceResidency,  f.sparseResidencyBuffer, f.sparseResidencyImage3D, f.sparseResidency4Samples,
-            f.sparseResidency16Samples, f.sparseBinding,         f.sparseResidencyImage2D, f.sparseResidency2Samples,
-            f.sparseResidency8Samples,  f.sparseResidencyAliased};
-}
-
-template <typename T>
-auto get_unsupported_properties(T&& p)
-    -> std::array<std::reference_wrapper<decltype(p.sparseProperties.residencyStandard2DBlockShape)>, 5> {
-    return {p.sparseProperties.residencyStandard2DBlockShape, p.sparseProperties.residencyStandard2DMultisampleBlockShape,
-            p.sparseProperties.residencyStandard3DBlockShape, p.sparseProperties.residencyAlignedMipSize,
-            p.sparseProperties.residencyNonResidentStrict};
-}
 
 TEST_F(DeviceTest, CreateInfo) {
     TEST_DESCRIPTION("Test if device create info is properly sanitized");
@@ -88,7 +88,7 @@ TEST_F(DeviceTest, CreateInfo) {
     VkPhysicalDeviceFeatures features{};
     create_info.pEnabledFeatures = &features;
 
-    for (auto& feature : get_unsupported_features(features)) {
+    for (auto& feature : GetUnsupportedFeatures(features)) {
         feature.get() = VK_TRUE;
         EXPECT_EQ(vksc::CreateDevice(physical_device, &create_info, nullptr, &device), VK_ERROR_FEATURE_NOT_PRESENT);
         feature.get() = VK_FALSE;
@@ -98,7 +98,7 @@ TEST_F(DeviceTest, CreateInfo) {
     create_info.pNext = &features2;
     create_info.pEnabledFeatures = nullptr;
 
-    for (auto& feature : get_unsupported_features(features2.features)) {
+    for (auto& feature : GetUnsupportedFeatures(features2.features)) {
         feature.get() = VK_TRUE;
         EXPECT_EQ(vksc::CreateDevice(physical_device, &create_info, nullptr, &device), VK_ERROR_FEATURE_NOT_PRESENT);
         feature.get() = VK_FALSE;
@@ -111,20 +111,20 @@ TEST_F(DeviceTest, GetPhysicalDeviceFeatures) {
     InitInstance();
     auto physical_device = GetPhysicalDevice();
 
-    vkmock::GetPhysicalDeviceFeatures = [](auto, VkPhysicalDeviceFeatures* pFeatures) {
-        for (auto& feature : get_unsupported_features(*pFeatures)) {
+    vkmock::GetPhysicalDeviceFeatures = [&](auto, VkPhysicalDeviceFeatures* pFeatures) {
+        for (auto& feature : GetUnsupportedFeatures(*pFeatures)) {
             feature.get() = VK_TRUE;
         }
     };
 
     VkPhysicalDeviceFeatures features{};
     vksc::GetPhysicalDeviceFeatures(physical_device, &features);
-    const auto unsupported_features = get_unsupported_features(features);
-    EXPECT_TRUE(
-        std::all_of(unsupported_features.begin(), unsupported_features.end(), [](VkBool32 val) { return val == VK_FALSE; }));
+    for (auto& feature : GetUnsupportedFeatures(features)) {
+        EXPECT_EQ(feature, VK_FALSE);
+    }
 
-    vkmock::GetPhysicalDeviceFeatures2 = [](auto, VkPhysicalDeviceFeatures2* pFeatures) {
-        for (auto& feature : get_unsupported_features(pFeatures->features)) {
+    vkmock::GetPhysicalDeviceFeatures2 = [&](auto, VkPhysicalDeviceFeatures2* pFeatures) {
+        for (auto& feature : GetUnsupportedFeatures(pFeatures->features)) {
             feature.get() = VK_TRUE;
         }
     };
@@ -132,9 +132,9 @@ TEST_F(DeviceTest, GetPhysicalDeviceFeatures) {
     auto sc_10_features = vku::InitStruct<VkPhysicalDeviceVulkanSC10Features>();
     auto features2 = vku::InitStruct<VkPhysicalDeviceFeatures2>(&sc_10_features);
     vksc::GetPhysicalDeviceFeatures2(physical_device, &features2);
-    const auto unsupported_features2 = get_unsupported_features(features2.features);
-    EXPECT_TRUE(
-        std::all_of(unsupported_features2.begin(), unsupported_features2.end(), [](VkBool32 val) { return val == VK_FALSE; }));
+    for (auto& feature : GetUnsupportedFeatures(features2.features)) {
+        EXPECT_EQ(feature, VK_FALSE);
+    }
     EXPECT_EQ(sc_10_features.shaderAtomicInstructions, VK_TRUE);
 }
 
@@ -144,30 +144,35 @@ TEST_F(DeviceTest, GetPhysicalDeviceProperties) {
     InitInstance();
     auto physical_device = GetPhysicalDevice();
 
-    vkmock::GetPhysicalDeviceProperties = [](auto, VkPhysicalDeviceProperties* pProperties) {
-        for (auto& property : get_unsupported_properties(*pProperties)) {
+    vkmock::GetPhysicalDeviceProperties = [&](auto, VkPhysicalDeviceProperties* pProperties) {
+        for (auto& property : GetUnsupportedProperties(*pProperties)) {
             property.get() = VK_TRUE;
         }
     };
 
     VkPhysicalDeviceProperties properties{};
     vksc::GetPhysicalDeviceProperties(physical_device, &properties);
-    const auto unsupported_properties = get_unsupported_properties(properties);
-    EXPECT_TRUE(
-        std::all_of(unsupported_properties.begin(), unsupported_properties.end(), [](VkBool32 val) { return val == VK_FALSE; }));
+    for (auto& property : GetUnsupportedProperties(properties)) {
+        EXPECT_EQ(property, VK_FALSE);
+    }
 
-    std::array<uint8_t, VK_UUID_SIZE> mock_uuid;
+    utils::UUID mock_device_uuid("b23d0e5c-70a0-4d67-8781-99ec3798ed31");
+    utils::UUID mock_driver_uuid("1265a236-e369-11ed-b5ea-0242ac120002");
+
+    // We expect the output UUIDs to be derived from the Vulkan UUIDs (see GenerateUUID)
+    utils::UUID expected_device_uuid("b23d0e5c-70a0-4d67-98af-a4a06cf294b9");
+    utils::UUID expected_driver_uuid("1265a236-e369-11ed-aac4-3f0ef778798a");
+
     VkDriverId mock_driver_id = VK_DRIVER_ID_AMD_OPEN_SOURCE;
-    std::iota(mock_uuid.begin(), mock_uuid.end(), 0);
     vkmock::GetPhysicalDeviceProperties2 = [&](auto, VkPhysicalDeviceProperties2* pProperties) {
-        for (auto& property : get_unsupported_properties(pProperties->properties)) {
+        for (auto& property : GetUnsupportedProperties(pProperties->properties)) {
             property.get() = VK_TRUE;
         }
         auto dev_id_props = vku::FindStructInPNextChain<VkPhysicalDeviceIDProperties>(pProperties->pNext);
         if (dev_id_props) {
             dev_id_props->deviceLUIDValid = VK_TRUE;
-            std::copy(mock_uuid.begin(), mock_uuid.end(), dev_id_props->deviceUUID);
-            std::copy(mock_uuid.begin(), mock_uuid.end(), dev_id_props->driverUUID);
+            mock_device_uuid.CopyToArray(dev_id_props->deviceUUID);
+            mock_driver_uuid.CopyToArray(dev_id_props->driverUUID);
         }
         auto dev_driver_props = vku::FindStructInPNextChain<VkPhysicalDeviceDriverProperties>(pProperties->pNext);
         if (dev_driver_props) {
@@ -176,8 +181,8 @@ TEST_F(DeviceTest, GetPhysicalDeviceProperties) {
         auto dev_11_props = vku::FindStructInPNextChain<VkPhysicalDeviceVulkan11Properties>(pProperties->pNext);
         if (dev_11_props) {
             dev_11_props->deviceLUIDValid = VK_TRUE;
-            std::copy(mock_uuid.begin(), mock_uuid.end(), dev_11_props->deviceUUID);
-            std::copy(mock_uuid.begin(), mock_uuid.end(), dev_11_props->driverUUID);
+            mock_device_uuid.CopyToArray(dev_11_props->deviceUUID);
+            mock_driver_uuid.CopyToArray(dev_11_props->driverUUID);
         }
         auto dev_12_props = vku::FindStructInPNextChain<VkPhysicalDeviceVulkan12Properties>(pProperties->pNext);
         if (dev_12_props) {
@@ -192,19 +197,19 @@ TEST_F(DeviceTest, GetPhysicalDeviceProperties) {
     auto sc_10_properties = vku::InitStruct<VkPhysicalDeviceVulkanSC10Properties>(&id_properties);
     auto properties2 = vku::InitStruct<VkPhysicalDeviceProperties2>(&sc_10_properties);
     vksc::GetPhysicalDeviceProperties2(physical_device, &properties2);
-    const auto unsupported_properties2 = get_unsupported_properties(properties2.properties);
-    EXPECT_TRUE(
-        std::all_of(unsupported_properties2.begin(), unsupported_properties2.end(), [](VkBool32 val) { return val == VK_FALSE; }));
+    for (auto& property : GetUnsupportedProperties(properties2.properties)) {
+        EXPECT_EQ(property, VK_FALSE);
+    }
     EXPECT_NE(sc_10_properties.maxCallbackFaultCount, 0);
     EXPECT_EQ(id_properties.deviceLUIDValid, VK_FALSE);
-    EXPECT_FALSE(std::equal(mock_uuid.begin(), mock_uuid.end(), id_properties.deviceUUID));
-    EXPECT_FALSE(std::equal(mock_uuid.begin(), mock_uuid.end(), id_properties.driverUUID));
+    EXPECT_STREQ(expected_device_uuid.toString().c_str(), utils::UUID(id_properties.deviceUUID).toString().c_str());
+    EXPECT_STREQ(expected_driver_uuid.toString().c_str(), utils::UUID(id_properties.driverUUID).toString().c_str());
     EXPECT_NE(std::string(driver_props.driverName).find("Emulation"), std::string::npos);
     EXPECT_NE(driver_props.driverID, mock_driver_id);
     EXPECT_EQ(driver_props.driverID, VK_DRIVER_ID_VULKAN_SC_EMULATION_ON_VULKAN);
     EXPECT_EQ(dev_11_props.deviceLUIDValid, VK_FALSE);
-    EXPECT_FALSE(std::equal(mock_uuid.begin(), mock_uuid.end(), dev_11_props.deviceUUID));
-    EXPECT_FALSE(std::equal(mock_uuid.begin(), mock_uuid.end(), dev_11_props.driverUUID));
+    EXPECT_STREQ(expected_device_uuid.toString().c_str(), utils::UUID(dev_11_props.deviceUUID).toString().c_str());
+    EXPECT_STREQ(expected_driver_uuid.toString().c_str(), utils::UUID(dev_11_props.driverUUID).toString().c_str());
     EXPECT_NE(dev_12_props.driverID, mock_driver_id);
 }
 
@@ -222,5 +227,5 @@ TEST_F(DeviceTest, CommandPoolReservationInfo) {
         return VK_SUCCESS;
     };
 
-    CreateCommandPool(1'000);
+    CreateCommandPool(1000);
 }
