@@ -14,6 +14,7 @@
 #include <future>
 #include <array>
 #include <numeric>
+#include <algorithm>
 
 class DeviceTest : public IcdTest {
   public:
