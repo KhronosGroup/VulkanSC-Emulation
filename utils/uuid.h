@@ -78,8 +78,7 @@ static const std::array<uint8_t, VK_UUID_SIZE> EmulationPipelineCacheUUID = {0x2
 // Custom device ID we use to indicate that the pipeline cache is compatible with all devices
 #define VK_DEVICE_ID_PORTABLE 0xD19CDA7A
 
-// TODO: Remove these once we've added the official IDs to the registry
-#define VK_VENDOR_ID_KHRONOS ((VkVendorId)0x10000)
+// TODO: Remove this once the driver ID is assigned in the registry
 #define VK_DRIVER_ID_VULKAN_SC_EMULATION_ON_VULKAN ((VkDriverId)27)
 
 }  // namespace utils

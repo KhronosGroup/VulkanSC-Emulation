@@ -27,7 +27,7 @@ void CommandBuffer::CmdExecuteCommands(uint32_t commandBufferCount, const VkComm
 }
 
 void CommandBuffer::CmdRefreshObjectsKHR(const VkRefreshObjectListKHR* pRefreshObjects) {
-    // TODO: Add implementation
+    // TODO: Add implementation if we would like to expose support for VK_KHR_object_refresh in the future
 }
 
 VkResult CommandBuffer::EndCommandBuffer() {
