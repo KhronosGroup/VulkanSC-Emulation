@@ -1,0 +1,101 @@
+# Copyright (c) 2024 The Khronos Group Inc.
+# Copyright (c) 2023-2024 RasterGrid Kft.
+# Copyright (c) 2023-2024 Valve Corporation
+# Copyright (c) 2023-2024 LunarG, Inc.
+#
+# SPDX-License-Identifier: Apache-2.0
+
+name: VKSC-EMU (Build/Tests)
+
+# https://docs.github.com/en/actions/using-jobs/using-concurrency
+concurrency:
+  # github.head_ref is only defined on pull_request
+  # Fallback to the run ID, which is guaranteed to be both unique and defined for the run.
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id  }}
+  cancel-in-progress: true
+
+on:
+  push:
+  pull_request:
+    branches:
+      - main
+
+env:
+  CMAKE_GENERATOR: Ninja
+
+permissions:
+    contents: read
+
+jobs:
+  code-format:
+    name: clang-format
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+    - uses: actions/checkout@v4
+    - name: Run clang-format
+      uses: jidicula/clang-format-action@v4.13.0
+      with:
+        clang-format-version: '14'
+        check-path: ${{ matrix.path }}
+
+  codegen:
+    needs: code-format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - run: python3 -m pip install pyparsing
+      - run: scripts/update_deps.py --dir external --no-build
+      - run: scripts/generate_source.py --verify external/Vulkan-Headers/registry/
+
+  linux:
+    needs: codegen
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        config: [ Debug, Release ]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - uses: lukka/get-cmake@latest
+      - name: Configure
+        run: |
+          cmake -S. -B build \
+          -D BUILD_WERROR=ON \
+          -D UPDATE_DEPS=ON \
+          -D BUILD_TESTS=ON \
+          -D CMAKE_BUILD_TYPE=${{matrix.config}}
+      - name: Build
+        run: cmake --build build
+      - name: Install
+        run: cmake --install build --prefix build/install
+
+  windows:
+    needs: codegen
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        config: [ Debug, Release ]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - uses: ilammy/msvc-dev-cmd@v1
+      - name: Configure
+        run: |
+          cmake -S. -B build `
+          -D BUILD_WERROR=ON `
+          -D UPDATE_DEPS=ON `
+          -D BUILD_TESTS=ON `
+          -D CMAKE_BUILD_TYPE=${{matrix.config}}
+      - name: Build
+        run: cmake --build build
+      - name: Install
+        run: cmake --install build --prefix build/install
