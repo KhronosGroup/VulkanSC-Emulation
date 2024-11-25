@@ -1,71 +1,83 @@
 # Build Instructions
 
-1. [Requirements](#requirements)
-1. [Building Overview](#building-overview)
-1. [Generated source code](#generated-source-code)
-1. [Dependencies](#dependencies)
-1. [Linux Build](#building-on-linux)
-1. [Windows Build](#building-on-windows)
-1. [MacOS build](#building-on-macos)
-1. [Installed Files](#installed-files)
+## System requirements
 
-## Requirements
+### OS support
 
-1. CMake >= 3.17.2
-1. C++17 compatible toolchain
-1. Git
-1. Python >= 3.10
-1. Python packages: pyparsing jsonschema
+- Ubuntu LTS releases supported by Canonical
+- Windows 10+
+
+### Build tools
+
+- CMake >= 3.17.2
+- C++17 compatible toolchain
+- Git
+- Python >= 3.10
+  - pyparsing
+  - jsonschema
+
+## Overview
+
+The build interface follows the rest of the Vulkan (SC) ecosystem closely. The high-level interface, structure and defaults are all borrowed from other repositories.
+
+### Build options
+
+| Option                     | Platform  | Default | Description |
+| -------------------------- | --------- | ------- | ----------- |
+| `BUILD_ICD`                | All       | `ON`    | Build the Installable Client Driver component |
+| `BUILD_PCC`                | All       | `ON`    | Build the Pipeline Cache Compiler component |
+| `BUILD_TESTS`              | All       | `OFF`   | Build unit tests |
+| `BUILD_WERROR`             | All       | `OFF`   | Build with compiler warnings as errors Build unit tests |
+| `ENABLE_ADDRESS_SANITIZER` | All       | `OFF`   | Enable building using ASAN, LLVM Address Sanitizer |
+| `UPDATE_DEPS`              | All       | `OFF`   | Define the utility target running [`update_deps.py`](scripts/update_deps.py) (see [Dependencies](#dependencies)) |
+| `EMU_CODEGEN`              | All       | `OFF`   | Define the utility target running [`generate_source.py`](scripts/generate_source.py) (see [Generated source code](#generated-source-code)) |
+
+### Invoking the build
+
+Building follows the usual CMake workflow of: configure, build, test, install.
+
+```
+cmake -G <generator> -S <source_root> -B <binary_root> ...
+cmake --build <binary_root> --config <config_name> --target <target_name>
+ctest --test-dir <binary_root> --build-config <config_name> ...
+cmake --install <binary_root> --prefix <install_root> --config <config_name>
+```
+
+> [!TIP]
+> CMake automatically creates both `<binary_root>` and `<install_root>`, you do not need to create these in your scripts, on the command-line.
+
+For concrete command-lines of build environment setup and a minimal build, refer to the [Getting Started Guide](./GETTING_STARTED.md).
+
+## Features
 
 ### Generated source code
 
-This repository contains generated source code which is not intended to be modified directly.
+This repository contains generated source code which is not intended to be modified directly. The latest generated sources are committed to the repository but can be regerenated any time using [`generate_source.py`](scripts/generate_source.py). Adding `-D EMU_CODEGEN=ON` to the configuration command defines the `emu_codegen` utility target allowing running the script via the build system.
 
-A helper CMake target `emu_codegen` is also provided to simplify the invocation of `scripts/generate_source.py` from the build directory:
+> [!TIP]
+> The utility target does not track dependencies, therefor is always out of date. Consequently it cannot reasonably participate in the default `all`/`ALL_BUILD` targets.
 
-```bash
-cmake -S . -B build -D EMU_CODEGEN=ON
-cmake --build build --target emu_codegen
-```
+### Warnings as error
 
-NOTE: `EMU_CODEGEN` is `OFF` by default.
+This repository intends on building warning-free with most modern compiler warnings turned on. A helper CMake option `BUILD_WERROR` is provided allowing to opt-in to enforcing warning-free builds without having to know the relevant options of the compiler at hand.
 
-## Building Overview
+Because system/language package managers may have to build on multiple different platforms and compilers, the idiom for open source projects is to _not_ enable warnings as errors by default. By defaulting to `ON` we'd cause issues for package managers since there is no standard way to disable warnings until CMake 3.24.
 
-The following will be enough for most people, for more detailed instructions, see below.
-
-```bash
-git clone https://github.com/KhronosGroup/VulkanSC-Emulation.git
-cd VulkanSC-Emulation
-
-cmake -S . -B build -D UPDATE_DEPS=ON -D BUILD_WERROR=ON -D BUILD_TESTS=ON -D CMAKE_BUILD_TYPE=Debug
-cmake --build build --config Debug
-```
-
-### Warnings as errors off by default!
-
-By default `BUILD_WERROR` is `OFF`. The idiom for open source projects is to NOT enable warnings as errors.
-
-System/language package managers have to build on multiple different platforms and compilers.
-
-By defaulting to `ON` we cause issues for package managers since there is no standard way to disable warnings until CMake 3.24
-
-Add `-D BUILD_WERROR=ON` to your workflow. Or use the `dev` preset shown below which will also enabling warnings as errors.
+If you're a developer, consider adding `-D BUILD_WERROR=ON` to your workflow. Or use the `dev` preset shown below which will also enabling warnings as errors.
 
 ## Dependencies
 
-Currently this repo has a custom process for grabbing C/C++ dependencies.
+Currently this repo has a custom process for grabbing C/C++ dependencies. This is done via [`update_deps.py`](scripts/update_deps.py). The script downloads and builds dependencies listed in [`known_good.json`](scripts/known_good.json). By specifying `-D UPDATE_DEPS=ON` when configuring CMake, these dependencies are automatically imported into the build by:
 
-By specifying `-D UPDATE_DEPS=ON` when configuring CMake we grab dependencies listed in [known_good.json](scripts/known_good.json).
+- running [`update_deps.py`](scripts/update_deps.py) during the configuration
+- a helper script is included into the build notifying CMake of the location of the built dependencies.
 
-All we are doing is streamlining `building`/`installing` the `known good` dependencies and helping CMake `find` the dependencies.
+The script and integration option intends on streamlining `building`/`installing` the _known good_ dependencies and helping CMake find the dependencies. This is done via a combination of `Python` and `CMake` scripting.
 
-This is done via a combination of `Python` and `CMake` scripting.
+By defaulting to `OFF` the intent is to be friendly by default to system/language package managers. You can run `update_deps.py` manually but it isn't recommended for most users.
 
-Misc Useful Information:
-
-- By default `UPDATE_DEPS` is `OFF`. The intent is to be friendly by default to system/language package managers.
-- You can run `update_deps.py` manually but it isn't recommended for most users.
+> [!NOTE]
+> The dependency fetching script pre-dates modern dependency managers for C++, such as [Vcpkg](https://vcpkg.io), [Conan](https://conan.io/), etc. It has a few shortcomings, among others the inability to drive multi-config builds or to conveniently provide your own pre-built dependencies. The _consumption_ part of the build definition is agnostic to how dependencies are fetched, users may supply pre-built artifacts in any CMake-conforming way they see fit.
 
 ### How to test new dependency versions
 
@@ -81,61 +93,14 @@ cmake -S . -B build/ ... -D CMAKE_PREFIX_PATH=~/foobar/vulkan_headers_install/ .
 
 ## Building On Linux
 
-### Linux Build Requirements
-
-This repository is regularly built and tested on the two most recent Ubuntu LTS versions.
-
-```bash
-sudo apt-get install git build-essential python3 python3-pip cmake
-
-# Linux WSI system libraries
-sudo apt-get install libwayland-dev xorg-dev
-
-# Python packages
-pip3 install pyparsing jsonschema
-```
-
-### WSI Support Build Options
-
-By default, the repository components are built with support for the
-Vulkan-defined WSI display servers: Xcb, Xlib, and Wayland. It is recommended
-to build the repository components with support for these display servers to
-maximize their usability across Linux platforms. If it is necessary to build
-these modules without support for one of the display servers, the appropriate
-CMake option of the form `BUILD_WSI_xxx_SUPPORT` can be set to `OFF`.
-
-### Linux 32-bit support
-
-Usage of this repository's contents in 32-bit Linux environments is not
-officially supported. However, since this repository is supported on 32-bit
-Windows, these modules should generally work on 32-bit Linux.
-
-Here are some notes for building 32-bit targets on a 64-bit Ubuntu "reference"
-platform:
-
-```bash
-# 32-bit libs
-# your PKG_CONFIG configuration may be different, depending on your distribution
-sudo apt-get install gcc-multilib g++-multilib libx11-dev:i386
-```
-
-Set up your environment for building 32-bit targets:
-
-```bash
-export ASFLAGS=--32
-export CFLAGS=-m32
-export CXXFLAGS=-m32
-export PKG_CONFIG_LIBDIR=/usr/lib/i386-linux-gnu
-```
+No requirements beyond the general [build tools](#build-tools) which may be obtained via your distro's package manager. Builds are regularly tested on latest supported Ubuntu LTS.
 
 ## Building On Windows
 
-### Windows Development Environment Requirements
+Users of Windows will require
 
 - Windows 10+
-- Visual Studio
-
-Note: Anything less than `Visual Studio 2019` is not guaranteed to compile/work.
+- Visual Studio 2019+
 
 ### Visual Studio Generator
 
@@ -151,39 +116,16 @@ cmake --open build
 
 See the [CMake documentation](https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html#visual-studio-generators) for further information on Visual Studio generators.
 
-NOTE: Windows developers don't have to develop in Visual Studio. Visual Studio just helps streamlining the needed C++ toolchain requirements (compilers, linker, etc).
+> [!NOTE]
+> Windows developers don't have to develop in Visual Studio. Visual Studio just helps streamlining the needed C++ toolchain requirements (compilers, linker, etc).
 
-## Building on MacOS
-
-### MacOS Development Environment Requirements
-
-- Xcode
-
-NOTE: MacOS developers don't have to develop in Xcode. Xcode just helps streamlining the needed C++ toolchain requirements (compilers, linker, etc). Similar to Visual Studio on Windows.
-
-### Xcode Generator
-
-To create and open an Xcode project:
-
-```bash
-# Create the Xcode project
-cmake -S . -B build -G Xcode
-
-# Open the Xcode project
-cmake --open build
-```
-
-See the [CMake documentation](https://cmake.org/cmake/help/latest/generator/Xcode.html) for further information on the Xcode generator.
-
-### Installed Files
-
-- *install_dir*`/bin` : The `vulkaninfo`, `vkcube` and `vkcubepp` executables
+## Installed Files
 
 For Unix operating systems:
 
-- *install_dir*`/bin` : The Vulkan SC Emulation ICD
-- *install_dir*`/share/vulkansc/icd.d` : Vulkan SC Emulation ICD JSON
+- `<install_root>/bin` : The Vulkan SC Emulation ICD
+- `<install_root>/share/vulkansc/icd.d` : Vulkan SC Emulation ICD JSON
 
 For WIN32:
 
-- *install_dir*`/bin` : The Vulkan SC Emulation ICD and JSON
+- `<install_root>/bin` : The Vulkan SC Emulation ICD and JSON
