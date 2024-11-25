@@ -1,13 +1,19 @@
 # Build Instructions
 
-1. [Requirements](#requirements)
-1. [Building Overview](#building-overview)
-1. [Generated source code](#generated-source-code)
-1. [Dependencies](#dependencies)
-1. [Linux Build](#building-on-linux)
-1. [Windows Build](#building-on-windows)
-1. [MacOS build](#building-on-macos)
-1. [Installed Files](#installed-files)
+- [Build Instructions](#build-instructions)
+  - [Requirements](#requirements)
+    - [Generated source code](#generated-source-code)
+  - [Building Overview](#building-overview)
+    - [Warnings as errors off by default!](#warnings-as-errors-off-by-default)
+  - [Dependencies](#dependencies)
+    - [How to test new dependency versions](#how-to-test-new-dependency-versions)
+  - [Building On Linux](#building-on-linux)
+    - [Linux Build Requirements](#linux-build-requirements)
+  - [Building On Windows](#building-on-windows)
+    - [Windows Development Environment Requirements](#windows-development-environment-requirements)
+    - [Visual Studio Generator](#visual-studio-generator)
+    - [CMake Installed Files](#cmake-installed-files)
+    - [Software Installation](#software-installation)
 
 ## Requirements
 
@@ -75,7 +81,7 @@ Alternatively you can modify `CMAKE_PREFIX_PATH` as follows.
 
 ```sh
 # Delete the CMakeCache.txt which will cache find_* results
-rm  -rf build/
+rm -rf build/
 cmake -S . -B build/ ... -D CMAKE_PREFIX_PATH=~/foobar/vulkan_headers_install/ ...
 ```
 
@@ -88,44 +94,8 @@ This repository is regularly built and tested on the two most recent Ubuntu LTS 
 ```bash
 sudo apt-get install git build-essential python3 python3-pip cmake
 
-# Linux WSI system libraries
-sudo apt-get install libwayland-dev xorg-dev
-
 # Python packages
 pip3 install pyparsing jsonschema
-```
-
-### WSI Support Build Options
-
-By default, the repository components are built with support for the
-Vulkan-defined WSI display servers: Xcb, Xlib, and Wayland. It is recommended
-to build the repository components with support for these display servers to
-maximize their usability across Linux platforms. If it is necessary to build
-these modules without support for one of the display servers, the appropriate
-CMake option of the form `BUILD_WSI_xxx_SUPPORT` can be set to `OFF`.
-
-### Linux 32-bit support
-
-Usage of this repository's contents in 32-bit Linux environments is not
-officially supported. However, since this repository is supported on 32-bit
-Windows, these modules should generally work on 32-bit Linux.
-
-Here are some notes for building 32-bit targets on a 64-bit Ubuntu "reference"
-platform:
-
-```bash
-# 32-bit libs
-# your PKG_CONFIG configuration may be different, depending on your distribution
-sudo apt-get install gcc-multilib g++-multilib libx11-dev:i386
-```
-
-Set up your environment for building 32-bit targets:
-
-```bash
-export ASFLAGS=--32
-export CFLAGS=-m32
-export CXXFLAGS=-m32
-export PKG_CONFIG_LIBDIR=/usr/lib/i386-linux-gnu
 ```
 
 ## Building On Windows
@@ -153,37 +123,31 @@ See the [CMake documentation](https://cmake.org/cmake/help/latest/manual/cmake-g
 
 NOTE: Windows developers don't have to develop in Visual Studio. Visual Studio just helps streamlining the needed C++ toolchain requirements (compilers, linker, etc).
 
-## Building on MacOS
+### CMake Installed Files
 
-### MacOS Development Environment Requirements
+The installation depends on the target platform.
 
-- Xcode
-
-NOTE: MacOS developers don't have to develop in Xcode. Xcode just helps streamlining the needed C++ toolchain requirements (compilers, linker, etc). Similar to Visual Studio on Windows.
-
-### Xcode Generator
-
-To create and open an Xcode project:
-
-```bash
-# Create the Xcode project
-cmake -S . -B build -G Xcode
-
-# Open the Xcode project
-cmake --open build
-```
-
-See the [CMake documentation](https://cmake.org/cmake/help/latest/generator/Xcode.html) for further information on the Xcode generator.
-
-### Installed Files
-
-- *install_dir*`/bin` : The `vulkaninfo`, `vkcube` and `vkcubepp` executables
+- *install_dir*`/bin` : The Vulkan SC Pipeline Cache Compiler (`pcconvk`)
 
 For Unix operating systems:
 
-- *install_dir*`/bin` : The Vulkan SC Emulation ICD
-- *install_dir*`/share/vulkansc/icd.d` : Vulkan SC Emulation ICD JSON
+- *install_dir*`/lib` : The Vulkan SC Emulation ICD (`libvksconvk`)
+- *install_dir*`/share/vulkansc/icd.d` : Vulkan SC Emulation ICD JSON (`vksconvk.json`)
 
 For WIN32:
 
-- *install_dir*`/bin` : The Vulkan SC Emulation ICD and JSON
+- *install_dir*`/bin` : The Vulkan SC Emulation ICD and JSON (`vksconvk.dll` and `vksconvk.json`)
+
+### Software Installation
+
+After you have built your project you can install using CMake's install functionality.
+
+CMake Docs:
+- [Software Installation Guide](https://cmake.org/cmake/help/latest/guide/user-interaction/index.html#software-installation)
+- [CLI for installing a project](https://cmake.org/cmake/help/latest/manual/cmake.1.html#install-a-project)
+
+```sh
+# EX: Installs Release artifacts into `build/install` directory.
+# NOTE: --config is only needed for multi-config generators (Visual Studio, Xcode, etc)
+cmake --install build/ --config Release --prefix build/install
+```

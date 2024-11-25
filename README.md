@@ -18,7 +18,9 @@ Please see the [CONTRIBUTING.md](CONTRIBUTING.md) file in this repository for mo
 
 ## How to Build and Run
 
-[BUILD.md](BUILD.md) includes directions for building all components.
+- [BUILD.md](BUILD.md) includes directions for building all components.
+- [icd/README.md](icd/README.md) includes information about the Vulkan SC Emulation ICD and its use.
+- [pcc/README.md](pcc/README.md) includes information about the Vulkan SC Emulation Pipeline Cache Compiler and its use.
 
 ## Version Tagging Scheme
 

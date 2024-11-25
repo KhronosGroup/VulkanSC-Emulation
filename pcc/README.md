@@ -12,6 +12,14 @@ The Mock PCC is a command line utility that takes a set of pipeline JSON files a
 
 It supports all the standard command line arguments that are also expected by the Vulkan SC Conformance Test Suite (CTS).
 
-Currently it generates device-independent pipeline caches without no target device compilation and the resulting Vulkan SC pipeline cache will only contain so called "debug information" (i.e. it only embeds the pipeline JSON and shader SPIR-V data). This is sufficient for the Vulkan SC Emulation ICD to build these pipelines on the underlying Vulkan implementation.
+For example, the following command can be used to build all pipeline JSON files and corresponding SPIR-V binaries in the current directory:
 
-As part of the compilation process, the Mock PCC will validate the SPIR-V binaries both before and after applying any specialization constant information present in the encompassing pipeline JSON, and the resulting pipeline cache will contain the already specialized version of the shader SPIR-V.
+```
+pcconvk --path . --out pipeline_cache.bin
+```
+
+For additional command line options, see the output of the `pcconvk --help` command.
+
+Currently, the pipeline cache compiler always generates device-independent pipeline caches without no target device compilation and the resulting Vulkan SC pipeline cache will only contain so called "debug information" (i.e. it only embeds the pipeline JSON and shader SPIR-V data). This is sufficient for the Vulkan SC Emulation ICD to build these pipelines on the underlying Vulkan implementation.
+
+As part of the compilation process, the Mock PCC will validate the SPIR-V binaries both before and after applying any specialization constant information present in the encompassing pipeline JSON, and the resulting pipeline cache will contain the already specialized version of the shader SPIR-V. This enables the Vulkan SC pipeline creation commands to be used without the application having to include the specialization constant information.
