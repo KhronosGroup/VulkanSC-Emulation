@@ -508,8 +508,8 @@ VkDevice IcdTest::InitDevice(VkDeviceCreateInfo *create_info) {
         InitInstance();
     }
 
+    auto default_ci = GetDefaultDeviceCreateInfo();
     if (create_info == nullptr) {
-        static auto default_ci = GetDefaultDeviceCreateInfo();
         create_info = &default_ci;
     }
 

@@ -54,27 +54,40 @@ jobs:
 
   linux:
     needs: codegen
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
+    name: "linux (${{matrix.sanitize}} sanitizer, ${{matrix.config}})"
     strategy:
+      fail-fast: false
       matrix:
+        sanitize: [ address, thread ]
         config: [ Debug, Release ]
+        exclude:
+          - config: Debug
+            sanitize: thread
     steps:
+      # Install Loader dependencies
+      - run: sudo apt install pkg-config libx11-xcb-dev libxkbcommon-dev libwayland-dev libxrandr-dev -y
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.10'
       - uses: lukka/get-cmake@latest
-      - name: Configure
-        run: |
-          cmake -S. -B build \
-          -D BUILD_WERROR=ON \
-          -D UPDATE_DEPS=ON \
-          -D BUILD_TESTS=ON \
-          -D CMAKE_BUILD_TYPE=${{matrix.config}}
-      - name: Build
-        run: cmake --build build
-      - name: Install
-        run: cmake --install build --prefix build/install
+      - name: Configure, Build, Install
+        run: python scripts/tests.py --build --config ${{ matrix.config }}
+        env:
+          CFLAGS: -fsanitize=${{ matrix.sanitize }}
+          CXXFLAGS: -fsanitize=${{ matrix.sanitize }}
+          LDFLAGS: -fsanitize=${{ matrix.sanitize }}
+      - name: Test PCC
+        run: python scripts/tests.py --test-pcc
+      - name: Test No Loader
+        run: python scripts/tests.py --test-icd
+      - name: Test VK Loader
+        run: python scripts/tests.py --test-icd --vkloader
+      - name: Test VKSC Loader
+        run: python scripts/tests.py --test-icd --vkscloader
+      - name: Test Both Loaders
+        run: python scripts/tests.py --test-icd --vkloader --vkscloader
 
   windows:
     needs: codegen
@@ -88,14 +101,15 @@ jobs:
         with:
           python-version: '3.10'
       - uses: ilammy/msvc-dev-cmd@v1
-      - name: Configure
-        run: |
-          cmake -S. -B build `
-          -D BUILD_WERROR=ON `
-          -D UPDATE_DEPS=ON `
-          -D BUILD_TESTS=ON `
-          -D CMAKE_BUILD_TYPE=${{matrix.config}}
-      - name: Build
-        run: cmake --build build
-      - name: Install
-        run: cmake --install build --prefix build/install
+      - name: Configure, Build, Install
+        run: python scripts/tests.py --build --config ${{ matrix.config }}
+      - name: Test PCC
+        run: python scripts/tests.py --test-pcc
+      - name: Test No Loader
+        run: python scripts/tests.py --test-icd
+      - name: Test VK Loader
+        run: python scripts/tests.py --test-icd --vkloader
+      - name: Test VKSC Loader
+        run: python scripts/tests.py --test-icd --vkscloader
+      - name: Test Both Loaders
+        run: python scripts/tests.py --test-icd --vkloader --vkscloader
