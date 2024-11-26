@@ -52,6 +52,47 @@ if (BUILD_WERROR)
     add_compile_options("$<IF:$<CXX_COMPILER_ID:MSVC>,/WX,-Werror>")
 endif()
 
+if(WIN32)
+    add_compile_definitions(VK_USE_PLATFORM_WIN32_KHR)
+elseif(ANDROID)
+    add_compile_definitions(VK_USE_PLATFORM_ANDROID_KHR)
+elseif(APPLE)
+    add_compile_definitions(VK_USE_PLATFORM_METAL_EXT)
+    if (IOS)
+        add_compile_definitions(VK_USE_PLATFORM_IOS_MVK)
+    endif()
+    if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+        add_compile_definitions(VK_USE_PLATFORM_MACOS_MVK)
+    endif()
+else()
+    if (BUILD_WSI_XCB_SUPPORT OR BUILD_WSI_XLIB_SUPPORT OR BUILD_WSI_WAYLAND_SUPPORT)
+        find_package(PkgConfig REQUIRED QUIET)
+    endif()
+
+    if(BUILD_WSI_XCB_SUPPORT)
+        pkg_check_modules(XCB REQUIRED QUIET IMPORTED_TARGET xcb)
+        add_compile_definitions(VK_USE_PLATFORM_XCB_KHR)
+    endif()
+
+    if(BUILD_WSI_XLIB_SUPPORT)
+        pkg_check_modules(X11 REQUIRED QUIET IMPORTED_TARGET x11)
+        add_compile_definitions(VK_USE_PLATFORM_XLIB_KHR VK_USE_PLATFORM_XLIB_XRANDR_EXT)
+    endif()
+
+    if(BUILD_WSI_WAYLAND_SUPPORT)
+        pkg_check_modules(WAYlAND_CLIENT QUIET REQUIRED IMPORTED_TARGET wayland-client)
+        add_compile_definitions(VK_USE_PLATFORM_WAYLAND_KHR)
+    endif()
+
+    if(BUILD_WSI_SCREEN_QNX_SUPPORT)
+        add_compile_definitions(VK_USE_PLATFORM_SCREEN_QNX)
+    endif()
+
+    if(BUILD_WSI_SCI_SUPPORT)
+        add_compile_definitions(VK_USE_PLATFORM_SCI)
+    endif()
+endif()
+
 if (${CMAKE_CXX_COMPILER_ID} MATCHES "(GNU|Clang)")
     add_compile_options(
         -Wall

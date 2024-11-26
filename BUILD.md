@@ -3,16 +3,18 @@
 - [Build Instructions](#build-instructions)
   - [Requirements](#requirements)
     - [Generated source code](#generated-source-code)
+    - [Build Options](#build-options)
   - [Building Overview](#building-overview)
     - [Warnings as errors off by default!](#warnings-as-errors-off-by-default)
   - [Dependencies](#dependencies)
     - [How to test new dependency versions](#how-to-test-new-dependency-versions)
   - [Building On Linux](#building-on-linux)
     - [Linux Build Requirements](#linux-build-requirements)
+    - [WSI Support Build Options](#wsi-support-build-options)
   - [Building On Windows](#building-on-windows)
     - [Windows Development Environment Requirements](#windows-development-environment-requirements)
     - [Visual Studio Generator](#visual-studio-generator)
-    - [CMake Installed Files](#cmake-installed-files)
+  - [CMake Installed Files](#cmake-installed-files)
     - [Software Installation](#software-installation)
 
 ## Requirements
@@ -35,6 +37,26 @@ cmake --build build --target emu_codegen
 ```
 
 NOTE: `EMU_CODEGEN` is `OFF` by default.
+
+### Build Options
+
+When generating build files through CMake, several options can be specified to
+customize the build.
+The following is a table of all on/off options currently supported by this repository:
+
+| Option                          | Platform      | Default | Description |
+| ------------------------------- | ------------- | ------- | ----------- |
+| BUILD_ICD                       | All           | `ON`    | Controls whether the Vulkan SC Emulation ICD is built. |
+| BUILD_PCC                       | All           | `ON`    | Controls whether the Vulkan SC Pipeline Cache Compiler is built. |
+| ENABLE_ADDRESS_SANITIZER        | All           | `OFF`   | Enables Address Sanitizer. |
+| BUILD_WERROR                    | All           | `OFF`   | Treat compiler warnings as errors. |
+| BUILD_TESTS                     | All           | `OFF`   | Controls whether or not the tests are built. |
+| BUILD_WSI_XCB_SUPPORT           | Linux         | `OFF`   | Build with the XCB entry points enabled. |
+| BUILD_WSI_XLIB_SUPPORT          | Linux         | `OFF`   | Build the loader with the Xlib entry points enabled. |
+| BUILD_WSI_WAYLAND_SUPPORT       | Linux         | `OFF`   | Build the loader with the Wayland entry points enabled. |
+| BUILD_WSI_DIRECTFB_SUPPORT      | Linux         | `OFF`   | Build the loader with the DirectFB entry points enabled. |
+| BUILD_WSI_SCREEN_QNX_SUPPORT    | QNX           | `OFF`   | Build the loader with the QNX Screen entry points enabled. |
+| BUILD_WSI_SCI_SUPPORT           | Linux, QNX    | `OFF`   | Build the loader with the SCI entry points enabled. |
 
 ## Building Overview
 
@@ -94,9 +116,22 @@ This repository is regularly built and tested on the two most recent Ubuntu LTS 
 ```bash
 sudo apt-get install git build-essential python3 python3-pip cmake
 
+# Linux WSI system libraries
+sudo apt-get install libwayland-dev xorg-dev
+
 # Python packages
 pip3 install pyparsing jsonschema
 ```
+
+### WSI Support Build Options
+
+By default, the repository components are built with no support for the
+WSI display servers (Xcb, Xlib, and Wayland) available on Linux as Vulkan SC
+does not support any APIs to interface these and therefore the corresponding
+APIs are not loaded from the underlying Vulkan implementation. However,
+support for individual display servers can be enabled by setting the
+appropriate CMake option of the form `BUILD_WSI_xxx_SUPPORT` to `ON`.
+
 
 ## Building On Windows
 
@@ -123,7 +158,8 @@ See the [CMake documentation](https://cmake.org/cmake/help/latest/manual/cmake-g
 
 NOTE: Windows developers don't have to develop in Visual Studio. Visual Studio just helps streamlining the needed C++ toolchain requirements (compilers, linker, etc).
 
-### CMake Installed Files
+
+## CMake Installed Files
 
 The installation depends on the target platform.
 

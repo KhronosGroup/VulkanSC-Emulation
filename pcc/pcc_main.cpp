@@ -34,7 +34,7 @@ static Json::Value load_json_file(const std::filesystem::path& filepath) {
     Json::CharReaderBuilder builder;
     Json::Value result = Json::nullValue;
     if (!Json::parseFromStream(builder, file, &result, &errors)) {
-        logger.Write(logger.ERROR, "failed to parse JSON file '%s'\n%s\n", filepath.c_str(), errors.c_str());
+        logger.Write(logger.kError, "failed to parse JSON file '%s'\n%s\n", filepath.c_str(), errors.c_str());
         return Json::nullValue;
     }
 
@@ -79,9 +79,9 @@ static bool validate_spirv(const Json::Value& enabled_extensions, const Json::Va
     spv_valid = spvValidateWithOptions(ctx, options, &binary, &diag);
     if (spv_valid != SPV_SUCCESS) {
         if (spv_valid == SPV_WARNING) {
-            logger.Write(logger.WARNING, "spirv-val: %s\n", diag && diag->error ? diag->error : "(no error text)");
+            logger.Write(logger.kWarning, "spirv-val: %s\n", diag && diag->error ? diag->error : "(no error text)");
         } else {
-            logger.Write(logger.ERROR, "spirv-val: %s\n", diag && diag->error ? diag->error : "(no error text)");
+            logger.Write(logger.kError, "spirv-val: %s\n", diag && diag->error ? diag->error : "(no error text)");
         }
     }
     spvDiagnosticDestroy(diag);
@@ -90,10 +90,10 @@ static bool validate_spirv(const Json::Value& enabled_extensions, const Json::Va
         spv_text text = nullptr;
         spv_result_t error = spvBinaryToText(ctx, spirv->data(), spirv->size(), SPV_BINARY_TO_TEXT_OPTION_INDENT, &text, &diag);
         if (error) {
-            logger.Write(logger.ERROR, "spirv-dis: %s\n", diag && diag->error ? diag->error : "(no error text)");
+            logger.Write(logger.kError, "spirv-dis: %s\n", diag && diag->error ? diag->error : "(no error text)");
             spvDiagnosticDestroy(diag);
         } else {
-            logger.Write(logger.INFO, "spirv-dis:\n%s\n", text->str);
+            logger.Write(logger.kInfo, "spirv-dis:\n%s\n", text->str);
             spvTextDestroy(text);
         }
     }
@@ -115,14 +115,14 @@ static bool validate_spirv(const Json::Value& enabled_extensions, const Json::Va
                             case spv::ExecutionModelVertex:
                                 if (stage_flag != "VK_SHADER_STAGE_VERTEX_BIT") {
                                     logger.Write(
-                                        logger.ERROR,
+                                        logger.kError,
                                         "Pipeline stage flag (%s) incompatible with ExecutionModelVertex for entry point '%s'\n",
                                         stage_flag.c_str(), entry_point_name.asCString());
                                 }
                                 break;
                             case spv::ExecutionModelTessellationControl:
                                 if (stage_flag != "VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT") {
-                                    logger.Write(logger.ERROR,
+                                    logger.Write(logger.kError,
                                                  "Pipeline stage flag (%s) incompatible with ExecutionModelTessellationControl for "
                                                  "entry point '%s'\n",
                                                  stage_flag.c_str(), entry_point_name.asCString());
@@ -130,7 +130,7 @@ static bool validate_spirv(const Json::Value& enabled_extensions, const Json::Va
                                 break;
                             case spv::ExecutionModelTessellationEvaluation:
                                 if (stage_flag != "VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT") {
-                                    logger.Write(logger.ERROR,
+                                    logger.Write(logger.kError,
                                                  "Pipeline stage flag (%s) incompatible with ExecutionModelTessellationEvaluation "
                                                  "for entry point '%s'\n",
                                                  stage_flag.c_str(), entry_point_name.asCString());
@@ -139,7 +139,7 @@ static bool validate_spirv(const Json::Value& enabled_extensions, const Json::Va
                             case spv::ExecutionModelGeometry:
                                 if (stage_flag != "VK_SHADER_STAGE_GEOMETRY_BIT") {
                                     logger.Write(
-                                        logger.ERROR,
+                                        logger.kError,
                                         "Pipeline stage flag (%s) incompatible with ExecutionModelGeometry for entry point '%s'\n",
                                         stage_flag.c_str(), entry_point_name.asCString());
                                 }
@@ -147,7 +147,7 @@ static bool validate_spirv(const Json::Value& enabled_extensions, const Json::Va
                             case spv::ExecutionModelFragment:
                                 if (stage_flag != "VK_SHADER_STAGE_FRAGMENT_BIT") {
                                     logger.Write(
-                                        logger.ERROR,
+                                        logger.kError,
                                         "Pipeline stage flag (%s) incompatible with ExecutionModelFragment for entry point '%s'\n",
                                         stage_flag.c_str(), entry_point_name.asCString());
                                 }
@@ -155,13 +155,13 @@ static bool validate_spirv(const Json::Value& enabled_extensions, const Json::Va
                             case spv::ExecutionModelGLCompute:
                                 if (stage_flag != "VK_SHADER_STAGE_COMPUTE_BIT") {
                                     logger.Write(
-                                        logger.ERROR,
+                                        logger.kError,
                                         "Pipeline stage flag (%s) incompatible with ExecutionModelGLCompute for entry point '%s'\n",
                                         stage_flag.c_str(), entry_point_name.asCString());
                                 }
                                 break;
                             default:
-                                logger.Write(logger.ERROR, "Unsupported execution model (%d) for entry point '%s'\n", exec_model,
+                                logger.Write(logger.kError, "Unsupported execution model (%d) for entry point '%s'\n", exec_model,
                                              entry_point_name.asCString());
                                 break;
                         }
@@ -172,10 +172,10 @@ static bool validate_spirv(const Json::Value& enabled_extensions, const Json::Va
             },
             nullptr);
         if (!entry_point_found) {
-            logger.Write(logger.ERROR, "Entry point '%s' not found!\n", entry_point_name.asCString());
+            logger.Write(logger.kError, "Entry point '%s' not found!\n", entry_point_name.asCString());
         }
     } else {
-        logger.Write(logger.ERROR, "Missing entry point name from stage info\n");
+        logger.Write(logger.kError, "Missing entry point name from stage info\n");
     }
 
     // Apply specialization constants, if needed
@@ -272,13 +272,13 @@ static bool validate_spirv(const Json::Value& enabled_extensions, const Json::Va
                     // Pass doesn't support OpQuantizeF16
                     // optimizer.RegisterPass(spvtools::CreateFoldSpecConstantOpAndCompositePass());
                     if (!optimizer.Run(flattened_spirv.data(), flattened_spirv.size(), &specialized_spirv, options, true)) {
-                        logger.Write(logger.ERROR, "Failed to apply specialized constants\n");
+                        logger.Write(logger.kError, "Failed to apply specialized constants\n");
                         specialized_spirv.clear();
                         spv_valid = SPV_ERROR_INVALID_BINARY;
                     }
                 }
             } else {
-                logger.Write(logger.ERROR, "Invalid SPIR-V specialization info\n");
+                logger.Write(logger.kError, "Invalid SPIR-V specialization info\n");
                 spv_valid = SPV_ERROR_INVALID_BINARY;
             }
 
@@ -288,9 +288,9 @@ static bool validate_spirv(const Json::Value& enabled_extensions, const Json::Va
                 spv_valid = spvValidateWithOptions(ctx, options, &specialized_binary, &diag);
                 if (spv_valid != SPV_SUCCESS) {
                     if (spv_valid == SPV_WARNING) {
-                        logger.Write(logger.WARNING, "spirv-val: %s\n", diag && diag->error ? diag->error : "(no error text)");
+                        logger.Write(logger.kWarning, "spirv-val: %s\n", diag && diag->error ? diag->error : "(no error text)");
                     } else {
-                        logger.Write(logger.ERROR, "spirv-val: %s\n", diag && diag->error ? diag->error : "(no error text)");
+                        logger.Write(logger.kError, "spirv-val: %s\n", diag && diag->error ? diag->error : "(no error text)");
                     }
                 }
                 spvDiagnosticDestroy(diag);
@@ -304,11 +304,11 @@ static bool validate_spirv(const Json::Value& enabled_extensions, const Json::Va
                 spv_result_t error =
                     spvBinaryToText(ctx, spirv->data(), spirv->size(), SPV_BINARY_TO_TEXT_OPTION_INDENT, &text, &diag);
                 if (error) {
-                    logger.Write(logger.ERROR, "spirv-dis (after specialization): %s\n",
+                    logger.Write(logger.kError, "spirv-dis (after specialization): %s\n",
                                  diag && diag->error ? diag->error : "(no error text)");
                     spvDiagnosticDestroy(diag);
                 } else {
-                    logger.Write(logger.INFO, "spirv-dis (after specialization):\n%s\n", text->str);
+                    logger.Write(logger.kInfo, "spirv-dis (after specialization):\n%s\n", text->str);
                     spvTextDestroy(text);
                 }
             }
@@ -335,7 +335,7 @@ static std::optional<std::vector<std::vector<uint32_t>>> load_shader_spirv(const
         // TODO: We should validate whether the stage is a valid VkShaderStageFlagBits value
         // because the pipeline JSON schema is not validating that
         if (!stage_indices.insert(std::make_pair(stage, stage_idx)).second) {
-            logger.Write(logger.ERROR, "Duplicate stage (%s) in pipeline creation info\n", stage.c_str());
+            logger.Write(logger.kError, "Duplicate stage (%s) in pipeline creation info\n", stage.c_str());
             result.reset();
             return result;
         }
@@ -352,7 +352,7 @@ static std::optional<std::vector<std::vector<uint32_t>>> load_shader_spirv(const
             filename_stage_index_remap.push_back(stage_index->second);
             stage_indices.erase(stage);
         } else {
-            logger.Write(logger.ERROR, "No matching stage (%s) found in pipeline creation info for ShaderFileNames[%u]\n",
+            logger.Write(logger.kError, "No matching stage (%s) found in pipeline creation info for ShaderFileNames[%u]\n",
                          stage.c_str(), file_idx);
             result.reset();
             return result;
@@ -360,7 +360,7 @@ static std::optional<std::vector<std::vector<uint32_t>>> load_shader_spirv(const
     }
 
     // Load and validate SPIR-V files
-    logger.Write(logger.INFO, "Loading shaders:\n");
+    logger.Write(logger.kInfo, "Loading shaders:\n");
     result = std::vector<std::vector<uint32_t>>(stage_count);
     for (uint32_t file_idx = 0; file_idx < stage_count; ++file_idx) {
         uint32_t stage_idx = filename_stage_index_remap[file_idx];
@@ -372,11 +372,11 @@ static std::optional<std::vector<std::vector<uint32_t>>> load_shader_spirv(const
             filepath += std::filesystem::path::preferred_separator;
             filepath += filename;
 
-            logger.Write(logger.INFO, "  %s\n", filepath.string().c_str());
+            logger.Write(logger.kInfo, "  %s\n", filepath.string().c_str());
 
             FILE* fp = fopen(filepath.string().c_str(), "rb");
             if (!fp) {
-                logger.Write(logger.ERROR, "Failed to open SPIR-V file '%s' for ShaderFileNames[%u]\n", filepath.string().c_str(),
+                logger.Write(logger.kError, "Failed to open SPIR-V file '%s' for ShaderFileNames[%u]\n", filepath.string().c_str(),
                              file_idx);
                 result.reset();
                 return result;
@@ -385,7 +385,7 @@ static std::optional<std::vector<std::vector<uint32_t>>> load_shader_spirv(const
             fseek(fp, 0, SEEK_END);
             auto file_size = ftell(fp);
             if (file_size % sizeof(uint32_t) != 0) {
-                logger.Write(logger.ERROR, "Size of SPIR-V file '%s' (%ld) for ShaderFileNames[%u] is not a multiple of 4\n",
+                logger.Write(logger.kError, "Size of SPIR-V file '%s' (%ld) for ShaderFileNames[%u] is not a multiple of 4\n",
                              filepath.string().c_str(), file_size, file_idx);
                 fclose(fp);
                 result.reset();
@@ -397,7 +397,7 @@ static std::optional<std::vector<std::vector<uint32_t>>> load_shader_spirv(const
             spirv.resize(file_size / sizeof(uint32_t));
             size_t read_count = fread(spirv.data(), sizeof(uint32_t), spirv.size(), fp);
             if (read_count != spirv.size()) {
-                logger.Write(logger.ERROR, "Failed to read SPIR-V file '%s' for ShaderFileNames[%u]\n", filepath.string().c_str(),
+                logger.Write(logger.kError, "Failed to read SPIR-V file '%s' for ShaderFileNames[%u]\n", filepath.string().c_str(),
                              file_idx);
                 fclose(fp);
                 result.reset();
@@ -406,7 +406,7 @@ static std::optional<std::vector<std::vector<uint32_t>>> load_shader_spirv(const
 
             // Validate SPIR-V
             if (!validate_spirv(enabled_extensions, pipeline_state, stage_info, &spirv, spirv_dis)) {
-                logger.Write(logger.ERROR, "Failed to validate SPIR-V file '%s' for ShaderFileNames[%u]\n",
+                logger.Write(logger.kError, "Failed to validate SPIR-V file '%s' for ShaderFileNames[%u]\n",
                              filepath.string().c_str(), file_idx);
                 fclose(fp);
                 result.reset();
@@ -415,7 +415,7 @@ static std::optional<std::vector<std::vector<uint32_t>>> load_shader_spirv(const
 
             fclose(fp);
         } else {
-            logger.Write(logger.ERROR, "Invalid filename in ShaderFileNames[%u]\n", file_idx);
+            logger.Write(logger.kError, "Invalid filename in ShaderFileNames[%u]\n", file_idx);
             result.reset();
             return result;
         }
@@ -449,7 +449,7 @@ int main(int argc, char* argv[]) {
     try {
         args = options.parse(argc, argv);
     } catch (cxxopts::exceptions::exception& excp) {
-        logger.Write(logger.ERROR, "%s\n", excp.what());
+        logger.Write(logger.kError, "%s\n", excp.what());
         printf("%s\n", options.help().c_str());
         return EXIT_FAILURE;
     }
@@ -460,7 +460,7 @@ int main(int argc, char* argv[]) {
     }
 
     if (!args.count("path") || !args.count("out")) {
-        logger.Write(logger.ERROR, "Missing arguments (--path and --out are required)\n");
+        logger.Write(logger.kError, "Missing arguments (--path and --out are required)\n");
         printf("%s\n", options.help().c_str());
         return EXIT_FAILURE;
     }
@@ -468,7 +468,7 @@ int main(int argc, char* argv[]) {
     if (args.count("log")) {
         auto log_filename = args["log"].as<std::string>();
         if (!logger.SetLogFile(log_filename)) {
-            logger.Write(logger.ERROR, "Failed to open logger file '%s'\n", log_filename.c_str());
+            logger.Write(logger.kError, "Failed to open logger file '%s'\n", log_filename.c_str());
         }
     }
 
@@ -480,7 +480,7 @@ int main(int argc, char* argv[]) {
     }
 
     if (!std::filesystem::is_directory(path)) {
-        logger.Write(logger.ERROR, "'%s' is not a valid directory\n", path.c_str());
+        logger.Write(logger.kError, "'%s' is not a valid directory\n", path.c_str());
         return EXIT_FAILURE;
     }
 
@@ -493,7 +493,7 @@ int main(int argc, char* argv[]) {
     };
     std::vector<PipelineInfo> pipelines;
 
-    logger.Write(logger.INFO, "Reading JSON files from '%s'\n", path.c_str());
+    logger.Write(logger.kInfo, "Reading JSON files from '%s'\n", path.c_str());
     // We preprocess the directory entries, because there are no guarantees on the order of traversal.
     // (MS-STL and libstdc++ disagree on the order of traversing a directory.)
     std::vector<std::filesystem::directory_entry> entries;
@@ -524,7 +524,7 @@ int main(int argc, char* argv[]) {
         PipelineInfo pipeline_info{};
 
         // Load JSON file
-        logger.Write(logger.INFO, "Parsing pipeline JSON '%s'\n", entry.path().string().c_str());
+        logger.Write(logger.kInfo, "Parsing pipeline JSON '%s'\n", entry.path().string().c_str());
         auto json = load_json_file(entry.path());
         if (json == Json::nullValue) {
             return EXIT_FAILURE;
@@ -544,7 +544,7 @@ int main(int argc, char* argv[]) {
                 pipeline_info.uuid[i] = pipeline_uuid[i].asUInt();
             }
         } else {
-            logger.Write(logger.ERROR, "Invalid or missing PipelineUUID\n");
+            logger.Write(logger.kError, "Invalid or missing PipelineUUID\n");
             return EXIT_FAILURE;
         }
 
@@ -561,14 +561,14 @@ int main(int argc, char* argv[]) {
                         spirv = load_shader_spirv(path, json["EnabledExtensions"], graphics_pipe_state, shader_stages,
                                                   args.count("spirv-dis"));
                     } else {
-                        logger.Write(logger.ERROR, "The size of ShaderFileNames array (%u) does not match stageCount (%u)",
+                        logger.Write(logger.kError, "The size of ShaderFileNames array (%u) does not match stageCount (%u)",
                                      shader_filenames.size(), stage_count);
                     }
                 } else {
-                    logger.Write(logger.ERROR, "pStages is not an array with stageCount (%u) elements", stage_count);
+                    logger.Write(logger.kError, "pStages is not an array with stageCount (%u) elements", stage_count);
                 }
             } else {
-                logger.Write(logger.ERROR, "stageCount is zero");
+                logger.Write(logger.kError, "stageCount is zero");
             }
         }
         auto compute_pipe_state = json["ComputePipelineState"];
@@ -578,12 +578,12 @@ int main(int argc, char* argv[]) {
                 spirv = load_shader_spirv(path, json["EnabledExtensions"], compute_pipe_state,
                                           compute_pipe_state["ComputePipeline"]["stage"], args.count("spirv-dis"));
             } else {
-                logger.Write(logger.ERROR, "The size of ShaderFileNames array (%u) is not 1 for compute pipeline\n",
+                logger.Write(logger.kError, "The size of ShaderFileNames array (%u) is not 1 for compute pipeline\n",
                              shader_filenames.size());
             }
         }
         if (graphics_pipe_state == Json::nullValue && compute_pipe_state == Json::nullValue) {
-            logger.Write(logger.ERROR, "No pipeline state found!\n");
+            logger.Write(logger.kError, "No pipeline state found!\n");
             return EXIT_FAILURE;
         }
         if (spirv.has_value()) {
@@ -593,13 +593,13 @@ int main(int argc, char* argv[]) {
                 pipeline_info.pipeline_memory_size += pipeline_spv.size() * sizeof(uint32_t);
             }
         } else {
-            logger.Write(logger.ERROR, "Failed to load SPIR-V data!\n");
+            logger.Write(logger.kError, "Failed to load SPIR-V data!\n");
             return EXIT_FAILURE;
         }
 
         pipelines.emplace_back(std::move(pipeline_info));
 
-        logger.Write(logger.INFO, "Compiled pipeline JSON '%s' successfully.\n\n", entry.path().string().c_str());
+        logger.Write(logger.kInfo, "Compiled pipeline JSON '%s' successfully.\n\n", entry.path().string().c_str());
     }
 
     // Build pipeline cache
@@ -622,7 +622,7 @@ int main(int argc, char* argv[]) {
     if (args["hex"].count()) {
         FILE* fp = fopen((out + ".hpp").c_str(), "w");
         if (!fp) {
-            logger.Write(logger.ERROR, "Failed to open output file '%s.hpp'\n", out.c_str());
+            logger.Write(logger.kError, "Failed to open output file '%s.hpp'\n", out.c_str());
             return EXIT_FAILURE;
         }
         int status = fprintf(fp, "const int cache_size = %zu;\n", builder.GetData().size());
@@ -646,26 +646,26 @@ int main(int argc, char* argv[]) {
             status = fprintf(fp, "\n};\n");
         }
         if (status < 0) {
-            logger.Write(logger.ERROR, "Failed to write pipeline cache data to '%s.hpp'\n", out.c_str());
+            logger.Write(logger.kError, "Failed to write pipeline cache data to '%s.hpp'\n", out.c_str());
             fclose(fp);
             return EXIT_FAILURE;
         }
         fclose(fp);
-        logger.Write(logger.INFO, "Pipeline cache data written to '%s.hpp'\n", out.c_str());
+        logger.Write(logger.kInfo, "Pipeline cache data written to '%s.hpp'\n", out.c_str());
     } else {
         FILE* fp = fopen(out.c_str(), "wb");
         if (!fp) {
-            logger.Write(logger.ERROR, "Failed to open output file '%s'\n", out.c_str());
+            logger.Write(logger.kError, "Failed to open output file '%s'\n", out.c_str());
             return EXIT_FAILURE;
         }
         size_t write_count = fwrite(builder.GetData().data(), 1, builder.GetData().size(), fp);
         if (write_count != builder.GetData().size()) {
-            logger.Write(logger.ERROR, "Failed to write pipeline cache data to '%s'\n", out.c_str());
+            logger.Write(logger.kError, "Failed to write pipeline cache data to '%s'\n", out.c_str());
             fclose(fp);
             return EXIT_FAILURE;
         }
         fclose(fp);
-        logger.Write(logger.INFO, "Pipeline cache data written to '%s'\n", out.c_str());
+        logger.Write(logger.kInfo, "Pipeline cache data written to '%s'\n", out.c_str());
     }
 
     return EXIT_SUCCESS;

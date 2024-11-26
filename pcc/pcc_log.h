@@ -12,9 +12,9 @@
 
 class Logger {
   public:
-    inline static const char* ERROR = "[ERROR]";
-    inline static const char* INFO = "[INFO]";
-    inline static const char* WARNING = "[WARNING]";
+    inline static const char* kError = "[ERROR]";
+    inline static const char* kInfo = "[INFO]";
+    inline static const char* kWarning = "[WARNING]";
 
     Logger() : file_(stderr) {}
     ~Logger() {
