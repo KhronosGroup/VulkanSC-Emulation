@@ -90,4 +90,4 @@ def ClearFolder(folder):
         for f in files:
             os.unlink(os.path.join(root, f))
         for d in dirs:
-            shutil.rmtree(os.path.join(root, d), onexc=remove_readonly)
+            shutil.rmtree(os.path.join(root, d), onerror=remove_readonly)
