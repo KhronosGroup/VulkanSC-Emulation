@@ -146,7 +146,18 @@ include(GoogleTest)
 # gtest_discover_tests requires running the output binaries which will not
 # work with cross-compiling, thus we fall back to using gtest_add_tests
 if (CMAKE_CROSSCOMPILING)
-    gtest_add_tests(TARGET icd_tests)
+    gtest_add_tests(
+        TARGET icd_tests
+        TEST_PREFIX "ICD."
+        TEST_LIST ICD_TESTS
+    )
+    foreach(ICD_TEST IN LISTS ICD_TESTS)
+        set_tests_properties(ICD_TEST PROPERTIES LABELS ICD)
+    endforeach()
 else()
-    gtest_discover_tests(icd_tests DISCOVERY_TIMEOUT 100)
+    gtest_discover_tests(icd_tests
+        TEST_PREFIX "ICD."
+        PROPERTIES LABELS ICD
+        DISCOVERY_TIMEOUT 100
+    )
 endif()
