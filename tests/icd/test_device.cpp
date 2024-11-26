@@ -41,7 +41,7 @@ TEST_F(DeviceTest, CreateInfo) {
 
     InitInstance();
     auto physical_device = GetPhysicalDevice();
-    VkDevice device;
+    VkDevice device = VK_NULL_HANDLE;
 
     VkMockObject<VkDevice> mock_device{};
 
@@ -79,6 +79,7 @@ TEST_F(DeviceTest, CreateInfo) {
     create_info.pQueueCreateInfos = &queue_info;
 
     EXPECT_EQ(vksc::CreateDevice(physical_device, &create_info, nullptr, &device), VK_SUCCESS);
+    vksc::DestroyDevice(device, nullptr);
 
     vkmock::CreateDevice = [&](auto, auto, auto, auto pDevice) {
         *pDevice = mock_device;

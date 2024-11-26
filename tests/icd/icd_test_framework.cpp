@@ -423,8 +423,8 @@ const VkInstanceCreateInfo IcdTest::GetDefaultInstanceCreateInfo(void *pnext_cha
 }
 
 VkInstance IcdTest::InitInstance(VkInstanceCreateInfo *create_info) {
+    auto default_ci = GetDefaultInstanceCreateInfo();
     if (create_info == nullptr) {
-        static auto default_ci = GetDefaultInstanceCreateInfo();
         create_info = &default_ci;
     }
     VkResult result = vksc::CreateInstance(create_info, nullptr, &instance_);

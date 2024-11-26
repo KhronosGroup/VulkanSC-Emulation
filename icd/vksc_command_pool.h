@@ -23,6 +23,7 @@ class CommandBufferMemoryTracker;
 class CommandPool {
   public:
     CommandPool(VkCommandPool command_pool, Device& device, VkDeviceSize reserved_size, uint32_t reserved_count);
+    ~CommandPool();
 
     icd::Logger& Log() { return logger_; }
 
