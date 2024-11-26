@@ -9,18 +9,19 @@
 
 namespace icd {
 
-FaultHandler::FaultHandler(uint32_t max_fault_count, const VkFaultCallbackInfo* callback_info) : max_fault_count_(max_fault_count) {
+FaultHandler::FaultHandler(uint32_t max_fault_count, const VkFaultCallbackInfo* callback_info)
+    : max_fault_count_(max_fault_count),
+      fault_callback_((callback_info != nullptr)
+                          ? FaultCallbackInfo{callback_info->faultCount, callback_info->pFaults, callback_info->pfnFaultCallback}
+                          : std::optional<FaultCallbackInfo>{}) {
     faults_.reserve(max_fault_count);
-    if (callback_info != nullptr) {
-        fault_callback_ = FaultCallbackInfo{callback_info->faultCount, callback_info->pFaults, callback_info->pfnFaultCallback};
-    }
 }
 
 void FaultHandler::ReportFault(VkFaultLevel level, VkFaultType type) {
     VkFaultData fault_data = {VK_STRUCTURE_TYPE_FAULT_DATA, nullptr, level, type};
 
     if (fault_callback_) {
-        fault_callback_.value().pfnFaultCallback(unrecorded_faults_, 1, &fault_data);
+        fault_callback_.value().pfnFaultCallback(unrecorded_faults_.load(), 1, &fault_data);
     }
 
     if (max_fault_count_ != 0) {
@@ -29,7 +30,7 @@ void FaultHandler::ReportFault(VkFaultLevel level, VkFaultType type) {
         if (faults_.size() < max_fault_count_) {
             faults_.push_back(fault_data);
         } else {
-            unrecorded_faults_ = true;
+            unrecorded_faults_.store(true);
         }
     }
 }
@@ -41,9 +42,8 @@ VkResult FaultHandler::GetFaultData(VkFaultQueryBehavior faultQueryBehavior, VkB
     switch (faultQueryBehavior) {
         case VkFaultQueryBehavior::VK_FAULT_QUERY_BEHAVIOR_GET_AND_CLEAR_ALL_FAULTS:
             if (pUnrecordedFaults != nullptr) {
-                *pUnrecordedFaults = unrecorded_faults_;
+                *pUnrecordedFaults = unrecorded_faults_.exchange(false);
             }
-            unrecorded_faults_ = VK_FALSE;
 
             if (pFaults == nullptr) {
                 *pFaultCount = static_cast<uint32_t>(faults_.size());

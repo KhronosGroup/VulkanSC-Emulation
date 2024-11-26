@@ -20,6 +20,12 @@ CommandPool::CommandPool(VkCommandPool command_pool, Device& device, VkDeviceSiz
     command_buffers_.reserve(reserved_count);
 }
 
+CommandPool::~CommandPool() {
+    for (auto command_buffer : command_buffers_) {
+        CommandBuffer::FromHandle(command_buffer)->Free();
+    }
+}
+
 bool CommandPool::operator==(const VkCommandPool& rhs) const { return this->handle_ == rhs; }
 
 VkDeviceSize CommandPool::GetReservedMemorySize() const {
@@ -76,7 +82,7 @@ VkResult CommandPool::FreeCommandBuffers(uint32_t count, const VkCommandBuffer* 
         if (buffers[i] == VK_NULL_HANDLE) {
             continue;
         }
-        auto it = std::find(command_buffers_.cbegin(), command_buffers_.cend(), buffers[i]);
+        auto it = command_buffers_.find(buffers[i]);
         if (it == command_buffers_.cend()) {
             GetDevice().ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_INVALID_API_USAGE);
             Log().Fatal("VKSC-EMU-CommandPool-UnknownCommandBuffer",
@@ -94,8 +100,8 @@ VkResult CommandPool::ResetCommandPool(VkCommandPoolResetFlags) {
     VkResult result = VK_SUCCESS;
 
     for (auto& command_buffer : command_buffers_) {
-        vksc::CommandBuffer::FromHandle(command_buffer)->FreeMemory();
-        if (vksc::CommandBuffer::FromHandle(command_buffer)->GetStatus() != VK_SUCCESS) {
+        CommandBuffer::FromHandle(command_buffer)->FreeMemory();
+        if (CommandBuffer::FromHandle(command_buffer)->GetStatus() != VK_SUCCESS) {
             result = VK_ERROR_OUT_OF_DEVICE_MEMORY;
         }
     }

@@ -13,6 +13,7 @@
 #include <vector>
 #include <optional>
 #include <utility>
+#include <atomic>
 
 namespace icd {
 
@@ -38,10 +39,10 @@ class FaultHandler {
     };
 
     const std::size_t max_fault_count_{};
+    const std::optional<FaultCallbackInfo> fault_callback_{std::nullopt};
     std::mutex faults_mutex_{};
     std::vector<VkFaultData> faults_{};
-    std::optional<FaultCallbackInfo> fault_callback_{std::nullopt};
-    bool unrecorded_faults_{false};
+    std::atomic_bool unrecorded_faults_{false};
 };
 
 }  // namespace icd
