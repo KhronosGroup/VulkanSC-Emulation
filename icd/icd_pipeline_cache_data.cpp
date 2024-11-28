@@ -272,9 +272,13 @@ bool PipelineCache::ValidatePipelineCacheDataEntry(const VkDeviceCreateInfo& dev
                                         "spirv-val error:\n%s",
                                         stage_idx, entry.PipelineID().toString().c_str(), data.Data(),
                                         diag && diag->error ? diag->error : "(no error text)");
+                spvDiagnosticDestroy(diag);
+                spvContextDestroy(ctx);
                 return false;
             }
         }
+        spvDiagnosticDestroy(diag);
+        spvContextDestroy(ctx);
     }
 
     return true;
