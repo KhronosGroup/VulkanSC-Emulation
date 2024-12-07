@@ -27,7 +27,7 @@ permissions:
     contents: read
 
 jobs:
-  code-format:
+  check_emu:
     name: clang-format
     runs-on: ubuntu-latest
     strategy:
@@ -39,9 +39,11 @@ jobs:
       with:
         clang-format-version: '14'
         check-path: ${{ matrix.path }}
+    - name: REUSE Compliance Check
+      uses: fsfe/reuse-action@v4.0.0
 
   codegen:
-    needs: code-format
+    needs: check_emu
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
