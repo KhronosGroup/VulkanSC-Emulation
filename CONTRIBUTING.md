@@ -36,6 +36,10 @@ a good reason is "This violates the style guide, but it improves type safety."
     * Use the body to explain what and why vs. how
     * Use the imperative mode in the subject line. This just means to write it as a command (e.g. Fix the sprocket)
 
+* **License Information**
+    * Designation of license information follows [REUSE](https://reuse.software/) recommendations
+    * REUSE compatibility is enforced in CI using the Python module [reuse-tool](https://github.com/fsfe/reuse-tool)
+
 Strive for commits that implement a single or related set of functionality, using as many commits as is necessary (more is better).
 That said, please ensure that the repository compiles and passes tests without error for each commit in your pull request.  Note
 that to be accepted into the repository, the pull request must [pass all tests](#testing your changes) on all supported platforms
