@@ -699,6 +699,9 @@ void Device::DestroyCuFunctionNVX(VkCuFunctionNVX function, const VkAllocationCa
 uint32_t Device::GetImageViewHandleNVX(const VkImageViewHandleInfoNVX* pInfo) {
     return dispatch_table_.GetImageViewHandleNVX(handle_, pInfo);
 }
+uint64_t Device::GetImageViewHandle64NVX(const VkImageViewHandleInfoNVX* pInfo) {
+    return dispatch_table_.GetImageViewHandle64NVX(handle_, pInfo);
+}
 VkResult Device::GetImageViewAddressNVX(VkImageView imageView, VkImageViewAddressPropertiesNVX* pProperties) {
     VkResult result = dispatch_table_.GetImageViewAddressNVX(handle_, imageView, pProperties);
     if (pProperties != nullptr) {
@@ -1184,6 +1187,40 @@ VkResult Device::GetScreenBufferPropertiesQNX(const struct _screen_buffer* buffe
     return result;
 }
 #endif  // VK_USE_PLATFORM_SCREEN_QNX
+void Device::GetGeneratedCommandsMemoryRequirementsEXT(const VkGeneratedCommandsMemoryRequirementsInfoEXT* pInfo,
+                                                       VkMemoryRequirements2* pMemoryRequirements) {
+    dispatch_table_.GetGeneratedCommandsMemoryRequirementsEXT(handle_, pInfo, pMemoryRequirements);
+    if (pMemoryRequirements != nullptr) {
+        vksc::ConvertOutStructChainToVulkanSC<VkMemoryRequirements2>(pMemoryRequirements);
+    }
+}
+VkResult Device::CreateIndirectCommandsLayoutEXT(const VkIndirectCommandsLayoutCreateInfoEXT* pCreateInfo,
+                                                 const VkAllocationCallbacks* pAllocator,
+                                                 VkIndirectCommandsLayoutEXT* pIndirectCommandsLayout) {
+    return dispatch_table_.CreateIndirectCommandsLayoutEXT(handle_, pCreateInfo, pAllocator, pIndirectCommandsLayout);
+}
+void Device::DestroyIndirectCommandsLayoutEXT(VkIndirectCommandsLayoutEXT indirectCommandsLayout,
+                                              const VkAllocationCallbacks* pAllocator) {
+    dispatch_table_.DestroyIndirectCommandsLayoutEXT(handle_, indirectCommandsLayout, pAllocator);
+}
+VkResult Device::CreateIndirectExecutionSetEXT(const VkIndirectExecutionSetCreateInfoEXT* pCreateInfo,
+                                               const VkAllocationCallbacks* pAllocator,
+                                               VkIndirectExecutionSetEXT* pIndirectExecutionSet) {
+    return dispatch_table_.CreateIndirectExecutionSetEXT(handle_, pCreateInfo, pAllocator, pIndirectExecutionSet);
+}
+void Device::DestroyIndirectExecutionSetEXT(VkIndirectExecutionSetEXT indirectExecutionSet,
+                                            const VkAllocationCallbacks* pAllocator) {
+    dispatch_table_.DestroyIndirectExecutionSetEXT(handle_, indirectExecutionSet, pAllocator);
+}
+void Device::UpdateIndirectExecutionSetPipelineEXT(VkIndirectExecutionSetEXT indirectExecutionSet, uint32_t executionSetWriteCount,
+                                                   const VkWriteIndirectExecutionSetPipelineEXT* pExecutionSetWrites) {
+    dispatch_table_.UpdateIndirectExecutionSetPipelineEXT(handle_, indirectExecutionSet, executionSetWriteCount,
+                                                          pExecutionSetWrites);
+}
+void Device::UpdateIndirectExecutionSetShaderEXT(VkIndirectExecutionSetEXT indirectExecutionSet, uint32_t executionSetWriteCount,
+                                                 const VkWriteIndirectExecutionSetShaderEXT* pExecutionSetWrites) {
+    dispatch_table_.UpdateIndirectExecutionSetShaderEXT(handle_, indirectExecutionSet, executionSetWriteCount, pExecutionSetWrites);
+}
 VkResult Device::CreateAccelerationStructureKHR(const VkAccelerationStructureCreateInfoKHR* pCreateInfo,
                                                 const VkAllocationCallbacks* pAllocator,
                                                 VkAccelerationStructureKHR* pAccelerationStructure) {

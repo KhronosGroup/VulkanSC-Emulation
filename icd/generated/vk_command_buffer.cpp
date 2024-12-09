@@ -309,10 +309,6 @@ void CommandBuffer::CmdSetRenderingInputAttachmentIndicesKHR(
 void CommandBuffer::CmdEncodeVideoKHR(const VkVideoEncodeInfoKHR* pEncodeInfo) {
     dispatch_table_.CmdEncodeVideoKHR(handle_, pEncodeInfo);
 }
-void CommandBuffer::CmdWriteBufferMarker2AMD(VkPipelineStageFlags2 stage, VkBuffer dstBuffer, VkDeviceSize dstOffset,
-                                             uint32_t marker) {
-    dispatch_table_.CmdWriteBufferMarker2AMD(handle_, stage, dstBuffer, dstOffset, marker);
-}
 void CommandBuffer::CmdTraceRaysIndirect2KHR(VkDeviceAddress indirectDeviceAddress) {
     dispatch_table_.CmdTraceRaysIndirect2KHR(handle_, indirectDeviceAddress);
 }
@@ -403,17 +399,21 @@ void CommandBuffer::CmdInsertDebugUtilsLabelEXT(const VkDebugUtilsLabelEXT* pLab
     dispatch_table_.CmdInsertDebugUtilsLabelEXT(handle_, pLabelInfo);
 }
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-void CommandBuffer::CmdInitializeGraphScratchMemoryAMDX(VkDeviceAddress scratch) {
-    dispatch_table_.CmdInitializeGraphScratchMemoryAMDX(handle_, scratch);
+void CommandBuffer::CmdInitializeGraphScratchMemoryAMDX(VkPipeline executionGraph, VkDeviceAddress scratch,
+                                                        VkDeviceSize scratchSize) {
+    dispatch_table_.CmdInitializeGraphScratchMemoryAMDX(handle_, executionGraph, scratch, scratchSize);
 }
-void CommandBuffer::CmdDispatchGraphAMDX(VkDeviceAddress scratch, const VkDispatchGraphCountInfoAMDX* pCountInfo) {
-    dispatch_table_.CmdDispatchGraphAMDX(handle_, scratch, pCountInfo);
+void CommandBuffer::CmdDispatchGraphAMDX(VkDeviceAddress scratch, VkDeviceSize scratchSize,
+                                         const VkDispatchGraphCountInfoAMDX* pCountInfo) {
+    dispatch_table_.CmdDispatchGraphAMDX(handle_, scratch, scratchSize, pCountInfo);
 }
-void CommandBuffer::CmdDispatchGraphIndirectAMDX(VkDeviceAddress scratch, const VkDispatchGraphCountInfoAMDX* pCountInfo) {
-    dispatch_table_.CmdDispatchGraphIndirectAMDX(handle_, scratch, pCountInfo);
+void CommandBuffer::CmdDispatchGraphIndirectAMDX(VkDeviceAddress scratch, VkDeviceSize scratchSize,
+                                                 const VkDispatchGraphCountInfoAMDX* pCountInfo) {
+    dispatch_table_.CmdDispatchGraphIndirectAMDX(handle_, scratch, scratchSize, pCountInfo);
 }
-void CommandBuffer::CmdDispatchGraphIndirectCountAMDX(VkDeviceAddress scratch, VkDeviceAddress countInfo) {
-    dispatch_table_.CmdDispatchGraphIndirectCountAMDX(handle_, scratch, countInfo);
+void CommandBuffer::CmdDispatchGraphIndirectCountAMDX(VkDeviceAddress scratch, VkDeviceSize scratchSize,
+                                                      VkDeviceAddress countInfo) {
+    dispatch_table_.CmdDispatchGraphIndirectCountAMDX(handle_, scratch, scratchSize, countInfo);
 }
 #endif  // VK_ENABLE_BETA_EXTENSIONS
 void CommandBuffer::CmdSetSampleLocationsEXT(const VkSampleLocationsInfoEXT* pSampleLocationsInfo) {
@@ -460,6 +460,10 @@ void CommandBuffer::CmdWriteAccelerationStructuresPropertiesNV(uint32_t accelera
 void CommandBuffer::CmdWriteBufferMarkerAMD(VkPipelineStageFlagBits pipelineStage, VkBuffer dstBuffer, VkDeviceSize dstOffset,
                                             uint32_t marker) {
     dispatch_table_.CmdWriteBufferMarkerAMD(handle_, pipelineStage, dstBuffer, dstOffset, marker);
+}
+void CommandBuffer::CmdWriteBufferMarker2AMD(VkPipelineStageFlags2 stage, VkBuffer dstBuffer, VkDeviceSize dstOffset,
+                                             uint32_t marker) {
+    dispatch_table_.CmdWriteBufferMarker2AMD(handle_, stage, dstBuffer, dstOffset, marker);
 }
 void CommandBuffer::CmdDrawMeshTasksNV(uint32_t taskCount, uint32_t firstTask) {
     dispatch_table_.CmdDrawMeshTasksNV(handle_, taskCount, firstTask);
@@ -692,8 +696,19 @@ void CommandBuffer::CmdOpticalFlowExecuteNV(VkOpticalFlowSessionNV session, cons
 void CommandBuffer::CmdBindShadersEXT(uint32_t stageCount, const VkShaderStageFlagBits* pStages, const VkShaderEXT* pShaders) {
     dispatch_table_.CmdBindShadersEXT(handle_, stageCount, pStages, pShaders);
 }
+void CommandBuffer::CmdSetDepthClampRangeEXT(VkDepthClampModeEXT depthClampMode, const VkDepthClampRangeEXT* pDepthClampRange) {
+    dispatch_table_.CmdSetDepthClampRangeEXT(handle_, depthClampMode, pDepthClampRange);
+}
 void CommandBuffer::CmdSetAttachmentFeedbackLoopEnableEXT(VkImageAspectFlags aspectMask) {
     dispatch_table_.CmdSetAttachmentFeedbackLoopEnableEXT(handle_, aspectMask);
+}
+void CommandBuffer::CmdPreprocessGeneratedCommandsEXT(const VkGeneratedCommandsInfoEXT* pGeneratedCommandsInfo,
+                                                      VkCommandBuffer stateCommandBuffer) {
+    dispatch_table_.CmdPreprocessGeneratedCommandsEXT(handle_, pGeneratedCommandsInfo, stateCommandBuffer);
+}
+void CommandBuffer::CmdExecuteGeneratedCommandsEXT(VkBool32 isPreprocessed,
+                                                   const VkGeneratedCommandsInfoEXT* pGeneratedCommandsInfo) {
+    dispatch_table_.CmdExecuteGeneratedCommandsEXT(handle_, isPreprocessed, pGeneratedCommandsInfo);
 }
 void CommandBuffer::CmdBuildAccelerationStructuresKHR(uint32_t infoCount, const VkAccelerationStructureBuildGeometryInfoKHR* pInfos,
                                                       const VkAccelerationStructureBuildRangeInfoKHR* const* ppBuildRangeInfos) {

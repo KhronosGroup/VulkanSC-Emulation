@@ -142,6 +142,8 @@ class PhysicalDevice {
     VkResult GetPhysicalDeviceOpticalFlowImageFormatsNV(const VkOpticalFlowImageFormatInfoNV* pOpticalFlowImageFormatInfo,
                                                         uint32_t* pFormatCount,
                                                         VkOpticalFlowImageFormatPropertiesNV* pImageFormatProperties);
+    VkResult GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV(
+        uint32_t* pPropertyCount, VkCooperativeMatrixFlexibleDimensionsPropertiesNV* pProperties);
 
     VkPhysicalDevice VkHandle() const { return handle_; }
     const DispatchTable& VkDispatch() const { return dispatch_table_; }

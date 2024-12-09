@@ -1035,8 +1035,6 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
 template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkQueueFamilyProperties2>(VkStructureType type) {
     switch (type) {
-        case VK_STRUCTURE_TYPE_QUEUE_FAMILY_CHECKPOINT_PROPERTIES_2_NV:
-            return {alignof(VkQueueFamilyCheckpointProperties2NV), sizeof(VkQueueFamilyCheckpointProperties2NV)};
         case VK_STRUCTURE_TYPE_QUEUE_FAMILY_GLOBAL_PRIORITY_PROPERTIES_KHR:
             return {alignof(VkQueueFamilyGlobalPriorityPropertiesKHR), sizeof(VkQueueFamilyGlobalPriorityPropertiesKHR)};
 

@@ -885,17 +885,6 @@ void CommandBufferMemoryTracker::CmdSetFragmentShadingRateKHR(const VkExtent2D* 
     }
 }
 
-void CommandBufferMemoryTracker::CmdWriteBufferMarker2AMD(VkPipelineStageFlags2 stage, VkBuffer dstBuffer, VkDeviceSize dstOffset,
-                                                          uint32_t marker) {
-    if (status_ != VK_SUCCESS) {
-        return;
-    }
-    VkResult res = AllocateMemory(32);
-    if (res == VK_SUCCESS) {
-        NEXT::CmdWriteBufferMarker2AMD(stage, dstBuffer, dstOffset, marker);
-    }
-}
-
 void CommandBufferMemoryTracker::CmdSetLineStippleKHR(uint32_t lineStippleFactor, uint16_t lineStipplePattern) {
     if (status_ != VK_SUCCESS) {
         return;

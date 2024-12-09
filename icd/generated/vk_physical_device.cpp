@@ -485,6 +485,16 @@ VkResult PhysicalDevice::GetPhysicalDeviceOpticalFlowImageFormatsNV(
     }
     return result;
 }
+VkResult PhysicalDevice::GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV(
+    uint32_t* pPropertyCount, VkCooperativeMatrixFlexibleDimensionsPropertiesNV* pProperties) {
+    VkResult result =
+        dispatch_table_.GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV(handle_, pPropertyCount, pProperties);
+    if (pProperties != nullptr) {
+        for (uint32_t i = 0; i < *pPropertyCount; ++i)
+            vksc::ConvertOutStructChainToVulkanSC<VkCooperativeMatrixFlexibleDimensionsPropertiesNV>(&pProperties[i]);
+    }
+    return result;
+}
 
 }  // namespace vk
 

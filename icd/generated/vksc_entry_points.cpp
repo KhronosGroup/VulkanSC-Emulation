@@ -1240,16 +1240,6 @@ VKAPI_ATTR VkResult VKAPI_CALL vkQueueSubmit2KHR(VkQueue queue, uint32_t submitC
     return vksc::Queue::FromHandle(queue)->QueueSubmit2(submitCount, pSubmits, fence);
 }
 
-VKAPI_ATTR void VKAPI_CALL vkCmdWriteBufferMarker2AMD(VkCommandBuffer commandBuffer, VkPipelineStageFlags2 stage,
-                                                      VkBuffer dstBuffer, VkDeviceSize dstOffset, uint32_t marker) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdWriteBufferMarker2AMD(stage, dstBuffer, dstOffset, marker);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkGetQueueCheckpointData2NV(VkQueue queue, uint32_t* pCheckpointDataCount,
-                                                       VkCheckpointData2NV* pCheckpointData) {
-    return vksc::Queue::FromHandle(queue)->GetQueueCheckpointData2NV(pCheckpointDataCount, pCheckpointData);
-}
-
 VKAPI_ATTR void VKAPI_CALL vkCmdCopyBuffer2KHR(VkCommandBuffer commandBuffer, const VkCopyBufferInfo2* pCopyBufferInfo) {
     return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdCopyBuffer2(pCopyBufferInfo);
 }
