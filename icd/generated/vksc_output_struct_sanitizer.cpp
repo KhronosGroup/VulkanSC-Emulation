@@ -238,11 +238,6 @@ void ConvertOutStructToVulkanSC<VkPhysicalDeviceFragmentShadingRateKHR>(VkPhysic
 }
 
 template <>
-void ConvertOutStructToVulkanSC<VkCheckpointData2NV>(VkCheckpointData2NV* p) {
-    p->stage = p->stage & AllVkPipelineStageFlagBits2;
-}
-
-template <>
 void ConvertOutStructToVulkanSC<VkSurfaceCapabilities2EXT>(VkSurfaceCapabilities2EXT* p) {
     ConvertOutStructToVulkanSC<VkExtent2D>(&p->currentExtent);
     ConvertOutStructToVulkanSC<VkExtent2D>(&p->minImageExtent);
@@ -530,11 +525,6 @@ void ConvertOutStructToVulkanSC<VkPhysicalDeviceFragmentShadingRatePropertiesKHR
     ConvertOutStructToVulkanSC<VkExtent2D>(&p->minFragmentShadingRateAttachmentTexelSize);
     ConvertOutStructToVulkanSC<VkExtent2D>(&p->maxFragmentShadingRateAttachmentTexelSize);
     ConvertOutStructToVulkanSC<VkExtent2D>(&p->maxFragmentSize);
-}
-
-template <>
-void ConvertOutStructToVulkanSC<VkQueueFamilyCheckpointProperties2NV>(VkQueueFamilyCheckpointProperties2NV* p) {
-    p->checkpointExecutionStageMask = p->checkpointExecutionStageMask & AllVkPipelineStageFlagBits2;
 }
 
 template <>
@@ -1276,10 +1266,6 @@ void ConvertOutStructChainToVulkanSC<VkQueueFamilyProperties2>(VkQueueFamilyProp
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkQueueFamilyGlobalPriorityPropertiesKHR*>(base));
                 break;
 
-            case VK_STRUCTURE_TYPE_QUEUE_FAMILY_CHECKPOINT_PROPERTIES_2_NV:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkQueueFamilyCheckpointProperties2NV*>(base));
-                break;
-
             default:
                 break;
         }
@@ -1594,22 +1580,6 @@ void ConvertOutStructChainToVulkanSC<VkPhysicalDeviceFragmentShadingRateKHR>(VkP
         switch (base->sType) {
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_SHADING_RATE_KHR:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceFragmentShadingRateKHR*>(base));
-                break;
-
-            default:
-                break;
-        }
-        base = base->pNext;
-    }
-}
-
-template <>
-void ConvertOutStructChainToVulkanSC<VkCheckpointData2NV>(VkCheckpointData2NV* chain) {
-    VkBaseOutStructure* base = reinterpret_cast<VkBaseOutStructure*>(chain);
-    while (base != nullptr) {
-        switch (base->sType) {
-            case VK_STRUCTURE_TYPE_CHECKPOINT_DATA_2_NV:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkCheckpointData2NV*>(base));
                 break;
 
             default:

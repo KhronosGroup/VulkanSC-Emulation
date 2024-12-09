@@ -370,8 +370,6 @@ class vksc {
         CmdPipelineBarrier2KHR = (PFN_vkCmdPipelineBarrier2KHR)GetInstanceProcAddr(instance, "vkCmdPipelineBarrier2KHR");
         CmdWriteTimestamp2KHR = (PFN_vkCmdWriteTimestamp2KHR)GetInstanceProcAddr(instance, "vkCmdWriteTimestamp2KHR");
         QueueSubmit2KHR = (PFN_vkQueueSubmit2KHR)GetInstanceProcAddr(instance, "vkQueueSubmit2KHR");
-        CmdWriteBufferMarker2AMD = (PFN_vkCmdWriteBufferMarker2AMD)GetInstanceProcAddr(instance, "vkCmdWriteBufferMarker2AMD");
-        GetQueueCheckpointData2NV = (PFN_vkGetQueueCheckpointData2NV)GetInstanceProcAddr(instance, "vkGetQueueCheckpointData2NV");
         CmdCopyBuffer2KHR = (PFN_vkCmdCopyBuffer2KHR)GetInstanceProcAddr(instance, "vkCmdCopyBuffer2KHR");
         CmdCopyImage2KHR = (PFN_vkCmdCopyImage2KHR)GetInstanceProcAddr(instance, "vkCmdCopyImage2KHR");
         CmdCopyBufferToImage2KHR = (PFN_vkCmdCopyBufferToImage2KHR)GetInstanceProcAddr(instance, "vkCmdCopyBufferToImage2KHR");
@@ -732,8 +730,6 @@ class vksc {
     inline static PFN_vkCmdPipelineBarrier2KHR CmdPipelineBarrier2KHR{nullptr};
     inline static PFN_vkCmdWriteTimestamp2KHR CmdWriteTimestamp2KHR{nullptr};
     inline static PFN_vkQueueSubmit2KHR QueueSubmit2KHR{nullptr};
-    inline static PFN_vkCmdWriteBufferMarker2AMD CmdWriteBufferMarker2AMD{nullptr};
-    inline static PFN_vkGetQueueCheckpointData2NV GetQueueCheckpointData2NV{nullptr};
     inline static PFN_vkCmdCopyBuffer2KHR CmdCopyBuffer2KHR{nullptr};
     inline static PFN_vkCmdCopyImage2KHR CmdCopyImage2KHR{nullptr};
     inline static PFN_vkCmdCopyBufferToImage2KHR CmdCopyBufferToImage2KHR{nullptr};

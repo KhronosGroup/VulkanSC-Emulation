@@ -380,8 +380,6 @@ class DispatchTable {
     const PFN_vkCmdPipelineBarrier2KHR CmdPipelineBarrier2KHR;
     const PFN_vkCmdWriteTimestamp2KHR CmdWriteTimestamp2KHR;
     const PFN_vkQueueSubmit2KHR QueueSubmit2KHR;
-    const PFN_vkCmdWriteBufferMarker2AMD CmdWriteBufferMarker2AMD;
-    const PFN_vkGetQueueCheckpointData2NV GetQueueCheckpointData2NV;
     const PFN_vkCmdCopyBuffer2KHR CmdCopyBuffer2KHR;
     const PFN_vkCmdCopyImage2KHR CmdCopyImage2KHR;
     const PFN_vkCmdCopyBufferToImage2KHR CmdCopyBufferToImage2KHR;
@@ -431,6 +429,7 @@ class DispatchTable {
     const PFN_vkDestroyCuFunctionNVX DestroyCuFunctionNVX;
     const PFN_vkCmdCuLaunchKernelNVX CmdCuLaunchKernelNVX;
     const PFN_vkGetImageViewHandleNVX GetImageViewHandleNVX;
+    const PFN_vkGetImageViewHandle64NVX GetImageViewHandle64NVX;
     const PFN_vkGetImageViewAddressNVX GetImageViewAddressNVX;
     const PFN_vkCmdDrawIndirectCountAMD CmdDrawIndirectCountAMD;
     const PFN_vkCmdDrawIndexedIndirectCountAMD CmdDrawIndexedIndirectCountAMD;
@@ -519,6 +518,7 @@ class DispatchTable {
     const PFN_vkCompileDeferredNV CompileDeferredNV;
     const PFN_vkGetMemoryHostPointerPropertiesEXT GetMemoryHostPointerPropertiesEXT;
     const PFN_vkCmdWriteBufferMarkerAMD CmdWriteBufferMarkerAMD;
+    const PFN_vkCmdWriteBufferMarker2AMD CmdWriteBufferMarker2AMD;
     const PFN_vkGetPhysicalDeviceCalibrateableTimeDomainsEXT GetPhysicalDeviceCalibrateableTimeDomainsEXT;
     const PFN_vkGetCalibratedTimestampsEXT GetCalibratedTimestampsEXT;
     const PFN_vkCmdDrawMeshTasksNV CmdDrawMeshTasksNV;
@@ -528,6 +528,7 @@ class DispatchTable {
     const PFN_vkCmdSetExclusiveScissorNV CmdSetExclusiveScissorNV;
     const PFN_vkCmdSetCheckpointNV CmdSetCheckpointNV;
     const PFN_vkGetQueueCheckpointDataNV GetQueueCheckpointDataNV;
+    const PFN_vkGetQueueCheckpointData2NV GetQueueCheckpointData2NV;
     const PFN_vkInitializePerformanceApiINTEL InitializePerformanceApiINTEL;
     const PFN_vkUninitializePerformanceApiINTEL UninitializePerformanceApiINTEL;
     const PFN_vkCmdSetPerformanceMarkerINTEL CmdSetPerformanceMarkerINTEL;
@@ -717,6 +718,7 @@ class DispatchTable {
     const PFN_vkDestroyShaderEXT DestroyShaderEXT;
     const PFN_vkGetShaderBinaryDataEXT GetShaderBinaryDataEXT;
     const PFN_vkCmdBindShadersEXT CmdBindShadersEXT;
+    const PFN_vkCmdSetDepthClampRangeEXT CmdSetDepthClampRangeEXT;
     const PFN_vkGetFramebufferTilePropertiesQCOM GetFramebufferTilePropertiesQCOM;
     const PFN_vkGetDynamicRenderingTilePropertiesQCOM GetDynamicRenderingTilePropertiesQCOM;
     const PFN_vkSetLatencySleepModeNV SetLatencySleepModeNV;
@@ -728,6 +730,17 @@ class DispatchTable {
 #ifdef VK_USE_PLATFORM_SCREEN_QNX
     const PFN_vkGetScreenBufferPropertiesQNX GetScreenBufferPropertiesQNX;
 #endif  // VK_USE_PLATFORM_SCREEN_QNX
+    const PFN_vkGetGeneratedCommandsMemoryRequirementsEXT GetGeneratedCommandsMemoryRequirementsEXT;
+    const PFN_vkCmdPreprocessGeneratedCommandsEXT CmdPreprocessGeneratedCommandsEXT;
+    const PFN_vkCmdExecuteGeneratedCommandsEXT CmdExecuteGeneratedCommandsEXT;
+    const PFN_vkCreateIndirectCommandsLayoutEXT CreateIndirectCommandsLayoutEXT;
+    const PFN_vkDestroyIndirectCommandsLayoutEXT DestroyIndirectCommandsLayoutEXT;
+    const PFN_vkCreateIndirectExecutionSetEXT CreateIndirectExecutionSetEXT;
+    const PFN_vkDestroyIndirectExecutionSetEXT DestroyIndirectExecutionSetEXT;
+    const PFN_vkUpdateIndirectExecutionSetPipelineEXT UpdateIndirectExecutionSetPipelineEXT;
+    const PFN_vkUpdateIndirectExecutionSetShaderEXT UpdateIndirectExecutionSetShaderEXT;
+    const PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV
+        GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
     const PFN_vkCreateAccelerationStructureKHR CreateAccelerationStructureKHR;
     const PFN_vkDestroyAccelerationStructureKHR DestroyAccelerationStructureKHR;
     const PFN_vkCmdBuildAccelerationStructuresKHR CmdBuildAccelerationStructuresKHR;

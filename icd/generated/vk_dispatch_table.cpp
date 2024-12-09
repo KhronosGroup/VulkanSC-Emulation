@@ -523,10 +523,6 @@ DispatchTable::DispatchTable(VkInstance instance, PFN_vkGetInstanceProcAddr get_
       CmdPipelineBarrier2KHR(reinterpret_cast<PFN_vkCmdPipelineBarrier2KHR>(get_proc_addr(instance, "vkCmdPipelineBarrier2KHR"))),
       CmdWriteTimestamp2KHR(reinterpret_cast<PFN_vkCmdWriteTimestamp2KHR>(get_proc_addr(instance, "vkCmdWriteTimestamp2KHR"))),
       QueueSubmit2KHR(reinterpret_cast<PFN_vkQueueSubmit2KHR>(get_proc_addr(instance, "vkQueueSubmit2KHR"))),
-      CmdWriteBufferMarker2AMD(
-          reinterpret_cast<PFN_vkCmdWriteBufferMarker2AMD>(get_proc_addr(instance, "vkCmdWriteBufferMarker2AMD"))),
-      GetQueueCheckpointData2NV(
-          reinterpret_cast<PFN_vkGetQueueCheckpointData2NV>(get_proc_addr(instance, "vkGetQueueCheckpointData2NV"))),
       CmdCopyBuffer2KHR(reinterpret_cast<PFN_vkCmdCopyBuffer2KHR>(get_proc_addr(instance, "vkCmdCopyBuffer2KHR"))),
       CmdCopyImage2KHR(reinterpret_cast<PFN_vkCmdCopyImage2KHR>(get_proc_addr(instance, "vkCmdCopyImage2KHR"))),
       CmdCopyBufferToImage2KHR(
@@ -607,6 +603,8 @@ DispatchTable::DispatchTable(VkInstance instance, PFN_vkGetInstanceProcAddr get_
       DestroyCuFunctionNVX(reinterpret_cast<PFN_vkDestroyCuFunctionNVX>(get_proc_addr(instance, "vkDestroyCuFunctionNVX"))),
       CmdCuLaunchKernelNVX(reinterpret_cast<PFN_vkCmdCuLaunchKernelNVX>(get_proc_addr(instance, "vkCmdCuLaunchKernelNVX"))),
       GetImageViewHandleNVX(reinterpret_cast<PFN_vkGetImageViewHandleNVX>(get_proc_addr(instance, "vkGetImageViewHandleNVX"))),
+      GetImageViewHandle64NVX(
+          reinterpret_cast<PFN_vkGetImageViewHandle64NVX>(get_proc_addr(instance, "vkGetImageViewHandle64NVX"))),
       GetImageViewAddressNVX(reinterpret_cast<PFN_vkGetImageViewAddressNVX>(get_proc_addr(instance, "vkGetImageViewAddressNVX"))),
       CmdDrawIndirectCountAMD(
           reinterpret_cast<PFN_vkCmdDrawIndirectCountAMD>(get_proc_addr(instance, "vkCmdDrawIndirectCountAMD"))),
@@ -752,6 +750,8 @@ DispatchTable::DispatchTable(VkInstance instance, PFN_vkGetInstanceProcAddr get_
           get_proc_addr(instance, "vkGetMemoryHostPointerPropertiesEXT"))),
       CmdWriteBufferMarkerAMD(
           reinterpret_cast<PFN_vkCmdWriteBufferMarkerAMD>(get_proc_addr(instance, "vkCmdWriteBufferMarkerAMD"))),
+      CmdWriteBufferMarker2AMD(
+          reinterpret_cast<PFN_vkCmdWriteBufferMarker2AMD>(get_proc_addr(instance, "vkCmdWriteBufferMarker2AMD"))),
       GetPhysicalDeviceCalibrateableTimeDomainsEXT(reinterpret_cast<PFN_vkGetPhysicalDeviceCalibrateableTimeDomainsEXT>(
           get_proc_addr(instance, "vkGetPhysicalDeviceCalibrateableTimeDomainsEXT"))),
       GetCalibratedTimestampsEXT(
@@ -768,6 +768,8 @@ DispatchTable::DispatchTable(VkInstance instance, PFN_vkGetInstanceProcAddr get_
       CmdSetCheckpointNV(reinterpret_cast<PFN_vkCmdSetCheckpointNV>(get_proc_addr(instance, "vkCmdSetCheckpointNV"))),
       GetQueueCheckpointDataNV(
           reinterpret_cast<PFN_vkGetQueueCheckpointDataNV>(get_proc_addr(instance, "vkGetQueueCheckpointDataNV"))),
+      GetQueueCheckpointData2NV(
+          reinterpret_cast<PFN_vkGetQueueCheckpointData2NV>(get_proc_addr(instance, "vkGetQueueCheckpointData2NV"))),
       InitializePerformanceApiINTEL(
           reinterpret_cast<PFN_vkInitializePerformanceApiINTEL>(get_proc_addr(instance, "vkInitializePerformanceApiINTEL"))),
       UninitializePerformanceApiINTEL(
@@ -1083,6 +1085,8 @@ DispatchTable::DispatchTable(VkInstance instance, PFN_vkGetInstanceProcAddr get_
       DestroyShaderEXT(reinterpret_cast<PFN_vkDestroyShaderEXT>(get_proc_addr(instance, "vkDestroyShaderEXT"))),
       GetShaderBinaryDataEXT(reinterpret_cast<PFN_vkGetShaderBinaryDataEXT>(get_proc_addr(instance, "vkGetShaderBinaryDataEXT"))),
       CmdBindShadersEXT(reinterpret_cast<PFN_vkCmdBindShadersEXT>(get_proc_addr(instance, "vkCmdBindShadersEXT"))),
+      CmdSetDepthClampRangeEXT(
+          reinterpret_cast<PFN_vkCmdSetDepthClampRangeEXT>(get_proc_addr(instance, "vkCmdSetDepthClampRangeEXT"))),
       GetFramebufferTilePropertiesQCOM(
           reinterpret_cast<PFN_vkGetFramebufferTilePropertiesQCOM>(get_proc_addr(instance, "vkGetFramebufferTilePropertiesQCOM"))),
       GetDynamicRenderingTilePropertiesQCOM(reinterpret_cast<PFN_vkGetDynamicRenderingTilePropertiesQCOM>(
@@ -1098,6 +1102,27 @@ DispatchTable::DispatchTable(VkInstance instance, PFN_vkGetInstanceProcAddr get_
       GetScreenBufferPropertiesQNX(
           reinterpret_cast<PFN_vkGetScreenBufferPropertiesQNX>(get_proc_addr(instance, "vkGetScreenBufferPropertiesQNX"))),
 #endif  // VK_USE_PLATFORM_SCREEN_QNX
+      GetGeneratedCommandsMemoryRequirementsEXT(reinterpret_cast<PFN_vkGetGeneratedCommandsMemoryRequirementsEXT>(
+          get_proc_addr(instance, "vkGetGeneratedCommandsMemoryRequirementsEXT"))),
+      CmdPreprocessGeneratedCommandsEXT(reinterpret_cast<PFN_vkCmdPreprocessGeneratedCommandsEXT>(
+          get_proc_addr(instance, "vkCmdPreprocessGeneratedCommandsEXT"))),
+      CmdExecuteGeneratedCommandsEXT(
+          reinterpret_cast<PFN_vkCmdExecuteGeneratedCommandsEXT>(get_proc_addr(instance, "vkCmdExecuteGeneratedCommandsEXT"))),
+      CreateIndirectCommandsLayoutEXT(
+          reinterpret_cast<PFN_vkCreateIndirectCommandsLayoutEXT>(get_proc_addr(instance, "vkCreateIndirectCommandsLayoutEXT"))),
+      DestroyIndirectCommandsLayoutEXT(
+          reinterpret_cast<PFN_vkDestroyIndirectCommandsLayoutEXT>(get_proc_addr(instance, "vkDestroyIndirectCommandsLayoutEXT"))),
+      CreateIndirectExecutionSetEXT(
+          reinterpret_cast<PFN_vkCreateIndirectExecutionSetEXT>(get_proc_addr(instance, "vkCreateIndirectExecutionSetEXT"))),
+      DestroyIndirectExecutionSetEXT(
+          reinterpret_cast<PFN_vkDestroyIndirectExecutionSetEXT>(get_proc_addr(instance, "vkDestroyIndirectExecutionSetEXT"))),
+      UpdateIndirectExecutionSetPipelineEXT(reinterpret_cast<PFN_vkUpdateIndirectExecutionSetPipelineEXT>(
+          get_proc_addr(instance, "vkUpdateIndirectExecutionSetPipelineEXT"))),
+      UpdateIndirectExecutionSetShaderEXT(reinterpret_cast<PFN_vkUpdateIndirectExecutionSetShaderEXT>(
+          get_proc_addr(instance, "vkUpdateIndirectExecutionSetShaderEXT"))),
+      GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV(
+          reinterpret_cast<PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV>(
+              get_proc_addr(instance, "vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV"))),
       CreateAccelerationStructureKHR(
           reinterpret_cast<PFN_vkCreateAccelerationStructureKHR>(get_proc_addr(instance, "vkCreateAccelerationStructureKHR"))),
       DestroyAccelerationStructureKHR(

@@ -138,7 +138,6 @@ class CommandBuffer {
     void CmdSetRenderingAttachmentLocationsKHR(const VkRenderingAttachmentLocationInfoKHR* pLocationInfo);
     void CmdSetRenderingInputAttachmentIndicesKHR(const VkRenderingInputAttachmentIndexInfoKHR* pInputAttachmentIndexInfo);
     void CmdEncodeVideoKHR(const VkVideoEncodeInfoKHR* pEncodeInfo);
-    void CmdWriteBufferMarker2AMD(VkPipelineStageFlags2 stage, VkBuffer dstBuffer, VkDeviceSize dstOffset, uint32_t marker);
     void CmdTraceRaysIndirect2KHR(VkDeviceAddress indirectDeviceAddress);
     void CmdBindIndexBuffer2KHR(VkBuffer buffer, VkDeviceSize offset, VkDeviceSize size, VkIndexType indexType);
     void CmdSetLineStippleKHR(uint32_t lineStippleFactor, uint16_t lineStipplePattern);
@@ -174,10 +173,11 @@ class CommandBuffer {
     void CmdEndDebugUtilsLabelEXT();
     void CmdInsertDebugUtilsLabelEXT(const VkDebugUtilsLabelEXT* pLabelInfo);
 #ifdef VK_ENABLE_BETA_EXTENSIONS
-    void CmdInitializeGraphScratchMemoryAMDX(VkDeviceAddress scratch);
-    void CmdDispatchGraphAMDX(VkDeviceAddress scratch, const VkDispatchGraphCountInfoAMDX* pCountInfo);
-    void CmdDispatchGraphIndirectAMDX(VkDeviceAddress scratch, const VkDispatchGraphCountInfoAMDX* pCountInfo);
-    void CmdDispatchGraphIndirectCountAMDX(VkDeviceAddress scratch, VkDeviceAddress countInfo);
+    void CmdInitializeGraphScratchMemoryAMDX(VkPipeline executionGraph, VkDeviceAddress scratch, VkDeviceSize scratchSize);
+    void CmdDispatchGraphAMDX(VkDeviceAddress scratch, VkDeviceSize scratchSize, const VkDispatchGraphCountInfoAMDX* pCountInfo);
+    void CmdDispatchGraphIndirectAMDX(VkDeviceAddress scratch, VkDeviceSize scratchSize,
+                                      const VkDispatchGraphCountInfoAMDX* pCountInfo);
+    void CmdDispatchGraphIndirectCountAMDX(VkDeviceAddress scratch, VkDeviceSize scratchSize, VkDeviceAddress countInfo);
 #endif  // VK_ENABLE_BETA_EXTENSIONS
     void CmdSetSampleLocationsEXT(const VkSampleLocationsInfoEXT* pSampleLocationsInfo);
     void CmdBindShadingRateImageNV(VkImageView imageView, VkImageLayout imageLayout);
@@ -201,6 +201,7 @@ class CommandBuffer {
                                                     VkQueryPool queryPool, uint32_t firstQuery);
     void CmdWriteBufferMarkerAMD(VkPipelineStageFlagBits pipelineStage, VkBuffer dstBuffer, VkDeviceSize dstOffset,
                                  uint32_t marker);
+    void CmdWriteBufferMarker2AMD(VkPipelineStageFlags2 stage, VkBuffer dstBuffer, VkDeviceSize dstOffset, uint32_t marker);
     void CmdDrawMeshTasksNV(uint32_t taskCount, uint32_t firstTask);
     void CmdDrawMeshTasksIndirectNV(VkBuffer buffer, VkDeviceSize offset, uint32_t drawCount, uint32_t stride);
     void CmdDrawMeshTasksIndirectCountNV(VkBuffer buffer, VkDeviceSize offset, VkBuffer countBuffer, VkDeviceSize countBufferOffset,
@@ -287,7 +288,11 @@ class CommandBuffer {
     void CmdSetCoverageReductionModeNV(VkCoverageReductionModeNV coverageReductionMode);
     void CmdOpticalFlowExecuteNV(VkOpticalFlowSessionNV session, const VkOpticalFlowExecuteInfoNV* pExecuteInfo);
     void CmdBindShadersEXT(uint32_t stageCount, const VkShaderStageFlagBits* pStages, const VkShaderEXT* pShaders);
+    void CmdSetDepthClampRangeEXT(VkDepthClampModeEXT depthClampMode, const VkDepthClampRangeEXT* pDepthClampRange);
     void CmdSetAttachmentFeedbackLoopEnableEXT(VkImageAspectFlags aspectMask);
+    void CmdPreprocessGeneratedCommandsEXT(const VkGeneratedCommandsInfoEXT* pGeneratedCommandsInfo,
+                                           VkCommandBuffer stateCommandBuffer);
+    void CmdExecuteGeneratedCommandsEXT(VkBool32 isPreprocessed, const VkGeneratedCommandsInfoEXT* pGeneratedCommandsInfo);
     void CmdBuildAccelerationStructuresKHR(uint32_t infoCount, const VkAccelerationStructureBuildGeometryInfoKHR* pInfos,
                                            const VkAccelerationStructureBuildRangeInfoKHR* const* ppBuildRangeInfos);
     void CmdBuildAccelerationStructuresIndirectKHR(uint32_t infoCount, const VkAccelerationStructureBuildGeometryInfoKHR* pInfos,

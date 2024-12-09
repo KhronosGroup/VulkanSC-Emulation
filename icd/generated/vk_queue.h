@@ -25,11 +25,11 @@ class Queue {
     VkResult QueueBindSparse(uint32_t bindInfoCount, const VkBindSparseInfo* pBindInfo, VkFence fence);
     VkResult QueueSubmit2(uint32_t submitCount, const VkSubmitInfo2* pSubmits, VkFence fence);
     VkResult QueuePresentKHR(const VkPresentInfoKHR* pPresentInfo);
-    void GetQueueCheckpointData2NV(uint32_t* pCheckpointDataCount, VkCheckpointData2NV* pCheckpointData);
     void QueueBeginDebugUtilsLabelEXT(const VkDebugUtilsLabelEXT* pLabelInfo);
     void QueueEndDebugUtilsLabelEXT();
     void QueueInsertDebugUtilsLabelEXT(const VkDebugUtilsLabelEXT* pLabelInfo);
     void GetQueueCheckpointDataNV(uint32_t* pCheckpointDataCount, VkCheckpointDataNV* pCheckpointData);
+    void GetQueueCheckpointData2NV(uint32_t* pCheckpointDataCount, VkCheckpointData2NV* pCheckpointData);
     VkResult QueueSetPerformanceConfigurationINTEL(VkPerformanceConfigurationINTEL configuration);
     void QueueNotifyOutOfBandNV(const VkOutOfBandQueueTypeInfoNV* pQueueTypeInfo);
 
