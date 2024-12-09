@@ -154,6 +154,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceCre
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CONDITIONAL_RENDERING_FEATURES_EXT:
             return {alignof(VkPhysicalDeviceConditionalRenderingFeaturesEXT),
                     sizeof(VkPhysicalDeviceConditionalRenderingFeaturesEXT)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_2_FEATURES_NV:
+            return {alignof(VkPhysicalDeviceCooperativeMatrix2FeaturesNV), sizeof(VkPhysicalDeviceCooperativeMatrix2FeaturesNV)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_FEATURES_KHR:
             return {alignof(VkPhysicalDeviceCooperativeMatrixFeaturesKHR), sizeof(VkPhysicalDeviceCooperativeMatrixFeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_FEATURES_NV:
@@ -178,6 +180,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceCre
                     sizeof(VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_BIAS_CONTROL_FEATURES_EXT:
             return {alignof(VkPhysicalDeviceDepthBiasControlFeaturesEXT), sizeof(VkPhysicalDeviceDepthBiasControlFeaturesEXT)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_CLAMP_CONTROL_FEATURES_EXT:
+            return {alignof(VkPhysicalDeviceDepthClampControlFeaturesEXT), sizeof(VkPhysicalDeviceDepthClampControlFeaturesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_CLAMP_ZERO_ONE_FEATURES_EXT:
             return {alignof(VkPhysicalDeviceDepthClampZeroOneFeaturesEXT), sizeof(VkPhysicalDeviceDepthClampZeroOneFeaturesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_CLIP_CONTROL_FEATURES_EXT:
@@ -197,6 +201,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceCre
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_GENERATED_COMMANDS_COMPUTE_FEATURES_NV:
             return {alignof(VkPhysicalDeviceDeviceGeneratedCommandsComputeFeaturesNV),
                     sizeof(VkPhysicalDeviceDeviceGeneratedCommandsComputeFeaturesNV)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_GENERATED_COMMANDS_FEATURES_EXT:
+            return {alignof(VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT),
+                    sizeof(VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_GENERATED_COMMANDS_FEATURES_NV:
             return {alignof(VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV),
                     sizeof(VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV)};
@@ -275,6 +282,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceCre
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_GRAPHICS_PIPELINE_LIBRARY_FEATURES_EXT:
             return {alignof(VkPhysicalDeviceGraphicsPipelineLibraryFeaturesEXT),
                     sizeof(VkPhysicalDeviceGraphicsPipelineLibraryFeaturesEXT)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HDR_VIVID_FEATURES_HUAWEI:
+            return {alignof(VkPhysicalDeviceHdrVividFeaturesHUAWEI), sizeof(VkPhysicalDeviceHdrVividFeaturesHUAWEI)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_FEATURES_EXT:
             return {alignof(VkPhysicalDeviceHostImageCopyFeaturesEXT), sizeof(VkPhysicalDeviceHostImageCopyFeaturesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_QUERY_RESET_FEATURES:
@@ -399,6 +408,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceCre
             return {alignof(VkPhysicalDevicePresentBarrierFeaturesNV), sizeof(VkPhysicalDevicePresentBarrierFeaturesNV)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_ID_FEATURES_KHR:
             return {alignof(VkPhysicalDevicePresentIdFeaturesKHR), sizeof(VkPhysicalDevicePresentIdFeaturesKHR)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_MODE_FIFO_LATEST_READY_FEATURES_EXT:
+            return {alignof(VkPhysicalDevicePresentModeFifoLatestReadyFeaturesEXT),
+                    sizeof(VkPhysicalDevicePresentModeFifoLatestReadyFeaturesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_WAIT_FEATURES_KHR:
             return {alignof(VkPhysicalDevicePresentWaitFeaturesKHR), sizeof(VkPhysicalDevicePresentWaitFeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRIMITIVE_TOPOLOGY_LIST_RESTART_FEATURES_EXT:
@@ -569,9 +581,17 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceCre
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES_KHR:
             return {alignof(VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR),
                     sizeof(VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_ROBUSTNESS_FEATURES_EXT:
+            return {alignof(VkPhysicalDeviceVertexAttributeRobustnessFeaturesEXT),
+                    sizeof(VkPhysicalDeviceVertexAttributeRobustnessFeaturesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_INPUT_DYNAMIC_STATE_FEATURES_EXT:
             return {alignof(VkPhysicalDeviceVertexInputDynamicStateFeaturesEXT),
                     sizeof(VkPhysicalDeviceVertexInputDynamicStateFeaturesEXT)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_AV1_FEATURES_KHR:
+            return {alignof(VkPhysicalDeviceVideoEncodeAV1FeaturesKHR), sizeof(VkPhysicalDeviceVideoEncodeAV1FeaturesKHR)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_QUANTIZATION_MAP_FEATURES_KHR:
+            return {alignof(VkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR),
+                    sizeof(VkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_MAINTENANCE_1_FEATURES_KHR:
             return {alignof(VkPhysicalDeviceVideoMaintenance1FeaturesKHR), sizeof(VkPhysicalDeviceVideoMaintenance1FeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_1_FEATURES:
@@ -793,6 +813,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkQueryPool
             return {alignof(VkVideoDecodeH265ProfileInfoKHR), sizeof(VkVideoDecodeH265ProfileInfoKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_DECODE_USAGE_INFO_KHR:
             return {alignof(VkVideoDecodeUsageInfoKHR), sizeof(VkVideoDecodeUsageInfoKHR)};
+        case VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_PROFILE_INFO_KHR:
+            return {alignof(VkVideoEncodeAV1ProfileInfoKHR), sizeof(VkVideoEncodeAV1ProfileInfoKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_H264_PROFILE_INFO_KHR:
             return {alignof(VkVideoEncodeH264ProfileInfoKHR), sizeof(VkVideoEncodeH264ProfileInfoKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_H265_PROFILE_INFO_KHR:
@@ -1036,6 +1058,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineV
         case VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_COARSE_SAMPLE_ORDER_STATE_CREATE_INFO_NV:
             return {alignof(VkPipelineViewportCoarseSampleOrderStateCreateInfoNV),
                     sizeof(VkPipelineViewportCoarseSampleOrderStateCreateInfoNV)};
+        case VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_DEPTH_CLAMP_CONTROL_CREATE_INFO_EXT:
+            return {alignof(VkPipelineViewportDepthClampControlCreateInfoEXT),
+                    sizeof(VkPipelineViewportDepthClampControlCreateInfoEXT)};
         case VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_DEPTH_CLIP_CONTROL_CREATE_INFO_EXT:
             return {alignof(VkPipelineViewportDepthClipControlCreateInfoEXT),
                     sizeof(VkPipelineViewportDepthClipControlCreateInfoEXT)};
@@ -1456,6 +1481,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CONDITIONAL_RENDERING_FEATURES_EXT:
             return {alignof(VkPhysicalDeviceConditionalRenderingFeaturesEXT),
                     sizeof(VkPhysicalDeviceConditionalRenderingFeaturesEXT)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_2_FEATURES_NV:
+            return {alignof(VkPhysicalDeviceCooperativeMatrix2FeaturesNV), sizeof(VkPhysicalDeviceCooperativeMatrix2FeaturesNV)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_FEATURES_KHR:
             return {alignof(VkPhysicalDeviceCooperativeMatrixFeaturesKHR), sizeof(VkPhysicalDeviceCooperativeMatrixFeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_FEATURES_NV:
@@ -1480,6 +1507,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
                     sizeof(VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_BIAS_CONTROL_FEATURES_EXT:
             return {alignof(VkPhysicalDeviceDepthBiasControlFeaturesEXT), sizeof(VkPhysicalDeviceDepthBiasControlFeaturesEXT)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_CLAMP_CONTROL_FEATURES_EXT:
+            return {alignof(VkPhysicalDeviceDepthClampControlFeaturesEXT), sizeof(VkPhysicalDeviceDepthClampControlFeaturesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_CLAMP_ZERO_ONE_FEATURES_EXT:
             return {alignof(VkPhysicalDeviceDepthClampZeroOneFeaturesEXT), sizeof(VkPhysicalDeviceDepthClampZeroOneFeaturesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_CLIP_CONTROL_FEATURES_EXT:
@@ -1499,6 +1528,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_GENERATED_COMMANDS_COMPUTE_FEATURES_NV:
             return {alignof(VkPhysicalDeviceDeviceGeneratedCommandsComputeFeaturesNV),
                     sizeof(VkPhysicalDeviceDeviceGeneratedCommandsComputeFeaturesNV)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_GENERATED_COMMANDS_FEATURES_EXT:
+            return {alignof(VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT),
+                    sizeof(VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_GENERATED_COMMANDS_FEATURES_NV:
             return {alignof(VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV),
                     sizeof(VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV)};
@@ -1575,6 +1607,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_GRAPHICS_PIPELINE_LIBRARY_FEATURES_EXT:
             return {alignof(VkPhysicalDeviceGraphicsPipelineLibraryFeaturesEXT),
                     sizeof(VkPhysicalDeviceGraphicsPipelineLibraryFeaturesEXT)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HDR_VIVID_FEATURES_HUAWEI:
+            return {alignof(VkPhysicalDeviceHdrVividFeaturesHUAWEI), sizeof(VkPhysicalDeviceHdrVividFeaturesHUAWEI)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_FEATURES_EXT:
             return {alignof(VkPhysicalDeviceHostImageCopyFeaturesEXT), sizeof(VkPhysicalDeviceHostImageCopyFeaturesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_QUERY_RESET_FEATURES:
@@ -1699,6 +1733,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
             return {alignof(VkPhysicalDevicePresentBarrierFeaturesNV), sizeof(VkPhysicalDevicePresentBarrierFeaturesNV)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_ID_FEATURES_KHR:
             return {alignof(VkPhysicalDevicePresentIdFeaturesKHR), sizeof(VkPhysicalDevicePresentIdFeaturesKHR)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_MODE_FIFO_LATEST_READY_FEATURES_EXT:
+            return {alignof(VkPhysicalDevicePresentModeFifoLatestReadyFeaturesEXT),
+                    sizeof(VkPhysicalDevicePresentModeFifoLatestReadyFeaturesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_WAIT_FEATURES_KHR:
             return {alignof(VkPhysicalDevicePresentWaitFeaturesKHR), sizeof(VkPhysicalDevicePresentWaitFeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRIMITIVE_TOPOLOGY_LIST_RESTART_FEATURES_EXT:
@@ -1869,9 +1906,17 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES_KHR:
             return {alignof(VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR),
                     sizeof(VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_ROBUSTNESS_FEATURES_EXT:
+            return {alignof(VkPhysicalDeviceVertexAttributeRobustnessFeaturesEXT),
+                    sizeof(VkPhysicalDeviceVertexAttributeRobustnessFeaturesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_INPUT_DYNAMIC_STATE_FEATURES_EXT:
             return {alignof(VkPhysicalDeviceVertexInputDynamicStateFeaturesEXT),
                     sizeof(VkPhysicalDeviceVertexInputDynamicStateFeaturesEXT)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_AV1_FEATURES_KHR:
+            return {alignof(VkPhysicalDeviceVideoEncodeAV1FeaturesKHR), sizeof(VkPhysicalDeviceVideoEncodeAV1FeaturesKHR)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_QUANTIZATION_MAP_FEATURES_KHR:
+            return {alignof(VkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR),
+                    sizeof(VkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_MAINTENANCE_1_FEATURES_KHR:
             return {alignof(VkPhysicalDeviceVideoMaintenance1FeaturesKHR), sizeof(VkPhysicalDeviceVideoMaintenance1FeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_1_FEATURES:
@@ -1920,6 +1965,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CONSERVATIVE_RASTERIZATION_PROPERTIES_EXT:
             return {alignof(VkPhysicalDeviceConservativeRasterizationPropertiesEXT),
                     sizeof(VkPhysicalDeviceConservativeRasterizationPropertiesEXT)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_2_PROPERTIES_NV:
+            return {alignof(VkPhysicalDeviceCooperativeMatrix2PropertiesNV),
+                    sizeof(VkPhysicalDeviceCooperativeMatrix2PropertiesNV)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_PROPERTIES_KHR:
             return {alignof(VkPhysicalDeviceCooperativeMatrixPropertiesKHR),
                     sizeof(VkPhysicalDeviceCooperativeMatrixPropertiesKHR)};
@@ -1942,6 +1990,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
             return {alignof(VkPhysicalDeviceDescriptorBufferPropertiesEXT), sizeof(VkPhysicalDeviceDescriptorBufferPropertiesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_INDEXING_PROPERTIES:
             return {alignof(VkPhysicalDeviceDescriptorIndexingProperties), sizeof(VkPhysicalDeviceDescriptorIndexingProperties)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_GENERATED_COMMANDS_PROPERTIES_EXT:
+            return {alignof(VkPhysicalDeviceDeviceGeneratedCommandsPropertiesEXT),
+                    sizeof(VkPhysicalDeviceDeviceGeneratedCommandsPropertiesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_GENERATED_COMMANDS_PROPERTIES_NV:
             return {alignof(VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV),
                     sizeof(VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV)};
@@ -2590,6 +2641,18 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPresentIn
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDisplaySurfaceCreateInfoKHR>(VkStructureType type) {
+    switch (type) {
+        case VK_STRUCTURE_TYPE_DISPLAY_SURFACE_STEREO_CREATE_INFO_NV:
+            return {alignof(VkDisplaySurfaceStereoCreateInfoNV), sizeof(VkDisplaySurfaceStereoCreateInfoNV)};
+
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoProfileInfoKHR>(VkStructureType type) {
     switch (type) {
         case VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_PROFILE_INFO_KHR:
@@ -2600,6 +2663,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoProf
             return {alignof(VkVideoDecodeH265ProfileInfoKHR), sizeof(VkVideoDecodeH265ProfileInfoKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_DECODE_USAGE_INFO_KHR:
             return {alignof(VkVideoDecodeUsageInfoKHR), sizeof(VkVideoDecodeUsageInfoKHR)};
+        case VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_PROFILE_INFO_KHR:
+            return {alignof(VkVideoEncodeAV1ProfileInfoKHR), sizeof(VkVideoEncodeAV1ProfileInfoKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_H264_PROFILE_INFO_KHR:
             return {alignof(VkVideoEncodeH264ProfileInfoKHR), sizeof(VkVideoEncodeH264ProfileInfoKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_H265_PROFILE_INFO_KHR:
@@ -2624,12 +2689,25 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoCapa
             return {alignof(VkVideoDecodeH264CapabilitiesKHR), sizeof(VkVideoDecodeH264CapabilitiesKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_CAPABILITIES_KHR:
             return {alignof(VkVideoDecodeH265CapabilitiesKHR), sizeof(VkVideoDecodeH265CapabilitiesKHR)};
+        case VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_CAPABILITIES_KHR:
+            return {alignof(VkVideoEncodeAV1CapabilitiesKHR), sizeof(VkVideoEncodeAV1CapabilitiesKHR)};
+        case VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_QUANTIZATION_MAP_CAPABILITIES_KHR:
+            return {alignof(VkVideoEncodeAV1QuantizationMapCapabilitiesKHR),
+                    sizeof(VkVideoEncodeAV1QuantizationMapCapabilitiesKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_CAPABILITIES_KHR:
             return {alignof(VkVideoEncodeCapabilitiesKHR), sizeof(VkVideoEncodeCapabilitiesKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_H264_CAPABILITIES_KHR:
             return {alignof(VkVideoEncodeH264CapabilitiesKHR), sizeof(VkVideoEncodeH264CapabilitiesKHR)};
+        case VK_STRUCTURE_TYPE_VIDEO_ENCODE_H264_QUANTIZATION_MAP_CAPABILITIES_KHR:
+            return {alignof(VkVideoEncodeH264QuantizationMapCapabilitiesKHR),
+                    sizeof(VkVideoEncodeH264QuantizationMapCapabilitiesKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_H265_CAPABILITIES_KHR:
             return {alignof(VkVideoEncodeH265CapabilitiesKHR), sizeof(VkVideoEncodeH265CapabilitiesKHR)};
+        case VK_STRUCTURE_TYPE_VIDEO_ENCODE_H265_QUANTIZATION_MAP_CAPABILITIES_KHR:
+            return {alignof(VkVideoEncodeH265QuantizationMapCapabilitiesKHR),
+                    sizeof(VkVideoEncodeH265QuantizationMapCapabilitiesKHR)};
+        case VK_STRUCTURE_TYPE_VIDEO_ENCODE_QUANTIZATION_MAP_CAPABILITIES_KHR:
+            return {alignof(VkVideoEncodeQuantizationMapCapabilitiesKHR), sizeof(VkVideoEncodeQuantizationMapCapabilitiesKHR)};
 
         default:
             // Unknown structure
@@ -2650,6 +2728,22 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoFormatPropertiesKHR>(VkStructureType type) {
+    switch (type) {
+        case VK_STRUCTURE_TYPE_VIDEO_FORMAT_AV1_QUANTIZATION_MAP_PROPERTIES_KHR:
+            return {alignof(VkVideoFormatAV1QuantizationMapPropertiesKHR), sizeof(VkVideoFormatAV1QuantizationMapPropertiesKHR)};
+        case VK_STRUCTURE_TYPE_VIDEO_FORMAT_H265_QUANTIZATION_MAP_PROPERTIES_KHR:
+            return {alignof(VkVideoFormatH265QuantizationMapPropertiesKHR), sizeof(VkVideoFormatH265QuantizationMapPropertiesKHR)};
+        case VK_STRUCTURE_TYPE_VIDEO_FORMAT_QUANTIZATION_MAP_PROPERTIES_KHR:
+            return {alignof(VkVideoFormatQuantizationMapPropertiesKHR), sizeof(VkVideoFormatQuantizationMapPropertiesKHR)};
+
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoReferenceSlotInfoKHR>(VkStructureType type) {
     switch (type) {
         case VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_DPB_SLOT_INFO_KHR:
@@ -2658,6 +2752,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoRefe
             return {alignof(VkVideoDecodeH264DpbSlotInfoKHR), sizeof(VkVideoDecodeH264DpbSlotInfoKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_DPB_SLOT_INFO_KHR:
             return {alignof(VkVideoDecodeH265DpbSlotInfoKHR), sizeof(VkVideoDecodeH265DpbSlotInfoKHR)};
+        case VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_DPB_SLOT_INFO_KHR:
+            return {alignof(VkVideoEncodeAV1DpbSlotInfoKHR), sizeof(VkVideoEncodeAV1DpbSlotInfoKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_H264_DPB_SLOT_INFO_KHR:
             return {alignof(VkVideoEncodeH264DpbSlotInfoKHR), sizeof(VkVideoEncodeH264DpbSlotInfoKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_H265_DPB_SLOT_INFO_KHR:
@@ -2672,6 +2768,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoRefe
 template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoSessionCreateInfoKHR>(VkStructureType type) {
     switch (type) {
+        case VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_SESSION_CREATE_INFO_KHR:
+            return {alignof(VkVideoEncodeAV1SessionCreateInfoKHR), sizeof(VkVideoEncodeAV1SessionCreateInfoKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_H264_SESSION_CREATE_INFO_KHR:
             return {alignof(VkVideoEncodeH264SessionCreateInfoKHR), sizeof(VkVideoEncodeH264SessionCreateInfoKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_H265_SESSION_CREATE_INFO_KHR:
@@ -2695,6 +2793,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoSess
         case VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_SESSION_PARAMETERS_CREATE_INFO_KHR:
             return {alignof(VkVideoDecodeH265SessionParametersCreateInfoKHR),
                     sizeof(VkVideoDecodeH265SessionParametersCreateInfoKHR)};
+        case VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_SESSION_PARAMETERS_CREATE_INFO_KHR:
+            return {alignof(VkVideoEncodeAV1SessionParametersCreateInfoKHR),
+                    sizeof(VkVideoEncodeAV1SessionParametersCreateInfoKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_H264_SESSION_PARAMETERS_CREATE_INFO_KHR:
             return {alignof(VkVideoEncodeH264SessionParametersCreateInfoKHR),
                     sizeof(VkVideoEncodeH264SessionParametersCreateInfoKHR)};
@@ -2703,6 +2804,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoSess
                     sizeof(VkVideoEncodeH265SessionParametersCreateInfoKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_QUALITY_LEVEL_INFO_KHR:
             return {alignof(VkVideoEncodeQualityLevelInfoKHR), sizeof(VkVideoEncodeQualityLevelInfoKHR)};
+        case VK_STRUCTURE_TYPE_VIDEO_ENCODE_QUANTIZATION_MAP_SESSION_PARAMETERS_CREATE_INFO_KHR:
+            return {alignof(VkVideoEncodeQuantizationMapSessionParametersCreateInfoKHR),
+                    sizeof(VkVideoEncodeQuantizationMapSessionParametersCreateInfoKHR)};
 
         default:
             // Unknown structure
@@ -2731,6 +2835,10 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoSess
 template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoBeginCodingInfoKHR>(VkStructureType type) {
     switch (type) {
+        case VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_GOP_REMAINING_FRAME_INFO_KHR:
+            return {alignof(VkVideoEncodeAV1GopRemainingFrameInfoKHR), sizeof(VkVideoEncodeAV1GopRemainingFrameInfoKHR)};
+        case VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_RATE_CONTROL_INFO_KHR:
+            return {alignof(VkVideoEncodeAV1RateControlInfoKHR), sizeof(VkVideoEncodeAV1RateControlInfoKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_H264_GOP_REMAINING_FRAME_INFO_KHR:
             return {alignof(VkVideoEncodeH264GopRemainingFrameInfoKHR), sizeof(VkVideoEncodeH264GopRemainingFrameInfoKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_H264_RATE_CONTROL_INFO_KHR:
@@ -2751,6 +2859,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoBegi
 template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoCodingControlInfoKHR>(VkStructureType type) {
     switch (type) {
+        case VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_RATE_CONTROL_INFO_KHR:
+            return {alignof(VkVideoEncodeAV1RateControlInfoKHR), sizeof(VkVideoEncodeAV1RateControlInfoKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_H264_RATE_CONTROL_INFO_KHR:
             return {alignof(VkVideoEncodeH264RateControlInfoKHR), sizeof(VkVideoEncodeH264RateControlInfoKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_H265_RATE_CONTROL_INFO_KHR:
@@ -2843,6 +2953,18 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSurfaceFo
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDisplayModeProperties2KHR>(VkStructureType type) {
+    switch (type) {
+        case VK_STRUCTURE_TYPE_DISPLAY_MODE_STEREO_PROPERTIES_NV:
+            return {alignof(VkDisplayModeStereoPropertiesNV), sizeof(VkDisplayModeStereoPropertiesNV)};
+
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryMapInfoKHR>(VkStructureType type) {
     switch (type) {
         case VK_STRUCTURE_TYPE_MEMORY_MAP_PLACED_INFO_EXT:
@@ -2857,10 +2979,14 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryMap
 template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeInfoKHR>(VkStructureType type) {
     switch (type) {
+        case VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_PICTURE_INFO_KHR:
+            return {alignof(VkVideoEncodeAV1PictureInfoKHR), sizeof(VkVideoEncodeAV1PictureInfoKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_H264_PICTURE_INFO_KHR:
             return {alignof(VkVideoEncodeH264PictureInfoKHR), sizeof(VkVideoEncodeH264PictureInfoKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_H265_PICTURE_INFO_KHR:
             return {alignof(VkVideoEncodeH265PictureInfoKHR), sizeof(VkVideoEncodeH265PictureInfoKHR)};
+        case VK_STRUCTURE_TYPE_VIDEO_ENCODE_QUANTIZATION_MAP_INFO_KHR:
+            return {alignof(VkVideoEncodeQuantizationMapInfoKHR), sizeof(VkVideoEncodeQuantizationMapInfoKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_INLINE_QUERY_INFO_KHR:
             return {alignof(VkVideoInlineQueryInfoKHR), sizeof(VkVideoInlineQueryInfoKHR)};
 
@@ -2873,6 +2999,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEnco
 template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeRateControlLayerInfoKHR>(VkStructureType type) {
     switch (type) {
+        case VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_RATE_CONTROL_LAYER_INFO_KHR:
+            return {alignof(VkVideoEncodeAV1RateControlLayerInfoKHR), sizeof(VkVideoEncodeAV1RateControlLayerInfoKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_H264_RATE_CONTROL_LAYER_INFO_KHR:
             return {alignof(VkVideoEncodeH264RateControlLayerInfoKHR), sizeof(VkVideoEncodeH264RateControlLayerInfoKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_H265_RATE_CONTROL_LAYER_INFO_KHR:
@@ -2887,6 +3015,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEnco
 template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeQualityLevelPropertiesKHR>(VkStructureType type) {
     switch (type) {
+        case VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_QUALITY_LEVEL_PROPERTIES_KHR:
+            return {alignof(VkVideoEncodeAV1QualityLevelPropertiesKHR), sizeof(VkVideoEncodeAV1QualityLevelPropertiesKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_H264_QUALITY_LEVEL_PROPERTIES_KHR:
             return {alignof(VkVideoEncodeH264QualityLevelPropertiesKHR), sizeof(VkVideoEncodeH264QualityLevelPropertiesKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_H265_QUALITY_LEVEL_PROPERTIES_KHR:
@@ -3023,6 +3153,30 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
     switch (type) {
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LAYERED_API_VULKAN_PROPERTIES_KHR:
             return {alignof(VkPhysicalDeviceLayeredApiVulkanPropertiesKHR), sizeof(VkPhysicalDeviceLayeredApiVulkanPropertiesKHR)};
+
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCuModuleCreateInfoNVX>(VkStructureType type) {
+    switch (type) {
+        case VK_STRUCTURE_TYPE_CU_MODULE_TEXTURING_MODE_CREATE_INFO_NVX:
+            return {alignof(VkCuModuleTexturingModeCreateInfoNVX), sizeof(VkCuModuleTexturingModeCreateInfoNVX)};
+
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkHdrMetadataEXT>(VkStructureType type) {
+    switch (type) {
+        case VK_STRUCTURE_TYPE_HDR_VIVID_DYNAMIC_METADATA_HUAWEI:
+            return {alignof(VkHdrVividDynamicMetadataHUAWEI), sizeof(VkHdrVividDynamicMetadataHUAWEI)};
 
         default:
             // Unknown structure
@@ -3217,6 +3371,47 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkScreenBuf
     }
 }
 #endif  // VK_USE_PLATFORM_SCREEN_QNX
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkGeneratedCommandsMemoryRequirementsInfoEXT>(
+    VkStructureType type) {
+    switch (type) {
+        case VK_STRUCTURE_TYPE_GENERATED_COMMANDS_PIPELINE_INFO_EXT:
+            return {alignof(VkGeneratedCommandsPipelineInfoEXT), sizeof(VkGeneratedCommandsPipelineInfoEXT)};
+        case VK_STRUCTURE_TYPE_GENERATED_COMMANDS_SHADER_INFO_EXT:
+            return {alignof(VkGeneratedCommandsShaderInfoEXT), sizeof(VkGeneratedCommandsShaderInfoEXT)};
+
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkGeneratedCommandsInfoEXT>(VkStructureType type) {
+    switch (type) {
+        case VK_STRUCTURE_TYPE_GENERATED_COMMANDS_PIPELINE_INFO_EXT:
+            return {alignof(VkGeneratedCommandsPipelineInfoEXT), sizeof(VkGeneratedCommandsPipelineInfoEXT)};
+        case VK_STRUCTURE_TYPE_GENERATED_COMMANDS_SHADER_INFO_EXT:
+            return {alignof(VkGeneratedCommandsShaderInfoEXT), sizeof(VkGeneratedCommandsShaderInfoEXT)};
+
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkIndirectCommandsLayoutCreateInfoEXT>(VkStructureType type) {
+    switch (type) {
+        case VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO:
+            return {alignof(VkPipelineLayoutCreateInfo), sizeof(VkPipelineLayoutCreateInfo)};
+
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
 
 template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAccelerationStructureGeometryTrianglesDataKHR>(

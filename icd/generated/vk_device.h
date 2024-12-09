@@ -241,6 +241,7 @@ class Device {
     void DestroyCuModuleNVX(VkCuModuleNVX module, const VkAllocationCallbacks* pAllocator);
     void DestroyCuFunctionNVX(VkCuFunctionNVX function, const VkAllocationCallbacks* pAllocator);
     uint32_t GetImageViewHandleNVX(const VkImageViewHandleInfoNVX* pInfo);
+    uint64_t GetImageViewHandle64NVX(const VkImageViewHandleInfoNVX* pInfo);
     VkResult GetImageViewAddressNVX(VkImageView imageView, VkImageViewAddressPropertiesNVX* pProperties);
     VkResult GetShaderInfoAMD(VkPipeline pipeline, VkShaderStageFlagBits shaderStage, VkShaderInfoTypeAMD infoType,
                               size_t* pInfoSize, void* pInfo);
@@ -407,6 +408,21 @@ class Device {
 #ifdef VK_USE_PLATFORM_SCREEN_QNX
     VkResult GetScreenBufferPropertiesQNX(const struct _screen_buffer* buffer, VkScreenBufferPropertiesQNX* pProperties);
 #endif  // VK_USE_PLATFORM_SCREEN_QNX
+    void GetGeneratedCommandsMemoryRequirementsEXT(const VkGeneratedCommandsMemoryRequirementsInfoEXT* pInfo,
+                                                   VkMemoryRequirements2* pMemoryRequirements);
+    VkResult CreateIndirectCommandsLayoutEXT(const VkIndirectCommandsLayoutCreateInfoEXT* pCreateInfo,
+                                             const VkAllocationCallbacks* pAllocator,
+                                             VkIndirectCommandsLayoutEXT* pIndirectCommandsLayout);
+    void DestroyIndirectCommandsLayoutEXT(VkIndirectCommandsLayoutEXT indirectCommandsLayout,
+                                          const VkAllocationCallbacks* pAllocator);
+    VkResult CreateIndirectExecutionSetEXT(const VkIndirectExecutionSetCreateInfoEXT* pCreateInfo,
+                                           const VkAllocationCallbacks* pAllocator,
+                                           VkIndirectExecutionSetEXT* pIndirectExecutionSet);
+    void DestroyIndirectExecutionSetEXT(VkIndirectExecutionSetEXT indirectExecutionSet, const VkAllocationCallbacks* pAllocator);
+    void UpdateIndirectExecutionSetPipelineEXT(VkIndirectExecutionSetEXT indirectExecutionSet, uint32_t executionSetWriteCount,
+                                               const VkWriteIndirectExecutionSetPipelineEXT* pExecutionSetWrites);
+    void UpdateIndirectExecutionSetShaderEXT(VkIndirectExecutionSetEXT indirectExecutionSet, uint32_t executionSetWriteCount,
+                                             const VkWriteIndirectExecutionSetShaderEXT* pExecutionSetWrites);
     VkResult CreateAccelerationStructureKHR(const VkAccelerationStructureCreateInfoKHR* pCreateInfo,
                                             const VkAllocationCallbacks* pAllocator,
                                             VkAccelerationStructureKHR* pAccelerationStructure);

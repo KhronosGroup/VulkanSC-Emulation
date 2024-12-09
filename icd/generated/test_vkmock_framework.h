@@ -913,11 +913,6 @@ class vkmock {
         CmdWriteTimestamp2KHR{};
     inline static std::function<VkResult(VkQueue queue, uint32_t submitCount, const VkSubmitInfo2* pSubmits, VkFence fence)>
         QueueSubmit2KHR{};
-    inline static std::function<void(VkCommandBuffer commandBuffer, VkPipelineStageFlags2 stage, VkBuffer dstBuffer,
-                                     VkDeviceSize dstOffset, uint32_t marker)>
-        CmdWriteBufferMarker2AMD{};
-    inline static std::function<void(VkQueue queue, uint32_t* pCheckpointDataCount, VkCheckpointData2NV* pCheckpointData)>
-        GetQueueCheckpointData2NV{};
     inline static std::function<void(VkCommandBuffer commandBuffer, const VkCopyBufferInfo2* pCopyBufferInfo)> CmdCopyBuffer2KHR{};
     inline static std::function<void(VkCommandBuffer commandBuffer, const VkCopyImageInfo2* pCopyImageInfo)> CmdCopyImage2KHR{};
     inline static std::function<void(VkCommandBuffer commandBuffer, const VkCopyBufferToImageInfo2* pCopyBufferToImageInfo)>
@@ -1041,6 +1036,7 @@ class vkmock {
         DestroyCuFunctionNVX{};
     inline static std::function<void(VkCommandBuffer commandBuffer, const VkCuLaunchInfoNVX* pLaunchInfo)> CmdCuLaunchKernelNVX{};
     inline static std::function<uint32_t(VkDevice device, const VkImageViewHandleInfoNVX* pInfo)> GetImageViewHandleNVX{};
+    inline static std::function<uint64_t(VkDevice device, const VkImageViewHandleInfoNVX* pInfo)> GetImageViewHandle64NVX{};
     inline static std::function<VkResult(VkDevice device, VkImageView imageView, VkImageViewAddressPropertiesNVX* pProperties)>
         GetImageViewAddressNVX{};
     inline static std::function<void(VkCommandBuffer commandBuffer, VkBuffer buffer, VkDeviceSize offset, VkBuffer countBuffer,
@@ -1167,14 +1163,17 @@ class vkmock {
     inline static std::function<VkResult(VkDevice device, VkPipeline executionGraph,
                                          const VkPipelineShaderStageNodeCreateInfoAMDX* pNodeInfo, uint32_t* pNodeIndex)>
         GetExecutionGraphPipelineNodeIndexAMDX{};
-    inline static std::function<void(VkCommandBuffer commandBuffer, VkDeviceAddress scratch)> CmdInitializeGraphScratchMemoryAMDX{};
-    inline static std::function<void(VkCommandBuffer commandBuffer, VkDeviceAddress scratch,
+    inline static std::function<void(VkCommandBuffer commandBuffer, VkPipeline executionGraph, VkDeviceAddress scratch,
+                                     VkDeviceSize scratchSize)>
+        CmdInitializeGraphScratchMemoryAMDX{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, VkDeviceAddress scratch, VkDeviceSize scratchSize,
                                      const VkDispatchGraphCountInfoAMDX* pCountInfo)>
         CmdDispatchGraphAMDX{};
-    inline static std::function<void(VkCommandBuffer commandBuffer, VkDeviceAddress scratch,
+    inline static std::function<void(VkCommandBuffer commandBuffer, VkDeviceAddress scratch, VkDeviceSize scratchSize,
                                      const VkDispatchGraphCountInfoAMDX* pCountInfo)>
         CmdDispatchGraphIndirectAMDX{};
-    inline static std::function<void(VkCommandBuffer commandBuffer, VkDeviceAddress scratch, VkDeviceAddress countInfo)>
+    inline static std::function<void(VkCommandBuffer commandBuffer, VkDeviceAddress scratch, VkDeviceSize scratchSize,
+                                     VkDeviceAddress countInfo)>
         CmdDispatchGraphIndirectCountAMDX{};
 #endif  // VK_ENABLE_BETA_EXTENSIONS
     inline static std::function<void(VkCommandBuffer commandBuffer, const VkSampleLocationsInfoEXT* pSampleLocationsInfo)>
@@ -1255,6 +1254,9 @@ class vkmock {
     inline static std::function<void(VkCommandBuffer commandBuffer, VkPipelineStageFlagBits pipelineStage, VkBuffer dstBuffer,
                                      VkDeviceSize dstOffset, uint32_t marker)>
         CmdWriteBufferMarkerAMD{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, VkPipelineStageFlags2 stage, VkBuffer dstBuffer,
+                                     VkDeviceSize dstOffset, uint32_t marker)>
+        CmdWriteBufferMarker2AMD{};
     inline static std::function<VkResult(VkPhysicalDevice physicalDevice, uint32_t* pTimeDomainCount,
                                          VkTimeDomainKHR* pTimeDomains)>
         GetPhysicalDeviceCalibrateableTimeDomainsEXT{};
@@ -1278,6 +1280,8 @@ class vkmock {
     inline static std::function<void(VkCommandBuffer commandBuffer, const void* pCheckpointMarker)> CmdSetCheckpointNV{};
     inline static std::function<void(VkQueue queue, uint32_t* pCheckpointDataCount, VkCheckpointDataNV* pCheckpointData)>
         GetQueueCheckpointDataNV{};
+    inline static std::function<void(VkQueue queue, uint32_t* pCheckpointDataCount, VkCheckpointData2NV* pCheckpointData)>
+        GetQueueCheckpointData2NV{};
     inline static std::function<VkResult(VkDevice device, const VkInitializePerformanceApiInfoINTEL* pInitializeInfo)>
         InitializePerformanceApiINTEL{};
     inline static std::function<void(VkDevice device)> UninitializePerformanceApiINTEL{};
@@ -1695,6 +1699,9 @@ class vkmock {
     inline static std::function<void(VkCommandBuffer commandBuffer, uint32_t stageCount, const VkShaderStageFlagBits* pStages,
                                      const VkShaderEXT* pShaders)>
         CmdBindShadersEXT{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, VkDepthClampModeEXT depthClampMode,
+                                     const VkDepthClampRangeEXT* pDepthClampRange)>
+        CmdSetDepthClampRangeEXT{};
     inline static std::function<VkResult(VkDevice device, VkFramebuffer framebuffer, uint32_t* pPropertiesCount,
                                          VkTilePropertiesQCOM* pProperties)>
         GetFramebufferTilePropertiesQCOM{};
@@ -1716,6 +1723,39 @@ class vkmock {
                                          VkScreenBufferPropertiesQNX* pProperties)>
         GetScreenBufferPropertiesQNX{};
 #endif  // VK_USE_PLATFORM_SCREEN_QNX
+    inline static std::function<void(VkDevice device, const VkGeneratedCommandsMemoryRequirementsInfoEXT* pInfo,
+                                     VkMemoryRequirements2* pMemoryRequirements)>
+        GetGeneratedCommandsMemoryRequirementsEXT{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, const VkGeneratedCommandsInfoEXT* pGeneratedCommandsInfo,
+                                     VkCommandBuffer stateCommandBuffer)>
+        CmdPreprocessGeneratedCommandsEXT{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, VkBool32 isPreprocessed,
+                                     const VkGeneratedCommandsInfoEXT* pGeneratedCommandsInfo)>
+        CmdExecuteGeneratedCommandsEXT{};
+    inline static std::function<VkResult(VkDevice device, const VkIndirectCommandsLayoutCreateInfoEXT* pCreateInfo,
+                                         const VkAllocationCallbacks* pAllocator,
+                                         VkIndirectCommandsLayoutEXT* pIndirectCommandsLayout)>
+        CreateIndirectCommandsLayoutEXT{};
+    inline static std::function<void(VkDevice device, VkIndirectCommandsLayoutEXT indirectCommandsLayout,
+                                     const VkAllocationCallbacks* pAllocator)>
+        DestroyIndirectCommandsLayoutEXT{};
+    inline static std::function<VkResult(VkDevice device, const VkIndirectExecutionSetCreateInfoEXT* pCreateInfo,
+                                         const VkAllocationCallbacks* pAllocator, VkIndirectExecutionSetEXT* pIndirectExecutionSet)>
+        CreateIndirectExecutionSetEXT{};
+    inline static std::function<void(VkDevice device, VkIndirectExecutionSetEXT indirectExecutionSet,
+                                     const VkAllocationCallbacks* pAllocator)>
+        DestroyIndirectExecutionSetEXT{};
+    inline static std::function<void(VkDevice device, VkIndirectExecutionSetEXT indirectExecutionSet,
+                                     uint32_t executionSetWriteCount,
+                                     const VkWriteIndirectExecutionSetPipelineEXT* pExecutionSetWrites)>
+        UpdateIndirectExecutionSetPipelineEXT{};
+    inline static std::function<void(VkDevice device, VkIndirectExecutionSetEXT indirectExecutionSet,
+                                     uint32_t executionSetWriteCount,
+                                     const VkWriteIndirectExecutionSetShaderEXT* pExecutionSetWrites)>
+        UpdateIndirectExecutionSetShaderEXT{};
+    inline static std::function<VkResult(VkPhysicalDevice physicalDevice, uint32_t* pPropertyCount,
+                                         VkCooperativeMatrixFlexibleDimensionsPropertiesNV* pProperties)>
+        GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV{};
     inline static std::function<VkResult(VkDevice device, const VkAccelerationStructureCreateInfoKHR* pCreateInfo,
                                          const VkAllocationCallbacks* pAllocator,
                                          VkAccelerationStructureKHR* pAccelerationStructure)>

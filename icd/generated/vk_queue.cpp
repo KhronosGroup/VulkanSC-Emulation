@@ -49,13 +49,6 @@ VkResult Queue::QueuePresentKHR(const VkPresentInfoKHR* pPresentInfo) {
     }
     return result;
 }
-void Queue::GetQueueCheckpointData2NV(uint32_t* pCheckpointDataCount, VkCheckpointData2NV* pCheckpointData) {
-    dispatch_table_.GetQueueCheckpointData2NV(handle_, pCheckpointDataCount, pCheckpointData);
-    if (pCheckpointData != nullptr) {
-        for (uint32_t i = 0; i < *pCheckpointDataCount; ++i)
-            vksc::ConvertOutStructChainToVulkanSC<VkCheckpointData2NV>(&pCheckpointData[i]);
-    }
-}
 void Queue::QueueBeginDebugUtilsLabelEXT(const VkDebugUtilsLabelEXT* pLabelInfo) {
     dispatch_table_.QueueBeginDebugUtilsLabelEXT(handle_, pLabelInfo);
 }
@@ -68,6 +61,13 @@ void Queue::GetQueueCheckpointDataNV(uint32_t* pCheckpointDataCount, VkCheckpoin
     if (pCheckpointData != nullptr) {
         for (uint32_t i = 0; i < *pCheckpointDataCount; ++i)
             vksc::ConvertOutStructChainToVulkanSC<VkCheckpointDataNV>(&pCheckpointData[i]);
+    }
+}
+void Queue::GetQueueCheckpointData2NV(uint32_t* pCheckpointDataCount, VkCheckpointData2NV* pCheckpointData) {
+    dispatch_table_.GetQueueCheckpointData2NV(handle_, pCheckpointDataCount, pCheckpointData);
+    if (pCheckpointData != nullptr) {
+        for (uint32_t i = 0; i < *pCheckpointDataCount; ++i)
+            vksc::ConvertOutStructChainToVulkanSC<VkCheckpointData2NV>(&pCheckpointData[i]);
     }
 }
 VkResult Queue::QueueSetPerformanceConfigurationINTEL(VkPerformanceConfigurationINTEL configuration) {
