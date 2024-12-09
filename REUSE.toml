@@ -33,14 +33,3 @@ path = [
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2024 The Khronos Group, Inc."
 SPDX-License-Identifier = "CC-BY-4.0"
-
-[[annotations]]
-path = "scripts/update_deps.py"
-precedence = "aggregate"
-SPDX-FileCopyrightText = [
-    "2017 The Glslang Authors. All rights reserved.",
-    "2018-2023 Valve Corporation",
-    "2018-2023 LunarG, Inc.",
-    "2023-2023 RasterGrid Kft."
-]
-SPDX-License-Identifier = "Apache-2.0"
