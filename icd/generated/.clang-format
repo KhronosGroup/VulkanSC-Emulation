@@ -1,3 +1,7 @@
+# Copyright (c) 2024 The Khronos Group Inc.
+# Copyright (c) 2024 RasterGrid Kft.
+#
+# SPDX-License-Identifier: Apache-2.0
 ---
 # Currently this matches the style of the rest of the repo.
 # A concern doing this is this will be more difficult to find

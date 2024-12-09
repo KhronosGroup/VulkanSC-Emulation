@@ -1,3 +1,8 @@
+# Copyright (c) 2024 The Khronos Group Inc.
+# Copyright (c) 2024 RasterGrid Kft.
+#
+# SPDX-License-Identifier: CC-BY-4.0
+
 # By default we install dependencies to the external directory
 /external/*
 
