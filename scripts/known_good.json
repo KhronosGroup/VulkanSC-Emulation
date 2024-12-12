@@ -9,7 +9,7 @@
             "cmake_options": [
                 "-DGEN_VULKANSC_COMBINED=ON"
             ],
-            "commit": "7cb5f69e731a90a4eb9330d02b786ef56ccd4fbd"
+            "commit": "vksc1.0.17"
         },
         {
             "name": "Vulkan-Utility-Libraries",
@@ -17,7 +17,7 @@
             "sub_dir": "Vulkan-Utility-Libraries",
             "build_dir": "Vulkan-Utility-Libraries/build",
             "install_dir": "Vulkan-Utility-Libraries/build/install",
-            "commit": "aa6e95c834219832ef73120a2ff23e735598628e",
+            "commit": "vksc1.0.17",
             "deps": [
                 {
                     "var_name": "VULKAN_HEADERS_INSTALL_DIR",
@@ -31,7 +31,7 @@
             "sub_dir": "SPIRV-Headers",
             "build_dir": "SPIRV-Headers/build",
             "install_dir": "SPIRV-Headers/build/install",
-            "commit": "1c9115b562bab79ee2160fbd845f41b815b9f21f"
+            "commit": "cb6b2c32dbfc3257c1e9142a116fe9ee3d9b80a2"
         },
         {
             "name": "SPIRV-Tools",
@@ -46,7 +46,7 @@
                 "-DSPIRV_SKIP_EXECUTABLES=ON",
                 "-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded$<$<CONFIG:Debug>:Debug>"
             ],
-            "commit": "784b064f90a597d2478064161438f4986485b5d4"
+            "commit": "02433568af277324e6d7fe4582b663f14165c563"
         },
         {
             "name": "Vulkan-Loader",
@@ -54,7 +54,7 @@
             "sub_dir": "Vulkan-Loader",
             "build_dir": "Vulkan-Loader/build",
             "install_dir": "Vulkan-Loader/build/install",
-            "commit": "85022170644e41cd7e083ee4c9afc871c6fc5f7c",
+            "commit": "vksc1.0.17",
             "build_step": "skip",
             "optional": [
                 "tests"
