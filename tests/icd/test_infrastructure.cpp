@@ -357,12 +357,13 @@ TEST_F(InfrastructureTest, DebugUtilsMessenger) {
     auto instance = InitInstance(&instance_ci);
     auto device = InitDevice();
 
-    // Force out an error which should be reported on both messengers
+    // Force out an error but as the instance-create-time messengers only apply to
+    // vkCreateInstance and vkDestroyInstance, we should receive no callbacks
     auto pipeline_cache_ci = vku::InitStruct<VkPipelineCacheCreateInfo>();
     VkPipelineCache pipeline_cache = VK_NULL_HANDLE;
     EXPECT_EQ(vksc::CreatePipelineCache(device, &pipeline_cache_ci, nullptr, &pipeline_cache),
               VK_ERROR_INVALID_PIPELINE_CACHE_DATA);
-    EXPECT_EQ(callback_data.call_count, 2);
+    EXPECT_EQ(callback_data.call_count, 0);
 
     // Create an additional messenger
     if (Framework::WithVulkanLoader()) {
@@ -377,17 +378,35 @@ TEST_F(InfrastructureTest, DebugUtilsMessenger) {
     VkDebugUtilsMessengerEXT messenger = VK_NULL_HANDLE;
     EXPECT_EQ(vksc::CreateDebugUtilsMessengerEXT(instance, &messenger_info, nullptr, &messenger), VK_SUCCESS);
 
-    // Now we should have 3 more calls to the messenger if forcing out the same error
+    // Now we should have 1 call to the messenger if forcing out the same error
     EXPECT_EQ(vksc::CreatePipelineCache(device, &pipeline_cache_ci, nullptr, &pipeline_cache),
               VK_ERROR_INVALID_PIPELINE_CACHE_DATA);
-    EXPECT_EQ(callback_data.call_count, 5);
+    EXPECT_EQ(callback_data.call_count, 1);
 
+    // Create yet another messenger
+    VkDebugUtilsMessengerEXT messenger2 = VK_NULL_HANDLE;
+    EXPECT_EQ(vksc::CreateDebugUtilsMessengerEXT(instance, &messenger_info, nullptr, &messenger2), VK_SUCCESS);
+
+    // Now we should have 2 calls to the messenger if forcing out the same error
+    EXPECT_EQ(vksc::CreatePipelineCache(device, &pipeline_cache_ci, nullptr, &pipeline_cache),
+              VK_ERROR_INVALID_PIPELINE_CACHE_DATA);
+    EXPECT_EQ(callback_data.call_count, 3);
+
+    // Destroy the first messenger
     vksc::DestroyDebugUtilsMessengerEXT(instance, messenger, nullptr);
 
-    // After deleting the additional messenger, once again, only 2 calls are triggered
+    // Now we should have 1 call to the messenger if forcing out the same error
     EXPECT_EQ(vksc::CreatePipelineCache(device, &pipeline_cache_ci, nullptr, &pipeline_cache),
               VK_ERROR_INVALID_PIPELINE_CACHE_DATA);
-    EXPECT_EQ(callback_data.call_count, 7);
+    EXPECT_EQ(callback_data.call_count, 4);
+
+    // Destroy the second messenger
+    vksc::DestroyDebugUtilsMessengerEXT(instance, messenger2, nullptr);
+
+    // After deleting the additional messenger, once again, no calls are triggered
+    EXPECT_EQ(vksc::CreatePipelineCache(device, &pipeline_cache_ci, nullptr, &pipeline_cache),
+              VK_ERROR_INVALID_PIPELINE_CACHE_DATA);
+    EXPECT_EQ(callback_data.call_count, 4);
 }
 
 TEST_F(InfrastructureTest, CreateDeviceStructChain) {
