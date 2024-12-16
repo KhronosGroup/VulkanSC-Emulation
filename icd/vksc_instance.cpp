@@ -28,7 +28,7 @@ class DebugUtilsMessengerEXT {
 Instance::Instance(VkInstance instance, Global& global, const VkInstanceCreateInfo& create_info)
     : Dispatchable(),
       NEXT(instance, vk::DispatchTable(instance, global.VkGetProcAddr()), icd::FaultHandler::Nil()),
-      logger_(CreateLogger(create_info), VK_OBJECT_TYPE_INSTANCE, instance),
+      logger_(vksc::ICD.Environment().LogSeverityEnv()),
       api_version_(create_info.pApplicationInfo != nullptr ? create_info.pApplicationInfo->apiVersion : VKSC_API_VERSION_1_0),
       physical_devices_() {
     status_ = SetupInstance(create_info);
@@ -51,16 +51,6 @@ VkResult Instance::SetupInstance(const VkInstanceCreateInfo& create_info) {
 
 void Instance::DestroyInstance(const VkAllocationCallbacks* pAllocator) {
     Destroy(VkDispatch().DestroyInstance, VkHandle(), pAllocator);
-}
-
-icd::Logger Instance::CreateLogger(const VkInstanceCreateInfo& create_info) {
-    std::vector<VkDebugUtilsMessengerCreateInfoEXT> messenger_list{};
-    auto messenger_ci = vku::FindStructInPNextChain<VkDebugUtilsMessengerCreateInfoEXT>(create_info.pNext);
-    while (messenger_ci != nullptr) {
-        messenger_list.push_back(*messenger_ci);
-        messenger_ci = vku::FindStructInPNextChain<VkDebugUtilsMessengerCreateInfoEXT>(messenger_ci->pNext);
-    }
-    return icd::Logger(vksc::ICD.Environment().LogSeverityEnv(), std::move(messenger_list));
 }
 
 VkResult Instance::GetCompatiblePhysicalDeviceList(std::vector<VkPhysicalDevice>& physical_devices) {

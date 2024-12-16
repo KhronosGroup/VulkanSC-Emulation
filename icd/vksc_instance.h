@@ -49,7 +49,6 @@ class Instance : public Dispatchable<Instance, VkInstance>, public vk::Instance 
 
   private:
     VkResult SetupInstance(const VkInstanceCreateInfo& create_info);
-    icd::Logger CreateLogger(const VkInstanceCreateInfo& create_info);
 
     VkResult GetCompatiblePhysicalDeviceList(std::vector<VkPhysicalDevice>& physical_devices);
     VkResult GetCompatiblePhysicalDeviceGroupList(std::vector<VkPhysicalDeviceGroupProperties>& physical_device_groups);
