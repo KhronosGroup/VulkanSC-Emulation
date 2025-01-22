@@ -75,13 +75,14 @@ target_sources(icd_tests PRIVATE
     icd_test_pipeline_cache_utils.h
     icd_test_pipeline_cache_utils.cpp
     test_cleanup.cpp
+    test_device.cpp
+    test_display_emulation.cpp
     test_fault_reporting.cpp
+    test_handle_wrapping.cpp
     test_infrastructure.cpp
     test_memory_consumption.cpp
     test_pipeline_cache.cpp
-    test_device.cpp
     test_output_struct_sanitizer.cpp
-    test_handle_wrapping.cpp
 )
 
 add_dependencies(icd_tests icd)

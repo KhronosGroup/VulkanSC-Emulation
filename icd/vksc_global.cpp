@@ -7,6 +7,7 @@
 
 #include "vksc_global.h"
 #include "vksc_instance.h"
+#include "vksc_display_emulation.h"
 #include "icd_env_helper.h"
 #include "icd_extension_helper.h"
 #include "icd_shadow_stack.h"
@@ -27,11 +28,7 @@ namespace vksc {
 
 Global ICD;
 
-Global::Global() : environment_(), logger_(Environment().LogSeverityEnv()) {
-    // List of instance extensions implemented by the ICD even if the underlying Vulkan implementation does not support them
-    static const ExtensionMap s_icd_implemented_instance_extensions = {
-        {ExtensionNumber::EXT_debug_utils, VK_EXT_DEBUG_UTILS_SPEC_VERSION}};
-
+Global::Global() : environment_(), logger_(Environment().LogSeverityEnv()), display_manager_(logger_) {
     for (const auto& private_env : Environment().PrivateEnvs()) {
         Log().Debug("VKSC-EMU-PrivateEnvs", "Environment variable %s=%s is shadowed", private_env.first,
                     private_env.second.c_str());
@@ -126,6 +123,17 @@ Global::Global() : environment_(), logger_(Environment().LogSeverityEnv()) {
                 for (const auto& instance_extension : instance_extension_list_) {
                     vk_instance_extensions_.insert(vk::GetExtensionNumber(instance_extension.extensionName));
                 }
+                // Init display manager emulated extensions
+                GetDisplayManager().InitEmulatedExtensions(*this);
+                // List of instance extensions implemented by the ICD even if the underlying Vulkan implementation does not support
+                // them
+                static const ExtensionMap& s_icd_implemented_instance_extensions = [&] {
+                    static ExtensionMap s_extensions = {{ExtensionNumber::EXT_debug_utils, VK_EXT_DEBUG_UTILS_SPEC_VERSION}};
+                    for (const auto& display_extension : GetDisplayManager().GetEmulatedExtensions()) {
+                        s_extensions.insert(display_extension);
+                    }
+                    return s_extensions;
+                }();
                 // Filter and add Vulkan SC extensions
                 instance_extension_list_ = icd::GetVulkanSCExtensionList(
                     Log(), instance_extension_list_, vksc::GetInstanceExtensionsMap(), s_icd_implemented_instance_extensions);
@@ -257,6 +265,21 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateInstance(const VkInstanceCreateInfo* pCre
             vksc::ICD.Log().Error("VKSC-EMU-CreateInstance-UnsupportedExtension", "Unsupported instance extension '%s'",
                                   pCreateInfo->ppEnabledExtensionNames[i]);
             return VK_ERROR_EXTENSION_NOT_PRESENT;
+        }
+    }
+
+    // Handle display emulation extensions
+    bool uses_display_emulation = true;
+    for (uint32_t i = 0; i < pCreateInfo->enabledExtensionCount; ++i) {
+        vksc::ExtensionNumber ext_num = vksc::GetExtensionNumber(pCreateInfo->ppEnabledExtensionNames[i]);
+        if (vksc::ICD.IsInstanceExtensionSupported(ext_num) && vksc::ICD.GetDisplayManager().IsEmulatedExtension(ext_num)) {
+            uses_display_emulation = true;
+        }
+    }
+    if (uses_display_emulation) {
+        // If this is a display emulation extension, then include the corresponding platform-specific WSI extension(s)
+        for (const auto& wsi_extension : vksc::ICD.GetDisplayManager().GetTargetPlatformExtensions()) {
+            vk_enabled_extension_names[vk_create_info.enabledExtensionCount++] = vk::GetExtensionName(wsi_extension.first);
         }
     }
 

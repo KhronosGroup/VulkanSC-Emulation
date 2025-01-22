@@ -1,0 +1,65 @@
+[
+    {
+        "name": "Main Display",
+        "dimensions": [
+            480,
+            270
+        ],
+        "resolution": [
+            960,
+            540
+        ],
+        "offset": [
+            350,
+            100
+        ],
+        "modes": [
+            [
+                960,
+                540
+            ]
+        ]
+    },
+    {
+        "name": "Left Side Display",
+        "dimensions": [
+            240,
+            270
+        ],
+        "resolution": [
+            480,
+            540
+        ],
+        "offset": [
+            100,
+            100
+        ],
+        "modes": [
+            [
+                480,
+                540
+            ]
+        ]
+    },
+    {
+        "name": "Right Side Display",
+        "dimensions": [
+            240,
+            270
+        ],
+        "resolution": [
+            480,
+            540
+        ],
+        "offset": [
+            850,
+            100
+        ],
+        "modes": [
+            [
+                480,
+                540
+            ]
+        ]
+    }
+]

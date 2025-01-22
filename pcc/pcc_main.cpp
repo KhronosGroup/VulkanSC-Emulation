@@ -434,7 +434,7 @@ int main(int argc, char* argv[]) {
             cxxopts::value<std::string>(), "<path>")
         ("out", "Output file name.",
             cxxopts::value<std::string>(), "<filename>")
-        ("hex", "Output C++ hex string to enable embedding the binary in source code.",
+        ("x,hex-bytes", "Output binary as comma separated C hexadecimals to enable embedding the binary in source code.",
             cxxopts::value<bool>()->default_value("false"))
         ("debug", "Include pipeline and SPIR-V debug data (always included when outputting device independent pipeline cache).",
             cxxopts::value<bool>()->default_value("true"))
@@ -619,39 +619,36 @@ int main(int argc, char* argv[]) {
     }
 
     // Write out pipeline cache
-    if (args["hex"].count()) {
-        FILE* fp = fopen((out + ".hpp").c_str(), "w");
+    if (args["hex-bytes"].count()) {
+        FILE* fp = fopen(out.c_str(), "w");
         if (!fp) {
             logger.Write(logger.kError, "Failed to open output file '%s.hpp'\n", out.c_str());
             return EXIT_FAILURE;
         }
-        int status = fprintf(fp, "const int cache_size = %zu;\n", builder.GetData().size());
-        if (status >= 0) {
-            status = fprintf(fp, "const unsigned char cache_file[cache_size] = {\n");
-        }
+        int status = 0;
         for (std::size_t i = 0; i < builder.GetData().size(); ++i) {
             if (status < 0) break;
             uint8_t byte = builder.GetData()[i];
             if (i > 0) {
                 if (i % 16 == 0) {
-                    fprintf(fp, ",\n0x%02x", byte);
+                    status = fprintf(fp, ",\n0x%02x", byte);
                 } else {
-                    fprintf(fp, ",0x%02x", byte);
+                    status = fprintf(fp, ",0x%02x", byte);
                 }
             } else {
-                fprintf(fp, "0x%02x", byte);
+                status = fprintf(fp, "0x%02x", byte);
             }
         }
         if (status >= 0) {
-            status = fprintf(fp, "\n};\n");
+            status = fprintf(fp, "\n");
         }
         if (status < 0) {
-            logger.Write(logger.kError, "Failed to write pipeline cache data to '%s.hpp'\n", out.c_str());
+            logger.Write(logger.kError, "Failed to write pipeline cache data to '%s'\n", out.c_str());
             fclose(fp);
             return EXIT_FAILURE;
         }
         fclose(fp);
-        logger.Write(logger.kInfo, "Pipeline cache data written to '%s.hpp'\n", out.c_str());
+        logger.Write(logger.kInfo, "Pipeline cache data written to '%s'\n", out.c_str());
     } else {
         FILE* fp = fopen(out.c_str(), "wb");
         if (!fp) {

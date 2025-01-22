@@ -51,12 +51,12 @@ The following is a table of all on/off options currently supported by this repos
 | ENABLE_ADDRESS_SANITIZER        | All           | `OFF`   | Enables Address Sanitizer. |
 | BUILD_WERROR                    | All           | `OFF`   | Treat compiler warnings as errors. |
 | BUILD_TESTS                     | All           | `OFF`   | Controls whether or not the tests are built. |
-| BUILD_WSI_XCB_SUPPORT           | Linux         | `OFF`   | Build with the XCB entry points enabled. |
-| BUILD_WSI_XLIB_SUPPORT          | Linux         | `OFF`   | Build the loader with the Xlib entry points enabled. |
-| BUILD_WSI_WAYLAND_SUPPORT       | Linux         | `OFF`   | Build the loader with the Wayland entry points enabled. |
-| BUILD_WSI_DIRECTFB_SUPPORT      | Linux         | `OFF`   | Build the loader with the DirectFB entry points enabled. |
-| BUILD_WSI_SCREEN_QNX_SUPPORT    | QNX           | `OFF`   | Build the loader with the QNX Screen entry points enabled. |
-| BUILD_WSI_SCI_SUPPORT           | Linux, QNX    | `OFF`   | Build the loader with the SCI entry points enabled. |
+| BUILD_WSI_XCB_SUPPORT           | Linux         | `ON`    | Build with the XCB entry points enabled. |
+| BUILD_WSI_XLIB_SUPPORT          | Linux         | `OFF`   | Build with the Xlib entry points enabled. |
+| BUILD_WSI_WAYLAND_SUPPORT       | Linux         | `OFF`   | Build with the Wayland entry points enabled. |
+| BUILD_WSI_DIRECTFB_SUPPORT      | Linux         | `OFF`   | Build with the DirectFB entry points enabled. |
+| BUILD_WSI_SCREEN_QNX_SUPPORT    | QNX           | `OFF`   | Build with the QNX Screen entry points enabled. |
+| BUILD_WSI_SCI_SUPPORT           | Linux, QNX    | `OFF`   | Build with the SCI entry points enabled. |
 
 ## Building Overview
 
