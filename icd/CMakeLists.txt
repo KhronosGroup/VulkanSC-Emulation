@@ -56,6 +56,8 @@ target_sources(icd PRIVATE
     vksc_command_pool.cpp
     vksc_device.h
     vksc_device.cpp
+    vksc_display_emulation.h
+    vksc_display_emulation.cpp
     vksc_global.h
     vksc_global.cpp
     vksc_instance.h
@@ -75,6 +77,11 @@ target_link_libraries(icd PRIVATE
     SPIRV-Tools-static
     SPIRV-Headers::SPIRV-Headers
 )
+
+if(BUILD_WSI_XCB_SUPPORT)
+    # We link to the XCB libraries to enable WSI display emulation
+    target_link_libraries(icd PRIVATE ${XCB_LIBRARIES})
+endif()
 
 target_include_directories(icd PRIVATE
     generated

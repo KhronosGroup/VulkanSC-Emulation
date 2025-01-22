@@ -26,6 +26,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 option(BUILD_ICD "Build Vulkan SC emulation ICD" ON)
 option(BUILD_PCC "Build Vulkan SC emulation PCC" ON)
+option(BUILD_WSI_XCB_SUPPORT "Build with XCB support" ON)
 
 option(ENABLE_ADDRESS_SANITIZER "Use address sanitization")
 if (ENABLE_ADDRESS_SANITIZER)

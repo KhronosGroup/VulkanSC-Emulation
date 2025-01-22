@@ -30,7 +30,8 @@ Instance::Instance(VkInstance instance, Global& global, const VkInstanceCreateIn
       NEXT(instance, vk::DispatchTable(instance, global.VkGetProcAddr()), icd::FaultHandler::Nil()),
       logger_(vksc::ICD.Environment().LogSeverityEnv()),
       api_version_(create_info.pApplicationInfo != nullptr ? create_info.pApplicationInfo->apiVersion : VKSC_API_VERSION_1_0),
-      physical_devices_() {
+      physical_devices_(),
+      display_manager_() {
     status_ = SetupInstance(create_info);
 }
 
@@ -203,6 +204,27 @@ void Instance::DestroyDebugUtilsMessengerEXT(VkDebugUtilsMessengerEXT messenger,
     } else {
         // Forward call to the Vulkan stack
         NEXT::DestroyDebugUtilsMessengerEXT(messenger, pAllocator);
+    }
+}
+
+VkResult Instance::CreateDisplayPlaneSurfaceKHR(const VkDisplaySurfaceCreateInfoKHR* pCreateInfo,
+                                                const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface) {
+    auto emulated_display_mode = GetDisplayManager().GetEmulatedDisplayModeFromHandle(pCreateInfo->displayMode);
+    if (emulated_display_mode != nullptr) {
+        return emulated_display_mode->GetDisplay().CreateSurface(*this, *emulated_display_mode, *pCreateInfo, *pSurface);
+    } else {
+        // The first planes are dedicated to the individual emulated displays
+        auto create_info = *pCreateInfo;
+        create_info.planeIndex -= ICD.GetDisplayManager().GetDisplayCount();
+        return NEXT::CreateDisplayPlaneSurfaceKHR(pCreateInfo, pAllocator, pSurface);
+    }
+}
+
+void Instance::DestroySurfaceKHR(VkSurfaceKHR surface, const VkAllocationCallbacks* pAllocator) {
+    NEXT::DestroySurfaceKHR(surface, pAllocator);
+    auto emulated_display = GetDisplayManager().GetEmulatedDisplayFromSurfaceHandle(surface);
+    if (emulated_display != nullptr) {
+        emulated_display->DestroySurface();
     }
 }
 
