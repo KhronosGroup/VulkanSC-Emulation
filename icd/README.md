@@ -16,14 +16,14 @@ On Linux, this can be achieved e.g. by configuring the following environment var
 
 ```bash
 export LD_LIBRARY_PATH=<install_dir>/lib
-export VK_DRIVER_FILES=<install_dir>/share/vulkan/icd.d/vksconvk.json
+export VK_DRIVER_FILES=<install_dir>/share/vulkansc/icd.d/vksconvk.json
 ```
 
 On Windows, this can be achieved e.g. by configuring the following environment variables:
 
 ```
 set PATH=<install_dir>\bin;%PATH%
-set VK_DRIVER_FILES=<installdir>\bin\vksconvk.json
+set VK_DRIVER_FILES=<install_dir>\bin\vksconvk.json
 ```
 
 ## Loader environment variable handling
