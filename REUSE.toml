@@ -16,6 +16,7 @@ path = [
     "tests/pcc/data/**",
 # JSON can't have SPDX-style comments
     "icd/vksconvk.json.in",
+    "icd/sample_display_config.json",
     "scripts/known_good.json",
     "tests/icd/vkmock_icd.json.in"
 ]

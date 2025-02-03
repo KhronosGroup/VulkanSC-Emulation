@@ -12,6 +12,7 @@
 #include "icd_extension_helper.h"
 #include "vk_extension_helper.h"
 #include "vksc_extension_helper.h"
+#include "vksc_display_emulation.h"
 
 #include <vulkan/vulkan.h>
 #include <unordered_set>
@@ -33,6 +34,8 @@ class Global {
 
     const icd::EnvironmentHelper& Environment() const { return environment_; }
     const icd::Logger& Log() const { return logger_; }
+
+    GlobalDisplayManager& GetDisplayManager() { return display_manager_; }
 
     bool IsValid() const { return valid_; }
 
@@ -60,6 +63,8 @@ class Global {
     icd::EnvironmentHelper environment_;
 
     icd::Logger logger_;
+
+    GlobalDisplayManager display_manager_;
 
     void* vk_loader_module_{nullptr};
     PFN_vkGetInstanceProcAddr vk_get_instance_proc_addr_{nullptr};

@@ -19,6 +19,8 @@ namespace icd {
 EnvironmentHelper::EnvironmentHelper()
     : log_severity_(ParseLogSeverity()),
       recycle_pipeline_memory_(ParseRecyclePipelineMemory()),
+      emulated_display_count_(ParseEmulatedDisplayCount()),
+      emulated_display_config_(getenv("VKSC_EMULATION_DISPLAY_CONFIG")),
       private_envs_(InitPrivateEnvs()),
       layered_envs_(InitLayeredEnvs()) {}
 
@@ -84,6 +86,16 @@ bool EnvironmentHelper::ParseRecyclePipelineMemory() {
     }
     // Default to recycling
     return true;
+}
+
+uint32_t EnvironmentHelper::ParseEmulatedDisplayCount() {
+    // Default is to emulate 4 displays
+    uint32_t value = 4;
+    auto env_var_value = getenv("VKSC_EMULATION_DISPLAYS");
+    if (env_var_value != nullptr) {
+        value = atoi(env_var_value);
+    }
+    return value;
 }
 
 const std::unordered_map<const char*, std::string> EnvironmentHelper::InitPrivateEnvs() {

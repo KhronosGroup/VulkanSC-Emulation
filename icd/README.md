@@ -16,14 +16,14 @@ On Linux, this can be achieved e.g. by configuring the following environment var
 
 ```bash
 export LD_LIBRARY_PATH=<install_dir>/lib
-export VK_DRIVER_FILES=<install_dir>/share/vulkan/icd.d/vksconvk.json
+export VK_DRIVER_FILES=<install_dir>/share/vulkansc/icd.d/vksconvk.json
 ```
 
 On Windows, this can be achieved e.g. by configuring the following environment variables:
 
 ```
 set PATH=<install_dir>\bin;%PATH%
-set VK_DRIVER_FILES=<installdir>\bin\vksconvk.json
+set VK_DRIVER_FILES=<install_dir>\bin\vksconvk.json
 ```
 
 ## Loader environment variable handling
@@ -36,3 +36,5 @@ The behavior of the Vulkan SC Emulation ICD can be controlled with the following
 
   * `VKSC_EMULATION_DEBUG` works similarly to the loader environment variable `VK_LOADER_DEBUG` and enables different levels of debug output to be generated to `stderr` and/or to API debug callbacks. The variable can be set to a comma-delimited list of log level options (available options: error, warn, info, debug).
   * `VKSC_EMULATION_RECYCLE_PIPELINE_MEMORY` controls whether the ICD reports support for the `recyclePipelineMemory` Vulkan SC 1.0 device property. If set to `0`, then the ICD will report `recyclePipelineMemory` as `VK_FALSE`, otherwise (by default) as `VK_TRUE`.
+  * `VKSC_EMULATION_DISPLAYS` controls the number of `VkDisplayKHR` objects to emulate using Win32/X11 windows on supported platforms and implementations. Setting the variable to `0` disables `VkDisplayKHR` emulation. The default value is `4`.
+  * `VKSC_EMULATION_DISPLAY_CONFIG` can be used to specify a JSON configuration to source for the number and properties of the `VkDisplayKHR` objects to emulate using Win32/X11 windows on supported platforms and implementations. If specified, the JSON configuration overrides the default emulated display parameters and any value specified through the `VKSC_EMULATION_DISPLAYS` environment variable. An example display configuration file can be found in [sample_display_config.json](sample_display_config.json).

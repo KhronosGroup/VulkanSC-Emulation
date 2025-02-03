@@ -50,7 +50,8 @@ PhysicalDevice::PhysicalDevice(VkPhysicalDevice physical_device, Instance& insta
     : Dispatchable(),
       NEXT(physical_device, instance.VkDispatch(), icd::FaultHandler::Nil()),
       instance_(instance),
-      logger_(instance.Log(), VK_OBJECT_TYPE_PHYSICAL_DEVICE, physical_device) {
+      logger_(instance.Log(), VK_OBJECT_TYPE_PHYSICAL_DEVICE, physical_device),
+      display_manager_(instance.GetDisplayManager(), *this) {
     // Initialize extensions from the underlying Vulkan implementation
     uint32_t device_extension_count = 0;
     VkResult result = NEXT::EnumerateDeviceExtensionProperties(nullptr, &device_extension_count, nullptr);
@@ -296,6 +297,362 @@ VkResult PhysicalDevice::GetPhysicalDeviceRefreshableObjectTypesKHR(uint32_t* pR
                                                                     VkObjectType* pRefreshableObjectTypes) {
     // TODO: Add implementation if we would like to expose support for VK_KHR_object_refresh in the future
     return VK_SUCCESS;
+}
+
+#if defined(VK_USE_PLATFORM_WIN32_KHR)
+VkResult PhysicalDevice::AcquireWinrtDisplayNV(VkDisplayKHR display) {
+    auto emulated_display = GetDisplayManager().GetEmulatedDisplayFromHandle(display);
+    if (emulated_display != nullptr) {
+        // Our emulated displays are not owned by WinRT
+        return VK_SUCCESS;
+    } else {
+        return NEXT::AcquireWinrtDisplayNV(display);
+    }
+}
+#endif
+
+VkResult PhysicalDevice::ReleaseDisplayEXT(VkDisplayKHR display) {
+    auto emulated_display = GetDisplayManager().GetEmulatedDisplayFromHandle(display);
+    if (emulated_display != nullptr) {
+        // Our emulated displays are never owned by any window system
+        return VK_SUCCESS;
+    } else {
+        return NEXT::ReleaseDisplayEXT(display);
+    }
+}
+
+VkResult PhysicalDevice::GetPhysicalDeviceDisplayPropertiesKHR(uint32_t* pPropertyCount, VkDisplayPropertiesKHR* pProperties) {
+    VkResult result = VK_SUCCESS;
+    if (pProperties != nullptr) {
+        uint32_t properties_written = 0;
+        // Write emulated display properties first
+        for (const auto& display : GetDisplayManager().GetDisplays()) {
+            if (properties_written < *pPropertyCount) {
+                pProperties[properties_written++] = display->GetProperties();
+            } else {
+                result = VK_INCOMPLETE;
+                break;
+            }
+        }
+        // Then write native display properties if available
+        if (properties_written <= *pPropertyCount) {
+            uint32_t properties_remaining = *pPropertyCount - properties_written;
+            if (ICD.IsInstanceExtensionSupported(vk::ExtensionNumber::KHR_display)) {
+                result = NEXT::GetPhysicalDeviceDisplayPropertiesKHR(&properties_remaining, &pProperties[properties_written]);
+                properties_written += properties_remaining;
+            }
+        }
+        *pPropertyCount = properties_written;
+    } else {
+        // Query native display count first if available
+        if (ICD.IsInstanceExtensionSupported(vk::ExtensionNumber::KHR_display)) {
+            result = NEXT::GetPhysicalDeviceDisplayPropertiesKHR(pPropertyCount, nullptr);
+        } else {
+            *pPropertyCount = 0;
+        }
+        // Add emulated display count
+        *pPropertyCount += ICD.GetDisplayManager().GetDisplayCount();
+    }
+    return result;
+}
+
+VkResult PhysicalDevice::GetPhysicalDeviceDisplayProperties2KHR(uint32_t* pPropertyCount, VkDisplayProperties2KHR* pProperties) {
+    VkResult result = VK_SUCCESS;
+    if (pProperties != nullptr) {
+        uint32_t properties_written = 0;
+        // Write emulated display properties first
+        for (const auto& display : GetDisplayManager().GetDisplays()) {
+            if (properties_written < *pPropertyCount) {
+                pProperties[properties_written++].displayProperties = display->GetProperties();
+            } else {
+                result = VK_INCOMPLETE;
+                break;
+            }
+        }
+        // Then write native display properties if available
+        if (properties_written <= *pPropertyCount) {
+            uint32_t properties_remaining = *pPropertyCount - properties_written;
+            if (ICD.IsInstanceExtensionSupported(vk::ExtensionNumber::KHR_get_display_properties2)) {
+                result = NEXT::GetPhysicalDeviceDisplayProperties2KHR(&properties_remaining, &pProperties[properties_written]);
+                properties_written += properties_remaining;
+            } else if (ICD.IsInstanceExtensionSupported(vk::ExtensionNumber::KHR_display)) {
+                icd::ShadowStack::Frame stack_frame{};
+                auto props = stack_frame.Alloc<VkDisplayPropertiesKHR>(properties_remaining);
+                result = NEXT::GetPhysicalDeviceDisplayPropertiesKHR(&properties_remaining, props);
+                for (uint32_t i = 0; i < properties_remaining; ++i) {
+                    pProperties[properties_written++].displayProperties = props[i];
+                }
+            }
+        }
+        *pPropertyCount = properties_written;
+    } else {
+        // Query native display count first if available
+        if (ICD.IsInstanceExtensionSupported(vk::ExtensionNumber::KHR_get_display_properties2)) {
+            result = NEXT::GetPhysicalDeviceDisplayProperties2KHR(pPropertyCount, nullptr);
+        } else if (ICD.IsInstanceExtensionSupported(vk::ExtensionNumber::KHR_display)) {
+            result = NEXT::GetPhysicalDeviceDisplayPropertiesKHR(pPropertyCount, nullptr);
+        } else {
+            *pPropertyCount = 0;
+        }
+        // Add emulated display count
+        *pPropertyCount += ICD.GetDisplayManager().GetDisplayCount();
+    }
+    return result;
+}
+
+VkResult PhysicalDevice::GetPhysicalDeviceDisplayPlanePropertiesKHR(uint32_t* pPropertyCount,
+                                                                    VkDisplayPlanePropertiesKHR* pProperties) {
+    VkResult result = VK_SUCCESS;
+    if (pProperties != nullptr) {
+        uint32_t properties_written = 0;
+        // Write emulated display plane properties first
+        for (const auto& display : GetDisplayManager().GetDisplays()) {
+            if (properties_written < *pPropertyCount) {
+                pProperties[properties_written].currentDisplay = display->VkSCHandle();
+                pProperties[properties_written].currentStackIndex = 0;
+                properties_written++;
+            } else {
+                result = VK_INCOMPLETE;
+                break;
+            }
+        }
+
+        // Then write native display plane properties if available
+        if (properties_written <= *pPropertyCount) {
+            uint32_t properties_remaining = *pPropertyCount - properties_written;
+            if (ICD.IsInstanceExtensionSupported(vk::ExtensionNumber::KHR_display)) {
+                icd::ShadowStack::Frame stack_frame{};
+                auto props = stack_frame.Alloc<VkDisplayPlanePropertiesKHR>(properties_remaining);
+                result = NEXT::GetPhysicalDeviceDisplayPlanePropertiesKHR(&properties_remaining, props);
+                for (uint32_t i = 0; i < properties_remaining; ++i) {
+                    pProperties[properties_written++] = props[i];
+                }
+            }
+        }
+        *pPropertyCount = properties_written;
+    } else {
+        // Query native display plane count first if available
+        if (ICD.IsInstanceExtensionSupported(vk::ExtensionNumber::KHR_display)) {
+            result = NEXT::GetPhysicalDeviceDisplayPlanePropertiesKHR(pPropertyCount, nullptr);
+        } else {
+            *pPropertyCount = 0;
+        }
+        // If there are emulated displays make sure to report at least one display plane for each of them
+        *pPropertyCount += ICD.GetDisplayManager().GetDisplayCount();
+    }
+    return result;
+}
+
+VkResult PhysicalDevice::GetPhysicalDeviceDisplayPlaneProperties2KHR(uint32_t* pPropertyCount,
+                                                                     VkDisplayPlaneProperties2KHR* pProperties) {
+    VkResult result = VK_SUCCESS;
+    if (pProperties != nullptr) {
+        uint32_t properties_written = 0;
+        // Write emulated display plane properties first
+        for (const auto& display : GetDisplayManager().GetDisplays()) {
+            if (properties_written < *pPropertyCount) {
+                pProperties[properties_written].displayPlaneProperties.currentDisplay = display->VkSCHandle();
+                pProperties[properties_written].displayPlaneProperties.currentStackIndex = 0;
+                properties_written++;
+            } else {
+                result = VK_INCOMPLETE;
+                break;
+            }
+        }
+
+        // Then write native display plane properties if available
+        if (properties_written <= *pPropertyCount) {
+            uint32_t properties_remaining = *pPropertyCount - properties_written;
+            if (ICD.IsInstanceExtensionSupported(vk::ExtensionNumber::KHR_get_display_properties2)) {
+                result = NEXT::GetPhysicalDeviceDisplayPlaneProperties2KHR(&properties_remaining, &pProperties[properties_written]);
+                properties_written += properties_remaining;
+            } else if (ICD.IsInstanceExtensionSupported(vk::ExtensionNumber::KHR_display)) {
+                icd::ShadowStack::Frame stack_frame{};
+                auto props = stack_frame.Alloc<VkDisplayPlanePropertiesKHR>(properties_remaining);
+                result = NEXT::GetPhysicalDeviceDisplayPlanePropertiesKHR(&properties_remaining, props);
+                for (uint32_t i = 0; i < properties_remaining; ++i) {
+                    pProperties[properties_written++].displayPlaneProperties = props[i];
+                }
+            }
+        }
+        *pPropertyCount = properties_written;
+    } else {
+        // Query native display plane count first if available
+        if (ICD.IsInstanceExtensionSupported(vk::ExtensionNumber::KHR_get_display_properties2)) {
+            result = NEXT::GetPhysicalDeviceDisplayPlaneProperties2KHR(pPropertyCount, nullptr);
+        } else if (ICD.IsInstanceExtensionSupported(vk::ExtensionNumber::KHR_display)) {
+            result = NEXT::GetPhysicalDeviceDisplayPlanePropertiesKHR(pPropertyCount, nullptr);
+        } else {
+            *pPropertyCount = 0;
+        }
+        // If there are emulated displays make sure to report at least one display plane for each of them
+        *pPropertyCount += ICD.GetDisplayManager().GetDisplayCount();
+    }
+    return result;
+}
+
+VkResult PhysicalDevice::GetDisplayPlaneSupportedDisplaysKHR(uint32_t planeIndex, uint32_t* pDisplayCount,
+                                                             VkDisplayKHR* pDisplays) {
+    VkResult result = VK_SUCCESS;
+    const uint32_t emulated_display_count = ICD.GetDisplayManager().GetDisplayCount();
+    if (pDisplays != nullptr) {
+        // The first planes are dedicated to the individual emulated displays
+        if (planeIndex < emulated_display_count) {
+            // Emulated display planes support only their corresponding display
+            if (*pDisplayCount > 0) {
+                pDisplays[0] = GetDisplayManager().GetDisplays()[planeIndex]->VkSCHandle();
+                *pDisplayCount = 1;
+            } else {
+                result = VK_INCOMPLETE;
+            }
+        } else if (ICD.IsInstanceExtensionSupported(vk::ExtensionNumber::KHR_display)) {
+            const uint32_t native_plane_index = planeIndex - emulated_display_count;
+            result = NEXT::GetDisplayPlaneSupportedDisplaysKHR(native_plane_index, pDisplayCount, pDisplays);
+        } else {
+            *pDisplayCount = 0;
+        }
+    } else {
+        if (planeIndex < emulated_display_count) {
+            // Emulated display planes support only their corresponding display
+            *pDisplayCount = 1;
+        } else if (ICD.IsInstanceExtensionSupported(vk::ExtensionNumber::KHR_display)) {
+            const uint32_t native_plane_index = planeIndex - emulated_display_count;
+            result = NEXT::GetDisplayPlaneSupportedDisplaysKHR(native_plane_index, pDisplayCount, pDisplays);
+        } else {
+            *pDisplayCount = 0;
+        }
+    }
+    return result;
+}
+
+VkResult PhysicalDevice::GetDisplayModePropertiesKHR(VkDisplayKHR display, uint32_t* pPropertyCount,
+                                                     VkDisplayModePropertiesKHR* pProperties) {
+    VkResult result = VK_SUCCESS;
+    auto emulated_display = GetDisplayManager().GetEmulatedDisplayFromHandle(display);
+    if (emulated_display != nullptr) {
+        if (pProperties != nullptr) {
+            uint32_t properties_written = 0;
+            for (const auto& display_mode : emulated_display->GetPredefinedModes()) {
+                if (properties_written < *pPropertyCount) {
+                    pProperties[properties_written].displayMode = display_mode->VkSCHandle();
+                    pProperties[properties_written].parameters = display_mode->GetParameters();
+                    properties_written++;
+                } else {
+                    result = VK_INCOMPLETE;
+                    break;
+                }
+            }
+            *pPropertyCount = properties_written;
+        } else {
+            *pPropertyCount = static_cast<uint32_t>(emulated_display->GetPredefinedModes().size());
+        }
+    } else if (ICD.IsInstanceExtensionSupported(vk::ExtensionNumber::KHR_display)) {
+        // Assume that the display handle is a Vulkan one
+        result = NEXT::GetDisplayModePropertiesKHR(display, pPropertyCount, pProperties);
+    } else {
+        // If all other options fail then this has to be an invalid handle
+        result = VK_ERROR_VALIDATION_FAILED;
+        *pPropertyCount = 0;
+    }
+    return result;
+}
+
+VkResult PhysicalDevice::GetDisplayModeProperties2KHR(VkDisplayKHR display, uint32_t* pPropertyCount,
+                                                      VkDisplayModeProperties2KHR* pProperties) {
+    VkResult result = VK_SUCCESS;
+    auto emulated_display = GetDisplayManager().GetEmulatedDisplayFromHandle(display);
+    if (emulated_display != nullptr) {
+        if (pProperties != nullptr) {
+            uint32_t properties_written = 0;
+            for (const auto& display_mode : emulated_display->GetPredefinedModes()) {
+                if (properties_written < *pPropertyCount) {
+                    pProperties[properties_written].displayModeProperties.displayMode = display_mode->VkSCHandle();
+                    pProperties[properties_written].displayModeProperties.parameters = display_mode->GetParameters();
+                    properties_written++;
+                } else {
+                    result = VK_INCOMPLETE;
+                    break;
+                }
+            }
+            *pPropertyCount = properties_written;
+        } else {
+            *pPropertyCount = static_cast<uint32_t>(emulated_display->GetPredefinedModes().size());
+        }
+    } else if (ICD.IsInstanceExtensionSupported(vk::ExtensionNumber::KHR_get_display_properties2)) {
+        // Assume that the display handle is a Vulkan one
+        result = NEXT::GetDisplayModeProperties2KHR(display, pPropertyCount, pProperties);
+    } else if (ICD.IsInstanceExtensionSupported(vk::ExtensionNumber::KHR_display)) {
+        // Emulate GDP2 if the underlying Vulkan implementation does not support it
+        if (pProperties != nullptr) {
+            icd::ShadowStack::Frame stack_frame{};
+            auto props = stack_frame.Alloc<VkDisplayModePropertiesKHR>(*pPropertyCount);
+            result = NEXT::GetDisplayModePropertiesKHR(display, pPropertyCount, props);
+            for (uint32_t i = 0; i < *pPropertyCount; ++i) {
+                pProperties[i].displayModeProperties = props[i];
+            }
+        } else {
+            result = NEXT::GetDisplayModePropertiesKHR(display, pPropertyCount, nullptr);
+        }
+    } else {
+        // If all other options fail then this has to be an invalid handle
+        result = VK_ERROR_VALIDATION_FAILED;
+        *pPropertyCount = 0;
+    }
+    return result;
+}
+
+VkResult PhysicalDevice::CreateDisplayModeKHR(VkDisplayKHR display, const VkDisplayModeCreateInfoKHR* pCreateInfo,
+                                              const VkAllocationCallbacks* pAllocator, VkDisplayModeKHR* pMode) {
+    auto emulated_display = GetDisplayManager().GetEmulatedDisplayFromHandle(display);
+    if (emulated_display != nullptr) {
+        auto display_mode = GetDisplayManager().CreateDisplayMode(*emulated_display, pCreateInfo->parameters);
+        if (display_mode != nullptr) {
+            *pMode = display_mode->VkSCHandle();
+            return VK_SUCCESS;
+        } else {
+            return VK_ERROR_INITIALIZATION_FAILED;
+        }
+    } else {
+        return NEXT::CreateDisplayModeKHR(display, pCreateInfo, pAllocator, pMode);
+    }
+}
+
+VkResult PhysicalDevice::GetDisplayPlaneCapabilitiesKHR(VkDisplayModeKHR mode, uint32_t planeIndex,
+                                                        VkDisplayPlaneCapabilitiesKHR* pCapabilities) {
+    const uint32_t emulated_display_count = ICD.GetDisplayManager().GetDisplayCount();
+    auto emulated_display_mode = GetDisplayManager().GetEmulatedDisplayModeFromHandle(mode);
+    if (emulated_display_mode != nullptr) {
+        *pCapabilities = emulated_display_mode->GetDisplayPlaneCapabilities(planeIndex);
+        return VK_SUCCESS;
+    } else if (planeIndex < emulated_display_count) {
+        // Emulated display plane cannot be used with native Vulkan display
+        *pCapabilities = VkDisplayPlaneCapabilitiesKHR{};
+        return VK_SUCCESS;
+    } else {
+        const uint32_t native_plane_index = planeIndex - emulated_display_count;
+        return NEXT::GetDisplayPlaneCapabilitiesKHR(mode, native_plane_index, pCapabilities);
+    }
+}
+
+VkResult PhysicalDevice::GetDisplayPlaneCapabilities2KHR(const VkDisplayPlaneInfo2KHR* pDisplayPlaneInfo,
+                                                         VkDisplayPlaneCapabilities2KHR* pCapabilities) {
+    const uint32_t emulated_display_count = ICD.GetDisplayManager().GetDisplayCount();
+    auto emulated_display_mode = GetDisplayManager().GetEmulatedDisplayModeFromHandle(pDisplayPlaneInfo->mode);
+    if (emulated_display_mode != nullptr && pDisplayPlaneInfo->planeIndex < emulated_display_count) {
+        pCapabilities->capabilities = emulated_display_mode->GetDisplayPlaneCapabilities(pDisplayPlaneInfo->planeIndex);
+        return VK_SUCCESS;
+    } else if (ICD.IsInstanceExtensionSupported(vk::ExtensionNumber::KHR_get_display_properties2)) {
+        auto display_plane_info = *pDisplayPlaneInfo;
+        display_plane_info.planeIndex -= emulated_display_count;
+        return NEXT::GetDisplayPlaneCapabilities2KHR(&display_plane_info, pCapabilities);
+    } else if (ICD.IsInstanceExtensionSupported(vk::ExtensionNumber::KHR_display)) {
+        const uint32_t native_plane_index = pDisplayPlaneInfo->planeIndex - emulated_display_count;
+        return NEXT::GetDisplayPlaneCapabilitiesKHR(pDisplayPlaneInfo->mode, native_plane_index, &pCapabilities->capabilities);
+    } else {
+        // Emulated display plane cannot be used with native Vulkan display
+        pCapabilities->capabilities = VkDisplayPlaneCapabilitiesKHR{};
+        return VK_SUCCESS;
+    }
 }
 
 }  // namespace vksc

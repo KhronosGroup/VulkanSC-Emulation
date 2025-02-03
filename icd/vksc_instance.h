@@ -9,6 +9,7 @@
 
 #include "vksc_dispatchable.h"
 #include "vksc_extension_helper.h"
+#include "vksc_display_emulation.h"
 #include "vk_instance.h"
 #include "icd_log.h"
 
@@ -34,6 +35,8 @@ class Instance : public Dispatchable<Instance, VkInstance>, public vk::Instance 
 
     uint32_t GetApiVersion() const { return api_version_; }
 
+    InstanceDisplayManager& GetDisplayManager() { return display_manager_; }
+
     void DestroyInstance(const VkAllocationCallbacks* pAllocator);
     VkResult EnumeratePhysicalDevices(uint32_t* pPhysicalDeviceCount, VkPhysicalDevice* pPhysicalDevices);
     VkResult EnumeratePhysicalDeviceGroups(uint32_t* pPhysicalDeviceGroupCount,
@@ -46,6 +49,10 @@ class Instance : public Dispatchable<Instance, VkInstance>, public vk::Instance 
     VkResult CreateDebugUtilsMessengerEXT(const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
                                           const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pMessenger);
     void DestroyDebugUtilsMessengerEXT(VkDebugUtilsMessengerEXT messenger, const VkAllocationCallbacks* pAllocator);
+
+    VkResult CreateDisplayPlaneSurfaceKHR(const VkDisplaySurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                                          VkSurfaceKHR* pSurface);
+    void DestroySurfaceKHR(VkSurfaceKHR surface, const VkAllocationCallbacks* pAllocator);
 
   private:
     VkResult SetupInstance(const VkInstanceCreateInfo& create_info);
@@ -60,6 +67,8 @@ class Instance : public Dispatchable<Instance, VkInstance>, public vk::Instance 
     uint32_t api_version_;
 
     DispatchableChildren<PhysicalDevice, VkPhysicalDevice> physical_devices_;
+
+    InstanceDisplayManager display_manager_;
 
     std::unordered_set<ExtensionNumber> enabled_extensions_{};
 };
