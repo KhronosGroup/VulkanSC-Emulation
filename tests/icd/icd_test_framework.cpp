@@ -109,23 +109,26 @@ static void InitDefaultMockHandlers(IcdTest *test_case = nullptr) {
             pQueueFamilyProperties[0] = {VK_QUEUE_TRANSFER_BIT | VK_QUEUE_COMPUTE_BIT | VK_QUEUE_GRAPHICS_BIT, 1, 0, {0, 0, 0}};
         }
     };
-    vkmock::GetPhysicalDeviceQueueFamilyProperties2 = [&](auto, auto pQueueFamilyPropertyCount, auto pQueueFamilyProperties) {
+    vkmock::GetPhysicalDeviceQueueFamilyProperties2 = [&](auto physicalDevice, auto pQueueFamilyPropertyCount,
+                                                          auto pQueueFamilyProperties) {
         if (pQueueFamilyProperties == nullptr) {
             *pQueueFamilyPropertyCount = 1;
         } else {
-            vkmock::GetPhysicalDeviceQueueFamilyProperties(mock_physical_device.handle(), pQueueFamilyPropertyCount,
+            vkmock::GetPhysicalDeviceQueueFamilyProperties(physicalDevice, pQueueFamilyPropertyCount,
                                                            &pQueueFamilyProperties->queueFamilyProperties);
         }
     };
+    vkmock::GetPhysicalDeviceMemoryProperties = [&](auto, auto pMemoryProperties) mutable {
+        pMemoryProperties->memoryTypeCount = 1;
+        pMemoryProperties->memoryTypes[0] = {VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT | VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
+                                                 VK_MEMORY_PROPERTY_HOST_COHERENT_BIT | VK_MEMORY_PROPERTY_HOST_CACHED_BIT,
+                                             0};
+        pMemoryProperties->memoryHeapCount = 1;
+        pMemoryProperties->memoryHeaps[0] = {1048576, VK_MEMORY_HEAP_DEVICE_LOCAL_BIT};
+    };
     vkmock::GetPhysicalDeviceMemoryProperties2 = [&, mem_props = VkPhysicalDeviceMemoryProperties{}](
-                                                     auto, auto pMemoryProperties) mutable {
-        mem_props.memoryTypeCount = 1;
-        mem_props.memoryTypes[0] = {VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT | VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
-                                        VK_MEMORY_PROPERTY_HOST_COHERENT_BIT | VK_MEMORY_PROPERTY_HOST_CACHED_BIT,
-                                    0};
-        mem_props.memoryHeapCount = 1;
-        mem_props.memoryHeaps[0] = {1'048'576, VK_MEMORY_HEAP_DEVICE_LOCAL_BIT};
-        pMemoryProperties->memoryProperties = mem_props;
+                                                     auto physicalDevice, auto pMemoryProperties) mutable {
+        vkmock::GetPhysicalDeviceMemoryProperties(physicalDevice, &pMemoryProperties->memoryProperties);
     };
     vkmock::GetDeviceQueue = [&](auto, auto, auto, auto pQueue) { *pQueue = mock_queue; };
     vkmock::GetDeviceQueue2 = [&](auto, auto, auto pQueue) { *pQueue = mock_queue; };
@@ -152,8 +155,8 @@ static void InitDefaultMockHandlers(IcdTest *test_case = nullptr) {
         }
         return VK_SUCCESS;
     };
-    vkmock::AllocateMemory = [&, mem = VkDeviceMemory{}](auto, auto, auto, auto pMemory) {
-        *pMemory = mem;
+    vkmock::AllocateMemory = [&](auto, auto, auto, auto pMemory) {
+        *pMemory = mock_memory;
         return VK_SUCCESS;
     };
     vkmock::FreeMemory = [&](auto, auto, auto) {};
