@@ -118,7 +118,7 @@ static void InitDefaultMockHandlers(IcdTest *test_case = nullptr) {
                                                            &pQueueFamilyProperties->queueFamilyProperties);
         }
     };
-    vkmock::GetPhysicalDeviceMemoryProperties = [&](auto, auto pMemoryProperties) mutable {
+    vkmock::GetPhysicalDeviceMemoryProperties = [&](auto, auto pMemoryProperties) {
         pMemoryProperties->memoryTypeCount = 1;
         pMemoryProperties->memoryTypes[0] = {VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT | VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
                                                  VK_MEMORY_PROPERTY_HOST_COHERENT_BIT | VK_MEMORY_PROPERTY_HOST_CACHED_BIT,
@@ -126,8 +126,7 @@ static void InitDefaultMockHandlers(IcdTest *test_case = nullptr) {
         pMemoryProperties->memoryHeapCount = 1;
         pMemoryProperties->memoryHeaps[0] = {1048576, VK_MEMORY_HEAP_DEVICE_LOCAL_BIT};
     };
-    vkmock::GetPhysicalDeviceMemoryProperties2 = [&, mem_props = VkPhysicalDeviceMemoryProperties{}](
-                                                     auto physicalDevice, auto pMemoryProperties) mutable {
+    vkmock::GetPhysicalDeviceMemoryProperties2 = [&](auto physicalDevice, auto pMemoryProperties) {
         vkmock::GetPhysicalDeviceMemoryProperties(physicalDevice, &pMemoryProperties->memoryProperties);
     };
     vkmock::GetDeviceQueue = [&](auto, auto, auto, auto pQueue) { *pQueue = mock_queue; };
