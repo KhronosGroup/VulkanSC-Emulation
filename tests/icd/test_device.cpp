@@ -215,7 +215,7 @@ TEST_F(DeviceTest, GetPhysicalDeviceProperties) {
 }
 
 TEST_F(DeviceTest, CommandPoolReservationInfo) {
-    TEST_DESCRIPTION("Test if physical device features are properly sanitized");
+    TEST_DESCRIPTION("Test that SC-specific command pool creation info is correctly removed");
 
     InitInstance();
     InitDevice();
