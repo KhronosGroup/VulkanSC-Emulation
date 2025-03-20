@@ -153,6 +153,15 @@ class Device {
     void GetDeviceImageSparseMemoryRequirements(const VkDeviceImageMemoryRequirements* pInfo,
                                                 uint32_t* pSparseMemoryRequirementCount,
                                                 VkSparseImageMemoryRequirements2* pSparseMemoryRequirements);
+    VkResult MapMemory2(const VkMemoryMapInfo* pMemoryMapInfo, void** ppData);
+    VkResult UnmapMemory2(const VkMemoryUnmapInfo* pMemoryUnmapInfo);
+    void GetRenderingAreaGranularity(const VkRenderingAreaInfo* pRenderingAreaInfo, VkExtent2D* pGranularity);
+    void GetDeviceImageSubresourceLayout(const VkDeviceImageSubresourceInfo* pInfo, VkSubresourceLayout2* pLayout);
+    void GetImageSubresourceLayout2(VkImage image, const VkImageSubresource2* pSubresource, VkSubresourceLayout2* pLayout);
+    VkResult CopyMemoryToImage(const VkCopyMemoryToImageInfo* pCopyMemoryToImageInfo);
+    VkResult CopyImageToMemory(const VkCopyImageToMemoryInfo* pCopyImageToMemoryInfo);
+    VkResult CopyImageToImage(const VkCopyImageToImageInfo* pCopyImageToImageInfo);
+    VkResult TransitionImageLayout(uint32_t transitionCount, const VkHostImageLayoutTransitionInfo* pTransitions);
     VkResult CreateSwapchainKHR(const VkSwapchainCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                                 VkSwapchainKHR* pSwapchain);
     void DestroySwapchainKHR(VkSwapchainKHR swapchain, const VkAllocationCallbacks* pAllocator);
@@ -214,14 +223,9 @@ class Device {
     VkResult GetPipelineExecutableInternalRepresentationsKHR(
         const VkPipelineExecutableInfoKHR* pExecutableInfo, uint32_t* pInternalRepresentationCount,
         VkPipelineExecutableInternalRepresentationKHR* pInternalRepresentations);
-    VkResult MapMemory2KHR(const VkMemoryMapInfoKHR* pMemoryMapInfo, void** ppData);
-    VkResult UnmapMemory2KHR(const VkMemoryUnmapInfoKHR* pMemoryUnmapInfo);
     VkResult GetEncodedVideoSessionParametersKHR(const VkVideoEncodeSessionParametersGetInfoKHR* pVideoSessionParametersInfo,
                                                  VkVideoEncodeSessionParametersFeedbackInfoKHR* pFeedbackInfo, size_t* pDataSize,
                                                  void* pData);
-    void GetRenderingAreaGranularityKHR(const VkRenderingAreaInfoKHR* pRenderingAreaInfo, VkExtent2D* pGranularity);
-    void GetDeviceImageSubresourceLayoutKHR(const VkDeviceImageSubresourceInfoKHR* pInfo, VkSubresourceLayout2KHR* pLayout);
-    void GetImageSubresourceLayout2KHR(VkImage image, const VkImageSubresource2KHR* pSubresource, VkSubresourceLayout2KHR* pLayout);
     VkResult CreatePipelineBinariesKHR(const VkPipelineBinaryCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                                        VkPipelineBinaryHandlesInfoKHR* pBinaries);
     void DestroyPipelineBinaryKHR(VkPipelineBinaryKHR pipelineBinary, const VkAllocationCallbacks* pAllocator);
@@ -311,10 +315,6 @@ class Device {
     VkResult GetDeviceGroupSurfacePresentModes2EXT(const VkPhysicalDeviceSurfaceInfo2KHR* pSurfaceInfo,
                                                    VkDeviceGroupPresentModeFlagsKHR* pModes);
 #endif  // VK_USE_PLATFORM_WIN32_KHR
-    VkResult CopyMemoryToImageEXT(const VkCopyMemoryToImageInfoEXT* pCopyMemoryToImageInfo);
-    VkResult CopyImageToMemoryEXT(const VkCopyImageToMemoryInfoEXT* pCopyImageToMemoryInfo);
-    VkResult CopyImageToImageEXT(const VkCopyImageToImageInfoEXT* pCopyImageToImageInfo);
-    VkResult TransitionImageLayoutEXT(uint32_t transitionCount, const VkHostImageLayoutTransitionInfoEXT* pTransitions);
     VkResult ReleaseSwapchainImagesEXT(const VkReleaseSwapchainImagesInfoEXT* pReleaseInfo);
     void GetGeneratedCommandsMemoryRequirementsNV(const VkGeneratedCommandsMemoryRequirementsInfoNV* pInfo,
                                                   VkMemoryRequirements2* pMemoryRequirements);
@@ -323,6 +323,7 @@ class Device {
                                             VkIndirectCommandsLayoutNV* pIndirectCommandsLayout);
     void DestroyIndirectCommandsLayoutNV(VkIndirectCommandsLayoutNV indirectCommandsLayout,
                                          const VkAllocationCallbacks* pAllocator);
+#ifdef VK_ENABLE_BETA_EXTENSIONS
     VkResult CreateCudaModuleNV(const VkCudaModuleCreateInfoNV* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                                 VkCudaModuleNV* pModule);
     VkResult GetCudaModuleCacheNV(VkCudaModuleNV module, size_t* pCacheSize, void* pCacheData);
@@ -330,6 +331,7 @@ class Device {
                                   VkCudaFunctionNV* pFunction);
     void DestroyCudaModuleNV(VkCudaModuleNV module, const VkAllocationCallbacks* pAllocator);
     void DestroyCudaFunctionNV(VkCudaFunctionNV function, const VkAllocationCallbacks* pAllocator);
+#endif  // VK_ENABLE_BETA_EXTENSIONS
 #ifdef VK_USE_PLATFORM_METAL_EXT
     void ExportMetalObjectsEXT(VkExportMetalObjectsInfoEXT* pMetalObjectsInfo);
 #endif  // VK_USE_PLATFORM_METAL_EXT
@@ -401,6 +403,7 @@ class Device {
     VkResult GetFramebufferTilePropertiesQCOM(VkFramebuffer framebuffer, uint32_t* pPropertiesCount,
                                               VkTilePropertiesQCOM* pProperties);
     VkResult GetDynamicRenderingTilePropertiesQCOM(const VkRenderingInfo* pRenderingInfo, VkTilePropertiesQCOM* pProperties);
+    VkResult ConvertCooperativeVectorMatrixNV(const VkConvertCooperativeVectorMatrixInfoNV* pInfo);
     VkResult SetLatencySleepModeNV(VkSwapchainKHR swapchain, const VkLatencySleepModeInfoNV* pSleepModeInfo);
     VkResult LatencySleepNV(VkSwapchainKHR swapchain, const VkLatencySleepInfoNV* pSleepInfo);
     void SetLatencyMarkerNV(VkSwapchainKHR swapchain, const VkSetLatencyMarkerInfoNV* pLatencyMarkerInfo);
@@ -408,6 +411,10 @@ class Device {
 #ifdef VK_USE_PLATFORM_SCREEN_QNX
     VkResult GetScreenBufferPropertiesQNX(const struct _screen_buffer* buffer, VkScreenBufferPropertiesQNX* pProperties);
 #endif  // VK_USE_PLATFORM_SCREEN_QNX
+    void GetClusterAccelerationStructureBuildSizesNV(const VkClusterAccelerationStructureInputInfoNV* pInfo,
+                                                     VkAccelerationStructureBuildSizesInfoKHR* pSizeInfo);
+    void GetPartitionedAccelerationStructuresBuildSizesNV(const VkPartitionedAccelerationStructureInstancesInputNV* pInfo,
+                                                          VkAccelerationStructureBuildSizesInfoKHR* pSizeInfo);
     void GetGeneratedCommandsMemoryRequirementsEXT(const VkGeneratedCommandsMemoryRequirementsInfoEXT* pInfo,
                                                    VkMemoryRequirements2* pMemoryRequirements);
     VkResult CreateIndirectCommandsLayoutEXT(const VkIndirectCommandsLayoutCreateInfoEXT* pCreateInfo,
@@ -423,6 +430,11 @@ class Device {
                                                const VkWriteIndirectExecutionSetPipelineEXT* pExecutionSetWrites);
     void UpdateIndirectExecutionSetShaderEXT(VkIndirectExecutionSetEXT indirectExecutionSet, uint32_t executionSetWriteCount,
                                              const VkWriteIndirectExecutionSetShaderEXT* pExecutionSetWrites);
+#ifdef VK_USE_PLATFORM_METAL_EXT
+    VkResult GetMemoryMetalHandleEXT(const VkMemoryGetMetalHandleInfoEXT* pGetMetalHandleInfo, void** pHandle);
+    VkResult GetMemoryMetalHandlePropertiesEXT(VkExternalMemoryHandleTypeFlagBits handleType, const void* pHandle,
+                                               VkMemoryMetalHandlePropertiesEXT* pMemoryMetalHandleProperties);
+#endif  // VK_USE_PLATFORM_METAL_EXT
     VkResult CreateAccelerationStructureKHR(const VkAccelerationStructureCreateInfoKHR* pCreateInfo,
                                             const VkAllocationCallbacks* pAllocator,
                                             VkAccelerationStructureKHR* pAccelerationStructure);

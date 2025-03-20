@@ -976,6 +976,87 @@ VKAPI_ATTR void VKAPI_CALL vkGetDeviceImageSparseMemoryRequirements(VkDevice dev
                                                                                     pSparseMemoryRequirements);
 }
 
+VKAPI_ATTR void VKAPI_CALL vkCmdSetLineStipple(VkCommandBuffer commandBuffer, uint32_t lineStippleFactor,
+                                               uint16_t lineStipplePattern) {
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetLineStipple(lineStippleFactor, lineStipplePattern);
+}
+
+VKAPI_ATTR VkResult VKAPI_CALL vkMapMemory2(VkDevice device, const VkMemoryMapInfo* pMemoryMapInfo, void** ppData) {
+    return vksc::Device::FromHandle(device)->MapMemory2(pMemoryMapInfo, ppData);
+}
+
+VKAPI_ATTR VkResult VKAPI_CALL vkUnmapMemory2(VkDevice device, const VkMemoryUnmapInfo* pMemoryUnmapInfo) {
+    return vksc::Device::FromHandle(device)->UnmapMemory2(pMemoryUnmapInfo);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkCmdBindIndexBuffer2(VkCommandBuffer commandBuffer, VkBuffer buffer, VkDeviceSize offset,
+                                                 VkDeviceSize size, VkIndexType indexType) {
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdBindIndexBuffer2(buffer, offset, size, indexType);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkGetRenderingAreaGranularity(VkDevice device, const VkRenderingAreaInfo* pRenderingAreaInfo,
+                                                         VkExtent2D* pGranularity) {
+    return vksc::Device::FromHandle(device)->GetRenderingAreaGranularity(pRenderingAreaInfo, pGranularity);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkGetDeviceImageSubresourceLayout(VkDevice device, const VkDeviceImageSubresourceInfo* pInfo,
+                                                             VkSubresourceLayout2* pLayout) {
+    return vksc::Device::FromHandle(device)->GetDeviceImageSubresourceLayout(pInfo, pLayout);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkGetImageSubresourceLayout2(VkDevice device, VkImage image, const VkImageSubresource2* pSubresource,
+                                                        VkSubresourceLayout2* pLayout) {
+    return vksc::Device::FromHandle(device)->GetImageSubresourceLayout2(image, pSubresource, pLayout);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkCmdPushDescriptorSet(VkCommandBuffer commandBuffer, VkPipelineBindPoint pipelineBindPoint,
+                                                  VkPipelineLayout layout, uint32_t set, uint32_t descriptorWriteCount,
+                                                  const VkWriteDescriptorSet* pDescriptorWrites) {
+    return vksc::CommandBuffer::FromHandle(commandBuffer)
+        ->CmdPushDescriptorSet(pipelineBindPoint, layout, set, descriptorWriteCount, pDescriptorWrites);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkCmdSetRenderingAttachmentLocations(VkCommandBuffer commandBuffer,
+                                                                const VkRenderingAttachmentLocationInfo* pLocationInfo) {
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetRenderingAttachmentLocations(pLocationInfo);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkCmdSetRenderingInputAttachmentIndices(
+    VkCommandBuffer commandBuffer, const VkRenderingInputAttachmentIndexInfo* pInputAttachmentIndexInfo) {
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetRenderingInputAttachmentIndices(pInputAttachmentIndexInfo);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkCmdBindDescriptorSets2(VkCommandBuffer commandBuffer,
+                                                    const VkBindDescriptorSetsInfo* pBindDescriptorSetsInfo) {
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdBindDescriptorSets2(pBindDescriptorSetsInfo);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkCmdPushConstants2(VkCommandBuffer commandBuffer, const VkPushConstantsInfo* pPushConstantsInfo) {
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdPushConstants2(pPushConstantsInfo);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkCmdPushDescriptorSet2(VkCommandBuffer commandBuffer,
+                                                   const VkPushDescriptorSetInfo* pPushDescriptorSetInfo) {
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdPushDescriptorSet2(pPushDescriptorSetInfo);
+}
+
+VKAPI_ATTR VkResult VKAPI_CALL vkCopyMemoryToImage(VkDevice device, const VkCopyMemoryToImageInfo* pCopyMemoryToImageInfo) {
+    return vksc::Device::FromHandle(device)->CopyMemoryToImage(pCopyMemoryToImageInfo);
+}
+
+VKAPI_ATTR VkResult VKAPI_CALL vkCopyImageToMemory(VkDevice device, const VkCopyImageToMemoryInfo* pCopyImageToMemoryInfo) {
+    return vksc::Device::FromHandle(device)->CopyImageToMemory(pCopyImageToMemoryInfo);
+}
+
+VKAPI_ATTR VkResult VKAPI_CALL vkCopyImageToImage(VkDevice device, const VkCopyImageToImageInfo* pCopyImageToImageInfo) {
+    return vksc::Device::FromHandle(device)->CopyImageToImage(pCopyImageToImageInfo);
+}
+
+VKAPI_ATTR VkResult VKAPI_CALL vkTransitionImageLayout(VkDevice device, uint32_t transitionCount,
+                                                       const VkHostImageLayoutTransitionInfo* pTransitions) {
+    return vksc::Device::FromHandle(device)->TransitionImageLayout(transitionCount, pTransitions);
+}
+
 VKAPI_ATTR void VKAPI_CALL vkGetCommandPoolMemoryConsumption(VkDevice device, VkCommandPool commandPool,
                                                              VkCommandBuffer commandBuffer,
                                                              VkCommandPoolMemoryConsumption* pConsumption) {
@@ -1268,7 +1349,7 @@ VKAPI_ATTR void VKAPI_CALL vkCmdResolveImage2KHR(VkCommandBuffer commandBuffer, 
 
 VKAPI_ATTR void VKAPI_CALL vkCmdSetLineStippleKHR(VkCommandBuffer commandBuffer, uint32_t lineStippleFactor,
                                                   uint16_t lineStipplePattern) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetLineStippleKHR(lineStippleFactor, lineStipplePattern);
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetLineStipple(lineStippleFactor, lineStipplePattern);
 }
 
 VKAPI_ATTR VkResult VKAPI_CALL vkGetPhysicalDeviceCalibrateableTimeDomainsKHR(VkPhysicalDevice physicalDevice,
@@ -1417,7 +1498,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateHeadlessSurfaceEXT(VkInstance instance, c
 
 VKAPI_ATTR void VKAPI_CALL vkCmdSetLineStippleEXT(VkCommandBuffer commandBuffer, uint32_t lineStippleFactor,
                                                   uint16_t lineStipplePattern) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetLineStippleKHR(lineStippleFactor, lineStipplePattern);
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetLineStipple(lineStippleFactor, lineStipplePattern);
 }
 
 VKAPI_ATTR void VKAPI_CALL vkCmdSetCullModeEXT(VkCommandBuffer commandBuffer, VkCullModeFlags cullMode) {

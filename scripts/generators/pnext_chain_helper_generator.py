@@ -6,7 +6,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import os
-from generators.base_generator import BaseGenerator
+from base_generator import BaseGenerator
 from generators.generator_utils import PlatformGuardHelper
 
 class PNextChainHelperGenerator(BaseGenerator):

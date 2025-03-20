@@ -293,6 +293,28 @@ class vksc {
             (PFN_vkGetDeviceImageMemoryRequirements)GetInstanceProcAddr(instance, "vkGetDeviceImageMemoryRequirements");
         GetDeviceImageSparseMemoryRequirements =
             (PFN_vkGetDeviceImageSparseMemoryRequirements)GetInstanceProcAddr(instance, "vkGetDeviceImageSparseMemoryRequirements");
+        CmdSetLineStipple = (PFN_vkCmdSetLineStipple)GetInstanceProcAddr(instance, "vkCmdSetLineStipple");
+        MapMemory2 = (PFN_vkMapMemory2)GetInstanceProcAddr(instance, "vkMapMemory2");
+        UnmapMemory2 = (PFN_vkUnmapMemory2)GetInstanceProcAddr(instance, "vkUnmapMemory2");
+        CmdBindIndexBuffer2 = (PFN_vkCmdBindIndexBuffer2)GetInstanceProcAddr(instance, "vkCmdBindIndexBuffer2");
+        GetRenderingAreaGranularity =
+            (PFN_vkGetRenderingAreaGranularity)GetInstanceProcAddr(instance, "vkGetRenderingAreaGranularity");
+        GetDeviceImageSubresourceLayout =
+            (PFN_vkGetDeviceImageSubresourceLayout)GetInstanceProcAddr(instance, "vkGetDeviceImageSubresourceLayout");
+        GetImageSubresourceLayout2 =
+            (PFN_vkGetImageSubresourceLayout2)GetInstanceProcAddr(instance, "vkGetImageSubresourceLayout2");
+        CmdPushDescriptorSet = (PFN_vkCmdPushDescriptorSet)GetInstanceProcAddr(instance, "vkCmdPushDescriptorSet");
+        CmdSetRenderingAttachmentLocations =
+            (PFN_vkCmdSetRenderingAttachmentLocations)GetInstanceProcAddr(instance, "vkCmdSetRenderingAttachmentLocations");
+        CmdSetRenderingInputAttachmentIndices =
+            (PFN_vkCmdSetRenderingInputAttachmentIndices)GetInstanceProcAddr(instance, "vkCmdSetRenderingInputAttachmentIndices");
+        CmdBindDescriptorSets2 = (PFN_vkCmdBindDescriptorSets2)GetInstanceProcAddr(instance, "vkCmdBindDescriptorSets2");
+        CmdPushConstants2 = (PFN_vkCmdPushConstants2)GetInstanceProcAddr(instance, "vkCmdPushConstants2");
+        CmdPushDescriptorSet2 = (PFN_vkCmdPushDescriptorSet2)GetInstanceProcAddr(instance, "vkCmdPushDescriptorSet2");
+        CopyMemoryToImage = (PFN_vkCopyMemoryToImage)GetInstanceProcAddr(instance, "vkCopyMemoryToImage");
+        CopyImageToMemory = (PFN_vkCopyImageToMemory)GetInstanceProcAddr(instance, "vkCopyImageToMemory");
+        CopyImageToImage = (PFN_vkCopyImageToImage)GetInstanceProcAddr(instance, "vkCopyImageToImage");
+        TransitionImageLayout = (PFN_vkTransitionImageLayout)GetInstanceProcAddr(instance, "vkTransitionImageLayout");
         GetCommandPoolMemoryConsumption =
             (PFN_vkGetCommandPoolMemoryConsumption)GetInstanceProcAddr(instance, "vkGetCommandPoolMemoryConsumption");
         GetFaultData = (PFN_vkGetFaultData)GetInstanceProcAddr(instance, "vkGetFaultData");
@@ -678,6 +700,23 @@ class vksc {
     inline static PFN_vkGetDeviceBufferMemoryRequirements GetDeviceBufferMemoryRequirements{nullptr};
     inline static PFN_vkGetDeviceImageMemoryRequirements GetDeviceImageMemoryRequirements{nullptr};
     inline static PFN_vkGetDeviceImageSparseMemoryRequirements GetDeviceImageSparseMemoryRequirements{nullptr};
+    inline static PFN_vkCmdSetLineStipple CmdSetLineStipple{nullptr};
+    inline static PFN_vkMapMemory2 MapMemory2{nullptr};
+    inline static PFN_vkUnmapMemory2 UnmapMemory2{nullptr};
+    inline static PFN_vkCmdBindIndexBuffer2 CmdBindIndexBuffer2{nullptr};
+    inline static PFN_vkGetRenderingAreaGranularity GetRenderingAreaGranularity{nullptr};
+    inline static PFN_vkGetDeviceImageSubresourceLayout GetDeviceImageSubresourceLayout{nullptr};
+    inline static PFN_vkGetImageSubresourceLayout2 GetImageSubresourceLayout2{nullptr};
+    inline static PFN_vkCmdPushDescriptorSet CmdPushDescriptorSet{nullptr};
+    inline static PFN_vkCmdSetRenderingAttachmentLocations CmdSetRenderingAttachmentLocations{nullptr};
+    inline static PFN_vkCmdSetRenderingInputAttachmentIndices CmdSetRenderingInputAttachmentIndices{nullptr};
+    inline static PFN_vkCmdBindDescriptorSets2 CmdBindDescriptorSets2{nullptr};
+    inline static PFN_vkCmdPushConstants2 CmdPushConstants2{nullptr};
+    inline static PFN_vkCmdPushDescriptorSet2 CmdPushDescriptorSet2{nullptr};
+    inline static PFN_vkCopyMemoryToImage CopyMemoryToImage{nullptr};
+    inline static PFN_vkCopyImageToMemory CopyImageToMemory{nullptr};
+    inline static PFN_vkCopyImageToImage CopyImageToImage{nullptr};
+    inline static PFN_vkTransitionImageLayout TransitionImageLayout{nullptr};
     inline static PFN_vkGetCommandPoolMemoryConsumption GetCommandPoolMemoryConsumption{nullptr};
     inline static PFN_vkGetFaultData GetFaultData{nullptr};
     inline static PFN_vkDestroySurfaceKHR DestroySurfaceKHR{nullptr};

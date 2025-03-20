@@ -138,8 +138,16 @@ class CommandBufferMemoryTracker : public vk::CommandBuffer {
     void CmdSetRasterizerDiscardEnable(VkBool32 rasterizerDiscardEnable);
     void CmdSetDepthBiasEnable(VkBool32 depthBiasEnable);
     void CmdSetPrimitiveRestartEnable(VkBool32 primitiveRestartEnable);
+    void CmdSetLineStipple(uint32_t lineStippleFactor, uint16_t lineStipplePattern);
+    void CmdBindIndexBuffer2(VkBuffer buffer, VkDeviceSize offset, VkDeviceSize size, VkIndexType indexType);
+    void CmdPushDescriptorSet(VkPipelineBindPoint pipelineBindPoint, VkPipelineLayout layout, uint32_t set,
+                              uint32_t descriptorWriteCount, const VkWriteDescriptorSet* pDescriptorWrites);
+    void CmdSetRenderingAttachmentLocations(const VkRenderingAttachmentLocationInfo* pLocationInfo);
+    void CmdSetRenderingInputAttachmentIndices(const VkRenderingInputAttachmentIndexInfo* pInputAttachmentIndexInfo);
+    void CmdBindDescriptorSets2(const VkBindDescriptorSetsInfo* pBindDescriptorSetsInfo);
+    void CmdPushConstants2(const VkPushConstantsInfo* pPushConstantsInfo);
+    void CmdPushDescriptorSet2(const VkPushDescriptorSetInfo* pPushDescriptorSetInfo);
     void CmdSetFragmentShadingRateKHR(const VkExtent2D* pFragmentSize, const VkFragmentShadingRateCombinerOpKHR combinerOps[2]);
-    void CmdSetLineStippleKHR(uint32_t lineStippleFactor, uint16_t lineStipplePattern);
     void CmdSetDiscardRectangleEXT(uint32_t firstDiscardRectangle, uint32_t discardRectangleCount,
                                    const VkRect2D* pDiscardRectangles);
     void CmdSetDiscardRectangleEnableEXT(VkBool32 discardRectangleEnable);
