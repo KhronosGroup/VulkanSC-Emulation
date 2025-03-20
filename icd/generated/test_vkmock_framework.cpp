@@ -1129,6 +1129,103 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_GetDeviceImageSparseMemoryRequirements(
     return vkmock::GetDeviceImageSparseMemoryRequirements(device, pInfo, pSparseMemoryRequirementCount, pSparseMemoryRequirements);
 }
 
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdSetLineStipple(VkCommandBuffer commandBuffer, uint32_t lineStippleFactor,
+                                                           uint16_t lineStipplePattern) {
+    return vkmock::CmdSetLineStipple(commandBuffer, lineStippleFactor, lineStipplePattern);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_MapMemory2(VkDevice device, const VkMemoryMapInfo* pMemoryMapInfo, void** ppData) {
+    return vkmock::MapMemory2(device, pMemoryMapInfo, ppData);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_UnmapMemory2(VkDevice device, const VkMemoryUnmapInfo* pMemoryUnmapInfo) {
+    return vkmock::UnmapMemory2(device, pMemoryUnmapInfo);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdBindIndexBuffer2(VkCommandBuffer commandBuffer, VkBuffer buffer, VkDeviceSize offset,
+                                                             VkDeviceSize size, VkIndexType indexType) {
+    return vkmock::CmdBindIndexBuffer2(commandBuffer, buffer, offset, size, indexType);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_GetRenderingAreaGranularity(VkDevice device, const VkRenderingAreaInfo* pRenderingAreaInfo,
+                                                                     VkExtent2D* pGranularity) {
+    return vkmock::GetRenderingAreaGranularity(device, pRenderingAreaInfo, pGranularity);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_GetDeviceImageSubresourceLayout(VkDevice device, const VkDeviceImageSubresourceInfo* pInfo,
+                                                                         VkSubresourceLayout2* pLayout) {
+    return vkmock::GetDeviceImageSubresourceLayout(device, pInfo, pLayout);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_GetImageSubresourceLayout2(VkDevice device, VkImage image,
+                                                                    const VkImageSubresource2* pSubresource,
+                                                                    VkSubresourceLayout2* pLayout) {
+    return vkmock::GetImageSubresourceLayout2(device, image, pSubresource, pLayout);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdPushDescriptorSet(VkCommandBuffer commandBuffer, VkPipelineBindPoint pipelineBindPoint,
+                                                              VkPipelineLayout layout, uint32_t set, uint32_t descriptorWriteCount,
+                                                              const VkWriteDescriptorSet* pDescriptorWrites) {
+    return vkmock::CmdPushDescriptorSet(commandBuffer, pipelineBindPoint, layout, set, descriptorWriteCount, pDescriptorWrites);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdPushDescriptorSetWithTemplate(VkCommandBuffer commandBuffer,
+                                                                          VkDescriptorUpdateTemplate descriptorUpdateTemplate,
+                                                                          VkPipelineLayout layout, uint32_t set,
+                                                                          const void* pData) {
+    return vkmock::CmdPushDescriptorSetWithTemplate(commandBuffer, descriptorUpdateTemplate, layout, set, pData);
+}
+
+static VKAPI_ATTR void VKAPI_CALL
+vkmock_CmdSetRenderingAttachmentLocations(VkCommandBuffer commandBuffer, const VkRenderingAttachmentLocationInfo* pLocationInfo) {
+    return vkmock::CmdSetRenderingAttachmentLocations(commandBuffer, pLocationInfo);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdSetRenderingInputAttachmentIndices(
+    VkCommandBuffer commandBuffer, const VkRenderingInputAttachmentIndexInfo* pInputAttachmentIndexInfo) {
+    return vkmock::CmdSetRenderingInputAttachmentIndices(commandBuffer, pInputAttachmentIndexInfo);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdBindDescriptorSets2(VkCommandBuffer commandBuffer,
+                                                                const VkBindDescriptorSetsInfo* pBindDescriptorSetsInfo) {
+    return vkmock::CmdBindDescriptorSets2(commandBuffer, pBindDescriptorSetsInfo);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdPushConstants2(VkCommandBuffer commandBuffer,
+                                                           const VkPushConstantsInfo* pPushConstantsInfo) {
+    return vkmock::CmdPushConstants2(commandBuffer, pPushConstantsInfo);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdPushDescriptorSet2(VkCommandBuffer commandBuffer,
+                                                               const VkPushDescriptorSetInfo* pPushDescriptorSetInfo) {
+    return vkmock::CmdPushDescriptorSet2(commandBuffer, pPushDescriptorSetInfo);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdPushDescriptorSetWithTemplate2(
+    VkCommandBuffer commandBuffer, const VkPushDescriptorSetWithTemplateInfo* pPushDescriptorSetWithTemplateInfo) {
+    return vkmock::CmdPushDescriptorSetWithTemplate2(commandBuffer, pPushDescriptorSetWithTemplateInfo);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CopyMemoryToImage(VkDevice device,
+                                                               const VkCopyMemoryToImageInfo* pCopyMemoryToImageInfo) {
+    return vkmock::CopyMemoryToImage(device, pCopyMemoryToImageInfo);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CopyImageToMemory(VkDevice device,
+                                                               const VkCopyImageToMemoryInfo* pCopyImageToMemoryInfo) {
+    return vkmock::CopyImageToMemory(device, pCopyImageToMemoryInfo);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CopyImageToImage(VkDevice device,
+                                                              const VkCopyImageToImageInfo* pCopyImageToImageInfo) {
+    return vkmock::CopyImageToImage(device, pCopyImageToImageInfo);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_TransitionImageLayout(VkDevice device, uint32_t transitionCount,
+                                                                   const VkHostImageLayoutTransitionInfo* pTransitions) {
+    return vkmock::TransitionImageLayout(device, transitionCount, pTransitions);
+}
+
 static VKAPI_ATTR void VKAPI_CALL vkmock_DestroySurfaceKHR(VkInstance instance, VkSurfaceKHR surface,
                                                            const VkAllocationCallbacks* pAllocator) {
     return vkmock::DestroySurfaceKHR(instance, surface, pAllocator);
@@ -1753,12 +1850,12 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_CmdSetFragmentShadingRateKHR(VkCommandB
 }
 
 static VKAPI_ATTR void VKAPI_CALL vkmock_CmdSetRenderingAttachmentLocationsKHR(
-    VkCommandBuffer commandBuffer, const VkRenderingAttachmentLocationInfoKHR* pLocationInfo) {
+    VkCommandBuffer commandBuffer, const VkRenderingAttachmentLocationInfo* pLocationInfo) {
     return vkmock::CmdSetRenderingAttachmentLocationsKHR(commandBuffer, pLocationInfo);
 }
 
 static VKAPI_ATTR void VKAPI_CALL vkmock_CmdSetRenderingInputAttachmentIndicesKHR(
-    VkCommandBuffer commandBuffer, const VkRenderingInputAttachmentIndexInfoKHR* pInputAttachmentIndexInfo) {
+    VkCommandBuffer commandBuffer, const VkRenderingInputAttachmentIndexInfo* pInputAttachmentIndexInfo) {
     return vkmock::CmdSetRenderingInputAttachmentIndicesKHR(commandBuffer, pInputAttachmentIndexInfo);
 }
 
@@ -1826,12 +1923,11 @@ static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetPipelineExecutableInternalRepres
                                                                    pInternalRepresentations);
 }
 
-static VKAPI_ATTR VkResult VKAPI_CALL vkmock_MapMemory2KHR(VkDevice device, const VkMemoryMapInfoKHR* pMemoryMapInfo,
-                                                           void** ppData) {
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_MapMemory2KHR(VkDevice device, const VkMemoryMapInfo* pMemoryMapInfo, void** ppData) {
     return vkmock::MapMemory2KHR(device, pMemoryMapInfo, ppData);
 }
 
-static VKAPI_ATTR VkResult VKAPI_CALL vkmock_UnmapMemory2KHR(VkDevice device, const VkMemoryUnmapInfoKHR* pMemoryUnmapInfo) {
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_UnmapMemory2KHR(VkDevice device, const VkMemoryUnmapInfo* pMemoryUnmapInfo) {
     return vkmock::UnmapMemory2KHR(device, pMemoryUnmapInfo);
 }
 
@@ -1940,20 +2036,20 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_CmdBindIndexBuffer2KHR(VkCommandBuffer 
 }
 
 static VKAPI_ATTR void VKAPI_CALL vkmock_GetRenderingAreaGranularityKHR(VkDevice device,
-                                                                        const VkRenderingAreaInfoKHR* pRenderingAreaInfo,
+                                                                        const VkRenderingAreaInfo* pRenderingAreaInfo,
                                                                         VkExtent2D* pGranularity) {
     return vkmock::GetRenderingAreaGranularityKHR(device, pRenderingAreaInfo, pGranularity);
 }
 
 static VKAPI_ATTR void VKAPI_CALL vkmock_GetDeviceImageSubresourceLayoutKHR(VkDevice device,
-                                                                            const VkDeviceImageSubresourceInfoKHR* pInfo,
-                                                                            VkSubresourceLayout2KHR* pLayout) {
+                                                                            const VkDeviceImageSubresourceInfo* pInfo,
+                                                                            VkSubresourceLayout2* pLayout) {
     return vkmock::GetDeviceImageSubresourceLayoutKHR(device, pInfo, pLayout);
 }
 
 static VKAPI_ATTR void VKAPI_CALL vkmock_GetImageSubresourceLayout2KHR(VkDevice device, VkImage image,
-                                                                       const VkImageSubresource2KHR* pSubresource,
-                                                                       VkSubresourceLayout2KHR* pLayout) {
+                                                                       const VkImageSubresource2* pSubresource,
+                                                                       VkSubresourceLayout2* pLayout) {
     return vkmock::GetImageSubresourceLayout2KHR(device, image, pSubresource, pLayout);
 }
 
@@ -2009,22 +2105,22 @@ static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetCalibratedTimestampsKHR(VkDevice
 }
 
 static VKAPI_ATTR void VKAPI_CALL vkmock_CmdBindDescriptorSets2KHR(VkCommandBuffer commandBuffer,
-                                                                   const VkBindDescriptorSetsInfoKHR* pBindDescriptorSetsInfo) {
+                                                                   const VkBindDescriptorSetsInfo* pBindDescriptorSetsInfo) {
     return vkmock::CmdBindDescriptorSets2KHR(commandBuffer, pBindDescriptorSetsInfo);
 }
 
 static VKAPI_ATTR void VKAPI_CALL vkmock_CmdPushConstants2KHR(VkCommandBuffer commandBuffer,
-                                                              const VkPushConstantsInfoKHR* pPushConstantsInfo) {
+                                                              const VkPushConstantsInfo* pPushConstantsInfo) {
     return vkmock::CmdPushConstants2KHR(commandBuffer, pPushConstantsInfo);
 }
 
 static VKAPI_ATTR void VKAPI_CALL vkmock_CmdPushDescriptorSet2KHR(VkCommandBuffer commandBuffer,
-                                                                  const VkPushDescriptorSetInfoKHR* pPushDescriptorSetInfo) {
+                                                                  const VkPushDescriptorSetInfo* pPushDescriptorSetInfo) {
     return vkmock::CmdPushDescriptorSet2KHR(commandBuffer, pPushDescriptorSetInfo);
 }
 
 static VKAPI_ATTR void VKAPI_CALL vkmock_CmdPushDescriptorSetWithTemplate2KHR(
-    VkCommandBuffer commandBuffer, const VkPushDescriptorSetWithTemplateInfoKHR* pPushDescriptorSetWithTemplateInfo) {
+    VkCommandBuffer commandBuffer, const VkPushDescriptorSetWithTemplateInfo* pPushDescriptorSetWithTemplateInfo) {
     return vkmock::CmdPushDescriptorSetWithTemplate2KHR(commandBuffer, pPushDescriptorSetWithTemplateInfo);
 }
 
@@ -2826,28 +2922,28 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_CmdSetStencilOpEXT(VkCommandBuffer comm
 }
 
 static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CopyMemoryToImageEXT(VkDevice device,
-                                                                  const VkCopyMemoryToImageInfoEXT* pCopyMemoryToImageInfo) {
+                                                                  const VkCopyMemoryToImageInfo* pCopyMemoryToImageInfo) {
     return vkmock::CopyMemoryToImageEXT(device, pCopyMemoryToImageInfo);
 }
 
 static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CopyImageToMemoryEXT(VkDevice device,
-                                                                  const VkCopyImageToMemoryInfoEXT* pCopyImageToMemoryInfo) {
+                                                                  const VkCopyImageToMemoryInfo* pCopyImageToMemoryInfo) {
     return vkmock::CopyImageToMemoryEXT(device, pCopyImageToMemoryInfo);
 }
 
 static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CopyImageToImageEXT(VkDevice device,
-                                                                 const VkCopyImageToImageInfoEXT* pCopyImageToImageInfo) {
+                                                                 const VkCopyImageToImageInfo* pCopyImageToImageInfo) {
     return vkmock::CopyImageToImageEXT(device, pCopyImageToImageInfo);
 }
 
 static VKAPI_ATTR VkResult VKAPI_CALL vkmock_TransitionImageLayoutEXT(VkDevice device, uint32_t transitionCount,
-                                                                      const VkHostImageLayoutTransitionInfoEXT* pTransitions) {
+                                                                      const VkHostImageLayoutTransitionInfo* pTransitions) {
     return vkmock::TransitionImageLayoutEXT(device, transitionCount, pTransitions);
 }
 
 static VKAPI_ATTR void VKAPI_CALL vkmock_GetImageSubresourceLayout2EXT(VkDevice device, VkImage image,
-                                                                       const VkImageSubresource2KHR* pSubresource,
-                                                                       VkSubresourceLayout2KHR* pLayout) {
+                                                                       const VkImageSubresource2* pSubresource,
+                                                                       VkSubresourceLayout2* pLayout) {
     return vkmock::GetImageSubresourceLayout2EXT(device, image, pSubresource, pLayout);
 }
 
@@ -2927,6 +3023,7 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_GetPrivateDataEXT(VkDevice device, VkOb
     return vkmock::GetPrivateDataEXT(device, objectType, objectHandle, privateDataSlot, pData);
 }
 
+#ifdef VK_ENABLE_BETA_EXTENSIONS
 static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateCudaModuleNV(VkDevice device, const VkCudaModuleCreateInfoNV* pCreateInfo,
                                                                 const VkAllocationCallbacks* pAllocator, VkCudaModuleNV* pModule) {
     return vkmock::CreateCudaModuleNV(device, pCreateInfo, pAllocator, pModule);
@@ -2958,6 +3055,7 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_CmdCudaLaunchKernelNV(VkCommandBuffer c
     return vkmock::CmdCudaLaunchKernelNV(commandBuffer, pLaunchInfo);
 }
 
+#endif  // VK_ENABLE_BETA_EXTENSIONS
 #ifdef VK_USE_PLATFORM_METAL_EXT
 static VKAPI_ATTR void VKAPI_CALL vkmock_ExportMetalObjectsEXT(VkDevice device, VkExportMetalObjectsInfoEXT* pMetalObjectsInfo) {
     return vkmock::ExportMetalObjectsEXT(device, pMetalObjectsInfo);
@@ -3575,6 +3673,21 @@ static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetDynamicRenderingTilePropertiesQC
     return vkmock::GetDynamicRenderingTilePropertiesQCOM(device, pRenderingInfo, pProperties);
 }
 
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetPhysicalDeviceCooperativeVectorPropertiesNV(
+    VkPhysicalDevice physicalDevice, uint32_t* pPropertyCount, VkCooperativeVectorPropertiesNV* pProperties) {
+    return vkmock::GetPhysicalDeviceCooperativeVectorPropertiesNV(physicalDevice, pPropertyCount, pProperties);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_ConvertCooperativeVectorMatrixNV(VkDevice device,
+                                                                              const VkConvertCooperativeVectorMatrixInfoNV* pInfo) {
+    return vkmock::ConvertCooperativeVectorMatrixNV(device, pInfo);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdConvertCooperativeVectorMatrixNV(VkCommandBuffer commandBuffer, uint32_t infoCount,
+                                                                             const VkConvertCooperativeVectorMatrixInfoNV* pInfos) {
+    return vkmock::CmdConvertCooperativeVectorMatrixNV(commandBuffer, infoCount, pInfos);
+}
+
 static VKAPI_ATTR VkResult VKAPI_CALL vkmock_SetLatencySleepModeNV(VkDevice device, VkSwapchainKHR swapchain,
                                                                    const VkLatencySleepModeInfoNV* pSleepModeInfo) {
     return vkmock::SetLatencySleepModeNV(device, swapchain, pSleepModeInfo);
@@ -3611,6 +3724,27 @@ static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetScreenBufferPropertiesQNX(VkDevi
 }
 
 #endif  // VK_USE_PLATFORM_SCREEN_QNX
+static VKAPI_ATTR void VKAPI_CALL vkmock_GetClusterAccelerationStructureBuildSizesNV(
+    VkDevice device, const VkClusterAccelerationStructureInputInfoNV* pInfo, VkAccelerationStructureBuildSizesInfoKHR* pSizeInfo) {
+    return vkmock::GetClusterAccelerationStructureBuildSizesNV(device, pInfo, pSizeInfo);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdBuildClusterAccelerationStructureIndirectNV(
+    VkCommandBuffer commandBuffer, const VkClusterAccelerationStructureCommandsInfoNV* pCommandInfos) {
+    return vkmock::CmdBuildClusterAccelerationStructureIndirectNV(commandBuffer, pCommandInfos);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_GetPartitionedAccelerationStructuresBuildSizesNV(
+    VkDevice device, const VkPartitionedAccelerationStructureInstancesInputNV* pInfo,
+    VkAccelerationStructureBuildSizesInfoKHR* pSizeInfo) {
+    return vkmock::GetPartitionedAccelerationStructuresBuildSizesNV(device, pInfo, pSizeInfo);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdBuildPartitionedAccelerationStructuresNV(
+    VkCommandBuffer commandBuffer, const VkBuildPartitionedAccelerationStructureInfoNV* pBuildInfo) {
+    return vkmock::CmdBuildPartitionedAccelerationStructuresNV(commandBuffer, pBuildInfo);
+}
+
 static VKAPI_ATTR void VKAPI_CALL vkmock_GetGeneratedCommandsMemoryRequirementsEXT(
     VkDevice device, const VkGeneratedCommandsMemoryRequirementsInfoEXT* pInfo, VkMemoryRequirements2* pMemoryRequirements) {
     return vkmock::GetGeneratedCommandsMemoryRequirementsEXT(device, pInfo, pMemoryRequirements);
@@ -3669,6 +3803,20 @@ static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetPhysicalDeviceCooperativeMatrixF
     return vkmock::GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV(physicalDevice, pPropertyCount, pProperties);
 }
 
+#ifdef VK_USE_PLATFORM_METAL_EXT
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetMemoryMetalHandleEXT(VkDevice device,
+                                                                     const VkMemoryGetMetalHandleInfoEXT* pGetMetalHandleInfo,
+                                                                     void** pHandle) {
+    return vkmock::GetMemoryMetalHandleEXT(device, pGetMetalHandleInfo, pHandle);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL
+vkmock_GetMemoryMetalHandlePropertiesEXT(VkDevice device, VkExternalMemoryHandleTypeFlagBits handleType, const void* pHandle,
+                                         VkMemoryMetalHandlePropertiesEXT* pMemoryMetalHandleProperties) {
+    return vkmock::GetMemoryMetalHandlePropertiesEXT(device, handleType, pHandle, pMemoryMetalHandleProperties);
+}
+
+#endif  // VK_USE_PLATFORM_METAL_EXT
 static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateAccelerationStructureKHR(VkDevice device,
                                                                             const VkAccelerationStructureCreateInfoKHR* pCreateInfo,
                                                                             const VkAllocationCallbacks* pAllocator,
@@ -4474,6 +4622,63 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     }
     if (strcmp(pName, "vkGetDeviceImageSparseMemoryRequirements") == 0) {
         return (PFN_vkVoidFunction)vkmock_GetDeviceImageSparseMemoryRequirements;
+    }
+    if (strcmp(pName, "vkCmdSetLineStipple") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdSetLineStipple;
+    }
+    if (strcmp(pName, "vkMapMemory2") == 0) {
+        return (PFN_vkVoidFunction)vkmock_MapMemory2;
+    }
+    if (strcmp(pName, "vkUnmapMemory2") == 0) {
+        return (PFN_vkVoidFunction)vkmock_UnmapMemory2;
+    }
+    if (strcmp(pName, "vkCmdBindIndexBuffer2") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdBindIndexBuffer2;
+    }
+    if (strcmp(pName, "vkGetRenderingAreaGranularity") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetRenderingAreaGranularity;
+    }
+    if (strcmp(pName, "vkGetDeviceImageSubresourceLayout") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetDeviceImageSubresourceLayout;
+    }
+    if (strcmp(pName, "vkGetImageSubresourceLayout2") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetImageSubresourceLayout2;
+    }
+    if (strcmp(pName, "vkCmdPushDescriptorSet") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdPushDescriptorSet;
+    }
+    if (strcmp(pName, "vkCmdPushDescriptorSetWithTemplate") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdPushDescriptorSetWithTemplate;
+    }
+    if (strcmp(pName, "vkCmdSetRenderingAttachmentLocations") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdSetRenderingAttachmentLocations;
+    }
+    if (strcmp(pName, "vkCmdSetRenderingInputAttachmentIndices") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdSetRenderingInputAttachmentIndices;
+    }
+    if (strcmp(pName, "vkCmdBindDescriptorSets2") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdBindDescriptorSets2;
+    }
+    if (strcmp(pName, "vkCmdPushConstants2") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdPushConstants2;
+    }
+    if (strcmp(pName, "vkCmdPushDescriptorSet2") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdPushDescriptorSet2;
+    }
+    if (strcmp(pName, "vkCmdPushDescriptorSetWithTemplate2") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdPushDescriptorSetWithTemplate2;
+    }
+    if (strcmp(pName, "vkCopyMemoryToImage") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CopyMemoryToImage;
+    }
+    if (strcmp(pName, "vkCopyImageToMemory") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CopyImageToMemory;
+    }
+    if (strcmp(pName, "vkCopyImageToImage") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CopyImageToImage;
+    }
+    if (strcmp(pName, "vkTransitionImageLayout") == 0) {
+        return (PFN_vkVoidFunction)vkmock_TransitionImageLayout;
     }
     if (strcmp(pName, "vkDestroySurfaceKHR") == 0) {
         return (PFN_vkVoidFunction)vkmock_DestroySurfaceKHR;
@@ -5473,6 +5678,7 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     if (strcmp(pName, "vkGetPrivateDataEXT") == 0) {
         return (PFN_vkVoidFunction)vkmock_GetPrivateDataEXT;
     }
+#ifdef VK_ENABLE_BETA_EXTENSIONS
     if (strcmp(pName, "vkCreateCudaModuleNV") == 0) {
         return (PFN_vkVoidFunction)vkmock_CreateCudaModuleNV;
     }
@@ -5491,6 +5697,7 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     if (strcmp(pName, "vkCmdCudaLaunchKernelNV") == 0) {
         return (PFN_vkVoidFunction)vkmock_CmdCudaLaunchKernelNV;
     }
+#endif  // VK_ENABLE_BETA_EXTENSIONS
 #ifdef VK_USE_PLATFORM_METAL_EXT
     if (strcmp(pName, "vkExportMetalObjectsEXT") == 0) {
         return (PFN_vkVoidFunction)vkmock_ExportMetalObjectsEXT;
@@ -5846,6 +6053,15 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     if (strcmp(pName, "vkGetDynamicRenderingTilePropertiesQCOM") == 0) {
         return (PFN_vkVoidFunction)vkmock_GetDynamicRenderingTilePropertiesQCOM;
     }
+    if (strcmp(pName, "vkGetPhysicalDeviceCooperativeVectorPropertiesNV") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetPhysicalDeviceCooperativeVectorPropertiesNV;
+    }
+    if (strcmp(pName, "vkConvertCooperativeVectorMatrixNV") == 0) {
+        return (PFN_vkVoidFunction)vkmock_ConvertCooperativeVectorMatrixNV;
+    }
+    if (strcmp(pName, "vkCmdConvertCooperativeVectorMatrixNV") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdConvertCooperativeVectorMatrixNV;
+    }
     if (strcmp(pName, "vkSetLatencySleepModeNV") == 0) {
         return (PFN_vkVoidFunction)vkmock_SetLatencySleepModeNV;
     }
@@ -5869,6 +6085,18 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
         return (PFN_vkVoidFunction)vkmock_GetScreenBufferPropertiesQNX;
     }
 #endif  // VK_USE_PLATFORM_SCREEN_QNX
+    if (strcmp(pName, "vkGetClusterAccelerationStructureBuildSizesNV") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetClusterAccelerationStructureBuildSizesNV;
+    }
+    if (strcmp(pName, "vkCmdBuildClusterAccelerationStructureIndirectNV") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdBuildClusterAccelerationStructureIndirectNV;
+    }
+    if (strcmp(pName, "vkGetPartitionedAccelerationStructuresBuildSizesNV") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetPartitionedAccelerationStructuresBuildSizesNV;
+    }
+    if (strcmp(pName, "vkCmdBuildPartitionedAccelerationStructuresNV") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdBuildPartitionedAccelerationStructuresNV;
+    }
     if (strcmp(pName, "vkGetGeneratedCommandsMemoryRequirementsEXT") == 0) {
         return (PFN_vkVoidFunction)vkmock_GetGeneratedCommandsMemoryRequirementsEXT;
     }
@@ -5899,6 +6127,14 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     if (strcmp(pName, "vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV") == 0) {
         return (PFN_vkVoidFunction)vkmock_GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
     }
+#ifdef VK_USE_PLATFORM_METAL_EXT
+    if (strcmp(pName, "vkGetMemoryMetalHandleEXT") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetMemoryMetalHandleEXT;
+    }
+    if (strcmp(pName, "vkGetMemoryMetalHandlePropertiesEXT") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetMemoryMetalHandlePropertiesEXT;
+    }
+#endif  // VK_USE_PLATFORM_METAL_EXT
     if (strcmp(pName, "vkCreateAccelerationStructureKHR") == 0) {
         return (PFN_vkVoidFunction)vkmock_CreateAccelerationStructureKHR;
     }
@@ -6193,6 +6429,25 @@ void vkmock::Reset() {
     GetDeviceBufferMemoryRequirements = {};
     GetDeviceImageMemoryRequirements = {};
     GetDeviceImageSparseMemoryRequirements = {};
+    CmdSetLineStipple = {};
+    MapMemory2 = {};
+    UnmapMemory2 = {};
+    CmdBindIndexBuffer2 = {};
+    GetRenderingAreaGranularity = {};
+    GetDeviceImageSubresourceLayout = {};
+    GetImageSubresourceLayout2 = {};
+    CmdPushDescriptorSet = {};
+    CmdPushDescriptorSetWithTemplate = {};
+    CmdSetRenderingAttachmentLocations = {};
+    CmdSetRenderingInputAttachmentIndices = {};
+    CmdBindDescriptorSets2 = {};
+    CmdPushConstants2 = {};
+    CmdPushDescriptorSet2 = {};
+    CmdPushDescriptorSetWithTemplate2 = {};
+    CopyMemoryToImage = {};
+    CopyImageToMemory = {};
+    CopyImageToImage = {};
+    TransitionImageLayout = {};
     DestroySurfaceKHR = {};
     GetPhysicalDeviceSurfaceSupportKHR = {};
     GetPhysicalDeviceSurfaceCapabilitiesKHR = {};
@@ -6551,12 +6806,14 @@ void vkmock::Reset() {
     DestroyPrivateDataSlotEXT = {};
     SetPrivateDataEXT = {};
     GetPrivateDataEXT = {};
+#ifdef VK_ENABLE_BETA_EXTENSIONS
     CreateCudaModuleNV = {};
     GetCudaModuleCacheNV = {};
     CreateCudaFunctionNV = {};
     DestroyCudaModuleNV = {};
     DestroyCudaFunctionNV = {};
     CmdCudaLaunchKernelNV = {};
+#endif  // VK_ENABLE_BETA_EXTENSIONS
 #ifdef VK_USE_PLATFORM_METAL_EXT
     ExportMetalObjectsEXT = {};
 #endif  // VK_USE_PLATFORM_METAL_EXT
@@ -6682,6 +6939,9 @@ void vkmock::Reset() {
     CmdSetDepthClampRangeEXT = {};
     GetFramebufferTilePropertiesQCOM = {};
     GetDynamicRenderingTilePropertiesQCOM = {};
+    GetPhysicalDeviceCooperativeVectorPropertiesNV = {};
+    ConvertCooperativeVectorMatrixNV = {};
+    CmdConvertCooperativeVectorMatrixNV = {};
     SetLatencySleepModeNV = {};
     LatencySleepNV = {};
     SetLatencyMarkerNV = {};
@@ -6691,6 +6951,10 @@ void vkmock::Reset() {
 #ifdef VK_USE_PLATFORM_SCREEN_QNX
     GetScreenBufferPropertiesQNX = {};
 #endif  // VK_USE_PLATFORM_SCREEN_QNX
+    GetClusterAccelerationStructureBuildSizesNV = {};
+    CmdBuildClusterAccelerationStructureIndirectNV = {};
+    GetPartitionedAccelerationStructuresBuildSizesNV = {};
+    CmdBuildPartitionedAccelerationStructuresNV = {};
     GetGeneratedCommandsMemoryRequirementsEXT = {};
     CmdPreprocessGeneratedCommandsEXT = {};
     CmdExecuteGeneratedCommandsEXT = {};
@@ -6701,6 +6965,10 @@ void vkmock::Reset() {
     UpdateIndirectExecutionSetPipelineEXT = {};
     UpdateIndirectExecutionSetShaderEXT = {};
     GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV = {};
+#ifdef VK_USE_PLATFORM_METAL_EXT
+    GetMemoryMetalHandleEXT = {};
+    GetMemoryMetalHandlePropertiesEXT = {};
+#endif  // VK_USE_PLATFORM_METAL_EXT
     CreateAccelerationStructureKHR = {};
     DestroyAccelerationStructureKHR = {};
     CmdBuildAccelerationStructuresKHR = {};

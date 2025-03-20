@@ -230,6 +230,25 @@ class DispatchTable {
     const PFN_vkGetDeviceBufferMemoryRequirements GetDeviceBufferMemoryRequirements;
     const PFN_vkGetDeviceImageMemoryRequirements GetDeviceImageMemoryRequirements;
     const PFN_vkGetDeviceImageSparseMemoryRequirements GetDeviceImageSparseMemoryRequirements;
+    const PFN_vkCmdSetLineStipple CmdSetLineStipple;
+    const PFN_vkMapMemory2 MapMemory2;
+    const PFN_vkUnmapMemory2 UnmapMemory2;
+    const PFN_vkCmdBindIndexBuffer2 CmdBindIndexBuffer2;
+    const PFN_vkGetRenderingAreaGranularity GetRenderingAreaGranularity;
+    const PFN_vkGetDeviceImageSubresourceLayout GetDeviceImageSubresourceLayout;
+    const PFN_vkGetImageSubresourceLayout2 GetImageSubresourceLayout2;
+    const PFN_vkCmdPushDescriptorSet CmdPushDescriptorSet;
+    const PFN_vkCmdPushDescriptorSetWithTemplate CmdPushDescriptorSetWithTemplate;
+    const PFN_vkCmdSetRenderingAttachmentLocations CmdSetRenderingAttachmentLocations;
+    const PFN_vkCmdSetRenderingInputAttachmentIndices CmdSetRenderingInputAttachmentIndices;
+    const PFN_vkCmdBindDescriptorSets2 CmdBindDescriptorSets2;
+    const PFN_vkCmdPushConstants2 CmdPushConstants2;
+    const PFN_vkCmdPushDescriptorSet2 CmdPushDescriptorSet2;
+    const PFN_vkCmdPushDescriptorSetWithTemplate2 CmdPushDescriptorSetWithTemplate2;
+    const PFN_vkCopyMemoryToImage CopyMemoryToImage;
+    const PFN_vkCopyImageToMemory CopyImageToMemory;
+    const PFN_vkCopyImageToImage CopyImageToImage;
+    const PFN_vkTransitionImageLayout TransitionImageLayout;
     const PFN_vkDestroySurfaceKHR DestroySurfaceKHR;
     const PFN_vkGetPhysicalDeviceSurfaceSupportKHR GetPhysicalDeviceSurfaceSupportKHR;
     const PFN_vkGetPhysicalDeviceSurfaceCapabilitiesKHR GetPhysicalDeviceSurfaceCapabilitiesKHR;
@@ -590,12 +609,14 @@ class DispatchTable {
     const PFN_vkDestroyPrivateDataSlotEXT DestroyPrivateDataSlotEXT;
     const PFN_vkSetPrivateDataEXT SetPrivateDataEXT;
     const PFN_vkGetPrivateDataEXT GetPrivateDataEXT;
+#ifdef VK_ENABLE_BETA_EXTENSIONS
     const PFN_vkCreateCudaModuleNV CreateCudaModuleNV;
     const PFN_vkGetCudaModuleCacheNV GetCudaModuleCacheNV;
     const PFN_vkCreateCudaFunctionNV CreateCudaFunctionNV;
     const PFN_vkDestroyCudaModuleNV DestroyCudaModuleNV;
     const PFN_vkDestroyCudaFunctionNV DestroyCudaFunctionNV;
     const PFN_vkCmdCudaLaunchKernelNV CmdCudaLaunchKernelNV;
+#endif  // VK_ENABLE_BETA_EXTENSIONS
 #ifdef VK_USE_PLATFORM_METAL_EXT
     const PFN_vkExportMetalObjectsEXT ExportMetalObjectsEXT;
 #endif  // VK_USE_PLATFORM_METAL_EXT
@@ -721,6 +742,9 @@ class DispatchTable {
     const PFN_vkCmdSetDepthClampRangeEXT CmdSetDepthClampRangeEXT;
     const PFN_vkGetFramebufferTilePropertiesQCOM GetFramebufferTilePropertiesQCOM;
     const PFN_vkGetDynamicRenderingTilePropertiesQCOM GetDynamicRenderingTilePropertiesQCOM;
+    const PFN_vkGetPhysicalDeviceCooperativeVectorPropertiesNV GetPhysicalDeviceCooperativeVectorPropertiesNV;
+    const PFN_vkConvertCooperativeVectorMatrixNV ConvertCooperativeVectorMatrixNV;
+    const PFN_vkCmdConvertCooperativeVectorMatrixNV CmdConvertCooperativeVectorMatrixNV;
     const PFN_vkSetLatencySleepModeNV SetLatencySleepModeNV;
     const PFN_vkLatencySleepNV LatencySleepNV;
     const PFN_vkSetLatencyMarkerNV SetLatencyMarkerNV;
@@ -730,6 +754,10 @@ class DispatchTable {
 #ifdef VK_USE_PLATFORM_SCREEN_QNX
     const PFN_vkGetScreenBufferPropertiesQNX GetScreenBufferPropertiesQNX;
 #endif  // VK_USE_PLATFORM_SCREEN_QNX
+    const PFN_vkGetClusterAccelerationStructureBuildSizesNV GetClusterAccelerationStructureBuildSizesNV;
+    const PFN_vkCmdBuildClusterAccelerationStructureIndirectNV CmdBuildClusterAccelerationStructureIndirectNV;
+    const PFN_vkGetPartitionedAccelerationStructuresBuildSizesNV GetPartitionedAccelerationStructuresBuildSizesNV;
+    const PFN_vkCmdBuildPartitionedAccelerationStructuresNV CmdBuildPartitionedAccelerationStructuresNV;
     const PFN_vkGetGeneratedCommandsMemoryRequirementsEXT GetGeneratedCommandsMemoryRequirementsEXT;
     const PFN_vkCmdPreprocessGeneratedCommandsEXT CmdPreprocessGeneratedCommandsEXT;
     const PFN_vkCmdExecuteGeneratedCommandsEXT CmdExecuteGeneratedCommandsEXT;
@@ -741,6 +769,10 @@ class DispatchTable {
     const PFN_vkUpdateIndirectExecutionSetShaderEXT UpdateIndirectExecutionSetShaderEXT;
     const PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV
         GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
+#ifdef VK_USE_PLATFORM_METAL_EXT
+    const PFN_vkGetMemoryMetalHandleEXT GetMemoryMetalHandleEXT;
+    const PFN_vkGetMemoryMetalHandlePropertiesEXT GetMemoryMetalHandlePropertiesEXT;
+#endif  // VK_USE_PLATFORM_METAL_EXT
     const PFN_vkCreateAccelerationStructureKHR CreateAccelerationStructureKHR;
     const PFN_vkDestroyAccelerationStructureKHR DestroyAccelerationStructureKHR;
     const PFN_vkCmdBuildAccelerationStructuresKHR CmdBuildAccelerationStructuresKHR;

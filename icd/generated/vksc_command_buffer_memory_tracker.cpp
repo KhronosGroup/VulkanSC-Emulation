@@ -874,6 +874,90 @@ void CommandBufferMemoryTracker::CmdSetPrimitiveRestartEnable(VkBool32 primitive
     }
 }
 
+void CommandBufferMemoryTracker::CmdSetLineStipple(uint32_t lineStippleFactor, uint16_t lineStipplePattern) {
+    if (status_ != VK_SUCCESS) {
+        return;
+    }
+    VkResult res = AllocateMemory(32);
+    if (res == VK_SUCCESS) {
+        NEXT::CmdSetLineStipple(lineStippleFactor, lineStipplePattern);
+    }
+}
+
+void CommandBufferMemoryTracker::CmdBindIndexBuffer2(VkBuffer buffer, VkDeviceSize offset, VkDeviceSize size,
+                                                     VkIndexType indexType) {
+    if (status_ != VK_SUCCESS) {
+        return;
+    }
+    VkResult res = AllocateMemory(32);
+    if (res == VK_SUCCESS) {
+        NEXT::CmdBindIndexBuffer2(buffer, offset, size, indexType);
+    }
+}
+
+void CommandBufferMemoryTracker::CmdPushDescriptorSet(VkPipelineBindPoint pipelineBindPoint, VkPipelineLayout layout, uint32_t set,
+                                                      uint32_t descriptorWriteCount,
+                                                      const VkWriteDescriptorSet* pDescriptorWrites) {
+    if (status_ != VK_SUCCESS) {
+        return;
+    }
+    VkResult res = AllocateMemory(32);
+    if (res == VK_SUCCESS) {
+        NEXT::CmdPushDescriptorSet(pipelineBindPoint, layout, set, descriptorWriteCount, pDescriptorWrites);
+    }
+}
+
+void CommandBufferMemoryTracker::CmdSetRenderingAttachmentLocations(const VkRenderingAttachmentLocationInfo* pLocationInfo) {
+    if (status_ != VK_SUCCESS) {
+        return;
+    }
+    VkResult res = AllocateMemory(32);
+    if (res == VK_SUCCESS) {
+        NEXT::CmdSetRenderingAttachmentLocations(pLocationInfo);
+    }
+}
+
+void CommandBufferMemoryTracker::CmdSetRenderingInputAttachmentIndices(
+    const VkRenderingInputAttachmentIndexInfo* pInputAttachmentIndexInfo) {
+    if (status_ != VK_SUCCESS) {
+        return;
+    }
+    VkResult res = AllocateMemory(32);
+    if (res == VK_SUCCESS) {
+        NEXT::CmdSetRenderingInputAttachmentIndices(pInputAttachmentIndexInfo);
+    }
+}
+
+void CommandBufferMemoryTracker::CmdBindDescriptorSets2(const VkBindDescriptorSetsInfo* pBindDescriptorSetsInfo) {
+    if (status_ != VK_SUCCESS) {
+        return;
+    }
+    VkResult res = AllocateMemory(32);
+    if (res == VK_SUCCESS) {
+        NEXT::CmdBindDescriptorSets2(pBindDescriptorSetsInfo);
+    }
+}
+
+void CommandBufferMemoryTracker::CmdPushConstants2(const VkPushConstantsInfo* pPushConstantsInfo) {
+    if (status_ != VK_SUCCESS) {
+        return;
+    }
+    VkResult res = AllocateMemory(32);
+    if (res == VK_SUCCESS) {
+        NEXT::CmdPushConstants2(pPushConstantsInfo);
+    }
+}
+
+void CommandBufferMemoryTracker::CmdPushDescriptorSet2(const VkPushDescriptorSetInfo* pPushDescriptorSetInfo) {
+    if (status_ != VK_SUCCESS) {
+        return;
+    }
+    VkResult res = AllocateMemory(32);
+    if (res == VK_SUCCESS) {
+        NEXT::CmdPushDescriptorSet2(pPushDescriptorSetInfo);
+    }
+}
+
 void CommandBufferMemoryTracker::CmdSetFragmentShadingRateKHR(const VkExtent2D* pFragmentSize,
                                                               const VkFragmentShadingRateCombinerOpKHR combinerOps[2]) {
     if (status_ != VK_SUCCESS) {
@@ -882,16 +966,6 @@ void CommandBufferMemoryTracker::CmdSetFragmentShadingRateKHR(const VkExtent2D* 
     VkResult res = AllocateMemory(32);
     if (res == VK_SUCCESS) {
         NEXT::CmdSetFragmentShadingRateKHR(pFragmentSize, combinerOps);
-    }
-}
-
-void CommandBufferMemoryTracker::CmdSetLineStippleKHR(uint32_t lineStippleFactor, uint16_t lineStipplePattern) {
-    if (status_ != VK_SUCCESS) {
-        return;
-    }
-    VkResult res = AllocateMemory(32);
-    if (res == VK_SUCCESS) {
-        NEXT::CmdSetLineStippleKHR(lineStippleFactor, lineStipplePattern);
     }
 }
 

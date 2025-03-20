@@ -142,6 +142,7 @@ class PhysicalDevice {
     VkResult GetPhysicalDeviceOpticalFlowImageFormatsNV(const VkOpticalFlowImageFormatInfoNV* pOpticalFlowImageFormatInfo,
                                                         uint32_t* pFormatCount,
                                                         VkOpticalFlowImageFormatPropertiesNV* pImageFormatProperties);
+    VkResult GetPhysicalDeviceCooperativeVectorPropertiesNV(uint32_t* pPropertyCount, VkCooperativeVectorPropertiesNV* pProperties);
     VkResult GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV(
         uint32_t* pPropertyCount, VkCooperativeMatrixFlexibleDimensionsPropertiesNV* pProperties);
 

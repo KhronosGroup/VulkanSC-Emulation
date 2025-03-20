@@ -126,25 +126,25 @@ class CommandBuffer {
     void CmdSetRasterizerDiscardEnable(VkBool32 rasterizerDiscardEnable);
     void CmdSetDepthBiasEnable(VkBool32 depthBiasEnable);
     void CmdSetPrimitiveRestartEnable(VkBool32 primitiveRestartEnable);
+    void CmdSetLineStipple(uint32_t lineStippleFactor, uint16_t lineStipplePattern);
+    void CmdBindIndexBuffer2(VkBuffer buffer, VkDeviceSize offset, VkDeviceSize size, VkIndexType indexType);
+    void CmdPushDescriptorSet(VkPipelineBindPoint pipelineBindPoint, VkPipelineLayout layout, uint32_t set,
+                              uint32_t descriptorWriteCount, const VkWriteDescriptorSet* pDescriptorWrites);
+    void CmdPushDescriptorSetWithTemplate(VkDescriptorUpdateTemplate descriptorUpdateTemplate, VkPipelineLayout layout,
+                                          uint32_t set, const void* pData);
+    void CmdSetRenderingAttachmentLocations(const VkRenderingAttachmentLocationInfo* pLocationInfo);
+    void CmdSetRenderingInputAttachmentIndices(const VkRenderingInputAttachmentIndexInfo* pInputAttachmentIndexInfo);
+    void CmdBindDescriptorSets2(const VkBindDescriptorSetsInfo* pBindDescriptorSetsInfo);
+    void CmdPushConstants2(const VkPushConstantsInfo* pPushConstantsInfo);
+    void CmdPushDescriptorSet2(const VkPushDescriptorSetInfo* pPushDescriptorSetInfo);
+    void CmdPushDescriptorSetWithTemplate2(const VkPushDescriptorSetWithTemplateInfo* pPushDescriptorSetWithTemplateInfo);
     void CmdBeginVideoCodingKHR(const VkVideoBeginCodingInfoKHR* pBeginInfo);
     void CmdEndVideoCodingKHR(const VkVideoEndCodingInfoKHR* pEndCodingInfo);
     void CmdControlVideoCodingKHR(const VkVideoCodingControlInfoKHR* pCodingControlInfo);
     void CmdDecodeVideoKHR(const VkVideoDecodeInfoKHR* pDecodeInfo);
-    void CmdPushDescriptorSetKHR(VkPipelineBindPoint pipelineBindPoint, VkPipelineLayout layout, uint32_t set,
-                                 uint32_t descriptorWriteCount, const VkWriteDescriptorSet* pDescriptorWrites);
-    void CmdPushDescriptorSetWithTemplateKHR(VkDescriptorUpdateTemplate descriptorUpdateTemplate, VkPipelineLayout layout,
-                                             uint32_t set, const void* pData);
     void CmdSetFragmentShadingRateKHR(const VkExtent2D* pFragmentSize, const VkFragmentShadingRateCombinerOpKHR combinerOps[2]);
-    void CmdSetRenderingAttachmentLocationsKHR(const VkRenderingAttachmentLocationInfoKHR* pLocationInfo);
-    void CmdSetRenderingInputAttachmentIndicesKHR(const VkRenderingInputAttachmentIndexInfoKHR* pInputAttachmentIndexInfo);
     void CmdEncodeVideoKHR(const VkVideoEncodeInfoKHR* pEncodeInfo);
     void CmdTraceRaysIndirect2KHR(VkDeviceAddress indirectDeviceAddress);
-    void CmdBindIndexBuffer2KHR(VkBuffer buffer, VkDeviceSize offset, VkDeviceSize size, VkIndexType indexType);
-    void CmdSetLineStippleKHR(uint32_t lineStippleFactor, uint16_t lineStipplePattern);
-    void CmdBindDescriptorSets2KHR(const VkBindDescriptorSetsInfoKHR* pBindDescriptorSetsInfo);
-    void CmdPushConstants2KHR(const VkPushConstantsInfoKHR* pPushConstantsInfo);
-    void CmdPushDescriptorSet2KHR(const VkPushDescriptorSetInfoKHR* pPushDescriptorSetInfo);
-    void CmdPushDescriptorSetWithTemplate2KHR(const VkPushDescriptorSetWithTemplateInfoKHR* pPushDescriptorSetWithTemplateInfo);
     void CmdSetDescriptorBufferOffsets2EXT(const VkSetDescriptorBufferOffsetsInfoEXT* pSetDescriptorBufferOffsetsInfo);
     void CmdBindDescriptorBufferEmbeddedSamplers2EXT(
         const VkBindDescriptorBufferEmbeddedSamplersInfoEXT* pBindDescriptorBufferEmbeddedSamplersInfo);
@@ -218,7 +218,9 @@ class CommandBuffer {
     void CmdExecuteGeneratedCommandsNV(VkBool32 isPreprocessed, const VkGeneratedCommandsInfoNV* pGeneratedCommandsInfo);
     void CmdBindPipelineShaderGroupNV(VkPipelineBindPoint pipelineBindPoint, VkPipeline pipeline, uint32_t groupIndex);
     void CmdSetDepthBias2EXT(const VkDepthBiasInfoEXT* pDepthBiasInfo);
+#ifdef VK_ENABLE_BETA_EXTENSIONS
     void CmdCudaLaunchKernelNV(const VkCudaLaunchInfoNV* pLaunchInfo);
+#endif  // VK_ENABLE_BETA_EXTENSIONS
     void CmdBindDescriptorBuffersEXT(uint32_t bufferCount, const VkDescriptorBufferBindingInfoEXT* pBindingInfos);
     void CmdSetDescriptorBufferOffsetsEXT(VkPipelineBindPoint pipelineBindPoint, VkPipelineLayout layout, uint32_t firstSet,
                                           uint32_t setCount, const uint32_t* pBufferIndices, const VkDeviceSize* pOffsets);
@@ -289,7 +291,10 @@ class CommandBuffer {
     void CmdOpticalFlowExecuteNV(VkOpticalFlowSessionNV session, const VkOpticalFlowExecuteInfoNV* pExecuteInfo);
     void CmdBindShadersEXT(uint32_t stageCount, const VkShaderStageFlagBits* pStages, const VkShaderEXT* pShaders);
     void CmdSetDepthClampRangeEXT(VkDepthClampModeEXT depthClampMode, const VkDepthClampRangeEXT* pDepthClampRange);
+    void CmdConvertCooperativeVectorMatrixNV(uint32_t infoCount, const VkConvertCooperativeVectorMatrixInfoNV* pInfos);
     void CmdSetAttachmentFeedbackLoopEnableEXT(VkImageAspectFlags aspectMask);
+    void CmdBuildClusterAccelerationStructureIndirectNV(const VkClusterAccelerationStructureCommandsInfoNV* pCommandInfos);
+    void CmdBuildPartitionedAccelerationStructuresNV(const VkBuildPartitionedAccelerationStructureInfoNV* pBuildInfo);
     void CmdPreprocessGeneratedCommandsEXT(const VkGeneratedCommandsInfoEXT* pGeneratedCommandsInfo,
                                            VkCommandBuffer stateCommandBuffer);
     void CmdExecuteGeneratedCommandsEXT(VkBool32 isPreprocessed, const VkGeneratedCommandsInfoEXT* pGeneratedCommandsInfo);

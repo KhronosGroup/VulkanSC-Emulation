@@ -133,6 +133,11 @@ void ConvertOutStructToVulkanSC<VkPhysicalDeviceToolProperties>(VkPhysicalDevice
 }
 
 template <>
+void ConvertOutStructToVulkanSC<VkSubresourceLayout2>(VkSubresourceLayout2* p) {
+    ConvertOutStructToVulkanSC<VkSubresourceLayout>(&p->subresourceLayout);
+}
+
+template <>
 void ConvertOutStructToVulkanSC<VkCommandPoolMemoryConsumption>(VkCommandPoolMemoryConsumption* p) {}
 
 template <>
@@ -489,6 +494,85 @@ template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceMaintenance4Properties>(VkPhysicalDeviceMaintenance4Properties* p) {}
 
 template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceVulkan14Features>(VkPhysicalDeviceVulkan14Features* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceVulkan14Properties>(VkPhysicalDeviceVulkan14Properties* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceGlobalPriorityQueryFeatures>(VkPhysicalDeviceGlobalPriorityQueryFeatures* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkQueueFamilyGlobalPriorityProperties>(VkQueueFamilyGlobalPriorityProperties* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceShaderSubgroupRotateFeatures>(VkPhysicalDeviceShaderSubgroupRotateFeatures* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceShaderFloatControls2Features>(VkPhysicalDeviceShaderFloatControls2Features* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceShaderExpectAssumeFeatures>(VkPhysicalDeviceShaderExpectAssumeFeatures* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceLineRasterizationFeatures>(VkPhysicalDeviceLineRasterizationFeatures* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceLineRasterizationProperties>(VkPhysicalDeviceLineRasterizationProperties* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceVertexAttributeDivisorProperties>(
+    VkPhysicalDeviceVertexAttributeDivisorProperties* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceVertexAttributeDivisorFeatures>(VkPhysicalDeviceVertexAttributeDivisorFeatures* p) {
+}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceIndexTypeUint8Features>(VkPhysicalDeviceIndexTypeUint8Features* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceMaintenance5Features>(VkPhysicalDeviceMaintenance5Features* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceMaintenance5Properties>(VkPhysicalDeviceMaintenance5Properties* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDevicePushDescriptorProperties>(VkPhysicalDevicePushDescriptorProperties* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceDynamicRenderingLocalReadFeatures>(
+    VkPhysicalDeviceDynamicRenderingLocalReadFeatures* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceMaintenance6Features>(VkPhysicalDeviceMaintenance6Features* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceMaintenance6Properties>(VkPhysicalDeviceMaintenance6Properties* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDevicePipelineProtectedAccessFeatures>(
+    VkPhysicalDevicePipelineProtectedAccessFeatures* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDevicePipelineRobustnessFeatures>(VkPhysicalDevicePipelineRobustnessFeatures* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDevicePipelineRobustnessProperties>(VkPhysicalDevicePipelineRobustnessProperties* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceHostImageCopyFeatures>(VkPhysicalDeviceHostImageCopyFeatures* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceHostImageCopyProperties>(VkPhysicalDeviceHostImageCopyProperties* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkSubresourceHostMemcpySize>(VkSubresourceHostMemcpySize* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkHostImageCopyDevicePerformanceQuery>(VkHostImageCopyDevicePerformanceQuery* p) {}
+
+template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceVulkanSC10Features>(VkPhysicalDeviceVulkanSC10Features* p) {}
 
 template <>
@@ -509,13 +593,6 @@ template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceShaderClockFeaturesKHR>(VkPhysicalDeviceShaderClockFeaturesKHR* p) {}
 
 template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceGlobalPriorityQueryFeaturesKHR>(VkPhysicalDeviceGlobalPriorityQueryFeaturesKHR* p) {
-}
-
-template <>
-void ConvertOutStructToVulkanSC<VkQueueFamilyGlobalPriorityPropertiesKHR>(VkQueueFamilyGlobalPriorityPropertiesKHR* p) {}
-
-template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceFragmentShadingRateFeaturesKHR>(VkPhysicalDeviceFragmentShadingRateFeaturesKHR* p) {
 }
 
@@ -525,24 +602,6 @@ void ConvertOutStructToVulkanSC<VkPhysicalDeviceFragmentShadingRatePropertiesKHR
     ConvertOutStructToVulkanSC<VkExtent2D>(&p->minFragmentShadingRateAttachmentTexelSize);
     ConvertOutStructToVulkanSC<VkExtent2D>(&p->maxFragmentShadingRateAttachmentTexelSize);
     ConvertOutStructToVulkanSC<VkExtent2D>(&p->maxFragmentSize);
-}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceVertexAttributeDivisorPropertiesKHR>(
-    VkPhysicalDeviceVertexAttributeDivisorPropertiesKHR* p) {}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR>(
-    VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR* p) {}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceIndexTypeUint8FeaturesKHR>(VkPhysicalDeviceIndexTypeUint8FeaturesKHR* p) {}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceLineRasterizationFeaturesKHR>(VkPhysicalDeviceLineRasterizationFeaturesKHR* p) {}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceLineRasterizationPropertiesKHR>(VkPhysicalDeviceLineRasterizationPropertiesKHR* p) {
 }
 
 template <>
@@ -924,6 +983,62 @@ void ConvertOutStructChainToVulkanSC<VkPhysicalDeviceFeatures2>(VkPhysicalDevice
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceMaintenance4Features*>(base));
                 break;
 
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_4_FEATURES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceVulkan14Features*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_GLOBAL_PRIORITY_QUERY_FEATURES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceGlobalPriorityQueryFeatures*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SUBGROUP_ROTATE_FEATURES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceShaderSubgroupRotateFeatures*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_FLOAT_CONTROLS_2_FEATURES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceShaderFloatControls2Features*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_EXPECT_ASSUME_FEATURES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceShaderExpectAssumeFeatures*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_FEATURES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceLineRasterizationFeatures*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceVertexAttributeDivisorFeatures*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INDEX_TYPE_UINT8_FEATURES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceIndexTypeUint8Features*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_5_FEATURES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceMaintenance5Features*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_LOCAL_READ_FEATURES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceDynamicRenderingLocalReadFeatures*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_6_FEATURES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceMaintenance6Features*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_PROTECTED_ACCESS_FEATURES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDevicePipelineProtectedAccessFeatures*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_FEATURES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDevicePipelineRobustnessFeatures*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_FEATURES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceHostImageCopyFeatures*>(base));
+                break;
+
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_SC_1_0_FEATURES:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceVulkanSC10Features*>(base));
                 break;
@@ -936,24 +1051,8 @@ void ConvertOutStructChainToVulkanSC<VkPhysicalDeviceFeatures2>(VkPhysicalDevice
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceShaderClockFeaturesKHR*>(base));
                 break;
 
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_GLOBAL_PRIORITY_QUERY_FEATURES_KHR:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceGlobalPriorityQueryFeaturesKHR*>(base));
-                break;
-
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_SHADING_RATE_FEATURES_KHR:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceFragmentShadingRateFeaturesKHR*>(base));
-                break;
-
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES_KHR:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR*>(base));
-                break;
-
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INDEX_TYPE_UINT8_FEATURES_KHR:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceIndexTypeUint8FeaturesKHR*>(base));
-                break;
-
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_FEATURES_KHR:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceLineRasterizationFeaturesKHR*>(base));
                 break;
 
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ASTC_DECODE_FEATURES_EXT:
@@ -1138,6 +1237,38 @@ void ConvertOutStructChainToVulkanSC<VkPhysicalDeviceProperties2>(VkPhysicalDevi
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceMaintenance4Properties*>(base));
                 break;
 
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_4_PROPERTIES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceVulkan14Properties*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_PROPERTIES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceLineRasterizationProperties*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_PROPERTIES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceVertexAttributeDivisorProperties*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_5_PROPERTIES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceMaintenance5Properties*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PUSH_DESCRIPTOR_PROPERTIES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDevicePushDescriptorProperties*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_6_PROPERTIES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceMaintenance6Properties*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_PROPERTIES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDevicePipelineRobustnessProperties*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_PROPERTIES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceHostImageCopyProperties*>(base));
+                break;
+
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_SC_1_0_PROPERTIES:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceVulkanSC10Properties*>(base));
                 break;
@@ -1148,14 +1279,6 @@ void ConvertOutStructChainToVulkanSC<VkPhysicalDeviceProperties2>(VkPhysicalDevi
 
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_SHADING_RATE_PROPERTIES_KHR:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceFragmentShadingRatePropertiesKHR*>(base));
-                break;
-
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_PROPERTIES_KHR:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceVertexAttributeDivisorPropertiesKHR*>(base));
-                break;
-
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_PROPERTIES_KHR:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceLineRasterizationPropertiesKHR*>(base));
                 break;
 
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DISCARD_RECTANGLE_PROPERTIES_EXT:
@@ -1242,6 +1365,10 @@ void ConvertOutStructChainToVulkanSC<VkImageFormatProperties2>(VkImageFormatProp
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkExternalImageFormatProperties*>(base));
                 break;
 
+            case VK_STRUCTURE_TYPE_HOST_IMAGE_COPY_DEVICE_PERFORMANCE_QUERY:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkHostImageCopyDevicePerformanceQuery*>(base));
+                break;
+
             case VK_STRUCTURE_TYPE_FILTER_CUBIC_IMAGE_VIEW_IMAGE_FORMAT_PROPERTIES_EXT:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkFilterCubicImageViewImageFormatPropertiesEXT*>(base));
                 break;
@@ -1262,8 +1389,8 @@ void ConvertOutStructChainToVulkanSC<VkQueueFamilyProperties2>(VkQueueFamilyProp
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkQueueFamilyProperties2*>(base));
                 break;
 
-            case VK_STRUCTURE_TYPE_QUEUE_FAMILY_GLOBAL_PRIORITY_PROPERTIES_KHR:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkQueueFamilyGlobalPriorityPropertiesKHR*>(base));
+            case VK_STRUCTURE_TYPE_QUEUE_FAMILY_GLOBAL_PRIORITY_PROPERTIES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkQueueFamilyGlobalPriorityProperties*>(base));
                 break;
 
             default:
@@ -1368,6 +1495,26 @@ void ConvertOutStructChainToVulkanSC<VkPhysicalDeviceToolProperties>(VkPhysicalD
         switch (base->sType) {
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TOOL_PROPERTIES:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceToolProperties*>(base));
+                break;
+
+            default:
+                break;
+        }
+        base = base->pNext;
+    }
+}
+
+template <>
+void ConvertOutStructChainToVulkanSC<VkSubresourceLayout2>(VkSubresourceLayout2* chain) {
+    VkBaseOutStructure* base = reinterpret_cast<VkBaseOutStructure*>(chain);
+    while (base != nullptr) {
+        switch (base->sType) {
+            case VK_STRUCTURE_TYPE_SUBRESOURCE_LAYOUT_2:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkSubresourceLayout2*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_SUBRESOURCE_HOST_MEMCPY_SIZE:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkSubresourceHostMemcpySize*>(base));
                 break;
 
             default:

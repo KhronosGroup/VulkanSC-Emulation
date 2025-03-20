@@ -6,9 +6,9 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import os
-from generators.base_generator import BaseGenerator
+from base_generator import BaseGenerator
 from generators.generator_utils import PlatformGuardHelper
-from generators.vulkan_object import Command
+from vulkan_object import Command
 
 class ProcAddrHelperGenerator(BaseGenerator):
     def __init__(self):

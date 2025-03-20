@@ -40,7 +40,7 @@ def RunGenerators(api: str, registry: str, directory: str, styleFile: str, targe
     sys.path.insert(0, registry_headers_path)
     from reg import Registry
 
-    from generators.base_generator import BaseGeneratorOptions
+    from base_generator import BaseGeneratorOptions
 
     from generators.command_buffer_memory_tracker_generator import CommandBufferMemoryTrackerGenerator
     from generators.entry_point_generator import EntryPointGenerator
@@ -56,7 +56,7 @@ def RunGenerators(api: str, registry: str, directory: str, styleFile: str, targe
 
     # These set fields that are needed by both OutputGenerator and BaseGenerator,
     # but are uniform and don't need to be set at a per-generated file level
-    from generators.base_generator import SetOutputDirectory, SetTargetApiName, SetMergedApiNames
+    from base_generator import SetOutputDirectory, SetTargetApiName, SetMergedApiNames
     SetOutputDirectory(directory)
 
     # Build up a list of all generators and custom options
