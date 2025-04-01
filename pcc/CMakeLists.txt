@@ -27,6 +27,13 @@ target_link_libraries(pcc PRIVATE
     SPIRV-Headers::SPIRV-Headers
 )
 
+if(${CMAKE_CXX_COMPILER_ID} MATCHES "GNU")
+    target_compile_options(pcc PRIVATE
+        -Wno-uninitialized # Needed to work around GCC + address sanitizer STL warning in regex
+        -Wno-nonnull # Needed to workaround overzealous GCC 14 checks
+    )
+endif()
+
 target_include_directories(pcc PRIVATE
     .
 )
