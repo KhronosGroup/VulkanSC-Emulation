@@ -56,13 +56,14 @@ jobs:
 
   linux:
     needs: codegen
-    runs-on: ubuntu-22.04
-    name: "linux (${{matrix.sanitize}} sanitizer, ${{matrix.config}})"
+    runs-on: ${{matrix.os}} 
+    name: "linux (${{matrix.sanitize}} sanitizer, ${{matrix.os}}, ${{matrix.config}})"
     strategy:
       fail-fast: false
       matrix:
         sanitize: [ address, thread ]
         config: [ Debug, Release ]
+        os: [ ubuntu-22.04, ubuntu-24.04 ]
         exclude:
           - config: Debug
             sanitize: thread
