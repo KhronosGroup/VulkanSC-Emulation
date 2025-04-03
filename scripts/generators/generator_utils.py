@@ -1,9 +1,9 @@
 #!/usr/bin/python3 -i
 #
-# Copyright 2023 The Khronos Group Inc.
+# Copyright 2023-2025 The Khronos Group Inc.
 # Copyright 2023 Valve Corporation
 # Copyright 2023 LunarG, Inc.
-# Copyright 2023 RasterGrid Kft.
+# Copyright 2023-2025 RasterGrid Kft.
 #
 # SPDX-License-Identifier: Apache-2.0
 

@@ -1,6 +1,6 @@
 # ~~~
 # Copyright (c) 2023 LunarG, Inc.
-# Copyright (c) 2024 RasterGrid Kft.
+# Copyright (c) 2024-2025 RasterGrid Kft.
 #
 # SPDX-License-Identifier: Apache-2.0
 # ~~~
