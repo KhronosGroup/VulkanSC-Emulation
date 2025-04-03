@@ -3,7 +3,7 @@
 # Copyright 2017 The Glslang Authors. All rights reserved.
 # Copyright (c) 2018-2023 Valve Corporation
 # Copyright (c) 2018-2023 LunarG, Inc.
-# Copyright (c) 2023-2023 RasterGrid Kft.
+# Copyright (c) 2023-2025 RasterGrid Kft.
 #
 # SPDX-License-Identifier: Apache-2.0
 

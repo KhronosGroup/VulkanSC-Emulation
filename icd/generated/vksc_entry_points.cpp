@@ -2,8 +2,8 @@
 // See entry_point_generator.py for modifications
 
 /*
- * Copyright (c) 2024 The Khronos Group Inc.
- * Copyright (c) 2024 RasterGrid Kft.
+ * Copyright (c) 2024-2025 The Khronos Group Inc.
+ * Copyright (c) 2024-2025 RasterGrid Kft.
  *
  * SPDX-License-Identifier: Apache-2.0
  */// NOLINTBEGIN
