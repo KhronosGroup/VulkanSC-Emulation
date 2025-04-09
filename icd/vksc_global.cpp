@@ -34,6 +34,17 @@ Global::Global() : environment_(), logger_(Environment().LogSeverityEnv()), disp
                     private_env.second.c_str());
     }
 
+#ifndef _WIN32
+#if defined(__SANITIZE_ADDRESS__) || defined(__SANITIZE_THREAD__)
+    // Address and thread sanitizer are not compatible with RTLD_DEEPBIND
+    const int dlopen_flags = RTLD_NOW | RTLD_LOCAL;
+#else
+    // We need RTLD_DEEPBIND otherwise the libvulkan.so symbols might get resolved
+    // to the libvulkansc.so symbols resulting in a cyclic call stack
+    const int dlopen_flags = RTLD_NOW | RTLD_LOCAL | RTLD_DEEPBIND;
+#endif
+#endif
+
     icd::EnvironmentOverride override(Environment());
 
     auto custom_library_path = getenv("VKSC_EMU_VULKAN_LIB_PATH");
@@ -41,7 +52,7 @@ Global::Global() : environment_(), logger_(Environment().LogSeverityEnv()), disp
 #if defined(_WIN32)
         vk_loader_module_ = LoadLibraryA(custom_library_path);
 #else
-        vk_loader_module_ = dlopen(custom_library_path, RTLD_NOW | RTLD_LOCAL);
+        vk_loader_module_ = dlopen(custom_library_path, dlopen_flags);
 #endif
         if (!vk_loader_module_) {
             Log().Fatal("VKSC-EMU-Custom-Vulkan-Library", "Failed to load custom Vulkan library '%s'", custom_library_path);
@@ -52,22 +63,22 @@ Global::Global() : environment_(), logger_(Environment().LogSeverityEnv()), disp
 #if defined(_WIN32)
         vk_loader_module_ = LoadLibraryA("vulkan-1.dll");
 #elif defined(__APPLE__)
-        vk_loader_module_ = dlopen("libvulkan.dylib", RTLD_NOW | RTLD_LOCAL);
+        vk_loader_module_ = dlopen("libvulkan.dylib", dlopen_flags);
         if (!vk_loader_module_) {
-            vk_loader_module_ = dlopen("libvulkan.1.dylib", RTLD_NOW | RTLD_LOCAL);
+            vk_loader_module_ = dlopen("libvulkan.1.dylib", dlopen_flags);
         }
         if (!vk_loader_module_) {
-            vk_loader_module_ = dlopen("libMoltenVK.dylib", RTLD_NOW | RTLD_LOCAL);
+            vk_loader_module_ = dlopen("libMoltenVK.dylib", dlopen_flags);
         }
         // modern versions of macOS don't search /usr/local/lib automatically contrary to what man dlopen says
         // Vulkan SDK uses this as the system-wide installation location, so we're going to fallback to this if all else fails
         if (!vk_loader_module_ && getenv("DYLD_FALLBACK_LIBRARY_PATH") == NULL) {
-            vk_loader_module_ = dlopen("/usr/local/lib/libvulkan.dylib", RTLD_NOW | RTLD_LOCAL);
+            vk_loader_module_ = dlopen("/usr/local/lib/libvulkan.dylib", dlopen_flags);
         }
 #else
-        vk_loader_module_ = dlopen("libvulkan.so.1", RTLD_NOW | RTLD_LOCAL);
+        vk_loader_module_ = dlopen("libvulkan.so.1", dlopen_flags);
         if (!vk_loader_module_) {
-            vk_loader_module_ = dlopen("libvulkan.so", RTLD_NOW | RTLD_LOCAL);
+            vk_loader_module_ = dlopen("libvulkan.so", dlopen_flags);
         }
 #endif
         if (!vk_loader_module_) {
