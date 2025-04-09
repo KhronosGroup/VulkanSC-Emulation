@@ -57,6 +57,36 @@ jobs:
   linux:
     needs: codegen
     runs-on: ${{matrix.os}}
+    name: "linux (${{matrix.os}}, ${{matrix.config}})"
+    strategy:
+      fail-fast: false
+      matrix:
+        config: [ Debug, Release ]
+        os: [ ubuntu-22.04, ubuntu-24.04 ]
+    steps:
+      # Install Loader dependencies
+      - run: sudo apt install pkg-config libx11-xcb-dev libxkbcommon-dev libwayland-dev libxrandr-dev -y
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - uses: lukka/get-cmake@latest
+      - name: Configure, Build, Install
+        run: python scripts/tests.py --build --config ${{ matrix.config }}
+      - name: Test PCC
+        run: python scripts/tests.py --test-pcc
+      - name: Test No Loader
+        run: python scripts/tests.py --test-icd
+      - name: Test VK Loader
+        run: python scripts/tests.py --test-icd --vkloader
+      - name: Test VKSC Loader
+        run: python scripts/tests.py --test-icd --vkscloader
+      - name: Test Both Loaders
+        run: python scripts/tests.py --test-icd --vkloader --vkscloader
+
+  linux-sanitize:
+    needs: codegen
+    runs-on: ${{matrix.os}}
     name: "linux (${{matrix.sanitize}} sanitizer, ${{matrix.os}}, ${{matrix.config}})"
     strategy:
       fail-fast: false
