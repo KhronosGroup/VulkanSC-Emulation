@@ -35,8 +35,9 @@ Global::Global() : environment_(), logger_(Environment().LogSeverityEnv()), disp
     }
 
 #ifndef _WIN32
-#if defined(__SANITIZE_ADDRESS__) || defined(__SANITIZE_THREAD__)
+#if defined(__SANITIZE_ADDRESS__) || defined(__SANITIZE_THREAD__) || defined(__APPLE__)
     // Address and thread sanitizer are not compatible with RTLD_DEEPBIND
+    // Furthermore, Apple platforms do not support RTLD_DEEPBIND
     const int dlopen_flags = RTLD_NOW | RTLD_LOCAL;
 #else
     // We need RTLD_DEEPBIND otherwise the libvulkan.so symbols might get resolved
