@@ -53,7 +53,7 @@ struct DisplayConfig {
 
 class GlobalDisplayManager {
   public:
-    GlobalDisplayManager(const icd::Logger& log);
+    GlobalDisplayManager(const Global& icd);
 
     const vk::ExtensionMap& GetTargetPlatformExtensions() const;
     void InitEmulatedExtensions(const Global& icd);
@@ -64,7 +64,7 @@ class GlobalDisplayManager {
     const std::vector<DisplayConfig>& GetDisplayConfig() const { return display_config_; }
 
   private:
-    std::vector<DisplayConfig> InitDisplayConfig(const icd::Logger& log);
+    std::vector<DisplayConfig> InitDisplayConfig(const Global& icd);
     std::string InitDisplayName(uint32_t index) const;
 
     ExtensionMap emulated_extensions_{};

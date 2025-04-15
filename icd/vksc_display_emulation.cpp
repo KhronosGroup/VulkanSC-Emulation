@@ -18,14 +18,14 @@
 
 namespace vksc {
 
-GlobalDisplayManager::GlobalDisplayManager(const icd::Logger& log) : display_config_(InitDisplayConfig(log)) {}
+GlobalDisplayManager::GlobalDisplayManager(const Global& icd) : display_config_(InitDisplayConfig(icd)) {}
 
-std::vector<DisplayConfig> GlobalDisplayManager::InitDisplayConfig(const icd::Logger& log) {
+std::vector<DisplayConfig> GlobalDisplayManager::InitDisplayConfig(const Global& icd) {
     std::vector<DisplayConfig> display_config;
 
     bool use_default_config = true;
 
-    const char* config_file = ICD.Environment().GetEmulatedDisplayConfig();
+    const char* config_file = icd.Environment().GetEmulatedDisplayConfig();
     if (config_file != nullptr) {
         use_default_config = false;
 
@@ -123,18 +123,18 @@ std::vector<DisplayConfig> GlobalDisplayManager::InitDisplayConfig(const icd::Lo
             }
 
             if (parse_error) {
-                log.Error("VKSC-EMU-Display-ConfigFileParse", "Failed to parse emulated display config file \"%s\": %s",
-                          config_file, errors.c_str());
+                icd.Log().Error("VKSC-EMU-Display-ConfigFileParse", "Failed to parse emulated display config file \"%s\": %s",
+                                config_file, errors.c_str());
                 use_default_config = true;
             }
         } else {
-            log.Error("VKSC-EMU-Display-ConfigFileOpen", "Cannot open emulated display config file \"%s\"", config_file);
+            icd.Log().Error("VKSC-EMU-Display-ConfigFileOpen", "Cannot open emulated display config file \"%s\"", config_file);
             use_default_config = true;
         }
     }
 
     if (use_default_config) {
-        for (uint32_t i = 0; i < ICD.Environment().GetEmulatedDisplayCount(); ++i) {
+        for (uint32_t i = 0; i < icd.Environment().GetEmulatedDisplayCount(); ++i) {
             DisplayConfig display_info{};
             display_info.name = InitDisplayName(i);
             display_info.dimensions = {480, 270};

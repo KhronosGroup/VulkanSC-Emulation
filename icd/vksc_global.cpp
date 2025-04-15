@@ -26,9 +26,9 @@
 
 namespace vksc {
 
-Global ICD;
+std::shared_ptr<Global> Global::s_instance = nullptr;
 
-Global::Global() : environment_(), logger_(Environment().LogSeverityEnv()), display_manager_(logger_) {
+Global::Global() : environment_(), logger_(Environment().LogSeverityEnv()), display_manager_(*this) {
     for (const auto& private_env : Environment().PrivateEnvs()) {
         Log().Debug("VKSC-EMU-PrivateEnvs", "Environment variable %s=%s is shadowed", private_env.first,
                     private_env.second.c_str());
@@ -42,7 +42,7 @@ Global::Global() : environment_(), logger_(Environment().LogSeverityEnv()), disp
 #else
     // We need RTLD_DEEPBIND otherwise the libvulkan.so symbols might get resolved
     // to the libvulkansc.so symbols resulting in a cyclic call stack
-    const int dlopen_flags = RTLD_NOW | RTLD_LOCAL | RTLD_DEEPBIND;
+    const int dlopen_flags = RTLD_NOW | RTLD_LOCAL;
 #endif
 #endif
 

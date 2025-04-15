@@ -17,13 +17,24 @@
 #include <vulkan/vulkan.h>
 #include <unordered_set>
 #include <vector>
+#include <memory>
 
 namespace vksc {
+
+// Simplest way to hack this for the purposes of experimentation
+#define ICD Global::Singleton()
 
 class Global {
   public:
     Global();
     ~Global();
+
+    static Global& Singleton() {
+        if (s_instance == nullptr) {
+            s_instance = std::make_shared<Global>();
+        }
+        return *s_instance.get();
+    }
 
     struct DispatchTable {
         PFN_vkEnumerateInstanceVersion EnumerateInstanceVersion;
@@ -58,6 +69,8 @@ class Global {
                                                   VkExtensionProperties* pProperties);
 
   private:
+    static std::shared_ptr<Global> s_instance;
+
     bool valid_{true};
 
     icd::EnvironmentHelper environment_;
@@ -74,7 +87,5 @@ class Global {
     std::unordered_set<ExtensionNumber> instance_extensions_{};
     std::unordered_set<vk::ExtensionNumber> vk_instance_extensions_{};
 };
-
-extern Global ICD;
 
 }  // namespace vksc
