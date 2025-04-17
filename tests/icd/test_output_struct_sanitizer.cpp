@@ -108,3 +108,76 @@ TEST_F(OutputStructSanitizerTest, QueueFlagBits) {
         EXPECT_EQ(queue_props2[i].queueFamilyProperties.queueFlags & VK_QUEUE_OPTICAL_FLOW_BIT_NV, 0);
     }
 }
+
+TEST_F(OutputStructSanitizerTest, FragmentShadingRateSpecialCase11) {
+    TEST_DESCRIPTION(
+        "Test that we restore a sampleCount of ~0 for fragmentSize {1,1} in the results of "
+        "vkGetPhysicalDeviceFragmentShadingRatesKHR");
+
+    InitInstance();
+    auto physical_device = GetPhysicalDevice();
+
+    vkmock::GetPhysicalDeviceFragmentShadingRatesKHR = [&](auto, uint32_t *pFragmentShadingRateCount,
+                                                           VkPhysicalDeviceFragmentShadingRateKHR *pFragmentShadingRates) {
+        static const std::vector<VkPhysicalDeviceFragmentShadingRateKHR> fragment_shading_rates = {
+            VkPhysicalDeviceFragmentShadingRateKHR{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_SHADING_RATE_KHR, nullptr,
+                                                   VK_SAMPLE_COUNT_1_BIT | VK_SAMPLE_COUNT_4_BIT, VkExtent2D{2, 1}},
+            VkPhysicalDeviceFragmentShadingRateKHR{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_SHADING_RATE_KHR, nullptr, 0xFFFFFFFF,
+                                                   VkExtent2D{1, 1}},
+            VkPhysicalDeviceFragmentShadingRateKHR{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_SHADING_RATE_KHR, nullptr,
+                                                   VK_SAMPLE_COUNT_1_BIT | VK_SAMPLE_COUNT_4_BIT, VkExtent2D{2, 2}},
+        };
+        VkResult result = VK_SUCCESS;
+        if (pFragmentShadingRates == nullptr) {
+            *pFragmentShadingRateCount = static_cast<uint32_t>(fragment_shading_rates.size());
+        } else {
+            if (*pFragmentShadingRateCount < fragment_shading_rates.size()) {
+                result = VK_INCOMPLETE;
+            }
+            *pFragmentShadingRateCount = std::min(*pFragmentShadingRateCount, static_cast<uint32_t>(fragment_shading_rates.size()));
+            for (uint32_t i = 0; i < *pFragmentShadingRateCount; ++i) {
+                pFragmentShadingRates[i] = fragment_shading_rates[i];
+            }
+        }
+        return result;
+    };
+
+    uint32_t count = 4;
+    std::vector<VkPhysicalDeviceFragmentShadingRateKHR> results(count, vku::InitStruct<VkPhysicalDeviceFragmentShadingRateKHR>());
+
+    EXPECT_EQ(vksc::GetPhysicalDeviceFragmentShadingRatesKHR(physical_device, &count, nullptr), VK_SUCCESS);
+    EXPECT_EQ(count, 3);
+
+    EXPECT_EQ(vksc::GetPhysicalDeviceFragmentShadingRatesKHR(physical_device, &count, results.data()), VK_SUCCESS);
+    EXPECT_EQ(count, 3);
+    EXPECT_EQ(results[0].fragmentSize.width, 2);
+    EXPECT_EQ(results[0].fragmentSize.height, 1);
+    EXPECT_EQ(results[0].sampleCounts, VK_SAMPLE_COUNT_1_BIT | VK_SAMPLE_COUNT_4_BIT);
+    EXPECT_EQ(results[1].fragmentSize.width, 1);
+    EXPECT_EQ(results[1].fragmentSize.height, 1);
+    EXPECT_EQ(results[1].sampleCounts, 0xFFFFFFFF);
+    EXPECT_EQ(results[2].fragmentSize.width, 2);
+    EXPECT_EQ(results[2].fragmentSize.height, 2);
+    EXPECT_EQ(results[2].sampleCounts, VK_SAMPLE_COUNT_1_BIT | VK_SAMPLE_COUNT_4_BIT);
+
+    count = 2;
+    results.clear();
+    results.resize(count, vku::InitStruct<VkPhysicalDeviceFragmentShadingRateKHR>());
+    EXPECT_EQ(vksc::GetPhysicalDeviceFragmentShadingRatesKHR(physical_device, &count, results.data()), VK_INCOMPLETE);
+    EXPECT_EQ(count, 2);
+    EXPECT_EQ(results[0].fragmentSize.width, 2);
+    EXPECT_EQ(results[0].fragmentSize.height, 1);
+    EXPECT_EQ(results[0].sampleCounts, VK_SAMPLE_COUNT_1_BIT | VK_SAMPLE_COUNT_4_BIT);
+    EXPECT_EQ(results[1].fragmentSize.width, 1);
+    EXPECT_EQ(results[1].fragmentSize.height, 1);
+    EXPECT_EQ(results[1].sampleCounts, 0xFFFFFFFF);
+
+    count = 1;
+    results.clear();
+    results.resize(count, vku::InitStruct<VkPhysicalDeviceFragmentShadingRateKHR>());
+    EXPECT_EQ(vksc::GetPhysicalDeviceFragmentShadingRatesKHR(physical_device, &count, results.data()), VK_INCOMPLETE);
+    EXPECT_EQ(count, 1);
+    EXPECT_EQ(results[0].fragmentSize.width, 2);
+    EXPECT_EQ(results[0].fragmentSize.height, 1);
+    EXPECT_EQ(results[0].sampleCounts, VK_SAMPLE_COUNT_1_BIT | VK_SAMPLE_COUNT_4_BIT);
+}
