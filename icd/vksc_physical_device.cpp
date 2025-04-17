@@ -299,6 +299,25 @@ VkResult PhysicalDevice::GetPhysicalDeviceRefreshableObjectTypesKHR(uint32_t* pR
     return VK_SUCCESS;
 }
 
+VkResult PhysicalDevice::GetPhysicalDeviceFragmentShadingRatesKHR(uint32_t* pFragmentShadingRateCount,
+                                                                  VkPhysicalDeviceFragmentShadingRateKHR* pFragmentShadingRates) {
+    VkResult result = NEXT::GetPhysicalDeviceFragmentShadingRatesKHR(pFragmentShadingRateCount, pFragmentShadingRates);
+    // The spec requires ~0 to be returned in VkPhysicalDeviceFragmentShadingRateKHR::sampleCount
+    // when VkPhysicalDeviceFragmentShadingRateKHR::fragmentSize == {1, 1}, even though that is technically
+    // not a value comprising of valid, well defined bit flags, so we have to work this around here manually
+    // because the result sanitization logic will remove all the bits from flags that are not defined in
+    // in Vulkan SC API.
+    if (result >= VK_SUCCESS && pFragmentShadingRates != nullptr) {
+        for (uint32_t i = 0; i < *pFragmentShadingRateCount; ++i) {
+            auto& entry = pFragmentShadingRates[i];
+            if (entry.fragmentSize.width == 1 && entry.fragmentSize.height == 1) {
+                entry.sampleCounts = 0xFFFFFFFF;
+            }
+        }
+    }
+    return result;
+}
+
 #if defined(VK_USE_PLATFORM_WIN32_KHR)
 VkResult PhysicalDevice::AcquireWinrtDisplayNV(VkDisplayKHR display) {
     auto emulated_display = GetDisplayManager().GetEmulatedDisplayFromHandle(display);

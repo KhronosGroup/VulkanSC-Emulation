@@ -65,6 +65,9 @@ class PhysicalDevice : public Dispatchable<PhysicalDevice, VkPhysicalDevice>, pu
     VkResult GetPhysicalDeviceRefreshableObjectTypesKHR(uint32_t* pRefreshableObjectTypeCount,
                                                         VkObjectType* pRefreshableObjectTypes);
 
+    VkResult GetPhysicalDeviceFragmentShadingRatesKHR(uint32_t* pFragmentShadingRateCount,
+                                                      VkPhysicalDeviceFragmentShadingRateKHR* pFragmentShadingRates);
+
 #if defined(VK_USE_PLATFORM_WIN32_KHR)
     VkResult AcquireWinrtDisplayNV(VkDisplayKHR display);
 #endif
