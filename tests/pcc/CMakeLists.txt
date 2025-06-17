@@ -36,3 +36,8 @@ foreach(CHILD IN LISTS PIPELINE_DIR_CHILDREN)
             LABELS PCC
     )
 endforeach()
+
+file(GLOB NONCTS_PIPELINE_DIR_CHILDREN RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}/noncts-data" noncts-data/*)
+foreach(CHILD IN LISTS NONCTS_PIPELINE_DIR_CHILDREN)
+    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/noncts-data/${CHILD}")
+endforeach()
