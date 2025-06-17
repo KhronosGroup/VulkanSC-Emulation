@@ -249,72 +249,6 @@ class vksc {
             (PFN_vkGetBufferOpaqueCaptureAddress)GetInstanceProcAddr(instance, "vkGetBufferOpaqueCaptureAddress");
         GetDeviceMemoryOpaqueCaptureAddress =
             (PFN_vkGetDeviceMemoryOpaqueCaptureAddress)GetInstanceProcAddr(instance, "vkGetDeviceMemoryOpaqueCaptureAddress");
-        GetPhysicalDeviceToolProperties =
-            (PFN_vkGetPhysicalDeviceToolProperties)GetInstanceProcAddr(instance, "vkGetPhysicalDeviceToolProperties");
-        CreatePrivateDataSlot = (PFN_vkCreatePrivateDataSlot)GetInstanceProcAddr(instance, "vkCreatePrivateDataSlot");
-        DestroyPrivateDataSlot = (PFN_vkDestroyPrivateDataSlot)GetInstanceProcAddr(instance, "vkDestroyPrivateDataSlot");
-        SetPrivateData = (PFN_vkSetPrivateData)GetInstanceProcAddr(instance, "vkSetPrivateData");
-        GetPrivateData = (PFN_vkGetPrivateData)GetInstanceProcAddr(instance, "vkGetPrivateData");
-        CmdSetEvent2 = (PFN_vkCmdSetEvent2)GetInstanceProcAddr(instance, "vkCmdSetEvent2");
-        CmdResetEvent2 = (PFN_vkCmdResetEvent2)GetInstanceProcAddr(instance, "vkCmdResetEvent2");
-        CmdWaitEvents2 = (PFN_vkCmdWaitEvents2)GetInstanceProcAddr(instance, "vkCmdWaitEvents2");
-        CmdPipelineBarrier2 = (PFN_vkCmdPipelineBarrier2)GetInstanceProcAddr(instance, "vkCmdPipelineBarrier2");
-        CmdWriteTimestamp2 = (PFN_vkCmdWriteTimestamp2)GetInstanceProcAddr(instance, "vkCmdWriteTimestamp2");
-        QueueSubmit2 = (PFN_vkQueueSubmit2)GetInstanceProcAddr(instance, "vkQueueSubmit2");
-        CmdCopyBuffer2 = (PFN_vkCmdCopyBuffer2)GetInstanceProcAddr(instance, "vkCmdCopyBuffer2");
-        CmdCopyImage2 = (PFN_vkCmdCopyImage2)GetInstanceProcAddr(instance, "vkCmdCopyImage2");
-        CmdCopyBufferToImage2 = (PFN_vkCmdCopyBufferToImage2)GetInstanceProcAddr(instance, "vkCmdCopyBufferToImage2");
-        CmdCopyImageToBuffer2 = (PFN_vkCmdCopyImageToBuffer2)GetInstanceProcAddr(instance, "vkCmdCopyImageToBuffer2");
-        CmdBlitImage2 = (PFN_vkCmdBlitImage2)GetInstanceProcAddr(instance, "vkCmdBlitImage2");
-        CmdResolveImage2 = (PFN_vkCmdResolveImage2)GetInstanceProcAddr(instance, "vkCmdResolveImage2");
-        CmdBeginRendering = (PFN_vkCmdBeginRendering)GetInstanceProcAddr(instance, "vkCmdBeginRendering");
-        CmdEndRendering = (PFN_vkCmdEndRendering)GetInstanceProcAddr(instance, "vkCmdEndRendering");
-        CmdSetCullMode = (PFN_vkCmdSetCullMode)GetInstanceProcAddr(instance, "vkCmdSetCullMode");
-        CmdSetFrontFace = (PFN_vkCmdSetFrontFace)GetInstanceProcAddr(instance, "vkCmdSetFrontFace");
-        CmdSetPrimitiveTopology = (PFN_vkCmdSetPrimitiveTopology)GetInstanceProcAddr(instance, "vkCmdSetPrimitiveTopology");
-        CmdSetViewportWithCount = (PFN_vkCmdSetViewportWithCount)GetInstanceProcAddr(instance, "vkCmdSetViewportWithCount");
-        CmdSetScissorWithCount = (PFN_vkCmdSetScissorWithCount)GetInstanceProcAddr(instance, "vkCmdSetScissorWithCount");
-        CmdBindVertexBuffers2 = (PFN_vkCmdBindVertexBuffers2)GetInstanceProcAddr(instance, "vkCmdBindVertexBuffers2");
-        CmdSetDepthTestEnable = (PFN_vkCmdSetDepthTestEnable)GetInstanceProcAddr(instance, "vkCmdSetDepthTestEnable");
-        CmdSetDepthWriteEnable = (PFN_vkCmdSetDepthWriteEnable)GetInstanceProcAddr(instance, "vkCmdSetDepthWriteEnable");
-        CmdSetDepthCompareOp = (PFN_vkCmdSetDepthCompareOp)GetInstanceProcAddr(instance, "vkCmdSetDepthCompareOp");
-        CmdSetDepthBoundsTestEnable =
-            (PFN_vkCmdSetDepthBoundsTestEnable)GetInstanceProcAddr(instance, "vkCmdSetDepthBoundsTestEnable");
-        CmdSetStencilTestEnable = (PFN_vkCmdSetStencilTestEnable)GetInstanceProcAddr(instance, "vkCmdSetStencilTestEnable");
-        CmdSetStencilOp = (PFN_vkCmdSetStencilOp)GetInstanceProcAddr(instance, "vkCmdSetStencilOp");
-        CmdSetRasterizerDiscardEnable =
-            (PFN_vkCmdSetRasterizerDiscardEnable)GetInstanceProcAddr(instance, "vkCmdSetRasterizerDiscardEnable");
-        CmdSetDepthBiasEnable = (PFN_vkCmdSetDepthBiasEnable)GetInstanceProcAddr(instance, "vkCmdSetDepthBiasEnable");
-        CmdSetPrimitiveRestartEnable =
-            (PFN_vkCmdSetPrimitiveRestartEnable)GetInstanceProcAddr(instance, "vkCmdSetPrimitiveRestartEnable");
-        GetDeviceBufferMemoryRequirements =
-            (PFN_vkGetDeviceBufferMemoryRequirements)GetInstanceProcAddr(instance, "vkGetDeviceBufferMemoryRequirements");
-        GetDeviceImageMemoryRequirements =
-            (PFN_vkGetDeviceImageMemoryRequirements)GetInstanceProcAddr(instance, "vkGetDeviceImageMemoryRequirements");
-        GetDeviceImageSparseMemoryRequirements =
-            (PFN_vkGetDeviceImageSparseMemoryRequirements)GetInstanceProcAddr(instance, "vkGetDeviceImageSparseMemoryRequirements");
-        CmdSetLineStipple = (PFN_vkCmdSetLineStipple)GetInstanceProcAddr(instance, "vkCmdSetLineStipple");
-        MapMemory2 = (PFN_vkMapMemory2)GetInstanceProcAddr(instance, "vkMapMemory2");
-        UnmapMemory2 = (PFN_vkUnmapMemory2)GetInstanceProcAddr(instance, "vkUnmapMemory2");
-        CmdBindIndexBuffer2 = (PFN_vkCmdBindIndexBuffer2)GetInstanceProcAddr(instance, "vkCmdBindIndexBuffer2");
-        GetRenderingAreaGranularity =
-            (PFN_vkGetRenderingAreaGranularity)GetInstanceProcAddr(instance, "vkGetRenderingAreaGranularity");
-        GetDeviceImageSubresourceLayout =
-            (PFN_vkGetDeviceImageSubresourceLayout)GetInstanceProcAddr(instance, "vkGetDeviceImageSubresourceLayout");
-        GetImageSubresourceLayout2 =
-            (PFN_vkGetImageSubresourceLayout2)GetInstanceProcAddr(instance, "vkGetImageSubresourceLayout2");
-        CmdPushDescriptorSet = (PFN_vkCmdPushDescriptorSet)GetInstanceProcAddr(instance, "vkCmdPushDescriptorSet");
-        CmdSetRenderingAttachmentLocations =
-            (PFN_vkCmdSetRenderingAttachmentLocations)GetInstanceProcAddr(instance, "vkCmdSetRenderingAttachmentLocations");
-        CmdSetRenderingInputAttachmentIndices =
-            (PFN_vkCmdSetRenderingInputAttachmentIndices)GetInstanceProcAddr(instance, "vkCmdSetRenderingInputAttachmentIndices");
-        CmdBindDescriptorSets2 = (PFN_vkCmdBindDescriptorSets2)GetInstanceProcAddr(instance, "vkCmdBindDescriptorSets2");
-        CmdPushConstants2 = (PFN_vkCmdPushConstants2)GetInstanceProcAddr(instance, "vkCmdPushConstants2");
-        CmdPushDescriptorSet2 = (PFN_vkCmdPushDescriptorSet2)GetInstanceProcAddr(instance, "vkCmdPushDescriptorSet2");
-        CopyMemoryToImage = (PFN_vkCopyMemoryToImage)GetInstanceProcAddr(instance, "vkCopyMemoryToImage");
-        CopyImageToMemory = (PFN_vkCopyImageToMemory)GetInstanceProcAddr(instance, "vkCopyImageToMemory");
-        CopyImageToImage = (PFN_vkCopyImageToImage)GetInstanceProcAddr(instance, "vkCopyImageToImage");
-        TransitionImageLayout = (PFN_vkTransitionImageLayout)GetInstanceProcAddr(instance, "vkTransitionImageLayout");
         GetCommandPoolMemoryConsumption =
             (PFN_vkGetCommandPoolMemoryConsumption)GetInstanceProcAddr(instance, "vkGetCommandPoolMemoryConsumption");
         GetFaultData = (PFN_vkGetFaultData)GetInstanceProcAddr(instance, "vkGetFaultData");
@@ -663,60 +597,6 @@ class vksc {
     inline static PFN_vkGetBufferDeviceAddress GetBufferDeviceAddress{nullptr};
     inline static PFN_vkGetBufferOpaqueCaptureAddress GetBufferOpaqueCaptureAddress{nullptr};
     inline static PFN_vkGetDeviceMemoryOpaqueCaptureAddress GetDeviceMemoryOpaqueCaptureAddress{nullptr};
-    inline static PFN_vkGetPhysicalDeviceToolProperties GetPhysicalDeviceToolProperties{nullptr};
-    inline static PFN_vkCreatePrivateDataSlot CreatePrivateDataSlot{nullptr};
-    inline static PFN_vkDestroyPrivateDataSlot DestroyPrivateDataSlot{nullptr};
-    inline static PFN_vkSetPrivateData SetPrivateData{nullptr};
-    inline static PFN_vkGetPrivateData GetPrivateData{nullptr};
-    inline static PFN_vkCmdSetEvent2 CmdSetEvent2{nullptr};
-    inline static PFN_vkCmdResetEvent2 CmdResetEvent2{nullptr};
-    inline static PFN_vkCmdWaitEvents2 CmdWaitEvents2{nullptr};
-    inline static PFN_vkCmdPipelineBarrier2 CmdPipelineBarrier2{nullptr};
-    inline static PFN_vkCmdWriteTimestamp2 CmdWriteTimestamp2{nullptr};
-    inline static PFN_vkQueueSubmit2 QueueSubmit2{nullptr};
-    inline static PFN_vkCmdCopyBuffer2 CmdCopyBuffer2{nullptr};
-    inline static PFN_vkCmdCopyImage2 CmdCopyImage2{nullptr};
-    inline static PFN_vkCmdCopyBufferToImage2 CmdCopyBufferToImage2{nullptr};
-    inline static PFN_vkCmdCopyImageToBuffer2 CmdCopyImageToBuffer2{nullptr};
-    inline static PFN_vkCmdBlitImage2 CmdBlitImage2{nullptr};
-    inline static PFN_vkCmdResolveImage2 CmdResolveImage2{nullptr};
-    inline static PFN_vkCmdBeginRendering CmdBeginRendering{nullptr};
-    inline static PFN_vkCmdEndRendering CmdEndRendering{nullptr};
-    inline static PFN_vkCmdSetCullMode CmdSetCullMode{nullptr};
-    inline static PFN_vkCmdSetFrontFace CmdSetFrontFace{nullptr};
-    inline static PFN_vkCmdSetPrimitiveTopology CmdSetPrimitiveTopology{nullptr};
-    inline static PFN_vkCmdSetViewportWithCount CmdSetViewportWithCount{nullptr};
-    inline static PFN_vkCmdSetScissorWithCount CmdSetScissorWithCount{nullptr};
-    inline static PFN_vkCmdBindVertexBuffers2 CmdBindVertexBuffers2{nullptr};
-    inline static PFN_vkCmdSetDepthTestEnable CmdSetDepthTestEnable{nullptr};
-    inline static PFN_vkCmdSetDepthWriteEnable CmdSetDepthWriteEnable{nullptr};
-    inline static PFN_vkCmdSetDepthCompareOp CmdSetDepthCompareOp{nullptr};
-    inline static PFN_vkCmdSetDepthBoundsTestEnable CmdSetDepthBoundsTestEnable{nullptr};
-    inline static PFN_vkCmdSetStencilTestEnable CmdSetStencilTestEnable{nullptr};
-    inline static PFN_vkCmdSetStencilOp CmdSetStencilOp{nullptr};
-    inline static PFN_vkCmdSetRasterizerDiscardEnable CmdSetRasterizerDiscardEnable{nullptr};
-    inline static PFN_vkCmdSetDepthBiasEnable CmdSetDepthBiasEnable{nullptr};
-    inline static PFN_vkCmdSetPrimitiveRestartEnable CmdSetPrimitiveRestartEnable{nullptr};
-    inline static PFN_vkGetDeviceBufferMemoryRequirements GetDeviceBufferMemoryRequirements{nullptr};
-    inline static PFN_vkGetDeviceImageMemoryRequirements GetDeviceImageMemoryRequirements{nullptr};
-    inline static PFN_vkGetDeviceImageSparseMemoryRequirements GetDeviceImageSparseMemoryRequirements{nullptr};
-    inline static PFN_vkCmdSetLineStipple CmdSetLineStipple{nullptr};
-    inline static PFN_vkMapMemory2 MapMemory2{nullptr};
-    inline static PFN_vkUnmapMemory2 UnmapMemory2{nullptr};
-    inline static PFN_vkCmdBindIndexBuffer2 CmdBindIndexBuffer2{nullptr};
-    inline static PFN_vkGetRenderingAreaGranularity GetRenderingAreaGranularity{nullptr};
-    inline static PFN_vkGetDeviceImageSubresourceLayout GetDeviceImageSubresourceLayout{nullptr};
-    inline static PFN_vkGetImageSubresourceLayout2 GetImageSubresourceLayout2{nullptr};
-    inline static PFN_vkCmdPushDescriptorSet CmdPushDescriptorSet{nullptr};
-    inline static PFN_vkCmdSetRenderingAttachmentLocations CmdSetRenderingAttachmentLocations{nullptr};
-    inline static PFN_vkCmdSetRenderingInputAttachmentIndices CmdSetRenderingInputAttachmentIndices{nullptr};
-    inline static PFN_vkCmdBindDescriptorSets2 CmdBindDescriptorSets2{nullptr};
-    inline static PFN_vkCmdPushConstants2 CmdPushConstants2{nullptr};
-    inline static PFN_vkCmdPushDescriptorSet2 CmdPushDescriptorSet2{nullptr};
-    inline static PFN_vkCopyMemoryToImage CopyMemoryToImage{nullptr};
-    inline static PFN_vkCopyImageToMemory CopyImageToMemory{nullptr};
-    inline static PFN_vkCopyImageToImage CopyImageToImage{nullptr};
-    inline static PFN_vkTransitionImageLayout TransitionImageLayout{nullptr};
     inline static PFN_vkGetCommandPoolMemoryConsumption GetCommandPoolMemoryConsumption{nullptr};
     inline static PFN_vkGetFaultData GetFaultData{nullptr};
     inline static PFN_vkDestroySurfaceKHR DestroySurfaceKHR{nullptr};

@@ -7,13 +7,15 @@
 
 import os
 from base_generator import BaseGenerator
-from generators.generator_utils import PlatformGuardHelper
+from generators.generator_utils import PlatformGuardHelper, CommandHelper
 
 class TestVkMockFrameworkGenerator(BaseGenerator):
     def __init__(self):
         BaseGenerator.__init__(self)
 
     def generate(self):
+        CommandHelper.RemoveUnsupportedCoreCommands(self.vk)
+
         self.write(f'''// *** THIS FILE IS GENERATED - DO NOT EDIT ***
             // See {os.path.basename(__file__)} for modifications
 

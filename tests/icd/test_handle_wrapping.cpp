@@ -95,6 +95,7 @@ TEST_F(HandleWrappingTest, QueueSubmit) {
     vkmock::WaitForFences = [](auto, auto, auto, auto, auto) { return VK_SUCCESS; };
 
     InitInstance();
+    EnableDeviceExtension(VK_KHR_SYNCHRONIZATION_2_EXTENSION_NAME);
     auto device = InitDevice();
     auto command_pool = CreateCommandPool(command_buffer_count * (buffer_update_size + 2048), command_buffer_count);
 
@@ -145,7 +146,7 @@ TEST_F(HandleWrappingTest, QueueSubmit) {
     EXPECT_EQ(vksc::QueueSubmit(queue, submit_count, submit_infos.data(), fence), VK_SUCCESS);
     EXPECT_EQ(vksc::WaitForFences(device, 1, &fence, VK_TRUE, 1'000'000), VK_SUCCESS);
 
-    vkmock::QueueSubmit2 = [&](auto, uint32_t submitCount, const VkSubmitInfo2 *pSubmits, VkFence fence) {
+    vkmock::QueueSubmit2KHR = [&](auto, uint32_t submitCount, const VkSubmitInfo2 *pSubmits, VkFence fence) {
         for (uint32_t i = 0; i < submitCount; ++i) {
             for (uint32_t j = 0; j < pSubmits[i].commandBufferInfoCount; ++j) {
                 EXPECT_EQ(pSubmits[i].pCommandBufferInfos[j].commandBuffer,
@@ -166,7 +167,7 @@ TEST_F(HandleWrappingTest, QueueSubmit) {
     }
     VkFence fence2;
     EXPECT_EQ(vksc::CreateFence(device, &fence_info, nullptr, &fence2), VK_SUCCESS);
-    EXPECT_EQ(vksc::QueueSubmit2(queue, submit_count, submit_infos2.data(), fence2), VK_SUCCESS);
+    EXPECT_EQ(vksc::QueueSubmit2KHR(queue, submit_count, submit_infos2.data(), fence2), VK_SUCCESS);
     EXPECT_EQ(vksc::WaitForFences(device, 1, &fence2, VK_TRUE, 1'000'000), VK_SUCCESS);
 
     vksc::DestroyBuffer(device, buffer, nullptr);

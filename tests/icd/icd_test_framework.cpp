@@ -67,9 +67,24 @@ static void InitDefaultMockHandlers(IcdTest *test_case = nullptr) {
         }
         return result;
     };
-    vkmock::EnumerateDeviceExtensionProperties = [&](auto, auto, auto pPropertyCount, auto) {
-        *pPropertyCount = 0;
-        return VK_SUCCESS;
+    vkmock::EnumerateDeviceExtensionProperties = [&](auto, auto, auto pPropertyCount, auto pProperties) {
+        // We report support for VK_KHR_synchronization2 to test vkQueueSubmit2KHR
+        static const std::vector<VkExtensionProperties> extensions = {
+            {VK_KHR_SYNCHRONIZATION_2_EXTENSION_NAME, VK_KHR_SYNCHRONIZATION_2_SPEC_VERSION}};
+
+        VkResult result = VK_SUCCESS;
+        if (pProperties == nullptr) {
+            *pPropertyCount = static_cast<uint32_t>(extensions.size());
+        } else {
+            if (*pPropertyCount < extensions.size()) {
+                result = VK_INCOMPLETE;
+            }
+            *pPropertyCount = std::min(*pPropertyCount, static_cast<uint32_t>(extensions.size()));
+            for (uint32_t i = 0; i < *pPropertyCount; ++i) {
+                pProperties[i] = extensions[i];
+            }
+        }
+        return result;
     };
     vkmock::EnumeratePhysicalDevices = [&](auto, auto pPhysicalDeviceCount, auto pPhysicalDevices) {
         if (pPhysicalDevices != nullptr) {

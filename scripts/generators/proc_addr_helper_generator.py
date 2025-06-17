@@ -7,7 +7,7 @@
 
 import os
 from base_generator import BaseGenerator
-from generators.generator_utils import PlatformGuardHelper
+from generators.generator_utils import PlatformGuardHelper, CommandHelper
 from vulkan_object import Command
 
 class ProcAddrHelperGenerator(BaseGenerator):
@@ -15,6 +15,8 @@ class ProcAddrHelperGenerator(BaseGenerator):
         BaseGenerator.__init__(self)
 
     def generate(self):
+        CommandHelper.RemoveUnsupportedCoreCommands(self.vk)
+
         self.write(f'''// *** THIS FILE IS GENERATED - DO NOT EDIT ***
             // See {os.path.basename(__file__)} for modifications
 

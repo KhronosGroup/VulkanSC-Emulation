@@ -161,14 +161,6 @@ void PhysicalDevice::GetPhysicalDeviceExternalSemaphoreProperties(
         vksc::ConvertOutStructChainToVulkanSC<VkExternalSemaphoreProperties>(pExternalSemaphoreProperties);
     }
 }
-VkResult PhysicalDevice::GetPhysicalDeviceToolProperties(uint32_t* pToolCount, VkPhysicalDeviceToolProperties* pToolProperties) {
-    VkResult result = dispatch_table_.GetPhysicalDeviceToolProperties(handle_, pToolCount, pToolProperties);
-    if (pToolProperties != nullptr) {
-        for (uint32_t i = 0; i < *pToolCount; ++i)
-            vksc::ConvertOutStructChainToVulkanSC<VkPhysicalDeviceToolProperties>(&pToolProperties[i]);
-    }
-    return result;
-}
 VkResult PhysicalDevice::GetPhysicalDeviceSurfaceSupportKHR(uint32_t queueFamilyIndex, VkSurfaceKHR surface, VkBool32* pSupported) {
     return dispatch_table_.GetPhysicalDeviceSurfaceSupportKHR(handle_, queueFamilyIndex, surface, pSupported);
 }
@@ -280,6 +272,77 @@ VkResult PhysicalDevice::GetPhysicalDeviceVideoFormatPropertiesKHR(const VkPhysi
             vksc::ConvertOutStructChainToVulkanSC<VkVideoFormatPropertiesKHR>(&pVideoFormatProperties[i]);
     }
     return result;
+}
+void PhysicalDevice::GetPhysicalDeviceFeatures2KHR(VkPhysicalDeviceFeatures2* pFeatures) {
+    dispatch_table_.GetPhysicalDeviceFeatures2KHR(handle_, pFeatures);
+    if (pFeatures != nullptr) {
+        vksc::ConvertOutStructChainToVulkanSC<VkPhysicalDeviceFeatures2>(pFeatures);
+    }
+}
+void PhysicalDevice::GetPhysicalDeviceProperties2KHR(VkPhysicalDeviceProperties2* pProperties) {
+    dispatch_table_.GetPhysicalDeviceProperties2KHR(handle_, pProperties);
+    if (pProperties != nullptr) {
+        vksc::ConvertOutStructChainToVulkanSC<VkPhysicalDeviceProperties2>(pProperties);
+    }
+}
+void PhysicalDevice::GetPhysicalDeviceFormatProperties2KHR(VkFormat format, VkFormatProperties2* pFormatProperties) {
+    dispatch_table_.GetPhysicalDeviceFormatProperties2KHR(handle_, format, pFormatProperties);
+    if (pFormatProperties != nullptr) {
+        vksc::ConvertOutStructChainToVulkanSC<VkFormatProperties2>(pFormatProperties);
+    }
+}
+VkResult PhysicalDevice::GetPhysicalDeviceImageFormatProperties2KHR(const VkPhysicalDeviceImageFormatInfo2* pImageFormatInfo,
+                                                                    VkImageFormatProperties2* pImageFormatProperties) {
+    VkResult result = dispatch_table_.GetPhysicalDeviceImageFormatProperties2KHR(handle_, pImageFormatInfo, pImageFormatProperties);
+    if (pImageFormatProperties != nullptr) {
+        vksc::ConvertOutStructChainToVulkanSC<VkImageFormatProperties2>(pImageFormatProperties);
+    }
+    return result;
+}
+void PhysicalDevice::GetPhysicalDeviceQueueFamilyProperties2KHR(uint32_t* pQueueFamilyPropertyCount,
+                                                                VkQueueFamilyProperties2* pQueueFamilyProperties) {
+    dispatch_table_.GetPhysicalDeviceQueueFamilyProperties2KHR(handle_, pQueueFamilyPropertyCount, pQueueFamilyProperties);
+    if (pQueueFamilyProperties != nullptr) {
+        for (uint32_t i = 0; i < *pQueueFamilyPropertyCount; ++i)
+            vksc::ConvertOutStructChainToVulkanSC<VkQueueFamilyProperties2>(&pQueueFamilyProperties[i]);
+    }
+}
+void PhysicalDevice::GetPhysicalDeviceMemoryProperties2KHR(VkPhysicalDeviceMemoryProperties2* pMemoryProperties) {
+    dispatch_table_.GetPhysicalDeviceMemoryProperties2KHR(handle_, pMemoryProperties);
+    if (pMemoryProperties != nullptr) {
+        vksc::ConvertOutStructChainToVulkanSC<VkPhysicalDeviceMemoryProperties2>(pMemoryProperties);
+    }
+}
+void PhysicalDevice::GetPhysicalDeviceSparseImageFormatProperties2KHR(const VkPhysicalDeviceSparseImageFormatInfo2* pFormatInfo,
+                                                                      uint32_t* pPropertyCount,
+                                                                      VkSparseImageFormatProperties2* pProperties) {
+    dispatch_table_.GetPhysicalDeviceSparseImageFormatProperties2KHR(handle_, pFormatInfo, pPropertyCount, pProperties);
+    if (pProperties != nullptr) {
+        for (uint32_t i = 0; i < *pPropertyCount; ++i)
+            vksc::ConvertOutStructChainToVulkanSC<VkSparseImageFormatProperties2>(&pProperties[i]);
+    }
+}
+void PhysicalDevice::GetPhysicalDeviceExternalBufferPropertiesKHR(const VkPhysicalDeviceExternalBufferInfo* pExternalBufferInfo,
+                                                                  VkExternalBufferProperties* pExternalBufferProperties) {
+    dispatch_table_.GetPhysicalDeviceExternalBufferPropertiesKHR(handle_, pExternalBufferInfo, pExternalBufferProperties);
+    if (pExternalBufferProperties != nullptr) {
+        vksc::ConvertOutStructChainToVulkanSC<VkExternalBufferProperties>(pExternalBufferProperties);
+    }
+}
+void PhysicalDevice::GetPhysicalDeviceExternalSemaphorePropertiesKHR(
+    const VkPhysicalDeviceExternalSemaphoreInfo* pExternalSemaphoreInfo,
+    VkExternalSemaphoreProperties* pExternalSemaphoreProperties) {
+    dispatch_table_.GetPhysicalDeviceExternalSemaphorePropertiesKHR(handle_, pExternalSemaphoreInfo, pExternalSemaphoreProperties);
+    if (pExternalSemaphoreProperties != nullptr) {
+        vksc::ConvertOutStructChainToVulkanSC<VkExternalSemaphoreProperties>(pExternalSemaphoreProperties);
+    }
+}
+void PhysicalDevice::GetPhysicalDeviceExternalFencePropertiesKHR(const VkPhysicalDeviceExternalFenceInfo* pExternalFenceInfo,
+                                                                 VkExternalFenceProperties* pExternalFenceProperties) {
+    dispatch_table_.GetPhysicalDeviceExternalFencePropertiesKHR(handle_, pExternalFenceInfo, pExternalFenceProperties);
+    if (pExternalFenceProperties != nullptr) {
+        vksc::ConvertOutStructChainToVulkanSC<VkExternalFenceProperties>(pExternalFenceProperties);
+    }
 }
 VkResult PhysicalDevice::EnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR(
     uint32_t queueFamilyIndex, uint32_t* pCounterCount, VkPerformanceCounterKHR* pCounters,
@@ -416,6 +479,17 @@ void PhysicalDevice::GetPhysicalDeviceMultisamplePropertiesEXT(VkSampleCountFlag
     if (pMultisampleProperties != nullptr) {
         vksc::ConvertOutStructChainToVulkanSC<VkMultisamplePropertiesEXT>(pMultisampleProperties);
     }
+}
+VkResult PhysicalDevice::GetPhysicalDeviceCalibrateableTimeDomainsEXT(uint32_t* pTimeDomainCount, VkTimeDomainKHR* pTimeDomains) {
+    return dispatch_table_.GetPhysicalDeviceCalibrateableTimeDomainsEXT(handle_, pTimeDomainCount, pTimeDomains);
+}
+VkResult PhysicalDevice::GetPhysicalDeviceToolPropertiesEXT(uint32_t* pToolCount, VkPhysicalDeviceToolProperties* pToolProperties) {
+    VkResult result = dispatch_table_.GetPhysicalDeviceToolPropertiesEXT(handle_, pToolCount, pToolProperties);
+    if (pToolProperties != nullptr) {
+        for (uint32_t i = 0; i < *pToolCount; ++i)
+            vksc::ConvertOutStructChainToVulkanSC<VkPhysicalDeviceToolProperties>(&pToolProperties[i]);
+    }
+    return result;
 }
 VkResult PhysicalDevice::GetPhysicalDeviceCooperativeMatrixPropertiesNV(uint32_t* pPropertyCount,
                                                                         VkCooperativeMatrixPropertiesNV* pProperties) {

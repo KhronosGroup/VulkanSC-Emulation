@@ -7,13 +7,15 @@
 
 import os
 from base_generator import BaseGenerator
-from generators.generator_utils import PlatformGuardHelper
+from generators.generator_utils import PlatformGuardHelper, CommandHelper
 
 class VkDispatchableGenerator(BaseGenerator):
     def __init__(self):
         BaseGenerator.__init__(self)
 
     def generate(self):
+        CommandHelper.RemoveUnsupportedCoreCommands(self.vk)
+
         self.write(f'''// *** THIS FILE IS GENERATED - DO NOT EDIT ***
             // See {os.path.basename(__file__)} for modifications
 
@@ -73,10 +75,6 @@ class VkDispatchableGenerator(BaseGenerator):
 
         for command in self.vk.commands.values():
             if len(command.params) > 0 and command.params[0].type == handle_type:
-                # Do not generate methods for alias commands
-                if command.alias:
-                    continue
-
                 out.extend(guard_helper.add_guard(command.protect))
                 params = []
                 for param in command.params[1:]:
@@ -115,10 +113,6 @@ class VkDispatchableGenerator(BaseGenerator):
 
         for command in self.vk.commands.values():
             if len(command.params) > 0 and command.params[0].type == handle_type:
-                # Do not generate methods for alias commands
-                if command.alias:
-                    continue
-
                 out.extend(guard_helper.add_guard(command.protect))
                 params_decl = []
                 params_pass = [ 'handle_' ]

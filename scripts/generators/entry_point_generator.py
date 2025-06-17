@@ -8,13 +8,15 @@
 import os
 import re
 from base_generator import BaseGenerator
-from generators.generator_utils import PlatformGuardHelper
+from generators.generator_utils import PlatformGuardHelper, CommandHelper
 
 class EntryPointGenerator(BaseGenerator):
     def __init__(self):
         BaseGenerator.__init__(self)
 
     def generate(self):
+        CommandHelper.RemoveUnsupportedCoreCommands(self.vk)
+
         out = []
         out.append(f'''// *** THIS FILE IS GENERATED - DO NOT EDIT ***
             // See {os.path.basename(__file__)} for modifications
@@ -53,10 +55,7 @@ class EntryPointGenerator(BaseGenerator):
                 for param in command.params[1:]:
                     params.append(param.name)
 
-                if command.alias:
-                    method = command.alias[2:]
-                else:
-                    method = command.name[2:]
+                method = command.name[2:]
 
                 if (command.name.startswith('vkDestroy') or command.name.startswith('vkFree')) and len(command.params) == 2 and command.params[1].type == 'VkAllocationCallbacks':
                     out.append(f'if ({command.params[0].name} != VK_NULL_HANDLE)')

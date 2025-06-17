@@ -23,8 +23,8 @@ class Queue {
     VkResult QueueSubmit(uint32_t submitCount, const VkSubmitInfo* pSubmits, VkFence fence);
     VkResult QueueWaitIdle();
     VkResult QueueBindSparse(uint32_t bindInfoCount, const VkBindSparseInfo* pBindInfo, VkFence fence);
-    VkResult QueueSubmit2(uint32_t submitCount, const VkSubmitInfo2* pSubmits, VkFence fence);
     VkResult QueuePresentKHR(const VkPresentInfoKHR* pPresentInfo);
+    VkResult QueueSubmit2KHR(uint32_t submitCount, const VkSubmitInfo2* pSubmits, VkFence fence);
     void QueueBeginDebugUtilsLabelEXT(const VkDebugUtilsLabelEXT* pLabelInfo);
     void QueueEndDebugUtilsLabelEXT();
     void QueueInsertDebugUtilsLabelEXT(const VkDebugUtilsLabelEXT* pLabelInfo);

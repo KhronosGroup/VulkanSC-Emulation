@@ -66,6 +66,16 @@ VkResult Instance::CreateWin32SurfaceKHR(const VkWin32SurfaceCreateInfoKHR* pCre
     return dispatch_table_.CreateWin32SurfaceKHR(handle_, pCreateInfo, pAllocator, pSurface);
 }
 #endif  // VK_USE_PLATFORM_WIN32_KHR
+VkResult Instance::EnumeratePhysicalDeviceGroupsKHR(uint32_t* pPhysicalDeviceGroupCount,
+                                                    VkPhysicalDeviceGroupProperties* pPhysicalDeviceGroupProperties) {
+    VkResult result =
+        dispatch_table_.EnumeratePhysicalDeviceGroupsKHR(handle_, pPhysicalDeviceGroupCount, pPhysicalDeviceGroupProperties);
+    if (pPhysicalDeviceGroupProperties != nullptr) {
+        for (uint32_t i = 0; i < *pPhysicalDeviceGroupCount; ++i)
+            vksc::ConvertOutStructChainToVulkanSC<VkPhysicalDeviceGroupProperties>(&pPhysicalDeviceGroupProperties[i]);
+    }
+    return result;
+}
 VkResult Instance::CreateDebugReportCallbackEXT(const VkDebugReportCallbackCreateInfoEXT* pCreateInfo,
                                                 const VkAllocationCallbacks* pAllocator, VkDebugReportCallbackEXT* pCallback) {
     return dispatch_table_.CreateDebugReportCallbackEXT(handle_, pCreateInfo, pAllocator, pCallback);

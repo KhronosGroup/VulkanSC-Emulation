@@ -128,16 +128,6 @@ template <>
 void ConvertOutStructToVulkanSC<VkDescriptorSetLayoutSupport>(VkDescriptorSetLayoutSupport* p) {}
 
 template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceToolProperties>(VkPhysicalDeviceToolProperties* p) {
-    p->purposes = p->purposes & AllVkToolPurposeFlagBits;
-}
-
-template <>
-void ConvertOutStructToVulkanSC<VkSubresourceLayout2>(VkSubresourceLayout2* p) {
-    ConvertOutStructToVulkanSC<VkSubresourceLayout>(&p->subresourceLayout);
-}
-
-template <>
 void ConvertOutStructToVulkanSC<VkCommandPoolMemoryConsumption>(VkCommandPoolMemoryConsumption* p) {}
 
 template <>
@@ -565,9 +555,6 @@ void ConvertOutStructToVulkanSC<VkPhysicalDeviceHostImageCopyFeatures>(VkPhysica
 
 template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceHostImageCopyProperties>(VkPhysicalDeviceHostImageCopyProperties* p) {}
-
-template <>
-void ConvertOutStructToVulkanSC<VkSubresourceHostMemcpySize>(VkSubresourceHostMemcpySize* p) {}
 
 template <>
 void ConvertOutStructToVulkanSC<VkHostImageCopyDevicePerformanceQuery>(VkHostImageCopyDevicePerformanceQuery* p) {}
@@ -1479,42 +1466,6 @@ void ConvertOutStructChainToVulkanSC<VkDescriptorSetLayoutSupport>(VkDescriptorS
 
             case VK_STRUCTURE_TYPE_DESCRIPTOR_SET_VARIABLE_DESCRIPTOR_COUNT_LAYOUT_SUPPORT:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkDescriptorSetVariableDescriptorCountLayoutSupport*>(base));
-                break;
-
-            default:
-                break;
-        }
-        base = base->pNext;
-    }
-}
-
-template <>
-void ConvertOutStructChainToVulkanSC<VkPhysicalDeviceToolProperties>(VkPhysicalDeviceToolProperties* chain) {
-    VkBaseOutStructure* base = reinterpret_cast<VkBaseOutStructure*>(chain);
-    while (base != nullptr) {
-        switch (base->sType) {
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TOOL_PROPERTIES:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceToolProperties*>(base));
-                break;
-
-            default:
-                break;
-        }
-        base = base->pNext;
-    }
-}
-
-template <>
-void ConvertOutStructChainToVulkanSC<VkSubresourceLayout2>(VkSubresourceLayout2* chain) {
-    VkBaseOutStructure* base = reinterpret_cast<VkBaseOutStructure*>(chain);
-    while (base != nullptr) {
-        switch (base->sType) {
-            case VK_STRUCTURE_TYPE_SUBRESOURCE_LAYOUT_2:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkSubresourceLayout2*>(base));
-                break;
-
-            case VK_STRUCTURE_TYPE_SUBRESOURCE_HOST_MEMCPY_SIZE:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkSubresourceHostMemcpySize*>(base));
                 break;
 
             default:

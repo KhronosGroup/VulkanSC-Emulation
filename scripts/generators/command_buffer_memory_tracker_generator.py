@@ -8,13 +8,15 @@
 import os
 import re
 from base_generator import BaseGenerator
-from generators.generator_utils import PlatformGuardHelper
+from generators.generator_utils import PlatformGuardHelper, CommandHelper
 
 class CommandBufferMemoryTrackerGenerator(BaseGenerator):
     def __init__(self):
         BaseGenerator.__init__(self)
 
     def generate(self):
+        CommandHelper.RemoveUnsupportedCoreCommands(self.vk)
+
         self.write(f'''// *** THIS FILE IS GENERATED - DO NOT EDIT ***
             // See {os.path.basename(__file__)} for modifications
 
@@ -38,12 +40,12 @@ class CommandBufferMemoryTrackerGenerator(BaseGenerator):
     def cmdCost(self, name):
         cost_dict = {
             'SetViewport': '8 + viewportCount * 4',
-            'SetViewportWithCount': '8 + viewportCount * 4',
+            'SetViewportWithCountEXT': '8 + viewportCount * 4',
             'SetScissor': '8 + scissorCount * 4',
-            'SetScissorWithCount': '8 + scissorCount * 4',
+            'SetScissorWithCountEXT': '8 + scissorCount * 4',
             'BindDescriptorSets': '8 + (descriptorSetCount + dynamicOffsetCount) * 4',
             'BindVertexBuffers': '8 + bindingCount * 16',
-            'BindVertexBuffers2': '8 + bindingCount * 24',
+            'BindVertexBuffers2EXT': '8 + bindingCount * 24',
             'UpdateBuffer': '16 + dataSize'
         }
 
@@ -87,9 +89,6 @@ class CommandBufferMemoryTrackerGenerator(BaseGenerator):
 
         for command in self.vk.commands.values():
             if re.match('vkCmd', command.name) and not command.name in self.manual_commands:
-                if command.alias:
-                    continue
-
                 params_decl = []
                 for param in command.params[1:]:
                     params_decl.append(param.cDeclaration)
@@ -157,9 +156,6 @@ class CommandBufferMemoryTrackerGenerator(BaseGenerator):
 
         for command in self.vk.commands.values():
             if re.match('vkCmd', command.name) and not command.name in self.manual_commands:
-                if command.alias:
-                    continue
-
                 params_decl = []
                 params_pass = []
                 for param in command.params[1:]:

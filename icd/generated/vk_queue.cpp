@@ -35,15 +35,15 @@ VkResult Queue::QueueBindSparse(uint32_t bindInfoCount, const VkBindSparseInfo* 
     }
     return result;
 }
-VkResult Queue::QueueSubmit2(uint32_t submitCount, const VkSubmitInfo2* pSubmits, VkFence fence) {
-    VkResult result = dispatch_table_.QueueSubmit2(handle_, submitCount, pSubmits, fence);
+VkResult Queue::QueuePresentKHR(const VkPresentInfoKHR* pPresentInfo) {
+    VkResult result = dispatch_table_.QueuePresentKHR(handle_, pPresentInfo);
     if (result == VK_ERROR_DEVICE_LOST) {
         fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);
     }
     return result;
 }
-VkResult Queue::QueuePresentKHR(const VkPresentInfoKHR* pPresentInfo) {
-    VkResult result = dispatch_table_.QueuePresentKHR(handle_, pPresentInfo);
+VkResult Queue::QueueSubmit2KHR(uint32_t submitCount, const VkSubmitInfo2* pSubmits, VkFence fence) {
+    VkResult result = dispatch_table_.QueueSubmit2KHR(handle_, submitCount, pSubmits, fence);
     if (result == VK_ERROR_DEVICE_LOST) {
         fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);
     }

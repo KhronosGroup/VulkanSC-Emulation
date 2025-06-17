@@ -142,26 +142,6 @@ class Device {
     VkDeviceAddress GetBufferDeviceAddress(const VkBufferDeviceAddressInfo* pInfo);
     uint64_t GetBufferOpaqueCaptureAddress(const VkBufferDeviceAddressInfo* pInfo);
     uint64_t GetDeviceMemoryOpaqueCaptureAddress(const VkDeviceMemoryOpaqueCaptureAddressInfo* pInfo);
-    VkResult CreatePrivateDataSlot(const VkPrivateDataSlotCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
-                                   VkPrivateDataSlot* pPrivateDataSlot);
-    void DestroyPrivateDataSlot(VkPrivateDataSlot privateDataSlot, const VkAllocationCallbacks* pAllocator);
-    VkResult SetPrivateData(VkObjectType objectType, uint64_t objectHandle, VkPrivateDataSlot privateDataSlot, uint64_t data);
-    void GetPrivateData(VkObjectType objectType, uint64_t objectHandle, VkPrivateDataSlot privateDataSlot, uint64_t* pData);
-    void GetDeviceBufferMemoryRequirements(const VkDeviceBufferMemoryRequirements* pInfo,
-                                           VkMemoryRequirements2* pMemoryRequirements);
-    void GetDeviceImageMemoryRequirements(const VkDeviceImageMemoryRequirements* pInfo, VkMemoryRequirements2* pMemoryRequirements);
-    void GetDeviceImageSparseMemoryRequirements(const VkDeviceImageMemoryRequirements* pInfo,
-                                                uint32_t* pSparseMemoryRequirementCount,
-                                                VkSparseImageMemoryRequirements2* pSparseMemoryRequirements);
-    VkResult MapMemory2(const VkMemoryMapInfo* pMemoryMapInfo, void** ppData);
-    VkResult UnmapMemory2(const VkMemoryUnmapInfo* pMemoryUnmapInfo);
-    void GetRenderingAreaGranularity(const VkRenderingAreaInfo* pRenderingAreaInfo, VkExtent2D* pGranularity);
-    void GetDeviceImageSubresourceLayout(const VkDeviceImageSubresourceInfo* pInfo, VkSubresourceLayout2* pLayout);
-    void GetImageSubresourceLayout2(VkImage image, const VkImageSubresource2* pSubresource, VkSubresourceLayout2* pLayout);
-    VkResult CopyMemoryToImage(const VkCopyMemoryToImageInfo* pCopyMemoryToImageInfo);
-    VkResult CopyImageToMemory(const VkCopyImageToMemoryInfo* pCopyImageToMemoryInfo);
-    VkResult CopyImageToImage(const VkCopyImageToImageInfo* pCopyImageToImageInfo);
-    VkResult TransitionImageLayout(uint32_t transitionCount, const VkHostImageLayoutTransitionInfo* pTransitions);
     VkResult CreateSwapchainKHR(const VkSwapchainCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                                 VkSwapchainKHR* pSwapchain);
     void DestroySwapchainKHR(VkSwapchainKHR swapchain, const VkAllocationCallbacks* pAllocator);
@@ -187,6 +167,9 @@ class Device {
                                              const VkVideoSessionParametersUpdateInfoKHR* pUpdateInfo);
     void DestroyVideoSessionParametersKHR(VkVideoSessionParametersKHR videoSessionParameters,
                                           const VkAllocationCallbacks* pAllocator);
+    void GetDeviceGroupPeerMemoryFeaturesKHR(uint32_t heapIndex, uint32_t localDeviceIndex, uint32_t remoteDeviceIndex,
+                                             VkPeerMemoryFeatureFlags* pPeerMemoryFeatures);
+    void TrimCommandPoolKHR(VkCommandPool commandPool, VkCommandPoolTrimFlags flags);
 #ifdef VK_USE_PLATFORM_WIN32_KHR
     VkResult GetMemoryWin32HandleKHR(const VkMemoryGetWin32HandleInfoKHR* pGetWin32HandleInfo, HANDLE* pHandle);
     VkResult GetMemoryWin32HandlePropertiesKHR(VkExternalMemoryHandleTypeFlagBits handleType, HANDLE handle,
@@ -201,6 +184,15 @@ class Device {
 #endif  // VK_USE_PLATFORM_WIN32_KHR
     VkResult ImportSemaphoreFdKHR(const VkImportSemaphoreFdInfoKHR* pImportSemaphoreFdInfo);
     VkResult GetSemaphoreFdKHR(const VkSemaphoreGetFdInfoKHR* pGetFdInfo, int* pFd);
+    VkResult CreateDescriptorUpdateTemplateKHR(const VkDescriptorUpdateTemplateCreateInfo* pCreateInfo,
+                                               const VkAllocationCallbacks* pAllocator,
+                                               VkDescriptorUpdateTemplate* pDescriptorUpdateTemplate);
+    void DestroyDescriptorUpdateTemplateKHR(VkDescriptorUpdateTemplate descriptorUpdateTemplate,
+                                            const VkAllocationCallbacks* pAllocator);
+    void UpdateDescriptorSetWithTemplateKHR(VkDescriptorSet descriptorSet, VkDescriptorUpdateTemplate descriptorUpdateTemplate,
+                                            const void* pData);
+    VkResult CreateRenderPass2KHR(const VkRenderPassCreateInfo2* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                                  VkRenderPass* pRenderPass);
     VkResult GetSwapchainStatusKHR(VkSwapchainKHR swapchain);
 #ifdef VK_USE_PLATFORM_WIN32_KHR
     VkResult ImportFenceWin32HandleKHR(const VkImportFenceWin32HandleInfoKHR* pImportFenceWin32HandleInfo);
@@ -210,7 +202,25 @@ class Device {
     VkResult GetFenceFdKHR(const VkFenceGetFdInfoKHR* pGetFdInfo, int* pFd);
     VkResult AcquireProfilingLockKHR(const VkAcquireProfilingLockInfoKHR* pInfo);
     void ReleaseProfilingLockKHR();
+    void GetImageMemoryRequirements2KHR(const VkImageMemoryRequirementsInfo2* pInfo, VkMemoryRequirements2* pMemoryRequirements);
+    void GetBufferMemoryRequirements2KHR(const VkBufferMemoryRequirementsInfo2* pInfo, VkMemoryRequirements2* pMemoryRequirements);
+    void GetImageSparseMemoryRequirements2KHR(const VkImageSparseMemoryRequirementsInfo2* pInfo,
+                                              uint32_t* pSparseMemoryRequirementCount,
+                                              VkSparseImageMemoryRequirements2* pSparseMemoryRequirements);
+    VkResult CreateSamplerYcbcrConversionKHR(const VkSamplerYcbcrConversionCreateInfo* pCreateInfo,
+                                             const VkAllocationCallbacks* pAllocator, VkSamplerYcbcrConversion* pYcbcrConversion);
+    void DestroySamplerYcbcrConversionKHR(VkSamplerYcbcrConversion ycbcrConversion, const VkAllocationCallbacks* pAllocator);
+    VkResult BindBufferMemory2KHR(uint32_t bindInfoCount, const VkBindBufferMemoryInfo* pBindInfos);
+    VkResult BindImageMemory2KHR(uint32_t bindInfoCount, const VkBindImageMemoryInfo* pBindInfos);
+    void GetDescriptorSetLayoutSupportKHR(const VkDescriptorSetLayoutCreateInfo* pCreateInfo,
+                                          VkDescriptorSetLayoutSupport* pSupport);
+    VkResult GetSemaphoreCounterValueKHR(VkSemaphore semaphore, uint64_t* pValue);
+    VkResult WaitSemaphoresKHR(const VkSemaphoreWaitInfo* pWaitInfo, uint64_t timeout);
+    VkResult SignalSemaphoreKHR(const VkSemaphoreSignalInfo* pSignalInfo);
     VkResult WaitForPresentKHR(VkSwapchainKHR swapchain, uint64_t presentId, uint64_t timeout);
+    VkDeviceAddress GetBufferDeviceAddressKHR(const VkBufferDeviceAddressInfo* pInfo);
+    uint64_t GetBufferOpaqueCaptureAddressKHR(const VkBufferDeviceAddressInfo* pInfo);
+    uint64_t GetDeviceMemoryOpaqueCaptureAddressKHR(const VkDeviceMemoryOpaqueCaptureAddressInfo* pInfo);
     VkResult CreateDeferredOperationKHR(const VkAllocationCallbacks* pAllocator, VkDeferredOperationKHR* pDeferredOperation);
     void DestroyDeferredOperationKHR(VkDeferredOperationKHR operation, const VkAllocationCallbacks* pAllocator);
     uint32_t GetDeferredOperationMaxConcurrencyKHR(VkDeferredOperationKHR operation);
@@ -223,9 +233,21 @@ class Device {
     VkResult GetPipelineExecutableInternalRepresentationsKHR(
         const VkPipelineExecutableInfoKHR* pExecutableInfo, uint32_t* pInternalRepresentationCount,
         VkPipelineExecutableInternalRepresentationKHR* pInternalRepresentations);
+    VkResult MapMemory2KHR(const VkMemoryMapInfo* pMemoryMapInfo, void** ppData);
+    VkResult UnmapMemory2KHR(const VkMemoryUnmapInfo* pMemoryUnmapInfo);
     VkResult GetEncodedVideoSessionParametersKHR(const VkVideoEncodeSessionParametersGetInfoKHR* pVideoSessionParametersInfo,
                                                  VkVideoEncodeSessionParametersFeedbackInfoKHR* pFeedbackInfo, size_t* pDataSize,
                                                  void* pData);
+    void GetDeviceBufferMemoryRequirementsKHR(const VkDeviceBufferMemoryRequirements* pInfo,
+                                              VkMemoryRequirements2* pMemoryRequirements);
+    void GetDeviceImageMemoryRequirementsKHR(const VkDeviceImageMemoryRequirements* pInfo,
+                                             VkMemoryRequirements2* pMemoryRequirements);
+    void GetDeviceImageSparseMemoryRequirementsKHR(const VkDeviceImageMemoryRequirements* pInfo,
+                                                   uint32_t* pSparseMemoryRequirementCount,
+                                                   VkSparseImageMemoryRequirements2* pSparseMemoryRequirements);
+    void GetRenderingAreaGranularityKHR(const VkRenderingAreaInfo* pRenderingAreaInfo, VkExtent2D* pGranularity);
+    void GetDeviceImageSubresourceLayoutKHR(const VkDeviceImageSubresourceInfo* pInfo, VkSubresourceLayout2* pLayout);
+    void GetImageSubresourceLayout2KHR(VkImage image, const VkImageSubresource2* pSubresource, VkSubresourceLayout2* pLayout);
     VkResult CreatePipelineBinariesKHR(const VkPipelineBinaryCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                                        VkPipelineBinaryHandlesInfoKHR* pBinaries);
     void DestroyPipelineBinaryKHR(VkPipelineBinaryKHR pipelineBinary, const VkAllocationCallbacks* pAllocator);
@@ -298,10 +320,14 @@ class Device {
                                          const VkAllocationCallbacks* pAllocator, VkPipeline* pPipelines);
     VkResult GetRayTracingShaderGroupHandlesKHR(VkPipeline pipeline, uint32_t firstGroup, uint32_t groupCount, size_t dataSize,
                                                 void* pData);
+    VkResult GetRayTracingShaderGroupHandlesNV(VkPipeline pipeline, uint32_t firstGroup, uint32_t groupCount, size_t dataSize,
+                                               void* pData);
     VkResult GetAccelerationStructureHandleNV(VkAccelerationStructureNV accelerationStructure, size_t dataSize, void* pData);
     VkResult CompileDeferredNV(VkPipeline pipeline, uint32_t shader);
     VkResult GetMemoryHostPointerPropertiesEXT(VkExternalMemoryHandleTypeFlagBits handleType, const void* pHostPointer,
                                                VkMemoryHostPointerPropertiesEXT* pMemoryHostPointerProperties);
+    VkResult GetCalibratedTimestampsEXT(uint32_t timestampCount, const VkCalibratedTimestampInfoKHR* pTimestampInfos,
+                                        uint64_t* pTimestamps, uint64_t* pMaxDeviation);
     VkResult InitializePerformanceApiINTEL(const VkInitializePerformanceApiInfoINTEL* pInitializeInfo);
     void UninitializePerformanceApiINTEL();
     VkResult AcquirePerformanceConfigurationINTEL(const VkPerformanceConfigurationAcquireInfoINTEL* pAcquireInfo,
@@ -309,12 +335,19 @@ class Device {
     VkResult ReleasePerformanceConfigurationINTEL(VkPerformanceConfigurationINTEL configuration);
     VkResult GetPerformanceParameterINTEL(VkPerformanceParameterTypeINTEL parameter, VkPerformanceValueINTEL* pValue);
     void SetLocalDimmingAMD(VkSwapchainKHR swapChain, VkBool32 localDimmingEnable);
+    VkDeviceAddress GetBufferDeviceAddressEXT(const VkBufferDeviceAddressInfo* pInfo);
 #ifdef VK_USE_PLATFORM_WIN32_KHR
     VkResult AcquireFullScreenExclusiveModeEXT(VkSwapchainKHR swapchain);
     VkResult ReleaseFullScreenExclusiveModeEXT(VkSwapchainKHR swapchain);
     VkResult GetDeviceGroupSurfacePresentModes2EXT(const VkPhysicalDeviceSurfaceInfo2KHR* pSurfaceInfo,
                                                    VkDeviceGroupPresentModeFlagsKHR* pModes);
 #endif  // VK_USE_PLATFORM_WIN32_KHR
+    void ResetQueryPoolEXT(VkQueryPool queryPool, uint32_t firstQuery, uint32_t queryCount);
+    VkResult CopyMemoryToImageEXT(const VkCopyMemoryToImageInfo* pCopyMemoryToImageInfo);
+    VkResult CopyImageToMemoryEXT(const VkCopyImageToMemoryInfo* pCopyImageToMemoryInfo);
+    VkResult CopyImageToImageEXT(const VkCopyImageToImageInfo* pCopyImageToImageInfo);
+    VkResult TransitionImageLayoutEXT(uint32_t transitionCount, const VkHostImageLayoutTransitionInfo* pTransitions);
+    void GetImageSubresourceLayout2EXT(VkImage image, const VkImageSubresource2* pSubresource, VkSubresourceLayout2* pLayout);
     VkResult ReleaseSwapchainImagesEXT(const VkReleaseSwapchainImagesInfoEXT* pReleaseInfo);
     void GetGeneratedCommandsMemoryRequirementsNV(const VkGeneratedCommandsMemoryRequirementsInfoNV* pInfo,
                                                   VkMemoryRequirements2* pMemoryRequirements);
@@ -323,6 +356,11 @@ class Device {
                                             VkIndirectCommandsLayoutNV* pIndirectCommandsLayout);
     void DestroyIndirectCommandsLayoutNV(VkIndirectCommandsLayoutNV indirectCommandsLayout,
                                          const VkAllocationCallbacks* pAllocator);
+    VkResult CreatePrivateDataSlotEXT(const VkPrivateDataSlotCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                                      VkPrivateDataSlot* pPrivateDataSlot);
+    void DestroyPrivateDataSlotEXT(VkPrivateDataSlot privateDataSlot, const VkAllocationCallbacks* pAllocator);
+    VkResult SetPrivateDataEXT(VkObjectType objectType, uint64_t objectHandle, VkPrivateDataSlot privateDataSlot, uint64_t data);
+    void GetPrivateDataEXT(VkObjectType objectType, uint64_t objectHandle, VkPrivateDataSlot privateDataSlot, uint64_t* pData);
 #ifdef VK_ENABLE_BETA_EXTENSIONS
     VkResult CreateCudaModuleNV(const VkCudaModuleCreateInfoNV* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                                 VkCudaModuleNV* pModule);

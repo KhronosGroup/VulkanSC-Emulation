@@ -52,7 +52,6 @@ class PhysicalDevice {
                                                   VkExternalFenceProperties* pExternalFenceProperties);
     void GetPhysicalDeviceExternalSemaphoreProperties(const VkPhysicalDeviceExternalSemaphoreInfo* pExternalSemaphoreInfo,
                                                       VkExternalSemaphoreProperties* pExternalSemaphoreProperties);
-    VkResult GetPhysicalDeviceToolProperties(uint32_t* pToolCount, VkPhysicalDeviceToolProperties* pToolProperties);
     VkResult GetPhysicalDeviceSurfaceSupportKHR(uint32_t queueFamilyIndex, VkSurfaceKHR surface, VkBool32* pSupported);
     VkResult GetPhysicalDeviceSurfaceCapabilitiesKHR(VkSurfaceKHR surface, VkSurfaceCapabilitiesKHR* pSurfaceCapabilities);
     VkResult GetPhysicalDeviceSurfaceFormatsKHR(VkSurfaceKHR surface, uint32_t* pSurfaceFormatCount,
@@ -86,6 +85,22 @@ class PhysicalDevice {
     VkResult GetPhysicalDeviceVideoFormatPropertiesKHR(const VkPhysicalDeviceVideoFormatInfoKHR* pVideoFormatInfo,
                                                        uint32_t* pVideoFormatPropertyCount,
                                                        VkVideoFormatPropertiesKHR* pVideoFormatProperties);
+    void GetPhysicalDeviceFeatures2KHR(VkPhysicalDeviceFeatures2* pFeatures);
+    void GetPhysicalDeviceProperties2KHR(VkPhysicalDeviceProperties2* pProperties);
+    void GetPhysicalDeviceFormatProperties2KHR(VkFormat format, VkFormatProperties2* pFormatProperties);
+    VkResult GetPhysicalDeviceImageFormatProperties2KHR(const VkPhysicalDeviceImageFormatInfo2* pImageFormatInfo,
+                                                        VkImageFormatProperties2* pImageFormatProperties);
+    void GetPhysicalDeviceQueueFamilyProperties2KHR(uint32_t* pQueueFamilyPropertyCount,
+                                                    VkQueueFamilyProperties2* pQueueFamilyProperties);
+    void GetPhysicalDeviceMemoryProperties2KHR(VkPhysicalDeviceMemoryProperties2* pMemoryProperties);
+    void GetPhysicalDeviceSparseImageFormatProperties2KHR(const VkPhysicalDeviceSparseImageFormatInfo2* pFormatInfo,
+                                                          uint32_t* pPropertyCount, VkSparseImageFormatProperties2* pProperties);
+    void GetPhysicalDeviceExternalBufferPropertiesKHR(const VkPhysicalDeviceExternalBufferInfo* pExternalBufferInfo,
+                                                      VkExternalBufferProperties* pExternalBufferProperties);
+    void GetPhysicalDeviceExternalSemaphorePropertiesKHR(const VkPhysicalDeviceExternalSemaphoreInfo* pExternalSemaphoreInfo,
+                                                         VkExternalSemaphoreProperties* pExternalSemaphoreProperties);
+    void GetPhysicalDeviceExternalFencePropertiesKHR(const VkPhysicalDeviceExternalFenceInfo* pExternalFenceInfo,
+                                                     VkExternalFenceProperties* pExternalFenceProperties);
     VkResult EnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR(
         uint32_t queueFamilyIndex, uint32_t* pCounterCount, VkPerformanceCounterKHR* pCounters,
         VkPerformanceCounterDescriptionKHR* pCounterDescriptions);
@@ -120,6 +135,8 @@ class PhysicalDevice {
     VkResult GetPhysicalDeviceSurfaceCapabilities2EXT(VkSurfaceKHR surface, VkSurfaceCapabilities2EXT* pSurfaceCapabilities);
     void GetPhysicalDeviceMultisamplePropertiesEXT(VkSampleCountFlagBits samples,
                                                    VkMultisamplePropertiesEXT* pMultisampleProperties);
+    VkResult GetPhysicalDeviceCalibrateableTimeDomainsEXT(uint32_t* pTimeDomainCount, VkTimeDomainKHR* pTimeDomains);
+    VkResult GetPhysicalDeviceToolPropertiesEXT(uint32_t* pToolCount, VkPhysicalDeviceToolProperties* pToolProperties);
     VkResult GetPhysicalDeviceCooperativeMatrixPropertiesNV(uint32_t* pPropertyCount, VkCooperativeMatrixPropertiesNV* pProperties);
     VkResult GetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV(uint32_t* pCombinationCount,
                                                                              VkFramebufferMixedSamplesCombinationNV* pCombinations);

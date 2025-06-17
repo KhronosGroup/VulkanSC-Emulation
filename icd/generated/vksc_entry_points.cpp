@@ -807,256 +807,6 @@ VKAPI_ATTR uint64_t VKAPI_CALL vkGetDeviceMemoryOpaqueCaptureAddress(VkDevice de
     return vksc::Device::FromHandle(device)->GetDeviceMemoryOpaqueCaptureAddress(pInfo);
 }
 
-VKAPI_ATTR VkResult VKAPI_CALL vkGetPhysicalDeviceToolProperties(VkPhysicalDevice physicalDevice, uint32_t* pToolCount,
-                                                                 VkPhysicalDeviceToolProperties* pToolProperties) {
-    return vksc::PhysicalDevice::FromHandle(physicalDevice)->GetPhysicalDeviceToolProperties(pToolCount, pToolProperties);
-}
-
-VKAPI_ATTR VkResult VKAPI_CALL vkCreatePrivateDataSlot(VkDevice device, const VkPrivateDataSlotCreateInfo* pCreateInfo,
-                                                       const VkAllocationCallbacks* pAllocator,
-                                                       VkPrivateDataSlot* pPrivateDataSlot) {
-    return vksc::Device::FromHandle(device)->CreatePrivateDataSlot(pCreateInfo, pAllocator, pPrivateDataSlot);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkDestroyPrivateDataSlot(VkDevice device, VkPrivateDataSlot privateDataSlot,
-                                                    const VkAllocationCallbacks* pAllocator) {
-    return vksc::Device::FromHandle(device)->DestroyPrivateDataSlot(privateDataSlot, pAllocator);
-}
-
-VKAPI_ATTR VkResult VKAPI_CALL vkSetPrivateData(VkDevice device, VkObjectType objectType, uint64_t objectHandle,
-                                                VkPrivateDataSlot privateDataSlot, uint64_t data) {
-    return vksc::Device::FromHandle(device)->SetPrivateData(objectType, objectHandle, privateDataSlot, data);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkGetPrivateData(VkDevice device, VkObjectType objectType, uint64_t objectHandle,
-                                            VkPrivateDataSlot privateDataSlot, uint64_t* pData) {
-    return vksc::Device::FromHandle(device)->GetPrivateData(objectType, objectHandle, privateDataSlot, pData);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdSetEvent2(VkCommandBuffer commandBuffer, VkEvent event, const VkDependencyInfo* pDependencyInfo) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetEvent2(event, pDependencyInfo);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdResetEvent2(VkCommandBuffer commandBuffer, VkEvent event, VkPipelineStageFlags2 stageMask) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdResetEvent2(event, stageMask);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdWaitEvents2(VkCommandBuffer commandBuffer, uint32_t eventCount, const VkEvent* pEvents,
-                                            const VkDependencyInfo* pDependencyInfos) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdWaitEvents2(eventCount, pEvents, pDependencyInfos);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdPipelineBarrier2(VkCommandBuffer commandBuffer, const VkDependencyInfo* pDependencyInfo) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdPipelineBarrier2(pDependencyInfo);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdWriteTimestamp2(VkCommandBuffer commandBuffer, VkPipelineStageFlags2 stage, VkQueryPool queryPool,
-                                                uint32_t query) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdWriteTimestamp2(stage, queryPool, query);
-}
-
-VKAPI_ATTR VkResult VKAPI_CALL vkQueueSubmit2(VkQueue queue, uint32_t submitCount, const VkSubmitInfo2* pSubmits, VkFence fence) {
-    return vksc::Queue::FromHandle(queue)->QueueSubmit2(submitCount, pSubmits, fence);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdCopyBuffer2(VkCommandBuffer commandBuffer, const VkCopyBufferInfo2* pCopyBufferInfo) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdCopyBuffer2(pCopyBufferInfo);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdCopyImage2(VkCommandBuffer commandBuffer, const VkCopyImageInfo2* pCopyImageInfo) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdCopyImage2(pCopyImageInfo);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdCopyBufferToImage2(VkCommandBuffer commandBuffer,
-                                                   const VkCopyBufferToImageInfo2* pCopyBufferToImageInfo) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdCopyBufferToImage2(pCopyBufferToImageInfo);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdCopyImageToBuffer2(VkCommandBuffer commandBuffer,
-                                                   const VkCopyImageToBufferInfo2* pCopyImageToBufferInfo) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdCopyImageToBuffer2(pCopyImageToBufferInfo);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdBlitImage2(VkCommandBuffer commandBuffer, const VkBlitImageInfo2* pBlitImageInfo) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdBlitImage2(pBlitImageInfo);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdResolveImage2(VkCommandBuffer commandBuffer, const VkResolveImageInfo2* pResolveImageInfo) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdResolveImage2(pResolveImageInfo);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdBeginRendering(VkCommandBuffer commandBuffer, const VkRenderingInfo* pRenderingInfo) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdBeginRendering(pRenderingInfo);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdEndRendering(VkCommandBuffer commandBuffer) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdEndRendering();
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdSetCullMode(VkCommandBuffer commandBuffer, VkCullModeFlags cullMode) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetCullMode(cullMode);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdSetFrontFace(VkCommandBuffer commandBuffer, VkFrontFace frontFace) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetFrontFace(frontFace);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdSetPrimitiveTopology(VkCommandBuffer commandBuffer, VkPrimitiveTopology primitiveTopology) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetPrimitiveTopology(primitiveTopology);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdSetViewportWithCount(VkCommandBuffer commandBuffer, uint32_t viewportCount,
-                                                     const VkViewport* pViewports) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetViewportWithCount(viewportCount, pViewports);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdSetScissorWithCount(VkCommandBuffer commandBuffer, uint32_t scissorCount,
-                                                    const VkRect2D* pScissors) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetScissorWithCount(scissorCount, pScissors);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdBindVertexBuffers2(VkCommandBuffer commandBuffer, uint32_t firstBinding, uint32_t bindingCount,
-                                                   const VkBuffer* pBuffers, const VkDeviceSize* pOffsets,
-                                                   const VkDeviceSize* pSizes, const VkDeviceSize* pStrides) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)
-        ->CmdBindVertexBuffers2(firstBinding, bindingCount, pBuffers, pOffsets, pSizes, pStrides);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdSetDepthTestEnable(VkCommandBuffer commandBuffer, VkBool32 depthTestEnable) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetDepthTestEnable(depthTestEnable);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdSetDepthWriteEnable(VkCommandBuffer commandBuffer, VkBool32 depthWriteEnable) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetDepthWriteEnable(depthWriteEnable);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdSetDepthCompareOp(VkCommandBuffer commandBuffer, VkCompareOp depthCompareOp) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetDepthCompareOp(depthCompareOp);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdSetDepthBoundsTestEnable(VkCommandBuffer commandBuffer, VkBool32 depthBoundsTestEnable) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetDepthBoundsTestEnable(depthBoundsTestEnable);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdSetStencilTestEnable(VkCommandBuffer commandBuffer, VkBool32 stencilTestEnable) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetStencilTestEnable(stencilTestEnable);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdSetStencilOp(VkCommandBuffer commandBuffer, VkStencilFaceFlags faceMask, VkStencilOp failOp,
-                                             VkStencilOp passOp, VkStencilOp depthFailOp, VkCompareOp compareOp) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetStencilOp(faceMask, failOp, passOp, depthFailOp, compareOp);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdSetRasterizerDiscardEnable(VkCommandBuffer commandBuffer, VkBool32 rasterizerDiscardEnable) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetRasterizerDiscardEnable(rasterizerDiscardEnable);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdSetDepthBiasEnable(VkCommandBuffer commandBuffer, VkBool32 depthBiasEnable) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetDepthBiasEnable(depthBiasEnable);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdSetPrimitiveRestartEnable(VkCommandBuffer commandBuffer, VkBool32 primitiveRestartEnable) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetPrimitiveRestartEnable(primitiveRestartEnable);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkGetDeviceBufferMemoryRequirements(VkDevice device, const VkDeviceBufferMemoryRequirements* pInfo,
-                                                               VkMemoryRequirements2* pMemoryRequirements) {
-    return vksc::Device::FromHandle(device)->GetDeviceBufferMemoryRequirements(pInfo, pMemoryRequirements);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkGetDeviceImageMemoryRequirements(VkDevice device, const VkDeviceImageMemoryRequirements* pInfo,
-                                                              VkMemoryRequirements2* pMemoryRequirements) {
-    return vksc::Device::FromHandle(device)->GetDeviceImageMemoryRequirements(pInfo, pMemoryRequirements);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkGetDeviceImageSparseMemoryRequirements(VkDevice device, const VkDeviceImageMemoryRequirements* pInfo,
-                                                                    uint32_t* pSparseMemoryRequirementCount,
-                                                                    VkSparseImageMemoryRequirements2* pSparseMemoryRequirements) {
-    return vksc::Device::FromHandle(device)->GetDeviceImageSparseMemoryRequirements(pInfo, pSparseMemoryRequirementCount,
-                                                                                    pSparseMemoryRequirements);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdSetLineStipple(VkCommandBuffer commandBuffer, uint32_t lineStippleFactor,
-                                               uint16_t lineStipplePattern) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetLineStipple(lineStippleFactor, lineStipplePattern);
-}
-
-VKAPI_ATTR VkResult VKAPI_CALL vkMapMemory2(VkDevice device, const VkMemoryMapInfo* pMemoryMapInfo, void** ppData) {
-    return vksc::Device::FromHandle(device)->MapMemory2(pMemoryMapInfo, ppData);
-}
-
-VKAPI_ATTR VkResult VKAPI_CALL vkUnmapMemory2(VkDevice device, const VkMemoryUnmapInfo* pMemoryUnmapInfo) {
-    return vksc::Device::FromHandle(device)->UnmapMemory2(pMemoryUnmapInfo);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdBindIndexBuffer2(VkCommandBuffer commandBuffer, VkBuffer buffer, VkDeviceSize offset,
-                                                 VkDeviceSize size, VkIndexType indexType) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdBindIndexBuffer2(buffer, offset, size, indexType);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkGetRenderingAreaGranularity(VkDevice device, const VkRenderingAreaInfo* pRenderingAreaInfo,
-                                                         VkExtent2D* pGranularity) {
-    return vksc::Device::FromHandle(device)->GetRenderingAreaGranularity(pRenderingAreaInfo, pGranularity);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkGetDeviceImageSubresourceLayout(VkDevice device, const VkDeviceImageSubresourceInfo* pInfo,
-                                                             VkSubresourceLayout2* pLayout) {
-    return vksc::Device::FromHandle(device)->GetDeviceImageSubresourceLayout(pInfo, pLayout);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkGetImageSubresourceLayout2(VkDevice device, VkImage image, const VkImageSubresource2* pSubresource,
-                                                        VkSubresourceLayout2* pLayout) {
-    return vksc::Device::FromHandle(device)->GetImageSubresourceLayout2(image, pSubresource, pLayout);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdPushDescriptorSet(VkCommandBuffer commandBuffer, VkPipelineBindPoint pipelineBindPoint,
-                                                  VkPipelineLayout layout, uint32_t set, uint32_t descriptorWriteCount,
-                                                  const VkWriteDescriptorSet* pDescriptorWrites) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)
-        ->CmdPushDescriptorSet(pipelineBindPoint, layout, set, descriptorWriteCount, pDescriptorWrites);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdSetRenderingAttachmentLocations(VkCommandBuffer commandBuffer,
-                                                                const VkRenderingAttachmentLocationInfo* pLocationInfo) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetRenderingAttachmentLocations(pLocationInfo);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdSetRenderingInputAttachmentIndices(
-    VkCommandBuffer commandBuffer, const VkRenderingInputAttachmentIndexInfo* pInputAttachmentIndexInfo) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetRenderingInputAttachmentIndices(pInputAttachmentIndexInfo);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdBindDescriptorSets2(VkCommandBuffer commandBuffer,
-                                                    const VkBindDescriptorSetsInfo* pBindDescriptorSetsInfo) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdBindDescriptorSets2(pBindDescriptorSetsInfo);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdPushConstants2(VkCommandBuffer commandBuffer, const VkPushConstantsInfo* pPushConstantsInfo) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdPushConstants2(pPushConstantsInfo);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdPushDescriptorSet2(VkCommandBuffer commandBuffer,
-                                                   const VkPushDescriptorSetInfo* pPushDescriptorSetInfo) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdPushDescriptorSet2(pPushDescriptorSetInfo);
-}
-
-VKAPI_ATTR VkResult VKAPI_CALL vkCopyMemoryToImage(VkDevice device, const VkCopyMemoryToImageInfo* pCopyMemoryToImageInfo) {
-    return vksc::Device::FromHandle(device)->CopyMemoryToImage(pCopyMemoryToImageInfo);
-}
-
-VKAPI_ATTR VkResult VKAPI_CALL vkCopyImageToMemory(VkDevice device, const VkCopyImageToMemoryInfo* pCopyImageToMemoryInfo) {
-    return vksc::Device::FromHandle(device)->CopyImageToMemory(pCopyImageToMemoryInfo);
-}
-
-VKAPI_ATTR VkResult VKAPI_CALL vkCopyImageToImage(VkDevice device, const VkCopyImageToImageInfo* pCopyImageToImageInfo) {
-    return vksc::Device::FromHandle(device)->CopyImageToImage(pCopyImageToImageInfo);
-}
-
-VKAPI_ATTR VkResult VKAPI_CALL vkTransitionImageLayout(VkDevice device, uint32_t transitionCount,
-                                                       const VkHostImageLayoutTransitionInfo* pTransitions) {
-    return vksc::Device::FromHandle(device)->TransitionImageLayout(transitionCount, pTransitions);
-}
-
 VKAPI_ATTR void VKAPI_CALL vkGetCommandPoolMemoryConsumption(VkDevice device, VkCommandPool commandPool,
                                                              VkCommandBuffer commandBuffer,
                                                              VkCommandPoolMemoryConsumption* pConsumption) {
@@ -1295,61 +1045,61 @@ VKAPI_ATTR VkResult VKAPI_CALL vkGetPhysicalDeviceRefreshableObjectTypesKHR(VkPh
 
 VKAPI_ATTR void VKAPI_CALL vkCmdSetEvent2KHR(VkCommandBuffer commandBuffer, VkEvent event,
                                              const VkDependencyInfo* pDependencyInfo) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetEvent2(event, pDependencyInfo);
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetEvent2KHR(event, pDependencyInfo);
 }
 
 VKAPI_ATTR void VKAPI_CALL vkCmdResetEvent2KHR(VkCommandBuffer commandBuffer, VkEvent event, VkPipelineStageFlags2 stageMask) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdResetEvent2(event, stageMask);
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdResetEvent2KHR(event, stageMask);
 }
 
 VKAPI_ATTR void VKAPI_CALL vkCmdWaitEvents2KHR(VkCommandBuffer commandBuffer, uint32_t eventCount, const VkEvent* pEvents,
                                                const VkDependencyInfo* pDependencyInfos) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdWaitEvents2(eventCount, pEvents, pDependencyInfos);
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdWaitEvents2KHR(eventCount, pEvents, pDependencyInfos);
 }
 
 VKAPI_ATTR void VKAPI_CALL vkCmdPipelineBarrier2KHR(VkCommandBuffer commandBuffer, const VkDependencyInfo* pDependencyInfo) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdPipelineBarrier2(pDependencyInfo);
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdPipelineBarrier2KHR(pDependencyInfo);
 }
 
 VKAPI_ATTR void VKAPI_CALL vkCmdWriteTimestamp2KHR(VkCommandBuffer commandBuffer, VkPipelineStageFlags2 stage,
                                                    VkQueryPool queryPool, uint32_t query) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdWriteTimestamp2(stage, queryPool, query);
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdWriteTimestamp2KHR(stage, queryPool, query);
 }
 
 VKAPI_ATTR VkResult VKAPI_CALL vkQueueSubmit2KHR(VkQueue queue, uint32_t submitCount, const VkSubmitInfo2* pSubmits,
                                                  VkFence fence) {
-    return vksc::Queue::FromHandle(queue)->QueueSubmit2(submitCount, pSubmits, fence);
+    return vksc::Queue::FromHandle(queue)->QueueSubmit2KHR(submitCount, pSubmits, fence);
 }
 
 VKAPI_ATTR void VKAPI_CALL vkCmdCopyBuffer2KHR(VkCommandBuffer commandBuffer, const VkCopyBufferInfo2* pCopyBufferInfo) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdCopyBuffer2(pCopyBufferInfo);
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdCopyBuffer2KHR(pCopyBufferInfo);
 }
 
 VKAPI_ATTR void VKAPI_CALL vkCmdCopyImage2KHR(VkCommandBuffer commandBuffer, const VkCopyImageInfo2* pCopyImageInfo) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdCopyImage2(pCopyImageInfo);
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdCopyImage2KHR(pCopyImageInfo);
 }
 
 VKAPI_ATTR void VKAPI_CALL vkCmdCopyBufferToImage2KHR(VkCommandBuffer commandBuffer,
                                                       const VkCopyBufferToImageInfo2* pCopyBufferToImageInfo) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdCopyBufferToImage2(pCopyBufferToImageInfo);
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdCopyBufferToImage2KHR(pCopyBufferToImageInfo);
 }
 
 VKAPI_ATTR void VKAPI_CALL vkCmdCopyImageToBuffer2KHR(VkCommandBuffer commandBuffer,
                                                       const VkCopyImageToBufferInfo2* pCopyImageToBufferInfo) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdCopyImageToBuffer2(pCopyImageToBufferInfo);
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdCopyImageToBuffer2KHR(pCopyImageToBufferInfo);
 }
 
 VKAPI_ATTR void VKAPI_CALL vkCmdBlitImage2KHR(VkCommandBuffer commandBuffer, const VkBlitImageInfo2* pBlitImageInfo) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdBlitImage2(pBlitImageInfo);
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdBlitImage2KHR(pBlitImageInfo);
 }
 
 VKAPI_ATTR void VKAPI_CALL vkCmdResolveImage2KHR(VkCommandBuffer commandBuffer, const VkResolveImageInfo2* pResolveImageInfo) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdResolveImage2(pResolveImageInfo);
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdResolveImage2KHR(pResolveImageInfo);
 }
 
 VKAPI_ATTR void VKAPI_CALL vkCmdSetLineStippleKHR(VkCommandBuffer commandBuffer, uint32_t lineStippleFactor,
                                                   uint16_t lineStipplePattern) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetLineStipple(lineStippleFactor, lineStipplePattern);
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetLineStippleKHR(lineStippleFactor, lineStipplePattern);
 }
 
 VKAPI_ATTR VkResult VKAPI_CALL vkGetPhysicalDeviceCalibrateableTimeDomainsKHR(VkPhysicalDevice physicalDevice,
@@ -1498,61 +1248,61 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateHeadlessSurfaceEXT(VkInstance instance, c
 
 VKAPI_ATTR void VKAPI_CALL vkCmdSetLineStippleEXT(VkCommandBuffer commandBuffer, uint32_t lineStippleFactor,
                                                   uint16_t lineStipplePattern) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetLineStipple(lineStippleFactor, lineStipplePattern);
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetLineStippleEXT(lineStippleFactor, lineStipplePattern);
 }
 
 VKAPI_ATTR void VKAPI_CALL vkCmdSetCullModeEXT(VkCommandBuffer commandBuffer, VkCullModeFlags cullMode) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetCullMode(cullMode);
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetCullModeEXT(cullMode);
 }
 
 VKAPI_ATTR void VKAPI_CALL vkCmdSetFrontFaceEXT(VkCommandBuffer commandBuffer, VkFrontFace frontFace) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetFrontFace(frontFace);
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetFrontFaceEXT(frontFace);
 }
 
 VKAPI_ATTR void VKAPI_CALL vkCmdSetPrimitiveTopologyEXT(VkCommandBuffer commandBuffer, VkPrimitiveTopology primitiveTopology) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetPrimitiveTopology(primitiveTopology);
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetPrimitiveTopologyEXT(primitiveTopology);
 }
 
 VKAPI_ATTR void VKAPI_CALL vkCmdSetViewportWithCountEXT(VkCommandBuffer commandBuffer, uint32_t viewportCount,
                                                         const VkViewport* pViewports) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetViewportWithCount(viewportCount, pViewports);
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetViewportWithCountEXT(viewportCount, pViewports);
 }
 
 VKAPI_ATTR void VKAPI_CALL vkCmdSetScissorWithCountEXT(VkCommandBuffer commandBuffer, uint32_t scissorCount,
                                                        const VkRect2D* pScissors) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetScissorWithCount(scissorCount, pScissors);
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetScissorWithCountEXT(scissorCount, pScissors);
 }
 
 VKAPI_ATTR void VKAPI_CALL vkCmdBindVertexBuffers2EXT(VkCommandBuffer commandBuffer, uint32_t firstBinding, uint32_t bindingCount,
                                                       const VkBuffer* pBuffers, const VkDeviceSize* pOffsets,
                                                       const VkDeviceSize* pSizes, const VkDeviceSize* pStrides) {
     return vksc::CommandBuffer::FromHandle(commandBuffer)
-        ->CmdBindVertexBuffers2(firstBinding, bindingCount, pBuffers, pOffsets, pSizes, pStrides);
+        ->CmdBindVertexBuffers2EXT(firstBinding, bindingCount, pBuffers, pOffsets, pSizes, pStrides);
 }
 
 VKAPI_ATTR void VKAPI_CALL vkCmdSetDepthTestEnableEXT(VkCommandBuffer commandBuffer, VkBool32 depthTestEnable) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetDepthTestEnable(depthTestEnable);
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetDepthTestEnableEXT(depthTestEnable);
 }
 
 VKAPI_ATTR void VKAPI_CALL vkCmdSetDepthWriteEnableEXT(VkCommandBuffer commandBuffer, VkBool32 depthWriteEnable) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetDepthWriteEnable(depthWriteEnable);
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetDepthWriteEnableEXT(depthWriteEnable);
 }
 
 VKAPI_ATTR void VKAPI_CALL vkCmdSetDepthCompareOpEXT(VkCommandBuffer commandBuffer, VkCompareOp depthCompareOp) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetDepthCompareOp(depthCompareOp);
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetDepthCompareOpEXT(depthCompareOp);
 }
 
 VKAPI_ATTR void VKAPI_CALL vkCmdSetDepthBoundsTestEnableEXT(VkCommandBuffer commandBuffer, VkBool32 depthBoundsTestEnable) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetDepthBoundsTestEnable(depthBoundsTestEnable);
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetDepthBoundsTestEnableEXT(depthBoundsTestEnable);
 }
 
 VKAPI_ATTR void VKAPI_CALL vkCmdSetStencilTestEnableEXT(VkCommandBuffer commandBuffer, VkBool32 stencilTestEnable) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetStencilTestEnable(stencilTestEnable);
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetStencilTestEnableEXT(stencilTestEnable);
 }
 
 VKAPI_ATTR void VKAPI_CALL vkCmdSetStencilOpEXT(VkCommandBuffer commandBuffer, VkStencilFaceFlags faceMask, VkStencilOp failOp,
                                                 VkStencilOp passOp, VkStencilOp depthFailOp, VkCompareOp compareOp) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetStencilOp(faceMask, failOp, passOp, depthFailOp, compareOp);
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetStencilOpEXT(faceMask, failOp, passOp, depthFailOp, compareOp);
 }
 
 #ifdef VK_USE_PLATFORM_WIN32_KHR
@@ -1636,11 +1386,11 @@ VKAPI_ATTR void VKAPI_CALL vkCmdSetPatchControlPointsEXT(VkCommandBuffer command
 }
 
 VKAPI_ATTR void VKAPI_CALL vkCmdSetRasterizerDiscardEnableEXT(VkCommandBuffer commandBuffer, VkBool32 rasterizerDiscardEnable) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetRasterizerDiscardEnable(rasterizerDiscardEnable);
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetRasterizerDiscardEnableEXT(rasterizerDiscardEnable);
 }
 
 VKAPI_ATTR void VKAPI_CALL vkCmdSetDepthBiasEnableEXT(VkCommandBuffer commandBuffer, VkBool32 depthBiasEnable) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetDepthBiasEnable(depthBiasEnable);
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetDepthBiasEnableEXT(depthBiasEnable);
 }
 
 VKAPI_ATTR void VKAPI_CALL vkCmdSetLogicOpEXT(VkCommandBuffer commandBuffer, VkLogicOp logicOp) {
@@ -1648,7 +1398,7 @@ VKAPI_ATTR void VKAPI_CALL vkCmdSetLogicOpEXT(VkCommandBuffer commandBuffer, VkL
 }
 
 VKAPI_ATTR void VKAPI_CALL vkCmdSetPrimitiveRestartEnableEXT(VkCommandBuffer commandBuffer, VkBool32 primitiveRestartEnable) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetPrimitiveRestartEnable(primitiveRestartEnable);
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetPrimitiveRestartEnableEXT(primitiveRestartEnable);
 }
 
 VKAPI_ATTR void VKAPI_CALL vkCmdSetColorWriteEnableEXT(VkCommandBuffer commandBuffer, uint32_t attachmentCount,

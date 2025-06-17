@@ -108,46 +108,19 @@ class CommandBufferMemoryTracker : public vk::CommandBuffer {
     void CmdBeginRenderPass2(const VkRenderPassBeginInfo* pRenderPassBegin, const VkSubpassBeginInfo* pSubpassBeginInfo);
     void CmdNextSubpass2(const VkSubpassBeginInfo* pSubpassBeginInfo, const VkSubpassEndInfo* pSubpassEndInfo);
     void CmdEndRenderPass2(const VkSubpassEndInfo* pSubpassEndInfo);
-    void CmdSetEvent2(VkEvent event, const VkDependencyInfo* pDependencyInfo);
-    void CmdResetEvent2(VkEvent event, VkPipelineStageFlags2 stageMask);
-    void CmdWaitEvents2(uint32_t eventCount, const VkEvent* pEvents, const VkDependencyInfo* pDependencyInfos);
-    void CmdPipelineBarrier2(const VkDependencyInfo* pDependencyInfo);
-    void CmdWriteTimestamp2(VkPipelineStageFlags2 stage, VkQueryPool queryPool, uint32_t query);
-    void CmdCopyBuffer2(const VkCopyBufferInfo2* pCopyBufferInfo);
-    void CmdCopyImage2(const VkCopyImageInfo2* pCopyImageInfo);
-    void CmdCopyBufferToImage2(const VkCopyBufferToImageInfo2* pCopyBufferToImageInfo);
-    void CmdCopyImageToBuffer2(const VkCopyImageToBufferInfo2* pCopyImageToBufferInfo);
-    void CmdBlitImage2(const VkBlitImageInfo2* pBlitImageInfo);
-    void CmdResolveImage2(const VkResolveImageInfo2* pResolveImageInfo);
-    void CmdBeginRendering(const VkRenderingInfo* pRenderingInfo);
-    void CmdEndRendering();
-    void CmdSetCullMode(VkCullModeFlags cullMode);
-    void CmdSetFrontFace(VkFrontFace frontFace);
-    void CmdSetPrimitiveTopology(VkPrimitiveTopology primitiveTopology);
-    void CmdSetViewportWithCount(uint32_t viewportCount, const VkViewport* pViewports);
-    void CmdSetScissorWithCount(uint32_t scissorCount, const VkRect2D* pScissors);
-    void CmdBindVertexBuffers2(uint32_t firstBinding, uint32_t bindingCount, const VkBuffer* pBuffers, const VkDeviceSize* pOffsets,
-                               const VkDeviceSize* pSizes, const VkDeviceSize* pStrides);
-    void CmdSetDepthTestEnable(VkBool32 depthTestEnable);
-    void CmdSetDepthWriteEnable(VkBool32 depthWriteEnable);
-    void CmdSetDepthCompareOp(VkCompareOp depthCompareOp);
-    void CmdSetDepthBoundsTestEnable(VkBool32 depthBoundsTestEnable);
-    void CmdSetStencilTestEnable(VkBool32 stencilTestEnable);
-    void CmdSetStencilOp(VkStencilFaceFlags faceMask, VkStencilOp failOp, VkStencilOp passOp, VkStencilOp depthFailOp,
-                         VkCompareOp compareOp);
-    void CmdSetRasterizerDiscardEnable(VkBool32 rasterizerDiscardEnable);
-    void CmdSetDepthBiasEnable(VkBool32 depthBiasEnable);
-    void CmdSetPrimitiveRestartEnable(VkBool32 primitiveRestartEnable);
-    void CmdSetLineStipple(uint32_t lineStippleFactor, uint16_t lineStipplePattern);
-    void CmdBindIndexBuffer2(VkBuffer buffer, VkDeviceSize offset, VkDeviceSize size, VkIndexType indexType);
-    void CmdPushDescriptorSet(VkPipelineBindPoint pipelineBindPoint, VkPipelineLayout layout, uint32_t set,
-                              uint32_t descriptorWriteCount, const VkWriteDescriptorSet* pDescriptorWrites);
-    void CmdSetRenderingAttachmentLocations(const VkRenderingAttachmentLocationInfo* pLocationInfo);
-    void CmdSetRenderingInputAttachmentIndices(const VkRenderingInputAttachmentIndexInfo* pInputAttachmentIndexInfo);
-    void CmdBindDescriptorSets2(const VkBindDescriptorSetsInfo* pBindDescriptorSetsInfo);
-    void CmdPushConstants2(const VkPushConstantsInfo* pPushConstantsInfo);
-    void CmdPushDescriptorSet2(const VkPushDescriptorSetInfo* pPushDescriptorSetInfo);
     void CmdSetFragmentShadingRateKHR(const VkExtent2D* pFragmentSize, const VkFragmentShadingRateCombinerOpKHR combinerOps[2]);
+    void CmdSetEvent2KHR(VkEvent event, const VkDependencyInfo* pDependencyInfo);
+    void CmdResetEvent2KHR(VkEvent event, VkPipelineStageFlags2 stageMask);
+    void CmdWaitEvents2KHR(uint32_t eventCount, const VkEvent* pEvents, const VkDependencyInfo* pDependencyInfos);
+    void CmdPipelineBarrier2KHR(const VkDependencyInfo* pDependencyInfo);
+    void CmdWriteTimestamp2KHR(VkPipelineStageFlags2 stage, VkQueryPool queryPool, uint32_t query);
+    void CmdCopyBuffer2KHR(const VkCopyBufferInfo2* pCopyBufferInfo);
+    void CmdCopyImage2KHR(const VkCopyImageInfo2* pCopyImageInfo);
+    void CmdCopyBufferToImage2KHR(const VkCopyBufferToImageInfo2* pCopyBufferToImageInfo);
+    void CmdCopyImageToBuffer2KHR(const VkCopyImageToBufferInfo2* pCopyImageToBufferInfo);
+    void CmdBlitImage2KHR(const VkBlitImageInfo2* pBlitImageInfo);
+    void CmdResolveImage2KHR(const VkResolveImageInfo2* pResolveImageInfo);
+    void CmdSetLineStippleKHR(uint32_t lineStippleFactor, uint16_t lineStipplePattern);
     void CmdSetDiscardRectangleEXT(uint32_t firstDiscardRectangle, uint32_t discardRectangleCount,
                                    const VkRect2D* pDiscardRectangles);
     void CmdSetDiscardRectangleEnableEXT(VkBool32 discardRectangleEnable);
@@ -156,12 +129,30 @@ class CommandBufferMemoryTracker : public vk::CommandBuffer {
     void CmdEndDebugUtilsLabelEXT();
     void CmdInsertDebugUtilsLabelEXT(const VkDebugUtilsLabelEXT* pLabelInfo);
     void CmdSetSampleLocationsEXT(const VkSampleLocationsInfoEXT* pSampleLocationsInfo);
+    void CmdSetLineStippleEXT(uint32_t lineStippleFactor, uint16_t lineStipplePattern);
+    void CmdSetCullModeEXT(VkCullModeFlags cullMode);
+    void CmdSetFrontFaceEXT(VkFrontFace frontFace);
+    void CmdSetPrimitiveTopologyEXT(VkPrimitiveTopology primitiveTopology);
+    void CmdSetViewportWithCountEXT(uint32_t viewportCount, const VkViewport* pViewports);
+    void CmdSetScissorWithCountEXT(uint32_t scissorCount, const VkRect2D* pScissors);
+    void CmdBindVertexBuffers2EXT(uint32_t firstBinding, uint32_t bindingCount, const VkBuffer* pBuffers,
+                                  const VkDeviceSize* pOffsets, const VkDeviceSize* pSizes, const VkDeviceSize* pStrides);
+    void CmdSetDepthTestEnableEXT(VkBool32 depthTestEnable);
+    void CmdSetDepthWriteEnableEXT(VkBool32 depthWriteEnable);
+    void CmdSetDepthCompareOpEXT(VkCompareOp depthCompareOp);
+    void CmdSetDepthBoundsTestEnableEXT(VkBool32 depthBoundsTestEnable);
+    void CmdSetStencilTestEnableEXT(VkBool32 stencilTestEnable);
+    void CmdSetStencilOpEXT(VkStencilFaceFlags faceMask, VkStencilOp failOp, VkStencilOp passOp, VkStencilOp depthFailOp,
+                            VkCompareOp compareOp);
     void CmdSetVertexInputEXT(uint32_t vertexBindingDescriptionCount,
                               const VkVertexInputBindingDescription2EXT* pVertexBindingDescriptions,
                               uint32_t vertexAttributeDescriptionCount,
                               const VkVertexInputAttributeDescription2EXT* pVertexAttributeDescriptions);
     void CmdSetPatchControlPointsEXT(uint32_t patchControlPoints);
+    void CmdSetRasterizerDiscardEnableEXT(VkBool32 rasterizerDiscardEnable);
+    void CmdSetDepthBiasEnableEXT(VkBool32 depthBiasEnable);
     void CmdSetLogicOpEXT(VkLogicOp logicOp);
+    void CmdSetPrimitiveRestartEnableEXT(VkBool32 primitiveRestartEnable);
     void CmdSetColorWriteEnableEXT(uint32_t attachmentCount, const VkBool32* pColorWriteEnables);
 
   protected:

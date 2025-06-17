@@ -33,7 +33,7 @@ VkResult Queue::QueueSubmit(uint32_t submitCount, const VkSubmitInfo* pSubmits, 
     return NEXT::QueueSubmit(submitCount, submit_info, fence);
 }
 
-VkResult Queue::QueueSubmit2(uint32_t submitCount, const VkSubmitInfo2* pSubmits, VkFence fence) {
+VkResult Queue::QueueSubmit2KHR(uint32_t submitCount, const VkSubmitInfo2* pSubmits, VkFence fence) {
     icd::ShadowStack::Frame stack_frame{};
     auto submit_info = stack_frame.Alloc<VkSubmitInfo2>(submitCount);
 
@@ -48,7 +48,7 @@ VkResult Queue::QueueSubmit2(uint32_t submitCount, const VkSubmitInfo2* pSubmits
         submit_info[submit_idx].pCommandBufferInfos = cmd_buffer_info;
     }
 
-    return NEXT::QueueSubmit2(submitCount, submit_info, fence);
+    return NEXT::QueueSubmit2KHR(submitCount, submit_info, fence);
 }
 
 }  // namespace vksc

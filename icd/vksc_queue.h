@@ -27,7 +27,7 @@ class Queue : public Dispatchable<Queue, VkQueue>, public vk::Queue {
     bool IsValid() const { return true; }
 
     VkResult QueueSubmit(uint32_t submitCount, const VkSubmitInfo* pSubmits, VkFence fence);
-    VkResult QueueSubmit2(uint32_t submitCount, const VkSubmitInfo2* pSubmits, VkFence fence);
+    VkResult QueueSubmit2KHR(uint32_t submitCount, const VkSubmitInfo2* pSubmits, VkFence fence);
 
   private:
     icd::Logger logger_;

@@ -49,6 +49,8 @@ class Instance {
     VkResult CreateWin32SurfaceKHR(const VkWin32SurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                                    VkSurfaceKHR* pSurface);
 #endif  // VK_USE_PLATFORM_WIN32_KHR
+    VkResult EnumeratePhysicalDeviceGroupsKHR(uint32_t* pPhysicalDeviceGroupCount,
+                                              VkPhysicalDeviceGroupProperties* pPhysicalDeviceGroupProperties);
     VkResult CreateDebugReportCallbackEXT(const VkDebugReportCallbackCreateInfoEXT* pCreateInfo,
                                           const VkAllocationCallbacks* pAllocator, VkDebugReportCallbackEXT* pCallback);
     void DestroyDebugReportCallbackEXT(VkDebugReportCallbackEXT callback, const VkAllocationCallbacks* pAllocator);

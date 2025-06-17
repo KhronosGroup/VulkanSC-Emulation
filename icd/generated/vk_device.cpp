@@ -374,79 +374,6 @@ uint64_t Device::GetBufferOpaqueCaptureAddress(const VkBufferDeviceAddressInfo* 
 uint64_t Device::GetDeviceMemoryOpaqueCaptureAddress(const VkDeviceMemoryOpaqueCaptureAddressInfo* pInfo) {
     return dispatch_table_.GetDeviceMemoryOpaqueCaptureAddress(handle_, pInfo);
 }
-VkResult Device::CreatePrivateDataSlot(const VkPrivateDataSlotCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
-                                       VkPrivateDataSlot* pPrivateDataSlot) {
-    return dispatch_table_.CreatePrivateDataSlot(handle_, pCreateInfo, pAllocator, pPrivateDataSlot);
-}
-void Device::DestroyPrivateDataSlot(VkPrivateDataSlot privateDataSlot, const VkAllocationCallbacks* pAllocator) {
-    dispatch_table_.DestroyPrivateDataSlot(handle_, privateDataSlot, pAllocator);
-}
-VkResult Device::SetPrivateData(VkObjectType objectType, uint64_t objectHandle, VkPrivateDataSlot privateDataSlot, uint64_t data) {
-    return dispatch_table_.SetPrivateData(handle_, objectType, objectHandle, privateDataSlot, data);
-}
-void Device::GetPrivateData(VkObjectType objectType, uint64_t objectHandle, VkPrivateDataSlot privateDataSlot, uint64_t* pData) {
-    dispatch_table_.GetPrivateData(handle_, objectType, objectHandle, privateDataSlot, pData);
-}
-void Device::GetDeviceBufferMemoryRequirements(const VkDeviceBufferMemoryRequirements* pInfo,
-                                               VkMemoryRequirements2* pMemoryRequirements) {
-    dispatch_table_.GetDeviceBufferMemoryRequirements(handle_, pInfo, pMemoryRequirements);
-    if (pMemoryRequirements != nullptr) {
-        vksc::ConvertOutStructChainToVulkanSC<VkMemoryRequirements2>(pMemoryRequirements);
-    }
-}
-void Device::GetDeviceImageMemoryRequirements(const VkDeviceImageMemoryRequirements* pInfo,
-                                              VkMemoryRequirements2* pMemoryRequirements) {
-    dispatch_table_.GetDeviceImageMemoryRequirements(handle_, pInfo, pMemoryRequirements);
-    if (pMemoryRequirements != nullptr) {
-        vksc::ConvertOutStructChainToVulkanSC<VkMemoryRequirements2>(pMemoryRequirements);
-    }
-}
-void Device::GetDeviceImageSparseMemoryRequirements(const VkDeviceImageMemoryRequirements* pInfo,
-                                                    uint32_t* pSparseMemoryRequirementCount,
-                                                    VkSparseImageMemoryRequirements2* pSparseMemoryRequirements) {
-    dispatch_table_.GetDeviceImageSparseMemoryRequirements(handle_, pInfo, pSparseMemoryRequirementCount,
-                                                           pSparseMemoryRequirements);
-    if (pSparseMemoryRequirements != nullptr) {
-        for (uint32_t i = 0; i < *pSparseMemoryRequirementCount; ++i)
-            vksc::ConvertOutStructChainToVulkanSC<VkSparseImageMemoryRequirements2>(&pSparseMemoryRequirements[i]);
-    }
-}
-VkResult Device::MapMemory2(const VkMemoryMapInfo* pMemoryMapInfo, void** ppData) {
-    return dispatch_table_.MapMemory2(handle_, pMemoryMapInfo, ppData);
-}
-VkResult Device::UnmapMemory2(const VkMemoryUnmapInfo* pMemoryUnmapInfo) {
-    return dispatch_table_.UnmapMemory2(handle_, pMemoryUnmapInfo);
-}
-void Device::GetRenderingAreaGranularity(const VkRenderingAreaInfo* pRenderingAreaInfo, VkExtent2D* pGranularity) {
-    dispatch_table_.GetRenderingAreaGranularity(handle_, pRenderingAreaInfo, pGranularity);
-    if (pGranularity != nullptr) {
-        vksc::ConvertOutStructToVulkanSC<VkExtent2D>(pGranularity);
-    }
-}
-void Device::GetDeviceImageSubresourceLayout(const VkDeviceImageSubresourceInfo* pInfo, VkSubresourceLayout2* pLayout) {
-    dispatch_table_.GetDeviceImageSubresourceLayout(handle_, pInfo, pLayout);
-    if (pLayout != nullptr) {
-        vksc::ConvertOutStructChainToVulkanSC<VkSubresourceLayout2>(pLayout);
-    }
-}
-void Device::GetImageSubresourceLayout2(VkImage image, const VkImageSubresource2* pSubresource, VkSubresourceLayout2* pLayout) {
-    dispatch_table_.GetImageSubresourceLayout2(handle_, image, pSubresource, pLayout);
-    if (pLayout != nullptr) {
-        vksc::ConvertOutStructChainToVulkanSC<VkSubresourceLayout2>(pLayout);
-    }
-}
-VkResult Device::CopyMemoryToImage(const VkCopyMemoryToImageInfo* pCopyMemoryToImageInfo) {
-    return dispatch_table_.CopyMemoryToImage(handle_, pCopyMemoryToImageInfo);
-}
-VkResult Device::CopyImageToMemory(const VkCopyImageToMemoryInfo* pCopyImageToMemoryInfo) {
-    return dispatch_table_.CopyImageToMemory(handle_, pCopyImageToMemoryInfo);
-}
-VkResult Device::CopyImageToImage(const VkCopyImageToImageInfo* pCopyImageToImageInfo) {
-    return dispatch_table_.CopyImageToImage(handle_, pCopyImageToImageInfo);
-}
-VkResult Device::TransitionImageLayout(uint32_t transitionCount, const VkHostImageLayoutTransitionInfo* pTransitions) {
-    return dispatch_table_.TransitionImageLayout(handle_, transitionCount, pTransitions);
-}
 VkResult Device::CreateSwapchainKHR(const VkSwapchainCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                                     VkSwapchainKHR* pSwapchain) {
     VkResult result = dispatch_table_.CreateSwapchainKHR(handle_, pCreateInfo, pAllocator, pSwapchain);
@@ -528,6 +455,14 @@ void Device::DestroyVideoSessionParametersKHR(VkVideoSessionParametersKHR videoS
                                               const VkAllocationCallbacks* pAllocator) {
     dispatch_table_.DestroyVideoSessionParametersKHR(handle_, videoSessionParameters, pAllocator);
 }
+void Device::GetDeviceGroupPeerMemoryFeaturesKHR(uint32_t heapIndex, uint32_t localDeviceIndex, uint32_t remoteDeviceIndex,
+                                                 VkPeerMemoryFeatureFlags* pPeerMemoryFeatures) {
+    dispatch_table_.GetDeviceGroupPeerMemoryFeaturesKHR(handle_, heapIndex, localDeviceIndex, remoteDeviceIndex,
+                                                        pPeerMemoryFeatures);
+}
+void Device::TrimCommandPoolKHR(VkCommandPool commandPool, VkCommandPoolTrimFlags flags) {
+    dispatch_table_.TrimCommandPoolKHR(handle_, commandPool, flags);
+}
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 VkResult Device::GetMemoryWin32HandleKHR(const VkMemoryGetWin32HandleInfoKHR* pGetWin32HandleInfo, HANDLE* pHandle) {
     return dispatch_table_.GetMemoryWin32HandleKHR(handle_, pGetWin32HandleInfo, pHandle);
@@ -566,6 +501,23 @@ VkResult Device::ImportSemaphoreFdKHR(const VkImportSemaphoreFdInfoKHR* pImportS
 VkResult Device::GetSemaphoreFdKHR(const VkSemaphoreGetFdInfoKHR* pGetFdInfo, int* pFd) {
     return dispatch_table_.GetSemaphoreFdKHR(handle_, pGetFdInfo, pFd);
 }
+VkResult Device::CreateDescriptorUpdateTemplateKHR(const VkDescriptorUpdateTemplateCreateInfo* pCreateInfo,
+                                                   const VkAllocationCallbacks* pAllocator,
+                                                   VkDescriptorUpdateTemplate* pDescriptorUpdateTemplate) {
+    return dispatch_table_.CreateDescriptorUpdateTemplateKHR(handle_, pCreateInfo, pAllocator, pDescriptorUpdateTemplate);
+}
+void Device::DestroyDescriptorUpdateTemplateKHR(VkDescriptorUpdateTemplate descriptorUpdateTemplate,
+                                                const VkAllocationCallbacks* pAllocator) {
+    dispatch_table_.DestroyDescriptorUpdateTemplateKHR(handle_, descriptorUpdateTemplate, pAllocator);
+}
+void Device::UpdateDescriptorSetWithTemplateKHR(VkDescriptorSet descriptorSet, VkDescriptorUpdateTemplate descriptorUpdateTemplate,
+                                                const void* pData) {
+    dispatch_table_.UpdateDescriptorSetWithTemplateKHR(handle_, descriptorSet, descriptorUpdateTemplate, pData);
+}
+VkResult Device::CreateRenderPass2KHR(const VkRenderPassCreateInfo2* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                                      VkRenderPass* pRenderPass) {
+    return dispatch_table_.CreateRenderPass2KHR(handle_, pCreateInfo, pAllocator, pRenderPass);
+}
 VkResult Device::GetSwapchainStatusKHR(VkSwapchainKHR swapchain) {
     VkResult result = dispatch_table_.GetSwapchainStatusKHR(handle_, swapchain);
     if (result == VK_ERROR_DEVICE_LOST) {
@@ -591,12 +543,82 @@ VkResult Device::AcquireProfilingLockKHR(const VkAcquireProfilingLockInfoKHR* pI
     return dispatch_table_.AcquireProfilingLockKHR(handle_, pInfo);
 }
 void Device::ReleaseProfilingLockKHR() { dispatch_table_.ReleaseProfilingLockKHR(handle_); }
+void Device::GetImageMemoryRequirements2KHR(const VkImageMemoryRequirementsInfo2* pInfo,
+                                            VkMemoryRequirements2* pMemoryRequirements) {
+    dispatch_table_.GetImageMemoryRequirements2KHR(handle_, pInfo, pMemoryRequirements);
+    if (pMemoryRequirements != nullptr) {
+        vksc::ConvertOutStructChainToVulkanSC<VkMemoryRequirements2>(pMemoryRequirements);
+    }
+}
+void Device::GetBufferMemoryRequirements2KHR(const VkBufferMemoryRequirementsInfo2* pInfo,
+                                             VkMemoryRequirements2* pMemoryRequirements) {
+    dispatch_table_.GetBufferMemoryRequirements2KHR(handle_, pInfo, pMemoryRequirements);
+    if (pMemoryRequirements != nullptr) {
+        vksc::ConvertOutStructChainToVulkanSC<VkMemoryRequirements2>(pMemoryRequirements);
+    }
+}
+void Device::GetImageSparseMemoryRequirements2KHR(const VkImageSparseMemoryRequirementsInfo2* pInfo,
+                                                  uint32_t* pSparseMemoryRequirementCount,
+                                                  VkSparseImageMemoryRequirements2* pSparseMemoryRequirements) {
+    dispatch_table_.GetImageSparseMemoryRequirements2KHR(handle_, pInfo, pSparseMemoryRequirementCount, pSparseMemoryRequirements);
+    if (pSparseMemoryRequirements != nullptr) {
+        for (uint32_t i = 0; i < *pSparseMemoryRequirementCount; ++i)
+            vksc::ConvertOutStructChainToVulkanSC<VkSparseImageMemoryRequirements2>(&pSparseMemoryRequirements[i]);
+    }
+}
+VkResult Device::CreateSamplerYcbcrConversionKHR(const VkSamplerYcbcrConversionCreateInfo* pCreateInfo,
+                                                 const VkAllocationCallbacks* pAllocator,
+                                                 VkSamplerYcbcrConversion* pYcbcrConversion) {
+    return dispatch_table_.CreateSamplerYcbcrConversionKHR(handle_, pCreateInfo, pAllocator, pYcbcrConversion);
+}
+void Device::DestroySamplerYcbcrConversionKHR(VkSamplerYcbcrConversion ycbcrConversion, const VkAllocationCallbacks* pAllocator) {
+    dispatch_table_.DestroySamplerYcbcrConversionKHR(handle_, ycbcrConversion, pAllocator);
+}
+VkResult Device::BindBufferMemory2KHR(uint32_t bindInfoCount, const VkBindBufferMemoryInfo* pBindInfos) {
+    return dispatch_table_.BindBufferMemory2KHR(handle_, bindInfoCount, pBindInfos);
+}
+VkResult Device::BindImageMemory2KHR(uint32_t bindInfoCount, const VkBindImageMemoryInfo* pBindInfos) {
+    return dispatch_table_.BindImageMemory2KHR(handle_, bindInfoCount, pBindInfos);
+}
+void Device::GetDescriptorSetLayoutSupportKHR(const VkDescriptorSetLayoutCreateInfo* pCreateInfo,
+                                              VkDescriptorSetLayoutSupport* pSupport) {
+    dispatch_table_.GetDescriptorSetLayoutSupportKHR(handle_, pCreateInfo, pSupport);
+    if (pSupport != nullptr) {
+        vksc::ConvertOutStructChainToVulkanSC<VkDescriptorSetLayoutSupport>(pSupport);
+    }
+}
+VkResult Device::GetSemaphoreCounterValueKHR(VkSemaphore semaphore, uint64_t* pValue) {
+    VkResult result = dispatch_table_.GetSemaphoreCounterValueKHR(handle_, semaphore, pValue);
+    if (result == VK_ERROR_DEVICE_LOST) {
+        fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);
+    }
+    return result;
+}
+VkResult Device::WaitSemaphoresKHR(const VkSemaphoreWaitInfo* pWaitInfo, uint64_t timeout) {
+    VkResult result = dispatch_table_.WaitSemaphoresKHR(handle_, pWaitInfo, timeout);
+    if (result == VK_ERROR_DEVICE_LOST) {
+        fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);
+    }
+    return result;
+}
+VkResult Device::SignalSemaphoreKHR(const VkSemaphoreSignalInfo* pSignalInfo) {
+    return dispatch_table_.SignalSemaphoreKHR(handle_, pSignalInfo);
+}
 VkResult Device::WaitForPresentKHR(VkSwapchainKHR swapchain, uint64_t presentId, uint64_t timeout) {
     VkResult result = dispatch_table_.WaitForPresentKHR(handle_, swapchain, presentId, timeout);
     if (result == VK_ERROR_DEVICE_LOST) {
         fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);
     }
     return result;
+}
+VkDeviceAddress Device::GetBufferDeviceAddressKHR(const VkBufferDeviceAddressInfo* pInfo) {
+    return dispatch_table_.GetBufferDeviceAddressKHR(handle_, pInfo);
+}
+uint64_t Device::GetBufferOpaqueCaptureAddressKHR(const VkBufferDeviceAddressInfo* pInfo) {
+    return dispatch_table_.GetBufferOpaqueCaptureAddressKHR(handle_, pInfo);
+}
+uint64_t Device::GetDeviceMemoryOpaqueCaptureAddressKHR(const VkDeviceMemoryOpaqueCaptureAddressInfo* pInfo) {
+    return dispatch_table_.GetDeviceMemoryOpaqueCaptureAddressKHR(handle_, pInfo);
 }
 VkResult Device::CreateDeferredOperationKHR(const VkAllocationCallbacks* pAllocator, VkDeferredOperationKHR* pDeferredOperation) {
     return dispatch_table_.CreateDeferredOperationKHR(handle_, pAllocator, pDeferredOperation);
@@ -642,6 +664,12 @@ VkResult Device::GetPipelineExecutableInternalRepresentationsKHR(
     }
     return result;
 }
+VkResult Device::MapMemory2KHR(const VkMemoryMapInfo* pMemoryMapInfo, void** ppData) {
+    return dispatch_table_.MapMemory2KHR(handle_, pMemoryMapInfo, ppData);
+}
+VkResult Device::UnmapMemory2KHR(const VkMemoryUnmapInfo* pMemoryUnmapInfo) {
+    return dispatch_table_.UnmapMemory2KHR(handle_, pMemoryUnmapInfo);
+}
 VkResult Device::GetEncodedVideoSessionParametersKHR(const VkVideoEncodeSessionParametersGetInfoKHR* pVideoSessionParametersInfo,
                                                      VkVideoEncodeSessionParametersFeedbackInfoKHR* pFeedbackInfo,
                                                      size_t* pDataSize, void* pData) {
@@ -651,6 +679,48 @@ VkResult Device::GetEncodedVideoSessionParametersKHR(const VkVideoEncodeSessionP
         vksc::ConvertOutStructChainToVulkanSC<VkVideoEncodeSessionParametersFeedbackInfoKHR>(pFeedbackInfo);
     }
     return result;
+}
+void Device::GetDeviceBufferMemoryRequirementsKHR(const VkDeviceBufferMemoryRequirements* pInfo,
+                                                  VkMemoryRequirements2* pMemoryRequirements) {
+    dispatch_table_.GetDeviceBufferMemoryRequirementsKHR(handle_, pInfo, pMemoryRequirements);
+    if (pMemoryRequirements != nullptr) {
+        vksc::ConvertOutStructChainToVulkanSC<VkMemoryRequirements2>(pMemoryRequirements);
+    }
+}
+void Device::GetDeviceImageMemoryRequirementsKHR(const VkDeviceImageMemoryRequirements* pInfo,
+                                                 VkMemoryRequirements2* pMemoryRequirements) {
+    dispatch_table_.GetDeviceImageMemoryRequirementsKHR(handle_, pInfo, pMemoryRequirements);
+    if (pMemoryRequirements != nullptr) {
+        vksc::ConvertOutStructChainToVulkanSC<VkMemoryRequirements2>(pMemoryRequirements);
+    }
+}
+void Device::GetDeviceImageSparseMemoryRequirementsKHR(const VkDeviceImageMemoryRequirements* pInfo,
+                                                       uint32_t* pSparseMemoryRequirementCount,
+                                                       VkSparseImageMemoryRequirements2* pSparseMemoryRequirements) {
+    dispatch_table_.GetDeviceImageSparseMemoryRequirementsKHR(handle_, pInfo, pSparseMemoryRequirementCount,
+                                                              pSparseMemoryRequirements);
+    if (pSparseMemoryRequirements != nullptr) {
+        for (uint32_t i = 0; i < *pSparseMemoryRequirementCount; ++i)
+            vksc::ConvertOutStructChainToVulkanSC<VkSparseImageMemoryRequirements2>(&pSparseMemoryRequirements[i]);
+    }
+}
+void Device::GetRenderingAreaGranularityKHR(const VkRenderingAreaInfo* pRenderingAreaInfo, VkExtent2D* pGranularity) {
+    dispatch_table_.GetRenderingAreaGranularityKHR(handle_, pRenderingAreaInfo, pGranularity);
+    if (pGranularity != nullptr) {
+        vksc::ConvertOutStructToVulkanSC<VkExtent2D>(pGranularity);
+    }
+}
+void Device::GetDeviceImageSubresourceLayoutKHR(const VkDeviceImageSubresourceInfo* pInfo, VkSubresourceLayout2* pLayout) {
+    dispatch_table_.GetDeviceImageSubresourceLayoutKHR(handle_, pInfo, pLayout);
+    if (pLayout != nullptr) {
+        vksc::ConvertOutStructChainToVulkanSC<VkSubresourceLayout2>(pLayout);
+    }
+}
+void Device::GetImageSubresourceLayout2KHR(VkImage image, const VkImageSubresource2* pSubresource, VkSubresourceLayout2* pLayout) {
+    dispatch_table_.GetImageSubresourceLayout2KHR(handle_, image, pSubresource, pLayout);
+    if (pLayout != nullptr) {
+        vksc::ConvertOutStructChainToVulkanSC<VkSubresourceLayout2>(pLayout);
+    }
 }
 VkResult Device::CreatePipelineBinariesKHR(const VkPipelineBinaryCreateInfoKHR* pCreateInfo,
                                            const VkAllocationCallbacks* pAllocator, VkPipelineBinaryHandlesInfoKHR* pBinaries) {
@@ -865,6 +935,10 @@ VkResult Device::GetRayTracingShaderGroupHandlesKHR(VkPipeline pipeline, uint32_
                                                     void* pData) {
     return dispatch_table_.GetRayTracingShaderGroupHandlesKHR(handle_, pipeline, firstGroup, groupCount, dataSize, pData);
 }
+VkResult Device::GetRayTracingShaderGroupHandlesNV(VkPipeline pipeline, uint32_t firstGroup, uint32_t groupCount, size_t dataSize,
+                                                   void* pData) {
+    return dispatch_table_.GetRayTracingShaderGroupHandlesNV(handle_, pipeline, firstGroup, groupCount, dataSize, pData);
+}
 VkResult Device::GetAccelerationStructureHandleNV(VkAccelerationStructureNV accelerationStructure, size_t dataSize, void* pData) {
     return dispatch_table_.GetAccelerationStructureHandleNV(handle_, accelerationStructure, dataSize, pData);
 }
@@ -879,6 +953,10 @@ VkResult Device::GetMemoryHostPointerPropertiesEXT(VkExternalMemoryHandleTypeFla
         vksc::ConvertOutStructChainToVulkanSC<VkMemoryHostPointerPropertiesEXT>(pMemoryHostPointerProperties);
     }
     return result;
+}
+VkResult Device::GetCalibratedTimestampsEXT(uint32_t timestampCount, const VkCalibratedTimestampInfoKHR* pTimestampInfos,
+                                            uint64_t* pTimestamps, uint64_t* pMaxDeviation) {
+    return dispatch_table_.GetCalibratedTimestampsEXT(handle_, timestampCount, pTimestampInfos, pTimestamps, pMaxDeviation);
 }
 VkResult Device::InitializePerformanceApiINTEL(const VkInitializePerformanceApiInfoINTEL* pInitializeInfo) {
     return dispatch_table_.InitializePerformanceApiINTEL(handle_, pInitializeInfo);
@@ -901,6 +979,9 @@ VkResult Device::GetPerformanceParameterINTEL(VkPerformanceParameterTypeINTEL pa
 void Device::SetLocalDimmingAMD(VkSwapchainKHR swapChain, VkBool32 localDimmingEnable) {
     dispatch_table_.SetLocalDimmingAMD(handle_, swapChain, localDimmingEnable);
 }
+VkDeviceAddress Device::GetBufferDeviceAddressEXT(const VkBufferDeviceAddressInfo* pInfo) {
+    return dispatch_table_.GetBufferDeviceAddressEXT(handle_, pInfo);
+}
 #ifdef VK_USE_PLATFORM_WIN32_KHR
 VkResult Device::AcquireFullScreenExclusiveModeEXT(VkSwapchainKHR swapchain) {
     return dispatch_table_.AcquireFullScreenExclusiveModeEXT(handle_, swapchain);
@@ -913,6 +994,27 @@ VkResult Device::GetDeviceGroupSurfacePresentModes2EXT(const VkPhysicalDeviceSur
     return dispatch_table_.GetDeviceGroupSurfacePresentModes2EXT(handle_, pSurfaceInfo, pModes);
 }
 #endif  // VK_USE_PLATFORM_WIN32_KHR
+void Device::ResetQueryPoolEXT(VkQueryPool queryPool, uint32_t firstQuery, uint32_t queryCount) {
+    dispatch_table_.ResetQueryPoolEXT(handle_, queryPool, firstQuery, queryCount);
+}
+VkResult Device::CopyMemoryToImageEXT(const VkCopyMemoryToImageInfo* pCopyMemoryToImageInfo) {
+    return dispatch_table_.CopyMemoryToImageEXT(handle_, pCopyMemoryToImageInfo);
+}
+VkResult Device::CopyImageToMemoryEXT(const VkCopyImageToMemoryInfo* pCopyImageToMemoryInfo) {
+    return dispatch_table_.CopyImageToMemoryEXT(handle_, pCopyImageToMemoryInfo);
+}
+VkResult Device::CopyImageToImageEXT(const VkCopyImageToImageInfo* pCopyImageToImageInfo) {
+    return dispatch_table_.CopyImageToImageEXT(handle_, pCopyImageToImageInfo);
+}
+VkResult Device::TransitionImageLayoutEXT(uint32_t transitionCount, const VkHostImageLayoutTransitionInfo* pTransitions) {
+    return dispatch_table_.TransitionImageLayoutEXT(handle_, transitionCount, pTransitions);
+}
+void Device::GetImageSubresourceLayout2EXT(VkImage image, const VkImageSubresource2* pSubresource, VkSubresourceLayout2* pLayout) {
+    dispatch_table_.GetImageSubresourceLayout2EXT(handle_, image, pSubresource, pLayout);
+    if (pLayout != nullptr) {
+        vksc::ConvertOutStructChainToVulkanSC<VkSubresourceLayout2>(pLayout);
+    }
+}
 VkResult Device::ReleaseSwapchainImagesEXT(const VkReleaseSwapchainImagesInfoEXT* pReleaseInfo) {
     return dispatch_table_.ReleaseSwapchainImagesEXT(handle_, pReleaseInfo);
 }
@@ -931,6 +1033,20 @@ VkResult Device::CreateIndirectCommandsLayoutNV(const VkIndirectCommandsLayoutCr
 void Device::DestroyIndirectCommandsLayoutNV(VkIndirectCommandsLayoutNV indirectCommandsLayout,
                                              const VkAllocationCallbacks* pAllocator) {
     dispatch_table_.DestroyIndirectCommandsLayoutNV(handle_, indirectCommandsLayout, pAllocator);
+}
+VkResult Device::CreatePrivateDataSlotEXT(const VkPrivateDataSlotCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                                          VkPrivateDataSlot* pPrivateDataSlot) {
+    return dispatch_table_.CreatePrivateDataSlotEXT(handle_, pCreateInfo, pAllocator, pPrivateDataSlot);
+}
+void Device::DestroyPrivateDataSlotEXT(VkPrivateDataSlot privateDataSlot, const VkAllocationCallbacks* pAllocator) {
+    dispatch_table_.DestroyPrivateDataSlotEXT(handle_, privateDataSlot, pAllocator);
+}
+VkResult Device::SetPrivateDataEXT(VkObjectType objectType, uint64_t objectHandle, VkPrivateDataSlot privateDataSlot,
+                                   uint64_t data) {
+    return dispatch_table_.SetPrivateDataEXT(handle_, objectType, objectHandle, privateDataSlot, data);
+}
+void Device::GetPrivateDataEXT(VkObjectType objectType, uint64_t objectHandle, VkPrivateDataSlot privateDataSlot, uint64_t* pData) {
+    dispatch_table_.GetPrivateDataEXT(handle_, objectType, objectHandle, privateDataSlot, pData);
 }
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 VkResult Device::CreateCudaModuleNV(const VkCudaModuleCreateInfoNV* pCreateInfo, const VkAllocationCallbacks* pAllocator,
