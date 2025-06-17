@@ -7,6 +7,8 @@
 
 #include "icd_test_framework.h"
 
+#include <vulkan/vk_layer.h>
+
 #include <algorithm>
 #include <string>
 #include <vector>
@@ -414,8 +416,10 @@ TEST_F(InfrastructureTest, CreateDeviceStructChain) {
 
     auto obj_res_info = vku::InitStruct<VkDeviceObjectReservationCreateInfo>();
     auto sc10_features = vku::InitStruct<VkPhysicalDeviceVulkanSC10Features>(&obj_res_info);
-    auto fault_info = vku::InitStruct<VkFaultCallbackInfo>(&sc10_features);
-    auto create_info = vku::InitStruct<VkDeviceCreateInfo>(&fault_info);
+    auto features2 = vku::InitStruct<VkPhysicalDeviceFeatures2>(&sc10_features);
+    auto fault_info = vku::InitStruct<VkFaultCallbackInfo>(&features2);
+    VkLayerDeviceCreateInfo loader_info{VK_STRUCTURE_TYPE_LOADER_DEVICE_CREATE_INFO, &fault_info};
+    auto create_info = vku::InitStruct<VkDeviceCreateInfo>(&loader_info);
     create_info.queueCreateInfoCount = 1;
     create_info.pQueueCreateInfos = [] {
         static float queue_priority = 1.f;

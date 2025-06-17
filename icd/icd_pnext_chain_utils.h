@@ -53,14 +53,6 @@ class ModifiablePNextChain {
                         // Update the last copied pointer
                         last_copied_ = reinterpret_cast<VkBaseInStructure*>(copy_dst);
                         current = last_copied_;
-
-                        if (desired_sType == current->sType) {
-                            return reinterpret_cast<T*>(const_cast<VkBaseInStructure*>(current));
-                        }
-
-                        if (prev != nullptr) {
-                            *prev = const_cast<VkBaseInStructure*>(current);
-                        }
                     } else {
                         // Ignore unknown structures (effectively removes them from the pNext chain)
                         current = current->pNext;
@@ -110,6 +102,7 @@ class ModifiablePNextChain {
             if (prev == nullptr) {
                 // First one is filtered, update our base pointer
                 next_ = next_found->pNext;
+                last_copied_ = nullptr;
             } else {
                 // Otherwise unchain
                 prev->pNext = reinterpret_cast<const VkBaseInStructure*>(next_found->pNext);
