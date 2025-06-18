@@ -62,6 +62,12 @@ class PhysicalDevice : public Dispatchable<PhysicalDevice, VkPhysicalDevice>, pu
     void GetPhysicalDeviceProperties(VkPhysicalDeviceProperties* pProperties);
     void GetPhysicalDeviceProperties2(VkPhysicalDeviceProperties2* pProperties);
 
+    VkResult GetPhysicalDeviceImageFormatProperties(VkFormat format, VkImageType type, VkImageTiling tiling,
+                                                    VkImageUsageFlags usage, VkImageCreateFlags flags,
+                                                    VkImageFormatProperties* pImageFormatProperties);
+    VkResult GetPhysicalDeviceImageFormatProperties2(const VkPhysicalDeviceImageFormatInfo2* pImageFormatInfo,
+                                                     VkImageFormatProperties2* pImageFormatProperties);
+
     VkResult GetPhysicalDeviceRefreshableObjectTypesKHR(uint32_t* pRefreshableObjectTypeCount,
                                                         VkObjectType* pRefreshableObjectTypes);
 

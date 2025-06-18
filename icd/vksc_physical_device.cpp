@@ -293,6 +293,48 @@ void PhysicalDevice::GetPhysicalDeviceProperties2(VkPhysicalDeviceProperties2* p
     }
 }
 
+VkResult PhysicalDevice::GetPhysicalDeviceImageFormatProperties(VkFormat format, VkImageType type, VkImageTiling tiling,
+                                                                VkImageUsageFlags usage, VkImageCreateFlags flags,
+                                                                VkImageFormatProperties* pImageFormatProperties) {
+    VkResult result = NEXT::GetPhysicalDeviceImageFormatProperties(format, type, tiling, usage, flags, pImageFormatProperties);
+
+    if (IsDeviceExtensionSupported(vk::ExtensionNumber::NV_linear_color_attachment)) {
+        // Need to work around interaction with VK_NV_linear_color_attachment that does allow
+        // VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT used even if VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT is not supported
+        // for linear images in case VK_FORMAT_FEATURE_2_LINEAR_COLOR_ATTACHMENT_BIT_NV is supported
+        if (result == VK_SUCCESS && tiling == VK_IMAGE_TILING_LINEAR && (usage & VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT)) {
+            auto format_props = vku::InitStruct<VkFormatProperties2>();
+            NEXT::GetPhysicalDeviceFormatProperties2(format, &format_props);
+            if ((format_props.formatProperties.linearTilingFeatures & VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT) == 0) {
+                return VK_ERROR_FORMAT_NOT_SUPPORTED;
+            }
+        }
+    }
+
+    return result;
+}
+
+VkResult PhysicalDevice::GetPhysicalDeviceImageFormatProperties2(const VkPhysicalDeviceImageFormatInfo2* pImageFormatInfo,
+                                                                 VkImageFormatProperties2* pImageFormatProperties) {
+    VkResult result = NEXT::GetPhysicalDeviceImageFormatProperties2(pImageFormatInfo, pImageFormatProperties);
+
+    if (IsDeviceExtensionSupported(vk::ExtensionNumber::NV_linear_color_attachment)) {
+        // Need to work around interaction with VK_NV_linear_color_attachment that does allow
+        // VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT used even if VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT is not supported
+        // for linear images in case VK_FORMAT_FEATURE_2_LINEAR_COLOR_ATTACHMENT_BIT_NV is supported
+        if (result == VK_SUCCESS && pImageFormatInfo->tiling == VK_IMAGE_TILING_LINEAR &&
+            (pImageFormatInfo->usage & VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT)) {
+            auto format_props = vku::InitStruct<VkFormatProperties2>();
+            NEXT::GetPhysicalDeviceFormatProperties2(pImageFormatInfo->format, &format_props);
+            if ((format_props.formatProperties.linearTilingFeatures & VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT) == 0) {
+                return VK_ERROR_FORMAT_NOT_SUPPORTED;
+            }
+        }
+    }
+
+    return result;
+}
+
 VkResult PhysicalDevice::GetPhysicalDeviceRefreshableObjectTypesKHR(uint32_t* pRefreshableObjectTypeCount,
                                                                     VkObjectType* pRefreshableObjectTypes) {
     // TODO: Add implementation if we would like to expose support for VK_KHR_object_refresh in the future
