@@ -303,7 +303,10 @@ VkResult Display::CreateSurface(Instance& instance, DisplayMode& display_mode, c
                 MSG msg{};
                 BOOL result{};
                 while (result = GetMessage(&msg, surface_->window, 0, 0) != 0) {
-                    if (result == -1 || msg.message == WM_QUIT) {
+                    if (result == -1 || msg.message == WM_CLOSE) {
+                        break;
+                    }
+                    if (msg.message == WM_NULL && !IsWindow(surface_->window)) {
                         break;
                     }
                     TranslateMessage(&msg);
@@ -426,7 +429,7 @@ void Display::DestroySurface() {
 
 #if defined(VK_USE_PLATFORM_WIN32_KHR)
     // Send even to unblock and exit message handler thread
-    PostMessage(surface_->window, WM_QUIT, 0, 0);
+    PostMessage(surface_->window, WM_CLOSE, 0, 0);
     surface_->message_handler.join();
 #elif defined(VK_USE_PLATFORM_XCB_KHR)
     // Send even to unblock and exit message handler thread
