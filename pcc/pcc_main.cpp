@@ -539,12 +539,18 @@ int main(int argc, char* argv[]) {
 
         // Read pipeline UUID
         auto pipeline_uuid = json["PipelineUUID"];
-        if (pipeline_uuid.isArray() && pipeline_uuid.size() == VK_UUID_SIZE) {
+        if (pipeline_uuid.isNull()) {
+            utils::UUID random_uuid(utils::UUID::random, pipeline_info.minified_json.c_str());
+            logger.Write(logger.kInfo, "No PipelineUUID provided, embedding: %s\n", random_uuid.toString().c_str());
+            for (uint32_t i = 0; i < VK_UUID_SIZE; ++i) {
+                pipeline_info.uuid[i] = random_uuid[i];
+            }
+        } else if (pipeline_uuid.isArray() && pipeline_uuid.size() == VK_UUID_SIZE) {
             for (uint32_t i = 0; i < VK_UUID_SIZE; ++i) {
                 pipeline_info.uuid[i] = pipeline_uuid[i].asUInt();
             }
         } else {
-            logger.Write(logger.kError, "Invalid or missing PipelineUUID\n");
+            logger.Write(logger.kError, "Invalid PipelineUUID\n");
             return EXIT_FAILURE;
         }
 
