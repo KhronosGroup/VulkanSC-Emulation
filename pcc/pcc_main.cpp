@@ -434,6 +434,8 @@ int main(int argc, char* argv[]) {
             cxxopts::value<std::string>(), "<path>")
         ("out", "Output file name.",
             cxxopts::value<std::string>(), "<filename>")
+        ("mode", "UUID mode to use.",
+            cxxopts::value<std::string>()->default_value("rfc4122"), "<rfc4122|autoincrement>")
         ("x,hex-bytes", "Output binary as comma separated C hexadecimals to enable embedding the binary in source code.",
             cxxopts::value<bool>()->default_value("false"))
         ("debug", "Include pipeline and SPIR-V debug data (always included when outputting device independent pipeline cache).",
@@ -482,6 +484,15 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
     }
 
+    if (args.count("mode")) {
+        auto mode = args["mode"].as<std::string>();
+        if (mode != "rfc4122" && mode != "autoincrement") {
+            logger.Write(logger.kError, "Invalid UUID mode specified: %s", mode.c_str());
+            printf("%s\n", options.help().c_str());
+            return EXIT_FAILURE;
+        }
+    }
+
     if (args.count("log")) {
         auto log_filename = args["log"].as<std::string>();
         if (!logger.SetLogFile(log_filename)) {
@@ -495,6 +506,8 @@ int main(int argc, char* argv[]) {
     if (args.count("prefix")) {
         prefix = args["prefix"].as<std::string>();
     }
+    auto uuid_mode =
+        args["mode"].as<std::string>() == "autoincrement" ? utils::UUID::Mode::AutoIncrement : utils::UUID::Mode::RFC4122;
 
     if (!std::filesystem::is_directory(path)) {
         logger.Write(logger.kError, "'%s' is not a valid directory\n", path.c_str());
@@ -556,12 +569,18 @@ int main(int argc, char* argv[]) {
 
         // Read pipeline UUID
         auto pipeline_uuid = json["PipelineUUID"];
-        if (pipeline_uuid.isArray() && pipeline_uuid.size() == VK_UUID_SIZE) {
+        if (pipeline_uuid.isNull()) {
+            utils::UUID random_uuid(uuid_mode, pipeline_info.minified_json.c_str());
+            logger.Write(logger.kInfo, "No PipelineUUID provided, embedding: %s\n", random_uuid.toString().c_str());
+            for (uint32_t i = 0; i < VK_UUID_SIZE; ++i) {
+                pipeline_info.uuid[i] = random_uuid[i];
+            }
+        } else if (pipeline_uuid.isArray() && pipeline_uuid.size() == VK_UUID_SIZE) {
             for (uint32_t i = 0; i < VK_UUID_SIZE; ++i) {
                 pipeline_info.uuid[i] = pipeline_uuid[i].asUInt();
             }
         } else {
-            logger.Write(logger.kError, "Invalid or missing PipelineUUID\n");
+            logger.Write(logger.kError, "Invalid PipelineUUID\n");
             return EXIT_FAILURE;
         }
 

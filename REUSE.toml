@@ -16,9 +16,12 @@ path = [
     "tests/pcc/data/**",
 # JSON can't have SPDX-style comments
     "icd/vksconvk.json.in",
+    "**.json",
     "icd/sample_display_config.json",
-    "scripts/known_good.json",
-    "tests/icd/vkmock_icd.json.in"
+    "tests/icd/vkmock_icd.json.in",
+    "**.json",
+# SPIRV can't have SPDX-style comments
+    "**.spv"
 ]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2024-2025 The Khronos Group, Inc."
