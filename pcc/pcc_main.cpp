@@ -442,6 +442,8 @@ int main(int argc, char* argv[]) {
             cxxopts::value<bool>()->default_value("false"))
         ("log", "Log file name.",
             cxxopts::value<std::string>(), "<filename>")
+        ("level", "Log Level.",
+            cxxopts::value<std::string>(), "<info|warning|error|quiet>")
         ("help", "Show this help.");
     // clang-format on
 
@@ -457,6 +459,21 @@ int main(int argc, char* argv[]) {
     if (args.count("help")) {
         printf("%s\n", options.help().c_str());
         return EXIT_SUCCESS;
+    }
+
+    if (args.count("level")) {
+        if (args["level"].as<std::string>() == "info") {
+            logger.SetLogLevel(Logger::Info);
+        } else if (args["level"].as<std::string>() == "warning") {
+            logger.SetLogLevel(Logger::Warning);
+        } else if (args["level"].as<std::string>() == "error") {
+            logger.SetLogLevel(Logger::Error);
+        } else if (args["level"].as<std::string>() == "quiet") {
+            logger.SetLogLevel(Logger::Quiet);
+        } else {
+            printf("%s\n", options.help().c_str());
+            return EXIT_SUCCESS;
+        }
     }
 
     if (!args.count("path") || !args.count("out")) {
