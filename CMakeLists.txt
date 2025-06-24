@@ -144,7 +144,7 @@ endif()
 option(EMU_CODEGEN "Enable helper codegen target")
 if (EMU_CODEGEN)
     find_package(Python3 REQUIRED QUIET)
-    add_custom_target(tools_codegen
+    add_custom_target(emu_codegen
         COMMAND Python3::Interpreter ${PROJECT_SOURCE_DIR}/scripts/generate_source.py
             "${VULKAN_HEADERS_INSTALL_DIR}/${CMAKE_INSTALL_DATADIR}/vulkan/registry"
             --incremental --generated-version ${VulkanHeaders_VERSION} --api ${API_TYPE}
