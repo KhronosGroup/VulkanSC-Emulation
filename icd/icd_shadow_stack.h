@@ -21,7 +21,11 @@ class ShadowStack {
         Frame() : stack_(ThreadLocalStack()), start_offset_(stack_.high_watermark_), excess_allocations_() {}
         ~Frame() {
             for (auto excess_allocation : excess_allocations_) {
+#ifdef _WIN32
+                _aligned_free(excess_allocation);
+#else
                 free(excess_allocation);
+#endif
             }
             stack_.high_watermark_ = start_offset_;
         }
