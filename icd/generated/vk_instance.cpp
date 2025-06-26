@@ -151,6 +151,12 @@ VkResult Instance::CreateScreenSurfaceQNX(const VkScreenSurfaceCreateInfoQNX* pC
     return dispatch_table_.CreateScreenSurfaceQNX(handle_, pCreateInfo, pAllocator, pSurface);
 }
 #endif  // VK_USE_PLATFORM_SCREEN_QNX
+#ifdef VK_USE_PLATFORM_OHOS
+VkResult Instance::CreateSurfaceOHOS(const VkSurfaceCreateInfoOHOS* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                                     VkSurfaceKHR* pSurface) {
+    return dispatch_table_.CreateSurfaceOHOS(handle_, pCreateInfo, pAllocator, pSurface);
+}
+#endif  // VK_USE_PLATFORM_OHOS
 
 }  // namespace vk
 

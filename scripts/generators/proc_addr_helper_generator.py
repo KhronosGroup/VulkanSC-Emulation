@@ -112,7 +112,7 @@ class ProcAddrHelperGenerator(BaseGenerator):
             for command in commands[command_type]:
                 out.extend(guard_helper.add_guard(command.protect))
                 if command.extensions:
-                    extension_list = ", ".join([f'GetExtensionNumber("{ext.name}")' for ext in command.extensions])
+                    extension_list = ", ".join([f'GetExtensionNumber("{ext}")' for ext in command.extensions])
                     proc_addr_ext_info = f'{{{extension_list}}}'
                 else:
                     proc_addr_ext_info = "{}"

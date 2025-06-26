@@ -548,6 +548,13 @@ VkBool32 PhysicalDevice::GetPhysicalDeviceScreenPresentationSupportQNX(uint32_t 
     return dispatch_table_.GetPhysicalDeviceScreenPresentationSupportQNX(handle_, queueFamilyIndex, window);
 }
 #endif  // VK_USE_PLATFORM_SCREEN_QNX
+void PhysicalDevice::GetPhysicalDeviceExternalTensorPropertiesARM(const VkPhysicalDeviceExternalTensorInfoARM* pExternalTensorInfo,
+                                                                  VkExternalTensorPropertiesARM* pExternalTensorProperties) {
+    dispatch_table_.GetPhysicalDeviceExternalTensorPropertiesARM(handle_, pExternalTensorInfo, pExternalTensorProperties);
+    if (pExternalTensorProperties != nullptr) {
+        vksc::ConvertOutStructChainToVulkanSC<VkExternalTensorPropertiesARM>(pExternalTensorProperties);
+    }
+}
 VkResult PhysicalDevice::GetPhysicalDeviceOpticalFlowImageFormatsNV(
     const VkOpticalFlowImageFormatInfoNV* pOpticalFlowImageFormatInfo, uint32_t* pFormatCount,
     VkOpticalFlowImageFormatPropertiesNV* pImageFormatProperties) {
@@ -567,6 +574,27 @@ VkResult PhysicalDevice::GetPhysicalDeviceCooperativeVectorPropertiesNV(uint32_t
             vksc::ConvertOutStructChainToVulkanSC<VkCooperativeVectorPropertiesNV>(&pProperties[i]);
     }
     return result;
+}
+VkResult PhysicalDevice::GetPhysicalDeviceQueueFamilyDataGraphPropertiesARM(
+    uint32_t queueFamilyIndex, uint32_t* pQueueFamilyDataGraphPropertyCount,
+    VkQueueFamilyDataGraphPropertiesARM* pQueueFamilyDataGraphProperties) {
+    VkResult result = dispatch_table_.GetPhysicalDeviceQueueFamilyDataGraphPropertiesARM(
+        handle_, queueFamilyIndex, pQueueFamilyDataGraphPropertyCount, pQueueFamilyDataGraphProperties);
+    if (pQueueFamilyDataGraphProperties != nullptr) {
+        for (uint32_t i = 0; i < *pQueueFamilyDataGraphPropertyCount; ++i)
+            vksc::ConvertOutStructChainToVulkanSC<VkQueueFamilyDataGraphPropertiesARM>(&pQueueFamilyDataGraphProperties[i]);
+    }
+    return result;
+}
+void PhysicalDevice::GetPhysicalDeviceQueueFamilyDataGraphProcessingEnginePropertiesARM(
+    const VkPhysicalDeviceQueueFamilyDataGraphProcessingEngineInfoARM* pQueueFamilyDataGraphProcessingEngineInfo,
+    VkQueueFamilyDataGraphProcessingEnginePropertiesARM* pQueueFamilyDataGraphProcessingEngineProperties) {
+    dispatch_table_.GetPhysicalDeviceQueueFamilyDataGraphProcessingEnginePropertiesARM(
+        handle_, pQueueFamilyDataGraphProcessingEngineInfo, pQueueFamilyDataGraphProcessingEngineProperties);
+    if (pQueueFamilyDataGraphProcessingEngineProperties != nullptr) {
+        vksc::ConvertOutStructChainToVulkanSC<VkQueueFamilyDataGraphProcessingEnginePropertiesARM>(
+            pQueueFamilyDataGraphProcessingEngineProperties);
+    }
 }
 VkResult PhysicalDevice::GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV(
     uint32_t* pPropertyCount, VkCooperativeMatrixFlexibleDimensionsPropertiesNV* pProperties) {
