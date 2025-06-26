@@ -538,6 +538,15 @@ void CommandBuffer::CmdCudaLaunchKernelNV(const VkCudaLaunchInfoNV* pLaunchInfo)
     dispatch_table_.CmdCudaLaunchKernelNV(handle_, pLaunchInfo);
 }
 #endif  // VK_ENABLE_BETA_EXTENSIONS
+void CommandBuffer::CmdDispatchTileQCOM(const VkDispatchTileInfoQCOM* pDispatchTileInfo) {
+    dispatch_table_.CmdDispatchTileQCOM(handle_, pDispatchTileInfo);
+}
+void CommandBuffer::CmdBeginPerTileExecutionQCOM(const VkPerTileBeginInfoQCOM* pPerTileBeginInfo) {
+    dispatch_table_.CmdBeginPerTileExecutionQCOM(handle_, pPerTileBeginInfo);
+}
+void CommandBuffer::CmdEndPerTileExecutionQCOM(const VkPerTileEndInfoQCOM* pPerTileEndInfo) {
+    dispatch_table_.CmdEndPerTileExecutionQCOM(handle_, pPerTileEndInfo);
+}
 void CommandBuffer::CmdBindDescriptorBuffersEXT(uint32_t bufferCount, const VkDescriptorBufferBindingInfoEXT* pBindingInfos) {
     dispatch_table_.CmdBindDescriptorBuffersEXT(handle_, bufferCount, pBindingInfos);
 }
@@ -726,6 +735,9 @@ void CommandBuffer::CmdSetRepresentativeFragmentTestEnableNV(VkBool32 representa
 void CommandBuffer::CmdSetCoverageReductionModeNV(VkCoverageReductionModeNV coverageReductionMode) {
     dispatch_table_.CmdSetCoverageReductionModeNV(handle_, coverageReductionMode);
 }
+void CommandBuffer::CmdCopyTensorARM(const VkCopyTensorInfoARM* pCopyTensorInfo) {
+    dispatch_table_.CmdCopyTensorARM(handle_, pCopyTensorInfo);
+}
 void CommandBuffer::CmdOpticalFlowExecuteNV(VkOpticalFlowSessionNV session, const VkOpticalFlowExecuteInfoNV* pExecuteInfo) {
     dispatch_table_.CmdOpticalFlowExecuteNV(handle_, session, pExecuteInfo);
 }
@@ -738,8 +750,15 @@ void CommandBuffer::CmdSetDepthClampRangeEXT(VkDepthClampModeEXT depthClampMode,
 void CommandBuffer::CmdConvertCooperativeVectorMatrixNV(uint32_t infoCount, const VkConvertCooperativeVectorMatrixInfoNV* pInfos) {
     dispatch_table_.CmdConvertCooperativeVectorMatrixNV(handle_, infoCount, pInfos);
 }
+void CommandBuffer::CmdDispatchDataGraphARM(VkDataGraphPipelineSessionARM session,
+                                            const VkDataGraphPipelineDispatchInfoARM* pInfo) {
+    dispatch_table_.CmdDispatchDataGraphARM(handle_, session, pInfo);
+}
 void CommandBuffer::CmdSetAttachmentFeedbackLoopEnableEXT(VkImageAspectFlags aspectMask) {
     dispatch_table_.CmdSetAttachmentFeedbackLoopEnableEXT(handle_, aspectMask);
+}
+void CommandBuffer::CmdBindTileMemoryQCOM(const VkTileMemoryBindInfoQCOM* pTileMemoryBindInfo) {
+    dispatch_table_.CmdBindTileMemoryQCOM(handle_, pTileMemoryBindInfo);
 }
 void CommandBuffer::CmdBuildClusterAccelerationStructureIndirectNV(
     const VkClusterAccelerationStructureCommandsInfoNV* pCommandInfos) {
@@ -755,6 +774,9 @@ void CommandBuffer::CmdPreprocessGeneratedCommandsEXT(const VkGeneratedCommandsI
 void CommandBuffer::CmdExecuteGeneratedCommandsEXT(VkBool32 isPreprocessed,
                                                    const VkGeneratedCommandsInfoEXT* pGeneratedCommandsInfo) {
     dispatch_table_.CmdExecuteGeneratedCommandsEXT(handle_, isPreprocessed, pGeneratedCommandsInfo);
+}
+void CommandBuffer::CmdEndRendering2EXT(const VkRenderingEndInfoEXT* pRenderingEndInfo) {
+    dispatch_table_.CmdEndRendering2EXT(handle_, pRenderingEndInfo);
 }
 void CommandBuffer::CmdBuildAccelerationStructuresKHR(uint32_t infoCount, const VkAccelerationStructureBuildGeometryInfoKHR* pInfos,
                                                       const VkAccelerationStructureBuildRangeInfoKHR* const* ppBuildRangeInfos) {

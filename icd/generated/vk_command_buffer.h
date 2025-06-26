@@ -233,6 +233,9 @@ class CommandBuffer {
 #ifdef VK_ENABLE_BETA_EXTENSIONS
     void CmdCudaLaunchKernelNV(const VkCudaLaunchInfoNV* pLaunchInfo);
 #endif  // VK_ENABLE_BETA_EXTENSIONS
+    void CmdDispatchTileQCOM(const VkDispatchTileInfoQCOM* pDispatchTileInfo);
+    void CmdBeginPerTileExecutionQCOM(const VkPerTileBeginInfoQCOM* pPerTileBeginInfo);
+    void CmdEndPerTileExecutionQCOM(const VkPerTileEndInfoQCOM* pPerTileEndInfo);
     void CmdBindDescriptorBuffersEXT(uint32_t bufferCount, const VkDescriptorBufferBindingInfoEXT* pBindingInfos);
     void CmdSetDescriptorBufferOffsetsEXT(VkPipelineBindPoint pipelineBindPoint, VkPipelineLayout layout, uint32_t firstSet,
                                           uint32_t setCount, const uint32_t* pBufferIndices, const VkDeviceSize* pOffsets);
@@ -303,16 +306,20 @@ class CommandBuffer {
     void CmdSetShadingRateImageEnableNV(VkBool32 shadingRateImageEnable);
     void CmdSetRepresentativeFragmentTestEnableNV(VkBool32 representativeFragmentTestEnable);
     void CmdSetCoverageReductionModeNV(VkCoverageReductionModeNV coverageReductionMode);
+    void CmdCopyTensorARM(const VkCopyTensorInfoARM* pCopyTensorInfo);
     void CmdOpticalFlowExecuteNV(VkOpticalFlowSessionNV session, const VkOpticalFlowExecuteInfoNV* pExecuteInfo);
     void CmdBindShadersEXT(uint32_t stageCount, const VkShaderStageFlagBits* pStages, const VkShaderEXT* pShaders);
     void CmdSetDepthClampRangeEXT(VkDepthClampModeEXT depthClampMode, const VkDepthClampRangeEXT* pDepthClampRange);
     void CmdConvertCooperativeVectorMatrixNV(uint32_t infoCount, const VkConvertCooperativeVectorMatrixInfoNV* pInfos);
+    void CmdDispatchDataGraphARM(VkDataGraphPipelineSessionARM session, const VkDataGraphPipelineDispatchInfoARM* pInfo);
     void CmdSetAttachmentFeedbackLoopEnableEXT(VkImageAspectFlags aspectMask);
+    void CmdBindTileMemoryQCOM(const VkTileMemoryBindInfoQCOM* pTileMemoryBindInfo);
     void CmdBuildClusterAccelerationStructureIndirectNV(const VkClusterAccelerationStructureCommandsInfoNV* pCommandInfos);
     void CmdBuildPartitionedAccelerationStructuresNV(const VkBuildPartitionedAccelerationStructureInfoNV* pBuildInfo);
     void CmdPreprocessGeneratedCommandsEXT(const VkGeneratedCommandsInfoEXT* pGeneratedCommandsInfo,
                                            VkCommandBuffer stateCommandBuffer);
     void CmdExecuteGeneratedCommandsEXT(VkBool32 isPreprocessed, const VkGeneratedCommandsInfoEXT* pGeneratedCommandsInfo);
+    void CmdEndRendering2EXT(const VkRenderingEndInfoEXT* pRenderingEndInfo);
     void CmdBuildAccelerationStructuresKHR(uint32_t infoCount, const VkAccelerationStructureBuildGeometryInfoKHR* pInfos,
                                            const VkAccelerationStructureBuildRangeInfoKHR* const* ppBuildRangeInfos);
     void CmdBuildAccelerationStructuresIndirectKHR(uint32_t infoCount, const VkAccelerationStructureBuildGeometryInfoKHR* pInfos,

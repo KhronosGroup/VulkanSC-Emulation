@@ -357,6 +357,7 @@ class DispatchTable {
     const PFN_vkGetRenderingAreaGranularityKHR GetRenderingAreaGranularityKHR;
     const PFN_vkGetDeviceImageSubresourceLayoutKHR GetDeviceImageSubresourceLayoutKHR;
     const PFN_vkGetImageSubresourceLayout2KHR GetImageSubresourceLayout2KHR;
+    const PFN_vkWaitForPresent2KHR WaitForPresent2KHR;
     const PFN_vkCreatePipelineBinariesKHR CreatePipelineBinariesKHR;
     const PFN_vkDestroyPipelineBinaryKHR DestroyPipelineBinaryKHR;
     const PFN_vkGetPipelineKeyKHR GetPipelineKeyKHR;
@@ -561,6 +562,9 @@ class DispatchTable {
     const PFN_vkDestroyCudaFunctionNV DestroyCudaFunctionNV;
     const PFN_vkCmdCudaLaunchKernelNV CmdCudaLaunchKernelNV;
 #endif  // VK_ENABLE_BETA_EXTENSIONS
+    const PFN_vkCmdDispatchTileQCOM CmdDispatchTileQCOM;
+    const PFN_vkCmdBeginPerTileExecutionQCOM CmdBeginPerTileExecutionQCOM;
+    const PFN_vkCmdEndPerTileExecutionQCOM CmdEndPerTileExecutionQCOM;
 #ifdef VK_USE_PLATFORM_METAL_EXT
     const PFN_vkExportMetalObjectsEXT ExportMetalObjectsEXT;
 #endif  // VK_USE_PLATFORM_METAL_EXT
@@ -671,6 +675,17 @@ class DispatchTable {
     const PFN_vkCmdSetShadingRateImageEnableNV CmdSetShadingRateImageEnableNV;
     const PFN_vkCmdSetRepresentativeFragmentTestEnableNV CmdSetRepresentativeFragmentTestEnableNV;
     const PFN_vkCmdSetCoverageReductionModeNV CmdSetCoverageReductionModeNV;
+    const PFN_vkCreateTensorARM CreateTensorARM;
+    const PFN_vkDestroyTensorARM DestroyTensorARM;
+    const PFN_vkCreateTensorViewARM CreateTensorViewARM;
+    const PFN_vkDestroyTensorViewARM DestroyTensorViewARM;
+    const PFN_vkGetTensorMemoryRequirementsARM GetTensorMemoryRequirementsARM;
+    const PFN_vkBindTensorMemoryARM BindTensorMemoryARM;
+    const PFN_vkGetDeviceTensorMemoryRequirementsARM GetDeviceTensorMemoryRequirementsARM;
+    const PFN_vkCmdCopyTensorARM CmdCopyTensorARM;
+    const PFN_vkGetPhysicalDeviceExternalTensorPropertiesARM GetPhysicalDeviceExternalTensorPropertiesARM;
+    const PFN_vkGetTensorOpaqueCaptureDescriptorDataARM GetTensorOpaqueCaptureDescriptorDataARM;
+    const PFN_vkGetTensorViewOpaqueCaptureDescriptorDataARM GetTensorViewOpaqueCaptureDescriptorDataARM;
     const PFN_vkGetShaderModuleIdentifierEXT GetShaderModuleIdentifierEXT;
     const PFN_vkGetShaderModuleCreateInfoIdentifierEXT GetShaderModuleCreateInfoIdentifierEXT;
     const PFN_vkGetPhysicalDeviceOpticalFlowImageFormatsNV GetPhysicalDeviceOpticalFlowImageFormatsNV;
@@ -694,10 +709,26 @@ class DispatchTable {
     const PFN_vkSetLatencyMarkerNV SetLatencyMarkerNV;
     const PFN_vkGetLatencyTimingsNV GetLatencyTimingsNV;
     const PFN_vkQueueNotifyOutOfBandNV QueueNotifyOutOfBandNV;
+    const PFN_vkCreateDataGraphPipelinesARM CreateDataGraphPipelinesARM;
+    const PFN_vkCreateDataGraphPipelineSessionARM CreateDataGraphPipelineSessionARM;
+    const PFN_vkGetDataGraphPipelineSessionBindPointRequirementsARM GetDataGraphPipelineSessionBindPointRequirementsARM;
+    const PFN_vkGetDataGraphPipelineSessionMemoryRequirementsARM GetDataGraphPipelineSessionMemoryRequirementsARM;
+    const PFN_vkBindDataGraphPipelineSessionMemoryARM BindDataGraphPipelineSessionMemoryARM;
+    const PFN_vkDestroyDataGraphPipelineSessionARM DestroyDataGraphPipelineSessionARM;
+    const PFN_vkCmdDispatchDataGraphARM CmdDispatchDataGraphARM;
+    const PFN_vkGetDataGraphPipelineAvailablePropertiesARM GetDataGraphPipelineAvailablePropertiesARM;
+    const PFN_vkGetDataGraphPipelinePropertiesARM GetDataGraphPipelinePropertiesARM;
+    const PFN_vkGetPhysicalDeviceQueueFamilyDataGraphPropertiesARM GetPhysicalDeviceQueueFamilyDataGraphPropertiesARM;
+    const PFN_vkGetPhysicalDeviceQueueFamilyDataGraphProcessingEnginePropertiesARM
+        GetPhysicalDeviceQueueFamilyDataGraphProcessingEnginePropertiesARM;
     const PFN_vkCmdSetAttachmentFeedbackLoopEnableEXT CmdSetAttachmentFeedbackLoopEnableEXT;
 #ifdef VK_USE_PLATFORM_SCREEN_QNX
     const PFN_vkGetScreenBufferPropertiesQNX GetScreenBufferPropertiesQNX;
 #endif  // VK_USE_PLATFORM_SCREEN_QNX
+    const PFN_vkCmdBindTileMemoryQCOM CmdBindTileMemoryQCOM;
+    const PFN_vkCreateExternalComputeQueueNV CreateExternalComputeQueueNV;
+    const PFN_vkDestroyExternalComputeQueueNV DestroyExternalComputeQueueNV;
+    const PFN_vkGetExternalComputeQueueDataNV GetExternalComputeQueueDataNV;
     const PFN_vkGetClusterAccelerationStructureBuildSizesNV GetClusterAccelerationStructureBuildSizesNV;
     const PFN_vkCmdBuildClusterAccelerationStructureIndirectNV CmdBuildClusterAccelerationStructureIndirectNV;
     const PFN_vkGetPartitionedAccelerationStructuresBuildSizesNV GetPartitionedAccelerationStructuresBuildSizesNV;
@@ -711,12 +742,16 @@ class DispatchTable {
     const PFN_vkDestroyIndirectExecutionSetEXT DestroyIndirectExecutionSetEXT;
     const PFN_vkUpdateIndirectExecutionSetPipelineEXT UpdateIndirectExecutionSetPipelineEXT;
     const PFN_vkUpdateIndirectExecutionSetShaderEXT UpdateIndirectExecutionSetShaderEXT;
+#ifdef VK_USE_PLATFORM_OHOS
+    const PFN_vkCreateSurfaceOHOS CreateSurfaceOHOS;
+#endif  // VK_USE_PLATFORM_OHOS
     const PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV
         GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
 #ifdef VK_USE_PLATFORM_METAL_EXT
     const PFN_vkGetMemoryMetalHandleEXT GetMemoryMetalHandleEXT;
     const PFN_vkGetMemoryMetalHandlePropertiesEXT GetMemoryMetalHandlePropertiesEXT;
 #endif  // VK_USE_PLATFORM_METAL_EXT
+    const PFN_vkCmdEndRendering2EXT CmdEndRendering2EXT;
     const PFN_vkCreateAccelerationStructureKHR CreateAccelerationStructureKHR;
     const PFN_vkDestroyAccelerationStructureKHR DestroyAccelerationStructureKHR;
     const PFN_vkCmdBuildAccelerationStructuresKHR CmdBuildAccelerationStructuresKHR;
