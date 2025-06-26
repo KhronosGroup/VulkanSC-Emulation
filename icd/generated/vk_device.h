@@ -248,6 +248,7 @@ class Device {
     void GetRenderingAreaGranularityKHR(const VkRenderingAreaInfo* pRenderingAreaInfo, VkExtent2D* pGranularity);
     void GetDeviceImageSubresourceLayoutKHR(const VkDeviceImageSubresourceInfo* pInfo, VkSubresourceLayout2* pLayout);
     void GetImageSubresourceLayout2KHR(VkImage image, const VkImageSubresource2* pSubresource, VkSubresourceLayout2* pLayout);
+    VkResult WaitForPresent2KHR(VkSwapchainKHR swapchain, const VkPresentWait2InfoKHR* pPresentWait2Info);
     VkResult CreatePipelineBinariesKHR(const VkPipelineBinaryCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                                        VkPipelineBinaryHandlesInfoKHR* pBinaries);
     void DestroyPipelineBinaryKHR(VkPipelineBinaryKHR pipelineBinary, const VkAllocationCallbacks* pAllocator);
@@ -425,6 +426,18 @@ class Device {
     void GetPipelineIndirectMemoryRequirementsNV(const VkComputePipelineCreateInfo* pCreateInfo,
                                                  VkMemoryRequirements2* pMemoryRequirements);
     VkDeviceAddress GetPipelineIndirectDeviceAddressNV(const VkPipelineIndirectDeviceAddressInfoNV* pInfo);
+    VkResult CreateTensorARM(const VkTensorCreateInfoARM* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                             VkTensorARM* pTensor);
+    void DestroyTensorARM(VkTensorARM tensor, const VkAllocationCallbacks* pAllocator);
+    VkResult CreateTensorViewARM(const VkTensorViewCreateInfoARM* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                                 VkTensorViewARM* pView);
+    void DestroyTensorViewARM(VkTensorViewARM tensorView, const VkAllocationCallbacks* pAllocator);
+    void GetTensorMemoryRequirementsARM(const VkTensorMemoryRequirementsInfoARM* pInfo, VkMemoryRequirements2* pMemoryRequirements);
+    VkResult BindTensorMemoryARM(uint32_t bindInfoCount, const VkBindTensorMemoryInfoARM* pBindInfos);
+    void GetDeviceTensorMemoryRequirementsARM(const VkDeviceTensorMemoryRequirementsARM* pInfo,
+                                              VkMemoryRequirements2* pMemoryRequirements);
+    VkResult GetTensorOpaqueCaptureDescriptorDataARM(const VkTensorCaptureDescriptorDataInfoARM* pInfo, void* pData);
+    VkResult GetTensorViewOpaqueCaptureDescriptorDataARM(const VkTensorViewCaptureDescriptorDataInfoARM* pInfo, void* pData);
     void GetShaderModuleIdentifierEXT(VkShaderModule shaderModule, VkShaderModuleIdentifierEXT* pIdentifier);
     void GetShaderModuleCreateInfoIdentifierEXT(const VkShaderModuleCreateInfo* pCreateInfo,
                                                 VkShaderModuleIdentifierEXT* pIdentifier);
@@ -446,9 +459,29 @@ class Device {
     VkResult LatencySleepNV(VkSwapchainKHR swapchain, const VkLatencySleepInfoNV* pSleepInfo);
     void SetLatencyMarkerNV(VkSwapchainKHR swapchain, const VkSetLatencyMarkerInfoNV* pLatencyMarkerInfo);
     void GetLatencyTimingsNV(VkSwapchainKHR swapchain, VkGetLatencyMarkerInfoNV* pLatencyMarkerInfo);
+    VkResult CreateDataGraphPipelinesARM(VkDeferredOperationKHR deferredOperation, VkPipelineCache pipelineCache,
+                                         uint32_t createInfoCount, const VkDataGraphPipelineCreateInfoARM* pCreateInfos,
+                                         const VkAllocationCallbacks* pAllocator, VkPipeline* pPipelines);
+    VkResult CreateDataGraphPipelineSessionARM(const VkDataGraphPipelineSessionCreateInfoARM* pCreateInfo,
+                                               const VkAllocationCallbacks* pAllocator, VkDataGraphPipelineSessionARM* pSession);
+    VkResult GetDataGraphPipelineSessionBindPointRequirementsARM(
+        const VkDataGraphPipelineSessionBindPointRequirementsInfoARM* pInfo, uint32_t* pBindPointRequirementCount,
+        VkDataGraphPipelineSessionBindPointRequirementARM* pBindPointRequirements);
+    void GetDataGraphPipelineSessionMemoryRequirementsARM(const VkDataGraphPipelineSessionMemoryRequirementsInfoARM* pInfo,
+                                                          VkMemoryRequirements2* pMemoryRequirements);
+    VkResult BindDataGraphPipelineSessionMemoryARM(uint32_t bindInfoCount,
+                                                   const VkBindDataGraphPipelineSessionMemoryInfoARM* pBindInfos);
+    void DestroyDataGraphPipelineSessionARM(VkDataGraphPipelineSessionARM session, const VkAllocationCallbacks* pAllocator);
+    VkResult GetDataGraphPipelineAvailablePropertiesARM(const VkDataGraphPipelineInfoARM* pPipelineInfo, uint32_t* pPropertiesCount,
+                                                        VkDataGraphPipelinePropertyARM* pProperties);
+    VkResult GetDataGraphPipelinePropertiesARM(const VkDataGraphPipelineInfoARM* pPipelineInfo, uint32_t propertiesCount,
+                                               VkDataGraphPipelinePropertyQueryResultARM* pProperties);
 #ifdef VK_USE_PLATFORM_SCREEN_QNX
     VkResult GetScreenBufferPropertiesQNX(const struct _screen_buffer* buffer, VkScreenBufferPropertiesQNX* pProperties);
 #endif  // VK_USE_PLATFORM_SCREEN_QNX
+    VkResult CreateExternalComputeQueueNV(const VkExternalComputeQueueCreateInfoNV* pCreateInfo,
+                                          const VkAllocationCallbacks* pAllocator, VkExternalComputeQueueNV* pExternalQueue);
+    void DestroyExternalComputeQueueNV(VkExternalComputeQueueNV externalQueue, const VkAllocationCallbacks* pAllocator);
     void GetClusterAccelerationStructureBuildSizesNV(const VkClusterAccelerationStructureInputInfoNV* pInfo,
                                                      VkAccelerationStructureBuildSizesInfoKHR* pSizeInfo);
     void GetPartitionedAccelerationStructuresBuildSizesNV(const VkPartitionedAccelerationStructureInstancesInputNV* pInfo,

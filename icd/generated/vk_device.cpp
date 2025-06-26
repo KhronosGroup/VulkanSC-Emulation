@@ -722,6 +722,13 @@ void Device::GetImageSubresourceLayout2KHR(VkImage image, const VkImageSubresour
         vksc::ConvertOutStructChainToVulkanSC<VkSubresourceLayout2>(pLayout);
     }
 }
+VkResult Device::WaitForPresent2KHR(VkSwapchainKHR swapchain, const VkPresentWait2InfoKHR* pPresentWait2Info) {
+    VkResult result = dispatch_table_.WaitForPresent2KHR(handle_, swapchain, pPresentWait2Info);
+    if (result == VK_ERROR_DEVICE_LOST) {
+        fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);
+    }
+    return result;
+}
 VkResult Device::CreatePipelineBinariesKHR(const VkPipelineBinaryCreateInfoKHR* pCreateInfo,
                                            const VkAllocationCallbacks* pAllocator, VkPipelineBinaryHandlesInfoKHR* pBinaries) {
     VkResult result = dispatch_table_.CreatePipelineBinariesKHR(handle_, pCreateInfo, pAllocator, pBinaries);
@@ -1232,6 +1239,43 @@ void Device::GetPipelineIndirectMemoryRequirementsNV(const VkComputePipelineCrea
 VkDeviceAddress Device::GetPipelineIndirectDeviceAddressNV(const VkPipelineIndirectDeviceAddressInfoNV* pInfo) {
     return dispatch_table_.GetPipelineIndirectDeviceAddressNV(handle_, pInfo);
 }
+VkResult Device::CreateTensorARM(const VkTensorCreateInfoARM* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                                 VkTensorARM* pTensor) {
+    return dispatch_table_.CreateTensorARM(handle_, pCreateInfo, pAllocator, pTensor);
+}
+void Device::DestroyTensorARM(VkTensorARM tensor, const VkAllocationCallbacks* pAllocator) {
+    dispatch_table_.DestroyTensorARM(handle_, tensor, pAllocator);
+}
+VkResult Device::CreateTensorViewARM(const VkTensorViewCreateInfoARM* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                                     VkTensorViewARM* pView) {
+    return dispatch_table_.CreateTensorViewARM(handle_, pCreateInfo, pAllocator, pView);
+}
+void Device::DestroyTensorViewARM(VkTensorViewARM tensorView, const VkAllocationCallbacks* pAllocator) {
+    dispatch_table_.DestroyTensorViewARM(handle_, tensorView, pAllocator);
+}
+void Device::GetTensorMemoryRequirementsARM(const VkTensorMemoryRequirementsInfoARM* pInfo,
+                                            VkMemoryRequirements2* pMemoryRequirements) {
+    dispatch_table_.GetTensorMemoryRequirementsARM(handle_, pInfo, pMemoryRequirements);
+    if (pMemoryRequirements != nullptr) {
+        vksc::ConvertOutStructChainToVulkanSC<VkMemoryRequirements2>(pMemoryRequirements);
+    }
+}
+VkResult Device::BindTensorMemoryARM(uint32_t bindInfoCount, const VkBindTensorMemoryInfoARM* pBindInfos) {
+    return dispatch_table_.BindTensorMemoryARM(handle_, bindInfoCount, pBindInfos);
+}
+void Device::GetDeviceTensorMemoryRequirementsARM(const VkDeviceTensorMemoryRequirementsARM* pInfo,
+                                                  VkMemoryRequirements2* pMemoryRequirements) {
+    dispatch_table_.GetDeviceTensorMemoryRequirementsARM(handle_, pInfo, pMemoryRequirements);
+    if (pMemoryRequirements != nullptr) {
+        vksc::ConvertOutStructChainToVulkanSC<VkMemoryRequirements2>(pMemoryRequirements);
+    }
+}
+VkResult Device::GetTensorOpaqueCaptureDescriptorDataARM(const VkTensorCaptureDescriptorDataInfoARM* pInfo, void* pData) {
+    return dispatch_table_.GetTensorOpaqueCaptureDescriptorDataARM(handle_, pInfo, pData);
+}
+VkResult Device::GetTensorViewOpaqueCaptureDescriptorDataARM(const VkTensorViewCaptureDescriptorDataInfoARM* pInfo, void* pData) {
+    return dispatch_table_.GetTensorViewOpaqueCaptureDescriptorDataARM(handle_, pInfo, pData);
+}
 void Device::GetShaderModuleIdentifierEXT(VkShaderModule shaderModule, VkShaderModuleIdentifierEXT* pIdentifier) {
     dispatch_table_.GetShaderModuleIdentifierEXT(handle_, shaderModule, pIdentifier);
     if (pIdentifier != nullptr) {
@@ -1301,6 +1345,56 @@ void Device::GetLatencyTimingsNV(VkSwapchainKHR swapchain, VkGetLatencyMarkerInf
         vksc::ConvertOutStructChainToVulkanSC<VkGetLatencyMarkerInfoNV>(pLatencyMarkerInfo);
     }
 }
+VkResult Device::CreateDataGraphPipelinesARM(VkDeferredOperationKHR deferredOperation, VkPipelineCache pipelineCache,
+                                             uint32_t createInfoCount, const VkDataGraphPipelineCreateInfoARM* pCreateInfos,
+                                             const VkAllocationCallbacks* pAllocator, VkPipeline* pPipelines) {
+    return dispatch_table_.CreateDataGraphPipelinesARM(handle_, deferredOperation, pipelineCache, createInfoCount, pCreateInfos,
+                                                       pAllocator, pPipelines);
+}
+VkResult Device::CreateDataGraphPipelineSessionARM(const VkDataGraphPipelineSessionCreateInfoARM* pCreateInfo,
+                                                   const VkAllocationCallbacks* pAllocator,
+                                                   VkDataGraphPipelineSessionARM* pSession) {
+    return dispatch_table_.CreateDataGraphPipelineSessionARM(handle_, pCreateInfo, pAllocator, pSession);
+}
+VkResult Device::GetDataGraphPipelineSessionBindPointRequirementsARM(
+    const VkDataGraphPipelineSessionBindPointRequirementsInfoARM* pInfo, uint32_t* pBindPointRequirementCount,
+    VkDataGraphPipelineSessionBindPointRequirementARM* pBindPointRequirements) {
+    VkResult result = dispatch_table_.GetDataGraphPipelineSessionBindPointRequirementsARM(
+        handle_, pInfo, pBindPointRequirementCount, pBindPointRequirements);
+    if (pBindPointRequirements != nullptr) {
+        for (uint32_t i = 0; i < *pBindPointRequirementCount; ++i)
+            vksc::ConvertOutStructChainToVulkanSC<VkDataGraphPipelineSessionBindPointRequirementARM>(&pBindPointRequirements[i]);
+    }
+    return result;
+}
+void Device::GetDataGraphPipelineSessionMemoryRequirementsARM(const VkDataGraphPipelineSessionMemoryRequirementsInfoARM* pInfo,
+                                                              VkMemoryRequirements2* pMemoryRequirements) {
+    dispatch_table_.GetDataGraphPipelineSessionMemoryRequirementsARM(handle_, pInfo, pMemoryRequirements);
+    if (pMemoryRequirements != nullptr) {
+        vksc::ConvertOutStructChainToVulkanSC<VkMemoryRequirements2>(pMemoryRequirements);
+    }
+}
+VkResult Device::BindDataGraphPipelineSessionMemoryARM(uint32_t bindInfoCount,
+                                                       const VkBindDataGraphPipelineSessionMemoryInfoARM* pBindInfos) {
+    return dispatch_table_.BindDataGraphPipelineSessionMemoryARM(handle_, bindInfoCount, pBindInfos);
+}
+void Device::DestroyDataGraphPipelineSessionARM(VkDataGraphPipelineSessionARM session, const VkAllocationCallbacks* pAllocator) {
+    dispatch_table_.DestroyDataGraphPipelineSessionARM(handle_, session, pAllocator);
+}
+VkResult Device::GetDataGraphPipelineAvailablePropertiesARM(const VkDataGraphPipelineInfoARM* pPipelineInfo,
+                                                            uint32_t* pPropertiesCount,
+                                                            VkDataGraphPipelinePropertyARM* pProperties) {
+    return dispatch_table_.GetDataGraphPipelineAvailablePropertiesARM(handle_, pPipelineInfo, pPropertiesCount, pProperties);
+}
+VkResult Device::GetDataGraphPipelinePropertiesARM(const VkDataGraphPipelineInfoARM* pPipelineInfo, uint32_t propertiesCount,
+                                                   VkDataGraphPipelinePropertyQueryResultARM* pProperties) {
+    VkResult result = dispatch_table_.GetDataGraphPipelinePropertiesARM(handle_, pPipelineInfo, propertiesCount, pProperties);
+    if (pProperties != nullptr) {
+        for (uint32_t i = 0; i < propertiesCount; ++i)
+            vksc::ConvertOutStructChainToVulkanSC<VkDataGraphPipelinePropertyQueryResultARM>(&pProperties[i]);
+    }
+    return result;
+}
 #ifdef VK_USE_PLATFORM_SCREEN_QNX
 VkResult Device::GetScreenBufferPropertiesQNX(const struct _screen_buffer* buffer, VkScreenBufferPropertiesQNX* pProperties) {
     VkResult result = dispatch_table_.GetScreenBufferPropertiesQNX(handle_, buffer, pProperties);
@@ -1310,6 +1404,13 @@ VkResult Device::GetScreenBufferPropertiesQNX(const struct _screen_buffer* buffe
     return result;
 }
 #endif  // VK_USE_PLATFORM_SCREEN_QNX
+VkResult Device::CreateExternalComputeQueueNV(const VkExternalComputeQueueCreateInfoNV* pCreateInfo,
+                                              const VkAllocationCallbacks* pAllocator, VkExternalComputeQueueNV* pExternalQueue) {
+    return dispatch_table_.CreateExternalComputeQueueNV(handle_, pCreateInfo, pAllocator, pExternalQueue);
+}
+void Device::DestroyExternalComputeQueueNV(VkExternalComputeQueueNV externalQueue, const VkAllocationCallbacks* pAllocator) {
+    dispatch_table_.DestroyExternalComputeQueueNV(handle_, externalQueue, pAllocator);
+}
 void Device::GetClusterAccelerationStructureBuildSizesNV(const VkClusterAccelerationStructureInputInfoNV* pInfo,
                                                          VkAccelerationStructureBuildSizesInfoKHR* pSizeInfo) {
     dispatch_table_.GetClusterAccelerationStructureBuildSizesNV(handle_, pInfo, pSizeInfo);

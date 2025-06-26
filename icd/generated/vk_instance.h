@@ -96,6 +96,10 @@ class Instance {
     VkResult CreateScreenSurfaceQNX(const VkScreenSurfaceCreateInfoQNX* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                                     VkSurfaceKHR* pSurface);
 #endif  // VK_USE_PLATFORM_SCREEN_QNX
+#ifdef VK_USE_PLATFORM_OHOS
+    VkResult CreateSurfaceOHOS(const VkSurfaceCreateInfoOHOS* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                               VkSurfaceKHR* pSurface);
+#endif  // VK_USE_PLATFORM_OHOS
 
     VkInstance VkHandle() const { return handle_; }
     const DispatchTable& VkDispatch() const { return dispatch_table_; }

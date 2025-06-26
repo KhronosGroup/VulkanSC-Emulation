@@ -1776,6 +1776,11 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_GetImageSubresourceLayout2KHR(VkDevice 
     return vkmock::GetImageSubresourceLayout2KHR(device, image, pSubresource, pLayout);
 }
 
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_WaitForPresent2KHR(VkDevice device, VkSwapchainKHR swapchain,
+                                                                const VkPresentWait2InfoKHR* pPresentWait2Info) {
+    return vkmock::WaitForPresent2KHR(device, swapchain, pPresentWait2Info);
+}
+
 static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreatePipelineBinariesKHR(VkDevice device,
                                                                        const VkPipelineBinaryCreateInfoKHR* pCreateInfo,
                                                                        const VkAllocationCallbacks* pAllocator,
@@ -2779,6 +2784,21 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_CmdCudaLaunchKernelNV(VkCommandBuffer c
 }
 
 #endif  // VK_ENABLE_BETA_EXTENSIONS
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdDispatchTileQCOM(VkCommandBuffer commandBuffer,
+                                                             const VkDispatchTileInfoQCOM* pDispatchTileInfo) {
+    return vkmock::CmdDispatchTileQCOM(commandBuffer, pDispatchTileInfo);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdBeginPerTileExecutionQCOM(VkCommandBuffer commandBuffer,
+                                                                      const VkPerTileBeginInfoQCOM* pPerTileBeginInfo) {
+    return vkmock::CmdBeginPerTileExecutionQCOM(commandBuffer, pPerTileBeginInfo);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdEndPerTileExecutionQCOM(VkCommandBuffer commandBuffer,
+                                                                    const VkPerTileEndInfoQCOM* pPerTileEndInfo) {
+    return vkmock::CmdEndPerTileExecutionQCOM(commandBuffer, pPerTileEndInfo);
+}
+
 #ifdef VK_USE_PLATFORM_METAL_EXT
 static VKAPI_ATTR void VKAPI_CALL vkmock_ExportMetalObjectsEXT(VkDevice device, VkExportMetalObjectsInfoEXT* pMetalObjectsInfo) {
     return vkmock::ExportMetalObjectsEXT(device, pMetalObjectsInfo);
@@ -3313,6 +3333,64 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_CmdSetCoverageReductionModeNV(VkCommand
     return vkmock::CmdSetCoverageReductionModeNV(commandBuffer, coverageReductionMode);
 }
 
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateTensorARM(VkDevice device, const VkTensorCreateInfoARM* pCreateInfo,
+                                                             const VkAllocationCallbacks* pAllocator, VkTensorARM* pTensor) {
+    return vkmock::CreateTensorARM(device, pCreateInfo, pAllocator, pTensor);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_DestroyTensorARM(VkDevice device, VkTensorARM tensor,
+                                                          const VkAllocationCallbacks* pAllocator) {
+    return vkmock::DestroyTensorARM(device, tensor, pAllocator);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateTensorViewARM(VkDevice device, const VkTensorViewCreateInfoARM* pCreateInfo,
+                                                                 const VkAllocationCallbacks* pAllocator, VkTensorViewARM* pView) {
+    return vkmock::CreateTensorViewARM(device, pCreateInfo, pAllocator, pView);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_DestroyTensorViewARM(VkDevice device, VkTensorViewARM tensorView,
+                                                              const VkAllocationCallbacks* pAllocator) {
+    return vkmock::DestroyTensorViewARM(device, tensorView, pAllocator);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_GetTensorMemoryRequirementsARM(VkDevice device,
+                                                                        const VkTensorMemoryRequirementsInfoARM* pInfo,
+                                                                        VkMemoryRequirements2* pMemoryRequirements) {
+    return vkmock::GetTensorMemoryRequirementsARM(device, pInfo, pMemoryRequirements);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_BindTensorMemoryARM(VkDevice device, uint32_t bindInfoCount,
+                                                                 const VkBindTensorMemoryInfoARM* pBindInfos) {
+    return vkmock::BindTensorMemoryARM(device, bindInfoCount, pBindInfos);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_GetDeviceTensorMemoryRequirementsARM(VkDevice device,
+                                                                              const VkDeviceTensorMemoryRequirementsARM* pInfo,
+                                                                              VkMemoryRequirements2* pMemoryRequirements) {
+    return vkmock::GetDeviceTensorMemoryRequirementsARM(device, pInfo, pMemoryRequirements);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdCopyTensorARM(VkCommandBuffer commandBuffer,
+                                                          const VkCopyTensorInfoARM* pCopyTensorInfo) {
+    return vkmock::CmdCopyTensorARM(commandBuffer, pCopyTensorInfo);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_GetPhysicalDeviceExternalTensorPropertiesARM(
+    VkPhysicalDevice physicalDevice, const VkPhysicalDeviceExternalTensorInfoARM* pExternalTensorInfo,
+    VkExternalTensorPropertiesARM* pExternalTensorProperties) {
+    return vkmock::GetPhysicalDeviceExternalTensorPropertiesARM(physicalDevice, pExternalTensorInfo, pExternalTensorProperties);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL
+vkmock_GetTensorOpaqueCaptureDescriptorDataARM(VkDevice device, const VkTensorCaptureDescriptorDataInfoARM* pInfo, void* pData) {
+    return vkmock::GetTensorOpaqueCaptureDescriptorDataARM(device, pInfo, pData);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetTensorViewOpaqueCaptureDescriptorDataARM(
+    VkDevice device, const VkTensorViewCaptureDescriptorDataInfoARM* pInfo, void* pData) {
+    return vkmock::GetTensorViewOpaqueCaptureDescriptorDataARM(device, pInfo, pData);
+}
+
 static VKAPI_ATTR void VKAPI_CALL vkmock_GetShaderModuleIdentifierEXT(VkDevice device, VkShaderModule shaderModule,
                                                                       VkShaderModuleIdentifierEXT* pIdentifier) {
     return vkmock::GetShaderModuleIdentifierEXT(device, shaderModule, pIdentifier);
@@ -3435,6 +3513,76 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_QueueNotifyOutOfBandNV(VkQueue queue, c
     return vkmock::QueueNotifyOutOfBandNV(queue, pQueueTypeInfo);
 }
 
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateDataGraphPipelinesARM(VkDevice device, VkDeferredOperationKHR deferredOperation,
+                                                                         VkPipelineCache pipelineCache, uint32_t createInfoCount,
+                                                                         const VkDataGraphPipelineCreateInfoARM* pCreateInfos,
+                                                                         const VkAllocationCallbacks* pAllocator,
+                                                                         VkPipeline* pPipelines) {
+    return vkmock::CreateDataGraphPipelinesARM(device, deferredOperation, pipelineCache, createInfoCount, pCreateInfos, pAllocator,
+                                               pPipelines);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL
+vkmock_CreateDataGraphPipelineSessionARM(VkDevice device, const VkDataGraphPipelineSessionCreateInfoARM* pCreateInfo,
+                                         const VkAllocationCallbacks* pAllocator, VkDataGraphPipelineSessionARM* pSession) {
+    return vkmock::CreateDataGraphPipelineSessionARM(device, pCreateInfo, pAllocator, pSession);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetDataGraphPipelineSessionBindPointRequirementsARM(
+    VkDevice device, const VkDataGraphPipelineSessionBindPointRequirementsInfoARM* pInfo, uint32_t* pBindPointRequirementCount,
+    VkDataGraphPipelineSessionBindPointRequirementARM* pBindPointRequirements) {
+    return vkmock::GetDataGraphPipelineSessionBindPointRequirementsARM(device, pInfo, pBindPointRequirementCount,
+                                                                       pBindPointRequirements);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_GetDataGraphPipelineSessionMemoryRequirementsARM(
+    VkDevice device, const VkDataGraphPipelineSessionMemoryRequirementsInfoARM* pInfo, VkMemoryRequirements2* pMemoryRequirements) {
+    return vkmock::GetDataGraphPipelineSessionMemoryRequirementsARM(device, pInfo, pMemoryRequirements);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_BindDataGraphPipelineSessionMemoryARM(
+    VkDevice device, uint32_t bindInfoCount, const VkBindDataGraphPipelineSessionMemoryInfoARM* pBindInfos) {
+    return vkmock::BindDataGraphPipelineSessionMemoryARM(device, bindInfoCount, pBindInfos);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_DestroyDataGraphPipelineSessionARM(VkDevice device, VkDataGraphPipelineSessionARM session,
+                                                                            const VkAllocationCallbacks* pAllocator) {
+    return vkmock::DestroyDataGraphPipelineSessionARM(device, session, pAllocator);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdDispatchDataGraphARM(VkCommandBuffer commandBuffer,
+                                                                 VkDataGraphPipelineSessionARM session,
+                                                                 const VkDataGraphPipelineDispatchInfoARM* pInfo) {
+    return vkmock::CmdDispatchDataGraphARM(commandBuffer, session, pInfo);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL
+vkmock_GetDataGraphPipelineAvailablePropertiesARM(VkDevice device, const VkDataGraphPipelineInfoARM* pPipelineInfo,
+                                                  uint32_t* pPropertiesCount, VkDataGraphPipelinePropertyARM* pProperties) {
+    return vkmock::GetDataGraphPipelineAvailablePropertiesARM(device, pPipelineInfo, pPropertiesCount, pProperties);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL
+vkmock_GetDataGraphPipelinePropertiesARM(VkDevice device, const VkDataGraphPipelineInfoARM* pPipelineInfo, uint32_t propertiesCount,
+                                         VkDataGraphPipelinePropertyQueryResultARM* pProperties) {
+    return vkmock::GetDataGraphPipelinePropertiesARM(device, pPipelineInfo, propertiesCount, pProperties);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetPhysicalDeviceQueueFamilyDataGraphPropertiesARM(
+    VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, uint32_t* pQueueFamilyDataGraphPropertyCount,
+    VkQueueFamilyDataGraphPropertiesARM* pQueueFamilyDataGraphProperties) {
+    return vkmock::GetPhysicalDeviceQueueFamilyDataGraphPropertiesARM(
+        physicalDevice, queueFamilyIndex, pQueueFamilyDataGraphPropertyCount, pQueueFamilyDataGraphProperties);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_GetPhysicalDeviceQueueFamilyDataGraphProcessingEnginePropertiesARM(
+    VkPhysicalDevice physicalDevice,
+    const VkPhysicalDeviceQueueFamilyDataGraphProcessingEngineInfoARM* pQueueFamilyDataGraphProcessingEngineInfo,
+    VkQueueFamilyDataGraphProcessingEnginePropertiesARM* pQueueFamilyDataGraphProcessingEngineProperties) {
+    return vkmock::GetPhysicalDeviceQueueFamilyDataGraphProcessingEnginePropertiesARM(
+        physicalDevice, pQueueFamilyDataGraphProcessingEngineInfo, pQueueFamilyDataGraphProcessingEngineProperties);
+}
+
 static VKAPI_ATTR void VKAPI_CALL vkmock_CmdSetAttachmentFeedbackLoopEnableEXT(VkCommandBuffer commandBuffer,
                                                                                VkImageAspectFlags aspectMask) {
     return vkmock::CmdSetAttachmentFeedbackLoopEnableEXT(commandBuffer, aspectMask);
@@ -3447,6 +3595,28 @@ static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetScreenBufferPropertiesQNX(VkDevi
 }
 
 #endif  // VK_USE_PLATFORM_SCREEN_QNX
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdBindTileMemoryQCOM(VkCommandBuffer commandBuffer,
+                                                               const VkTileMemoryBindInfoQCOM* pTileMemoryBindInfo) {
+    return vkmock::CmdBindTileMemoryQCOM(commandBuffer, pTileMemoryBindInfo);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateExternalComputeQueueNV(VkDevice device,
+                                                                          const VkExternalComputeQueueCreateInfoNV* pCreateInfo,
+                                                                          const VkAllocationCallbacks* pAllocator,
+                                                                          VkExternalComputeQueueNV* pExternalQueue) {
+    return vkmock::CreateExternalComputeQueueNV(device, pCreateInfo, pAllocator, pExternalQueue);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_DestroyExternalComputeQueueNV(VkDevice device, VkExternalComputeQueueNV externalQueue,
+                                                                       const VkAllocationCallbacks* pAllocator) {
+    return vkmock::DestroyExternalComputeQueueNV(device, externalQueue, pAllocator);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_GetExternalComputeQueueDataNV(VkExternalComputeQueueNV externalQueue,
+                                                                       VkExternalComputeQueueDataParamsNV* params, void* pData) {
+    return vkmock::GetExternalComputeQueueDataNV(externalQueue, params, pData);
+}
+
 static VKAPI_ATTR void VKAPI_CALL vkmock_GetClusterAccelerationStructureBuildSizesNV(
     VkDevice device, const VkClusterAccelerationStructureInputInfoNV* pInfo, VkAccelerationStructureBuildSizesInfoKHR* pSizeInfo) {
     return vkmock::GetClusterAccelerationStructureBuildSizesNV(device, pInfo, pSizeInfo);
@@ -3521,6 +3691,13 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_UpdateIndirectExecutionSetShaderEXT(
     return vkmock::UpdateIndirectExecutionSetShaderEXT(device, indirectExecutionSet, executionSetWriteCount, pExecutionSetWrites);
 }
 
+#ifdef VK_USE_PLATFORM_OHOS
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateSurfaceOHOS(VkInstance instance, const VkSurfaceCreateInfoOHOS* pCreateInfo,
+                                                               const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface) {
+    return vkmock::CreateSurfaceOHOS(instance, pCreateInfo, pAllocator, pSurface);
+}
+
+#endif  // VK_USE_PLATFORM_OHOS
 static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV(
     VkPhysicalDevice physicalDevice, uint32_t* pPropertyCount, VkCooperativeMatrixFlexibleDimensionsPropertiesNV* pProperties) {
     return vkmock::GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV(physicalDevice, pPropertyCount, pProperties);
@@ -3540,6 +3717,11 @@ vkmock_GetMemoryMetalHandlePropertiesEXT(VkDevice device, VkExternalMemoryHandle
 }
 
 #endif  // VK_USE_PLATFORM_METAL_EXT
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdEndRendering2EXT(VkCommandBuffer commandBuffer,
+                                                             const VkRenderingEndInfoEXT* pRenderingEndInfo) {
+    return vkmock::CmdEndRendering2EXT(commandBuffer, pRenderingEndInfo);
+}
+
 static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateAccelerationStructureKHR(VkDevice device,
                                                                             const VkAccelerationStructureCreateInfoKHR* pCreateInfo,
                                                                             const VkAllocationCallbacks* pAllocator,
@@ -4692,6 +4874,9 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     if (strcmp(pName, "vkGetImageSubresourceLayout2KHR") == 0) {
         return (PFN_vkVoidFunction)vkmock_GetImageSubresourceLayout2KHR;
     }
+    if (strcmp(pName, "vkWaitForPresent2KHR") == 0) {
+        return (PFN_vkVoidFunction)vkmock_WaitForPresent2KHR;
+    }
     if (strcmp(pName, "vkCreatePipelineBinariesKHR") == 0) {
         return (PFN_vkVoidFunction)vkmock_CreatePipelineBinariesKHR;
     }
@@ -5253,6 +5438,15 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
         return (PFN_vkVoidFunction)vkmock_CmdCudaLaunchKernelNV;
     }
 #endif  // VK_ENABLE_BETA_EXTENSIONS
+    if (strcmp(pName, "vkCmdDispatchTileQCOM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdDispatchTileQCOM;
+    }
+    if (strcmp(pName, "vkCmdBeginPerTileExecutionQCOM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdBeginPerTileExecutionQCOM;
+    }
+    if (strcmp(pName, "vkCmdEndPerTileExecutionQCOM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdEndPerTileExecutionQCOM;
+    }
 #ifdef VK_USE_PLATFORM_METAL_EXT
     if (strcmp(pName, "vkExportMetalObjectsEXT") == 0) {
         return (PFN_vkVoidFunction)vkmock_ExportMetalObjectsEXT;
@@ -5563,6 +5757,39 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     if (strcmp(pName, "vkCmdSetCoverageReductionModeNV") == 0) {
         return (PFN_vkVoidFunction)vkmock_CmdSetCoverageReductionModeNV;
     }
+    if (strcmp(pName, "vkCreateTensorARM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CreateTensorARM;
+    }
+    if (strcmp(pName, "vkDestroyTensorARM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_DestroyTensorARM;
+    }
+    if (strcmp(pName, "vkCreateTensorViewARM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CreateTensorViewARM;
+    }
+    if (strcmp(pName, "vkDestroyTensorViewARM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_DestroyTensorViewARM;
+    }
+    if (strcmp(pName, "vkGetTensorMemoryRequirementsARM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetTensorMemoryRequirementsARM;
+    }
+    if (strcmp(pName, "vkBindTensorMemoryARM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_BindTensorMemoryARM;
+    }
+    if (strcmp(pName, "vkGetDeviceTensorMemoryRequirementsARM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetDeviceTensorMemoryRequirementsARM;
+    }
+    if (strcmp(pName, "vkCmdCopyTensorARM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdCopyTensorARM;
+    }
+    if (strcmp(pName, "vkGetPhysicalDeviceExternalTensorPropertiesARM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetPhysicalDeviceExternalTensorPropertiesARM;
+    }
+    if (strcmp(pName, "vkGetTensorOpaqueCaptureDescriptorDataARM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetTensorOpaqueCaptureDescriptorDataARM;
+    }
+    if (strcmp(pName, "vkGetTensorViewOpaqueCaptureDescriptorDataARM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetTensorViewOpaqueCaptureDescriptorDataARM;
+    }
     if (strcmp(pName, "vkGetShaderModuleIdentifierEXT") == 0) {
         return (PFN_vkVoidFunction)vkmock_GetShaderModuleIdentifierEXT;
     }
@@ -5632,6 +5859,39 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     if (strcmp(pName, "vkQueueNotifyOutOfBandNV") == 0) {
         return (PFN_vkVoidFunction)vkmock_QueueNotifyOutOfBandNV;
     }
+    if (strcmp(pName, "vkCreateDataGraphPipelinesARM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CreateDataGraphPipelinesARM;
+    }
+    if (strcmp(pName, "vkCreateDataGraphPipelineSessionARM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CreateDataGraphPipelineSessionARM;
+    }
+    if (strcmp(pName, "vkGetDataGraphPipelineSessionBindPointRequirementsARM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetDataGraphPipelineSessionBindPointRequirementsARM;
+    }
+    if (strcmp(pName, "vkGetDataGraphPipelineSessionMemoryRequirementsARM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetDataGraphPipelineSessionMemoryRequirementsARM;
+    }
+    if (strcmp(pName, "vkBindDataGraphPipelineSessionMemoryARM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_BindDataGraphPipelineSessionMemoryARM;
+    }
+    if (strcmp(pName, "vkDestroyDataGraphPipelineSessionARM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_DestroyDataGraphPipelineSessionARM;
+    }
+    if (strcmp(pName, "vkCmdDispatchDataGraphARM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdDispatchDataGraphARM;
+    }
+    if (strcmp(pName, "vkGetDataGraphPipelineAvailablePropertiesARM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetDataGraphPipelineAvailablePropertiesARM;
+    }
+    if (strcmp(pName, "vkGetDataGraphPipelinePropertiesARM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetDataGraphPipelinePropertiesARM;
+    }
+    if (strcmp(pName, "vkGetPhysicalDeviceQueueFamilyDataGraphPropertiesARM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetPhysicalDeviceQueueFamilyDataGraphPropertiesARM;
+    }
+    if (strcmp(pName, "vkGetPhysicalDeviceQueueFamilyDataGraphProcessingEnginePropertiesARM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetPhysicalDeviceQueueFamilyDataGraphProcessingEnginePropertiesARM;
+    }
     if (strcmp(pName, "vkCmdSetAttachmentFeedbackLoopEnableEXT") == 0) {
         return (PFN_vkVoidFunction)vkmock_CmdSetAttachmentFeedbackLoopEnableEXT;
     }
@@ -5640,6 +5900,18 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
         return (PFN_vkVoidFunction)vkmock_GetScreenBufferPropertiesQNX;
     }
 #endif  // VK_USE_PLATFORM_SCREEN_QNX
+    if (strcmp(pName, "vkCmdBindTileMemoryQCOM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdBindTileMemoryQCOM;
+    }
+    if (strcmp(pName, "vkCreateExternalComputeQueueNV") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CreateExternalComputeQueueNV;
+    }
+    if (strcmp(pName, "vkDestroyExternalComputeQueueNV") == 0) {
+        return (PFN_vkVoidFunction)vkmock_DestroyExternalComputeQueueNV;
+    }
+    if (strcmp(pName, "vkGetExternalComputeQueueDataNV") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetExternalComputeQueueDataNV;
+    }
     if (strcmp(pName, "vkGetClusterAccelerationStructureBuildSizesNV") == 0) {
         return (PFN_vkVoidFunction)vkmock_GetClusterAccelerationStructureBuildSizesNV;
     }
@@ -5679,6 +5951,11 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     if (strcmp(pName, "vkUpdateIndirectExecutionSetShaderEXT") == 0) {
         return (PFN_vkVoidFunction)vkmock_UpdateIndirectExecutionSetShaderEXT;
     }
+#ifdef VK_USE_PLATFORM_OHOS
+    if (strcmp(pName, "vkCreateSurfaceOHOS") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CreateSurfaceOHOS;
+    }
+#endif  // VK_USE_PLATFORM_OHOS
     if (strcmp(pName, "vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV") == 0) {
         return (PFN_vkVoidFunction)vkmock_GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
     }
@@ -5690,6 +5967,9 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
         return (PFN_vkVoidFunction)vkmock_GetMemoryMetalHandlePropertiesEXT;
     }
 #endif  // VK_USE_PLATFORM_METAL_EXT
+    if (strcmp(pName, "vkCmdEndRendering2EXT") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdEndRendering2EXT;
+    }
     if (strcmp(pName, "vkCreateAccelerationStructureKHR") == 0) {
         return (PFN_vkVoidFunction)vkmock_CreateAccelerationStructureKHR;
     }
@@ -6110,6 +6390,7 @@ void vkmock::Reset() {
     GetRenderingAreaGranularityKHR = {};
     GetDeviceImageSubresourceLayoutKHR = {};
     GetImageSubresourceLayout2KHR = {};
+    WaitForPresent2KHR = {};
     CreatePipelineBinariesKHR = {};
     DestroyPipelineBinaryKHR = {};
     GetPipelineKeyKHR = {};
@@ -6313,6 +6594,9 @@ void vkmock::Reset() {
     DestroyCudaFunctionNV = {};
     CmdCudaLaunchKernelNV = {};
 #endif  // VK_ENABLE_BETA_EXTENSIONS
+    CmdDispatchTileQCOM = {};
+    CmdBeginPerTileExecutionQCOM = {};
+    CmdEndPerTileExecutionQCOM = {};
 #ifdef VK_USE_PLATFORM_METAL_EXT
     ExportMetalObjectsEXT = {};
 #endif  // VK_USE_PLATFORM_METAL_EXT
@@ -6423,6 +6707,17 @@ void vkmock::Reset() {
     CmdSetShadingRateImageEnableNV = {};
     CmdSetRepresentativeFragmentTestEnableNV = {};
     CmdSetCoverageReductionModeNV = {};
+    CreateTensorARM = {};
+    DestroyTensorARM = {};
+    CreateTensorViewARM = {};
+    DestroyTensorViewARM = {};
+    GetTensorMemoryRequirementsARM = {};
+    BindTensorMemoryARM = {};
+    GetDeviceTensorMemoryRequirementsARM = {};
+    CmdCopyTensorARM = {};
+    GetPhysicalDeviceExternalTensorPropertiesARM = {};
+    GetTensorOpaqueCaptureDescriptorDataARM = {};
+    GetTensorViewOpaqueCaptureDescriptorDataARM = {};
     GetShaderModuleIdentifierEXT = {};
     GetShaderModuleCreateInfoIdentifierEXT = {};
     GetPhysicalDeviceOpticalFlowImageFormatsNV = {};
@@ -6446,10 +6741,25 @@ void vkmock::Reset() {
     SetLatencyMarkerNV = {};
     GetLatencyTimingsNV = {};
     QueueNotifyOutOfBandNV = {};
+    CreateDataGraphPipelinesARM = {};
+    CreateDataGraphPipelineSessionARM = {};
+    GetDataGraphPipelineSessionBindPointRequirementsARM = {};
+    GetDataGraphPipelineSessionMemoryRequirementsARM = {};
+    BindDataGraphPipelineSessionMemoryARM = {};
+    DestroyDataGraphPipelineSessionARM = {};
+    CmdDispatchDataGraphARM = {};
+    GetDataGraphPipelineAvailablePropertiesARM = {};
+    GetDataGraphPipelinePropertiesARM = {};
+    GetPhysicalDeviceQueueFamilyDataGraphPropertiesARM = {};
+    GetPhysicalDeviceQueueFamilyDataGraphProcessingEnginePropertiesARM = {};
     CmdSetAttachmentFeedbackLoopEnableEXT = {};
 #ifdef VK_USE_PLATFORM_SCREEN_QNX
     GetScreenBufferPropertiesQNX = {};
 #endif  // VK_USE_PLATFORM_SCREEN_QNX
+    CmdBindTileMemoryQCOM = {};
+    CreateExternalComputeQueueNV = {};
+    DestroyExternalComputeQueueNV = {};
+    GetExternalComputeQueueDataNV = {};
     GetClusterAccelerationStructureBuildSizesNV = {};
     CmdBuildClusterAccelerationStructureIndirectNV = {};
     GetPartitionedAccelerationStructuresBuildSizesNV = {};
@@ -6463,11 +6773,15 @@ void vkmock::Reset() {
     DestroyIndirectExecutionSetEXT = {};
     UpdateIndirectExecutionSetPipelineEXT = {};
     UpdateIndirectExecutionSetShaderEXT = {};
+#ifdef VK_USE_PLATFORM_OHOS
+    CreateSurfaceOHOS = {};
+#endif  // VK_USE_PLATFORM_OHOS
     GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV = {};
 #ifdef VK_USE_PLATFORM_METAL_EXT
     GetMemoryMetalHandleEXT = {};
     GetMemoryMetalHandlePropertiesEXT = {};
 #endif  // VK_USE_PLATFORM_METAL_EXT
+    CmdEndRendering2EXT = {};
     CreateAccelerationStructureKHR = {};
     DestroyAccelerationStructureKHR = {};
     CmdBuildAccelerationStructuresKHR = {};

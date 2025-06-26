@@ -669,10 +669,10 @@ void ConvertOutStructToVulkanSC<VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT>
     VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT* p) {}
 
 template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceRobustness2FeaturesEXT>(VkPhysicalDeviceRobustness2FeaturesEXT* p) {}
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceRobustness2FeaturesKHR>(VkPhysicalDeviceRobustness2FeaturesKHR* p) {}
 
 template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceRobustness2PropertiesEXT>(VkPhysicalDeviceRobustness2PropertiesEXT* p) {}
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceRobustness2PropertiesKHR>(VkPhysicalDeviceRobustness2PropertiesKHR* p) {}
 
 template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceCustomBorderColorPropertiesEXT>(VkPhysicalDeviceCustomBorderColorPropertiesEXT* p) {
@@ -1078,8 +1078,8 @@ void ConvertOutStructChainToVulkanSC<VkPhysicalDeviceFeatures2>(VkPhysicalDevice
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT*>(base));
                 break;
 
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ROBUSTNESS_2_FEATURES_EXT:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceRobustness2FeaturesEXT*>(base));
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ROBUSTNESS_2_FEATURES_KHR:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceRobustness2FeaturesKHR*>(base));
                 break;
 
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CUSTOM_BORDER_COLOR_FEATURES_EXT:
@@ -1292,8 +1292,8 @@ void ConvertOutStructChainToVulkanSC<VkPhysicalDeviceProperties2>(VkPhysicalDevi
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDevicePCIBusInfoPropertiesEXT*>(base));
                 break;
 
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ROBUSTNESS_2_PROPERTIES_EXT:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceRobustness2PropertiesEXT*>(base));
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ROBUSTNESS_2_PROPERTIES_KHR:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceRobustness2PropertiesKHR*>(base));
                 break;
 
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CUSTOM_BORDER_COLOR_PROPERTIES_EXT:

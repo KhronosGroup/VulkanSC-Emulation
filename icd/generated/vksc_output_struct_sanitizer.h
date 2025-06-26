@@ -394,9 +394,9 @@ template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT>(
     VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT* p);
 template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceRobustness2FeaturesEXT>(VkPhysicalDeviceRobustness2FeaturesEXT* p);
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceRobustness2FeaturesKHR>(VkPhysicalDeviceRobustness2FeaturesKHR* p);
 template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceRobustness2PropertiesEXT>(VkPhysicalDeviceRobustness2PropertiesEXT* p);
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceRobustness2PropertiesKHR>(VkPhysicalDeviceRobustness2PropertiesKHR* p);
 template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceCustomBorderColorPropertiesEXT>(VkPhysicalDeviceCustomBorderColorPropertiesEXT* p);
 template <>

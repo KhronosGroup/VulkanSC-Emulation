@@ -871,6 +871,8 @@ class vkmock {
     inline static std::function<void(VkDevice device, VkImage image, const VkImageSubresource2* pSubresource,
                                      VkSubresourceLayout2* pLayout)>
         GetImageSubresourceLayout2KHR{};
+    inline static std::function<VkResult(VkDevice device, VkSwapchainKHR swapchain, const VkPresentWait2InfoKHR* pPresentWait2Info)>
+        WaitForPresent2KHR{};
     inline static std::function<VkResult(VkDevice device, const VkPipelineBinaryCreateInfoKHR* pCreateInfo,
                                          const VkAllocationCallbacks* pAllocator, VkPipelineBinaryHandlesInfoKHR* pBinaries)>
         CreatePipelineBinariesKHR{};
@@ -1352,6 +1354,12 @@ class vkmock {
         DestroyCudaFunctionNV{};
     inline static std::function<void(VkCommandBuffer commandBuffer, const VkCudaLaunchInfoNV* pLaunchInfo)> CmdCudaLaunchKernelNV{};
 #endif  // VK_ENABLE_BETA_EXTENSIONS
+    inline static std::function<void(VkCommandBuffer commandBuffer, const VkDispatchTileInfoQCOM* pDispatchTileInfo)>
+        CmdDispatchTileQCOM{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, const VkPerTileBeginInfoQCOM* pPerTileBeginInfo)>
+        CmdBeginPerTileExecutionQCOM{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, const VkPerTileEndInfoQCOM* pPerTileEndInfo)>
+        CmdEndPerTileExecutionQCOM{};
 #ifdef VK_USE_PLATFORM_METAL_EXT
     inline static std::function<void(VkDevice device, VkExportMetalObjectsInfoEXT* pMetalObjectsInfo)> ExportMetalObjectsEXT{};
 #endif  // VK_USE_PLATFORM_METAL_EXT
@@ -1596,6 +1604,33 @@ class vkmock {
         CmdSetRepresentativeFragmentTestEnableNV{};
     inline static std::function<void(VkCommandBuffer commandBuffer, VkCoverageReductionModeNV coverageReductionMode)>
         CmdSetCoverageReductionModeNV{};
+    inline static std::function<VkResult(VkDevice device, const VkTensorCreateInfoARM* pCreateInfo,
+                                         const VkAllocationCallbacks* pAllocator, VkTensorARM* pTensor)>
+        CreateTensorARM{};
+    inline static std::function<void(VkDevice device, VkTensorARM tensor, const VkAllocationCallbacks* pAllocator)>
+        DestroyTensorARM{};
+    inline static std::function<VkResult(VkDevice device, const VkTensorViewCreateInfoARM* pCreateInfo,
+                                         const VkAllocationCallbacks* pAllocator, VkTensorViewARM* pView)>
+        CreateTensorViewARM{};
+    inline static std::function<void(VkDevice device, VkTensorViewARM tensorView, const VkAllocationCallbacks* pAllocator)>
+        DestroyTensorViewARM{};
+    inline static std::function<void(VkDevice device, const VkTensorMemoryRequirementsInfoARM* pInfo,
+                                     VkMemoryRequirements2* pMemoryRequirements)>
+        GetTensorMemoryRequirementsARM{};
+    inline static std::function<VkResult(VkDevice device, uint32_t bindInfoCount, const VkBindTensorMemoryInfoARM* pBindInfos)>
+        BindTensorMemoryARM{};
+    inline static std::function<void(VkDevice device, const VkDeviceTensorMemoryRequirementsARM* pInfo,
+                                     VkMemoryRequirements2* pMemoryRequirements)>
+        GetDeviceTensorMemoryRequirementsARM{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, const VkCopyTensorInfoARM* pCopyTensorInfo)> CmdCopyTensorARM{};
+    inline static std::function<void(VkPhysicalDevice physicalDevice,
+                                     const VkPhysicalDeviceExternalTensorInfoARM* pExternalTensorInfo,
+                                     VkExternalTensorPropertiesARM* pExternalTensorProperties)>
+        GetPhysicalDeviceExternalTensorPropertiesARM{};
+    inline static std::function<VkResult(VkDevice device, const VkTensorCaptureDescriptorDataInfoARM* pInfo, void* pData)>
+        GetTensorOpaqueCaptureDescriptorDataARM{};
+    inline static std::function<VkResult(VkDevice device, const VkTensorViewCaptureDescriptorDataInfoARM* pInfo, void* pData)>
+        GetTensorViewOpaqueCaptureDescriptorDataARM{};
     inline static std::function<void(VkDevice device, VkShaderModule shaderModule, VkShaderModuleIdentifierEXT* pIdentifier)>
         GetShaderModuleIdentifierEXT{};
     inline static std::function<void(VkDevice device, const VkShaderModuleCreateInfo* pCreateInfo,
@@ -1652,6 +1687,44 @@ class vkmock {
     inline static std::function<void(VkDevice device, VkSwapchainKHR swapchain, VkGetLatencyMarkerInfoNV* pLatencyMarkerInfo)>
         GetLatencyTimingsNV{};
     inline static std::function<void(VkQueue queue, const VkOutOfBandQueueTypeInfoNV* pQueueTypeInfo)> QueueNotifyOutOfBandNV{};
+    inline static std::function<VkResult(VkDevice device, VkDeferredOperationKHR deferredOperation, VkPipelineCache pipelineCache,
+                                         uint32_t createInfoCount, const VkDataGraphPipelineCreateInfoARM* pCreateInfos,
+                                         const VkAllocationCallbacks* pAllocator, VkPipeline* pPipelines)>
+        CreateDataGraphPipelinesARM{};
+    inline static std::function<VkResult(VkDevice device, const VkDataGraphPipelineSessionCreateInfoARM* pCreateInfo,
+                                         const VkAllocationCallbacks* pAllocator, VkDataGraphPipelineSessionARM* pSession)>
+        CreateDataGraphPipelineSessionARM{};
+    inline static std::function<VkResult(VkDevice device, const VkDataGraphPipelineSessionBindPointRequirementsInfoARM* pInfo,
+                                         uint32_t* pBindPointRequirementCount,
+                                         VkDataGraphPipelineSessionBindPointRequirementARM* pBindPointRequirements)>
+        GetDataGraphPipelineSessionBindPointRequirementsARM{};
+    inline static std::function<void(VkDevice device, const VkDataGraphPipelineSessionMemoryRequirementsInfoARM* pInfo,
+                                     VkMemoryRequirements2* pMemoryRequirements)>
+        GetDataGraphPipelineSessionMemoryRequirementsARM{};
+    inline static std::function<VkResult(VkDevice device, uint32_t bindInfoCount,
+                                         const VkBindDataGraphPipelineSessionMemoryInfoARM* pBindInfos)>
+        BindDataGraphPipelineSessionMemoryARM{};
+    inline static std::function<void(VkDevice device, VkDataGraphPipelineSessionARM session,
+                                     const VkAllocationCallbacks* pAllocator)>
+        DestroyDataGraphPipelineSessionARM{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, VkDataGraphPipelineSessionARM session,
+                                     const VkDataGraphPipelineDispatchInfoARM* pInfo)>
+        CmdDispatchDataGraphARM{};
+    inline static std::function<VkResult(VkDevice device, const VkDataGraphPipelineInfoARM* pPipelineInfo,
+                                         uint32_t* pPropertiesCount, VkDataGraphPipelinePropertyARM* pProperties)>
+        GetDataGraphPipelineAvailablePropertiesARM{};
+    inline static std::function<VkResult(VkDevice device, const VkDataGraphPipelineInfoARM* pPipelineInfo, uint32_t propertiesCount,
+                                         VkDataGraphPipelinePropertyQueryResultARM* pProperties)>
+        GetDataGraphPipelinePropertiesARM{};
+    inline static std::function<VkResult(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex,
+                                         uint32_t* pQueueFamilyDataGraphPropertyCount,
+                                         VkQueueFamilyDataGraphPropertiesARM* pQueueFamilyDataGraphProperties)>
+        GetPhysicalDeviceQueueFamilyDataGraphPropertiesARM{};
+    inline static std::function<void(
+        VkPhysicalDevice physicalDevice,
+        const VkPhysicalDeviceQueueFamilyDataGraphProcessingEngineInfoARM* pQueueFamilyDataGraphProcessingEngineInfo,
+        VkQueueFamilyDataGraphProcessingEnginePropertiesARM* pQueueFamilyDataGraphProcessingEngineProperties)>
+        GetPhysicalDeviceQueueFamilyDataGraphProcessingEnginePropertiesARM{};
     inline static std::function<void(VkCommandBuffer commandBuffer, VkImageAspectFlags aspectMask)>
         CmdSetAttachmentFeedbackLoopEnableEXT{};
 #ifdef VK_USE_PLATFORM_SCREEN_QNX
@@ -1659,6 +1732,17 @@ class vkmock {
                                          VkScreenBufferPropertiesQNX* pProperties)>
         GetScreenBufferPropertiesQNX{};
 #endif  // VK_USE_PLATFORM_SCREEN_QNX
+    inline static std::function<void(VkCommandBuffer commandBuffer, const VkTileMemoryBindInfoQCOM* pTileMemoryBindInfo)>
+        CmdBindTileMemoryQCOM{};
+    inline static std::function<VkResult(VkDevice device, const VkExternalComputeQueueCreateInfoNV* pCreateInfo,
+                                         const VkAllocationCallbacks* pAllocator, VkExternalComputeQueueNV* pExternalQueue)>
+        CreateExternalComputeQueueNV{};
+    inline static std::function<void(VkDevice device, VkExternalComputeQueueNV externalQueue,
+                                     const VkAllocationCallbacks* pAllocator)>
+        DestroyExternalComputeQueueNV{};
+    inline static std::function<void(VkExternalComputeQueueNV externalQueue, VkExternalComputeQueueDataParamsNV* params,
+                                     void* pData)>
+        GetExternalComputeQueueDataNV{};
     inline static std::function<void(VkDevice device, const VkClusterAccelerationStructureInputInfoNV* pInfo,
                                      VkAccelerationStructureBuildSizesInfoKHR* pSizeInfo)>
         GetClusterAccelerationStructureBuildSizesNV{};
@@ -1701,6 +1785,11 @@ class vkmock {
                                      uint32_t executionSetWriteCount,
                                      const VkWriteIndirectExecutionSetShaderEXT* pExecutionSetWrites)>
         UpdateIndirectExecutionSetShaderEXT{};
+#ifdef VK_USE_PLATFORM_OHOS
+    inline static std::function<VkResult(VkInstance instance, const VkSurfaceCreateInfoOHOS* pCreateInfo,
+                                         const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface)>
+        CreateSurfaceOHOS{};
+#endif  // VK_USE_PLATFORM_OHOS
     inline static std::function<VkResult(VkPhysicalDevice physicalDevice, uint32_t* pPropertyCount,
                                          VkCooperativeMatrixFlexibleDimensionsPropertiesNV* pProperties)>
         GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV{};
@@ -1711,6 +1800,8 @@ class vkmock {
                                          VkMemoryMetalHandlePropertiesEXT* pMemoryMetalHandleProperties)>
         GetMemoryMetalHandlePropertiesEXT{};
 #endif  // VK_USE_PLATFORM_METAL_EXT
+    inline static std::function<void(VkCommandBuffer commandBuffer, const VkRenderingEndInfoEXT* pRenderingEndInfo)>
+        CmdEndRendering2EXT{};
     inline static std::function<VkResult(VkDevice device, const VkAccelerationStructureCreateInfoKHR* pCreateInfo,
                                          const VkAllocationCallbacks* pAllocator,
                                          VkAccelerationStructureKHR* pAccelerationStructure)>

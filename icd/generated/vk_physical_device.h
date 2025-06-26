@@ -156,10 +156,18 @@ class PhysicalDevice {
 #ifdef VK_USE_PLATFORM_SCREEN_QNX
     VkBool32 GetPhysicalDeviceScreenPresentationSupportQNX(uint32_t queueFamilyIndex, struct _screen_window* window);
 #endif  // VK_USE_PLATFORM_SCREEN_QNX
+    void GetPhysicalDeviceExternalTensorPropertiesARM(const VkPhysicalDeviceExternalTensorInfoARM* pExternalTensorInfo,
+                                                      VkExternalTensorPropertiesARM* pExternalTensorProperties);
     VkResult GetPhysicalDeviceOpticalFlowImageFormatsNV(const VkOpticalFlowImageFormatInfoNV* pOpticalFlowImageFormatInfo,
                                                         uint32_t* pFormatCount,
                                                         VkOpticalFlowImageFormatPropertiesNV* pImageFormatProperties);
     VkResult GetPhysicalDeviceCooperativeVectorPropertiesNV(uint32_t* pPropertyCount, VkCooperativeVectorPropertiesNV* pProperties);
+    VkResult GetPhysicalDeviceQueueFamilyDataGraphPropertiesARM(
+        uint32_t queueFamilyIndex, uint32_t* pQueueFamilyDataGraphPropertyCount,
+        VkQueueFamilyDataGraphPropertiesARM* pQueueFamilyDataGraphProperties);
+    void GetPhysicalDeviceQueueFamilyDataGraphProcessingEnginePropertiesARM(
+        const VkPhysicalDeviceQueueFamilyDataGraphProcessingEngineInfoARM* pQueueFamilyDataGraphProcessingEngineInfo,
+        VkQueueFamilyDataGraphProcessingEnginePropertiesARM* pQueueFamilyDataGraphProcessingEngineProperties);
     VkResult GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV(
         uint32_t* pPropertyCount, VkCooperativeMatrixFlexibleDimensionsPropertiesNV* pProperties);
 

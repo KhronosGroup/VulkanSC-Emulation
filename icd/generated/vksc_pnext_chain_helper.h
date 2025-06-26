@@ -187,8 +187,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceCre
             return {alignof(VkPhysicalDevicePrivateDataFeatures), sizeof(VkPhysicalDevicePrivateDataFeatures)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROTECTED_MEMORY_FEATURES:
             return {alignof(VkPhysicalDeviceProtectedMemoryFeatures), sizeof(VkPhysicalDeviceProtectedMemoryFeatures)};
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ROBUSTNESS_2_FEATURES_EXT:
-            return {alignof(VkPhysicalDeviceRobustness2FeaturesEXT), sizeof(VkPhysicalDeviceRobustness2FeaturesEXT)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ROBUSTNESS_2_FEATURES_KHR:
+            return {alignof(VkPhysicalDeviceRobustness2FeaturesKHR), sizeof(VkPhysicalDeviceRobustness2FeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SAMPLER_YCBCR_CONVERSION_FEATURES:
             return {alignof(VkPhysicalDeviceSamplerYcbcrConversionFeatures),
                     sizeof(VkPhysicalDeviceSamplerYcbcrConversionFeatures)};
@@ -880,8 +880,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
             return {alignof(VkPhysicalDevicePrivateDataFeatures), sizeof(VkPhysicalDevicePrivateDataFeatures)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROTECTED_MEMORY_FEATURES:
             return {alignof(VkPhysicalDeviceProtectedMemoryFeatures), sizeof(VkPhysicalDeviceProtectedMemoryFeatures)};
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ROBUSTNESS_2_FEATURES_EXT:
-            return {alignof(VkPhysicalDeviceRobustness2FeaturesEXT), sizeof(VkPhysicalDeviceRobustness2FeaturesEXT)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ROBUSTNESS_2_FEATURES_KHR:
+            return {alignof(VkPhysicalDeviceRobustness2FeaturesKHR), sizeof(VkPhysicalDeviceRobustness2FeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SAMPLER_YCBCR_CONVERSION_FEATURES:
             return {alignof(VkPhysicalDeviceSamplerYcbcrConversionFeatures),
                     sizeof(VkPhysicalDeviceSamplerYcbcrConversionFeatures)};
@@ -1029,8 +1029,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
             return {alignof(VkPhysicalDeviceProtectedMemoryProperties), sizeof(VkPhysicalDeviceProtectedMemoryProperties)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PUSH_DESCRIPTOR_PROPERTIES:
             return {alignof(VkPhysicalDevicePushDescriptorProperties), sizeof(VkPhysicalDevicePushDescriptorProperties)};
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ROBUSTNESS_2_PROPERTIES_EXT:
-            return {alignof(VkPhysicalDeviceRobustness2PropertiesEXT), sizeof(VkPhysicalDeviceRobustness2PropertiesEXT)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ROBUSTNESS_2_PROPERTIES_KHR:
+            return {alignof(VkPhysicalDeviceRobustness2PropertiesKHR), sizeof(VkPhysicalDeviceRobustness2PropertiesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SAMPLE_LOCATIONS_PROPERTIES_EXT:
             return {alignof(VkPhysicalDeviceSampleLocationsPropertiesEXT), sizeof(VkPhysicalDeviceSampleLocationsPropertiesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SAMPLER_FILTER_MINMAX_PROPERTIES:

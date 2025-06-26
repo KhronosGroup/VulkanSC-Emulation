@@ -499,6 +499,7 @@ DispatchTable::DispatchTable(VkInstance instance, PFN_vkGetInstanceProcAddr get_
           get_proc_addr(instance, "vkGetDeviceImageSubresourceLayoutKHR"))),
       GetImageSubresourceLayout2KHR(
           reinterpret_cast<PFN_vkGetImageSubresourceLayout2KHR>(get_proc_addr(instance, "vkGetImageSubresourceLayout2KHR"))),
+      WaitForPresent2KHR(reinterpret_cast<PFN_vkWaitForPresent2KHR>(get_proc_addr(instance, "vkWaitForPresent2KHR"))),
       CreatePipelineBinariesKHR(
           reinterpret_cast<PFN_vkCreatePipelineBinariesKHR>(get_proc_addr(instance, "vkCreatePipelineBinariesKHR"))),
       DestroyPipelineBinaryKHR(
@@ -831,6 +832,11 @@ DispatchTable::DispatchTable(VkInstance instance, PFN_vkGetInstanceProcAddr get_
       DestroyCudaFunctionNV(reinterpret_cast<PFN_vkDestroyCudaFunctionNV>(get_proc_addr(instance, "vkDestroyCudaFunctionNV"))),
       CmdCudaLaunchKernelNV(reinterpret_cast<PFN_vkCmdCudaLaunchKernelNV>(get_proc_addr(instance, "vkCmdCudaLaunchKernelNV"))),
 #endif  // VK_ENABLE_BETA_EXTENSIONS
+      CmdDispatchTileQCOM(reinterpret_cast<PFN_vkCmdDispatchTileQCOM>(get_proc_addr(instance, "vkCmdDispatchTileQCOM"))),
+      CmdBeginPerTileExecutionQCOM(
+          reinterpret_cast<PFN_vkCmdBeginPerTileExecutionQCOM>(get_proc_addr(instance, "vkCmdBeginPerTileExecutionQCOM"))),
+      CmdEndPerTileExecutionQCOM(
+          reinterpret_cast<PFN_vkCmdEndPerTileExecutionQCOM>(get_proc_addr(instance, "vkCmdEndPerTileExecutionQCOM"))),
 #ifdef VK_USE_PLATFORM_METAL_EXT
       ExportMetalObjectsEXT(reinterpret_cast<PFN_vkExportMetalObjectsEXT>(get_proc_addr(instance, "vkExportMetalObjectsEXT"))),
 #endif  // VK_USE_PLATFORM_METAL_EXT
@@ -1021,6 +1027,22 @@ DispatchTable::DispatchTable(VkInstance instance, PFN_vkGetInstanceProcAddr get_
           get_proc_addr(instance, "vkCmdSetRepresentativeFragmentTestEnableNV"))),
       CmdSetCoverageReductionModeNV(
           reinterpret_cast<PFN_vkCmdSetCoverageReductionModeNV>(get_proc_addr(instance, "vkCmdSetCoverageReductionModeNV"))),
+      CreateTensorARM(reinterpret_cast<PFN_vkCreateTensorARM>(get_proc_addr(instance, "vkCreateTensorARM"))),
+      DestroyTensorARM(reinterpret_cast<PFN_vkDestroyTensorARM>(get_proc_addr(instance, "vkDestroyTensorARM"))),
+      CreateTensorViewARM(reinterpret_cast<PFN_vkCreateTensorViewARM>(get_proc_addr(instance, "vkCreateTensorViewARM"))),
+      DestroyTensorViewARM(reinterpret_cast<PFN_vkDestroyTensorViewARM>(get_proc_addr(instance, "vkDestroyTensorViewARM"))),
+      GetTensorMemoryRequirementsARM(
+          reinterpret_cast<PFN_vkGetTensorMemoryRequirementsARM>(get_proc_addr(instance, "vkGetTensorMemoryRequirementsARM"))),
+      BindTensorMemoryARM(reinterpret_cast<PFN_vkBindTensorMemoryARM>(get_proc_addr(instance, "vkBindTensorMemoryARM"))),
+      GetDeviceTensorMemoryRequirementsARM(reinterpret_cast<PFN_vkGetDeviceTensorMemoryRequirementsARM>(
+          get_proc_addr(instance, "vkGetDeviceTensorMemoryRequirementsARM"))),
+      CmdCopyTensorARM(reinterpret_cast<PFN_vkCmdCopyTensorARM>(get_proc_addr(instance, "vkCmdCopyTensorARM"))),
+      GetPhysicalDeviceExternalTensorPropertiesARM(reinterpret_cast<PFN_vkGetPhysicalDeviceExternalTensorPropertiesARM>(
+          get_proc_addr(instance, "vkGetPhysicalDeviceExternalTensorPropertiesARM"))),
+      GetTensorOpaqueCaptureDescriptorDataARM(reinterpret_cast<PFN_vkGetTensorOpaqueCaptureDescriptorDataARM>(
+          get_proc_addr(instance, "vkGetTensorOpaqueCaptureDescriptorDataARM"))),
+      GetTensorViewOpaqueCaptureDescriptorDataARM(reinterpret_cast<PFN_vkGetTensorViewOpaqueCaptureDescriptorDataARM>(
+          get_proc_addr(instance, "vkGetTensorViewOpaqueCaptureDescriptorDataARM"))),
       GetShaderModuleIdentifierEXT(
           reinterpret_cast<PFN_vkGetShaderModuleIdentifierEXT>(get_proc_addr(instance, "vkGetShaderModuleIdentifierEXT"))),
       GetShaderModuleCreateInfoIdentifierEXT(reinterpret_cast<PFN_vkGetShaderModuleCreateInfoIdentifierEXT>(
@@ -1057,12 +1079,43 @@ DispatchTable::DispatchTable(VkInstance instance, PFN_vkGetInstanceProcAddr get_
       SetLatencyMarkerNV(reinterpret_cast<PFN_vkSetLatencyMarkerNV>(get_proc_addr(instance, "vkSetLatencyMarkerNV"))),
       GetLatencyTimingsNV(reinterpret_cast<PFN_vkGetLatencyTimingsNV>(get_proc_addr(instance, "vkGetLatencyTimingsNV"))),
       QueueNotifyOutOfBandNV(reinterpret_cast<PFN_vkQueueNotifyOutOfBandNV>(get_proc_addr(instance, "vkQueueNotifyOutOfBandNV"))),
+      CreateDataGraphPipelinesARM(
+          reinterpret_cast<PFN_vkCreateDataGraphPipelinesARM>(get_proc_addr(instance, "vkCreateDataGraphPipelinesARM"))),
+      CreateDataGraphPipelineSessionARM(reinterpret_cast<PFN_vkCreateDataGraphPipelineSessionARM>(
+          get_proc_addr(instance, "vkCreateDataGraphPipelineSessionARM"))),
+      GetDataGraphPipelineSessionBindPointRequirementsARM(
+          reinterpret_cast<PFN_vkGetDataGraphPipelineSessionBindPointRequirementsARM>(
+              get_proc_addr(instance, "vkGetDataGraphPipelineSessionBindPointRequirementsARM"))),
+      GetDataGraphPipelineSessionMemoryRequirementsARM(reinterpret_cast<PFN_vkGetDataGraphPipelineSessionMemoryRequirementsARM>(
+          get_proc_addr(instance, "vkGetDataGraphPipelineSessionMemoryRequirementsARM"))),
+      BindDataGraphPipelineSessionMemoryARM(reinterpret_cast<PFN_vkBindDataGraphPipelineSessionMemoryARM>(
+          get_proc_addr(instance, "vkBindDataGraphPipelineSessionMemoryARM"))),
+      DestroyDataGraphPipelineSessionARM(reinterpret_cast<PFN_vkDestroyDataGraphPipelineSessionARM>(
+          get_proc_addr(instance, "vkDestroyDataGraphPipelineSessionARM"))),
+      CmdDispatchDataGraphARM(
+          reinterpret_cast<PFN_vkCmdDispatchDataGraphARM>(get_proc_addr(instance, "vkCmdDispatchDataGraphARM"))),
+      GetDataGraphPipelineAvailablePropertiesARM(reinterpret_cast<PFN_vkGetDataGraphPipelineAvailablePropertiesARM>(
+          get_proc_addr(instance, "vkGetDataGraphPipelineAvailablePropertiesARM"))),
+      GetDataGraphPipelinePropertiesARM(reinterpret_cast<PFN_vkGetDataGraphPipelinePropertiesARM>(
+          get_proc_addr(instance, "vkGetDataGraphPipelinePropertiesARM"))),
+      GetPhysicalDeviceQueueFamilyDataGraphPropertiesARM(reinterpret_cast<PFN_vkGetPhysicalDeviceQueueFamilyDataGraphPropertiesARM>(
+          get_proc_addr(instance, "vkGetPhysicalDeviceQueueFamilyDataGraphPropertiesARM"))),
+      GetPhysicalDeviceQueueFamilyDataGraphProcessingEnginePropertiesARM(
+          reinterpret_cast<PFN_vkGetPhysicalDeviceQueueFamilyDataGraphProcessingEnginePropertiesARM>(
+              get_proc_addr(instance, "vkGetPhysicalDeviceQueueFamilyDataGraphProcessingEnginePropertiesARM"))),
       CmdSetAttachmentFeedbackLoopEnableEXT(reinterpret_cast<PFN_vkCmdSetAttachmentFeedbackLoopEnableEXT>(
           get_proc_addr(instance, "vkCmdSetAttachmentFeedbackLoopEnableEXT"))),
 #ifdef VK_USE_PLATFORM_SCREEN_QNX
       GetScreenBufferPropertiesQNX(
           reinterpret_cast<PFN_vkGetScreenBufferPropertiesQNX>(get_proc_addr(instance, "vkGetScreenBufferPropertiesQNX"))),
 #endif  // VK_USE_PLATFORM_SCREEN_QNX
+      CmdBindTileMemoryQCOM(reinterpret_cast<PFN_vkCmdBindTileMemoryQCOM>(get_proc_addr(instance, "vkCmdBindTileMemoryQCOM"))),
+      CreateExternalComputeQueueNV(
+          reinterpret_cast<PFN_vkCreateExternalComputeQueueNV>(get_proc_addr(instance, "vkCreateExternalComputeQueueNV"))),
+      DestroyExternalComputeQueueNV(
+          reinterpret_cast<PFN_vkDestroyExternalComputeQueueNV>(get_proc_addr(instance, "vkDestroyExternalComputeQueueNV"))),
+      GetExternalComputeQueueDataNV(
+          reinterpret_cast<PFN_vkGetExternalComputeQueueDataNV>(get_proc_addr(instance, "vkGetExternalComputeQueueDataNV"))),
       GetClusterAccelerationStructureBuildSizesNV(reinterpret_cast<PFN_vkGetClusterAccelerationStructureBuildSizesNV>(
           get_proc_addr(instance, "vkGetClusterAccelerationStructureBuildSizesNV"))),
       CmdBuildClusterAccelerationStructureIndirectNV(reinterpret_cast<PFN_vkCmdBuildClusterAccelerationStructureIndirectNV>(
@@ -1089,6 +1142,9 @@ DispatchTable::DispatchTable(VkInstance instance, PFN_vkGetInstanceProcAddr get_
           get_proc_addr(instance, "vkUpdateIndirectExecutionSetPipelineEXT"))),
       UpdateIndirectExecutionSetShaderEXT(reinterpret_cast<PFN_vkUpdateIndirectExecutionSetShaderEXT>(
           get_proc_addr(instance, "vkUpdateIndirectExecutionSetShaderEXT"))),
+#ifdef VK_USE_PLATFORM_OHOS
+      CreateSurfaceOHOS(reinterpret_cast<PFN_vkCreateSurfaceOHOS>(get_proc_addr(instance, "vkCreateSurfaceOHOS"))),
+#endif  // VK_USE_PLATFORM_OHOS
       GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV(
           reinterpret_cast<PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV>(
               get_proc_addr(instance, "vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV"))),
@@ -1098,6 +1154,7 @@ DispatchTable::DispatchTable(VkInstance instance, PFN_vkGetInstanceProcAddr get_
       GetMemoryMetalHandlePropertiesEXT(reinterpret_cast<PFN_vkGetMemoryMetalHandlePropertiesEXT>(
           get_proc_addr(instance, "vkGetMemoryMetalHandlePropertiesEXT"))),
 #endif  // VK_USE_PLATFORM_METAL_EXT
+      CmdEndRendering2EXT(reinterpret_cast<PFN_vkCmdEndRendering2EXT>(get_proc_addr(instance, "vkCmdEndRendering2EXT"))),
       CreateAccelerationStructureKHR(
           reinterpret_cast<PFN_vkCreateAccelerationStructureKHR>(get_proc_addr(instance, "vkCreateAccelerationStructureKHR"))),
       DestroyAccelerationStructureKHR(
