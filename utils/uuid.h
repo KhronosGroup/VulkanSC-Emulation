@@ -11,6 +11,9 @@
 #include <array>
 #include <utility>
 #include <string>
+#include <random>
+#include <chrono>
+#include <stddef.h>
 #include <string.h>
 #include <assert.h>
 
@@ -18,10 +21,64 @@ namespace utils {
 
 class UUID {
   public:
+    enum class Mode { RFC4122, AutoIncrement };
+    static inline size_t counter = 0;
+
     UUID() : id_() { memset(&id_[0], 0, VK_UUID_SIZE); }
-    UUID(const uint8_t id[VK_UUID_SIZE]) : id_() { memcpy(&id_[0], &id[0], VK_UUID_SIZE); }
+    UUID(const uint8_t id[VK_UUID_SIZE]) : id_() { CopyFromArray(id); }
     UUID(const std::array<uint8_t, VK_UUID_SIZE> id) : id_() { memcpy(&id_[0], &id[0], VK_UUID_SIZE); }
 
+    /// \brief Create UUID from pipeline cache JSON string
+    ///
+    /// \param mode UUID mode to use
+    /// \param json_str Null-terminated string of JSON to generate UUID for (contents are hashed)
+    /// \see https://datatracker.ietf.org/doc/html/rfc4122
+    /// \todo When C++20 is required, use std::chrono::utc_clock. For the time being, behavior mostly
+    ///       follows RFC4122, but epoch is according to STL. Should be fine, as the end goal is
+    ///       uniqueness, not reproducibility between systems.
+    UUID(Mode mode, const char* json_str) {
+        const auto nanoseconds_since_epoch =
+            mode == Mode::RFC4122
+                ? std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count()
+                : std::chrono::nanoseconds{0}.count();
+        const uint8_t variant = 0b100;
+        const uint8_t version = 0b10000;
+        static_assert(sizeof(std::random_device::result_type) >= sizeof(uint16_t),
+                      "Impl assumes std::random_device::result_type to be at least 2 bytes.");
+        const uint16_t clock_sequence =
+            mode == Mode::RFC4122 ? static_cast<uint16_t>(std::random_device{}()) : static_cast<uint16_t>(counter++);
+
+        const uint32_t time_low = static_cast<uint32_t>(nanoseconds_since_epoch);
+        const uint16_t time_mid = static_cast<uint16_t>(nanoseconds_since_epoch >> 32);
+        const uint16_t time_hi_and_version =
+            (static_cast<uint16_t>(nanoseconds_since_epoch >> sizeof(time_low + time_mid)) & 0xafff) |
+            (static_cast<uint16_t>(version) << 12);
+        const uint8_t clock_seq_hi_and_reserved = (static_cast<uint8_t>(clock_sequence >> 8) & 0b00011111) | (variant << 5);
+        const uint8_t clock_seq_low = static_cast<uint8_t>(clock_sequence);
+        const size_t node = std::hash<std::string>{}(json_str);
+
+        std::array<const uint8_t, VK_UUID_SIZE> uuid_octets{static_cast<uint8_t>(time_low >> 24),
+                                                            static_cast<uint8_t>(time_low >> 16),
+                                                            static_cast<uint8_t>(time_low >> 8),
+                                                            static_cast<uint8_t>(time_low),
+                                                            static_cast<uint8_t>(time_mid >> 8),
+                                                            static_cast<uint8_t>(time_mid),
+                                                            static_cast<uint8_t>(time_hi_and_version >> 8),
+                                                            static_cast<uint8_t>(time_hi_and_version),
+                                                            static_cast<uint8_t>(clock_seq_hi_and_reserved),
+                                                            static_cast<uint8_t>(clock_seq_low),
+                                                            static_cast<uint8_t>(node >> 40),
+                                                            static_cast<uint8_t>(node >> 32),
+                                                            static_cast<uint8_t>(node >> 24),
+                                                            static_cast<uint8_t>(node >> 16),
+                                                            static_cast<uint8_t>(node >> 8),
+                                                            static_cast<uint8_t>(node)};
+        CopyFromArray(uuid_octets.data());
+    }
+
+    /// \brief Create UUID from string representation.
+    /// \param str serialized UUID
+    /// \note Feeding UUID::toString() to this CTOR should yield an identical UUID object.
     UUID(const char* str) {
         uint32_t bytes_read = 0;
         while (bytes_read < VK_UUID_SIZE && str[0] != '\0' && str[1] != '\0') {
@@ -69,6 +126,8 @@ class UUID {
 
   private:
     uint8_t id_[VK_UUID_SIZE];
+
+    void CopyFromArray(const uint8_t* id) { memcpy(&id_[0], id, VK_UUID_SIZE); }
 };
 
 // Pipeline cache UUID used by the emulation stack (shared between the PCC and ICD)
