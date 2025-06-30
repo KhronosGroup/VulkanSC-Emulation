@@ -1,0 +1,41 @@
+# ~~~
+# Copyright (c) 2024-2025 The Khronos Group Inc.
+# Copyright (c) 2024-2025 RasterGrid Kft.
+#
+# SPDX-License-Identifier: Apache-2.0
+# ~~~
+
+file(STRINGS "${LOG_FILENAME}" LOG_FILE)
+
+set(UUID_REGEX_BIT [=[[0-9A-Fa-f\-]]=])
+set(UUID_REGEX)
+foreach(I RANGE 1 36)
+    string(APPEND UUID_REGEX ${UUID_REGEX_BIT})
+endforeach()
+
+# Filter out all lines from lof without UUID
+list(FILTER LOG_FILE INCLUDE REGEX "${UUID_REGEX}")
+# Take off the leading message
+list(TRANSFORM LOG_FILE REPLACE "\\[INFO\\] No PipelineUUID provided, embedding: " "")
+
+list(GET LOG_FILE 0 UUID0) # 00000000-0000-0000-8000-XXXXXXXXXXXX
+list(GET LOG_FILE 1 UUID1) # 00000000-0000-0000-8001-XXXXXXXXXXXX
+
+string(SUBSTRING ${UUID0} 0 22 UUID0_PREFIX)
+string(SUBSTRING ${UUID1} 0 22 UUID1_PREFIX)
+
+string(SUBSTRING ${UUID0} 22 1 UUID0_AUTOINC)
+string(SUBSTRING ${UUID1} 22 1 UUID1_AUTOINC)
+
+string(SUBSTRING ${UUID0} 23 -1 UUID0_SUFFIX)
+string(SUBSTRING ${UUID1} 23 -1 UUID1_SUFFIX)
+
+if(NOT UUID0_PREFIX STREQUAL UUID1_PREFIX)
+    message(FATAL_ERROR "Prefix mismatch! UUID0_PREFIX: ${UUID0_PREFIX} vs. UUID1_PREFIX: ${UUID1_PREFIX}")
+endif()
+if(NOT (UUID0_AUTOINC STREQUAL "0" AND UUID1_AUTOINC STREQUAL "1"))
+    message(FATAL_ERROR "Wrong increment value! UUID0_AUTOINC: ${UUID0_AUTOINC} and UUID1_AUTOINC: ${UUID1_AUTOINC}")
+endif()
+if(NOT UUID0_SUFFIX STREQUAL UUID1_SUFFIX)
+    message(FATAL_ERROR "Suffix mismatch! UUID0_SUFFIX: ${UUID0_SUFFIX} vs. UUID1_SUFFIX: ${UUID1_SUFFIX}")
+endif()
