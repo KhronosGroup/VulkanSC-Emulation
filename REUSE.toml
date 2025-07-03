@@ -15,10 +15,7 @@ path = [
     "tests/pcc/caselist.pcc.txt",
     "tests/pcc/data/**",
 # JSON can't have SPDX-style comments
-    "icd/vksconvk.json.in",
-    "**.json",
-    "icd/sample_display_config.json",
-    "tests/icd/vkmock_icd.json.in",
+    "**.json.in",
     "**.json",
 # SPIRV can't have SPDX-style comments
     "**.spv"
