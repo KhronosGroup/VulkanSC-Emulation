@@ -7,6 +7,7 @@
 
 #include "vksc_command_buffer.h"
 #include "vksc_device.h"
+#include "vksc_global.h"
 
 namespace vksc {
 
@@ -35,6 +36,30 @@ VkResult CommandBuffer::EndCommandBuffer() {
         return GetStatus();
     } else {
         return NEXT::EndCommandBuffer();
+    }
+}
+
+void CommandBuffer::CmdBeginDebugUtilsLabelEXT(const VkDebugUtilsLabelEXT* pLabelInfo) {
+    // NOTE: We do not currently include debug util labels in our debug messages
+    if (ICD.IsInstanceExtensionSupported(vk::ExtensionNumber::EXT_debug_utils)) {
+        // Forward call to the underlying Vulkan implementation if it supports it
+        NEXT::CmdBeginDebugUtilsLabelEXT(pLabelInfo);
+    }
+}
+
+void CommandBuffer::CmdEndDebugUtilsLabelEXT() {
+    // NOTE: We do not currently include debug util labels in our debug messages
+    if (ICD.IsInstanceExtensionSupported(vk::ExtensionNumber::EXT_debug_utils)) {
+        // Forward call to the underlying Vulkan implementation if it supports it
+        NEXT::CmdEndDebugUtilsLabelEXT();
+    }
+}
+
+void CommandBuffer::CmdInsertDebugUtilsLabelEXT(const VkDebugUtilsLabelEXT* pLabelInfo) {
+    // NOTE: We do not currently include debug util labels in our debug messages
+    if (ICD.IsInstanceExtensionSupported(vk::ExtensionNumber::EXT_debug_utils)) {
+        // Forward call to the underlying Vulkan implementation if it supports it
+        NEXT::CmdInsertDebugUtilsLabelEXT(pLabelInfo);
     }
 }
 

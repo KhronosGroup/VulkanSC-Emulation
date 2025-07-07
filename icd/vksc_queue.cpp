@@ -8,6 +8,7 @@
 #include "vksc_queue.h"
 #include "vksc_device.h"
 #include "vksc_command_buffer.h"
+#include "vksc_global.h"
 
 namespace vksc {
 
@@ -49,6 +50,30 @@ VkResult Queue::QueueSubmit2KHR(uint32_t submitCount, const VkSubmitInfo2* pSubm
     }
 
     return NEXT::QueueSubmit2KHR(submitCount, submit_info, fence);
+}
+
+void Queue::QueueBeginDebugUtilsLabelEXT(const VkDebugUtilsLabelEXT* pLabelInfo) {
+    // NOTE: We do not currently include debug util labels in our debug messages
+    if (ICD.IsInstanceExtensionSupported(vk::ExtensionNumber::EXT_debug_utils)) {
+        // Forward call to the underlying Vulkan implementation if it supports it
+        NEXT::QueueBeginDebugUtilsLabelEXT(pLabelInfo);
+    }
+}
+
+void Queue::QueueEndDebugUtilsLabelEXT() {
+    // NOTE: We do not currently include debug util labels in our debug messages
+    if (ICD.IsInstanceExtensionSupported(vk::ExtensionNumber::EXT_debug_utils)) {
+        // Forward call to the underlying Vulkan implementation if it supports it
+        NEXT::QueueEndDebugUtilsLabelEXT();
+    }
+}
+
+void Queue::QueueInsertDebugUtilsLabelEXT(const VkDebugUtilsLabelEXT* pLabelInfo) {
+    // NOTE: We do not currently include debug util labels in our debug messages
+    if (ICD.IsInstanceExtensionSupported(vk::ExtensionNumber::EXT_debug_utils)) {
+        // Forward call to the underlying Vulkan implementation if it supports it
+        NEXT::QueueInsertDebugUtilsLabelEXT(pLabelInfo);
+    }
 }
 
 }  // namespace vksc

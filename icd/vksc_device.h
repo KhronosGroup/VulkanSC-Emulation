@@ -95,6 +95,9 @@ class Device : public Dispatchable<Device, VkDevice>, public vk::Device {
     VkResult CreateSharedSwapchainsKHR(uint32_t swapchainCount, const VkSwapchainCreateInfoKHR* pCreateInfos,
                                        const VkAllocationCallbacks* pAllocator, VkSwapchainKHR* pSwapchains);
 
+    VkResult SetDebugUtilsObjectNameEXT(const VkDebugUtilsObjectNameInfoEXT* pNameInfo);
+    VkResult SetDebugUtilsObjectTagEXT(const VkDebugUtilsObjectTagInfoEXT* pTagInfo);
+
   private:
     VkResult SetupDevice(const VkDeviceCreateInfo& create_info);
     const icd::Pipeline* GetPipelineFromCache(const icd::PipelineCache& pipeline_cache,
