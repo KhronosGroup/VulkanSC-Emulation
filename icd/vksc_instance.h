@@ -49,6 +49,9 @@ class Instance : public Dispatchable<Instance, VkInstance>, public vk::Instance 
     VkResult CreateDebugUtilsMessengerEXT(const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
                                           const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pMessenger);
     void DestroyDebugUtilsMessengerEXT(VkDebugUtilsMessengerEXT messenger, const VkAllocationCallbacks* pAllocator);
+    void SubmitDebugUtilsMessageEXT(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+                                    VkDebugUtilsMessageTypeFlagsEXT messageTypes,
+                                    const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData);
 
     VkResult CreateDisplayPlaneSurfaceKHR(const VkDisplaySurfaceCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                                           VkSurfaceKHR* pSurface);

@@ -367,6 +367,12 @@ TEST_F(InfrastructureTest, DebugUtilsMessenger) {
               VK_ERROR_INVALID_PIPELINE_CACHE_DATA);
     EXPECT_EQ(callback_data.call_count, 0);
 
+    // Send a manual message (we still should receive no callbacks)
+    auto cb_data = vku::InitStruct<VkDebugUtilsMessengerCallbackDataEXT>();
+    vksc::SubmitDebugUtilsMessageEXT(instance, VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT,
+                                     VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT, &cb_data);
+    EXPECT_EQ(callback_data.call_count, 0);
+
     // Create an additional messenger
     if (Framework::WithVulkanLoader()) {
         // The Vulkan loader exposes support for VK_EXT_debug_utils so we need mocks
@@ -402,13 +408,18 @@ TEST_F(InfrastructureTest, DebugUtilsMessenger) {
               VK_ERROR_INVALID_PIPELINE_CACHE_DATA);
     EXPECT_EQ(callback_data.call_count, 4);
 
+    // We send a manual message forcing out another call
+    vksc::SubmitDebugUtilsMessageEXT(instance, VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT,
+                                     VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT, &cb_data);
+    EXPECT_EQ(callback_data.call_count, 5);
+
     // Destroy the second messenger
     vksc::DestroyDebugUtilsMessengerEXT(instance, messenger2, nullptr);
 
     // After deleting the additional messenger, once again, no calls are triggered
     EXPECT_EQ(vksc::CreatePipelineCache(device, &pipeline_cache_ci, nullptr, &pipeline_cache),
               VK_ERROR_INVALID_PIPELINE_CACHE_DATA);
-    EXPECT_EQ(callback_data.call_count, 4);
+    EXPECT_EQ(callback_data.call_count, 5);
 }
 
 TEST_F(InfrastructureTest, CreateDeviceStructChain) {
