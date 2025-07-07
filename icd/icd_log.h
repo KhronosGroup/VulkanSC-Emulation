@@ -72,6 +72,11 @@ class Logger {
 
     void RemoveDebugMessenger(VkDebugUtilsMessengerEXT handle) { messengers_->Remove(handle); }
 
+    void SubmitMessage(VkDebugUtilsMessageSeverityFlagBitsEXT severity, VkDebugUtilsMessageTypeFlagsEXT types,
+                       const VkDebugUtilsMessengerCallbackDataEXT& data) {
+        messengers_->Send(severity, types, data);
+    }
+
     template <typename... ARGS>
     void Fatal(const char* msg_id, const char* format, ARGS... args) const {
         Log(true, VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT, VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT, msg_id, format,

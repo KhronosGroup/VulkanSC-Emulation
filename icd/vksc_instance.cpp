@@ -207,6 +207,16 @@ void Instance::DestroyDebugUtilsMessengerEXT(VkDebugUtilsMessengerEXT messenger,
     }
 }
 
+void Instance::SubmitDebugUtilsMessageEXT(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+                                          VkDebugUtilsMessageTypeFlagsEXT messageTypes,
+                                          const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData) {
+    if (ICD.IsInstanceExtensionEmulated(ExtensionNumber::EXT_debug_utils)) {
+        Log().SubmitMessage(messageSeverity, messageTypes, *pCallbackData);
+    } else {
+        NEXT::SubmitDebugUtilsMessageEXT(messageSeverity, messageTypes, pCallbackData);
+    }
+}
+
 VkResult Instance::CreateDisplayPlaneSurfaceKHR(const VkDisplaySurfaceCreateInfoKHR* pCreateInfo,
                                                 const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface) {
     auto emulated_display_mode = GetDisplayManager().GetEmulatedDisplayModeFromHandle(pCreateInfo->displayMode);
