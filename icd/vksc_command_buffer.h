@@ -26,6 +26,10 @@ class CommandBuffer : public Dispatchable<CommandBuffer, VkCommandBuffer>, publi
     void CmdRefreshObjectsKHR(const VkRefreshObjectListKHR* pRefreshObjects);
     VkResult EndCommandBuffer();
 
+    void CmdBeginDebugUtilsLabelEXT(const VkDebugUtilsLabelEXT* pLabelInfo);
+    void CmdEndDebugUtilsLabelEXT();
+    void CmdInsertDebugUtilsLabelEXT(const VkDebugUtilsLabelEXT* pLabelInfo);
+
   private:
     icd::Logger logger_;
 };

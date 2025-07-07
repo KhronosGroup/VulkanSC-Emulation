@@ -10,6 +10,7 @@
 #include "vksc_queue.h"
 #include "vksc_command_buffer.h"
 #include "vksc_instance.h"
+#include "vksc_global.h"
 #include "icd_proc_addr.h"
 #include "icd_pnext_chain_utils.h"
 
@@ -544,6 +545,24 @@ VkResult Device::CreateSharedSwapchainsKHR(uint32_t swapchainCount, const VkSwap
         // We ran out of requested query pool objects
         return VK_ERROR_OUT_OF_HOST_MEMORY;
     }
+}
+
+VkResult Device::SetDebugUtilsObjectNameEXT(const VkDebugUtilsObjectNameInfoEXT* pNameInfo) {
+    // NOTE: We do not currently include debug util object names in our debug messages
+    if (ICD.IsInstanceExtensionSupported(vk::ExtensionNumber::EXT_debug_utils)) {
+        // Forward call to the underlying Vulkan implementation if it supports it
+        return NEXT::SetDebugUtilsObjectNameEXT(pNameInfo);
+    }
+    return VK_SUCCESS;
+}
+
+VkResult Device::SetDebugUtilsObjectTagEXT(const VkDebugUtilsObjectTagInfoEXT* pTagInfo) {
+    // NOTE: We do not currently include debug util object tags in our debug messages
+    if (ICD.IsInstanceExtensionSupported(vk::ExtensionNumber::EXT_debug_utils)) {
+        // Forward call to the underlying Vulkan implementation if it supports it
+        return NEXT::SetDebugUtilsObjectTagEXT(pTagInfo);
+    }
+    return VK_SUCCESS;
 }
 
 }  // namespace vksc

@@ -29,6 +29,10 @@ class Queue : public Dispatchable<Queue, VkQueue>, public vk::Queue {
     VkResult QueueSubmit(uint32_t submitCount, const VkSubmitInfo* pSubmits, VkFence fence);
     VkResult QueueSubmit2KHR(uint32_t submitCount, const VkSubmitInfo2* pSubmits, VkFence fence);
 
+    void QueueBeginDebugUtilsLabelEXT(const VkDebugUtilsLabelEXT* pLabelInfo);
+    void QueueEndDebugUtilsLabelEXT();
+    void QueueInsertDebugUtilsLabelEXT(const VkDebugUtilsLabelEXT* pLabelInfo);
+
   private:
     icd::Logger logger_;
 };
