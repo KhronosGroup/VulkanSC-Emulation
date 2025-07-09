@@ -286,7 +286,7 @@ def main(argv):
             with open(json_file) as f:
                 data = json.load(f)
 
-            data["layer"]["api_version"] = args.generated_version
+            data["ICD"]["api_version"] = args.generated_version
 
             with open(json_file, mode='w', encoding='utf-8', newline='\n') as f:
                 f.write(json.dumps(data, indent=4))
