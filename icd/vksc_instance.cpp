@@ -191,13 +191,13 @@ VkResult Instance::CreateDebugUtilsMessengerEXT(const VkDebugUtilsMessengerCreat
         result = NEXT::CreateDebugUtilsMessengerEXT(pCreateInfo, pAllocator, pMessenger);
     }
     if (result >= VK_SUCCESS) {
-        Log().AddDebugMessenger(*pMessenger, *pCreateInfo);
+        logger_.AddDebugMessenger(*pMessenger, *pCreateInfo);
     }
     return result;
 }
 
 void Instance::DestroyDebugUtilsMessengerEXT(VkDebugUtilsMessengerEXT messenger, const VkAllocationCallbacks* pAllocator) {
-    Log().RemoveDebugMessenger(messenger);
+    logger_.RemoveDebugMessenger(messenger);
     if (ICD.IsInstanceExtensionEmulated(ExtensionNumber::EXT_debug_utils)) {
         // Destroy placeholder object because the Vulkan stack does not support VK_EXT_debug_utils
         delete DebugUtilsMessengerEXT::FromHandle(messenger);

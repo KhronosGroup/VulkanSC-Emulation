@@ -22,7 +22,7 @@ class Queue : public Dispatchable<Queue, VkQueue>, public vk::Queue {
 
     Queue(VkQueue queue, Device& device);
 
-    icd::Logger& Log() { return logger_; }
+    const icd::Logger& Log() const { return logger_; }
 
     bool IsValid() const { return true; }
 

@@ -20,7 +20,7 @@ class CommandBuffer : public Dispatchable<CommandBuffer, VkCommandBuffer>, publi
 
     CommandBuffer(VkCommandBuffer command_buffer, CommandPool& command_pool);
 
-    icd::Logger& Log() { return logger_; }
+    const icd::Logger& Log() const { return logger_; }
 
     void CmdExecuteCommands(uint32_t commandBufferCount, const VkCommandBuffer* pCommandBuffers);
     void CmdRefreshObjectsKHR(const VkRefreshObjectListKHR* pRefreshObjects);

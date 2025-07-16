@@ -81,7 +81,7 @@ class CommandBufferMemoryTrackerGenerator(BaseGenerator):
                 CommandBufferMemoryTracker(VkCommandBuffer command_buffer, CommandPool& command_pool);
                 ~CommandBufferMemoryTracker();
 
-                icd::Logger& Log() { return logger_; }
+                const icd::Logger& Log() const { return logger_; }
                 VkDeviceSize GetAllocatedMemorySize() const { return allocated_memory_size_; }
 
                 VkResult BeginCommandBuffer(const VkCommandBufferBeginInfo* pBeginInfo);

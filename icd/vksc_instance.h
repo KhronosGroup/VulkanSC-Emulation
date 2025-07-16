@@ -29,7 +29,7 @@ class Instance : public Dispatchable<Instance, VkInstance>, public vk::Instance 
 
     Instance(VkInstance instance, Global& global, const VkInstanceCreateInfo& create_info);
 
-    icd::Logger& Log() { return logger_; }
+    const icd::Logger& Log() const { return logger_; }
 
     VkResult GetStatus() const { return status_; }
 

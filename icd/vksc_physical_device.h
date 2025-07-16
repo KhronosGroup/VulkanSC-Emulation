@@ -29,7 +29,7 @@ class PhysicalDevice : public Dispatchable<PhysicalDevice, VkPhysicalDevice>, pu
 
     PhysicalDevice(VkPhysicalDevice physical_device, Instance& instance);
 
-    icd::Logger& Log() { return logger_; }
+    const icd::Logger& Log() const { return logger_; }
 
     bool IsValid() const { return valid_; }
 

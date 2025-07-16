@@ -25,7 +25,7 @@ class CommandPool {
     CommandPool(VkCommandPool command_pool, Device& device, VkDeviceSize reserved_size, uint32_t reserved_count);
     ~CommandPool();
 
-    icd::Logger& Log() { return logger_; }
+    const icd::Logger& Log() const { return logger_; }
 
     Device& GetDevice() const { return device_; }
 

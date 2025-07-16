@@ -38,7 +38,7 @@ class Device : public Dispatchable<Device, VkDevice>, public vk::Device {
 
     Device(VkDevice device, PhysicalDevice& physical_device, const VkDeviceCreateInfo& create_info);
 
-    icd::Logger& Log() { return logger_; }
+    const icd::Logger& Log() const { return logger_; }
     icd::FaultHandler& GetFaultHandler() { return fault_handler_; }
 
     bool RecyclePipelineMemory() const { return physical_device_.RecyclePipelineMemory(); }
