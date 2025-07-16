@@ -73,7 +73,7 @@ class Logger {
     void RemoveDebugMessenger(VkDebugUtilsMessengerEXT handle) { messengers_->Remove(handle); }
 
     void SubmitMessage(VkDebugUtilsMessageSeverityFlagBitsEXT severity, VkDebugUtilsMessageTypeFlagsEXT types,
-                       const VkDebugUtilsMessengerCallbackDataEXT& data) {
+                       const VkDebugUtilsMessengerCallbackDataEXT& data) const {
         messengers_->Send(severity, types, data);
     }
 
