@@ -399,8 +399,9 @@ VkResult Display::CreateSurface(Instance& instance, DisplayMode& display_mode, c
                 xcb_generic_event_t* event = nullptr;
                 event = xcb_wait_for_event(surface_->connection);
                 if (event != nullptr) {
-                    if (event->response_type == XCB_CLIENT_MESSAGE) {
-                        quit = false;
+                    uint8_t event_code = event->response_type & 0x7f;
+                    if (event_code == XCB_CLIENT_MESSAGE) {
+                        quit = true;
                         break;
                     }
                     free(event);
@@ -432,7 +433,7 @@ void Display::DestroySurface() {
     PostMessage(surface_->window, WM_CLOSE, 0, 0);
     surface_->message_handler.join();
 #elif defined(VK_USE_PLATFORM_XCB_KHR)
-    // Send even to unblock and exit message handler thread
+    // Send event to unblock and exit message handler thread
     xcb_client_message_event_t event;
     event.response_type = XCB_CLIENT_MESSAGE;
     event.format = 32;
