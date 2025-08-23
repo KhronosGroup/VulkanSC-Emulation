@@ -153,7 +153,7 @@ if (CMAKE_CROSSCOMPILING)
         TEST_LIST ICD_TESTS
     )
     foreach(ICD_TEST IN LISTS ICD_TESTS)
-        set_tests_properties(ICD_TEST PROPERTIES LABELS ICD)
+        set_tests_properties("${ICD_TEST}" PROPERTIES LABELS ICD)
     endforeach()
 else()
     gtest_discover_tests(icd_tests
