@@ -63,7 +63,7 @@ static bool validate_spirv(const Json::Value& enabled_extensions, const Json::Va
         auto is_feature_enabled = [&](const char* feature) {
             // The pipeline JSON really ought to represent boolean struct members as JSON bools.
             // As ill fate would have it, they're currently stored as C macro strings.
-            return (features_struct[feature].isBool() && features_struct[feature].asBool()) ||
+            return (features_struct[feature].isUInt() && features_struct[feature].asUInt()) ||
                    (features_struct[feature].isString() && features_struct[feature].asString() == "VK_TRUE");
         };
         if (is_feature_enabled("uniformBufferStandardLayout")) {
