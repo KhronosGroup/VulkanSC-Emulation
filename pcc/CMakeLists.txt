@@ -60,6 +60,22 @@ add_custom_command(TARGET pcc POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different ${INTERMEDIATE_FILE} $<TARGET_FILE_DIR:icd>/${OUTPUT_FILE_FINAL_NAME}
 )
 
+# For UNIX-based systems, `library_path` should not contain a relative path (indicated by "./") before installing to system directories
+# This json isn't used for regular local development, it's used for installation
+if (UNIX)
+    set(UNIX_INTERMEDIATE_FILE "${CMAKE_CURRENT_BINARY_DIR}/pcc/unix_install_icd.json")
+
+    if(APPLE)
+        set(JSON_LIBRARY_PATH "lib${ICD_NAME}.dylib")
+    else()
+        set(JSON_LIBRARY_PATH "lib${ICD_NAME}.so")
+    endif()
+
+    configure_file(${INPUT_FILE} ${UNIX_INTERMEDIATE_FILE} @ONLY)
+
+    install(FILES ${UNIX_INTERMEDIATE_FILE} DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${API_TYPE}/pcc.d RENAME ${OUTPUT_FILE_FINAL_NAME})
+endif()
+
 if (WIN32)
     install(FILES ${INTERMEDIATE_FILE} DESTINATION ${COMPONENT_INSTALL_DIR} RENAME ${OUTPUT_FILE_FINAL_NAME})
     if(INSTALL_WITH_REGISTRATION)
