@@ -50,8 +50,8 @@ if (WIN32)
 endif()
 
 cmake_path(RELATIVE_PATH COMPONENT_INSTALL_DIR BASE_DIRECTORY "${ICD_INSTALL_DIR}" OUTPUT_VARIABLE JSON_TO_PCC_DIR)
-cmake_path(APPEND JSON_TO_PCC_DIR "${PCC_NAME}${CMAKE_EXECUTABLE_SUFFIX}" OUTPUT_VARIABLE PCC_PATH)
-cmake_path(NATIVE_PATH PCC_PATH PCC_PATH)
+cmake_path(APPEND JSON_TO_PCC_DIR "${PCC_NAME}${CMAKE_EXECUTABLE_SUFFIX}" OUTPUT_VARIABLE JSON_PCC_PATH)
+cmake_path(NATIVE_PATH JSON_PCC_PATH JSON_PCC_PATH)
 
 configure_file(${INPUT_FILE} ${INTERMEDIATE_FILE} @ONLY)
 
@@ -63,13 +63,12 @@ add_custom_command(TARGET pcc POST_BUILD
 # For UNIX-based systems, `library_path` should not contain a relative path (indicated by "./") before installing to system directories
 # This json isn't used for regular local development, it's used for installation
 if (UNIX)
-    set(UNIX_INTERMEDIATE_FILE "${CMAKE_CURRENT_BINARY_DIR}/pcc/unix_install_icd.json")
+    set(UNIX_INTERMEDIATE_FILE "${CMAKE_CURRENT_BINARY_DIR}/pcc/unix_install_pcc.json")
 
-    if(APPLE)
-        set(JSON_LIBRARY_PATH "lib${ICD_NAME}.dylib")
-    else()
-        set(JSON_LIBRARY_PATH "lib${ICD_NAME}.so")
-    endif()
+    cmake_path(RELATIVE_PATH COMPONENT_INSTALL_DIR BASE_DIRECTORY "${CMAKE_INSTALL_DATAROOTDIR}/${API_TYPE}/pcc.d" OUTPUT_VARIABLE JSON_TO_PCC_DIR)
+    cmake_path(APPEND JSON_TO_PCC_DIR "${PCC_NAME}${CMAKE_EXECUTABLE_SUFFIX}" OUTPUT_VARIABLE JSON_PCC_PATH)
+    cmake_path(NATIVE_PATH JSON_PCC_PATH JSON_PCC_PATH)
+    message(STATUS "JSON_PCC_PATH: ${JSON_PCC_PATH}")
 
     configure_file(${INPUT_FILE} ${UNIX_INTERMEDIATE_FILE} @ONLY)
 
