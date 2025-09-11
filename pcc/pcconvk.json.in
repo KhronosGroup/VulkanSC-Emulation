@@ -6,7 +6,8 @@
             "pipeline_cache_compiler": "@JSON_PCC_PATH@",
             "pipeline_cache_flags" : "",
             "pipeline_cache_debug_flag": "--debug",
-            "vendor_id_filter" : "0x10000"
+            "vendor_id_filter" : "0x10000",
+            "driver_id_filter" : "0x1b"
         }
     }
 }
