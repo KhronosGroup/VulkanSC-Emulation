@@ -14,6 +14,9 @@
 #include "vksc_instance.h"
 #include "vksc_physical_device.h"
 #include "vksc_queue.h"
+
+extern "C" {
+
 VKAPI_ATTR void VKAPI_CALL vkDestroyInstance(VkInstance instance, const VkAllocationCallbacks* pAllocator) {
     if (instance != VK_NULL_HANDLE) return vksc::Instance::FromHandle(instance)->DestroyInstance(pAllocator);
 }
@@ -1422,4 +1425,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkGetScreenBufferPropertiesQNX(VkDevice device, c
 }
 
 #endif  // VK_USE_PLATFORM_SCREEN_QNX
+
+}  // extern "C"
+
 // NOLINTEND

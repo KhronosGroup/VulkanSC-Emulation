@@ -36,6 +36,9 @@ class EntryPointGenerator(BaseGenerator):
             #include "vksc_instance.h"
             #include "vksc_physical_device.h"
             #include "vksc_queue.h"
+
+            extern "C" {
+
             ''')
 
         custom_entry_points = {
@@ -64,5 +67,8 @@ class EntryPointGenerator(BaseGenerator):
                 out.append('}\n\n')
         out.extend(guard_helper.add_guard(None))
 
-        out.append('// NOLINTEND') # Wrap for clang-tidy to ignore
+        out.append('''
+            }  // extern "C"
+            ''')
+        out.append('\n// NOLINTEND') # Wrap for clang-tidy to ignore
         self.write("".join(out))
