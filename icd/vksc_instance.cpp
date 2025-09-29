@@ -90,6 +90,8 @@ VkResult Instance::GetCompatiblePhysicalDeviceList(std::vector<VkPhysicalDevice>
 }
 
 VkResult Instance::EnumeratePhysicalDevices(uint32_t* pPhysicalDeviceCount, VkPhysicalDevice* pPhysicalDevices) {
+    icd::EnvironmentOverride override(vksc::ICD.Environment());
+
     std::vector<VkPhysicalDevice> physical_devices{};
     VkResult result = GetCompatiblePhysicalDeviceList(physical_devices);
     if (result >= VK_SUCCESS) {
@@ -142,6 +144,8 @@ VkResult Instance::GetCompatiblePhysicalDeviceGroupList(std::vector<VkPhysicalDe
 
 VkResult Instance::EnumeratePhysicalDeviceGroups(uint32_t* pPhysicalDeviceGroupCount,
                                                  VkPhysicalDeviceGroupProperties* pPhysicalDeviceGroupProperties) {
+    icd::EnvironmentOverride override(vksc::ICD.Environment());
+
     if (pPhysicalDeviceGroupProperties != nullptr) {
         for (uint32_t i = 0; i < *pPhysicalDeviceGroupCount; ++i) {
             // NOTE: This code assumes that nothing is chained to the pNext (which is currently the case)
