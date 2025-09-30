@@ -3,7 +3,7 @@
     "name": "Emulation",
     "architectures": {
         "Portable": {
-            "pipeline_cache_compiler": "@PCC_PATH@",
+            "pipeline_cache_compiler": "@JSON_PCC_PATH@",
             "pipeline_cache_flags" : "",
             "pipeline_cache_debug_flag": "--debug",
             "vendor_id_filter" : "0x10000"
