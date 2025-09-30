@@ -40,4 +40,43 @@ target_include_directories(pcc PRIVATE
 
 set_target_properties(pcc PROPERTIES OUTPUT_NAME ${PCC_NAME})
 
+set(INPUT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/${PCC_NAME}.json.in")
+set(INTERMEDIATE_FILE "${CMAKE_CURRENT_BINARY_DIR}/json/pcc.json")
+set(OUTPUT_FILE_FINAL_NAME "${PCC_NAME}.json")
+set(COMPONENT_INSTALL_DIR ${CMAKE_INSTALL_BINDIR})
+
+if (WIN32)
+    set(PCC_PATH ".\\\\${PCC_NAME}.exe")
+else()
+    set(PCC_PATH "./${PCC_NAME}")
+endif()
+
+configure_file(${INPUT_FILE} ${INTERMEDIATE_FILE} @ONLY)
+
+# To support both multi/single configuration generators just copy the json to the correct directory
+add_custom_command(TARGET pcc POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${INTERMEDIATE_FILE} $<TARGET_FILE_DIR:pcc>/${OUTPUT_FILE_FINAL_NAME}
+)
+
+if (WIN32)
+    install(FILES ${INTERMEDIATE_FILE} DESTINATION ${COMPONENT_INSTALL_DIR} RENAME ${OUTPUT_FILE_FINAL_NAME})
+    if(INSTALL_WITH_REGISTRATION)
+        get_property(GENERATOR_IS_MULTI_CONFIG GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+        if(GENERATOR_IS_MULTI_CONFIG)
+            set(CONFIGS "${CMAKE_CONFIGURATION_TYPES}")
+        else()
+            set(CONFIGS "${CMAKE_BUILD_TYPE}")
+        endif()
+        set(ECOSYSTEM_COMPONENT PCC)
+        foreach(CONFIG IN LISTS CONFIGS)
+            configure_file(
+                "${PROJECT_SOURCE_DIR}/scripts/RegisterComponent.in.cmake"
+                "${CMAKE_CURRENT_BINARY_DIR}/Register${ECOSYSTEM_COMPONENT}.${CONFIG}.cmake"
+                @ONLY
+            )
+        endforeach()
+        install(SCRIPT "${CMAKE_CURRENT_BINARY_DIR}/Register${ECOSYSTEM_COMPONENT}.$<CONFIG>.cmake" COMPONENT pcc)
+    endif()
+endif()
+
 install(TARGETS pcc)
