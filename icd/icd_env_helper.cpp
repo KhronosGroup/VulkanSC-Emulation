@@ -69,14 +69,16 @@ VkDebugUtilsMessageSeverityFlagsEXT EnvironmentHelper::ParseLogSeverity() {
         std::stringstream ss(env_var_value);
         std::string str;
         while (getline(ss, str, ',')) {
-            if (str == "error") {
-                log_severity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+            if (str == "all") {
+                log_severity |= VK_DEBUG_UTILS_MESSAGE_SEVERITY_FLAG_BITS_MAX_ENUM_EXT;
+            } else if (str == "error") {
+                log_severity |= VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
             } else if (str == "warn") {
-                log_severity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT;
+                log_severity |= VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT;
             } else if (str == "info") {
-                log_severity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT;
+                log_severity |= VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT;
             } else if (str == "debug") {
-                log_severity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT;
+                log_severity |= VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT;
             }
         }
     }
