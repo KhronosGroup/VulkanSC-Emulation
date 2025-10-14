@@ -400,11 +400,11 @@ VkResult Display::CreateSurface(Instance& instance, DisplayMode& display_mode, c
                 event = xcb_wait_for_event(surface_->connection);
                 if (event != nullptr) {
                     uint8_t event_code = event->response_type & 0x7f;
+                    free(event);
                     if (event_code == XCB_CLIENT_MESSAGE) {
                         quit = true;
                         break;
                     }
-                    free(event);
                 }
             }
         });
