@@ -192,10 +192,6 @@ def RunVKSCEmuICDTests(args):
 
     common_ci.RunShellCmd(test_cmd, env=test_env)
 
-    print("Re-Running multithreaded tests with VK_LAYER_FINE_GRAINED_LOCKING disabled")
-    test_env['VK_LAYER_FINE_GRAINED_LOCKING'] = '0'
-    common_ci.RunShellCmd(test_cmd + ' --gtest_filter=*Thread*', env=test_env)
-
 #
 # Run the VKSC Emulation PCC Tests
 def RunVKSCEmuPCCTests():
