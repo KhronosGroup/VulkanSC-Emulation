@@ -157,8 +157,6 @@ VkResult PhysicalDevice::CreateDevice(const VkDeviceCreateInfo* pCreateInfo, con
                 vk_enabled_extension_names[vk_create_info.enabledExtensionCount++] = pCreateInfo->ppEnabledExtensionNames[i];
             }
         } else {
-            Log().Error("VKSC-EMU-CreateDevice-UnsupportedExtension", "Unsupported device extension '%s'",
-                        pCreateInfo->ppEnabledExtensionNames[i]);
             return VK_ERROR_EXTENSION_NOT_PRESENT;
         }
     }

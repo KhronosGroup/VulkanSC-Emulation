@@ -274,8 +274,6 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateInstance(const VkInstanceCreateInfo* pCre
                 vk_enabled_extension_names[vk_create_info.enabledExtensionCount++] = pCreateInfo->ppEnabledExtensionNames[i];
             }
         } else {
-            vksc::ICD.Log().Error("VKSC-EMU-CreateInstance-UnsupportedExtension", "Unsupported instance extension '%s'",
-                                  pCreateInfo->ppEnabledExtensionNames[i]);
             return VK_ERROR_EXTENSION_NOT_PRESENT;
         }
     }
