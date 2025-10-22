@@ -216,12 +216,12 @@ TEST_F(InfrastructureTest, DeviceLoaderFiltering) {
             pProperties->vendorID = 23456;
         } else if (physicalDevice == mock_physdev_dev2) {
             strcpy(pProperties->deviceName, "Mock device 2");
-            pProperties->deviceID = 0;  // Non-matching value
+            pProperties->deviceID = 34567;  // Non-matching value
             pProperties->vendorID = 23456;
         } else if (physicalDevice == mock_physdev_dev3) {
             strcpy(pProperties->deviceName, "Mock device 3");
             pProperties->deviceID = 12345;
-            pProperties->vendorID = 0;  // Non-matching value
+            pProperties->vendorID = 34567;  // Non-matching value
         } else if (physicalDevice == mock_physdev_dev4) {
             strcpy(pProperties->deviceName, "Mock device 4");
             pProperties->deviceID = 12345;
@@ -239,15 +239,15 @@ TEST_F(InfrastructureTest, DeviceLoaderFiltering) {
         auto physical_device_driver_properties = vku::FindStructInPNextChain<VkPhysicalDeviceDriverProperties>(pProperties2->pNext);
         if (physical_device_driver_properties) {
             if (physicalDevice == mock_physdev_dev1) {
-                physical_device_driver_properties->driverID = VK_DRIVER_ID_VULKAN_SC_EMULATION_ON_VULKAN;
+                physical_device_driver_properties->driverID = VK_DRIVER_ID_AMD_PROPRIETARY;
             } else if (physicalDevice == mock_physdev_dev2) {
-                physical_device_driver_properties->driverID = VK_DRIVER_ID_VULKAN_SC_EMULATION_ON_VULKAN;
+                physical_device_driver_properties->driverID = VK_DRIVER_ID_AMD_PROPRIETARY;
             } else if (physicalDevice == mock_physdev_dev3) {
-                physical_device_driver_properties->driverID = VK_DRIVER_ID_VULKAN_SC_EMULATION_ON_VULKAN;
+                physical_device_driver_properties->driverID = VK_DRIVER_ID_AMD_PROPRIETARY;
             } else if (physicalDevice == mock_physdev_dev4) {
-                physical_device_driver_properties->driverID = VK_DRIVER_ID_AMD_PROPRIETARY;  // Non-matching value
+                physical_device_driver_properties->driverID = VK_DRIVER_ID_AMD_OPEN_SOURCE;  // Non-matching value
             } else if (physicalDevice == mock_physdev_dev5) {
-                physical_device_driver_properties->driverID = VK_DRIVER_ID_VULKAN_SC_EMULATION_ON_VULKAN;
+                physical_device_driver_properties->driverID = VK_DRIVER_ID_AMD_PROPRIETARY;
             } else {
                 assert(false);
             }
@@ -264,8 +264,7 @@ TEST_F(InfrastructureTest, DeviceLoaderFiltering) {
 
     ScopedEnvVars env{{"VKSC_EMU_VK_LOADER_DEVICE_ID_FILTER", "12345"},
                       {"VKSC_EMU_VK_LOADER_VENDOR_ID_FILTER", "23456"},
-                      {"VKSC_EMU_VK_LOADER_DRIVER_ID_FILTER", "27"},
-                      {"VK_LOADER_DEVICE_ID_FILTER", std::to_string(VK_VENDOR_ID_KHRONOS | 12345)},
+                      {"VKSC_EMU_VK_LOADER_DRIVER_ID_FILTER", "1"},
                       {"VK_LOADER_VENDOR_ID_FILTER", "0x10000"},
                       {"VK_LOADER_DRIVER_ID_FILTER", "27"}};
     auto instance = InitInstance();
