@@ -54,7 +54,7 @@
             "sub_dir": "Vulkan-Loader",
             "build_dir": "Vulkan-Loader/build",
             "install_dir": "Vulkan-Loader/build/install",
-            "commit": "vksc1.0.19",
+            "commit": "7d695948b1a969daf68169e50b9075d06cfe2aef",
             "build_step": "skip",
             "optional": [
                 "tests"
