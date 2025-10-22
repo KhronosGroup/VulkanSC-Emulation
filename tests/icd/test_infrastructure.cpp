@@ -13,7 +13,46 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <initializer_list>
 #include <stdlib.h>
+
+class ScopedEnvVars {
+  public:
+    ScopedEnvVars(std::initializer_list<std::unordered_map<std::string, std::string>::value_type> init) : old_env_{} {
+        for (const auto& env_var : init) {
+            auto value = getenv(env_var.first.c_str());
+            old_env_[env_var.first] = value != nullptr ? value : "";
+        }
+
+        for (const auto& env_var : init) {
+#ifdef _WIN32
+            _putenv_s(env_var.first.c_str(), env_var.second.c_str());
+#else
+            setenv(env_var.first.c_str(), env_var.second.c_str(), 1);
+#endif
+        }
+    }
+    ~ScopedEnvVars() {
+        for (const auto& env_var : old_env_) {
+            if (env_var.second.empty()) {
+#ifdef _WIN32
+                _putenv_s(env_var.first.c_str(), "");
+#else
+                unsetenv(env_var.first.c_str());
+#endif
+            } else {
+#ifdef _WIN32
+                _putenv_s(env_var.first.c_str(), env_var.second.c_str());
+#else
+                setenv(env_var.first.c_str(), env_var.second.c_str(), 1);
+#endif
+            }
+        }
+    }
+
+  private:
+    std::unordered_map<std::string, std::string> old_env_;
+};
 
 class InfrastructureTest : public IcdTest {};
 
@@ -30,6 +69,11 @@ TEST_F(InfrastructureTest, EnvironmentVariables) {
                                                       "VK_LOADER_LAYERS_ALLOW",
                                                       "VK_LOADER_DRIVERS_SELECT",
                                                       "VK_LOADER_DRIVERS_DISABLE",
+                                                      "VK_IMPLICIT_LAYER_PATH",
+                                                      "VK_ADD_IMPLICIT_LAYER_PATH",
+                                                      "VK_LOADER_DEVICE_ID_FILTER",
+                                                      "VK_LOADER_VENDOR_ID_FILTER",
+                                                      "VK_LOADER_DRIVER_ID_FILTER",
                                                       "VK_INSTANCE_LAYERS",
                                                       "VK_LOADER_DEVICE_SELECT",
                                                       "VK_LOADER_DISABLE_INST_EXT_FILTER",
@@ -133,6 +177,112 @@ TEST_F(InfrastructureTest, CreateDeviceExtensionNotPresent) {
 
     VkDevice device = VK_NULL_HANDLE;
     EXPECT_EQ(vksc::CreateDevice(GetPhysicalDevice(), &create_info, nullptr, &device), VK_ERROR_EXTENSION_NOT_PRESENT);
+}
+
+TEST_F(InfrastructureTest, DeviceLoaderFiltering) {
+    TEST_DESCRIPTION("Test filtering of devices and device groups using loader env vars");
+
+    GTEST_SKIP() << "The test infrastructure isn't friendly towards filter env vars and multiple tests from a single test process. "
+                    "(trips CI only)";
+
+    if (!Framework::WithVulkanLoader() || !Framework::WithVulkanSCLoader()) {
+        GTEST_SKIP() << "Test requries both the Vulkan and SC loaders";
+    }
+
+    VkMockObject<VkPhysicalDevice> mock_physdev_dev1{}, mock_physdev_dev2{}, mock_physdev_dev3{}, mock_physdev_dev4{},
+        mock_physdev_dev5{};
+
+    vkmock::EnumeratePhysicalDevices = [&](auto, auto pPhysicalDeviceCount, auto pPhysicalDevices) {
+        static const std::vector<VkPhysicalDevice> physical_devices = {mock_physdev_dev1, mock_physdev_dev2, mock_physdev_dev3,
+                                                                       mock_physdev_dev4, mock_physdev_dev5};
+
+        VkResult result = VK_SUCCESS;
+        if (pPhysicalDevices == nullptr) {
+            *pPhysicalDeviceCount = static_cast<uint32_t>(physical_devices.size());
+        } else {
+            if (*pPhysicalDeviceCount < physical_devices.size()) {
+                result = VK_INCOMPLETE;
+            }
+            *pPhysicalDeviceCount = std::min(*pPhysicalDeviceCount, static_cast<uint32_t>(physical_devices.size()));
+            for (uint32_t i = 0; i < *pPhysicalDeviceCount; ++i) {
+                pPhysicalDevices[i] = physical_devices[i];
+            }
+        }
+        return result;
+    };
+    // Setup physical device properties as such that the first and last device survive filtering only
+    vkmock::GetPhysicalDeviceProperties = [&](auto physicalDevice, auto pProperties) {
+        pProperties->apiVersion = VK_API_VERSION_1_2;
+        if (physicalDevice == mock_physdev_dev1) {
+            strcpy(pProperties->deviceName, "Mock device 1");
+            pProperties->deviceID = 12345;
+            pProperties->vendorID = 23456;
+        } else if (physicalDevice == mock_physdev_dev2) {
+            strcpy(pProperties->deviceName, "Mock device 2");
+            pProperties->deviceID = 34567;  // Non-matching value
+            pProperties->vendorID = 23456;
+        } else if (physicalDevice == mock_physdev_dev3) {
+            strcpy(pProperties->deviceName, "Mock device 3");
+            pProperties->deviceID = 12345;
+            pProperties->vendorID = 34567;  // Non-matching value
+        } else if (physicalDevice == mock_physdev_dev4) {
+            strcpy(pProperties->deviceName, "Mock device 4");
+            pProperties->deviceID = 12345;
+            pProperties->vendorID = 23456;
+        } else if (physicalDevice == mock_physdev_dev5) {
+            strcpy(pProperties->deviceName, "Mock device 5");
+            pProperties->deviceID = 12345;
+            pProperties->vendorID = 23456;
+        } else {
+            assert(false);
+        }
+    };
+    vkmock::GetPhysicalDeviceProperties2 = [&](auto physicalDevice, auto pProperties2) {
+        vkmock::GetPhysicalDeviceProperties(physicalDevice, &pProperties2->properties);
+        auto physical_device_driver_properties = vku::FindStructInPNextChain<VkPhysicalDeviceDriverProperties>(pProperties2->pNext);
+        if (physical_device_driver_properties) {
+            if (physicalDevice == mock_physdev_dev1) {
+                physical_device_driver_properties->driverID = VK_DRIVER_ID_AMD_PROPRIETARY;
+            } else if (physicalDevice == mock_physdev_dev2) {
+                physical_device_driver_properties->driverID = VK_DRIVER_ID_AMD_PROPRIETARY;
+            } else if (physicalDevice == mock_physdev_dev3) {
+                physical_device_driver_properties->driverID = VK_DRIVER_ID_AMD_PROPRIETARY;
+            } else if (physicalDevice == mock_physdev_dev4) {
+                physical_device_driver_properties->driverID = VK_DRIVER_ID_AMD_OPEN_SOURCE;  // Non-matching value
+            } else if (physicalDevice == mock_physdev_dev5) {
+                physical_device_driver_properties->driverID = VK_DRIVER_ID_AMD_PROPRIETARY;
+            } else {
+                assert(false);
+            }
+        }
+    };
+    vkmock::GetPhysicalDeviceFeatures2 = [&](auto physicalDevice, auto pFeatures) {
+        vkmock::GetPhysicalDeviceFeatures(physicalDevice, &pFeatures->features);
+        auto vulkan_memory_model_features =
+            vku::FindStructInPNextChain<VkPhysicalDeviceVulkanMemoryModelFeatures>(pFeatures->pNext);
+        if (vulkan_memory_model_features) {
+            vulkan_memory_model_features->vulkanMemoryModel = VK_TRUE;
+        }
+    };
+
+    ScopedEnvVars env{{"VKSC_EMU_VK_LOADER_DEVICE_ID_FILTER", "12345"},
+                      {"VKSC_EMU_VK_LOADER_VENDOR_ID_FILTER", "23456"},
+                      {"VKSC_EMU_VK_LOADER_DRIVER_ID_FILTER", "1"},
+                      {"VK_LOADER_VENDOR_ID_FILTER", "0x10000"},
+                      {"VK_LOADER_DRIVER_ID_FILTER", "27"}};
+    auto instance = InitInstance();
+
+    uint32_t count = 0;
+    EXPECT_EQ(vksc::EnumeratePhysicalDevices(instance, &count, nullptr), VK_SUCCESS);
+    EXPECT_EQ(count, 2);
+    std::vector<VkPhysicalDevice> physdevs(count);
+    EXPECT_EQ(vksc::EnumeratePhysicalDevices(instance, &count, physdevs.data()), VK_SUCCESS);
+    EXPECT_EQ(count, 2);
+    VkPhysicalDeviceProperties props;
+    vksc::GetPhysicalDeviceProperties(physdevs[0], &props);
+    EXPECT_STREQ(props.deviceName, "Mock device 1") << "Unexpected device filtering";
+    vksc::GetPhysicalDeviceProperties(physdevs[1], &props);
+    EXPECT_STREQ(props.deviceName, "Mock device 5") << "Unexpected device filtering";
 }
 
 TEST_F(InfrastructureTest, DeviceFiltering) {

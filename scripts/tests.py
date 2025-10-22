@@ -185,7 +185,7 @@ def RunVKSCEmuICDTests(args):
     test_env['VK_LOADER_DISABLE_DYNAMIC_LIBRARY_UNLOADING'] = '1'
 
     # Useful for debugging
-    # test_env['VK_LOADER_DEBUG'] = 'error,warn,info'
+    # test_env['VK_LOADER_DEBUG'] = 'all'
     # test_env['VK_LAYER_TESTS_PRINT_DRIVER'] = '1'
 
     test_cmd = os.path.join(CI_INSTALL_DIR, 'bin', 'test_vksconvk')
