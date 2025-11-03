@@ -89,6 +89,8 @@ jobs:
       - name: Test VKSC Loader
         run: python scripts/tests.py --test-icd --vkscloader
       - name: Test Both Loaders
+        env:
+          LD_DEBUG: "libs"
         run: python scripts/tests.py --test-icd --vkloader --vkscloader
 
   linux-sanitize:
