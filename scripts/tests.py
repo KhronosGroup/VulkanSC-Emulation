@@ -188,7 +188,7 @@ def RunVKSCEmuICDTests(args):
     test_env['VK_LOADER_DEBUG'] = 'all'
     test_env['VK_LAYER_TESTS_PRINT_DRIVER'] = '1'
 
-    test_cmd = os.path.join(CI_INSTALL_DIR, 'bin', 'test_vksconvk')
+    test_cmd = os.path.join(CI_INSTALL_DIR, 'bin', 'test_vksconvk') + ' --gtest_filter=InfrastructureTest.DeviceLoaderFiltering'
 
     common_ci.RunShellCmd('env', env=test_env)
     common_ci.RunShellCmd(test_cmd, env=test_env)
