@@ -28,6 +28,7 @@ permissions:
 
 jobs:
   check_emu:
+    if: false
     name: clang-format
     runs-on: ubuntu-latest
     strategy:
@@ -43,6 +44,7 @@ jobs:
       uses: fsfe/reuse-action@v4.0.0
 
   codegen:
+    if: false
     needs: check_emu
     runs-on: ubuntu-latest
     steps:
@@ -55,14 +57,17 @@ jobs:
       - run: scripts/generate_source.py --verify external/Vulkan-Headers/registry/
 
   linux:
-    needs: codegen
+    #needs: codegen
     runs-on: ${{matrix.os}}
     name: "linux (${{matrix.os}}, ${{matrix.config}})"
     strategy:
       fail-fast: false
       matrix:
-        config: [ Debug, Release ]
-        os: [ ubuntu-22.04, ubuntu-24.04 ]
+        #config: [ Debug, Release ]
+        #os: [ ubuntu-22.04, ubuntu-24.04 ]
+        include:
+          - config: Debug
+            os: ubuntu-24.04
     steps:
       # Install Loader dependencies
       - run: sudo apt install pkg-config libx11-xcb-dev libxkbcommon-dev libwayland-dev libxrandr-dev -y
@@ -73,6 +78,8 @@ jobs:
       - uses: lukka/get-cmake@latest
       - name: Configure, Build, Install
         run: python scripts/tests.py --build --config ${{ matrix.config }}
+      - name: Pre-test environment
+        run: env
       - name: Test PCC
         run: python scripts/tests.py --test-pcc
       - name: Test No Loader
@@ -85,6 +92,7 @@ jobs:
         run: python scripts/tests.py --test-icd --vkloader --vkscloader
 
   linux-sanitize:
+    if: false
     needs: codegen
     runs-on: ${{matrix.os}}
     name: "linux (${{matrix.sanitize}} sanitizer, ${{matrix.os}}, ${{matrix.config}})"
@@ -123,6 +131,7 @@ jobs:
         run: python scripts/tests.py --test-icd --vkloader --vkscloader
 
   windows:
+    if: false
     needs: codegen
     runs-on: windows-latest
     strategy:

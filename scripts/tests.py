@@ -190,6 +190,7 @@ def RunVKSCEmuICDTests(args):
 
     test_cmd = os.path.join(CI_INSTALL_DIR, 'bin', 'test_vksconvk')
 
+    common_ci.RunShellCmd('env', env=test_env)
     common_ci.RunShellCmd(test_cmd, env=test_env)
 
 #
