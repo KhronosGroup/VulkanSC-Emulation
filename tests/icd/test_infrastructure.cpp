@@ -147,6 +147,7 @@ TEST_F(InfrastructureTest, CreateInstanceLayerNotPresent) {
     create_info.enabledLayerCount = 1;
     create_info.ppEnabledLayerNames = &placeholder_layer_name;
 
+    PreInitInstanceSetUp();
     VkInstance instance = VK_NULL_HANDLE;
     EXPECT_EQ(vksc::CreateInstance(&create_info, nullptr, &instance), VK_ERROR_LAYER_NOT_PRESENT);
 }
@@ -160,6 +161,7 @@ TEST_F(InfrastructureTest, CreateInstanceExtensionNotPresent) {
     create_info.enabledExtensionCount = 1;
     create_info.ppEnabledExtensionNames = &placeholder_ext_name;
 
+    PreInitInstanceSetUp();
     VkInstance instance = VK_NULL_HANDLE;
     EXPECT_EQ(vksc::CreateInstance(&create_info, nullptr, &instance), VK_ERROR_EXTENSION_NOT_PRESENT);
 }

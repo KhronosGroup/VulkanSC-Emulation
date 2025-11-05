@@ -32,15 +32,13 @@ static void InitDefaultMockHandlers(IcdTest *test_case = nullptr) {
     static VkDeviceSize mock_buffer_size = 0;
     static VkMockObject<VkDeviceMemory> mock_memory{};
 
-    vkmock::Reset();
-
-    vkmock::GetInstanceProcAddr = [&](auto, auto pName) { return vkmock::GetProcAddr(pName); };
-    vkmock::GetDeviceProcAddr = [&](auto, auto pName) { return vkmock::GetProcAddr(pName); };
-    vkmock::EnumerateInstanceVersion = [&](auto pApiVersion) {
+    if (!vkmock::GetInstanceProcAddr) vkmock::GetInstanceProcAddr = [&](auto, auto pName) { return vkmock::GetProcAddr(pName); };
+    if (!vkmock::GetDeviceProcAddr) vkmock::GetDeviceProcAddr = [&](auto, auto pName) { return vkmock::GetProcAddr(pName); };
+    if (!vkmock::EnumerateInstanceVersion) vkmock::EnumerateInstanceVersion = [&](auto pApiVersion) {
         *pApiVersion = VK_API_VERSION_1_2;
         return VK_SUCCESS;
     };
-    vkmock::EnumerateInstanceExtensionProperties = [&](auto, auto pPropertyCount, auto pProperties) {
+    if (!vkmock::EnumerateInstanceExtensionProperties) vkmock::EnumerateInstanceExtensionProperties = [&](auto, auto pPropertyCount, auto pProperties) {
         // We report support for VK_KHR_display and VK_KHR_get_display_properties2 to test display emulation interactions
         // We also report the correspnding target platform extensions
         static const std::vector<VkExtensionProperties> extensions = {
@@ -67,7 +65,7 @@ static void InitDefaultMockHandlers(IcdTest *test_case = nullptr) {
         }
         return result;
     };
-    vkmock::EnumerateDeviceExtensionProperties = [&](auto, auto, auto pPropertyCount, auto pProperties) {
+    if (!vkmock::EnumerateDeviceExtensionProperties) vkmock::EnumerateDeviceExtensionProperties = [&](auto, auto, auto pPropertyCount, auto pProperties) {
         // We report support for VK_KHR_synchronization2 to test vkQueueSubmit2KHR
         static const std::vector<VkExtensionProperties> extensions = {
             {VK_KHR_SYNCHRONIZATION_2_EXTENSION_NAME, VK_KHR_SYNCHRONIZATION_2_SPEC_VERSION}};
@@ -86,7 +84,7 @@ static void InitDefaultMockHandlers(IcdTest *test_case = nullptr) {
         }
         return result;
     };
-    vkmock::EnumeratePhysicalDevices = [&](auto, auto pPhysicalDeviceCount, auto pPhysicalDevices) {
+    if (!vkmock::EnumeratePhysicalDevices) vkmock::EnumeratePhysicalDevices = [&](auto, auto pPhysicalDeviceCount, auto pPhysicalDevices) {
         if (pPhysicalDevices != nullptr) {
             if (*pPhysicalDeviceCount > 0) {
                 *pPhysicalDeviceCount = 1;
@@ -100,16 +98,16 @@ static void InitDefaultMockHandlers(IcdTest *test_case = nullptr) {
             return VK_SUCCESS;
         }
     };
-    vkmock::EnumeratePhysicalDeviceGroups = [&](auto, auto pPhysicalDeviceGroupCount, auto) {
+    if (!vkmock::EnumeratePhysicalDeviceGroups) vkmock::EnumeratePhysicalDeviceGroups = [&](auto, auto pPhysicalDeviceGroupCount, auto) {
         *pPhysicalDeviceGroupCount = 0;
         return VK_SUCCESS;
     };
-    vkmock::GetPhysicalDeviceProperties = [&](auto, auto pProperties) { pProperties->apiVersion = VK_API_VERSION_1_2; };
-    vkmock::GetPhysicalDeviceProperties2 = [&](auto physicalDevice, auto pProperties) {
+    if (!vkmock::GetPhysicalDeviceProperties) vkmock::GetPhysicalDeviceProperties = [&](auto, auto pProperties) { pProperties->apiVersion = VK_API_VERSION_1_2; };
+    if (!vkmock::GetPhysicalDeviceProperties2) vkmock::GetPhysicalDeviceProperties2 = [&](auto physicalDevice, auto pProperties) {
         vkmock::GetPhysicalDeviceProperties(physicalDevice, &pProperties->properties);
     };
-    vkmock::GetPhysicalDeviceFeatures = [&](auto, auto pFeatures) {};
-    vkmock::GetPhysicalDeviceFeatures2 = [&](auto physicalDevice, auto pFeatures) {
+    if (!vkmock::GetPhysicalDeviceFeatures) vkmock::GetPhysicalDeviceFeatures = [&](auto, auto pFeatures) {};
+    if (!vkmock::GetPhysicalDeviceFeatures2) vkmock::GetPhysicalDeviceFeatures2 = [&](auto physicalDevice, auto pFeatures) {
         vkmock::GetPhysicalDeviceFeatures(physicalDevice, &pFeatures->features);
         auto vulkan_memory_model_features =
             vku::FindStructInPNextChain<VkPhysicalDeviceVulkanMemoryModelFeatures>(pFeatures->pNext);
@@ -117,14 +115,14 @@ static void InitDefaultMockHandlers(IcdTest *test_case = nullptr) {
             vulkan_memory_model_features->vulkanMemoryModel = VK_TRUE;
         }
     };
-    vkmock::GetPhysicalDeviceQueueFamilyProperties = [&](auto, auto pQueueFamilyPropertyCount, auto pQueueFamilyProperties) {
+    if (!vkmock::GetPhysicalDeviceQueueFamilyProperties) vkmock::GetPhysicalDeviceQueueFamilyProperties = [&](auto, auto pQueueFamilyPropertyCount, auto pQueueFamilyProperties) {
         if (pQueueFamilyProperties == nullptr) {
             *pQueueFamilyPropertyCount = 1;
         } else {
             pQueueFamilyProperties[0] = {VK_QUEUE_TRANSFER_BIT | VK_QUEUE_COMPUTE_BIT | VK_QUEUE_GRAPHICS_BIT, 1, 0, {0, 0, 0}};
         }
     };
-    vkmock::GetPhysicalDeviceQueueFamilyProperties2 = [&](auto physicalDevice, auto pQueueFamilyPropertyCount,
+    if (!vkmock::GetPhysicalDeviceQueueFamilyProperties2) vkmock::GetPhysicalDeviceQueueFamilyProperties2 = [&](auto physicalDevice, auto pQueueFamilyPropertyCount,
                                                           auto pQueueFamilyProperties) {
         if (pQueueFamilyProperties == nullptr) {
             *pQueueFamilyPropertyCount = 1;
@@ -133,7 +131,7 @@ static void InitDefaultMockHandlers(IcdTest *test_case = nullptr) {
                                                            &pQueueFamilyProperties->queueFamilyProperties);
         }
     };
-    vkmock::GetPhysicalDeviceMemoryProperties = [&](auto, auto pMemoryProperties) {
+    if (!vkmock::GetPhysicalDeviceMemoryProperties) vkmock::GetPhysicalDeviceMemoryProperties = [&](auto, auto pMemoryProperties) {
         pMemoryProperties->memoryTypeCount = 1;
         pMemoryProperties->memoryTypes[0] = {VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT | VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
                                                  VK_MEMORY_PROPERTY_HOST_COHERENT_BIT | VK_MEMORY_PROPERTY_HOST_CACHED_BIT,
@@ -141,58 +139,58 @@ static void InitDefaultMockHandlers(IcdTest *test_case = nullptr) {
         pMemoryProperties->memoryHeapCount = 1;
         pMemoryProperties->memoryHeaps[0] = {1048576, VK_MEMORY_HEAP_DEVICE_LOCAL_BIT};
     };
-    vkmock::GetPhysicalDeviceMemoryProperties2 = [&](auto physicalDevice, auto pMemoryProperties) {
+    if (!vkmock::GetPhysicalDeviceMemoryProperties2) vkmock::GetPhysicalDeviceMemoryProperties2 = [&](auto physicalDevice, auto pMemoryProperties) {
         vkmock::GetPhysicalDeviceMemoryProperties(physicalDevice, &pMemoryProperties->memoryProperties);
     };
-    vkmock::GetDeviceQueue = [&](auto, auto, auto, auto pQueue) { *pQueue = mock_queue; };
-    vkmock::GetDeviceQueue2 = [&](auto, auto, auto pQueue) { *pQueue = mock_queue; };
-    vkmock::GetBufferMemoryRequirements = [&](auto, auto, auto pMemoryRequirements) {
+    if (!vkmock::GetDeviceQueue) vkmock::GetDeviceQueue = [&](auto, auto, auto, auto pQueue) { *pQueue = mock_queue; };
+    if (!vkmock::GetDeviceQueue2) vkmock::GetDeviceQueue2 = [&](auto, auto, auto pQueue) { *pQueue = mock_queue; };
+    if (!vkmock::GetBufferMemoryRequirements) vkmock::GetBufferMemoryRequirements = [&](auto, auto, auto pMemoryRequirements) {
         pMemoryRequirements->size = mock_buffer_size;
         pMemoryRequirements->alignment = 4;
         pMemoryRequirements->memoryTypeBits = 1;  // Buffers all need the first (and only) mem type
     };
-    vkmock::GetBufferMemoryRequirements2 = [&](auto device, auto pInfo, auto pMemoryRequirements) {
+    if (!vkmock::GetBufferMemoryRequirements2) vkmock::GetBufferMemoryRequirements2 = [&](auto device, auto pInfo, auto pMemoryRequirements) {
         vkmock::GetBufferMemoryRequirements(device, pInfo->buffer, &pMemoryRequirements->memoryRequirements);
     };
-    vkmock::CreateBuffer = [&](auto, auto, auto, auto pBuffer) {
+    if (!vkmock::CreateBuffer) vkmock::CreateBuffer = [&](auto, auto, auto, auto pBuffer) {
         *pBuffer = mock_buffer;
         return VK_SUCCESS;
     };
-    vkmock::CreateCommandPool = [&](auto, const auto pCreateInfo, const auto, auto pCommandPool) {
+    if (!vkmock::CreateCommandPool) vkmock::CreateCommandPool = [&](auto, const auto pCreateInfo, const auto, auto pCommandPool) {
         *pCommandPool = mock_command_pool;
         return VK_SUCCESS;
     };
-    vkmock::AllocateCommandBuffers = [&](auto, auto pCreateInfo, auto pCommandBuffers) {
+    if (!vkmock::AllocateCommandBuffers) vkmock::AllocateCommandBuffers = [&](auto, auto pCreateInfo, auto pCommandBuffers) {
         mock_command_buffers.resize(pCreateInfo->commandBufferCount);
         for (size_t i = 0; i < mock_command_buffers.size(); ++i) {
             pCommandBuffers[i] = mock_command_buffers[i];
         }
         return VK_SUCCESS;
     };
-    vkmock::AllocateMemory = [&](auto, auto, auto, auto pMemory) {
+    if (!vkmock::AllocateMemory) vkmock::AllocateMemory = [&](auto, auto, auto, auto pMemory) {
         *pMemory = mock_memory;
         return VK_SUCCESS;
     };
-    vkmock::FreeMemory = [&](auto, auto, auto) {};
-    vkmock::DestroyBuffer = [&](auto, auto, auto) {};
-    vkmock::FreeCommandBuffers = [&](auto, auto, auto, auto) {};
-    vkmock::BindBufferMemory2 = [&](auto, auto, auto) { return VK_SUCCESS; };
-    vkmock::BeginCommandBuffer = [&](auto, auto) { return VK_SUCCESS; };
-    vkmock::EndCommandBuffer = [&](auto) { return VK_SUCCESS; };
-    vkmock::DestroyCommandPool = [&](auto, auto, auto) {};
-    vkmock::CreateInstance = [&](auto, auto, auto pInstance) {
+    if (!vkmock::FreeMemory) vkmock::FreeMemory = [&](auto, auto, auto) {};
+    if (!vkmock::DestroyBuffer) vkmock::DestroyBuffer = [&](auto, auto, auto) {};
+    if (!vkmock::FreeCommandBuffers) vkmock::FreeCommandBuffers = [&](auto, auto, auto, auto) {};
+    if (!vkmock::BindBufferMemory2) vkmock::BindBufferMemory2 = [&](auto, auto, auto) { return VK_SUCCESS; };
+    if (!vkmock::BeginCommandBuffer) vkmock::BeginCommandBuffer = [&](auto, auto) { return VK_SUCCESS; };
+    if (!vkmock::EndCommandBuffer) vkmock::EndCommandBuffer = [&](auto) { return VK_SUCCESS; };
+    if (!vkmock::DestroyCommandPool) vkmock::DestroyCommandPool = [&](auto, auto, auto) {};
+    if (!vkmock::CreateInstance) vkmock::CreateInstance = [&](auto, auto, auto pInstance) {
         *pInstance = mock_instance;
         return VK_SUCCESS;
     };
-    vkmock::DestroyInstance = [&](auto, auto) {};
-    vkmock::CreateDevice = [&](auto, auto, auto, auto pDevice) {
+    if (!vkmock::DestroyInstance) vkmock::DestroyInstance = [&](auto, auto) {};
+    if (!vkmock::CreateDevice) vkmock::CreateDevice = [&](auto, auto, auto, auto pDevice) {
         *pDevice = mock_device;
         return VK_SUCCESS;
     };
-    vkmock::DestroyDevice = [&](auto, auto) {};
+    if (!vkmock::DestroyDevice) vkmock::DestroyDevice = [&](auto, auto) {};
 }
 
-void Framework::SetUp() {
+void IcdTest::PreInitInstanceSetUp() {
     auto vulkan_lib_path = getenv("VKSC_EMU_VULKAN_LIB_PATH");
     auto vulkansc_lib_path = getenv("VKSC_EMU_VULKANSC_LIB_PATH");
     auto vkmock_icd_path = getenv("VKSC_EMU_VKMOCK_ICD_PATH");
@@ -200,19 +198,19 @@ void Framework::SetUp() {
     // Load and initialize mock ICD
     if (vkmock_icd_path != nullptr) {
         vkmock::LoadLib(vkmock_icd_path);
-        InitDefaultMockHandlers();
+        InitDefaultMockHandlers(this);
     } else {
         printf("ERROR: VKSC_EMU_VKMOCK_ICD_PATH should be set to the path of vkmock_icd.\n");
         exit(1);
     }
 
-    if (!with_vulkan_loader_ && (vulkan_lib_path == nullptr || strcmp(vulkan_lib_path, vkmock_icd_path) != 0)) {
+    if (!Framework::WithVulkanLoader() && (vulkan_lib_path == nullptr || strcmp(vulkan_lib_path, vkmock_icd_path) != 0)) {
         printf("ERROR: VKSC_EMU_VULKAN_LIB_PATH should be set to the path of vkmock_icd if not using the Vulkan loader.\n");
         exit(1);
     }
 
     // Load Vulkan SC API
-    if (with_vulkansc_loader_) {
+    if (Framework::WithVulkanSCLoader()) {
 #if defined(_WIN32)
         vksc::LoadLib("vulkansc-1.dll");
 #elif defined(__APPLE__)
@@ -227,11 +225,14 @@ void Framework::SetUp() {
         }
         vksc::LoadLib(vulkansc_lib_path);
     }
+
+    setup_ = true;
 }
 
-void Framework::TearDown() {
+void IcdTest::PostTestTearDown() {
     vksc::UnloadLib();
     vkmock::UnloadLib();
+    vkmock::Reset();
 }
 
 static bool GetCLIFlag(int *argc, char *argv[], const char *flag, bool remove = true) {
@@ -281,9 +282,6 @@ void Framework::InitArgs(int *argc, char *argv[]) {
 }
 
 IcdTest::IcdTest() {
-    // Always re-init default mock handlers at the beginning of each test
-    InitDefaultMockHandlers(this);
-
     // Initialize default object reservation info
     static auto vksc10_features = vku::InitStruct<VkPhysicalDeviceVulkanSC10Features>();
     object_reservation_ = vku::InitStruct<VkDeviceObjectReservationCreateInfo>(&vksc10_features);
@@ -424,6 +422,7 @@ VkBuffer IcdTest::CreateBufferWithBoundMemory(VkDeviceSize size, VkBufferUsageFl
 IcdTest::~IcdTest() {
     DestroyDevice();
     DestroyInstance();
+    PostTestTearDown();
 }
 
 void IcdTest::DestroyDevice() {
@@ -463,6 +462,9 @@ const VkInstanceCreateInfo IcdTest::GetDefaultInstanceCreateInfo(void *pnext_cha
 }
 
 VkInstance IcdTest::InitInstance(VkInstanceCreateInfo *create_info) {
+    if (!IsSetUp()) {
+        PreInitInstanceSetUp();
+    }
     auto default_ci = GetDefaultInstanceCreateInfo();
     if (create_info == nullptr) {
         create_info = &default_ci;
@@ -568,8 +570,6 @@ VkDevice IcdTest::InitDevice(VkDeviceCreateInfo *create_info) {
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     Framework::InitArgs(&argc, argv);
-
-    ::testing::AddGlobalTestEnvironment(new Framework);
 
     int result = RUN_ALL_TESTS();
 

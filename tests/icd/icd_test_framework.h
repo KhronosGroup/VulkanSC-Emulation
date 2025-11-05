@@ -22,11 +22,8 @@
 // Can be used by tests to record additional details / description of test
 #define TEST_DESCRIPTION(desc) RecordProperty("description", desc)
 
-class Framework : public ::testing::Environment {
+class Framework {
   public:
-    virtual void SetUp() override;
-    virtual void TearDown() override;
-
     static void InitArgs(int* argc, char* argv[]);
 
     static bool WithVulkanLoader() { return with_vulkan_loader_; }
@@ -52,6 +49,17 @@ class IcdTest : public ::testing::Test {
   public:
     IcdTest();
     virtual ~IcdTest();
+
+    // NOTE: SetUp runs unconditionally before any test logic, which is great in most cases
+    //       however tests can't alter the environment before the Emu ICD would be loaded
+    //       which is the one time it observes the environment. Thus the SetUp logic is
+    //       delayed and incorporated into InitInstance. Tests that:
+    //       - wish to alter the environment AND trigger Emu ICD behavior for them
+    //       - not call the stock InitInstance for whatever reason
+    //       should call PreInitInstanceSetUp manually.
+    void PreInitInstanceSetUp();
+    void PostTestTearDown();
+    bool IsSetUp() { return setup_; }
 
     void DestroyDevice();
     void DestroyInstance();
@@ -93,4 +101,5 @@ class IcdTest : public ::testing::Test {
     VkDeviceObjectReservationCreateInfo object_reservation_{};
     std::vector<const char*> instance_extensions_{};
     std::vector<const char*> device_extensions_{};
+    bool setup_{false};
 };

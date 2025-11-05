@@ -15,6 +15,7 @@ class DisplayEmulationTest : public IcdTest {
     DisplayEmulationTest() : IcdTest() {}
 
     void InitInstance() {
+        PreInitInstanceSetUp();
         static const char* enabled_extensions[] = {VK_KHR_DISPLAY_EXTENSION_NAME, VK_KHR_GET_DISPLAY_PROPERTIES_2_EXTENSION_NAME};
         auto create_info = GetDefaultInstanceCreateInfo();
         create_info.enabledExtensionCount = sizeof(enabled_extensions) / sizeof(enabled_extensions[0]);
@@ -24,6 +25,7 @@ class DisplayEmulationTest : public IcdTest {
 };
 
 TEST_F(DisplayEmulationTest, ReportedExtensions) {
+    PreInitInstanceSetUp();
     uint32_t instance_ext_count = 0;
     EXPECT_EQ(vksc::EnumerateInstanceExtensionProperties(nullptr, &instance_ext_count, nullptr), VK_SUCCESS);
     EXPECT_GE(instance_ext_count, 2);
