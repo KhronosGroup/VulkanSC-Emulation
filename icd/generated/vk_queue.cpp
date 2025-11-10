@@ -76,6 +76,12 @@ VkResult Queue::QueueSetPerformanceConfigurationINTEL(VkPerformanceConfiguration
 void Queue::QueueNotifyOutOfBandNV(const VkOutOfBandQueueTypeInfoNV* pQueueTypeInfo) {
     dispatch_table_.QueueNotifyOutOfBandNV(handle_, pQueueTypeInfo);
 }
+#ifdef VK_USE_PLATFORM_OHOS
+VkResult Queue::QueueSignalReleaseImageOHOS(uint32_t waitSemaphoreCount, const VkSemaphore* pWaitSemaphores, VkImage image,
+                                            int32_t* pNativeFenceFd) {
+    return dispatch_table_.QueueSignalReleaseImageOHOS(handle_, waitSemaphoreCount, pWaitSemaphores, image, pNativeFenceFd);
+}
+#endif  // VK_USE_PLATFORM_OHOS
 
 }  // namespace vk
 

@@ -102,21 +102,6 @@ VkResult Device::CreateSemaphore(const VkSemaphoreCreateInfo* pCreateInfo, const
 void Device::DestroySemaphore(VkSemaphore semaphore, const VkAllocationCallbacks* pAllocator) {
     dispatch_table_.DestroySemaphore(handle_, semaphore, pAllocator);
 }
-VkResult Device::CreateEvent(const VkEventCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkEvent* pEvent) {
-    return dispatch_table_.CreateEvent(handle_, pCreateInfo, pAllocator, pEvent);
-}
-void Device::DestroyEvent(VkEvent event, const VkAllocationCallbacks* pAllocator) {
-    dispatch_table_.DestroyEvent(handle_, event, pAllocator);
-}
-VkResult Device::GetEventStatus(VkEvent event) {
-    VkResult result = dispatch_table_.GetEventStatus(handle_, event);
-    if (result == VK_ERROR_DEVICE_LOST) {
-        fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);
-    }
-    return result;
-}
-VkResult Device::SetEvent(VkEvent event) { return dispatch_table_.SetEvent(handle_, event); }
-VkResult Device::ResetEvent(VkEvent event) { return dispatch_table_.ResetEvent(handle_, event); }
 VkResult Device::CreateQueryPool(const VkQueryPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                                  VkQueryPool* pQueryPool) {
     return dispatch_table_.CreateQueryPool(handle_, pCreateInfo, pAllocator, pQueryPool);
@@ -139,13 +124,6 @@ VkResult Device::CreateBuffer(const VkBufferCreateInfo* pCreateInfo, const VkAll
 void Device::DestroyBuffer(VkBuffer buffer, const VkAllocationCallbacks* pAllocator) {
     dispatch_table_.DestroyBuffer(handle_, buffer, pAllocator);
 }
-VkResult Device::CreateBufferView(const VkBufferViewCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
-                                  VkBufferView* pView) {
-    return dispatch_table_.CreateBufferView(handle_, pCreateInfo, pAllocator, pView);
-}
-void Device::DestroyBufferView(VkBufferView bufferView, const VkAllocationCallbacks* pAllocator) {
-    dispatch_table_.DestroyBufferView(handle_, bufferView, pAllocator);
-}
 VkResult Device::CreateImage(const VkImageCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkImage* pImage) {
     return dispatch_table_.CreateImage(handle_, pCreateInfo, pAllocator, pImage);
 }
@@ -164,6 +142,44 @@ VkResult Device::CreateImageView(const VkImageViewCreateInfo* pCreateInfo, const
 }
 void Device::DestroyImageView(VkImageView imageView, const VkAllocationCallbacks* pAllocator) {
     dispatch_table_.DestroyImageView(handle_, imageView, pAllocator);
+}
+VkResult Device::CreateCommandPool(const VkCommandPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                                   VkCommandPool* pCommandPool) {
+    return dispatch_table_.CreateCommandPool(handle_, pCreateInfo, pAllocator, pCommandPool);
+}
+void Device::DestroyCommandPool(VkCommandPool commandPool, const VkAllocationCallbacks* pAllocator) {
+    dispatch_table_.DestroyCommandPool(handle_, commandPool, pAllocator);
+}
+VkResult Device::ResetCommandPool(VkCommandPool commandPool, VkCommandPoolResetFlags flags) {
+    return dispatch_table_.ResetCommandPool(handle_, commandPool, flags);
+}
+VkResult Device::AllocateCommandBuffers(const VkCommandBufferAllocateInfo* pAllocateInfo, VkCommandBuffer* pCommandBuffers) {
+    return dispatch_table_.AllocateCommandBuffers(handle_, pAllocateInfo, pCommandBuffers);
+}
+void Device::FreeCommandBuffers(VkCommandPool commandPool, uint32_t commandBufferCount, const VkCommandBuffer* pCommandBuffers) {
+    dispatch_table_.FreeCommandBuffers(handle_, commandPool, commandBufferCount, pCommandBuffers);
+}
+VkResult Device::CreateEvent(const VkEventCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkEvent* pEvent) {
+    return dispatch_table_.CreateEvent(handle_, pCreateInfo, pAllocator, pEvent);
+}
+void Device::DestroyEvent(VkEvent event, const VkAllocationCallbacks* pAllocator) {
+    dispatch_table_.DestroyEvent(handle_, event, pAllocator);
+}
+VkResult Device::GetEventStatus(VkEvent event) {
+    VkResult result = dispatch_table_.GetEventStatus(handle_, event);
+    if (result == VK_ERROR_DEVICE_LOST) {
+        fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);
+    }
+    return result;
+}
+VkResult Device::SetEvent(VkEvent event) { return dispatch_table_.SetEvent(handle_, event); }
+VkResult Device::ResetEvent(VkEvent event) { return dispatch_table_.ResetEvent(handle_, event); }
+VkResult Device::CreateBufferView(const VkBufferViewCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                                  VkBufferView* pView) {
+    return dispatch_table_.CreateBufferView(handle_, pCreateInfo, pAllocator, pView);
+}
+void Device::DestroyBufferView(VkBufferView bufferView, const VkAllocationCallbacks* pAllocator) {
+    dispatch_table_.DestroyBufferView(handle_, bufferView, pAllocator);
 }
 VkResult Device::CreateShaderModule(const VkShaderModuleCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                                     VkShaderModule* pShaderModule) {
@@ -184,11 +200,6 @@ VkResult Device::GetPipelineCacheData(VkPipelineCache pipelineCache, size_t* pDa
 }
 VkResult Device::MergePipelineCaches(VkPipelineCache dstCache, uint32_t srcCacheCount, const VkPipelineCache* pSrcCaches) {
     return dispatch_table_.MergePipelineCaches(handle_, dstCache, srcCacheCount, pSrcCaches);
-}
-VkResult Device::CreateGraphicsPipelines(VkPipelineCache pipelineCache, uint32_t createInfoCount,
-                                         const VkGraphicsPipelineCreateInfo* pCreateInfos, const VkAllocationCallbacks* pAllocator,
-                                         VkPipeline* pPipelines) {
-    return dispatch_table_.CreateGraphicsPipelines(handle_, pipelineCache, createInfoCount, pCreateInfos, pAllocator, pPipelines);
 }
 VkResult Device::CreateComputePipelines(VkPipelineCache pipelineCache, uint32_t createInfoCount,
                                         const VkComputePipelineCreateInfo* pCreateInfos, const VkAllocationCallbacks* pAllocator,
@@ -240,6 +251,11 @@ void Device::UpdateDescriptorSets(uint32_t descriptorWriteCount, const VkWriteDe
                                   uint32_t descriptorCopyCount, const VkCopyDescriptorSet* pDescriptorCopies) {
     dispatch_table_.UpdateDescriptorSets(handle_, descriptorWriteCount, pDescriptorWrites, descriptorCopyCount, pDescriptorCopies);
 }
+VkResult Device::CreateGraphicsPipelines(VkPipelineCache pipelineCache, uint32_t createInfoCount,
+                                         const VkGraphicsPipelineCreateInfo* pCreateInfos, const VkAllocationCallbacks* pAllocator,
+                                         VkPipeline* pPipelines) {
+    return dispatch_table_.CreateGraphicsPipelines(handle_, pipelineCache, createInfoCount, pCreateInfos, pAllocator, pPipelines);
+}
 VkResult Device::CreateFramebuffer(const VkFramebufferCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                                    VkFramebuffer* pFramebuffer) {
     return dispatch_table_.CreateFramebuffer(handle_, pCreateInfo, pAllocator, pFramebuffer);
@@ -259,22 +275,6 @@ void Device::GetRenderAreaGranularity(VkRenderPass renderPass, VkExtent2D* pGran
     if (pGranularity != nullptr) {
         vksc::ConvertOutStructToVulkanSC<VkExtent2D>(pGranularity);
     }
-}
-VkResult Device::CreateCommandPool(const VkCommandPoolCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
-                                   VkCommandPool* pCommandPool) {
-    return dispatch_table_.CreateCommandPool(handle_, pCreateInfo, pAllocator, pCommandPool);
-}
-void Device::DestroyCommandPool(VkCommandPool commandPool, const VkAllocationCallbacks* pAllocator) {
-    dispatch_table_.DestroyCommandPool(handle_, commandPool, pAllocator);
-}
-VkResult Device::ResetCommandPool(VkCommandPool commandPool, VkCommandPoolResetFlags flags) {
-    return dispatch_table_.ResetCommandPool(handle_, commandPool, flags);
-}
-VkResult Device::AllocateCommandBuffers(const VkCommandBufferAllocateInfo* pAllocateInfo, VkCommandBuffer* pCommandBuffers) {
-    return dispatch_table_.AllocateCommandBuffers(handle_, pAllocateInfo, pCommandBuffers);
-}
-void Device::FreeCommandBuffers(VkCommandPool commandPool, uint32_t commandBufferCount, const VkCommandBuffer* pCommandBuffers) {
-    dispatch_table_.FreeCommandBuffers(handle_, commandPool, commandBufferCount, pCommandBuffers);
 }
 VkResult Device::BindBufferMemory2(uint32_t bindInfoCount, const VkBindBufferMemoryInfo* pBindInfos) {
     return dispatch_table_.BindBufferMemory2(handle_, bindInfoCount, pBindInfos);
@@ -314,13 +314,6 @@ void Device::TrimCommandPool(VkCommandPool commandPool, VkCommandPoolTrimFlags f
 void Device::GetDeviceQueue2(const VkDeviceQueueInfo2* pQueueInfo, VkQueue* pQueue) {
     dispatch_table_.GetDeviceQueue2(handle_, pQueueInfo, pQueue);
 }
-VkResult Device::CreateSamplerYcbcrConversion(const VkSamplerYcbcrConversionCreateInfo* pCreateInfo,
-                                              const VkAllocationCallbacks* pAllocator, VkSamplerYcbcrConversion* pYcbcrConversion) {
-    return dispatch_table_.CreateSamplerYcbcrConversion(handle_, pCreateInfo, pAllocator, pYcbcrConversion);
-}
-void Device::DestroySamplerYcbcrConversion(VkSamplerYcbcrConversion ycbcrConversion, const VkAllocationCallbacks* pAllocator) {
-    dispatch_table_.DestroySamplerYcbcrConversion(handle_, ycbcrConversion, pAllocator);
-}
 VkResult Device::CreateDescriptorUpdateTemplate(const VkDescriptorUpdateTemplateCreateInfo* pCreateInfo,
                                                 const VkAllocationCallbacks* pAllocator,
                                                 VkDescriptorUpdateTemplate* pDescriptorUpdateTemplate) {
@@ -341,9 +334,12 @@ void Device::GetDescriptorSetLayoutSupport(const VkDescriptorSetLayoutCreateInfo
         vksc::ConvertOutStructChainToVulkanSC<VkDescriptorSetLayoutSupport>(pSupport);
     }
 }
-VkResult Device::CreateRenderPass2(const VkRenderPassCreateInfo2* pCreateInfo, const VkAllocationCallbacks* pAllocator,
-                                   VkRenderPass* pRenderPass) {
-    return dispatch_table_.CreateRenderPass2(handle_, pCreateInfo, pAllocator, pRenderPass);
+VkResult Device::CreateSamplerYcbcrConversion(const VkSamplerYcbcrConversionCreateInfo* pCreateInfo,
+                                              const VkAllocationCallbacks* pAllocator, VkSamplerYcbcrConversion* pYcbcrConversion) {
+    return dispatch_table_.CreateSamplerYcbcrConversion(handle_, pCreateInfo, pAllocator, pYcbcrConversion);
+}
+void Device::DestroySamplerYcbcrConversion(VkSamplerYcbcrConversion ycbcrConversion, const VkAllocationCallbacks* pAllocator) {
+    dispatch_table_.DestroySamplerYcbcrConversion(handle_, ycbcrConversion, pAllocator);
 }
 void Device::ResetQueryPool(VkQueryPool queryPool, uint32_t firstQuery, uint32_t queryCount) {
     dispatch_table_.ResetQueryPool(handle_, queryPool, firstQuery, queryCount);
@@ -373,6 +369,10 @@ uint64_t Device::GetBufferOpaqueCaptureAddress(const VkBufferDeviceAddressInfo* 
 }
 uint64_t Device::GetDeviceMemoryOpaqueCaptureAddress(const VkDeviceMemoryOpaqueCaptureAddressInfo* pInfo) {
     return dispatch_table_.GetDeviceMemoryOpaqueCaptureAddress(handle_, pInfo);
+}
+VkResult Device::CreateRenderPass2(const VkRenderPassCreateInfo2* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                                   VkRenderPass* pRenderPass) {
+    return dispatch_table_.CreateRenderPass2(handle_, pCreateInfo, pAllocator, pRenderPass);
 }
 VkResult Device::CreateSwapchainKHR(const VkSwapchainCreateInfoKHR* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                                     VkSwapchainKHR* pSwapchain) {
@@ -760,6 +760,9 @@ VkResult Device::ReleaseCapturedPipelineDataKHR(const VkReleaseCapturedPipelineD
                                                 const VkAllocationCallbacks* pAllocator) {
     return dispatch_table_.ReleaseCapturedPipelineDataKHR(handle_, pInfo, pAllocator);
 }
+VkResult Device::ReleaseSwapchainImagesKHR(const VkReleaseSwapchainImagesInfoKHR* pReleaseInfo) {
+    return dispatch_table_.ReleaseSwapchainImagesKHR(handle_, pReleaseInfo);
+}
 VkResult Device::GetCalibratedTimestampsKHR(uint32_t timestampCount, const VkCalibratedTimestampInfoKHR* pTimestampInfos,
                                             uint64_t* pTimestamps, uint64_t* pMaxDeviation) {
     return dispatch_table_.GetCalibratedTimestampsKHR(handle_, timestampCount, pTimestampInfos, pTimestamps, pMaxDeviation);
@@ -1022,7 +1025,7 @@ void Device::GetImageSubresourceLayout2EXT(VkImage image, const VkImageSubresour
         vksc::ConvertOutStructChainToVulkanSC<VkSubresourceLayout2>(pLayout);
     }
 }
-VkResult Device::ReleaseSwapchainImagesEXT(const VkReleaseSwapchainImagesInfoEXT* pReleaseInfo) {
+VkResult Device::ReleaseSwapchainImagesEXT(const VkReleaseSwapchainImagesInfoKHR* pReleaseInfo) {
     return dispatch_table_.ReleaseSwapchainImagesEXT(handle_, pReleaseInfo);
 }
 void Device::GetGeneratedCommandsMemoryRequirementsNV(const VkGeneratedCommandsMemoryRequirementsInfoNV* pInfo,
@@ -1459,6 +1462,14 @@ void Device::UpdateIndirectExecutionSetShaderEXT(VkIndirectExecutionSetEXT indir
                                                  const VkWriteIndirectExecutionSetShaderEXT* pExecutionSetWrites) {
     dispatch_table_.UpdateIndirectExecutionSetShaderEXT(handle_, indirectExecutionSet, executionSetWriteCount, pExecutionSetWrites);
 }
+#ifdef VK_USE_PLATFORM_OHOS
+VkResult Device::GetSwapchainGrallocUsageOHOS(VkFormat format, VkImageUsageFlags imageUsage, uint64_t* grallocUsage) {
+    return dispatch_table_.GetSwapchainGrallocUsageOHOS(handle_, format, imageUsage, grallocUsage);
+}
+VkResult Device::AcquireImageOHOS(VkImage image, int32_t nativeFenceFd, VkSemaphore semaphore, VkFence fence) {
+    return dispatch_table_.AcquireImageOHOS(handle_, image, nativeFenceFd, semaphore, fence);
+}
+#endif  // VK_USE_PLATFORM_OHOS
 #ifdef VK_USE_PLATFORM_METAL_EXT
 VkResult Device::GetMemoryMetalHandleEXT(const VkMemoryGetMetalHandleInfoEXT* pGetMetalHandleInfo, void** pHandle) {
     return dispatch_table_.GetMemoryMetalHandleEXT(handle_, pGetMetalHandleInfo, pHandle);

@@ -22,11 +22,83 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize(VkStructure
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExtent2D>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExtent3D>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkOffset2D>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkOffset3D>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRect2D>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBaseInStructure>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBaseOutStructure>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBufferMemoryBarrier>(VkStructureType type) {
     switch (type) {
         case VK_STRUCTURE_TYPE_EXTERNAL_MEMORY_ACQUIRE_UNMODIFIED_EXT:
             return {alignof(VkExternalMemoryAcquireUnmodifiedEXT), sizeof(VkExternalMemoryAcquireUnmodifiedEXT)};
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageSubresourceRange>(VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -41,6 +113,51 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageMemo
         case VK_STRUCTURE_TYPE_SAMPLE_LOCATIONS_INFO_EXT:
             return {alignof(VkSampleLocationsInfoEXT), sizeof(VkSampleLocationsInfoEXT)};
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryBarrier>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAllocationCallbacks>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkApplicationInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkFormatProperties>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageFormatProperties>(VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -67,6 +184,78 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkInstanceC
         case VK_STRUCTURE_TYPE_VALIDATION_FLAGS_EXT:
             return {alignof(VkValidationFlagsEXT), sizeof(VkValidationFlagsEXT)};
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryHeap>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryType>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceFeatures>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceLimits>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMemoryProperties>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceSparseProperties>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceProperties>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkQueueFamilyProperties>(VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -167,6 +356,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceCre
             return {alignof(VkPhysicalDeviceCooperativeMatrixFeaturesNV), sizeof(VkPhysicalDeviceCooperativeMatrixFeaturesNV)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_VECTOR_FEATURES_NV:
             return {alignof(VkPhysicalDeviceCooperativeVectorFeaturesNV), sizeof(VkPhysicalDeviceCooperativeVectorFeaturesNV)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COPY_MEMORY_INDIRECT_FEATURES_KHR:
+            return {alignof(VkPhysicalDeviceCopyMemoryIndirectFeaturesKHR), sizeof(VkPhysicalDeviceCopyMemoryIndirectFeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COPY_MEMORY_INDIRECT_FEATURES_NV:
             return {alignof(VkPhysicalDeviceCopyMemoryIndirectFeaturesNV), sizeof(VkPhysicalDeviceCopyMemoryIndirectFeaturesNV)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CORNER_SAMPLED_IMAGE_FEATURES_NV:
@@ -189,6 +380,11 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceCre
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEDICATED_ALLOCATION_IMAGE_ALIASING_FEATURES_NV:
             return {alignof(VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV),
                     sizeof(VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV)};
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DENSE_GEOMETRY_FORMAT_FEATURES_AMDX:
+            return {alignof(VkPhysicalDeviceDenseGeometryFormatFeaturesAMDX),
+                    sizeof(VkPhysicalDeviceDenseGeometryFormatFeaturesAMDX)};
+#endif  // VK_ENABLE_BETA_EXTENSIONS
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_BIAS_CONTROL_FEATURES_EXT:
             return {alignof(VkPhysicalDeviceDepthBiasControlFeaturesEXT), sizeof(VkPhysicalDeviceDepthBiasControlFeaturesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_CLAMP_CONTROL_FEATURES_EXT:
@@ -349,6 +545,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceCre
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINEAR_COLOR_ATTACHMENT_FEATURES_NV:
             return {alignof(VkPhysicalDeviceLinearColorAttachmentFeaturesNV),
                     sizeof(VkPhysicalDeviceLinearColorAttachmentFeaturesNV)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_10_FEATURES_KHR:
+            return {alignof(VkPhysicalDeviceMaintenance10FeaturesKHR), sizeof(VkPhysicalDeviceMaintenance10FeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_FEATURES:
             return {alignof(VkPhysicalDeviceMaintenance4Features), sizeof(VkPhysicalDeviceMaintenance4Features)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_5_FEATURES:
@@ -363,8 +561,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceCre
             return {alignof(VkPhysicalDeviceMaintenance9FeaturesKHR), sizeof(VkPhysicalDeviceMaintenance9FeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAP_MEMORY_PLACED_FEATURES_EXT:
             return {alignof(VkPhysicalDeviceMapMemoryPlacedFeaturesEXT), sizeof(VkPhysicalDeviceMapMemoryPlacedFeaturesEXT)};
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_DECOMPRESSION_FEATURES_NV:
-            return {alignof(VkPhysicalDeviceMemoryDecompressionFeaturesNV), sizeof(VkPhysicalDeviceMemoryDecompressionFeaturesNV)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_DECOMPRESSION_FEATURES_EXT:
+            return {alignof(VkPhysicalDeviceMemoryDecompressionFeaturesEXT),
+                    sizeof(VkPhysicalDeviceMemoryDecompressionFeaturesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_PRIORITY_FEATURES_EXT:
             return {alignof(VkPhysicalDeviceMemoryPriorityFeaturesEXT), sizeof(VkPhysicalDeviceMemoryPriorityFeaturesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MESH_SHADER_FEATURES_EXT:
@@ -409,6 +608,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceCre
             return {alignof(VkPhysicalDevicePerformanceQueryFeaturesKHR), sizeof(VkPhysicalDevicePerformanceQueryFeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_BINARY_FEATURES_KHR:
             return {alignof(VkPhysicalDevicePipelineBinaryFeaturesKHR), sizeof(VkPhysicalDevicePipelineBinaryFeaturesKHR)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_CACHE_INCREMENTAL_MODE_FEATURES_SEC:
+            return {alignof(VkPhysicalDevicePipelineCacheIncrementalModeFeaturesSEC),
+                    sizeof(VkPhysicalDevicePipelineCacheIncrementalModeFeaturesSEC)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_CREATION_CACHE_CONTROL_FEATURES:
             return {alignof(VkPhysicalDevicePipelineCreationCacheControlFeatures),
                     sizeof(VkPhysicalDevicePipelineCreationCacheControlFeatures)};
@@ -442,9 +644,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceCre
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_METERING_FEATURES_NV:
             return {alignof(VkPhysicalDevicePresentMeteringFeaturesNV), sizeof(VkPhysicalDevicePresentMeteringFeaturesNV)};
 #endif  // VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_MODE_FIFO_LATEST_READY_FEATURES_EXT:
-            return {alignof(VkPhysicalDevicePresentModeFifoLatestReadyFeaturesEXT),
-                    sizeof(VkPhysicalDevicePresentModeFifoLatestReadyFeaturesEXT)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_MODE_FIFO_LATEST_READY_FEATURES_KHR:
+            return {alignof(VkPhysicalDevicePresentModeFifoLatestReadyFeaturesKHR),
+                    sizeof(VkPhysicalDevicePresentModeFifoLatestReadyFeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_WAIT_2_FEATURES_KHR:
             return {alignof(VkPhysicalDevicePresentWait2FeaturesKHR), sizeof(VkPhysicalDevicePresentWait2FeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_WAIT_FEATURES_KHR:
@@ -510,6 +712,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceCre
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SEPARATE_DEPTH_STENCIL_LAYOUTS_FEATURES:
             return {alignof(VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures),
                     sizeof(VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_64_BIT_INDEXING_FEATURES_EXT:
+            return {alignof(VkPhysicalDeviceShader64BitIndexingFeaturesEXT),
+                    sizeof(VkPhysicalDeviceShader64BitIndexingFeaturesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_ATOMIC_FLOAT16_VECTOR_FEATURES_NV:
             return {alignof(VkPhysicalDeviceShaderAtomicFloat16VectorFeaturesNV),
                     sizeof(VkPhysicalDeviceShaderAtomicFloat16VectorFeaturesNV)};
@@ -545,6 +750,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceCre
             return {alignof(VkPhysicalDeviceShaderFloat8FeaturesEXT), sizeof(VkPhysicalDeviceShaderFloat8FeaturesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_FLOAT_CONTROLS_2_FEATURES:
             return {alignof(VkPhysicalDeviceShaderFloatControls2Features), sizeof(VkPhysicalDeviceShaderFloatControls2Features)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_FMA_FEATURES_KHR:
+            return {alignof(VkPhysicalDeviceShaderFmaFeaturesKHR), sizeof(VkPhysicalDeviceShaderFmaFeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_IMAGE_ATOMIC_INT64_FEATURES_EXT:
             return {alignof(VkPhysicalDeviceShaderImageAtomicInt64FeaturesEXT),
                     sizeof(VkPhysicalDeviceShaderImageAtomicInt64FeaturesEXT)};
@@ -588,6 +795,12 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceCre
                     sizeof(VkPhysicalDeviceShaderTerminateInvocationFeatures)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_TILE_IMAGE_FEATURES_EXT:
             return {alignof(VkPhysicalDeviceShaderTileImageFeaturesEXT), sizeof(VkPhysicalDeviceShaderTileImageFeaturesEXT)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_UNIFORM_BUFFER_UNSIZED_ARRAY_FEATURES_EXT:
+            return {alignof(VkPhysicalDeviceShaderUniformBufferUnsizedArrayFeaturesEXT),
+                    sizeof(VkPhysicalDeviceShaderUniformBufferUnsizedArrayFeaturesEXT)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_UNTYPED_POINTERS_FEATURES_KHR:
+            return {alignof(VkPhysicalDeviceShaderUntypedPointersFeaturesKHR),
+                    sizeof(VkPhysicalDeviceShaderUntypedPointersFeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADING_RATE_IMAGE_FEATURES_NV:
             return {alignof(VkPhysicalDeviceShadingRateImageFeaturesNV), sizeof(VkPhysicalDeviceShadingRateImageFeaturesNV)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_SIZE_CONTROL_FEATURES:
@@ -597,9 +810,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceCre
                     sizeof(VkPhysicalDeviceSubpassMergeFeedbackFeaturesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBPASS_SHADING_FEATURES_HUAWEI:
             return {alignof(VkPhysicalDeviceSubpassShadingFeaturesHUAWEI), sizeof(VkPhysicalDeviceSubpassShadingFeaturesHUAWEI)};
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SWAPCHAIN_MAINTENANCE_1_FEATURES_EXT:
-            return {alignof(VkPhysicalDeviceSwapchainMaintenance1FeaturesEXT),
-                    sizeof(VkPhysicalDeviceSwapchainMaintenance1FeaturesEXT)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SWAPCHAIN_MAINTENANCE_1_FEATURES_KHR:
+            return {alignof(VkPhysicalDeviceSwapchainMaintenance1FeaturesKHR),
+                    sizeof(VkPhysicalDeviceSwapchainMaintenance1FeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SYNCHRONIZATION_2_FEATURES:
             return {alignof(VkPhysicalDeviceSynchronization2Features), sizeof(VkPhysicalDeviceSynchronization2Features)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TENSOR_FEATURES_ARM:
@@ -641,9 +854,15 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceCre
             return {alignof(VkPhysicalDeviceVideoDecodeVP9FeaturesKHR), sizeof(VkPhysicalDeviceVideoDecodeVP9FeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_AV1_FEATURES_KHR:
             return {alignof(VkPhysicalDeviceVideoEncodeAV1FeaturesKHR), sizeof(VkPhysicalDeviceVideoEncodeAV1FeaturesKHR)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_INTRA_REFRESH_FEATURES_KHR:
+            return {alignof(VkPhysicalDeviceVideoEncodeIntraRefreshFeaturesKHR),
+                    sizeof(VkPhysicalDeviceVideoEncodeIntraRefreshFeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_QUANTIZATION_MAP_FEATURES_KHR:
             return {alignof(VkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR),
                     sizeof(VkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_RGB_CONVERSION_FEATURES_VALVE:
+            return {alignof(VkPhysicalDeviceVideoEncodeRgbConversionFeaturesVALVE),
+                    sizeof(VkPhysicalDeviceVideoEncodeRgbConversionFeaturesVALVE)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_MAINTENANCE_1_FEATURES_KHR:
             return {alignof(VkPhysicalDeviceVideoMaintenance1FeaturesKHR), sizeof(VkPhysicalDeviceVideoMaintenance1FeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_MAINTENANCE_2_FEATURES_KHR:
@@ -682,6 +901,24 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceCre
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExtensionProperties>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkLayerProperties>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSubmitInfo>(VkStructureType type) {
     switch (type) {
         case VK_STRUCTURE_TYPE_AMIGO_PROFILING_SUBMIT_INFO_SEC:
@@ -711,6 +948,15 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSubmitInf
             return {alignof(VkWin32KeyedMutexAcquireReleaseInfoNV), sizeof(VkWin32KeyedMutexAcquireReleaseInfoNV)};
 #endif  // VK_USE_PLATFORM_WIN32_KHR
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMappedMemoryRange>(VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -788,6 +1034,69 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryAll
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryRequirements>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSparseMemoryBind>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSparseBufferMemoryBindInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSparseImageOpaqueMemoryBindInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageSubresource>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSparseImageMemoryBind>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSparseImageMemoryBindInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBindSparseInfo>(VkStructureType type) {
     switch (type) {
         case VK_STRUCTURE_TYPE_DEVICE_GROUP_BIND_SPARSE_INFO:
@@ -799,6 +1108,24 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBindSpars
         case VK_STRUCTURE_TYPE_TIMELINE_SEMAPHORE_SUBMIT_INFO:
             return {alignof(VkTimelineSemaphoreSubmitInfo), sizeof(VkTimelineSemaphoreSubmitInfo)};
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSparseImageFormatProperties>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSparseImageMemoryRequirements>(VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -842,22 +1169,6 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSemaphore
             return {alignof(VkQueryLowLatencySupportNV), sizeof(VkQueryLowLatencySupportNV)};
         case VK_STRUCTURE_TYPE_SEMAPHORE_TYPE_CREATE_INFO:
             return {alignof(VkSemaphoreTypeCreateInfo), sizeof(VkSemaphoreTypeCreateInfo)};
-
-        default:
-            // Unknown structure
-            return {0, 0};
-    }
-}
-
-template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkEventCreateInfo>(VkStructureType type) {
-    switch (type) {
-#ifdef VK_USE_PLATFORM_METAL_EXT
-        case VK_STRUCTURE_TYPE_EXPORT_METAL_OBJECT_CREATE_INFO_EXT:
-            return {alignof(VkExportMetalObjectCreateInfoEXT), sizeof(VkExportMetalObjectCreateInfoEXT)};
-        case VK_STRUCTURE_TYPE_IMPORT_METAL_SHARED_EVENT_INFO_EXT:
-            return {alignof(VkImportMetalSharedEventInfoEXT), sizeof(VkImportMetalSharedEventInfoEXT)};
-#endif  // VK_USE_PLATFORM_METAL_EXT
 
         default:
             // Unknown structure
@@ -930,22 +1241,6 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBufferCre
 }
 
 template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBufferViewCreateInfo>(VkStructureType type) {
-    switch (type) {
-        case VK_STRUCTURE_TYPE_BUFFER_USAGE_FLAGS_2_CREATE_INFO:
-            return {alignof(VkBufferUsageFlags2CreateInfo), sizeof(VkBufferUsageFlags2CreateInfo)};
-#ifdef VK_USE_PLATFORM_METAL_EXT
-        case VK_STRUCTURE_TYPE_EXPORT_METAL_OBJECT_CREATE_INFO_EXT:
-            return {alignof(VkExportMetalObjectCreateInfoEXT), sizeof(VkExportMetalObjectCreateInfoEXT)};
-#endif  // VK_USE_PLATFORM_METAL_EXT
-
-        default:
-            // Unknown structure
-            return {0, 0};
-    }
-}
-
-template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageCreateInfo>(VkStructureType type) {
     switch (type) {
 #ifdef VK_USE_PLATFORM_FUCHSIA
@@ -990,13 +1285,39 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageCrea
         case VK_STRUCTURE_TYPE_IMPORT_METAL_TEXTURE_INFO_EXT:
             return {alignof(VkImportMetalTextureInfoEXT), sizeof(VkImportMetalTextureInfoEXT)};
 #endif  // VK_USE_PLATFORM_METAL_EXT
+#ifdef VK_USE_PLATFORM_OHOS
+        case VK_STRUCTURE_TYPE_NATIVE_BUFFER_OHOS:
+            return {alignof(VkNativeBufferOHOS), sizeof(VkNativeBufferOHOS)};
+#endif  // VK_USE_PLATFORM_OHOS
         case VK_STRUCTURE_TYPE_OPAQUE_CAPTURE_DESCRIPTOR_DATA_CREATE_INFO_EXT:
             return {alignof(VkOpaqueCaptureDescriptorDataCreateInfoEXT), sizeof(VkOpaqueCaptureDescriptorDataCreateInfoEXT)};
         case VK_STRUCTURE_TYPE_OPTICAL_FLOW_IMAGE_FORMAT_INFO_NV:
             return {alignof(VkOpticalFlowImageFormatInfoNV), sizeof(VkOpticalFlowImageFormatInfoNV)};
+#ifdef VK_USE_PLATFORM_OHOS
+        case VK_STRUCTURE_TYPE_SWAPCHAIN_IMAGE_CREATE_INFO_OHOS:
+            return {alignof(VkSwapchainImageCreateInfoOHOS), sizeof(VkSwapchainImageCreateInfoOHOS)};
+#endif  // VK_USE_PLATFORM_OHOS
         case VK_STRUCTURE_TYPE_VIDEO_PROFILE_LIST_INFO_KHR:
             return {alignof(VkVideoProfileListInfoKHR), sizeof(VkVideoProfileListInfoKHR)};
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSubresourceLayout>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkComponentMapping>(VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -1032,6 +1353,162 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageView
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCommandPoolCreateInfo>(VkStructureType type) {
+    switch (type) {
+        case VK_STRUCTURE_TYPE_DATA_GRAPH_PROCESSING_ENGINE_CREATE_INFO_ARM:
+            return {alignof(VkDataGraphProcessingEngineCreateInfoARM), sizeof(VkDataGraphProcessingEngineCreateInfoARM)};
+
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCommandBufferAllocateInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCommandBufferInheritanceInfo>(VkStructureType type) {
+    switch (type) {
+        case VK_STRUCTURE_TYPE_ATTACHMENT_SAMPLE_COUNT_INFO_AMD:
+            return {alignof(VkAttachmentSampleCountInfoAMD), sizeof(VkAttachmentSampleCountInfoAMD)};
+        case VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_CONDITIONAL_RENDERING_INFO_EXT:
+            return {alignof(VkCommandBufferInheritanceConditionalRenderingInfoEXT),
+                    sizeof(VkCommandBufferInheritanceConditionalRenderingInfoEXT)};
+        case VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_RENDER_PASS_TRANSFORM_INFO_QCOM:
+            return {alignof(VkCommandBufferInheritanceRenderPassTransformInfoQCOM),
+                    sizeof(VkCommandBufferInheritanceRenderPassTransformInfoQCOM)};
+        case VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_RENDERING_INFO:
+            return {alignof(VkCommandBufferInheritanceRenderingInfo), sizeof(VkCommandBufferInheritanceRenderingInfo)};
+        case VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_VIEWPORT_SCISSOR_INFO_NV:
+            return {alignof(VkCommandBufferInheritanceViewportScissorInfoNV),
+                    sizeof(VkCommandBufferInheritanceViewportScissorInfoNV)};
+#ifdef VK_USE_PLATFORM_ANDROID_KHR
+        case VK_STRUCTURE_TYPE_EXTERNAL_FORMAT_ANDROID:
+            return {alignof(VkExternalFormatANDROID), sizeof(VkExternalFormatANDROID)};
+#endif  // VK_USE_PLATFORM_ANDROID_KHR
+        case VK_STRUCTURE_TYPE_MULTIVIEW_PER_VIEW_ATTRIBUTES_INFO_NVX:
+            return {alignof(VkMultiviewPerViewAttributesInfoNVX), sizeof(VkMultiviewPerViewAttributesInfoNVX)};
+        case VK_STRUCTURE_TYPE_RENDER_PASS_TILE_SHADING_CREATE_INFO_QCOM:
+            return {alignof(VkRenderPassTileShadingCreateInfoQCOM), sizeof(VkRenderPassTileShadingCreateInfoQCOM)};
+        case VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_LOCATION_INFO:
+            return {alignof(VkRenderingAttachmentLocationInfo), sizeof(VkRenderingAttachmentLocationInfo)};
+        case VK_STRUCTURE_TYPE_RENDERING_INPUT_ATTACHMENT_INDEX_INFO:
+            return {alignof(VkRenderingInputAttachmentIndexInfo), sizeof(VkRenderingInputAttachmentIndexInfo)};
+        case VK_STRUCTURE_TYPE_TILE_MEMORY_BIND_INFO_QCOM:
+            return {alignof(VkTileMemoryBindInfoQCOM), sizeof(VkTileMemoryBindInfoQCOM)};
+
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCommandBufferBeginInfo>(VkStructureType type) {
+    switch (type) {
+        case VK_STRUCTURE_TYPE_DEVICE_GROUP_COMMAND_BUFFER_BEGIN_INFO:
+            return {alignof(VkDeviceGroupCommandBufferBeginInfo), sizeof(VkDeviceGroupCommandBufferBeginInfo)};
+
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBufferCopy>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageSubresourceLayers>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBufferImageCopy>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageCopy>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDispatchIndirectCommand>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineCacheHeaderVersionOne>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkEventCreateInfo>(VkStructureType type) {
+    switch (type) {
+#ifdef VK_USE_PLATFORM_METAL_EXT
+        case VK_STRUCTURE_TYPE_EXPORT_METAL_OBJECT_CREATE_INFO_EXT:
+            return {alignof(VkExportMetalObjectCreateInfoEXT), sizeof(VkExportMetalObjectCreateInfoEXT)};
+        case VK_STRUCTURE_TYPE_IMPORT_METAL_SHARED_EVENT_INFO_EXT:
+            return {alignof(VkImportMetalSharedEventInfoEXT), sizeof(VkImportMetalSharedEventInfoEXT)};
+#endif  // VK_USE_PLATFORM_METAL_EXT
+
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBufferViewCreateInfo>(VkStructureType type) {
+    switch (type) {
+        case VK_STRUCTURE_TYPE_BUFFER_USAGE_FLAGS_2_CREATE_INFO:
+            return {alignof(VkBufferUsageFlags2CreateInfo), sizeof(VkBufferUsageFlags2CreateInfo)};
+#ifdef VK_USE_PLATFORM_METAL_EXT
+        case VK_STRUCTURE_TYPE_EXPORT_METAL_OBJECT_CREATE_INFO_EXT:
+            return {alignof(VkExportMetalObjectCreateInfoEXT), sizeof(VkExportMetalObjectCreateInfoEXT)};
+#endif  // VK_USE_PLATFORM_METAL_EXT
+
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkShaderModuleCreateInfo>(VkStructureType type) {
     switch (type) {
         case VK_STRUCTURE_TYPE_SHADER_MODULE_VALIDATION_CACHE_CREATE_INFO_EXT:
@@ -1039,6 +1516,33 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkShaderMod
         case VK_STRUCTURE_TYPE_VALIDATION_FEATURES_EXT:
             return {alignof(VkValidationFeaturesEXT), sizeof(VkValidationFeaturesEXT)};
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineCacheCreateInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSpecializationMapEntry>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSpecializationInfo>(VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -1098,11 +1602,217 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkComputePi
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPushConstantRange>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineLayoutCreateInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSamplerCreateInfo>(VkStructureType type) {
+    switch (type) {
+        case VK_STRUCTURE_TYPE_OPAQUE_CAPTURE_DESCRIPTOR_DATA_CREATE_INFO_EXT:
+            return {alignof(VkOpaqueCaptureDescriptorDataCreateInfoEXT), sizeof(VkOpaqueCaptureDescriptorDataCreateInfoEXT)};
+        case VK_STRUCTURE_TYPE_SAMPLER_BLOCK_MATCH_WINDOW_CREATE_INFO_QCOM:
+            return {alignof(VkSamplerBlockMatchWindowCreateInfoQCOM), sizeof(VkSamplerBlockMatchWindowCreateInfoQCOM)};
+        case VK_STRUCTURE_TYPE_SAMPLER_BORDER_COLOR_COMPONENT_MAPPING_CREATE_INFO_EXT:
+            return {alignof(VkSamplerBorderColorComponentMappingCreateInfoEXT),
+                    sizeof(VkSamplerBorderColorComponentMappingCreateInfoEXT)};
+        case VK_STRUCTURE_TYPE_SAMPLER_CUBIC_WEIGHTS_CREATE_INFO_QCOM:
+            return {alignof(VkSamplerCubicWeightsCreateInfoQCOM), sizeof(VkSamplerCubicWeightsCreateInfoQCOM)};
+        case VK_STRUCTURE_TYPE_SAMPLER_CUSTOM_BORDER_COLOR_CREATE_INFO_EXT:
+            return {alignof(VkSamplerCustomBorderColorCreateInfoEXT), sizeof(VkSamplerCustomBorderColorCreateInfoEXT)};
+        case VK_STRUCTURE_TYPE_SAMPLER_REDUCTION_MODE_CREATE_INFO:
+            return {alignof(VkSamplerReductionModeCreateInfo), sizeof(VkSamplerReductionModeCreateInfo)};
+        case VK_STRUCTURE_TYPE_SAMPLER_YCBCR_CONVERSION_INFO:
+            return {alignof(VkSamplerYcbcrConversionInfo), sizeof(VkSamplerYcbcrConversionInfo)};
+
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCopyDescriptorSet>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDescriptorBufferInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDescriptorImageInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDescriptorPoolSize>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDescriptorPoolCreateInfo>(VkStructureType type) {
+    switch (type) {
+        case VK_STRUCTURE_TYPE_DATA_GRAPH_PROCESSING_ENGINE_CREATE_INFO_ARM:
+            return {alignof(VkDataGraphProcessingEngineCreateInfoARM), sizeof(VkDataGraphProcessingEngineCreateInfoARM)};
+        case VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_INLINE_UNIFORM_BLOCK_CREATE_INFO:
+            return {alignof(VkDescriptorPoolInlineUniformBlockCreateInfo), sizeof(VkDescriptorPoolInlineUniformBlockCreateInfo)};
+        case VK_STRUCTURE_TYPE_MUTABLE_DESCRIPTOR_TYPE_CREATE_INFO_EXT:
+            return {alignof(VkMutableDescriptorTypeCreateInfoEXT), sizeof(VkMutableDescriptorTypeCreateInfoEXT)};
+
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDescriptorSetAllocateInfo>(VkStructureType type) {
+    switch (type) {
+        case VK_STRUCTURE_TYPE_DESCRIPTOR_SET_VARIABLE_DESCRIPTOR_COUNT_ALLOCATE_INFO:
+            return {alignof(VkDescriptorSetVariableDescriptorCountAllocateInfo),
+                    sizeof(VkDescriptorSetVariableDescriptorCountAllocateInfo)};
+
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDescriptorSetLayoutBinding>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDescriptorSetLayoutCreateInfo>(VkStructureType type) {
+    switch (type) {
+        case VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_BINDING_FLAGS_CREATE_INFO:
+            return {alignof(VkDescriptorSetLayoutBindingFlagsCreateInfo), sizeof(VkDescriptorSetLayoutBindingFlagsCreateInfo)};
+        case VK_STRUCTURE_TYPE_MUTABLE_DESCRIPTOR_TYPE_CREATE_INFO_EXT:
+            return {alignof(VkMutableDescriptorTypeCreateInfoEXT), sizeof(VkMutableDescriptorTypeCreateInfoEXT)};
+
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkWriteDescriptorSet>(VkStructureType type) {
+    switch (type) {
+        case VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET_ACCELERATION_STRUCTURE_KHR:
+            return {alignof(VkWriteDescriptorSetAccelerationStructureKHR), sizeof(VkWriteDescriptorSetAccelerationStructureKHR)};
+        case VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET_ACCELERATION_STRUCTURE_NV:
+            return {alignof(VkWriteDescriptorSetAccelerationStructureNV), sizeof(VkWriteDescriptorSetAccelerationStructureNV)};
+        case VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET_INLINE_UNIFORM_BLOCK:
+            return {alignof(VkWriteDescriptorSetInlineUniformBlock), sizeof(VkWriteDescriptorSetInlineUniformBlock)};
+        case VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET_PARTITIONED_ACCELERATION_STRUCTURE_NV:
+            return {alignof(VkWriteDescriptorSetPartitionedAccelerationStructureNV),
+                    sizeof(VkWriteDescriptorSetPartitionedAccelerationStructureNV)};
+        case VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET_TENSOR_ARM:
+            return {alignof(VkWriteDescriptorSetTensorARM), sizeof(VkWriteDescriptorSetTensorARM)};
+
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkClearColorValue>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDrawIndexedIndirectCommand>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDrawIndirectCommand>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVertexInputBindingDescription>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVertexInputAttributeDescription>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineVertexInputStateCreateInfo>(VkStructureType type) {
     switch (type) {
         case VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_DIVISOR_STATE_CREATE_INFO:
             return {alignof(VkPipelineVertexInputDivisorStateCreateInfo), sizeof(VkPipelineVertexInputDivisorStateCreateInfo)};
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineInputAssemblyStateCreateInfo>(VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -1116,6 +1826,15 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineT
             return {alignof(VkPipelineTessellationDomainOriginStateCreateInfo),
                     sizeof(VkPipelineTessellationDomainOriginStateCreateInfo)};
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkViewport>(VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -1199,6 +1918,33 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineM
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkStencilOpState>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineDepthStencilStateCreateInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineColorBlendAttachmentState>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineColorBlendStateCreateInfo>(VkStructureType type) {
     switch (type) {
         case VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_ADVANCED_STATE_CREATE_INFO_EXT:
@@ -1207,6 +1953,15 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineC
         case VK_STRUCTURE_TYPE_PIPELINE_COLOR_WRITE_CREATE_INFO_EXT:
             return {alignof(VkPipelineColorWriteCreateInfoEXT), sizeof(VkPipelineColorWriteCreateInfoEXT)};
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineDynamicStateCreateInfo>(VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -1268,24 +2023,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkGraphicsP
 }
 
 template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSamplerCreateInfo>(VkStructureType type) {
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAttachmentDescription>(VkStructureType type) {
     switch (type) {
-        case VK_STRUCTURE_TYPE_OPAQUE_CAPTURE_DESCRIPTOR_DATA_CREATE_INFO_EXT:
-            return {alignof(VkOpaqueCaptureDescriptorDataCreateInfoEXT), sizeof(VkOpaqueCaptureDescriptorDataCreateInfoEXT)};
-        case VK_STRUCTURE_TYPE_SAMPLER_BLOCK_MATCH_WINDOW_CREATE_INFO_QCOM:
-            return {alignof(VkSamplerBlockMatchWindowCreateInfoQCOM), sizeof(VkSamplerBlockMatchWindowCreateInfoQCOM)};
-        case VK_STRUCTURE_TYPE_SAMPLER_BORDER_COLOR_COMPONENT_MAPPING_CREATE_INFO_EXT:
-            return {alignof(VkSamplerBorderColorComponentMappingCreateInfoEXT),
-                    sizeof(VkSamplerBorderColorComponentMappingCreateInfoEXT)};
-        case VK_STRUCTURE_TYPE_SAMPLER_CUBIC_WEIGHTS_CREATE_INFO_QCOM:
-            return {alignof(VkSamplerCubicWeightsCreateInfoQCOM), sizeof(VkSamplerCubicWeightsCreateInfoQCOM)};
-        case VK_STRUCTURE_TYPE_SAMPLER_CUSTOM_BORDER_COLOR_CREATE_INFO_EXT:
-            return {alignof(VkSamplerCustomBorderColorCreateInfoEXT), sizeof(VkSamplerCustomBorderColorCreateInfoEXT)};
-        case VK_STRUCTURE_TYPE_SAMPLER_REDUCTION_MODE_CREATE_INFO:
-            return {alignof(VkSamplerReductionModeCreateInfo), sizeof(VkSamplerReductionModeCreateInfo)};
-        case VK_STRUCTURE_TYPE_SAMPLER_YCBCR_CONVERSION_INFO:
-            return {alignof(VkSamplerYcbcrConversionInfo), sizeof(VkSamplerYcbcrConversionInfo)};
-
         default:
             // Unknown structure
             return {0, 0};
@@ -1293,63 +2032,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSamplerCr
 }
 
 template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDescriptorPoolCreateInfo>(VkStructureType type) {
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAttachmentReference>(VkStructureType type) {
     switch (type) {
-        case VK_STRUCTURE_TYPE_DATA_GRAPH_PROCESSING_ENGINE_CREATE_INFO_ARM:
-            return {alignof(VkDataGraphProcessingEngineCreateInfoARM), sizeof(VkDataGraphProcessingEngineCreateInfoARM)};
-        case VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_INLINE_UNIFORM_BLOCK_CREATE_INFO:
-            return {alignof(VkDescriptorPoolInlineUniformBlockCreateInfo), sizeof(VkDescriptorPoolInlineUniformBlockCreateInfo)};
-        case VK_STRUCTURE_TYPE_MUTABLE_DESCRIPTOR_TYPE_CREATE_INFO_EXT:
-            return {alignof(VkMutableDescriptorTypeCreateInfoEXT), sizeof(VkMutableDescriptorTypeCreateInfoEXT)};
-
-        default:
-            // Unknown structure
-            return {0, 0};
-    }
-}
-
-template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDescriptorSetAllocateInfo>(VkStructureType type) {
-    switch (type) {
-        case VK_STRUCTURE_TYPE_DESCRIPTOR_SET_VARIABLE_DESCRIPTOR_COUNT_ALLOCATE_INFO:
-            return {alignof(VkDescriptorSetVariableDescriptorCountAllocateInfo),
-                    sizeof(VkDescriptorSetVariableDescriptorCountAllocateInfo)};
-
-        default:
-            // Unknown structure
-            return {0, 0};
-    }
-}
-
-template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDescriptorSetLayoutCreateInfo>(VkStructureType type) {
-    switch (type) {
-        case VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_BINDING_FLAGS_CREATE_INFO:
-            return {alignof(VkDescriptorSetLayoutBindingFlagsCreateInfo), sizeof(VkDescriptorSetLayoutBindingFlagsCreateInfo)};
-        case VK_STRUCTURE_TYPE_MUTABLE_DESCRIPTOR_TYPE_CREATE_INFO_EXT:
-            return {alignof(VkMutableDescriptorTypeCreateInfoEXT), sizeof(VkMutableDescriptorTypeCreateInfoEXT)};
-
-        default:
-            // Unknown structure
-            return {0, 0};
-    }
-}
-
-template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkWriteDescriptorSet>(VkStructureType type) {
-    switch (type) {
-        case VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET_ACCELERATION_STRUCTURE_KHR:
-            return {alignof(VkWriteDescriptorSetAccelerationStructureKHR), sizeof(VkWriteDescriptorSetAccelerationStructureKHR)};
-        case VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET_ACCELERATION_STRUCTURE_NV:
-            return {alignof(VkWriteDescriptorSetAccelerationStructureNV), sizeof(VkWriteDescriptorSetAccelerationStructureNV)};
-        case VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET_INLINE_UNIFORM_BLOCK:
-            return {alignof(VkWriteDescriptorSetInlineUniformBlock), sizeof(VkWriteDescriptorSetInlineUniformBlock)};
-        case VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET_PARTITIONED_ACCELERATION_STRUCTURE_NV:
-            return {alignof(VkWriteDescriptorSetPartitionedAccelerationStructureNV),
-                    sizeof(VkWriteDescriptorSetPartitionedAccelerationStructureNV)};
-        case VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET_TENSOR_ARM:
-            return {alignof(VkWriteDescriptorSetTensorARM), sizeof(VkWriteDescriptorSetTensorARM)};
-
         default:
             // Unknown structure
             return {0, 0};
@@ -1362,6 +2046,24 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkFramebuff
         case VK_STRUCTURE_TYPE_FRAMEBUFFER_ATTACHMENTS_CREATE_INFO:
             return {alignof(VkFramebufferAttachmentsCreateInfo), sizeof(VkFramebufferAttachmentsCreateInfo)};
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSubpassDescription>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSubpassDependency>(VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -1389,11 +2091,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRenderPas
 }
 
 template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCommandPoolCreateInfo>(VkStructureType type) {
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkClearDepthStencilValue>(VkStructureType type) {
     switch (type) {
-        case VK_STRUCTURE_TYPE_DATA_GRAPH_PROCESSING_ENGINE_CREATE_INFO_ARM:
-            return {alignof(VkDataGraphProcessingEngineCreateInfoARM), sizeof(VkDataGraphProcessingEngineCreateInfoARM)};
-
         default:
             // Unknown structure
             return {0, 0};
@@ -1401,36 +2100,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCommandPo
 }
 
 template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCommandBufferInheritanceInfo>(VkStructureType type) {
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkClearValue>(VkStructureType type) {
     switch (type) {
-        case VK_STRUCTURE_TYPE_ATTACHMENT_SAMPLE_COUNT_INFO_AMD:
-            return {alignof(VkAttachmentSampleCountInfoAMD), sizeof(VkAttachmentSampleCountInfoAMD)};
-        case VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_CONDITIONAL_RENDERING_INFO_EXT:
-            return {alignof(VkCommandBufferInheritanceConditionalRenderingInfoEXT),
-                    sizeof(VkCommandBufferInheritanceConditionalRenderingInfoEXT)};
-        case VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_RENDER_PASS_TRANSFORM_INFO_QCOM:
-            return {alignof(VkCommandBufferInheritanceRenderPassTransformInfoQCOM),
-                    sizeof(VkCommandBufferInheritanceRenderPassTransformInfoQCOM)};
-        case VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_RENDERING_INFO:
-            return {alignof(VkCommandBufferInheritanceRenderingInfo), sizeof(VkCommandBufferInheritanceRenderingInfo)};
-        case VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_VIEWPORT_SCISSOR_INFO_NV:
-            return {alignof(VkCommandBufferInheritanceViewportScissorInfoNV),
-                    sizeof(VkCommandBufferInheritanceViewportScissorInfoNV)};
-#ifdef VK_USE_PLATFORM_ANDROID_KHR
-        case VK_STRUCTURE_TYPE_EXTERNAL_FORMAT_ANDROID:
-            return {alignof(VkExternalFormatANDROID), sizeof(VkExternalFormatANDROID)};
-#endif  // VK_USE_PLATFORM_ANDROID_KHR
-        case VK_STRUCTURE_TYPE_MULTIVIEW_PER_VIEW_ATTRIBUTES_INFO_NVX:
-            return {alignof(VkMultiviewPerViewAttributesInfoNVX), sizeof(VkMultiviewPerViewAttributesInfoNVX)};
-        case VK_STRUCTURE_TYPE_RENDER_PASS_TILE_SHADING_CREATE_INFO_QCOM:
-            return {alignof(VkRenderPassTileShadingCreateInfoQCOM), sizeof(VkRenderPassTileShadingCreateInfoQCOM)};
-        case VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_LOCATION_INFO:
-            return {alignof(VkRenderingAttachmentLocationInfo), sizeof(VkRenderingAttachmentLocationInfo)};
-        case VK_STRUCTURE_TYPE_RENDERING_INPUT_ATTACHMENT_INDEX_INFO:
-            return {alignof(VkRenderingInputAttachmentIndexInfo), sizeof(VkRenderingInputAttachmentIndexInfo)};
-        case VK_STRUCTURE_TYPE_TILE_MEMORY_BIND_INFO_QCOM:
-            return {alignof(VkTileMemoryBindInfoQCOM), sizeof(VkTileMemoryBindInfoQCOM)};
-
         default:
             // Unknown structure
             return {0, 0};
@@ -1438,11 +2109,35 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCommandBu
 }
 
 template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCommandBufferBeginInfo>(VkStructureType type) {
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkClearAttachment>(VkStructureType type) {
     switch (type) {
-        case VK_STRUCTURE_TYPE_DEVICE_GROUP_COMMAND_BUFFER_BEGIN_INFO:
-            return {alignof(VkDeviceGroupCommandBufferBeginInfo), sizeof(VkDeviceGroupCommandBufferBeginInfo)};
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
 
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkClearRect>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageBlit>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageResolve>(VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -1497,7 +2192,110 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBindImage
             return {alignof(VkBindImagePlaneMemoryInfo), sizeof(VkBindImagePlaneMemoryInfo)};
         case VK_STRUCTURE_TYPE_BIND_MEMORY_STATUS:
             return {alignof(VkBindMemoryStatus), sizeof(VkBindMemoryStatus)};
+#ifdef VK_USE_PLATFORM_OHOS
+        case VK_STRUCTURE_TYPE_NATIVE_BUFFER_OHOS:
+            return {alignof(VkNativeBufferOHOS), sizeof(VkNativeBufferOHOS)};
+#endif  // VK_USE_PLATFORM_OHOS
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryDedicatedRequirements>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryDedicatedAllocateInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryAllocateFlagsInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceGroupCommandBufferBeginInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceGroupSubmitInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceGroupBindSparseInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBindBufferMemoryDeviceGroupInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBindImageMemoryDeviceGroupInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceGroupProperties>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceGroupDeviceCreateInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBufferMemoryRequirementsInfo2>(VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -1517,6 +2315,15 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageMemo
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageSparseMemoryRequirementsInfo2>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryRequirements2>(VkStructureType type) {
     switch (type) {
         case VK_STRUCTURE_TYPE_MEMORY_DEDICATED_REQUIREMENTS:
@@ -1524,6 +2331,15 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryReq
         case VK_STRUCTURE_TYPE_TILE_MEMORY_REQUIREMENTS_QCOM:
             return {alignof(VkTileMemoryRequirementsQCOM), sizeof(VkTileMemoryRequirementsQCOM)};
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSparseImageMemoryRequirements2>(VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -1594,6 +2410,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
             return {alignof(VkPhysicalDeviceCooperativeMatrixFeaturesNV), sizeof(VkPhysicalDeviceCooperativeMatrixFeaturesNV)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_VECTOR_FEATURES_NV:
             return {alignof(VkPhysicalDeviceCooperativeVectorFeaturesNV), sizeof(VkPhysicalDeviceCooperativeVectorFeaturesNV)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COPY_MEMORY_INDIRECT_FEATURES_KHR:
+            return {alignof(VkPhysicalDeviceCopyMemoryIndirectFeaturesKHR), sizeof(VkPhysicalDeviceCopyMemoryIndirectFeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COPY_MEMORY_INDIRECT_FEATURES_NV:
             return {alignof(VkPhysicalDeviceCopyMemoryIndirectFeaturesNV), sizeof(VkPhysicalDeviceCopyMemoryIndirectFeaturesNV)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CORNER_SAMPLED_IMAGE_FEATURES_NV:
@@ -1616,6 +2434,11 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEDICATED_ALLOCATION_IMAGE_ALIASING_FEATURES_NV:
             return {alignof(VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV),
                     sizeof(VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV)};
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DENSE_GEOMETRY_FORMAT_FEATURES_AMDX:
+            return {alignof(VkPhysicalDeviceDenseGeometryFormatFeaturesAMDX),
+                    sizeof(VkPhysicalDeviceDenseGeometryFormatFeaturesAMDX)};
+#endif  // VK_ENABLE_BETA_EXTENSIONS
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_BIAS_CONTROL_FEATURES_EXT:
             return {alignof(VkPhysicalDeviceDepthBiasControlFeaturesEXT), sizeof(VkPhysicalDeviceDepthBiasControlFeaturesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_CLAMP_CONTROL_FEATURES_EXT:
@@ -1774,6 +2597,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINEAR_COLOR_ATTACHMENT_FEATURES_NV:
             return {alignof(VkPhysicalDeviceLinearColorAttachmentFeaturesNV),
                     sizeof(VkPhysicalDeviceLinearColorAttachmentFeaturesNV)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_10_FEATURES_KHR:
+            return {alignof(VkPhysicalDeviceMaintenance10FeaturesKHR), sizeof(VkPhysicalDeviceMaintenance10FeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_FEATURES:
             return {alignof(VkPhysicalDeviceMaintenance4Features), sizeof(VkPhysicalDeviceMaintenance4Features)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_5_FEATURES:
@@ -1788,8 +2613,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
             return {alignof(VkPhysicalDeviceMaintenance9FeaturesKHR), sizeof(VkPhysicalDeviceMaintenance9FeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAP_MEMORY_PLACED_FEATURES_EXT:
             return {alignof(VkPhysicalDeviceMapMemoryPlacedFeaturesEXT), sizeof(VkPhysicalDeviceMapMemoryPlacedFeaturesEXT)};
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_DECOMPRESSION_FEATURES_NV:
-            return {alignof(VkPhysicalDeviceMemoryDecompressionFeaturesNV), sizeof(VkPhysicalDeviceMemoryDecompressionFeaturesNV)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_DECOMPRESSION_FEATURES_EXT:
+            return {alignof(VkPhysicalDeviceMemoryDecompressionFeaturesEXT),
+                    sizeof(VkPhysicalDeviceMemoryDecompressionFeaturesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_PRIORITY_FEATURES_EXT:
             return {alignof(VkPhysicalDeviceMemoryPriorityFeaturesEXT), sizeof(VkPhysicalDeviceMemoryPriorityFeaturesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MESH_SHADER_FEATURES_EXT:
@@ -1834,6 +2660,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
             return {alignof(VkPhysicalDevicePerformanceQueryFeaturesKHR), sizeof(VkPhysicalDevicePerformanceQueryFeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_BINARY_FEATURES_KHR:
             return {alignof(VkPhysicalDevicePipelineBinaryFeaturesKHR), sizeof(VkPhysicalDevicePipelineBinaryFeaturesKHR)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_CACHE_INCREMENTAL_MODE_FEATURES_SEC:
+            return {alignof(VkPhysicalDevicePipelineCacheIncrementalModeFeaturesSEC),
+                    sizeof(VkPhysicalDevicePipelineCacheIncrementalModeFeaturesSEC)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_CREATION_CACHE_CONTROL_FEATURES:
             return {alignof(VkPhysicalDevicePipelineCreationCacheControlFeatures),
                     sizeof(VkPhysicalDevicePipelineCreationCacheControlFeatures)};
@@ -1867,9 +2696,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_METERING_FEATURES_NV:
             return {alignof(VkPhysicalDevicePresentMeteringFeaturesNV), sizeof(VkPhysicalDevicePresentMeteringFeaturesNV)};
 #endif  // VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_MODE_FIFO_LATEST_READY_FEATURES_EXT:
-            return {alignof(VkPhysicalDevicePresentModeFifoLatestReadyFeaturesEXT),
-                    sizeof(VkPhysicalDevicePresentModeFifoLatestReadyFeaturesEXT)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_MODE_FIFO_LATEST_READY_FEATURES_KHR:
+            return {alignof(VkPhysicalDevicePresentModeFifoLatestReadyFeaturesKHR),
+                    sizeof(VkPhysicalDevicePresentModeFifoLatestReadyFeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_WAIT_2_FEATURES_KHR:
             return {alignof(VkPhysicalDevicePresentWait2FeaturesKHR), sizeof(VkPhysicalDevicePresentWait2FeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENT_WAIT_FEATURES_KHR:
@@ -1935,6 +2764,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SEPARATE_DEPTH_STENCIL_LAYOUTS_FEATURES:
             return {alignof(VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures),
                     sizeof(VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_64_BIT_INDEXING_FEATURES_EXT:
+            return {alignof(VkPhysicalDeviceShader64BitIndexingFeaturesEXT),
+                    sizeof(VkPhysicalDeviceShader64BitIndexingFeaturesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_ATOMIC_FLOAT16_VECTOR_FEATURES_NV:
             return {alignof(VkPhysicalDeviceShaderAtomicFloat16VectorFeaturesNV),
                     sizeof(VkPhysicalDeviceShaderAtomicFloat16VectorFeaturesNV)};
@@ -1970,6 +2802,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
             return {alignof(VkPhysicalDeviceShaderFloat8FeaturesEXT), sizeof(VkPhysicalDeviceShaderFloat8FeaturesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_FLOAT_CONTROLS_2_FEATURES:
             return {alignof(VkPhysicalDeviceShaderFloatControls2Features), sizeof(VkPhysicalDeviceShaderFloatControls2Features)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_FMA_FEATURES_KHR:
+            return {alignof(VkPhysicalDeviceShaderFmaFeaturesKHR), sizeof(VkPhysicalDeviceShaderFmaFeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_IMAGE_ATOMIC_INT64_FEATURES_EXT:
             return {alignof(VkPhysicalDeviceShaderImageAtomicInt64FeaturesEXT),
                     sizeof(VkPhysicalDeviceShaderImageAtomicInt64FeaturesEXT)};
@@ -2013,6 +2847,12 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
                     sizeof(VkPhysicalDeviceShaderTerminateInvocationFeatures)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_TILE_IMAGE_FEATURES_EXT:
             return {alignof(VkPhysicalDeviceShaderTileImageFeaturesEXT), sizeof(VkPhysicalDeviceShaderTileImageFeaturesEXT)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_UNIFORM_BUFFER_UNSIZED_ARRAY_FEATURES_EXT:
+            return {alignof(VkPhysicalDeviceShaderUniformBufferUnsizedArrayFeaturesEXT),
+                    sizeof(VkPhysicalDeviceShaderUniformBufferUnsizedArrayFeaturesEXT)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_UNTYPED_POINTERS_FEATURES_KHR:
+            return {alignof(VkPhysicalDeviceShaderUntypedPointersFeaturesKHR),
+                    sizeof(VkPhysicalDeviceShaderUntypedPointersFeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADING_RATE_IMAGE_FEATURES_NV:
             return {alignof(VkPhysicalDeviceShadingRateImageFeaturesNV), sizeof(VkPhysicalDeviceShadingRateImageFeaturesNV)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_SIZE_CONTROL_FEATURES:
@@ -2022,9 +2862,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
                     sizeof(VkPhysicalDeviceSubpassMergeFeedbackFeaturesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBPASS_SHADING_FEATURES_HUAWEI:
             return {alignof(VkPhysicalDeviceSubpassShadingFeaturesHUAWEI), sizeof(VkPhysicalDeviceSubpassShadingFeaturesHUAWEI)};
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SWAPCHAIN_MAINTENANCE_1_FEATURES_EXT:
-            return {alignof(VkPhysicalDeviceSwapchainMaintenance1FeaturesEXT),
-                    sizeof(VkPhysicalDeviceSwapchainMaintenance1FeaturesEXT)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SWAPCHAIN_MAINTENANCE_1_FEATURES_KHR:
+            return {alignof(VkPhysicalDeviceSwapchainMaintenance1FeaturesKHR),
+                    sizeof(VkPhysicalDeviceSwapchainMaintenance1FeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SYNCHRONIZATION_2_FEATURES:
             return {alignof(VkPhysicalDeviceSynchronization2Features), sizeof(VkPhysicalDeviceSynchronization2Features)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TENSOR_FEATURES_ARM:
@@ -2066,9 +2906,15 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
             return {alignof(VkPhysicalDeviceVideoDecodeVP9FeaturesKHR), sizeof(VkPhysicalDeviceVideoDecodeVP9FeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_AV1_FEATURES_KHR:
             return {alignof(VkPhysicalDeviceVideoEncodeAV1FeaturesKHR), sizeof(VkPhysicalDeviceVideoEncodeAV1FeaturesKHR)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_INTRA_REFRESH_FEATURES_KHR:
+            return {alignof(VkPhysicalDeviceVideoEncodeIntraRefreshFeaturesKHR),
+                    sizeof(VkPhysicalDeviceVideoEncodeIntraRefreshFeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_QUANTIZATION_MAP_FEATURES_KHR:
             return {alignof(VkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR),
                     sizeof(VkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_ENCODE_RGB_CONVERSION_FEATURES_VALVE:
+            return {alignof(VkPhysicalDeviceVideoEncodeRgbConversionFeaturesVALVE),
+                    sizeof(VkPhysicalDeviceVideoEncodeRgbConversionFeaturesVALVE)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_MAINTENANCE_1_FEATURES_KHR:
             return {alignof(VkPhysicalDeviceVideoMaintenance1FeaturesKHR), sizeof(VkPhysicalDeviceVideoMaintenance1FeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VIDEO_MAINTENANCE_2_FEATURES_KHR:
@@ -2137,9 +2983,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
             return {alignof(VkPhysicalDeviceCooperativeMatrixPropertiesNV), sizeof(VkPhysicalDeviceCooperativeMatrixPropertiesNV)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_VECTOR_PROPERTIES_NV:
             return {alignof(VkPhysicalDeviceCooperativeVectorPropertiesNV), sizeof(VkPhysicalDeviceCooperativeVectorPropertiesNV)};
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COPY_MEMORY_INDIRECT_PROPERTIES_NV:
-            return {alignof(VkPhysicalDeviceCopyMemoryIndirectPropertiesNV),
-                    sizeof(VkPhysicalDeviceCopyMemoryIndirectPropertiesNV)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COPY_MEMORY_INDIRECT_PROPERTIES_KHR:
+            return {alignof(VkPhysicalDeviceCopyMemoryIndirectPropertiesKHR),
+                    sizeof(VkPhysicalDeviceCopyMemoryIndirectPropertiesKHR)};
 #ifdef VK_ENABLE_BETA_EXTENSIONS
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CUDA_KERNEL_LAUNCH_PROPERTIES_NV:
             return {alignof(VkPhysicalDeviceCudaKernelLaunchPropertiesNV), sizeof(VkPhysicalDeviceCudaKernelLaunchPropertiesNV)};
@@ -2242,6 +3088,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
                     sizeof(VkPhysicalDeviceLegacyVertexAttributesPropertiesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_PROPERTIES:
             return {alignof(VkPhysicalDeviceLineRasterizationProperties), sizeof(VkPhysicalDeviceLineRasterizationProperties)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_10_PROPERTIES_KHR:
+            return {alignof(VkPhysicalDeviceMaintenance10PropertiesKHR), sizeof(VkPhysicalDeviceMaintenance10PropertiesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_3_PROPERTIES:
             return {alignof(VkPhysicalDeviceMaintenance3Properties), sizeof(VkPhysicalDeviceMaintenance3Properties)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_PROPERTIES:
@@ -2256,9 +3104,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
             return {alignof(VkPhysicalDeviceMaintenance9PropertiesKHR), sizeof(VkPhysicalDeviceMaintenance9PropertiesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAP_MEMORY_PLACED_PROPERTIES_EXT:
             return {alignof(VkPhysicalDeviceMapMemoryPlacedPropertiesEXT), sizeof(VkPhysicalDeviceMapMemoryPlacedPropertiesEXT)};
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_DECOMPRESSION_PROPERTIES_NV:
-            return {alignof(VkPhysicalDeviceMemoryDecompressionPropertiesNV),
-                    sizeof(VkPhysicalDeviceMemoryDecompressionPropertiesNV)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_DECOMPRESSION_PROPERTIES_EXT:
+            return {alignof(VkPhysicalDeviceMemoryDecompressionPropertiesEXT),
+                    sizeof(VkPhysicalDeviceMemoryDecompressionPropertiesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MESH_SHADER_PROPERTIES_EXT:
             return {alignof(VkPhysicalDeviceMeshShaderPropertiesEXT), sizeof(VkPhysicalDeviceMeshShaderPropertiesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MESH_SHADER_PROPERTIES_NV:
@@ -2295,6 +3143,10 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
             return {alignof(VkPhysicalDevicePortabilitySubsetPropertiesKHR),
                     sizeof(VkPhysicalDevicePortabilitySubsetPropertiesKHR)};
 #endif  // VK_ENABLE_BETA_EXTENSIONS
+#ifdef VK_USE_PLATFORM_OHOS
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRESENTATION_PROPERTIES_OHOS:
+            return {alignof(VkPhysicalDevicePresentationPropertiesOHOS), sizeof(VkPhysicalDevicePresentationPropertiesOHOS)};
+#endif  // VK_USE_PLATFORM_OHOS
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROTECTED_MEMORY_PROPERTIES:
             return {alignof(VkPhysicalDeviceProtectedMemoryProperties), sizeof(VkPhysicalDeviceProtectedMemoryProperties)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROVOKING_VERTEX_PROPERTIES_EXT:
@@ -2498,6 +3350,299 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSparseImageFormatProperties2>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceSparseImageFormatInfo2>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageViewUsageCreateInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceProtectedMemoryFeatures>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceProtectedMemoryProperties>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceQueueInfo2>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkProtectedSubmitInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBindImagePlaneMemoryInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImagePlaneMemoryRequirementsInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExternalMemoryProperties>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceExternalImageFormatInfo>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExternalImageFormatProperties>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceExternalBufferInfo>(VkStructureType type) {
+    switch (type) {
+        case VK_STRUCTURE_TYPE_BUFFER_USAGE_FLAGS_2_CREATE_INFO:
+            return {alignof(VkBufferUsageFlags2CreateInfo), sizeof(VkBufferUsageFlags2CreateInfo)};
+
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExternalBufferProperties>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceIDProperties>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExternalMemoryImageCreateInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExternalMemoryBufferCreateInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExportMemoryAllocateInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceExternalFenceInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExternalFenceProperties>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExportFenceCreateInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExportSemaphoreCreateInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceExternalSemaphoreInfo>(VkStructureType type) {
+    switch (type) {
+        case VK_STRUCTURE_TYPE_SEMAPHORE_TYPE_CREATE_INFO:
+            return {alignof(VkSemaphoreTypeCreateInfo), sizeof(VkSemaphoreTypeCreateInfo)};
+
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExternalSemaphoreProperties>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceSubgroupProperties>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevice16BitStorageFeatures>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceVariablePointersFeatures>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDescriptorUpdateTemplateEntry>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDescriptorUpdateTemplateCreateInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMaintenance3Properties>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDescriptorSetLayoutSupport>(VkStructureType type) {
+    switch (type) {
+        case VK_STRUCTURE_TYPE_DESCRIPTOR_SET_VARIABLE_DESCRIPTOR_COUNT_LAYOUT_SUPPORT:
+            return {alignof(VkDescriptorSetVariableDescriptorCountLayoutSupport),
+                    sizeof(VkDescriptorSetVariableDescriptorCountLayoutSupport)};
+
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSamplerYcbcrConversionCreateInfo>(VkStructureType type) {
     switch (type) {
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
@@ -2519,11 +3664,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSamplerYc
 }
 
 template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceExternalBufferInfo>(VkStructureType type) {
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSamplerYcbcrConversionInfo>(VkStructureType type) {
     switch (type) {
-        case VK_STRUCTURE_TYPE_BUFFER_USAGE_FLAGS_2_CREATE_INFO:
-            return {alignof(VkBufferUsageFlags2CreateInfo), sizeof(VkBufferUsageFlags2CreateInfo)};
-
         default:
             // Unknown structure
             return {0, 0};
@@ -2531,11 +3673,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
 }
 
 template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceExternalSemaphoreInfo>(VkStructureType type) {
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceSamplerYcbcrConversionFeatures>(
+    VkStructureType type) {
     switch (type) {
-        case VK_STRUCTURE_TYPE_SEMAPHORE_TYPE_CREATE_INFO:
-            return {alignof(VkSemaphoreTypeCreateInfo), sizeof(VkSemaphoreTypeCreateInfo)};
-
         default:
             // Unknown structure
             return {0, 0};
@@ -2543,12 +3683,417 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
 }
 
 template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDescriptorSetLayoutSupport>(VkStructureType type) {
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSamplerYcbcrConversionImageFormatProperties>(
+    VkStructureType type) {
     switch (type) {
-        case VK_STRUCTURE_TYPE_DESCRIPTOR_SET_VARIABLE_DESCRIPTOR_COUNT_LAYOUT_SUPPORT:
-            return {alignof(VkDescriptorSetVariableDescriptorCountLayoutSupport),
-                    sizeof(VkDescriptorSetVariableDescriptorCountLayoutSupport)};
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
 
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceGroupRenderPassBeginInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePointClippingProperties>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkInputAttachmentAspectReference>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRenderPassInputAttachmentAspectCreateInfo>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineTessellationDomainOriginStateCreateInfo>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRenderPassMultiviewCreateInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMultiviewFeatures>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMultiviewProperties>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderDrawParametersFeatures>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceVulkan11Features>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceVulkan11Properties>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceVulkan12Features>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkConformanceVersion>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceVulkan12Properties>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageFormatListCreateInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDriverProperties>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceVulkanMemoryModelFeatures>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceHostQueryResetFeatures>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceTimelineSemaphoreFeatures>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceTimelineSemaphoreProperties>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSemaphoreTypeCreateInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkTimelineSemaphoreSubmitInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSemaphoreWaitInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSemaphoreSignalInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceBufferDeviceAddressFeatures>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBufferDeviceAddressInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBufferOpaqueCaptureAddressCreateInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryOpaqueCaptureAddressAllocateInfo>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceMemoryOpaqueCaptureAddressInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevice8BitStorageFeatures>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderAtomicInt64Features>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderFloat16Int8Features>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceFloatControlsProperties>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDescriptorSetLayoutBindingFlagsCreateInfo>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDescriptorIndexingFeatures>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDescriptorIndexingProperties>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDescriptorSetVariableDescriptorCountAllocateInfo>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDescriptorSetVariableDescriptorCountLayoutSupport>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceScalarBlockLayoutFeatures>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSamplerReductionModeCreateInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceSamplerFilterMinmaxProperties>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceUniformBufferStandardLayoutFeatures>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures>(
+    VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -2638,12 +4183,178 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRenderPas
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSubpassBeginInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSubpassEndInfo>(VkStructureType type) {
     switch (type) {
         case VK_STRUCTURE_TYPE_RENDER_PASS_FRAGMENT_DENSITY_MAP_OFFSET_END_INFO_EXT:
             return {alignof(VkRenderPassFragmentDensityMapOffsetEndInfoEXT),
                     sizeof(VkRenderPassFragmentDensityMapOffsetEndInfoEXT)};
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSubpassDescriptionDepthStencilResolve>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDepthStencilResolveProperties>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageStencilUsageCreateInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceImagelessFramebufferFeatures>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkFramebufferAttachmentImageInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkFramebufferAttachmentsCreateInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRenderPassAttachmentBeginInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAttachmentReferenceStencilLayout>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAttachmentDescriptionStencilLayout>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceVulkan13Features>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceVulkan13Properties>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceToolProperties>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePrivateDataFeatures>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDevicePrivateDataCreateInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPrivateDataSlotCreateInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryBarrier2>(VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -2695,6 +4406,15 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDependenc
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSemaphoreSubmitInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCommandBufferSubmitInfo>(VkStructureType type) {
     switch (type) {
         case VK_STRUCTURE_TYPE_RENDER_PASS_STRIPE_SUBMIT_INFO_ARM:
@@ -2731,11 +4451,297 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSubmitInf
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceSynchronization2Features>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBufferCopy2>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCopyBufferInfo2>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageCopy2>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCopyImageInfo2>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBufferImageCopy2>(VkStructureType type) {
     switch (type) {
         case VK_STRUCTURE_TYPE_COPY_COMMAND_TRANSFORM_INFO_QCOM:
             return {alignof(VkCopyCommandTransformInfoQCOM), sizeof(VkCopyCommandTransformInfoQCOM)};
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCopyBufferToImageInfo2>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCopyImageToBufferInfo2>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceTextureCompressionASTCHDRFeatures>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkFormatProperties3>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMaintenance4Features>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMaintenance4Properties>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceBufferMemoryRequirements>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceImageMemoryRequirements>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineCreationFeedback>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineCreationFeedbackCreateInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderTerminateInvocationFeatures>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderDemoteToHelperInvocationFeatures>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePipelineCreationCacheControlFeatures>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceZeroInitializeWorkgroupMemoryFeatures>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceImageRobustnessFeatures>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceSubgroupSizeControlFeatures>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceSubgroupSizeControlProperties>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineShaderStageRequiredSubgroupSizeCreateInfo>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceInlineUniformBlockFeatures>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceInlineUniformBlockProperties>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkWriteDescriptorSetInlineUniformBlock>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDescriptorPoolInlineUniformBlockCreateInfo>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderIntegerDotProductFeatures>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderIntegerDotProductProperties>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceTexelBufferAlignmentProperties>(
+    VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -2767,10 +4773,33 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBlitImage
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageResolve2>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkResolveImageInfo2>(VkStructureType type) {
+    switch (type) {
+        case VK_STRUCTURE_TYPE_RESOLVE_IMAGE_MODE_INFO_KHR:
+            return {alignof(VkResolveImageModeInfoKHR), sizeof(VkResolveImageModeInfoKHR)};
+
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRenderingAttachmentInfo>(VkStructureType type) {
     switch (type) {
         case VK_STRUCTURE_TYPE_ATTACHMENT_FEEDBACK_LOOP_INFO_EXT:
             return {alignof(VkAttachmentFeedbackLoopInfoEXT), sizeof(VkAttachmentFeedbackLoopInfoEXT)};
+        case VK_STRUCTURE_TYPE_RENDERING_ATTACHMENT_FLAGS_INFO_KHR:
+            return {alignof(VkRenderingAttachmentFlagsInfoKHR), sizeof(VkRenderingAttachmentFlagsInfoKHR)};
 
         default:
             // Unknown structure
@@ -2810,11 +4839,140 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRendering
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineRenderingCreateInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDynamicRenderingFeatures>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCommandBufferInheritanceRenderingInfo>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceVulkan14Features>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceVulkan14Properties>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceQueueGlobalPriorityCreateInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceGlobalPriorityQueryFeatures>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkQueueFamilyGlobalPriorityProperties>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceIndexTypeUint8Features>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryMapInfo>(VkStructureType type) {
     switch (type) {
         case VK_STRUCTURE_TYPE_MEMORY_MAP_PLACED_INFO_EXT:
             return {alignof(VkMemoryMapPlacedInfoEXT), sizeof(VkMemoryMapPlacedInfoEXT)};
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryUnmapInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMaintenance5Features>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMaintenance5Properties>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageSubresource2>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceImageSubresourceInfo>(VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -2829,6 +4987,182 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSubresour
         case VK_STRUCTURE_TYPE_SUBRESOURCE_HOST_MEMCPY_SIZE:
             return {alignof(VkSubresourceHostMemcpySize), sizeof(VkSubresourceHostMemcpySize)};
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBufferUsageFlags2CreateInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMaintenance6Features>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMaintenance6Properties>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBindMemoryStatus>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceHostImageCopyFeatures>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceHostImageCopyProperties>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryToImageCopy>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageToMemoryCopy>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCopyMemoryToImageInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCopyImageToMemoryInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCopyImageToImageInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkHostImageLayoutTransitionInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSubresourceHostMemcpySize>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkHostImageCopyDevicePerformanceQuery>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderSubgroupRotateFeatures>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderFloatControls2Features>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderExpectAssumeFeatures>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineCreateFlags2CreateInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePushDescriptorProperties>(
+    VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -2884,6 +5218,169 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPushDescr
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePipelineProtectedAccessFeatures>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePipelineRobustnessFeatures>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePipelineRobustnessProperties>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineRobustnessCreateInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceLineRasterizationFeatures>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceLineRasterizationProperties>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineRasterizationLineStateCreateInfo>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceVertexAttributeDivisorProperties>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVertexInputBindingDivisorDescription>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineVertexInputDivisorStateCreateInfo>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceVertexAttributeDivisorFeatures>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRenderingAreaInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDynamicRenderingLocalReadFeatures>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRenderingAttachmentLocationInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRenderingInputAttachmentIndexInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSurfaceCapabilitiesKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSurfaceFormatKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSwapchainCreateInfoKHR>(VkStructureType type) {
     switch (type) {
         case VK_STRUCTURE_TYPE_DEVICE_GROUP_SWAPCHAIN_CREATE_INFO_KHR:
@@ -2906,10 +5403,10 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSwapchain
             return {alignof(VkSwapchainLatencyCreateInfoNV), sizeof(VkSwapchainLatencyCreateInfoNV)};
         case VK_STRUCTURE_TYPE_SWAPCHAIN_PRESENT_BARRIER_CREATE_INFO_NV:
             return {alignof(VkSwapchainPresentBarrierCreateInfoNV), sizeof(VkSwapchainPresentBarrierCreateInfoNV)};
-        case VK_STRUCTURE_TYPE_SWAPCHAIN_PRESENT_MODES_CREATE_INFO_EXT:
-            return {alignof(VkSwapchainPresentModesCreateInfoEXT), sizeof(VkSwapchainPresentModesCreateInfoEXT)};
-        case VK_STRUCTURE_TYPE_SWAPCHAIN_PRESENT_SCALING_CREATE_INFO_EXT:
-            return {alignof(VkSwapchainPresentScalingCreateInfoEXT), sizeof(VkSwapchainPresentScalingCreateInfoEXT)};
+        case VK_STRUCTURE_TYPE_SWAPCHAIN_PRESENT_MODES_CREATE_INFO_KHR:
+            return {alignof(VkSwapchainPresentModesCreateInfoKHR), sizeof(VkSwapchainPresentModesCreateInfoKHR)};
+        case VK_STRUCTURE_TYPE_SWAPCHAIN_PRESENT_SCALING_CREATE_INFO_KHR:
+            return {alignof(VkSwapchainPresentScalingCreateInfoKHR), sizeof(VkSwapchainPresentScalingCreateInfoKHR)};
 
         default:
             // Unknown structure
@@ -2944,11 +5441,119 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPresentIn
         case VK_STRUCTURE_TYPE_SET_PRESENT_CONFIG_NV:
             return {alignof(VkSetPresentConfigNV), sizeof(VkSetPresentConfigNV)};
 #endif  // VK_ENABLE_BETA_EXTENSIONS
-        case VK_STRUCTURE_TYPE_SWAPCHAIN_PRESENT_FENCE_INFO_EXT:
-            return {alignof(VkSwapchainPresentFenceInfoEXT), sizeof(VkSwapchainPresentFenceInfoEXT)};
-        case VK_STRUCTURE_TYPE_SWAPCHAIN_PRESENT_MODE_INFO_EXT:
-            return {alignof(VkSwapchainPresentModeInfoEXT), sizeof(VkSwapchainPresentModeInfoEXT)};
+        case VK_STRUCTURE_TYPE_SWAPCHAIN_PRESENT_FENCE_INFO_KHR:
+            return {alignof(VkSwapchainPresentFenceInfoKHR), sizeof(VkSwapchainPresentFenceInfoKHR)};
+        case VK_STRUCTURE_TYPE_SWAPCHAIN_PRESENT_MODE_INFO_KHR:
+            return {alignof(VkSwapchainPresentModeInfoKHR), sizeof(VkSwapchainPresentModeInfoKHR)};
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageSwapchainCreateInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBindImageMemorySwapchainInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAcquireNextImageInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceGroupPresentCapabilitiesKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceGroupPresentInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceGroupSwapchainCreateInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDisplayModeParametersKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDisplayModeCreateInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDisplayModePropertiesKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDisplayPlaneCapabilitiesKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDisplayPlanePropertiesKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDisplayPropertiesKHR>(VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -2961,6 +5566,89 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDisplaySu
         case VK_STRUCTURE_TYPE_DISPLAY_SURFACE_STEREO_CREATE_INFO_NV:
             return {alignof(VkDisplaySurfaceStereoCreateInfoNV), sizeof(VkDisplaySurfaceStereoCreateInfoNV)};
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDisplayPresentInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#ifdef VK_USE_PLATFORM_XLIB_KHR
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkXlibSurfaceCreateInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#endif  // VK_USE_PLATFORM_XLIB_KHR
+#ifdef VK_USE_PLATFORM_XCB_KHR
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkXcbSurfaceCreateInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#endif  // VK_USE_PLATFORM_XCB_KHR
+#ifdef VK_USE_PLATFORM_WAYLAND_KHR
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkWaylandSurfaceCreateInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#endif  // VK_USE_PLATFORM_WAYLAND_KHR
+#ifdef VK_USE_PLATFORM_ANDROID_KHR
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAndroidSurfaceCreateInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#endif  // VK_USE_PLATFORM_ANDROID_KHR
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkWin32SurfaceCreateInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#endif  // VK_USE_PLATFORM_WIN32_KHR
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkQueueFamilyQueryResultStatusPropertiesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkQueueFamilyVideoPropertiesKHR>(VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -2986,9 +5674,20 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoProf
             return {alignof(VkVideoEncodeH264ProfileInfoKHR), sizeof(VkVideoEncodeH264ProfileInfoKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_H265_PROFILE_INFO_KHR:
             return {alignof(VkVideoEncodeH265ProfileInfoKHR), sizeof(VkVideoEncodeH265ProfileInfoKHR)};
+        case VK_STRUCTURE_TYPE_VIDEO_ENCODE_PROFILE_RGB_CONVERSION_INFO_VALVE:
+            return {alignof(VkVideoEncodeProfileRgbConversionInfoVALVE), sizeof(VkVideoEncodeProfileRgbConversionInfoVALVE)};
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_USAGE_INFO_KHR:
             return {alignof(VkVideoEncodeUsageInfoKHR), sizeof(VkVideoEncodeUsageInfoKHR)};
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoProfileListInfoKHR>(VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -3025,8 +5724,12 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoCapa
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_H265_QUANTIZATION_MAP_CAPABILITIES_KHR:
             return {alignof(VkVideoEncodeH265QuantizationMapCapabilitiesKHR),
                     sizeof(VkVideoEncodeH265QuantizationMapCapabilitiesKHR)};
+        case VK_STRUCTURE_TYPE_VIDEO_ENCODE_INTRA_REFRESH_CAPABILITIES_KHR:
+            return {alignof(VkVideoEncodeIntraRefreshCapabilitiesKHR), sizeof(VkVideoEncodeIntraRefreshCapabilitiesKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_QUANTIZATION_MAP_CAPABILITIES_KHR:
             return {alignof(VkVideoEncodeQuantizationMapCapabilitiesKHR), sizeof(VkVideoEncodeQuantizationMapCapabilitiesKHR)};
+        case VK_STRUCTURE_TYPE_VIDEO_ENCODE_RGB_CONVERSION_CAPABILITIES_VALVE:
+            return {alignof(VkVideoEncodeRgbConversionCapabilitiesVALVE), sizeof(VkVideoEncodeRgbConversionCapabilitiesVALVE)};
 
         default:
             // Unknown structure
@@ -3063,6 +5766,15 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoForm
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoPictureResourceInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoReferenceSlotInfoKHR>(VkStructureType type) {
     switch (type) {
         case VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_DPB_SLOT_INFO_KHR:
@@ -3077,7 +5789,27 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoRefe
             return {alignof(VkVideoEncodeH264DpbSlotInfoKHR), sizeof(VkVideoEncodeH264DpbSlotInfoKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_H265_DPB_SLOT_INFO_KHR:
             return {alignof(VkVideoEncodeH265DpbSlotInfoKHR), sizeof(VkVideoEncodeH265DpbSlotInfoKHR)};
+        case VK_STRUCTURE_TYPE_VIDEO_REFERENCE_INTRA_REFRESH_INFO_KHR:
+            return {alignof(VkVideoReferenceIntraRefreshInfoKHR), sizeof(VkVideoReferenceIntraRefreshInfoKHR)};
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoSessionMemoryRequirementsKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBindVideoSessionMemoryInfoKHR>(VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -3093,6 +5825,11 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoSess
             return {alignof(VkVideoEncodeH264SessionCreateInfoKHR), sizeof(VkVideoEncodeH264SessionCreateInfoKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_H265_SESSION_CREATE_INFO_KHR:
             return {alignof(VkVideoEncodeH265SessionCreateInfoKHR), sizeof(VkVideoEncodeH265SessionCreateInfoKHR)};
+        case VK_STRUCTURE_TYPE_VIDEO_ENCODE_SESSION_INTRA_REFRESH_CREATE_INFO_KHR:
+            return {alignof(VkVideoEncodeSessionIntraRefreshCreateInfoKHR), sizeof(VkVideoEncodeSessionIntraRefreshCreateInfoKHR)};
+        case VK_STRUCTURE_TYPE_VIDEO_ENCODE_SESSION_RGB_CONVERSION_CREATE_INFO_VALVE:
+            return {alignof(VkVideoEncodeSessionRgbConversionCreateInfoVALVE),
+                    sizeof(VkVideoEncodeSessionRgbConversionCreateInfoVALVE)};
 
         default:
             // Unknown structure
@@ -3176,6 +5913,15 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoBegi
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEndCodingInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoCodingControlInfoKHR>(VkStructureType type) {
     switch (type) {
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_RATE_CONTROL_INFO_KHR:
@@ -3189,6 +5935,24 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoCodi
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_RATE_CONTROL_INFO_KHR:
             return {alignof(VkVideoEncodeRateControlInfoKHR), sizeof(VkVideoEncodeRateControlInfoKHR)};
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoDecodeCapabilitiesKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoDecodeUsageInfoKHR>(VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -3225,6 +5989,652 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoDeco
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeH264CapabilitiesKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeH264QpKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeH264QualityLevelPropertiesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeH264SessionCreateInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeH264SessionParametersAddInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeH264SessionParametersCreateInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeH264SessionParametersGetInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeH264SessionParametersFeedbackInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeH264NaluSliceInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeH264PictureInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeH264DpbSlotInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeH264ProfileInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeH264RateControlInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeH264FrameSizeKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeH264RateControlLayerInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeH264GopRemainingFrameInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeH265CapabilitiesKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeH265SessionCreateInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeH265QpKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeH265QualityLevelPropertiesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeH265SessionParametersAddInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeH265SessionParametersCreateInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeH265SessionParametersGetInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeH265SessionParametersFeedbackInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeH265NaluSliceSegmentInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeH265PictureInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeH265DpbSlotInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeH265ProfileInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeH265RateControlInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeH265FrameSizeKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeH265RateControlLayerInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeH265GopRemainingFrameInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoDecodeH264ProfileInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoDecodeH264CapabilitiesKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoDecodeH264SessionParametersAddInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoDecodeH264SessionParametersCreateInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoDecodeH264PictureInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoDecodeH264DpbSlotInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImportMemoryWin32HandleInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExportMemoryWin32HandleInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryWin32HandlePropertiesKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryGetWin32HandleInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#endif  // VK_USE_PLATFORM_WIN32_KHR
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImportMemoryFdInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryFdPropertiesKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryGetFdInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkWin32KeyedMutexAcquireReleaseInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImportSemaphoreWin32HandleInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExportSemaphoreWin32HandleInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkD3D12FenceSubmitInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSemaphoreGetWin32HandleInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#endif  // VK_USE_PLATFORM_WIN32_KHR
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImportSemaphoreFdInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSemaphoreGetFdInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRectLayerKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPresentRegionKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPresentRegionsKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSharedPresentSurfaceCapabilitiesKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImportFenceWin32HandleInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExportFenceWin32HandleInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkFenceGetWin32HandleInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#endif  // VK_USE_PLATFORM_WIN32_KHR
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImportFenceFdInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkFenceGetFdInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePerformanceQueryFeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePerformanceQueryPropertiesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPerformanceCounterKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPerformanceCounterDescriptionKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkQueryPoolPerformanceCreateInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPerformanceCounterResultKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAcquireProfilingLockInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPerformanceQuerySubmitInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceSurfaceInfo2KHR>(VkStructureType type) {
     switch (type) {
 #ifdef VK_USE_PLATFORM_WIN32_KHR
@@ -3233,8 +6643,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
         case VK_STRUCTURE_TYPE_SURFACE_FULL_SCREEN_EXCLUSIVE_WIN32_INFO_EXT:
             return {alignof(VkSurfaceFullScreenExclusiveWin32InfoEXT), sizeof(VkSurfaceFullScreenExclusiveWin32InfoEXT)};
 #endif  // VK_USE_PLATFORM_WIN32_KHR
-        case VK_STRUCTURE_TYPE_SURFACE_PRESENT_MODE_EXT:
-            return {alignof(VkSurfacePresentModeEXT), sizeof(VkSurfacePresentModeEXT)};
+        case VK_STRUCTURE_TYPE_SURFACE_PRESENT_MODE_KHR:
+            return {alignof(VkSurfacePresentModeKHR), sizeof(VkSurfacePresentModeKHR)};
 
         default:
             // Unknown structure
@@ -3261,10 +6671,10 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSurfaceCa
             return {alignof(VkSurfaceCapabilitiesPresentId2KHR), sizeof(VkSurfaceCapabilitiesPresentId2KHR)};
         case VK_STRUCTURE_TYPE_SURFACE_CAPABILITIES_PRESENT_WAIT_2_KHR:
             return {alignof(VkSurfaceCapabilitiesPresentWait2KHR), sizeof(VkSurfaceCapabilitiesPresentWait2KHR)};
-        case VK_STRUCTURE_TYPE_SURFACE_PRESENT_MODE_COMPATIBILITY_EXT:
-            return {alignof(VkSurfacePresentModeCompatibilityEXT), sizeof(VkSurfacePresentModeCompatibilityEXT)};
-        case VK_STRUCTURE_TYPE_SURFACE_PRESENT_SCALING_CAPABILITIES_EXT:
-            return {alignof(VkSurfacePresentScalingCapabilitiesEXT), sizeof(VkSurfacePresentScalingCapabilitiesEXT)};
+        case VK_STRUCTURE_TYPE_SURFACE_PRESENT_MODE_COMPATIBILITY_KHR:
+            return {alignof(VkSurfacePresentModeCompatibilityKHR), sizeof(VkSurfacePresentModeCompatibilityKHR)};
+        case VK_STRUCTURE_TYPE_SURFACE_PRESENT_SCALING_CAPABILITIES_KHR:
+            return {alignof(VkSurfacePresentScalingCapabilitiesKHR), sizeof(VkSurfacePresentScalingCapabilitiesKHR)};
         case VK_STRUCTURE_TYPE_SURFACE_PROTECTED_CAPABILITIES_KHR:
             return {alignof(VkSurfaceProtectedCapabilitiesKHR), sizeof(VkSurfaceProtectedCapabilitiesKHR)};
 
@@ -3287,11 +6697,322 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSurfaceFo
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDisplayProperties2KHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDisplayPlaneProperties2KHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDisplayModeProperties2KHR>(VkStructureType type) {
     switch (type) {
         case VK_STRUCTURE_TYPE_DISPLAY_MODE_STEREO_PROPERTIES_NV:
             return {alignof(VkDisplayModeStereoPropertiesNV), sizeof(VkDisplayModeStereoPropertiesNV)};
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDisplayPlaneInfo2KHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDisplayPlaneCapabilities2KHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderBfloat16FeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePortabilitySubsetFeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePortabilitySubsetPropertiesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#endif  // VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderClockFeaturesKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoDecodeH265ProfileInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoDecodeH265CapabilitiesKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoDecodeH265SessionParametersAddInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoDecodeH265SessionParametersCreateInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoDecodeH265PictureInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoDecodeH265DpbSlotInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkFragmentShadingRateAttachmentInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineFragmentShadingRateStateCreateInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceFragmentShadingRateFeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceFragmentShadingRatePropertiesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceFragmentShadingRateKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRenderingFragmentShadingRateAttachmentInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderQuadControlFeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSurfaceProtectedCapabilitiesKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePresentWaitFeaturesKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineExecutablePropertiesKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineExecutableInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineExecutableStatisticValueKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineExecutableStatisticKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineExecutableInternalRepresentationKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineLibraryCreateInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPresentIdKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePresentIdFeaturesKHR>(VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -3307,11 +7028,41 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEnco
             return {alignof(VkVideoEncodeH264PictureInfoKHR), sizeof(VkVideoEncodeH264PictureInfoKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_H265_PICTURE_INFO_KHR:
             return {alignof(VkVideoEncodeH265PictureInfoKHR), sizeof(VkVideoEncodeH265PictureInfoKHR)};
+        case VK_STRUCTURE_TYPE_VIDEO_ENCODE_INTRA_REFRESH_INFO_KHR:
+            return {alignof(VkVideoEncodeIntraRefreshInfoKHR), sizeof(VkVideoEncodeIntraRefreshInfoKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_QUANTIZATION_MAP_INFO_KHR:
             return {alignof(VkVideoEncodeQuantizationMapInfoKHR), sizeof(VkVideoEncodeQuantizationMapInfoKHR)};
         case VK_STRUCTURE_TYPE_VIDEO_INLINE_QUERY_INFO_KHR:
             return {alignof(VkVideoInlineQueryInfoKHR), sizeof(VkVideoInlineQueryInfoKHR)};
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeCapabilitiesKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkQueryPoolVideoEncodeFeedbackCreateInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeUsageInfoKHR>(VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -3335,6 +7086,25 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEnco
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeRateControlInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceVideoEncodeQualityLevelInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeQualityLevelPropertiesKHR>(VkStructureType type) {
     switch (type) {
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_AV1_QUALITY_LEVEL_PROPERTIES_KHR:
@@ -3344,6 +7114,15 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEnco
         case VK_STRUCTURE_TYPE_VIDEO_ENCODE_H265_QUALITY_LEVEL_PROPERTIES_KHR:
             return {alignof(VkVideoEncodeH265QualityLevelPropertiesKHR), sizeof(VkVideoEncodeH265QualityLevelPropertiesKHR)};
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeQualityLevelInfoKHR>(VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -3383,6 +7162,644 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEnco
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceFragmentShaderBarycentricFeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceFragmentShaderBarycentricPropertiesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderSubgroupUniformControlFlowFeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceWorkgroupMemoryExplicitLayoutFeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceRayTracingMaintenance1FeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkTraceRaysIndirectCommand2KHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderUntypedPointersFeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderMaximalReconvergenceFeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSurfaceCapabilitiesPresentId2KHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPresentId2KHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePresentId2FeaturesKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSurfaceCapabilitiesPresentWait2KHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePresentWait2FeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPresentWait2InfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceRayTracingPositionFetchFeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePipelineBinaryFeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePipelineBinaryPropertiesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDevicePipelineBinaryInternalCacheControlKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineBinaryKeyKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineBinaryDataKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineBinaryKeysAndDataKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineCreateInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineBinaryCreateInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineBinaryInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkReleaseCapturedPipelineDataInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineBinaryDataInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineBinaryHandlesInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSurfacePresentModeKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSurfacePresentScalingCapabilitiesKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSurfacePresentModeCompatibilityKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceSwapchainMaintenance1FeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSwapchainPresentFenceInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSwapchainPresentModesCreateInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSwapchainPresentModeInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSwapchainPresentScalingCreateInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkReleaseSwapchainImagesInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCooperativeMatrixPropertiesKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceCooperativeMatrixFeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceCooperativeMatrixPropertiesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceComputeShaderDerivativesPropertiesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoDecodeAV1ProfileInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoDecodeAV1CapabilitiesKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoDecodeAV1SessionParametersCreateInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoDecodeAV1PictureInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoDecodeAV1DpbSlotInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceVideoEncodeAV1FeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeAV1CapabilitiesKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeAV1QIndexKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeAV1QualityLevelPropertiesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeAV1SessionCreateInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeAV1SessionParametersCreateInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeAV1PictureInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeAV1DpbSlotInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeAV1ProfileInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeAV1FrameSizeKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeAV1GopRemainingFrameInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeAV1RateControlInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeAV1RateControlLayerInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceVideoDecodeVP9FeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoDecodeVP9ProfileInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoDecodeVP9CapabilitiesKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoDecodeVP9PictureInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceVideoMaintenance1FeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoInlineQueryInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceUnifiedImageLayoutsFeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAttachmentFeedbackLoopInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCalibratedTimestampInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSetDescriptorBufferOffsetsInfoEXT>(VkStructureType type) {
     switch (type) {
         case VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO:
@@ -3408,12 +7825,567 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBindDescr
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkStridedDeviceAddressRangeKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCopyMemoryIndirectCommandKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCopyMemoryIndirectInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCopyMemoryToImageIndirectCommandKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCopyMemoryToImageIndirectInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceCopyMemoryIndirectFeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceCopyMemoryIndirectPropertiesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeIntraRefreshCapabilitiesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeSessionIntraRefreshCreateInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeIntraRefreshInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoReferenceIntraRefreshInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceVideoEncodeIntraRefreshFeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeQuantizationMapCapabilitiesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoFormatQuantizationMapPropertiesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeQuantizationMapInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeQuantizationMapSessionParametersCreateInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceVideoEncodeQuantizationMapFeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeH264QuantizationMapCapabilitiesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeH265QuantizationMapCapabilitiesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoFormatH265QuantizationMapPropertiesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeAV1QuantizationMapCapabilitiesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoFormatAV1QuantizationMapPropertiesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderRelaxedExtendedInstructionFeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMaintenance7FeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMaintenance7PropertiesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceLayeredApiPropertiesKHR>(
     VkStructureType type) {
     switch (type) {
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LAYERED_API_VULKAN_PROPERTIES_KHR:
             return {alignof(VkPhysicalDeviceLayeredApiVulkanPropertiesKHR), sizeof(VkPhysicalDeviceLayeredApiVulkanPropertiesKHR)};
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceLayeredApiPropertiesListKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceLayeredApiVulkanPropertiesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryBarrierAccessFlags3KHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMaintenance8FeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderFmaFeaturesKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMaintenance9FeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMaintenance9PropertiesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkQueueFamilyOwnershipTransferPropertiesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceVideoMaintenance2FeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoDecodeH264InlineSessionParametersInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoDecodeH265InlineSessionParametersInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoDecodeAV1InlineSessionParametersInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDepthClampZeroOneFeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceRobustness2FeaturesKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceRobustness2PropertiesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePresentModeFifoLatestReadyFeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMaintenance10FeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMaintenance10PropertiesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRenderingEndInfoKHR>(VkStructureType type) {
+    switch (type) {
+        case VK_STRUCTURE_TYPE_RENDER_PASS_FRAGMENT_DENSITY_MAP_OFFSET_END_INFO_EXT:
+            return {alignof(VkRenderPassFragmentDensityMapOffsetEndInfoEXT),
+                    sizeof(VkRenderPassFragmentDensityMapOffsetEndInfoEXT)};
+
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRenderingAttachmentFlagsInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkResolveImageModeInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDebugReportCallbackCreateInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineRasterizationStateRasterizationOrderAMD>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDebugMarkerObjectNameInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDebugMarkerObjectTagInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDebugMarkerMarkerInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDedicatedAllocationImageCreateInfoNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDedicatedAllocationBufferCreateInfoNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDedicatedAllocationMemoryAllocateInfoNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceTransformFeedbackFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceTransformFeedbackPropertiesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineRasterizationStateStreamCreateInfoEXT>(
+    VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -3433,11 +8405,484 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCuModuleC
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCuModuleTexturingModeCreateInfoNVX>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCuFunctionCreateInfoNVX>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCuLaunchInfoNVX>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageViewHandleInfoNVX>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageViewAddressPropertiesNVX>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkTextureLODGatherFormatPropertiesAMD>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkShaderResourceUsageAMD>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkShaderStatisticsInfoAMD>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#ifdef VK_USE_PLATFORM_GGP
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkStreamDescriptorSurfaceCreateInfoGGP>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#endif  // VK_USE_PLATFORM_GGP
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceCornerSampledImageFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExternalImageFormatPropertiesNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExternalMemoryImageCreateInfoNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExportMemoryAllocateInfoNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImportMemoryWin32HandleInfoNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExportMemoryWin32HandleInfoNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkWin32KeyedMutexAcquireReleaseInfoNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#endif  // VK_USE_PLATFORM_WIN32_KHR
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkValidationFlagsEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#ifdef VK_USE_PLATFORM_VI_NN
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkViSurfaceCreateInfoNN>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#endif  // VK_USE_PLATFORM_VI_NN
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageViewASTCDecodeModeEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceASTCDecodeFeaturesEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkConditionalRenderingBeginInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceConditionalRenderingFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCommandBufferInheritanceConditionalRenderingInfoEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkViewportWScalingNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineViewportWScalingStateCreateInfoNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSurfaceCapabilities2EXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDisplayPowerInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceEventInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDisplayEventInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSwapchainCounterCreateInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRefreshCycleDurationGOOGLE>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPastPresentationTimingGOOGLE>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPresentTimeGOOGLE>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPresentTimesInfoGOOGLE>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMultiviewPerViewAttributesInfoNVX>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkViewportSwizzleNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineViewportSwizzleStateCreateInfoNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDiscardRectanglePropertiesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineDiscardRectangleStateCreateInfoEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceConservativeRasterizationPropertiesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineRasterizationConservativeStateCreateInfoEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDepthClipEnableFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineRasterizationDepthClipStateCreateInfoEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkXYColorEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkHdrMetadataEXT>(VkStructureType type) {
     switch (type) {
         case VK_STRUCTURE_TYPE_HDR_VIVID_DYNAMIC_METADATA_HUAWEI:
             return {alignof(VkHdrVividDynamicMetadataHUAWEI), sizeof(VkHdrVividDynamicMetadataHUAWEI)};
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceRelaxedLineRasterizationFeaturesIMG>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#ifdef VK_USE_PLATFORM_IOS_MVK
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkIOSSurfaceCreateInfoMVK>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#endif  // VK_USE_PLATFORM_IOS_MVK
+#ifdef VK_USE_PLATFORM_MACOS_MVK
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMacOSSurfaceCreateInfoMVK>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#endif  // VK_USE_PLATFORM_MACOS_MVK
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDebugUtilsLabelEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDebugUtilsObjectNameInfoEXT>(VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -3455,7 +8900,34 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDebugUtil
             return {0, 0};
     }
 }
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDebugUtilsMessengerCreateInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDebugUtilsObjectTagInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAndroidHardwareBufferUsageANDROID>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
 
 template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAndroidHardwareBufferPropertiesANDROID>(
@@ -3478,8 +8950,87 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAndroidHa
             return {0, 0};
     }
 }
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAndroidHardwareBufferFormatPropertiesANDROID>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImportAndroidHardwareBufferInfoANDROID>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryGetAndroidHardwareBufferInfoANDROID>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExternalFormatANDROID>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAndroidHardwareBufferFormatProperties2ANDROID>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
 #endif  // VK_USE_PLATFORM_ANDROID_KHR
 #ifdef VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderEnqueueFeaturesAMDX>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderEnqueuePropertiesAMDX>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExecutionGraphPipelineScratchSizeAMDX>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
 
 template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExecutionGraphPipelineCreateInfoAMDX>(VkStructureType type) {
@@ -3494,7 +9045,368 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExecution
             return {0, 0};
     }
 }
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceOrHostAddressConstAMDX>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDispatchGraphInfoAMDX>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDispatchGraphCountInfoAMDX>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineShaderStageNodeCreateInfoAMDX>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
 #endif  // VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAttachmentSampleCountInfoAMD>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSampleLocationEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSampleLocationsInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAttachmentSampleLocationsEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSubpassSampleLocationsEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRenderPassSampleLocationsBeginInfoEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineSampleLocationsStateCreateInfoEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceSampleLocationsPropertiesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMultisamplePropertiesEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineColorBlendAdvancedStateCreateInfoEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineCoverageToColorStateCreateInfoNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineCoverageModulationStateCreateInfoNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderSMBuiltinsPropertiesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderSMBuiltinsFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDrmFormatModifierPropertiesEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDrmFormatModifierPropertiesListEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceImageDrmFormatModifierInfoEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageDrmFormatModifierListCreateInfoEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageDrmFormatModifierExplicitCreateInfoEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageDrmFormatModifierPropertiesEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDrmFormatModifierProperties2EXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDrmFormatModifierPropertiesList2EXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkValidationCacheCreateInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkShaderModuleValidationCacheCreateInfoEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkShadingRatePaletteNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineViewportShadingRateImageStateCreateInfoNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShadingRateImageFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShadingRateImagePropertiesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCoarseSampleLocationNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCoarseSampleOrderCustomNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineViewportCoarseSampleOrderStateCreateInfoNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRayTracingShaderGroupCreateInfoNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
 
 template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRayTracingPipelineCreateInfoNV>(VkStructureType type) {
@@ -3504,6 +9416,51 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRayTracin
         case VK_STRUCTURE_TYPE_PIPELINE_CREATION_FEEDBACK_CREATE_INFO:
             return {alignof(VkPipelineCreationFeedbackCreateInfo), sizeof(VkPipelineCreationFeedbackCreateInfo)};
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkGeometryTrianglesNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkGeometryAABBNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkGeometryDataNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkGeometryNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAccelerationStructureInfoNV>(VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -3523,6 +9480,943 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAccelerat
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBindAccelerationStructureMemoryInfoNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkWriteDescriptorSetAccelerationStructureNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAccelerationStructureMemoryRequirementsInfoNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceRayTracingPropertiesNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkTransformMatrixKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAabbPositionsKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAccelerationStructureInstanceKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineRepresentativeFragmentTestStateCreateInfoNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceImageViewImageFormatInfoEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkFilterCubicImageViewImageFormatPropertiesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImportMemoryHostPointerInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryHostPointerPropertiesEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceExternalMemoryHostPropertiesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineCompilerControlCreateInfoAMD>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderCorePropertiesAMD>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceMemoryOverallocationCreateInfoAMD>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#ifdef VK_USE_PLATFORM_GGP
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPresentFrameTokenGGP>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#endif  // VK_USE_PLATFORM_GGP
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMeshShaderFeaturesNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMeshShaderPropertiesNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDrawMeshTasksIndirectCommandNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderImageFootprintFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineViewportExclusiveScissorStateCreateInfoNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceExclusiveScissorFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkQueueFamilyCheckpointPropertiesNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCheckpointDataNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkQueueFamilyCheckpointProperties2NV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCheckpointData2NV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPerformanceValueDataINTEL>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPerformanceValueINTEL>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkInitializePerformanceApiInfoINTEL>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkQueryPoolPerformanceQueryCreateInfoINTEL>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPerformanceMarkerInfoINTEL>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPerformanceStreamMarkerInfoINTEL>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPerformanceOverrideInfoINTEL>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPerformanceConfigurationAcquireInfoINTEL>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePCIBusInfoPropertiesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDisplayNativeHdrSurfaceCapabilitiesAMD>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSwapchainDisplayNativeHdrCreateInfoAMD>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#ifdef VK_USE_PLATFORM_FUCHSIA
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImagePipeSurfaceCreateInfoFUCHSIA>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#endif  // VK_USE_PLATFORM_FUCHSIA
+#ifdef VK_USE_PLATFORM_METAL_EXT
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMetalSurfaceCreateInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#endif  // VK_USE_PLATFORM_METAL_EXT
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceFragmentDensityMapFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceFragmentDensityMapPropertiesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRenderPassFragmentDensityMapCreateInfoEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRenderingFragmentDensityMapAttachmentInfoEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderCoreProperties2AMD>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceCoherentMemoryFeaturesAMD>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderImageAtomicInt64FeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMemoryBudgetPropertiesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMemoryPriorityFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryPriorityAllocateInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceBufferDeviceAddressFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBufferDeviceAddressCreateInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkValidationFeaturesEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCooperativeMatrixPropertiesNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceCooperativeMatrixFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceCooperativeMatrixPropertiesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceCoverageReductionModeFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineCoverageReductionStateCreateInfoNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkFramebufferMixedSamplesCombinationNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceYcbcrImageArraysFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceProvokingVertexFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceProvokingVertexPropertiesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineRasterizationProvokingVertexStateCreateInfoEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#ifdef VK_USE_PLATFORM_WIN32_KHR
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSurfaceFullScreenExclusiveInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSurfaceCapabilitiesFullScreenExclusiveEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSurfaceFullScreenExclusiveWin32InfoEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#endif  // VK_USE_PLATFORM_WIN32_KHR
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkHeadlessSurfaceCreateInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderAtomicFloatFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceExtendedDynamicStateFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMapMemoryPlacedFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMapMemoryPlacedPropertiesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryMapPlacedInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderAtomicFloat2FeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkGraphicsShaderGroupCreateInfoNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkGraphicsPipelineShaderGroupsCreateInfoNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBindShaderGroupIndirectCommandNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBindIndexBufferIndirectCommandNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBindVertexBufferIndirectCommandNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSetStateFlagsIndirectCommandNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkIndirectCommandsStreamNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkIndirectCommandsLayoutTokenNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkIndirectCommandsLayoutCreateInfoNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkGeneratedCommandsInfoNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkGeneratedCommandsMemoryRequirementsInfoNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceInheritedViewportScissorFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCommandBufferInheritanceViewportScissorInfoNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRenderPassTransformBeginInfoQCOM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCommandBufferInheritanceRenderPassTransformInfoQCOM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDepthBiasControlFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDepthBiasInfoEXT>(VkStructureType type) {
     switch (type) {
         case VK_STRUCTURE_TYPE_DEPTH_BIAS_REPRESENTATION_INFO_EXT:
@@ -3533,7 +10427,245 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDepthBias
             return {0, 0};
     }
 }
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDepthBiasRepresentationInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDeviceMemoryReportFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceMemoryReportCallbackDataEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceDeviceMemoryReportCreateInfoEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSamplerCustomBorderColorCreateInfoEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceCustomBorderColorPropertiesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceCustomBorderColorFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePresentBarrierFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSurfaceCapabilitiesPresentBarrierNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSwapchainPresentBarrierCreateInfoNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDiagnosticsConfigFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceDiagnosticsConfigCreateInfoNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCudaModuleCreateInfoNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCudaFunctionCreateInfoNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCudaLaunchInfoNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceCudaKernelLaunchFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceCudaKernelLaunchPropertiesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#endif  // VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceTileShadingFeaturesQCOM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceTileShadingPropertiesQCOM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRenderPassTileShadingCreateInfoQCOM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPerTileBeginInfoQCOM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPerTileEndInfoQCOM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDispatchTileInfoQCOM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkQueryLowLatencySupportNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
 #ifdef VK_USE_PLATFORM_METAL_EXT
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExportMetalObjectCreateInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
 
 template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExportMetalObjectsInfoEXT>(VkStructureType type) {
@@ -3558,7 +10690,136 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExportMet
             return {0, 0};
     }
 }
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExportMetalDeviceInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExportMetalCommandQueueInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExportMetalBufferInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImportMetalBufferInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExportMetalTextureInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImportMetalTextureInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExportMetalIOSurfaceInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImportMetalIOSurfaceInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExportMetalSharedEventInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImportMetalSharedEventInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
 #endif  // VK_USE_PLATFORM_METAL_EXT
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDescriptorBufferPropertiesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDescriptorBufferDensityMapPropertiesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDescriptorBufferFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDescriptorAddressInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
 
 template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDescriptorBufferBindingInfoEXT>(VkStructureType type) {
@@ -3569,6 +10830,25 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDescripto
             return {alignof(VkDescriptorBufferBindingPushDescriptorBufferHandleEXT),
                     sizeof(VkDescriptorBufferBindingPushDescriptorBufferHandleEXT)};
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDescriptorBufferBindingPushDescriptorBufferHandleEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDescriptorDataEXT>(VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -3588,6 +10868,1099 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDescripto
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBufferCaptureDescriptorDataInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageCaptureDescriptorDataInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageViewCaptureDescriptorDataInfoEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSamplerCaptureDescriptorDataInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkOpaqueCaptureDescriptorDataCreateInfoEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAccelerationStructureCaptureDescriptorDataInfoEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceGraphicsPipelineLibraryFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceGraphicsPipelineLibraryPropertiesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkGraphicsPipelineLibraryCreateInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderEarlyAndLateFragmentTestsFeaturesAMD>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceFragmentShadingRateEnumsFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceFragmentShadingRateEnumsPropertiesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineFragmentShadingRateEnumStateCreateInfoNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceOrHostAddressConstKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAccelerationStructureGeometryMotionTrianglesDataNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAccelerationStructureMotionInfoNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAccelerationStructureMatrixMotionInstanceNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSRTDataNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAccelerationStructureSRTMotionInstanceNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAccelerationStructureMotionInstanceDataNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAccelerationStructureMotionInstanceNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceRayTracingMotionBlurFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceYcbcr2Plane444FormatsFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceFragmentDensityMap2FeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceFragmentDensityMap2PropertiesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCopyCommandTransformInfoQCOM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceImageCompressionControlFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageCompressionControlEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageCompressionPropertiesEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevice4444FormatsFeaturesEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceFaultFeaturesEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceFaultCountsEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceFaultAddressInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceFaultVendorInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceFaultInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceFaultVendorBinaryHeaderVersionOneEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceRasterizationOrderAttachmentAccessFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceRGBA10X6FormatsFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#ifdef VK_USE_PLATFORM_DIRECTFB_EXT
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDirectFBSurfaceCreateInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#endif  // VK_USE_PLATFORM_DIRECTFB_EXT
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMutableDescriptorTypeFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMutableDescriptorTypeListEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMutableDescriptorTypeCreateInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceVertexInputDynamicStateFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVertexInputBindingDescription2EXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVertexInputAttributeDescription2EXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDrmPropertiesEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceAddressBindingReportFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceAddressBindingCallbackDataEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDepthClipControlFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineViewportDepthClipControlCreateInfoEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePrimitiveTopologyListRestartFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#ifdef VK_USE_PLATFORM_FUCHSIA
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImportMemoryZirconHandleInfoFUCHSIA>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryZirconHandlePropertiesFUCHSIA>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryGetZirconHandleInfoFUCHSIA>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImportSemaphoreZirconHandleInfoFUCHSIA>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSemaphoreGetZirconHandleInfoFUCHSIA>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBufferCollectionCreateInfoFUCHSIA>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImportMemoryBufferCollectionFUCHSIA>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBufferCollectionImageCreateInfoFUCHSIA>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBufferCollectionConstraintsInfoFUCHSIA>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBufferConstraintsInfoFUCHSIA>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBufferCollectionBufferCreateInfoFUCHSIA>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSysmemColorSpaceFUCHSIA>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBufferCollectionPropertiesFUCHSIA>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageFormatConstraintsInfoFUCHSIA>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageConstraintsInfoFUCHSIA>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#endif  // VK_USE_PLATFORM_FUCHSIA
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSubpassShadingPipelineCreateInfoHUAWEI>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceSubpassShadingFeaturesHUAWEI>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceSubpassShadingPropertiesHUAWEI>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceInvocationMaskFeaturesHUAWEI>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryGetRemoteAddressInfoNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceExternalMemoryRDMAFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelinePropertiesIdentifierEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePipelinePropertiesFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceFrameBoundaryFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkFrameBoundaryEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSubpassResolvePerformanceQueryEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMultisampledRenderToSingleSampledInfoEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceExtendedDynamicState2FeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#ifdef VK_USE_PLATFORM_SCREEN_QNX
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkScreenSurfaceCreateInfoQNX>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#endif  // VK_USE_PLATFORM_SCREEN_QNX
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceColorWriteEnableFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineColorWriteCreateInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePrimitivesGeneratedQueryFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceVideoEncodeRgbConversionFeaturesVALVE>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeRgbConversionCapabilitiesVALVE>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeProfileRgbConversionInfoVALVE>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVideoEncodeSessionRgbConversionCreateInfoVALVE>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceImageViewMinLodFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageViewMinLodCreateInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMultiDrawFeaturesEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMultiDrawPropertiesEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMultiDrawInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMultiDrawIndexedInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceImage2DViewOf3DFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderTileImageFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderTileImagePropertiesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMicromapUsageEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceOrHostAddressKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMicromapBuildInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMicromapCreateInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceOpacityMicromapFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceOpacityMicromapPropertiesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMicromapVersionInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCopyMicromapToMemoryInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCopyMemoryToMicromapInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCopyMicromapInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMicromapBuildSizesInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAccelerationStructureTrianglesOpacityMicromapEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMicromapTriangleEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDisplacementMicromapFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDisplacementMicromapPropertiesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAccelerationStructureTrianglesDisplacementMicromapNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#endif  // VK_ENABLE_BETA_EXTENSIONS
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceClusterCullingShaderFeaturesHUAWEI>(
     VkStructureType type) {
     switch (type) {
@@ -3595,6 +11968,537 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
             return {alignof(VkPhysicalDeviceClusterCullingShaderVrsFeaturesHUAWEI),
                     sizeof(VkPhysicalDeviceClusterCullingShaderVrsFeaturesHUAWEI)};
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceClusterCullingShaderPropertiesHUAWEI>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceClusterCullingShaderVrsFeaturesHUAWEI>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceBorderColorSwizzleFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSamplerBorderColorComponentMappingCreateInfoEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePageableDeviceLocalMemoryFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderCorePropertiesARM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceQueueShaderCoreControlCreateInfoARM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceSchedulingControlsFeaturesARM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceSchedulingControlsPropertiesARM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceImageSlicedViewOf3DFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageViewSlicedCreateInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDescriptorSetHostMappingFeaturesVALVE>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDescriptorSetBindingReferenceVALVE>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDescriptorSetLayoutHostMappingInfoVALVE>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceRenderPassStripedFeaturesARM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceRenderPassStripedPropertiesARM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRenderPassStripeInfoARM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRenderPassStripeBeginInfoARM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRenderPassStripeSubmitInfoARM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceFragmentDensityMapOffsetFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceFragmentDensityMapOffsetPropertiesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRenderPassFragmentDensityMapOffsetEndInfoEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceCopyMemoryIndirectFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDecompressMemoryRegionNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMemoryDecompressionFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMemoryDecompressionPropertiesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDeviceGeneratedCommandsComputeFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkComputePipelineIndirectBufferInfoNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineIndirectDeviceAddressInfoNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBindPipelineIndirectCommandNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceRayTracingLinearSweptSpheresFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAccelerationStructureGeometryLinearSweptSpheresDataNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAccelerationStructureGeometrySpheresDataNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceLinearColorAttachmentFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceImageCompressionControlSwapchainFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageViewSampleWeightCreateInfoQCOM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceImageProcessingFeaturesQCOM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceImageProcessingPropertiesQCOM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceNestedCommandBufferFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceNestedCommandBufferPropertiesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExternalMemoryAcquireUnmodifiedEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceExtendedDynamicState3FeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceExtendedDynamicState3PropertiesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkColorBlendEquationEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkColorBlendAdvancedEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceSubpassMergeFeedbackFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRenderPassCreationControlEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRenderPassCreationFeedbackInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRenderPassCreationFeedbackCreateInfoEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRenderPassSubpassFeedbackInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRenderPassSubpassFeedbackCreateInfoEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDirectDriverLoadingInfoLUNARG>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDirectDriverLoadingListLUNARG>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkTensorDescriptionARM>(VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -3628,11 +12532,413 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkTensorVie
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkTensorMemoryRequirementsInfoARM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBindTensorMemoryInfoARM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkWriteDescriptorSetTensorARM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkTensorFormatPropertiesARM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceTensorPropertiesARM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkTensorMemoryBarrierARM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkTensorDependencyInfoARM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceTensorFeaturesARM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceTensorMemoryRequirementsARM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkTensorCopyARM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCopyTensorInfoARM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryDedicatedAllocateInfoTensorARM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceExternalTensorInfoARM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExternalTensorPropertiesARM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExternalMemoryTensorCreateInfoARM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDescriptorBufferTensorFeaturesARM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDescriptorBufferTensorPropertiesARM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDescriptorGetTensorInfoARM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkTensorCaptureDescriptorDataInfoARM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkTensorViewCaptureDescriptorDataInfoARM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkFrameBoundaryTensorsARM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderModuleIdentifierFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderModuleIdentifierPropertiesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineShaderStageModuleIdentifierCreateInfoEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkShaderModuleIdentifierEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceOpticalFlowFeaturesNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceOpticalFlowPropertiesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkOpticalFlowImageFormatInfoNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkOpticalFlowImageFormatPropertiesNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkOpticalFlowSessionCreateInfoNV>(VkStructureType type) {
     switch (type) {
         case VK_STRUCTURE_TYPE_OPTICAL_FLOW_SESSION_CREATE_PRIVATE_DATA_INFO_NV:
             return {alignof(VkOpticalFlowSessionCreatePrivateDataInfoNV), sizeof(VkOpticalFlowSessionCreatePrivateDataInfoNV)};
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkOpticalFlowSessionCreatePrivateDataInfoNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkOpticalFlowExecuteInfoNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceLegacyDitheringFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#ifdef VK_USE_PLATFORM_ANDROID_KHR
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceExternalFormatResolveFeaturesANDROID>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceExternalFormatResolvePropertiesANDROID>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAndroidHardwareBufferFormatResolvePropertiesANDROID>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#endif  // VK_USE_PLATFORM_ANDROID_KHR
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceAntiLagFeaturesAMD>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAntiLagPresentationInfoAMD>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAntiLagDataAMD>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDenseGeometryFormatFeaturesAMDX>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAccelerationStructureDenseGeometryFormatTrianglesDataAMDX>(
+    VkStructureType type) {
+    switch (type) {
+        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_TRIANGLES_OPACITY_MICROMAP_EXT:
+            return {alignof(VkAccelerationStructureTrianglesOpacityMicromapEXT),
+                    sizeof(VkAccelerationStructureTrianglesOpacityMicromapEXT)};
+
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#endif  // VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderObjectFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderObjectPropertiesEXT>(
+    VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -3648,6 +12954,309 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkShaderCre
         case VK_STRUCTURE_TYPE_VALIDATION_FEATURES_EXT:
             return {alignof(VkValidationFeaturesEXT), sizeof(VkValidationFeaturesEXT)};
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDepthClampRangeEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceTilePropertiesFeaturesQCOM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkTilePropertiesQCOM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceAmigoProfilingFeaturesSEC>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAmigoProfilingSubmitInfoSEC>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMultiviewPerViewViewportsFeaturesQCOM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceRayTracingInvocationReorderPropertiesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceRayTracingInvocationReorderFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceCooperativeVectorPropertiesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceCooperativeVectorFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCooperativeVectorPropertiesNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkConvertCooperativeVectorMatrixInfoNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceExtendedSparseAddressSpaceFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceExtendedSparseAddressSpacePropertiesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceLegacyVertexAttributesFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceLegacyVertexAttributesPropertiesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkLayerSettingEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkLayerSettingsCreateInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderCoreBuiltinsFeaturesARM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderCoreBuiltinsPropertiesARM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePipelineLibraryGroupHandlesFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDynamicRenderingUnusedAttachmentsFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkLatencySleepModeInfoNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkLatencySleepInfoNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSetLatencyMarkerInfoNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkLatencyTimingsFrameReportNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkGetLatencyMarkerInfoNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkLatencySubmissionPresentIdNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSwapchainLatencyCreateInfoNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkOutOfBandQueueTypeInfoNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkLatencySurfaceCapabilitiesNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDataGraphFeaturesARM>(VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -3682,6 +13291,16 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDataGraph
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDataGraphPipelineCompilerControlCreateInfoARM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDataGraphPipelineCreateInfoARM>(VkStructureType type) {
     switch (type) {
         case VK_STRUCTURE_TYPE_DATA_GRAPH_PIPELINE_COMPILER_CONTROL_CREATE_INFO_ARM:
@@ -3695,6 +13314,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDataGraph
             return {alignof(VkDataGraphProcessingEngineCreateInfoARM), sizeof(VkDataGraphProcessingEngineCreateInfoARM)};
         case VK_STRUCTURE_TYPE_PIPELINE_CREATION_FEEDBACK_CREATE_INFO:
             return {alignof(VkPipelineCreationFeedbackCreateInfo), sizeof(VkPipelineCreationFeedbackCreateInfo)};
+        case VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO:
+            return {alignof(VkShaderModuleCreateInfo), sizeof(VkShaderModuleCreateInfo)};
 
         default:
             // Unknown structure
@@ -3706,9 +13327,290 @@ template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDataGraphPipelineShaderModuleCreateInfoARM>(
     VkStructureType type) {
     switch (type) {
-        case VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO:
-            return {alignof(VkShaderModuleCreateInfo), sizeof(VkShaderModuleCreateInfo)};
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
 
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDataGraphPipelineSessionCreateInfoARM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDataGraphPipelineSessionBindPointRequirementsInfoARM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDataGraphPipelineSessionBindPointRequirementARM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDataGraphPipelineSessionMemoryRequirementsInfoARM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBindDataGraphPipelineSessionMemoryInfoARM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDataGraphPipelineInfoARM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDataGraphPipelinePropertyQueryResultARM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDataGraphPipelineIdentifierCreateInfoARM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDataGraphPipelineDispatchInfoARM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDataGraphProcessingEngineARM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDataGraphOperationSupportARM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkQueueFamilyDataGraphPropertiesARM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDataGraphProcessingEngineCreateInfoARM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceQueueFamilyDataGraphProcessingEngineInfoARM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkQueueFamilyDataGraphProcessingEnginePropertiesARM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t>
+GetPNextChainStructAlignmentAndSize<VkDataGraphPipelineConstantTensorSemiStructuredSparsityInfoARM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMultiviewPerViewRenderAreasFeaturesQCOM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMultiviewPerViewRenderAreasRenderPassBeginInfoQCOM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePerStageDescriptorSetFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceImageProcessing2FeaturesQCOM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceImageProcessing2PropertiesQCOM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSamplerBlockMatchWindowCreateInfoQCOM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceCubicWeightsFeaturesQCOM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSamplerCubicWeightsCreateInfoQCOM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBlitImageCubicWeightsInfoQCOM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceYcbcrDegammaFeaturesQCOM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSamplerYcbcrConversionYcbcrDegammaCreateInfoQCOM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceCubicClampFeaturesQCOM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceAttachmentFeedbackLoopDynamicStateFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -3729,7 +13631,513 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkScreenBuf
             return {0, 0};
     }
 }
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkScreenBufferFormatPropertiesQNX>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImportScreenBufferInfoQNX>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExternalFormatQNX>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceExternalMemoryScreenBufferFeaturesQNX>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
 #endif  // VK_USE_PLATFORM_SCREEN_QNX
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceLayeredDriverPropertiesMSFT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDescriptorPoolOverallocationFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceTileMemoryHeapFeaturesQCOM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceTileMemoryHeapPropertiesQCOM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkTileMemoryRequirementsQCOM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkTileMemoryBindInfoQCOM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkTileMemorySizeInfoQCOM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDecompressMemoryRegionEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDecompressMemoryInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDisplaySurfaceStereoCreateInfoNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDisplayModeStereoPropertiesNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceRawAccessChainsFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExternalComputeQueueDeviceCreateInfoNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExternalComputeQueueCreateInfoNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkExternalComputeQueueDataParamsNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceExternalComputeQueuePropertiesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceCommandBufferInheritanceFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderAtomicFloat16VectorFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderReplicatedCompositesFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderFloat8FeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceRayTracingValidationFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceClusterAccelerationStructureFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceClusterAccelerationStructurePropertiesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkClusterAccelerationStructureClustersBottomLevelInputNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkClusterAccelerationStructureTriangleClusterInputNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkClusterAccelerationStructureMoveObjectsInputNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkClusterAccelerationStructureOpInputNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkClusterAccelerationStructureInputInfoNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkStridedDeviceAddressRegionKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkClusterAccelerationStructureCommandsInfoNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkStridedDeviceAddressNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkClusterAccelerationStructureGeometryIndexAndGeometryFlagsNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkClusterAccelerationStructureMoveObjectsInfoNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkClusterAccelerationStructureBuildClustersBottomLevelInfoNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkClusterAccelerationStructureBuildTriangleClusterInfoNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t>
+GetPNextChainStructAlignmentAndSize<VkClusterAccelerationStructureBuildTriangleClusterTemplateInfoNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkClusterAccelerationStructureInstantiateClusterInfoNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkClusterAccelerationStructureGetTemplateIndicesInfoNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAccelerationStructureBuildSizesInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRayTracingPipelineClusterAccelerationStructureCreateInfoNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePartitionedAccelerationStructureFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePartitionedAccelerationStructurePropertiesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPartitionedAccelerationStructureFlagsNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBuildPartitionedAccelerationStructureIndirectCommandNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPartitionedAccelerationStructureWriteInstanceDataNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPartitionedAccelerationStructureUpdateInstanceDataNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t>
+GetPNextChainStructAlignmentAndSize<VkPartitionedAccelerationStructureWritePartitionTranslationDataNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkWriteDescriptorSetPartitionedAccelerationStructureNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
 
 template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPartitionedAccelerationStructureInstancesInputNV>(
@@ -3738,6 +14146,36 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPartition
         case VK_STRUCTURE_TYPE_PARTITIONED_ACCELERATION_STRUCTURE_FLAGS_NV:
             return {alignof(VkPartitionedAccelerationStructureFlagsNV), sizeof(VkPartitionedAccelerationStructureFlagsNV)};
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBuildPartitionedAccelerationStructureInfoNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDeviceGeneratedCommandsPropertiesEXT>(
+    VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -3760,6 +14198,52 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkGenerated
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkIndirectExecutionSetPipelineInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkIndirectExecutionSetShaderLayoutInfoEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkIndirectExecutionSetShaderInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkIndirectExecutionSetInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkIndirectExecutionSetCreateInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkGeneratedCommandsInfoEXT>(VkStructureType type) {
     switch (type) {
         case VK_STRUCTURE_TYPE_GENERATED_COMMANDS_PIPELINE_INFO_EXT:
@@ -3767,6 +14251,69 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkGenerated
         case VK_STRUCTURE_TYPE_GENERATED_COMMANDS_SHADER_INFO_EXT:
             return {alignof(VkGeneratedCommandsShaderInfoEXT), sizeof(VkGeneratedCommandsShaderInfoEXT)};
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkWriteIndirectExecutionSetPipelineEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkIndirectCommandsPushConstantTokenEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkIndirectCommandsVertexBufferTokenEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkIndirectCommandsIndexBufferTokenEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkIndirectCommandsExecutionSetTokenEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkIndirectCommandsTokenDataEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkIndirectCommandsLayoutTokenEXT>(VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -3786,12 +14333,348 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkIndirectC
 }
 
 template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRenderingEndInfoEXT>(VkStructureType type) {
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDrawIndirectCountIndirectCommandEXT>(VkStructureType type) {
     switch (type) {
-        case VK_STRUCTURE_TYPE_RENDER_PASS_FRAGMENT_DENSITY_MAP_OFFSET_END_INFO_EXT:
-            return {alignof(VkRenderPassFragmentDensityMapOffsetEndInfoEXT),
-                    sizeof(VkRenderPassFragmentDensityMapOffsetEndInfoEXT)};
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
 
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBindVertexBufferIndirectCommandEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBindIndexBufferIndirectCommandEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkGeneratedCommandsPipelineInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkGeneratedCommandsShaderInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkWriteIndirectExecutionSetShaderEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceImageAlignmentControlFeaturesMESA>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceImageAlignmentControlPropertiesMESA>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageAlignmentControlCreateInfoMESA>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDepthClampControlFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineViewportDepthClampControlCreateInfoEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#ifdef VK_USE_PLATFORM_OHOS
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSurfaceCreateInfoOHOS>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkNativeBufferOHOS>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSwapchainImageCreateInfoOHOS>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePresentationPropertiesOHOS>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#endif  // VK_USE_PLATFORM_OHOS
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceHdrVividFeaturesHUAWEI>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkHdrVividDynamicMetadataHUAWEI>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCooperativeMatrixFlexibleDimensionsPropertiesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceCooperativeMatrix2FeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceCooperativeMatrix2PropertiesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePipelineOpacityMicromapFeaturesARM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#ifdef VK_USE_PLATFORM_METAL_EXT
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImportMemoryMetalHandleInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryMetalHandlePropertiesEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryGetMetalHandleInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#endif  // VK_USE_PLATFORM_METAL_EXT
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceVertexAttributeRobustnessFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceFormatPackFeaturesARM>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceFragmentDensityMapLayeredFeaturesVALVE>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceFragmentDensityMapLayeredPropertiesVALVE>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineFragmentDensityMapLayeredCreateInfoVALVE>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSetPresentConfigNV>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePresentMeteringFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+#endif  // VK_ENABLE_BETA_EXTENSIONS
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceZeroInitializeDeviceMemoryFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShader64BitIndexingFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePipelineCacheIncrementalModeFeaturesSEC>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderUniformBufferUnsizedArrayFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAccelerationStructureBuildRangeInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -3821,14 +14704,58 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAccelerat
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAccelerationStructureGeometryAabbsDataKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAccelerationStructureGeometryInstancesDataKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAccelerationStructureGeometryDataKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAccelerationStructureGeometryKHR>(VkStructureType type) {
     switch (type) {
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_DENSE_GEOMETRY_FORMAT_TRIANGLES_DATA_AMDX:
+            return {alignof(VkAccelerationStructureDenseGeometryFormatTrianglesDataAMDX),
+                    sizeof(VkAccelerationStructureDenseGeometryFormatTrianglesDataAMDX)};
+#endif  // VK_ENABLE_BETA_EXTENSIONS
         case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_GEOMETRY_LINEAR_SWEPT_SPHERES_DATA_NV:
             return {alignof(VkAccelerationStructureGeometryLinearSweptSpheresDataNV),
                     sizeof(VkAccelerationStructureGeometryLinearSweptSpheresDataNV)};
         case VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_GEOMETRY_SPHERES_DATA_NV:
             return {alignof(VkAccelerationStructureGeometrySpheresDataNV), sizeof(VkAccelerationStructureGeometrySpheresDataNV)};
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAccelerationStructureBuildGeometryInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};
@@ -3850,6 +14777,103 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAccelerat
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkWriteDescriptorSetAccelerationStructureKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceAccelerationStructureFeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceAccelerationStructurePropertiesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAccelerationStructureDeviceAddressInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAccelerationStructureVersionInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCopyAccelerationStructureToMemoryInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCopyMemoryToAccelerationStructureInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCopyAccelerationStructureInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRayTracingShaderGroupCreateInfoKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRayTracingPipelineInterfaceCreateInfoKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRayTracingPipelineCreateInfoKHR>(VkStructureType type) {
     switch (type) {
         case VK_STRUCTURE_TYPE_PIPELINE_BINARY_INFO_KHR:
@@ -3864,6 +14888,72 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRayTracin
             return {alignof(VkRayTracingPipelineClusterAccelerationStructureCreateInfoNV),
                     sizeof(VkRayTracingPipelineClusterAccelerationStructureCreateInfoNV)};
 
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceRayTracingPipelineFeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceRayTracingPipelinePropertiesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkTraceRaysIndirectCommandKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceRayQueryFeaturesKHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMeshShaderFeaturesEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMeshShaderPropertiesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDrawMeshTasksIndirectCommandEXT>(VkStructureType type) {
+    switch (type) {
         default:
             // Unknown structure
             return {0, 0};

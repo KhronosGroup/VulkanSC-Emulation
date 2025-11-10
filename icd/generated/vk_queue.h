@@ -32,6 +32,10 @@ class Queue {
     void GetQueueCheckpointData2NV(uint32_t* pCheckpointDataCount, VkCheckpointData2NV* pCheckpointData);
     VkResult QueueSetPerformanceConfigurationINTEL(VkPerformanceConfigurationINTEL configuration);
     void QueueNotifyOutOfBandNV(const VkOutOfBandQueueTypeInfoNV* pQueueTypeInfo);
+#ifdef VK_USE_PLATFORM_OHOS
+    VkResult QueueSignalReleaseImageOHOS(uint32_t waitSemaphoreCount, const VkSemaphore* pWaitSemaphores, VkImage image,
+                                         int32_t* pNativeFenceFd);
+#endif  // VK_USE_PLATFORM_OHOS
 
     VkQueue VkHandle() const { return handle_; }
     const DispatchTable& VkDispatch() const { return dispatch_table_; }

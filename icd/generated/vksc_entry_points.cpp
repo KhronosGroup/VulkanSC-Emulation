@@ -173,27 +173,6 @@ VKAPI_ATTR void VKAPI_CALL vkDestroySemaphore(VkDevice device, VkSemaphore semap
     return vksc::Device::FromHandle(device)->DestroySemaphore(semaphore, pAllocator);
 }
 
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateEvent(VkDevice device, const VkEventCreateInfo* pCreateInfo,
-                                             const VkAllocationCallbacks* pAllocator, VkEvent* pEvent) {
-    return vksc::Device::FromHandle(device)->CreateEvent(pCreateInfo, pAllocator, pEvent);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkDestroyEvent(VkDevice device, VkEvent event, const VkAllocationCallbacks* pAllocator) {
-    return vksc::Device::FromHandle(device)->DestroyEvent(event, pAllocator);
-}
-
-VKAPI_ATTR VkResult VKAPI_CALL vkGetEventStatus(VkDevice device, VkEvent event) {
-    return vksc::Device::FromHandle(device)->GetEventStatus(event);
-}
-
-VKAPI_ATTR VkResult VKAPI_CALL vkSetEvent(VkDevice device, VkEvent event) {
-    return vksc::Device::FromHandle(device)->SetEvent(event);
-}
-
-VKAPI_ATTR VkResult VKAPI_CALL vkResetEvent(VkDevice device, VkEvent event) {
-    return vksc::Device::FromHandle(device)->ResetEvent(event);
-}
-
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateQueryPool(VkDevice device, const VkQueryPoolCreateInfo* pCreateInfo,
                                                  const VkAllocationCallbacks* pAllocator, VkQueryPool* pQueryPool) {
     return vksc::Device::FromHandle(device)->CreateQueryPool(pCreateInfo, pAllocator, pQueryPool);
@@ -212,15 +191,6 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateBuffer(VkDevice device, const VkBufferCre
 
 VKAPI_ATTR void VKAPI_CALL vkDestroyBuffer(VkDevice device, VkBuffer buffer, const VkAllocationCallbacks* pAllocator) {
     return vksc::Device::FromHandle(device)->DestroyBuffer(buffer, pAllocator);
-}
-
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateBufferView(VkDevice device, const VkBufferViewCreateInfo* pCreateInfo,
-                                                  const VkAllocationCallbacks* pAllocator, VkBufferView* pView) {
-    return vksc::Device::FromHandle(device)->CreateBufferView(pCreateInfo, pAllocator, pView);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkDestroyBufferView(VkDevice device, VkBufferView bufferView, const VkAllocationCallbacks* pAllocator) {
-    return vksc::Device::FromHandle(device)->DestroyBufferView(bufferView, pAllocator);
 }
 
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateImage(VkDevice device, const VkImageCreateInfo* pCreateInfo,
@@ -246,6 +216,145 @@ VKAPI_ATTR void VKAPI_CALL vkDestroyImageView(VkDevice device, VkImageView image
     return vksc::Device::FromHandle(device)->DestroyImageView(imageView, pAllocator);
 }
 
+VKAPI_ATTR VkResult VKAPI_CALL vkCreateCommandPool(VkDevice device, const VkCommandPoolCreateInfo* pCreateInfo,
+                                                   const VkAllocationCallbacks* pAllocator, VkCommandPool* pCommandPool) {
+    return vksc::Device::FromHandle(device)->CreateCommandPool(pCreateInfo, pAllocator, pCommandPool);
+}
+
+VKAPI_ATTR VkResult VKAPI_CALL vkResetCommandPool(VkDevice device, VkCommandPool commandPool, VkCommandPoolResetFlags flags) {
+    return vksc::Device::FromHandle(device)->ResetCommandPool(commandPool, flags);
+}
+
+VKAPI_ATTR VkResult VKAPI_CALL vkAllocateCommandBuffers(VkDevice device, const VkCommandBufferAllocateInfo* pAllocateInfo,
+                                                        VkCommandBuffer* pCommandBuffers) {
+    return vksc::Device::FromHandle(device)->AllocateCommandBuffers(pAllocateInfo, pCommandBuffers);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkFreeCommandBuffers(VkDevice device, VkCommandPool commandPool, uint32_t commandBufferCount,
+                                                const VkCommandBuffer* pCommandBuffers) {
+    return vksc::Device::FromHandle(device)->FreeCommandBuffers(commandPool, commandBufferCount, pCommandBuffers);
+}
+
+VKAPI_ATTR VkResult VKAPI_CALL vkBeginCommandBuffer(VkCommandBuffer commandBuffer, const VkCommandBufferBeginInfo* pBeginInfo) {
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->BeginCommandBuffer(pBeginInfo);
+}
+
+VKAPI_ATTR VkResult VKAPI_CALL vkEndCommandBuffer(VkCommandBuffer commandBuffer) {
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->EndCommandBuffer();
+}
+
+VKAPI_ATTR VkResult VKAPI_CALL vkResetCommandBuffer(VkCommandBuffer commandBuffer, VkCommandBufferResetFlags flags) {
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->ResetCommandBuffer(flags);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkCmdCopyBuffer(VkCommandBuffer commandBuffer, VkBuffer srcBuffer, VkBuffer dstBuffer,
+                                           uint32_t regionCount, const VkBufferCopy* pRegions) {
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdCopyBuffer(srcBuffer, dstBuffer, regionCount, pRegions);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkCmdCopyImage(VkCommandBuffer commandBuffer, VkImage srcImage, VkImageLayout srcImageLayout,
+                                          VkImage dstImage, VkImageLayout dstImageLayout, uint32_t regionCount,
+                                          const VkImageCopy* pRegions) {
+    return vksc::CommandBuffer::FromHandle(commandBuffer)
+        ->CmdCopyImage(srcImage, srcImageLayout, dstImage, dstImageLayout, regionCount, pRegions);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkCmdCopyBufferToImage(VkCommandBuffer commandBuffer, VkBuffer srcBuffer, VkImage dstImage,
+                                                  VkImageLayout dstImageLayout, uint32_t regionCount,
+                                                  const VkBufferImageCopy* pRegions) {
+    return vksc::CommandBuffer::FromHandle(commandBuffer)
+        ->CmdCopyBufferToImage(srcBuffer, dstImage, dstImageLayout, regionCount, pRegions);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkCmdCopyImageToBuffer(VkCommandBuffer commandBuffer, VkImage srcImage, VkImageLayout srcImageLayout,
+                                                  VkBuffer dstBuffer, uint32_t regionCount, const VkBufferImageCopy* pRegions) {
+    return vksc::CommandBuffer::FromHandle(commandBuffer)
+        ->CmdCopyImageToBuffer(srcImage, srcImageLayout, dstBuffer, regionCount, pRegions);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkCmdUpdateBuffer(VkCommandBuffer commandBuffer, VkBuffer dstBuffer, VkDeviceSize dstOffset,
+                                             VkDeviceSize dataSize, const void* pData) {
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdUpdateBuffer(dstBuffer, dstOffset, dataSize, pData);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkCmdFillBuffer(VkCommandBuffer commandBuffer, VkBuffer dstBuffer, VkDeviceSize dstOffset,
+                                           VkDeviceSize size, uint32_t data) {
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdFillBuffer(dstBuffer, dstOffset, size, data);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkCmdPipelineBarrier(VkCommandBuffer commandBuffer, VkPipelineStageFlags srcStageMask,
+                                                VkPipelineStageFlags dstStageMask, VkDependencyFlags dependencyFlags,
+                                                uint32_t memoryBarrierCount, const VkMemoryBarrier* pMemoryBarriers,
+                                                uint32_t bufferMemoryBarrierCount,
+                                                const VkBufferMemoryBarrier* pBufferMemoryBarriers,
+                                                uint32_t imageMemoryBarrierCount,
+                                                const VkImageMemoryBarrier* pImageMemoryBarriers) {
+    return vksc::CommandBuffer::FromHandle(commandBuffer)
+        ->CmdPipelineBarrier(srcStageMask, dstStageMask, dependencyFlags, memoryBarrierCount, pMemoryBarriers,
+                             bufferMemoryBarrierCount, pBufferMemoryBarriers, imageMemoryBarrierCount, pImageMemoryBarriers);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkCmdBeginQuery(VkCommandBuffer commandBuffer, VkQueryPool queryPool, uint32_t query,
+                                           VkQueryControlFlags flags) {
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdBeginQuery(queryPool, query, flags);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkCmdEndQuery(VkCommandBuffer commandBuffer, VkQueryPool queryPool, uint32_t query) {
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdEndQuery(queryPool, query);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkCmdResetQueryPool(VkCommandBuffer commandBuffer, VkQueryPool queryPool, uint32_t firstQuery,
+                                               uint32_t queryCount) {
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdResetQueryPool(queryPool, firstQuery, queryCount);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkCmdWriteTimestamp(VkCommandBuffer commandBuffer, VkPipelineStageFlagBits pipelineStage,
+                                               VkQueryPool queryPool, uint32_t query) {
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdWriteTimestamp(pipelineStage, queryPool, query);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkCmdCopyQueryPoolResults(VkCommandBuffer commandBuffer, VkQueryPool queryPool, uint32_t firstQuery,
+                                                     uint32_t queryCount, VkBuffer dstBuffer, VkDeviceSize dstOffset,
+                                                     VkDeviceSize stride, VkQueryResultFlags flags) {
+    return vksc::CommandBuffer::FromHandle(commandBuffer)
+        ->CmdCopyQueryPoolResults(queryPool, firstQuery, queryCount, dstBuffer, dstOffset, stride, flags);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkCmdExecuteCommands(VkCommandBuffer commandBuffer, uint32_t commandBufferCount,
+                                                const VkCommandBuffer* pCommandBuffers) {
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdExecuteCommands(commandBufferCount, pCommandBuffers);
+}
+
+VKAPI_ATTR VkResult VKAPI_CALL vkCreateEvent(VkDevice device, const VkEventCreateInfo* pCreateInfo,
+                                             const VkAllocationCallbacks* pAllocator, VkEvent* pEvent) {
+    return vksc::Device::FromHandle(device)->CreateEvent(pCreateInfo, pAllocator, pEvent);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkDestroyEvent(VkDevice device, VkEvent event, const VkAllocationCallbacks* pAllocator) {
+    return vksc::Device::FromHandle(device)->DestroyEvent(event, pAllocator);
+}
+
+VKAPI_ATTR VkResult VKAPI_CALL vkGetEventStatus(VkDevice device, VkEvent event) {
+    return vksc::Device::FromHandle(device)->GetEventStatus(event);
+}
+
+VKAPI_ATTR VkResult VKAPI_CALL vkSetEvent(VkDevice device, VkEvent event) {
+    return vksc::Device::FromHandle(device)->SetEvent(event);
+}
+
+VKAPI_ATTR VkResult VKAPI_CALL vkResetEvent(VkDevice device, VkEvent event) {
+    return vksc::Device::FromHandle(device)->ResetEvent(event);
+}
+
+VKAPI_ATTR VkResult VKAPI_CALL vkCreateBufferView(VkDevice device, const VkBufferViewCreateInfo* pCreateInfo,
+                                                  const VkAllocationCallbacks* pAllocator, VkBufferView* pView) {
+    return vksc::Device::FromHandle(device)->CreateBufferView(pCreateInfo, pAllocator, pView);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkDestroyBufferView(VkDevice device, VkBufferView bufferView, const VkAllocationCallbacks* pAllocator) {
+    return vksc::Device::FromHandle(device)->DestroyBufferView(bufferView, pAllocator);
+}
+
 VKAPI_ATTR VkResult VKAPI_CALL vkCreatePipelineCache(VkDevice device, const VkPipelineCacheCreateInfo* pCreateInfo,
                                                      const VkAllocationCallbacks* pAllocator, VkPipelineCache* pPipelineCache) {
     return vksc::Device::FromHandle(device)->CreatePipelineCache(pCreateInfo, pAllocator, pPipelineCache);
@@ -254,13 +363,6 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreatePipelineCache(VkDevice device, const VkPi
 VKAPI_ATTR void VKAPI_CALL vkDestroyPipelineCache(VkDevice device, VkPipelineCache pipelineCache,
                                                   const VkAllocationCallbacks* pAllocator) {
     return vksc::Device::FromHandle(device)->DestroyPipelineCache(pipelineCache, pAllocator);
-}
-
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateGraphicsPipelines(VkDevice device, VkPipelineCache pipelineCache, uint32_t createInfoCount,
-                                                         const VkGraphicsPipelineCreateInfo* pCreateInfos,
-                                                         const VkAllocationCallbacks* pAllocator, VkPipeline* pPipelines) {
-    return vksc::Device::FromHandle(device)->CreateGraphicsPipelines(pipelineCache, createInfoCount, pCreateInfos, pAllocator,
-                                                                     pPipelines);
 }
 
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateComputePipelines(VkDevice device, VkPipelineCache pipelineCache, uint32_t createInfoCount,
@@ -331,6 +433,65 @@ VKAPI_ATTR void VKAPI_CALL vkUpdateDescriptorSets(VkDevice device, uint32_t desc
                                                                   pDescriptorCopies);
 }
 
+VKAPI_ATTR void VKAPI_CALL vkCmdBindPipeline(VkCommandBuffer commandBuffer, VkPipelineBindPoint pipelineBindPoint,
+                                             VkPipeline pipeline) {
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdBindPipeline(pipelineBindPoint, pipeline);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkCmdBindDescriptorSets(VkCommandBuffer commandBuffer, VkPipelineBindPoint pipelineBindPoint,
+                                                   VkPipelineLayout layout, uint32_t firstSet, uint32_t descriptorSetCount,
+                                                   const VkDescriptorSet* pDescriptorSets, uint32_t dynamicOffsetCount,
+                                                   const uint32_t* pDynamicOffsets) {
+    return vksc::CommandBuffer::FromHandle(commandBuffer)
+        ->CmdBindDescriptorSets(pipelineBindPoint, layout, firstSet, descriptorSetCount, pDescriptorSets, dynamicOffsetCount,
+                                pDynamicOffsets);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkCmdClearColorImage(VkCommandBuffer commandBuffer, VkImage image, VkImageLayout imageLayout,
+                                                const VkClearColorValue* pColor, uint32_t rangeCount,
+                                                const VkImageSubresourceRange* pRanges) {
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdClearColorImage(image, imageLayout, pColor, rangeCount, pRanges);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkCmdDispatch(VkCommandBuffer commandBuffer, uint32_t groupCountX, uint32_t groupCountY,
+                                         uint32_t groupCountZ) {
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdDispatch(groupCountX, groupCountY, groupCountZ);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkCmdDispatchIndirect(VkCommandBuffer commandBuffer, VkBuffer buffer, VkDeviceSize offset) {
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdDispatchIndirect(buffer, offset);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkCmdSetEvent(VkCommandBuffer commandBuffer, VkEvent event, VkPipelineStageFlags stageMask) {
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetEvent(event, stageMask);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkCmdResetEvent(VkCommandBuffer commandBuffer, VkEvent event, VkPipelineStageFlags stageMask) {
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdResetEvent(event, stageMask);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkCmdWaitEvents(VkCommandBuffer commandBuffer, uint32_t eventCount, const VkEvent* pEvents,
+                                           VkPipelineStageFlags srcStageMask, VkPipelineStageFlags dstStageMask,
+                                           uint32_t memoryBarrierCount, const VkMemoryBarrier* pMemoryBarriers,
+                                           uint32_t bufferMemoryBarrierCount, const VkBufferMemoryBarrier* pBufferMemoryBarriers,
+                                           uint32_t imageMemoryBarrierCount, const VkImageMemoryBarrier* pImageMemoryBarriers) {
+    return vksc::CommandBuffer::FromHandle(commandBuffer)
+        ->CmdWaitEvents(eventCount, pEvents, srcStageMask, dstStageMask, memoryBarrierCount, pMemoryBarriers,
+                        bufferMemoryBarrierCount, pBufferMemoryBarriers, imageMemoryBarrierCount, pImageMemoryBarriers);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkCmdPushConstants(VkCommandBuffer commandBuffer, VkPipelineLayout layout, VkShaderStageFlags stageFlags,
+                                              uint32_t offset, uint32_t size, const void* pValues) {
+    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdPushConstants(layout, stageFlags, offset, size, pValues);
+}
+
+VKAPI_ATTR VkResult VKAPI_CALL vkCreateGraphicsPipelines(VkDevice device, VkPipelineCache pipelineCache, uint32_t createInfoCount,
+                                                         const VkGraphicsPipelineCreateInfo* pCreateInfos,
+                                                         const VkAllocationCallbacks* pAllocator, VkPipeline* pPipelines) {
+    return vksc::Device::FromHandle(device)->CreateGraphicsPipelines(pipelineCache, createInfoCount, pCreateInfos, pAllocator,
+                                                                     pPipelines);
+}
+
 VKAPI_ATTR VkResult VKAPI_CALL vkCreateFramebuffer(VkDevice device, const VkFramebufferCreateInfo* pCreateInfo,
                                                    const VkAllocationCallbacks* pAllocator, VkFramebuffer* pFramebuffer) {
     return vksc::Device::FromHandle(device)->CreateFramebuffer(pCreateInfo, pAllocator, pFramebuffer);
@@ -352,42 +513,6 @@ VKAPI_ATTR void VKAPI_CALL vkDestroyRenderPass(VkDevice device, VkRenderPass ren
 
 VKAPI_ATTR void VKAPI_CALL vkGetRenderAreaGranularity(VkDevice device, VkRenderPass renderPass, VkExtent2D* pGranularity) {
     return vksc::Device::FromHandle(device)->GetRenderAreaGranularity(renderPass, pGranularity);
-}
-
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateCommandPool(VkDevice device, const VkCommandPoolCreateInfo* pCreateInfo,
-                                                   const VkAllocationCallbacks* pAllocator, VkCommandPool* pCommandPool) {
-    return vksc::Device::FromHandle(device)->CreateCommandPool(pCreateInfo, pAllocator, pCommandPool);
-}
-
-VKAPI_ATTR VkResult VKAPI_CALL vkResetCommandPool(VkDevice device, VkCommandPool commandPool, VkCommandPoolResetFlags flags) {
-    return vksc::Device::FromHandle(device)->ResetCommandPool(commandPool, flags);
-}
-
-VKAPI_ATTR VkResult VKAPI_CALL vkAllocateCommandBuffers(VkDevice device, const VkCommandBufferAllocateInfo* pAllocateInfo,
-                                                        VkCommandBuffer* pCommandBuffers) {
-    return vksc::Device::FromHandle(device)->AllocateCommandBuffers(pAllocateInfo, pCommandBuffers);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkFreeCommandBuffers(VkDevice device, VkCommandPool commandPool, uint32_t commandBufferCount,
-                                                const VkCommandBuffer* pCommandBuffers) {
-    return vksc::Device::FromHandle(device)->FreeCommandBuffers(commandPool, commandBufferCount, pCommandBuffers);
-}
-
-VKAPI_ATTR VkResult VKAPI_CALL vkBeginCommandBuffer(VkCommandBuffer commandBuffer, const VkCommandBufferBeginInfo* pBeginInfo) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->BeginCommandBuffer(pBeginInfo);
-}
-
-VKAPI_ATTR VkResult VKAPI_CALL vkEndCommandBuffer(VkCommandBuffer commandBuffer) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->EndCommandBuffer();
-}
-
-VKAPI_ATTR VkResult VKAPI_CALL vkResetCommandBuffer(VkCommandBuffer commandBuffer, VkCommandBufferResetFlags flags) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->ResetCommandBuffer(flags);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdBindPipeline(VkCommandBuffer commandBuffer, VkPipelineBindPoint pipelineBindPoint,
-                                             VkPipeline pipeline) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdBindPipeline(pipelineBindPoint, pipeline);
 }
 
 VKAPI_ATTR void VKAPI_CALL vkCmdSetViewport(VkCommandBuffer commandBuffer, uint32_t firstViewport, uint32_t viewportCount,
@@ -433,15 +558,6 @@ VKAPI_ATTR void VKAPI_CALL vkCmdSetStencilReference(VkCommandBuffer commandBuffe
     return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetStencilReference(faceMask, reference);
 }
 
-VKAPI_ATTR void VKAPI_CALL vkCmdBindDescriptorSets(VkCommandBuffer commandBuffer, VkPipelineBindPoint pipelineBindPoint,
-                                                   VkPipelineLayout layout, uint32_t firstSet, uint32_t descriptorSetCount,
-                                                   const VkDescriptorSet* pDescriptorSets, uint32_t dynamicOffsetCount,
-                                                   const uint32_t* pDynamicOffsets) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)
-        ->CmdBindDescriptorSets(pipelineBindPoint, layout, firstSet, descriptorSetCount, pDescriptorSets, dynamicOffsetCount,
-                                pDynamicOffsets);
-}
-
 VKAPI_ATTR void VKAPI_CALL vkCmdBindIndexBuffer(VkCommandBuffer commandBuffer, VkBuffer buffer, VkDeviceSize offset,
                                                 VkIndexType indexType) {
     return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdBindIndexBuffer(buffer, offset, indexType);
@@ -473,61 +589,11 @@ VKAPI_ATTR void VKAPI_CALL vkCmdDrawIndexedIndirect(VkCommandBuffer commandBuffe
     return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdDrawIndexedIndirect(buffer, offset, drawCount, stride);
 }
 
-VKAPI_ATTR void VKAPI_CALL vkCmdDispatch(VkCommandBuffer commandBuffer, uint32_t groupCountX, uint32_t groupCountY,
-                                         uint32_t groupCountZ) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdDispatch(groupCountX, groupCountY, groupCountZ);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdDispatchIndirect(VkCommandBuffer commandBuffer, VkBuffer buffer, VkDeviceSize offset) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdDispatchIndirect(buffer, offset);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdCopyBuffer(VkCommandBuffer commandBuffer, VkBuffer srcBuffer, VkBuffer dstBuffer,
-                                           uint32_t regionCount, const VkBufferCopy* pRegions) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdCopyBuffer(srcBuffer, dstBuffer, regionCount, pRegions);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdCopyImage(VkCommandBuffer commandBuffer, VkImage srcImage, VkImageLayout srcImageLayout,
-                                          VkImage dstImage, VkImageLayout dstImageLayout, uint32_t regionCount,
-                                          const VkImageCopy* pRegions) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)
-        ->CmdCopyImage(srcImage, srcImageLayout, dstImage, dstImageLayout, regionCount, pRegions);
-}
-
 VKAPI_ATTR void VKAPI_CALL vkCmdBlitImage(VkCommandBuffer commandBuffer, VkImage srcImage, VkImageLayout srcImageLayout,
                                           VkImage dstImage, VkImageLayout dstImageLayout, uint32_t regionCount,
                                           const VkImageBlit* pRegions, VkFilter filter) {
     return vksc::CommandBuffer::FromHandle(commandBuffer)
         ->CmdBlitImage(srcImage, srcImageLayout, dstImage, dstImageLayout, regionCount, pRegions, filter);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdCopyBufferToImage(VkCommandBuffer commandBuffer, VkBuffer srcBuffer, VkImage dstImage,
-                                                  VkImageLayout dstImageLayout, uint32_t regionCount,
-                                                  const VkBufferImageCopy* pRegions) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)
-        ->CmdCopyBufferToImage(srcBuffer, dstImage, dstImageLayout, regionCount, pRegions);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdCopyImageToBuffer(VkCommandBuffer commandBuffer, VkImage srcImage, VkImageLayout srcImageLayout,
-                                                  VkBuffer dstBuffer, uint32_t regionCount, const VkBufferImageCopy* pRegions) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)
-        ->CmdCopyImageToBuffer(srcImage, srcImageLayout, dstBuffer, regionCount, pRegions);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdUpdateBuffer(VkCommandBuffer commandBuffer, VkBuffer dstBuffer, VkDeviceSize dstOffset,
-                                             VkDeviceSize dataSize, const void* pData) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdUpdateBuffer(dstBuffer, dstOffset, dataSize, pData);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdFillBuffer(VkCommandBuffer commandBuffer, VkBuffer dstBuffer, VkDeviceSize dstOffset,
-                                           VkDeviceSize size, uint32_t data) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdFillBuffer(dstBuffer, dstOffset, size, data);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdClearColorImage(VkCommandBuffer commandBuffer, VkImage image, VkImageLayout imageLayout,
-                                                const VkClearColorValue* pColor, uint32_t rangeCount,
-                                                const VkImageSubresourceRange* pRanges) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdClearColorImage(image, imageLayout, pColor, rangeCount, pRanges);
 }
 
 VKAPI_ATTR void VKAPI_CALL vkCmdClearDepthStencilImage(VkCommandBuffer commandBuffer, VkImage image, VkImageLayout imageLayout,
@@ -550,67 +616,6 @@ VKAPI_ATTR void VKAPI_CALL vkCmdResolveImage(VkCommandBuffer commandBuffer, VkIm
         ->CmdResolveImage(srcImage, srcImageLayout, dstImage, dstImageLayout, regionCount, pRegions);
 }
 
-VKAPI_ATTR void VKAPI_CALL vkCmdSetEvent(VkCommandBuffer commandBuffer, VkEvent event, VkPipelineStageFlags stageMask) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetEvent(event, stageMask);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdResetEvent(VkCommandBuffer commandBuffer, VkEvent event, VkPipelineStageFlags stageMask) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdResetEvent(event, stageMask);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdWaitEvents(VkCommandBuffer commandBuffer, uint32_t eventCount, const VkEvent* pEvents,
-                                           VkPipelineStageFlags srcStageMask, VkPipelineStageFlags dstStageMask,
-                                           uint32_t memoryBarrierCount, const VkMemoryBarrier* pMemoryBarriers,
-                                           uint32_t bufferMemoryBarrierCount, const VkBufferMemoryBarrier* pBufferMemoryBarriers,
-                                           uint32_t imageMemoryBarrierCount, const VkImageMemoryBarrier* pImageMemoryBarriers) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)
-        ->CmdWaitEvents(eventCount, pEvents, srcStageMask, dstStageMask, memoryBarrierCount, pMemoryBarriers,
-                        bufferMemoryBarrierCount, pBufferMemoryBarriers, imageMemoryBarrierCount, pImageMemoryBarriers);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdPipelineBarrier(VkCommandBuffer commandBuffer, VkPipelineStageFlags srcStageMask,
-                                                VkPipelineStageFlags dstStageMask, VkDependencyFlags dependencyFlags,
-                                                uint32_t memoryBarrierCount, const VkMemoryBarrier* pMemoryBarriers,
-                                                uint32_t bufferMemoryBarrierCount,
-                                                const VkBufferMemoryBarrier* pBufferMemoryBarriers,
-                                                uint32_t imageMemoryBarrierCount,
-                                                const VkImageMemoryBarrier* pImageMemoryBarriers) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)
-        ->CmdPipelineBarrier(srcStageMask, dstStageMask, dependencyFlags, memoryBarrierCount, pMemoryBarriers,
-                             bufferMemoryBarrierCount, pBufferMemoryBarriers, imageMemoryBarrierCount, pImageMemoryBarriers);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdBeginQuery(VkCommandBuffer commandBuffer, VkQueryPool queryPool, uint32_t query,
-                                           VkQueryControlFlags flags) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdBeginQuery(queryPool, query, flags);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdEndQuery(VkCommandBuffer commandBuffer, VkQueryPool queryPool, uint32_t query) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdEndQuery(queryPool, query);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdResetQueryPool(VkCommandBuffer commandBuffer, VkQueryPool queryPool, uint32_t firstQuery,
-                                               uint32_t queryCount) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdResetQueryPool(queryPool, firstQuery, queryCount);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdWriteTimestamp(VkCommandBuffer commandBuffer, VkPipelineStageFlagBits pipelineStage,
-                                               VkQueryPool queryPool, uint32_t query) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdWriteTimestamp(pipelineStage, queryPool, query);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdCopyQueryPoolResults(VkCommandBuffer commandBuffer, VkQueryPool queryPool, uint32_t firstQuery,
-                                                     uint32_t queryCount, VkBuffer dstBuffer, VkDeviceSize dstOffset,
-                                                     VkDeviceSize stride, VkQueryResultFlags flags) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)
-        ->CmdCopyQueryPoolResults(queryPool, firstQuery, queryCount, dstBuffer, dstOffset, stride, flags);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdPushConstants(VkCommandBuffer commandBuffer, VkPipelineLayout layout, VkShaderStageFlags stageFlags,
-                                              uint32_t offset, uint32_t size, const void* pValues) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdPushConstants(layout, stageFlags, offset, size, pValues);
-}
-
 VKAPI_ATTR void VKAPI_CALL vkCmdBeginRenderPass(VkCommandBuffer commandBuffer, const VkRenderPassBeginInfo* pRenderPassBegin,
                                                 VkSubpassContents contents) {
     return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdBeginRenderPass(pRenderPassBegin, contents);
@@ -622,11 +627,6 @@ VKAPI_ATTR void VKAPI_CALL vkCmdNextSubpass(VkCommandBuffer commandBuffer, VkSub
 
 VKAPI_ATTR void VKAPI_CALL vkCmdEndRenderPass(VkCommandBuffer commandBuffer) {
     return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdEndRenderPass();
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdExecuteCommands(VkCommandBuffer commandBuffer, uint32_t commandBufferCount,
-                                                const VkCommandBuffer* pCommandBuffers) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdExecuteCommands(commandBufferCount, pCommandBuffers);
 }
 
 VKAPI_ATTR VkResult VKAPI_CALL vkBindBufferMemory2(VkDevice device, uint32_t bindInfoCount,
@@ -648,13 +648,6 @@ VKAPI_ATTR void VKAPI_CALL vkGetDeviceGroupPeerMemoryFeatures(VkDevice device, u
 
 VKAPI_ATTR void VKAPI_CALL vkCmdSetDeviceMask(VkCommandBuffer commandBuffer, uint32_t deviceMask) {
     return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdSetDeviceMask(deviceMask);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkCmdDispatchBase(VkCommandBuffer commandBuffer, uint32_t baseGroupX, uint32_t baseGroupY,
-                                             uint32_t baseGroupZ, uint32_t groupCountX, uint32_t groupCountY,
-                                             uint32_t groupCountZ) {
-    return vksc::CommandBuffer::FromHandle(commandBuffer)
-        ->CmdDispatchBase(baseGroupX, baseGroupY, baseGroupZ, groupCountX, groupCountY, groupCountZ);
 }
 
 VKAPI_ATTR VkResult VKAPI_CALL vkEnumeratePhysicalDeviceGroups(VkInstance instance, uint32_t* pPhysicalDeviceGroupCount,
@@ -710,18 +703,6 @@ VKAPI_ATTR void VKAPI_CALL vkGetDeviceQueue2(VkDevice device, const VkDeviceQueu
     return vksc::Device::FromHandle(device)->GetDeviceQueue2(pQueueInfo, pQueue);
 }
 
-VKAPI_ATTR VkResult VKAPI_CALL vkCreateSamplerYcbcrConversion(VkDevice device,
-                                                              const VkSamplerYcbcrConversionCreateInfo* pCreateInfo,
-                                                              const VkAllocationCallbacks* pAllocator,
-                                                              VkSamplerYcbcrConversion* pYcbcrConversion) {
-    return vksc::Device::FromHandle(device)->CreateSamplerYcbcrConversion(pCreateInfo, pAllocator, pYcbcrConversion);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkDestroySamplerYcbcrConversion(VkDevice device, VkSamplerYcbcrConversion ycbcrConversion,
-                                                           const VkAllocationCallbacks* pAllocator) {
-    return vksc::Device::FromHandle(device)->DestroySamplerYcbcrConversion(ycbcrConversion, pAllocator);
-}
-
 VKAPI_ATTR void VKAPI_CALL vkGetPhysicalDeviceExternalBufferProperties(
     VkPhysicalDevice physicalDevice, const VkPhysicalDeviceExternalBufferInfo* pExternalBufferInfo,
     VkExternalBufferProperties* pExternalBufferProperties) {
@@ -743,9 +724,57 @@ VKAPI_ATTR void VKAPI_CALL vkGetPhysicalDeviceExternalSemaphoreProperties(
         ->GetPhysicalDeviceExternalSemaphoreProperties(pExternalSemaphoreInfo, pExternalSemaphoreProperties);
 }
 
+VKAPI_ATTR void VKAPI_CALL vkCmdDispatchBase(VkCommandBuffer commandBuffer, uint32_t baseGroupX, uint32_t baseGroupY,
+                                             uint32_t baseGroupZ, uint32_t groupCountX, uint32_t groupCountY,
+                                             uint32_t groupCountZ) {
+    return vksc::CommandBuffer::FromHandle(commandBuffer)
+        ->CmdDispatchBase(baseGroupX, baseGroupY, baseGroupZ, groupCountX, groupCountY, groupCountZ);
+}
+
 VKAPI_ATTR void VKAPI_CALL vkGetDescriptorSetLayoutSupport(VkDevice device, const VkDescriptorSetLayoutCreateInfo* pCreateInfo,
                                                            VkDescriptorSetLayoutSupport* pSupport) {
     return vksc::Device::FromHandle(device)->GetDescriptorSetLayoutSupport(pCreateInfo, pSupport);
+}
+
+VKAPI_ATTR VkResult VKAPI_CALL vkCreateSamplerYcbcrConversion(VkDevice device,
+                                                              const VkSamplerYcbcrConversionCreateInfo* pCreateInfo,
+                                                              const VkAllocationCallbacks* pAllocator,
+                                                              VkSamplerYcbcrConversion* pYcbcrConversion) {
+    return vksc::Device::FromHandle(device)->CreateSamplerYcbcrConversion(pCreateInfo, pAllocator, pYcbcrConversion);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkDestroySamplerYcbcrConversion(VkDevice device, VkSamplerYcbcrConversion ycbcrConversion,
+                                                           const VkAllocationCallbacks* pAllocator) {
+    return vksc::Device::FromHandle(device)->DestroySamplerYcbcrConversion(ycbcrConversion, pAllocator);
+}
+
+VKAPI_ATTR void VKAPI_CALL vkResetQueryPool(VkDevice device, VkQueryPool queryPool, uint32_t firstQuery, uint32_t queryCount) {
+    return vksc::Device::FromHandle(device)->ResetQueryPool(queryPool, firstQuery, queryCount);
+}
+
+VKAPI_ATTR VkResult VKAPI_CALL vkGetSemaphoreCounterValue(VkDevice device, VkSemaphore semaphore, uint64_t* pValue) {
+    return vksc::Device::FromHandle(device)->GetSemaphoreCounterValue(semaphore, pValue);
+}
+
+VKAPI_ATTR VkResult VKAPI_CALL vkWaitSemaphores(VkDevice device, const VkSemaphoreWaitInfo* pWaitInfo, uint64_t timeout) {
+    return vksc::Device::FromHandle(device)->WaitSemaphores(pWaitInfo, timeout);
+}
+
+VKAPI_ATTR VkResult VKAPI_CALL vkSignalSemaphore(VkDevice device, const VkSemaphoreSignalInfo* pSignalInfo) {
+    return vksc::Device::FromHandle(device)->SignalSemaphore(pSignalInfo);
+}
+
+VKAPI_ATTR VkDeviceAddress VKAPI_CALL vkGetBufferDeviceAddress(VkDevice device, const VkBufferDeviceAddressInfo* pInfo) {
+    return vksc::Device::FromHandle(device)->GetBufferDeviceAddress(pInfo);
+}
+
+VKAPI_ATTR uint64_t VKAPI_CALL vkGetBufferOpaqueCaptureAddress(VkDevice device, const VkBufferDeviceAddressInfo* pInfo) {
+    return vksc::Device::FromHandle(device)->GetBufferOpaqueCaptureAddress(pInfo);
+}
+
+VKAPI_ATTR uint64_t VKAPI_CALL vkGetDeviceMemoryOpaqueCaptureAddress(VkDevice device,
+                                                                     const VkDeviceMemoryOpaqueCaptureAddressInfo* pInfo) {
+    return vksc::Device::FromHandle(device)->GetDeviceMemoryOpaqueCaptureAddress(pInfo);
 }
 
 VKAPI_ATTR void VKAPI_CALL vkCmdDrawIndirectCount(VkCommandBuffer commandBuffer, VkBuffer buffer, VkDeviceSize offset,
@@ -779,35 +808,6 @@ VKAPI_ATTR void VKAPI_CALL vkCmdNextSubpass2(VkCommandBuffer commandBuffer, cons
 
 VKAPI_ATTR void VKAPI_CALL vkCmdEndRenderPass2(VkCommandBuffer commandBuffer, const VkSubpassEndInfo* pSubpassEndInfo) {
     return vksc::CommandBuffer::FromHandle(commandBuffer)->CmdEndRenderPass2(pSubpassEndInfo);
-}
-
-VKAPI_ATTR void VKAPI_CALL vkResetQueryPool(VkDevice device, VkQueryPool queryPool, uint32_t firstQuery, uint32_t queryCount) {
-    return vksc::Device::FromHandle(device)->ResetQueryPool(queryPool, firstQuery, queryCount);
-}
-
-VKAPI_ATTR VkResult VKAPI_CALL vkGetSemaphoreCounterValue(VkDevice device, VkSemaphore semaphore, uint64_t* pValue) {
-    return vksc::Device::FromHandle(device)->GetSemaphoreCounterValue(semaphore, pValue);
-}
-
-VKAPI_ATTR VkResult VKAPI_CALL vkWaitSemaphores(VkDevice device, const VkSemaphoreWaitInfo* pWaitInfo, uint64_t timeout) {
-    return vksc::Device::FromHandle(device)->WaitSemaphores(pWaitInfo, timeout);
-}
-
-VKAPI_ATTR VkResult VKAPI_CALL vkSignalSemaphore(VkDevice device, const VkSemaphoreSignalInfo* pSignalInfo) {
-    return vksc::Device::FromHandle(device)->SignalSemaphore(pSignalInfo);
-}
-
-VKAPI_ATTR VkDeviceAddress VKAPI_CALL vkGetBufferDeviceAddress(VkDevice device, const VkBufferDeviceAddressInfo* pInfo) {
-    return vksc::Device::FromHandle(device)->GetBufferDeviceAddress(pInfo);
-}
-
-VKAPI_ATTR uint64_t VKAPI_CALL vkGetBufferOpaqueCaptureAddress(VkDevice device, const VkBufferDeviceAddressInfo* pInfo) {
-    return vksc::Device::FromHandle(device)->GetBufferOpaqueCaptureAddress(pInfo);
-}
-
-VKAPI_ATTR uint64_t VKAPI_CALL vkGetDeviceMemoryOpaqueCaptureAddress(VkDevice device,
-                                                                     const VkDeviceMemoryOpaqueCaptureAddressInfo* pInfo) {
-    return vksc::Device::FromHandle(device)->GetDeviceMemoryOpaqueCaptureAddress(pInfo);
 }
 
 VKAPI_ATTR void VKAPI_CALL vkGetCommandPoolMemoryConsumption(VkDevice device, VkCommandPool commandPool,

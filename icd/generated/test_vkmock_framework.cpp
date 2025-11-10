@@ -219,25 +219,6 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_DestroySemaphore(VkDevice device, VkSem
     return vkmock::DestroySemaphore(device, semaphore, pAllocator);
 }
 
-static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateEvent(VkDevice device, const VkEventCreateInfo* pCreateInfo,
-                                                         const VkAllocationCallbacks* pAllocator, VkEvent* pEvent) {
-    return vkmock::CreateEvent(device, pCreateInfo, pAllocator, pEvent);
-}
-
-static VKAPI_ATTR void VKAPI_CALL vkmock_DestroyEvent(VkDevice device, VkEvent event, const VkAllocationCallbacks* pAllocator) {
-    return vkmock::DestroyEvent(device, event, pAllocator);
-}
-
-static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetEventStatus(VkDevice device, VkEvent event) {
-    return vkmock::GetEventStatus(device, event);
-}
-
-static VKAPI_ATTR VkResult VKAPI_CALL vkmock_SetEvent(VkDevice device, VkEvent event) { return vkmock::SetEvent(device, event); }
-
-static VKAPI_ATTR VkResult VKAPI_CALL vkmock_ResetEvent(VkDevice device, VkEvent event) {
-    return vkmock::ResetEvent(device, event);
-}
-
 static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateQueryPool(VkDevice device, const VkQueryPoolCreateInfo* pCreateInfo,
                                                              const VkAllocationCallbacks* pAllocator, VkQueryPool* pQueryPool) {
     return vkmock::CreateQueryPool(device, pCreateInfo, pAllocator, pQueryPool);
@@ -263,16 +244,6 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_DestroyBuffer(VkDevice device, VkBuffer
     return vkmock::DestroyBuffer(device, buffer, pAllocator);
 }
 
-static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateBufferView(VkDevice device, const VkBufferViewCreateInfo* pCreateInfo,
-                                                              const VkAllocationCallbacks* pAllocator, VkBufferView* pView) {
-    return vkmock::CreateBufferView(device, pCreateInfo, pAllocator, pView);
-}
-
-static VKAPI_ATTR void VKAPI_CALL vkmock_DestroyBufferView(VkDevice device, VkBufferView bufferView,
-                                                           const VkAllocationCallbacks* pAllocator) {
-    return vkmock::DestroyBufferView(device, bufferView, pAllocator);
-}
-
 static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateImage(VkDevice device, const VkImageCreateInfo* pCreateInfo,
                                                          const VkAllocationCallbacks* pAllocator, VkImage* pImage) {
     return vkmock::CreateImage(device, pCreateInfo, pAllocator, pImage);
@@ -296,6 +267,151 @@ static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateImageView(VkDevice device, co
 static VKAPI_ATTR void VKAPI_CALL vkmock_DestroyImageView(VkDevice device, VkImageView imageView,
                                                           const VkAllocationCallbacks* pAllocator) {
     return vkmock::DestroyImageView(device, imageView, pAllocator);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateCommandPool(VkDevice device, const VkCommandPoolCreateInfo* pCreateInfo,
+                                                               const VkAllocationCallbacks* pAllocator,
+                                                               VkCommandPool* pCommandPool) {
+    return vkmock::CreateCommandPool(device, pCreateInfo, pAllocator, pCommandPool);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_DestroyCommandPool(VkDevice device, VkCommandPool commandPool,
+                                                            const VkAllocationCallbacks* pAllocator) {
+    return vkmock::DestroyCommandPool(device, commandPool, pAllocator);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_ResetCommandPool(VkDevice device, VkCommandPool commandPool,
+                                                              VkCommandPoolResetFlags flags) {
+    return vkmock::ResetCommandPool(device, commandPool, flags);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_AllocateCommandBuffers(VkDevice device,
+                                                                    const VkCommandBufferAllocateInfo* pAllocateInfo,
+                                                                    VkCommandBuffer* pCommandBuffers) {
+    return vkmock::AllocateCommandBuffers(device, pAllocateInfo, pCommandBuffers);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_FreeCommandBuffers(VkDevice device, VkCommandPool commandPool, uint32_t commandBufferCount,
+                                                            const VkCommandBuffer* pCommandBuffers) {
+    return vkmock::FreeCommandBuffers(device, commandPool, commandBufferCount, pCommandBuffers);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_BeginCommandBuffer(VkCommandBuffer commandBuffer,
+                                                                const VkCommandBufferBeginInfo* pBeginInfo) {
+    return vkmock::BeginCommandBuffer(commandBuffer, pBeginInfo);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_EndCommandBuffer(VkCommandBuffer commandBuffer) {
+    return vkmock::EndCommandBuffer(commandBuffer);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_ResetCommandBuffer(VkCommandBuffer commandBuffer, VkCommandBufferResetFlags flags) {
+    return vkmock::ResetCommandBuffer(commandBuffer, flags);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdCopyBuffer(VkCommandBuffer commandBuffer, VkBuffer srcBuffer, VkBuffer dstBuffer,
+                                                       uint32_t regionCount, const VkBufferCopy* pRegions) {
+    return vkmock::CmdCopyBuffer(commandBuffer, srcBuffer, dstBuffer, regionCount, pRegions);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdCopyImage(VkCommandBuffer commandBuffer, VkImage srcImage, VkImageLayout srcImageLayout,
+                                                      VkImage dstImage, VkImageLayout dstImageLayout, uint32_t regionCount,
+                                                      const VkImageCopy* pRegions) {
+    return vkmock::CmdCopyImage(commandBuffer, srcImage, srcImageLayout, dstImage, dstImageLayout, regionCount, pRegions);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdCopyBufferToImage(VkCommandBuffer commandBuffer, VkBuffer srcBuffer, VkImage dstImage,
+                                                              VkImageLayout dstImageLayout, uint32_t regionCount,
+                                                              const VkBufferImageCopy* pRegions) {
+    return vkmock::CmdCopyBufferToImage(commandBuffer, srcBuffer, dstImage, dstImageLayout, regionCount, pRegions);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdCopyImageToBuffer(VkCommandBuffer commandBuffer, VkImage srcImage,
+                                                              VkImageLayout srcImageLayout, VkBuffer dstBuffer,
+                                                              uint32_t regionCount, const VkBufferImageCopy* pRegions) {
+    return vkmock::CmdCopyImageToBuffer(commandBuffer, srcImage, srcImageLayout, dstBuffer, regionCount, pRegions);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdUpdateBuffer(VkCommandBuffer commandBuffer, VkBuffer dstBuffer, VkDeviceSize dstOffset,
+                                                         VkDeviceSize dataSize, const void* pData) {
+    return vkmock::CmdUpdateBuffer(commandBuffer, dstBuffer, dstOffset, dataSize, pData);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdFillBuffer(VkCommandBuffer commandBuffer, VkBuffer dstBuffer, VkDeviceSize dstOffset,
+                                                       VkDeviceSize size, uint32_t data) {
+    return vkmock::CmdFillBuffer(commandBuffer, dstBuffer, dstOffset, size, data);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdPipelineBarrier(VkCommandBuffer commandBuffer, VkPipelineStageFlags srcStageMask,
+                                                            VkPipelineStageFlags dstStageMask, VkDependencyFlags dependencyFlags,
+                                                            uint32_t memoryBarrierCount, const VkMemoryBarrier* pMemoryBarriers,
+                                                            uint32_t bufferMemoryBarrierCount,
+                                                            const VkBufferMemoryBarrier* pBufferMemoryBarriers,
+                                                            uint32_t imageMemoryBarrierCount,
+                                                            const VkImageMemoryBarrier* pImageMemoryBarriers) {
+    return vkmock::CmdPipelineBarrier(commandBuffer, srcStageMask, dstStageMask, dependencyFlags, memoryBarrierCount,
+                                      pMemoryBarriers, bufferMemoryBarrierCount, pBufferMemoryBarriers, imageMemoryBarrierCount,
+                                      pImageMemoryBarriers);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdBeginQuery(VkCommandBuffer commandBuffer, VkQueryPool queryPool, uint32_t query,
+                                                       VkQueryControlFlags flags) {
+    return vkmock::CmdBeginQuery(commandBuffer, queryPool, query, flags);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdEndQuery(VkCommandBuffer commandBuffer, VkQueryPool queryPool, uint32_t query) {
+    return vkmock::CmdEndQuery(commandBuffer, queryPool, query);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdResetQueryPool(VkCommandBuffer commandBuffer, VkQueryPool queryPool,
+                                                           uint32_t firstQuery, uint32_t queryCount) {
+    return vkmock::CmdResetQueryPool(commandBuffer, queryPool, firstQuery, queryCount);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdWriteTimestamp(VkCommandBuffer commandBuffer, VkPipelineStageFlagBits pipelineStage,
+                                                           VkQueryPool queryPool, uint32_t query) {
+    return vkmock::CmdWriteTimestamp(commandBuffer, pipelineStage, queryPool, query);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdCopyQueryPoolResults(VkCommandBuffer commandBuffer, VkQueryPool queryPool,
+                                                                 uint32_t firstQuery, uint32_t queryCount, VkBuffer dstBuffer,
+                                                                 VkDeviceSize dstOffset, VkDeviceSize stride,
+                                                                 VkQueryResultFlags flags) {
+    return vkmock::CmdCopyQueryPoolResults(commandBuffer, queryPool, firstQuery, queryCount, dstBuffer, dstOffset, stride, flags);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdExecuteCommands(VkCommandBuffer commandBuffer, uint32_t commandBufferCount,
+                                                            const VkCommandBuffer* pCommandBuffers) {
+    return vkmock::CmdExecuteCommands(commandBuffer, commandBufferCount, pCommandBuffers);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateEvent(VkDevice device, const VkEventCreateInfo* pCreateInfo,
+                                                         const VkAllocationCallbacks* pAllocator, VkEvent* pEvent) {
+    return vkmock::CreateEvent(device, pCreateInfo, pAllocator, pEvent);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_DestroyEvent(VkDevice device, VkEvent event, const VkAllocationCallbacks* pAllocator) {
+    return vkmock::DestroyEvent(device, event, pAllocator);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetEventStatus(VkDevice device, VkEvent event) {
+    return vkmock::GetEventStatus(device, event);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_SetEvent(VkDevice device, VkEvent event) { return vkmock::SetEvent(device, event); }
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_ResetEvent(VkDevice device, VkEvent event) {
+    return vkmock::ResetEvent(device, event);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateBufferView(VkDevice device, const VkBufferViewCreateInfo* pCreateInfo,
+                                                              const VkAllocationCallbacks* pAllocator, VkBufferView* pView) {
+    return vkmock::CreateBufferView(device, pCreateInfo, pAllocator, pView);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_DestroyBufferView(VkDevice device, VkBufferView bufferView,
+                                                           const VkAllocationCallbacks* pAllocator) {
+    return vkmock::DestroyBufferView(device, bufferView, pAllocator);
 }
 
 static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateShaderModule(VkDevice device, const VkShaderModuleCreateInfo* pCreateInfo,
@@ -328,14 +444,6 @@ static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetPipelineCacheData(VkDevice devic
 static VKAPI_ATTR VkResult VKAPI_CALL vkmock_MergePipelineCaches(VkDevice device, VkPipelineCache dstCache, uint32_t srcCacheCount,
                                                                  const VkPipelineCache* pSrcCaches) {
     return vkmock::MergePipelineCaches(device, dstCache, srcCacheCount, pSrcCaches);
-}
-
-static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateGraphicsPipelines(VkDevice device, VkPipelineCache pipelineCache,
-                                                                     uint32_t createInfoCount,
-                                                                     const VkGraphicsPipelineCreateInfo* pCreateInfos,
-                                                                     const VkAllocationCallbacks* pAllocator,
-                                                                     VkPipeline* pPipelines) {
-    return vkmock::CreateGraphicsPipelines(device, pipelineCache, createInfoCount, pCreateInfos, pAllocator, pPipelines);
 }
 
 static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateComputePipelines(VkDevice device, VkPipelineCache pipelineCache,
@@ -419,6 +527,69 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_UpdateDescriptorSets(VkDevice device, u
     return vkmock::UpdateDescriptorSets(device, descriptorWriteCount, pDescriptorWrites, descriptorCopyCount, pDescriptorCopies);
 }
 
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdBindPipeline(VkCommandBuffer commandBuffer, VkPipelineBindPoint pipelineBindPoint,
+                                                         VkPipeline pipeline) {
+    return vkmock::CmdBindPipeline(commandBuffer, pipelineBindPoint, pipeline);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdBindDescriptorSets(VkCommandBuffer commandBuffer, VkPipelineBindPoint pipelineBindPoint,
+                                                               VkPipelineLayout layout, uint32_t firstSet,
+                                                               uint32_t descriptorSetCount, const VkDescriptorSet* pDescriptorSets,
+                                                               uint32_t dynamicOffsetCount, const uint32_t* pDynamicOffsets) {
+    return vkmock::CmdBindDescriptorSets(commandBuffer, pipelineBindPoint, layout, firstSet, descriptorSetCount, pDescriptorSets,
+                                         dynamicOffsetCount, pDynamicOffsets);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdClearColorImage(VkCommandBuffer commandBuffer, VkImage image, VkImageLayout imageLayout,
+                                                            const VkClearColorValue* pColor, uint32_t rangeCount,
+                                                            const VkImageSubresourceRange* pRanges) {
+    return vkmock::CmdClearColorImage(commandBuffer, image, imageLayout, pColor, rangeCount, pRanges);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdDispatch(VkCommandBuffer commandBuffer, uint32_t groupCountX, uint32_t groupCountY,
+                                                     uint32_t groupCountZ) {
+    return vkmock::CmdDispatch(commandBuffer, groupCountX, groupCountY, groupCountZ);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdDispatchIndirect(VkCommandBuffer commandBuffer, VkBuffer buffer, VkDeviceSize offset) {
+    return vkmock::CmdDispatchIndirect(commandBuffer, buffer, offset);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdSetEvent(VkCommandBuffer commandBuffer, VkEvent event, VkPipelineStageFlags stageMask) {
+    return vkmock::CmdSetEvent(commandBuffer, event, stageMask);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdResetEvent(VkCommandBuffer commandBuffer, VkEvent event,
+                                                       VkPipelineStageFlags stageMask) {
+    return vkmock::CmdResetEvent(commandBuffer, event, stageMask);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdWaitEvents(VkCommandBuffer commandBuffer, uint32_t eventCount, const VkEvent* pEvents,
+                                                       VkPipelineStageFlags srcStageMask, VkPipelineStageFlags dstStageMask,
+                                                       uint32_t memoryBarrierCount, const VkMemoryBarrier* pMemoryBarriers,
+                                                       uint32_t bufferMemoryBarrierCount,
+                                                       const VkBufferMemoryBarrier* pBufferMemoryBarriers,
+                                                       uint32_t imageMemoryBarrierCount,
+                                                       const VkImageMemoryBarrier* pImageMemoryBarriers) {
+    return vkmock::CmdWaitEvents(commandBuffer, eventCount, pEvents, srcStageMask, dstStageMask, memoryBarrierCount,
+                                 pMemoryBarriers, bufferMemoryBarrierCount, pBufferMemoryBarriers, imageMemoryBarrierCount,
+                                 pImageMemoryBarriers);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdPushConstants(VkCommandBuffer commandBuffer, VkPipelineLayout layout,
+                                                          VkShaderStageFlags stageFlags, uint32_t offset, uint32_t size,
+                                                          const void* pValues) {
+    return vkmock::CmdPushConstants(commandBuffer, layout, stageFlags, offset, size, pValues);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateGraphicsPipelines(VkDevice device, VkPipelineCache pipelineCache,
+                                                                     uint32_t createInfoCount,
+                                                                     const VkGraphicsPipelineCreateInfo* pCreateInfos,
+                                                                     const VkAllocationCallbacks* pAllocator,
+                                                                     VkPipeline* pPipelines) {
+    return vkmock::CreateGraphicsPipelines(device, pipelineCache, createInfoCount, pCreateInfos, pAllocator, pPipelines);
+}
+
 static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateFramebuffer(VkDevice device, const VkFramebufferCreateInfo* pCreateInfo,
                                                                const VkAllocationCallbacks* pAllocator,
                                                                VkFramebuffer* pFramebuffer) {
@@ -443,51 +614,6 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_DestroyRenderPass(VkDevice device, VkRe
 static VKAPI_ATTR void VKAPI_CALL vkmock_GetRenderAreaGranularity(VkDevice device, VkRenderPass renderPass,
                                                                   VkExtent2D* pGranularity) {
     return vkmock::GetRenderAreaGranularity(device, renderPass, pGranularity);
-}
-
-static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateCommandPool(VkDevice device, const VkCommandPoolCreateInfo* pCreateInfo,
-                                                               const VkAllocationCallbacks* pAllocator,
-                                                               VkCommandPool* pCommandPool) {
-    return vkmock::CreateCommandPool(device, pCreateInfo, pAllocator, pCommandPool);
-}
-
-static VKAPI_ATTR void VKAPI_CALL vkmock_DestroyCommandPool(VkDevice device, VkCommandPool commandPool,
-                                                            const VkAllocationCallbacks* pAllocator) {
-    return vkmock::DestroyCommandPool(device, commandPool, pAllocator);
-}
-
-static VKAPI_ATTR VkResult VKAPI_CALL vkmock_ResetCommandPool(VkDevice device, VkCommandPool commandPool,
-                                                              VkCommandPoolResetFlags flags) {
-    return vkmock::ResetCommandPool(device, commandPool, flags);
-}
-
-static VKAPI_ATTR VkResult VKAPI_CALL vkmock_AllocateCommandBuffers(VkDevice device,
-                                                                    const VkCommandBufferAllocateInfo* pAllocateInfo,
-                                                                    VkCommandBuffer* pCommandBuffers) {
-    return vkmock::AllocateCommandBuffers(device, pAllocateInfo, pCommandBuffers);
-}
-
-static VKAPI_ATTR void VKAPI_CALL vkmock_FreeCommandBuffers(VkDevice device, VkCommandPool commandPool, uint32_t commandBufferCount,
-                                                            const VkCommandBuffer* pCommandBuffers) {
-    return vkmock::FreeCommandBuffers(device, commandPool, commandBufferCount, pCommandBuffers);
-}
-
-static VKAPI_ATTR VkResult VKAPI_CALL vkmock_BeginCommandBuffer(VkCommandBuffer commandBuffer,
-                                                                const VkCommandBufferBeginInfo* pBeginInfo) {
-    return vkmock::BeginCommandBuffer(commandBuffer, pBeginInfo);
-}
-
-static VKAPI_ATTR VkResult VKAPI_CALL vkmock_EndCommandBuffer(VkCommandBuffer commandBuffer) {
-    return vkmock::EndCommandBuffer(commandBuffer);
-}
-
-static VKAPI_ATTR VkResult VKAPI_CALL vkmock_ResetCommandBuffer(VkCommandBuffer commandBuffer, VkCommandBufferResetFlags flags) {
-    return vkmock::ResetCommandBuffer(commandBuffer, flags);
-}
-
-static VKAPI_ATTR void VKAPI_CALL vkmock_CmdBindPipeline(VkCommandBuffer commandBuffer, VkPipelineBindPoint pipelineBindPoint,
-                                                         VkPipeline pipeline) {
-    return vkmock::CmdBindPipeline(commandBuffer, pipelineBindPoint, pipeline);
 }
 
 static VKAPI_ATTR void VKAPI_CALL vkmock_CmdSetViewport(VkCommandBuffer commandBuffer, uint32_t firstViewport,
@@ -533,14 +659,6 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_CmdSetStencilReference(VkCommandBuffer 
     return vkmock::CmdSetStencilReference(commandBuffer, faceMask, reference);
 }
 
-static VKAPI_ATTR void VKAPI_CALL vkmock_CmdBindDescriptorSets(VkCommandBuffer commandBuffer, VkPipelineBindPoint pipelineBindPoint,
-                                                               VkPipelineLayout layout, uint32_t firstSet,
-                                                               uint32_t descriptorSetCount, const VkDescriptorSet* pDescriptorSets,
-                                                               uint32_t dynamicOffsetCount, const uint32_t* pDynamicOffsets) {
-    return vkmock::CmdBindDescriptorSets(commandBuffer, pipelineBindPoint, layout, firstSet, descriptorSetCount, pDescriptorSets,
-                                         dynamicOffsetCount, pDynamicOffsets);
-}
-
 static VKAPI_ATTR void VKAPI_CALL vkmock_CmdBindIndexBuffer(VkCommandBuffer commandBuffer, VkBuffer buffer, VkDeviceSize offset,
                                                             VkIndexType indexType) {
     return vkmock::CmdBindIndexBuffer(commandBuffer, buffer, offset, indexType);
@@ -572,58 +690,10 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_CmdDrawIndexedIndirect(VkCommandBuffer 
     return vkmock::CmdDrawIndexedIndirect(commandBuffer, buffer, offset, drawCount, stride);
 }
 
-static VKAPI_ATTR void VKAPI_CALL vkmock_CmdDispatch(VkCommandBuffer commandBuffer, uint32_t groupCountX, uint32_t groupCountY,
-                                                     uint32_t groupCountZ) {
-    return vkmock::CmdDispatch(commandBuffer, groupCountX, groupCountY, groupCountZ);
-}
-
-static VKAPI_ATTR void VKAPI_CALL vkmock_CmdDispatchIndirect(VkCommandBuffer commandBuffer, VkBuffer buffer, VkDeviceSize offset) {
-    return vkmock::CmdDispatchIndirect(commandBuffer, buffer, offset);
-}
-
-static VKAPI_ATTR void VKAPI_CALL vkmock_CmdCopyBuffer(VkCommandBuffer commandBuffer, VkBuffer srcBuffer, VkBuffer dstBuffer,
-                                                       uint32_t regionCount, const VkBufferCopy* pRegions) {
-    return vkmock::CmdCopyBuffer(commandBuffer, srcBuffer, dstBuffer, regionCount, pRegions);
-}
-
-static VKAPI_ATTR void VKAPI_CALL vkmock_CmdCopyImage(VkCommandBuffer commandBuffer, VkImage srcImage, VkImageLayout srcImageLayout,
-                                                      VkImage dstImage, VkImageLayout dstImageLayout, uint32_t regionCount,
-                                                      const VkImageCopy* pRegions) {
-    return vkmock::CmdCopyImage(commandBuffer, srcImage, srcImageLayout, dstImage, dstImageLayout, regionCount, pRegions);
-}
-
 static VKAPI_ATTR void VKAPI_CALL vkmock_CmdBlitImage(VkCommandBuffer commandBuffer, VkImage srcImage, VkImageLayout srcImageLayout,
                                                       VkImage dstImage, VkImageLayout dstImageLayout, uint32_t regionCount,
                                                       const VkImageBlit* pRegions, VkFilter filter) {
     return vkmock::CmdBlitImage(commandBuffer, srcImage, srcImageLayout, dstImage, dstImageLayout, regionCount, pRegions, filter);
-}
-
-static VKAPI_ATTR void VKAPI_CALL vkmock_CmdCopyBufferToImage(VkCommandBuffer commandBuffer, VkBuffer srcBuffer, VkImage dstImage,
-                                                              VkImageLayout dstImageLayout, uint32_t regionCount,
-                                                              const VkBufferImageCopy* pRegions) {
-    return vkmock::CmdCopyBufferToImage(commandBuffer, srcBuffer, dstImage, dstImageLayout, regionCount, pRegions);
-}
-
-static VKAPI_ATTR void VKAPI_CALL vkmock_CmdCopyImageToBuffer(VkCommandBuffer commandBuffer, VkImage srcImage,
-                                                              VkImageLayout srcImageLayout, VkBuffer dstBuffer,
-                                                              uint32_t regionCount, const VkBufferImageCopy* pRegions) {
-    return vkmock::CmdCopyImageToBuffer(commandBuffer, srcImage, srcImageLayout, dstBuffer, regionCount, pRegions);
-}
-
-static VKAPI_ATTR void VKAPI_CALL vkmock_CmdUpdateBuffer(VkCommandBuffer commandBuffer, VkBuffer dstBuffer, VkDeviceSize dstOffset,
-                                                         VkDeviceSize dataSize, const void* pData) {
-    return vkmock::CmdUpdateBuffer(commandBuffer, dstBuffer, dstOffset, dataSize, pData);
-}
-
-static VKAPI_ATTR void VKAPI_CALL vkmock_CmdFillBuffer(VkCommandBuffer commandBuffer, VkBuffer dstBuffer, VkDeviceSize dstOffset,
-                                                       VkDeviceSize size, uint32_t data) {
-    return vkmock::CmdFillBuffer(commandBuffer, dstBuffer, dstOffset, size, data);
-}
-
-static VKAPI_ATTR void VKAPI_CALL vkmock_CmdClearColorImage(VkCommandBuffer commandBuffer, VkImage image, VkImageLayout imageLayout,
-                                                            const VkClearColorValue* pColor, uint32_t rangeCount,
-                                                            const VkImageSubresourceRange* pRanges) {
-    return vkmock::CmdClearColorImage(commandBuffer, image, imageLayout, pColor, rangeCount, pRanges);
 }
 
 static VKAPI_ATTR void VKAPI_CALL vkmock_CmdClearDepthStencilImage(VkCommandBuffer commandBuffer, VkImage image,
@@ -646,71 +716,6 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_CmdResolveImage(VkCommandBuffer command
     return vkmock::CmdResolveImage(commandBuffer, srcImage, srcImageLayout, dstImage, dstImageLayout, regionCount, pRegions);
 }
 
-static VKAPI_ATTR void VKAPI_CALL vkmock_CmdSetEvent(VkCommandBuffer commandBuffer, VkEvent event, VkPipelineStageFlags stageMask) {
-    return vkmock::CmdSetEvent(commandBuffer, event, stageMask);
-}
-
-static VKAPI_ATTR void VKAPI_CALL vkmock_CmdResetEvent(VkCommandBuffer commandBuffer, VkEvent event,
-                                                       VkPipelineStageFlags stageMask) {
-    return vkmock::CmdResetEvent(commandBuffer, event, stageMask);
-}
-
-static VKAPI_ATTR void VKAPI_CALL vkmock_CmdWaitEvents(VkCommandBuffer commandBuffer, uint32_t eventCount, const VkEvent* pEvents,
-                                                       VkPipelineStageFlags srcStageMask, VkPipelineStageFlags dstStageMask,
-                                                       uint32_t memoryBarrierCount, const VkMemoryBarrier* pMemoryBarriers,
-                                                       uint32_t bufferMemoryBarrierCount,
-                                                       const VkBufferMemoryBarrier* pBufferMemoryBarriers,
-                                                       uint32_t imageMemoryBarrierCount,
-                                                       const VkImageMemoryBarrier* pImageMemoryBarriers) {
-    return vkmock::CmdWaitEvents(commandBuffer, eventCount, pEvents, srcStageMask, dstStageMask, memoryBarrierCount,
-                                 pMemoryBarriers, bufferMemoryBarrierCount, pBufferMemoryBarriers, imageMemoryBarrierCount,
-                                 pImageMemoryBarriers);
-}
-
-static VKAPI_ATTR void VKAPI_CALL vkmock_CmdPipelineBarrier(VkCommandBuffer commandBuffer, VkPipelineStageFlags srcStageMask,
-                                                            VkPipelineStageFlags dstStageMask, VkDependencyFlags dependencyFlags,
-                                                            uint32_t memoryBarrierCount, const VkMemoryBarrier* pMemoryBarriers,
-                                                            uint32_t bufferMemoryBarrierCount,
-                                                            const VkBufferMemoryBarrier* pBufferMemoryBarriers,
-                                                            uint32_t imageMemoryBarrierCount,
-                                                            const VkImageMemoryBarrier* pImageMemoryBarriers) {
-    return vkmock::CmdPipelineBarrier(commandBuffer, srcStageMask, dstStageMask, dependencyFlags, memoryBarrierCount,
-                                      pMemoryBarriers, bufferMemoryBarrierCount, pBufferMemoryBarriers, imageMemoryBarrierCount,
-                                      pImageMemoryBarriers);
-}
-
-static VKAPI_ATTR void VKAPI_CALL vkmock_CmdBeginQuery(VkCommandBuffer commandBuffer, VkQueryPool queryPool, uint32_t query,
-                                                       VkQueryControlFlags flags) {
-    return vkmock::CmdBeginQuery(commandBuffer, queryPool, query, flags);
-}
-
-static VKAPI_ATTR void VKAPI_CALL vkmock_CmdEndQuery(VkCommandBuffer commandBuffer, VkQueryPool queryPool, uint32_t query) {
-    return vkmock::CmdEndQuery(commandBuffer, queryPool, query);
-}
-
-static VKAPI_ATTR void VKAPI_CALL vkmock_CmdResetQueryPool(VkCommandBuffer commandBuffer, VkQueryPool queryPool,
-                                                           uint32_t firstQuery, uint32_t queryCount) {
-    return vkmock::CmdResetQueryPool(commandBuffer, queryPool, firstQuery, queryCount);
-}
-
-static VKAPI_ATTR void VKAPI_CALL vkmock_CmdWriteTimestamp(VkCommandBuffer commandBuffer, VkPipelineStageFlagBits pipelineStage,
-                                                           VkQueryPool queryPool, uint32_t query) {
-    return vkmock::CmdWriteTimestamp(commandBuffer, pipelineStage, queryPool, query);
-}
-
-static VKAPI_ATTR void VKAPI_CALL vkmock_CmdCopyQueryPoolResults(VkCommandBuffer commandBuffer, VkQueryPool queryPool,
-                                                                 uint32_t firstQuery, uint32_t queryCount, VkBuffer dstBuffer,
-                                                                 VkDeviceSize dstOffset, VkDeviceSize stride,
-                                                                 VkQueryResultFlags flags) {
-    return vkmock::CmdCopyQueryPoolResults(commandBuffer, queryPool, firstQuery, queryCount, dstBuffer, dstOffset, stride, flags);
-}
-
-static VKAPI_ATTR void VKAPI_CALL vkmock_CmdPushConstants(VkCommandBuffer commandBuffer, VkPipelineLayout layout,
-                                                          VkShaderStageFlags stageFlags, uint32_t offset, uint32_t size,
-                                                          const void* pValues) {
-    return vkmock::CmdPushConstants(commandBuffer, layout, stageFlags, offset, size, pValues);
-}
-
 static VKAPI_ATTR void VKAPI_CALL vkmock_CmdBeginRenderPass(VkCommandBuffer commandBuffer,
                                                             const VkRenderPassBeginInfo* pRenderPassBegin,
                                                             VkSubpassContents contents) {
@@ -723,11 +728,6 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_CmdNextSubpass(VkCommandBuffer commandB
 
 static VKAPI_ATTR void VKAPI_CALL vkmock_CmdEndRenderPass(VkCommandBuffer commandBuffer) {
     return vkmock::CmdEndRenderPass(commandBuffer);
-}
-
-static VKAPI_ATTR void VKAPI_CALL vkmock_CmdExecuteCommands(VkCommandBuffer commandBuffer, uint32_t commandBufferCount,
-                                                            const VkCommandBuffer* pCommandBuffers) {
-    return vkmock::CmdExecuteCommands(commandBuffer, commandBufferCount, pCommandBuffers);
 }
 
 static VKAPI_ATTR VkResult VKAPI_CALL vkmock_EnumerateInstanceVersion(uint32_t* pApiVersion) {
@@ -752,12 +752,6 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_GetDeviceGroupPeerMemoryFeatures(VkDevi
 
 static VKAPI_ATTR void VKAPI_CALL vkmock_CmdSetDeviceMask(VkCommandBuffer commandBuffer, uint32_t deviceMask) {
     return vkmock::CmdSetDeviceMask(commandBuffer, deviceMask);
-}
-
-static VKAPI_ATTR void VKAPI_CALL vkmock_CmdDispatchBase(VkCommandBuffer commandBuffer, uint32_t baseGroupX, uint32_t baseGroupY,
-                                                         uint32_t baseGroupZ, uint32_t groupCountX, uint32_t groupCountY,
-                                                         uint32_t groupCountZ) {
-    return vkmock::CmdDispatchBase(commandBuffer, baseGroupX, baseGroupY, baseGroupZ, groupCountX, groupCountY, groupCountZ);
 }
 
 static VKAPI_ATTR VkResult VKAPI_CALL vkmock_EnumeratePhysicalDeviceGroups(
@@ -827,16 +821,29 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_GetDeviceQueue2(VkDevice device, const 
     return vkmock::GetDeviceQueue2(device, pQueueInfo, pQueue);
 }
 
-static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateSamplerYcbcrConversion(VkDevice device,
-                                                                          const VkSamplerYcbcrConversionCreateInfo* pCreateInfo,
-                                                                          const VkAllocationCallbacks* pAllocator,
-                                                                          VkSamplerYcbcrConversion* pYcbcrConversion) {
-    return vkmock::CreateSamplerYcbcrConversion(device, pCreateInfo, pAllocator, pYcbcrConversion);
+static VKAPI_ATTR void VKAPI_CALL vkmock_GetPhysicalDeviceExternalBufferProperties(
+    VkPhysicalDevice physicalDevice, const VkPhysicalDeviceExternalBufferInfo* pExternalBufferInfo,
+    VkExternalBufferProperties* pExternalBufferProperties) {
+    return vkmock::GetPhysicalDeviceExternalBufferProperties(physicalDevice, pExternalBufferInfo, pExternalBufferProperties);
 }
 
-static VKAPI_ATTR void VKAPI_CALL vkmock_DestroySamplerYcbcrConversion(VkDevice device, VkSamplerYcbcrConversion ycbcrConversion,
-                                                                       const VkAllocationCallbacks* pAllocator) {
-    return vkmock::DestroySamplerYcbcrConversion(device, ycbcrConversion, pAllocator);
+static VKAPI_ATTR void VKAPI_CALL vkmock_GetPhysicalDeviceExternalFenceProperties(
+    VkPhysicalDevice physicalDevice, const VkPhysicalDeviceExternalFenceInfo* pExternalFenceInfo,
+    VkExternalFenceProperties* pExternalFenceProperties) {
+    return vkmock::GetPhysicalDeviceExternalFenceProperties(physicalDevice, pExternalFenceInfo, pExternalFenceProperties);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_GetPhysicalDeviceExternalSemaphoreProperties(
+    VkPhysicalDevice physicalDevice, const VkPhysicalDeviceExternalSemaphoreInfo* pExternalSemaphoreInfo,
+    VkExternalSemaphoreProperties* pExternalSemaphoreProperties) {
+    return vkmock::GetPhysicalDeviceExternalSemaphoreProperties(physicalDevice, pExternalSemaphoreInfo,
+                                                                pExternalSemaphoreProperties);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdDispatchBase(VkCommandBuffer commandBuffer, uint32_t baseGroupX, uint32_t baseGroupY,
+                                                         uint32_t baseGroupZ, uint32_t groupCountX, uint32_t groupCountY,
+                                                         uint32_t groupCountZ) {
+    return vkmock::CmdDispatchBase(commandBuffer, baseGroupX, baseGroupY, baseGroupZ, groupCountX, groupCountY, groupCountZ);
 }
 
 static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateDescriptorUpdateTemplate(VkDevice device,
@@ -858,62 +865,22 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_UpdateDescriptorSetWithTemplate(VkDevic
     return vkmock::UpdateDescriptorSetWithTemplate(device, descriptorSet, descriptorUpdateTemplate, pData);
 }
 
-static VKAPI_ATTR void VKAPI_CALL vkmock_GetPhysicalDeviceExternalBufferProperties(
-    VkPhysicalDevice physicalDevice, const VkPhysicalDeviceExternalBufferInfo* pExternalBufferInfo,
-    VkExternalBufferProperties* pExternalBufferProperties) {
-    return vkmock::GetPhysicalDeviceExternalBufferProperties(physicalDevice, pExternalBufferInfo, pExternalBufferProperties);
-}
-
-static VKAPI_ATTR void VKAPI_CALL vkmock_GetPhysicalDeviceExternalFenceProperties(
-    VkPhysicalDevice physicalDevice, const VkPhysicalDeviceExternalFenceInfo* pExternalFenceInfo,
-    VkExternalFenceProperties* pExternalFenceProperties) {
-    return vkmock::GetPhysicalDeviceExternalFenceProperties(physicalDevice, pExternalFenceInfo, pExternalFenceProperties);
-}
-
-static VKAPI_ATTR void VKAPI_CALL vkmock_GetPhysicalDeviceExternalSemaphoreProperties(
-    VkPhysicalDevice physicalDevice, const VkPhysicalDeviceExternalSemaphoreInfo* pExternalSemaphoreInfo,
-    VkExternalSemaphoreProperties* pExternalSemaphoreProperties) {
-    return vkmock::GetPhysicalDeviceExternalSemaphoreProperties(physicalDevice, pExternalSemaphoreInfo,
-                                                                pExternalSemaphoreProperties);
-}
-
 static VKAPI_ATTR void VKAPI_CALL vkmock_GetDescriptorSetLayoutSupport(VkDevice device,
                                                                        const VkDescriptorSetLayoutCreateInfo* pCreateInfo,
                                                                        VkDescriptorSetLayoutSupport* pSupport) {
     return vkmock::GetDescriptorSetLayoutSupport(device, pCreateInfo, pSupport);
 }
 
-static VKAPI_ATTR void VKAPI_CALL vkmock_CmdDrawIndirectCount(VkCommandBuffer commandBuffer, VkBuffer buffer, VkDeviceSize offset,
-                                                              VkBuffer countBuffer, VkDeviceSize countBufferOffset,
-                                                              uint32_t maxDrawCount, uint32_t stride) {
-    return vkmock::CmdDrawIndirectCount(commandBuffer, buffer, offset, countBuffer, countBufferOffset, maxDrawCount, stride);
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateSamplerYcbcrConversion(VkDevice device,
+                                                                          const VkSamplerYcbcrConversionCreateInfo* pCreateInfo,
+                                                                          const VkAllocationCallbacks* pAllocator,
+                                                                          VkSamplerYcbcrConversion* pYcbcrConversion) {
+    return vkmock::CreateSamplerYcbcrConversion(device, pCreateInfo, pAllocator, pYcbcrConversion);
 }
 
-static VKAPI_ATTR void VKAPI_CALL vkmock_CmdDrawIndexedIndirectCount(VkCommandBuffer commandBuffer, VkBuffer buffer,
-                                                                     VkDeviceSize offset, VkBuffer countBuffer,
-                                                                     VkDeviceSize countBufferOffset, uint32_t maxDrawCount,
-                                                                     uint32_t stride) {
-    return vkmock::CmdDrawIndexedIndirectCount(commandBuffer, buffer, offset, countBuffer, countBufferOffset, maxDrawCount, stride);
-}
-
-static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateRenderPass2(VkDevice device, const VkRenderPassCreateInfo2* pCreateInfo,
-                                                               const VkAllocationCallbacks* pAllocator, VkRenderPass* pRenderPass) {
-    return vkmock::CreateRenderPass2(device, pCreateInfo, pAllocator, pRenderPass);
-}
-
-static VKAPI_ATTR void VKAPI_CALL vkmock_CmdBeginRenderPass2(VkCommandBuffer commandBuffer,
-                                                             const VkRenderPassBeginInfo* pRenderPassBegin,
-                                                             const VkSubpassBeginInfo* pSubpassBeginInfo) {
-    return vkmock::CmdBeginRenderPass2(commandBuffer, pRenderPassBegin, pSubpassBeginInfo);
-}
-
-static VKAPI_ATTR void VKAPI_CALL vkmock_CmdNextSubpass2(VkCommandBuffer commandBuffer, const VkSubpassBeginInfo* pSubpassBeginInfo,
-                                                         const VkSubpassEndInfo* pSubpassEndInfo) {
-    return vkmock::CmdNextSubpass2(commandBuffer, pSubpassBeginInfo, pSubpassEndInfo);
-}
-
-static VKAPI_ATTR void VKAPI_CALL vkmock_CmdEndRenderPass2(VkCommandBuffer commandBuffer, const VkSubpassEndInfo* pSubpassEndInfo) {
-    return vkmock::CmdEndRenderPass2(commandBuffer, pSubpassEndInfo);
+static VKAPI_ATTR void VKAPI_CALL vkmock_DestroySamplerYcbcrConversion(VkDevice device, VkSamplerYcbcrConversion ycbcrConversion,
+                                                                       const VkAllocationCallbacks* pAllocator) {
+    return vkmock::DestroySamplerYcbcrConversion(device, ycbcrConversion, pAllocator);
 }
 
 static VKAPI_ATTR void VKAPI_CALL vkmock_ResetQueryPool(VkDevice device, VkQueryPool queryPool, uint32_t firstQuery,
@@ -947,6 +914,39 @@ static VKAPI_ATTR uint64_t VKAPI_CALL vkmock_GetBufferOpaqueCaptureAddress(VkDev
 static VKAPI_ATTR uint64_t VKAPI_CALL
 vkmock_GetDeviceMemoryOpaqueCaptureAddress(VkDevice device, const VkDeviceMemoryOpaqueCaptureAddressInfo* pInfo) {
     return vkmock::GetDeviceMemoryOpaqueCaptureAddress(device, pInfo);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdDrawIndirectCount(VkCommandBuffer commandBuffer, VkBuffer buffer, VkDeviceSize offset,
+                                                              VkBuffer countBuffer, VkDeviceSize countBufferOffset,
+                                                              uint32_t maxDrawCount, uint32_t stride) {
+    return vkmock::CmdDrawIndirectCount(commandBuffer, buffer, offset, countBuffer, countBufferOffset, maxDrawCount, stride);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdDrawIndexedIndirectCount(VkCommandBuffer commandBuffer, VkBuffer buffer,
+                                                                     VkDeviceSize offset, VkBuffer countBuffer,
+                                                                     VkDeviceSize countBufferOffset, uint32_t maxDrawCount,
+                                                                     uint32_t stride) {
+    return vkmock::CmdDrawIndexedIndirectCount(commandBuffer, buffer, offset, countBuffer, countBufferOffset, maxDrawCount, stride);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateRenderPass2(VkDevice device, const VkRenderPassCreateInfo2* pCreateInfo,
+                                                               const VkAllocationCallbacks* pAllocator, VkRenderPass* pRenderPass) {
+    return vkmock::CreateRenderPass2(device, pCreateInfo, pAllocator, pRenderPass);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdBeginRenderPass2(VkCommandBuffer commandBuffer,
+                                                             const VkRenderPassBeginInfo* pRenderPassBegin,
+                                                             const VkSubpassBeginInfo* pSubpassBeginInfo) {
+    return vkmock::CmdBeginRenderPass2(commandBuffer, pRenderPassBegin, pSubpassBeginInfo);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdNextSubpass2(VkCommandBuffer commandBuffer, const VkSubpassBeginInfo* pSubpassBeginInfo,
+                                                         const VkSubpassEndInfo* pSubpassEndInfo) {
+    return vkmock::CmdNextSubpass2(commandBuffer, pSubpassBeginInfo, pSubpassEndInfo);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdEndRenderPass2(VkCommandBuffer commandBuffer, const VkSubpassEndInfo* pSubpassEndInfo) {
+    return vkmock::CmdEndRenderPass2(commandBuffer, pSubpassEndInfo);
 }
 
 static VKAPI_ATTR void VKAPI_CALL vkmock_DestroySurfaceKHR(VkInstance instance, VkSurfaceKHR surface,
@@ -1810,6 +1810,11 @@ static VKAPI_ATTR VkResult VKAPI_CALL vkmock_ReleaseCapturedPipelineDataKHR(VkDe
     return vkmock::ReleaseCapturedPipelineDataKHR(device, pInfo, pAllocator);
 }
 
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_ReleaseSwapchainImagesKHR(VkDevice device,
+                                                                       const VkReleaseSwapchainImagesInfoKHR* pReleaseInfo) {
+    return vkmock::ReleaseSwapchainImagesKHR(device, pReleaseInfo);
+}
+
 static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetPhysicalDeviceCooperativeMatrixPropertiesKHR(
     VkPhysicalDevice physicalDevice, uint32_t* pPropertyCount, VkCooperativeMatrixPropertiesKHR* pProperties) {
     return vkmock::GetPhysicalDeviceCooperativeMatrixPropertiesKHR(physicalDevice, pPropertyCount, pProperties);
@@ -1860,6 +1865,21 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_CmdSetDescriptorBufferOffsets2EXT(
 static VKAPI_ATTR void VKAPI_CALL vkmock_CmdBindDescriptorBufferEmbeddedSamplers2EXT(
     VkCommandBuffer commandBuffer, const VkBindDescriptorBufferEmbeddedSamplersInfoEXT* pBindDescriptorBufferEmbeddedSamplersInfo) {
     return vkmock::CmdBindDescriptorBufferEmbeddedSamplers2EXT(commandBuffer, pBindDescriptorBufferEmbeddedSamplersInfo);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdCopyMemoryIndirectKHR(VkCommandBuffer commandBuffer,
+                                                                  const VkCopyMemoryIndirectInfoKHR* pCopyMemoryIndirectInfo) {
+    return vkmock::CmdCopyMemoryIndirectKHR(commandBuffer, pCopyMemoryIndirectInfo);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdCopyMemoryToImageIndirectKHR(
+    VkCommandBuffer commandBuffer, const VkCopyMemoryToImageIndirectInfoKHR* pCopyMemoryToImageIndirectInfo) {
+    return vkmock::CmdCopyMemoryToImageIndirectKHR(commandBuffer, pCopyMemoryToImageIndirectInfo);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdEndRendering2KHR(VkCommandBuffer commandBuffer,
+                                                             const VkRenderingEndInfoKHR* pRenderingEndInfo) {
+    return vkmock::CmdEndRendering2KHR(commandBuffer, pRenderingEndInfo);
 }
 
 static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateDebugReportCallbackEXT(VkInstance instance,
@@ -2676,7 +2696,7 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_GetImageSubresourceLayout2EXT(VkDevice 
 }
 
 static VKAPI_ATTR VkResult VKAPI_CALL vkmock_ReleaseSwapchainImagesEXT(VkDevice device,
-                                                                       const VkReleaseSwapchainImagesInfoEXT* pReleaseInfo) {
+                                                                       const VkReleaseSwapchainImagesInfoKHR* pReleaseInfo) {
     return vkmock::ReleaseSwapchainImagesEXT(device, pReleaseInfo);
 }
 
@@ -3600,6 +3620,18 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_CmdBindTileMemoryQCOM(VkCommandBuffer c
     return vkmock::CmdBindTileMemoryQCOM(commandBuffer, pTileMemoryBindInfo);
 }
 
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdDecompressMemoryEXT(VkCommandBuffer commandBuffer,
+                                                                const VkDecompressMemoryInfoEXT* pDecompressMemoryInfoEXT) {
+    return vkmock::CmdDecompressMemoryEXT(commandBuffer, pDecompressMemoryInfoEXT);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdDecompressMemoryIndirectCountEXT(
+    VkCommandBuffer commandBuffer, VkMemoryDecompressionMethodFlagsEXT decompressionMethod, VkDeviceAddress indirectCommandsAddress,
+    VkDeviceAddress indirectCommandsCountAddress, uint32_t maxDecompressionCount, uint32_t stride) {
+    return vkmock::CmdDecompressMemoryIndirectCountEXT(commandBuffer, decompressionMethod, indirectCommandsAddress,
+                                                       indirectCommandsCountAddress, maxDecompressionCount, stride);
+}
+
 static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateExternalComputeQueueNV(VkDevice device,
                                                                           const VkExternalComputeQueueCreateInfoNV* pCreateInfo,
                                                                           const VkAllocationCallbacks* pAllocator,
@@ -3697,6 +3729,22 @@ static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateSurfaceOHOS(VkInstance instan
     return vkmock::CreateSurfaceOHOS(instance, pCreateInfo, pAllocator, pSurface);
 }
 
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetSwapchainGrallocUsageOHOS(VkDevice device, VkFormat format,
+                                                                          VkImageUsageFlags imageUsage, uint64_t* grallocUsage) {
+    return vkmock::GetSwapchainGrallocUsageOHOS(device, format, imageUsage, grallocUsage);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_AcquireImageOHOS(VkDevice device, VkImage image, int32_t nativeFenceFd,
+                                                              VkSemaphore semaphore, VkFence fence) {
+    return vkmock::AcquireImageOHOS(device, image, nativeFenceFd, semaphore, fence);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_QueueSignalReleaseImageOHOS(VkQueue queue, uint32_t waitSemaphoreCount,
+                                                                         const VkSemaphore* pWaitSemaphores, VkImage image,
+                                                                         int32_t* pNativeFenceFd) {
+    return vkmock::QueueSignalReleaseImageOHOS(queue, waitSemaphoreCount, pWaitSemaphores, image, pNativeFenceFd);
+}
+
 #endif  // VK_USE_PLATFORM_OHOS
 static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV(
     VkPhysicalDevice physicalDevice, uint32_t* pPropertyCount, VkCooperativeMatrixFlexibleDimensionsPropertiesNV* pProperties) {
@@ -3718,7 +3766,7 @@ vkmock_GetMemoryMetalHandlePropertiesEXT(VkDevice device, VkExternalMemoryHandle
 
 #endif  // VK_USE_PLATFORM_METAL_EXT
 static VKAPI_ATTR void VKAPI_CALL vkmock_CmdEndRendering2EXT(VkCommandBuffer commandBuffer,
-                                                             const VkRenderingEndInfoEXT* pRenderingEndInfo) {
+                                                             const VkRenderingEndInfoKHR* pRenderingEndInfo) {
     return vkmock::CmdEndRendering2EXT(commandBuffer, pRenderingEndInfo);
 }
 
@@ -4009,21 +4057,6 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     if (strcmp(pName, "vkDestroySemaphore") == 0) {
         return (PFN_vkVoidFunction)vkmock_DestroySemaphore;
     }
-    if (strcmp(pName, "vkCreateEvent") == 0) {
-        return (PFN_vkVoidFunction)vkmock_CreateEvent;
-    }
-    if (strcmp(pName, "vkDestroyEvent") == 0) {
-        return (PFN_vkVoidFunction)vkmock_DestroyEvent;
-    }
-    if (strcmp(pName, "vkGetEventStatus") == 0) {
-        return (PFN_vkVoidFunction)vkmock_GetEventStatus;
-    }
-    if (strcmp(pName, "vkSetEvent") == 0) {
-        return (PFN_vkVoidFunction)vkmock_SetEvent;
-    }
-    if (strcmp(pName, "vkResetEvent") == 0) {
-        return (PFN_vkVoidFunction)vkmock_ResetEvent;
-    }
     if (strcmp(pName, "vkCreateQueryPool") == 0) {
         return (PFN_vkVoidFunction)vkmock_CreateQueryPool;
     }
@@ -4039,12 +4072,6 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     if (strcmp(pName, "vkDestroyBuffer") == 0) {
         return (PFN_vkVoidFunction)vkmock_DestroyBuffer;
     }
-    if (strcmp(pName, "vkCreateBufferView") == 0) {
-        return (PFN_vkVoidFunction)vkmock_CreateBufferView;
-    }
-    if (strcmp(pName, "vkDestroyBufferView") == 0) {
-        return (PFN_vkVoidFunction)vkmock_DestroyBufferView;
-    }
     if (strcmp(pName, "vkCreateImage") == 0) {
         return (PFN_vkVoidFunction)vkmock_CreateImage;
     }
@@ -4059,6 +4086,90 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     }
     if (strcmp(pName, "vkDestroyImageView") == 0) {
         return (PFN_vkVoidFunction)vkmock_DestroyImageView;
+    }
+    if (strcmp(pName, "vkCreateCommandPool") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CreateCommandPool;
+    }
+    if (strcmp(pName, "vkDestroyCommandPool") == 0) {
+        return (PFN_vkVoidFunction)vkmock_DestroyCommandPool;
+    }
+    if (strcmp(pName, "vkResetCommandPool") == 0) {
+        return (PFN_vkVoidFunction)vkmock_ResetCommandPool;
+    }
+    if (strcmp(pName, "vkAllocateCommandBuffers") == 0) {
+        return (PFN_vkVoidFunction)vkmock_AllocateCommandBuffers;
+    }
+    if (strcmp(pName, "vkFreeCommandBuffers") == 0) {
+        return (PFN_vkVoidFunction)vkmock_FreeCommandBuffers;
+    }
+    if (strcmp(pName, "vkBeginCommandBuffer") == 0) {
+        return (PFN_vkVoidFunction)vkmock_BeginCommandBuffer;
+    }
+    if (strcmp(pName, "vkEndCommandBuffer") == 0) {
+        return (PFN_vkVoidFunction)vkmock_EndCommandBuffer;
+    }
+    if (strcmp(pName, "vkResetCommandBuffer") == 0) {
+        return (PFN_vkVoidFunction)vkmock_ResetCommandBuffer;
+    }
+    if (strcmp(pName, "vkCmdCopyBuffer") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdCopyBuffer;
+    }
+    if (strcmp(pName, "vkCmdCopyImage") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdCopyImage;
+    }
+    if (strcmp(pName, "vkCmdCopyBufferToImage") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdCopyBufferToImage;
+    }
+    if (strcmp(pName, "vkCmdCopyImageToBuffer") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdCopyImageToBuffer;
+    }
+    if (strcmp(pName, "vkCmdUpdateBuffer") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdUpdateBuffer;
+    }
+    if (strcmp(pName, "vkCmdFillBuffer") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdFillBuffer;
+    }
+    if (strcmp(pName, "vkCmdPipelineBarrier") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdPipelineBarrier;
+    }
+    if (strcmp(pName, "vkCmdBeginQuery") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdBeginQuery;
+    }
+    if (strcmp(pName, "vkCmdEndQuery") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdEndQuery;
+    }
+    if (strcmp(pName, "vkCmdResetQueryPool") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdResetQueryPool;
+    }
+    if (strcmp(pName, "vkCmdWriteTimestamp") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdWriteTimestamp;
+    }
+    if (strcmp(pName, "vkCmdCopyQueryPoolResults") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdCopyQueryPoolResults;
+    }
+    if (strcmp(pName, "vkCmdExecuteCommands") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdExecuteCommands;
+    }
+    if (strcmp(pName, "vkCreateEvent") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CreateEvent;
+    }
+    if (strcmp(pName, "vkDestroyEvent") == 0) {
+        return (PFN_vkVoidFunction)vkmock_DestroyEvent;
+    }
+    if (strcmp(pName, "vkGetEventStatus") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetEventStatus;
+    }
+    if (strcmp(pName, "vkSetEvent") == 0) {
+        return (PFN_vkVoidFunction)vkmock_SetEvent;
+    }
+    if (strcmp(pName, "vkResetEvent") == 0) {
+        return (PFN_vkVoidFunction)vkmock_ResetEvent;
+    }
+    if (strcmp(pName, "vkCreateBufferView") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CreateBufferView;
+    }
+    if (strcmp(pName, "vkDestroyBufferView") == 0) {
+        return (PFN_vkVoidFunction)vkmock_DestroyBufferView;
     }
     if (strcmp(pName, "vkCreateShaderModule") == 0) {
         return (PFN_vkVoidFunction)vkmock_CreateShaderModule;
@@ -4077,9 +4188,6 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     }
     if (strcmp(pName, "vkMergePipelineCaches") == 0) {
         return (PFN_vkVoidFunction)vkmock_MergePipelineCaches;
-    }
-    if (strcmp(pName, "vkCreateGraphicsPipelines") == 0) {
-        return (PFN_vkVoidFunction)vkmock_CreateGraphicsPipelines;
     }
     if (strcmp(pName, "vkCreateComputePipelines") == 0) {
         return (PFN_vkVoidFunction)vkmock_CreateComputePipelines;
@@ -4123,6 +4231,36 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     if (strcmp(pName, "vkUpdateDescriptorSets") == 0) {
         return (PFN_vkVoidFunction)vkmock_UpdateDescriptorSets;
     }
+    if (strcmp(pName, "vkCmdBindPipeline") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdBindPipeline;
+    }
+    if (strcmp(pName, "vkCmdBindDescriptorSets") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdBindDescriptorSets;
+    }
+    if (strcmp(pName, "vkCmdClearColorImage") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdClearColorImage;
+    }
+    if (strcmp(pName, "vkCmdDispatch") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdDispatch;
+    }
+    if (strcmp(pName, "vkCmdDispatchIndirect") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdDispatchIndirect;
+    }
+    if (strcmp(pName, "vkCmdSetEvent") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdSetEvent;
+    }
+    if (strcmp(pName, "vkCmdResetEvent") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdResetEvent;
+    }
+    if (strcmp(pName, "vkCmdWaitEvents") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdWaitEvents;
+    }
+    if (strcmp(pName, "vkCmdPushConstants") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdPushConstants;
+    }
+    if (strcmp(pName, "vkCreateGraphicsPipelines") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CreateGraphicsPipelines;
+    }
     if (strcmp(pName, "vkCreateFramebuffer") == 0) {
         return (PFN_vkVoidFunction)vkmock_CreateFramebuffer;
     }
@@ -4137,33 +4275,6 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     }
     if (strcmp(pName, "vkGetRenderAreaGranularity") == 0) {
         return (PFN_vkVoidFunction)vkmock_GetRenderAreaGranularity;
-    }
-    if (strcmp(pName, "vkCreateCommandPool") == 0) {
-        return (PFN_vkVoidFunction)vkmock_CreateCommandPool;
-    }
-    if (strcmp(pName, "vkDestroyCommandPool") == 0) {
-        return (PFN_vkVoidFunction)vkmock_DestroyCommandPool;
-    }
-    if (strcmp(pName, "vkResetCommandPool") == 0) {
-        return (PFN_vkVoidFunction)vkmock_ResetCommandPool;
-    }
-    if (strcmp(pName, "vkAllocateCommandBuffers") == 0) {
-        return (PFN_vkVoidFunction)vkmock_AllocateCommandBuffers;
-    }
-    if (strcmp(pName, "vkFreeCommandBuffers") == 0) {
-        return (PFN_vkVoidFunction)vkmock_FreeCommandBuffers;
-    }
-    if (strcmp(pName, "vkBeginCommandBuffer") == 0) {
-        return (PFN_vkVoidFunction)vkmock_BeginCommandBuffer;
-    }
-    if (strcmp(pName, "vkEndCommandBuffer") == 0) {
-        return (PFN_vkVoidFunction)vkmock_EndCommandBuffer;
-    }
-    if (strcmp(pName, "vkResetCommandBuffer") == 0) {
-        return (PFN_vkVoidFunction)vkmock_ResetCommandBuffer;
-    }
-    if (strcmp(pName, "vkCmdBindPipeline") == 0) {
-        return (PFN_vkVoidFunction)vkmock_CmdBindPipeline;
     }
     if (strcmp(pName, "vkCmdSetViewport") == 0) {
         return (PFN_vkVoidFunction)vkmock_CmdSetViewport;
@@ -4192,9 +4303,6 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     if (strcmp(pName, "vkCmdSetStencilReference") == 0) {
         return (PFN_vkVoidFunction)vkmock_CmdSetStencilReference;
     }
-    if (strcmp(pName, "vkCmdBindDescriptorSets") == 0) {
-        return (PFN_vkVoidFunction)vkmock_CmdBindDescriptorSets;
-    }
     if (strcmp(pName, "vkCmdBindIndexBuffer") == 0) {
         return (PFN_vkVoidFunction)vkmock_CmdBindIndexBuffer;
     }
@@ -4213,35 +4321,8 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     if (strcmp(pName, "vkCmdDrawIndexedIndirect") == 0) {
         return (PFN_vkVoidFunction)vkmock_CmdDrawIndexedIndirect;
     }
-    if (strcmp(pName, "vkCmdDispatch") == 0) {
-        return (PFN_vkVoidFunction)vkmock_CmdDispatch;
-    }
-    if (strcmp(pName, "vkCmdDispatchIndirect") == 0) {
-        return (PFN_vkVoidFunction)vkmock_CmdDispatchIndirect;
-    }
-    if (strcmp(pName, "vkCmdCopyBuffer") == 0) {
-        return (PFN_vkVoidFunction)vkmock_CmdCopyBuffer;
-    }
-    if (strcmp(pName, "vkCmdCopyImage") == 0) {
-        return (PFN_vkVoidFunction)vkmock_CmdCopyImage;
-    }
     if (strcmp(pName, "vkCmdBlitImage") == 0) {
         return (PFN_vkVoidFunction)vkmock_CmdBlitImage;
-    }
-    if (strcmp(pName, "vkCmdCopyBufferToImage") == 0) {
-        return (PFN_vkVoidFunction)vkmock_CmdCopyBufferToImage;
-    }
-    if (strcmp(pName, "vkCmdCopyImageToBuffer") == 0) {
-        return (PFN_vkVoidFunction)vkmock_CmdCopyImageToBuffer;
-    }
-    if (strcmp(pName, "vkCmdUpdateBuffer") == 0) {
-        return (PFN_vkVoidFunction)vkmock_CmdUpdateBuffer;
-    }
-    if (strcmp(pName, "vkCmdFillBuffer") == 0) {
-        return (PFN_vkVoidFunction)vkmock_CmdFillBuffer;
-    }
-    if (strcmp(pName, "vkCmdClearColorImage") == 0) {
-        return (PFN_vkVoidFunction)vkmock_CmdClearColorImage;
     }
     if (strcmp(pName, "vkCmdClearDepthStencilImage") == 0) {
         return (PFN_vkVoidFunction)vkmock_CmdClearDepthStencilImage;
@@ -4252,36 +4333,6 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     if (strcmp(pName, "vkCmdResolveImage") == 0) {
         return (PFN_vkVoidFunction)vkmock_CmdResolveImage;
     }
-    if (strcmp(pName, "vkCmdSetEvent") == 0) {
-        return (PFN_vkVoidFunction)vkmock_CmdSetEvent;
-    }
-    if (strcmp(pName, "vkCmdResetEvent") == 0) {
-        return (PFN_vkVoidFunction)vkmock_CmdResetEvent;
-    }
-    if (strcmp(pName, "vkCmdWaitEvents") == 0) {
-        return (PFN_vkVoidFunction)vkmock_CmdWaitEvents;
-    }
-    if (strcmp(pName, "vkCmdPipelineBarrier") == 0) {
-        return (PFN_vkVoidFunction)vkmock_CmdPipelineBarrier;
-    }
-    if (strcmp(pName, "vkCmdBeginQuery") == 0) {
-        return (PFN_vkVoidFunction)vkmock_CmdBeginQuery;
-    }
-    if (strcmp(pName, "vkCmdEndQuery") == 0) {
-        return (PFN_vkVoidFunction)vkmock_CmdEndQuery;
-    }
-    if (strcmp(pName, "vkCmdResetQueryPool") == 0) {
-        return (PFN_vkVoidFunction)vkmock_CmdResetQueryPool;
-    }
-    if (strcmp(pName, "vkCmdWriteTimestamp") == 0) {
-        return (PFN_vkVoidFunction)vkmock_CmdWriteTimestamp;
-    }
-    if (strcmp(pName, "vkCmdCopyQueryPoolResults") == 0) {
-        return (PFN_vkVoidFunction)vkmock_CmdCopyQueryPoolResults;
-    }
-    if (strcmp(pName, "vkCmdPushConstants") == 0) {
-        return (PFN_vkVoidFunction)vkmock_CmdPushConstants;
-    }
     if (strcmp(pName, "vkCmdBeginRenderPass") == 0) {
         return (PFN_vkVoidFunction)vkmock_CmdBeginRenderPass;
     }
@@ -4290,9 +4341,6 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     }
     if (strcmp(pName, "vkCmdEndRenderPass") == 0) {
         return (PFN_vkVoidFunction)vkmock_CmdEndRenderPass;
-    }
-    if (strcmp(pName, "vkCmdExecuteCommands") == 0) {
-        return (PFN_vkVoidFunction)vkmock_CmdExecuteCommands;
     }
     if (strcmp(pName, "vkEnumerateInstanceVersion") == 0) {
         return (PFN_vkVoidFunction)vkmock_EnumerateInstanceVersion;
@@ -4308,9 +4356,6 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     }
     if (strcmp(pName, "vkCmdSetDeviceMask") == 0) {
         return (PFN_vkVoidFunction)vkmock_CmdSetDeviceMask;
-    }
-    if (strcmp(pName, "vkCmdDispatchBase") == 0) {
-        return (PFN_vkVoidFunction)vkmock_CmdDispatchBase;
     }
     if (strcmp(pName, "vkEnumeratePhysicalDeviceGroups") == 0) {
         return (PFN_vkVoidFunction)vkmock_EnumeratePhysicalDeviceGroups;
@@ -4351,11 +4396,17 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     if (strcmp(pName, "vkGetDeviceQueue2") == 0) {
         return (PFN_vkVoidFunction)vkmock_GetDeviceQueue2;
     }
-    if (strcmp(pName, "vkCreateSamplerYcbcrConversion") == 0) {
-        return (PFN_vkVoidFunction)vkmock_CreateSamplerYcbcrConversion;
+    if (strcmp(pName, "vkGetPhysicalDeviceExternalBufferProperties") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetPhysicalDeviceExternalBufferProperties;
     }
-    if (strcmp(pName, "vkDestroySamplerYcbcrConversion") == 0) {
-        return (PFN_vkVoidFunction)vkmock_DestroySamplerYcbcrConversion;
+    if (strcmp(pName, "vkGetPhysicalDeviceExternalFenceProperties") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetPhysicalDeviceExternalFenceProperties;
+    }
+    if (strcmp(pName, "vkGetPhysicalDeviceExternalSemaphoreProperties") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetPhysicalDeviceExternalSemaphoreProperties;
+    }
+    if (strcmp(pName, "vkCmdDispatchBase") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdDispatchBase;
     }
     if (strcmp(pName, "vkCreateDescriptorUpdateTemplate") == 0) {
         return (PFN_vkVoidFunction)vkmock_CreateDescriptorUpdateTemplate;
@@ -4366,35 +4417,14 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     if (strcmp(pName, "vkUpdateDescriptorSetWithTemplate") == 0) {
         return (PFN_vkVoidFunction)vkmock_UpdateDescriptorSetWithTemplate;
     }
-    if (strcmp(pName, "vkGetPhysicalDeviceExternalBufferProperties") == 0) {
-        return (PFN_vkVoidFunction)vkmock_GetPhysicalDeviceExternalBufferProperties;
-    }
-    if (strcmp(pName, "vkGetPhysicalDeviceExternalFenceProperties") == 0) {
-        return (PFN_vkVoidFunction)vkmock_GetPhysicalDeviceExternalFenceProperties;
-    }
-    if (strcmp(pName, "vkGetPhysicalDeviceExternalSemaphoreProperties") == 0) {
-        return (PFN_vkVoidFunction)vkmock_GetPhysicalDeviceExternalSemaphoreProperties;
-    }
     if (strcmp(pName, "vkGetDescriptorSetLayoutSupport") == 0) {
         return (PFN_vkVoidFunction)vkmock_GetDescriptorSetLayoutSupport;
     }
-    if (strcmp(pName, "vkCmdDrawIndirectCount") == 0) {
-        return (PFN_vkVoidFunction)vkmock_CmdDrawIndirectCount;
+    if (strcmp(pName, "vkCreateSamplerYcbcrConversion") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CreateSamplerYcbcrConversion;
     }
-    if (strcmp(pName, "vkCmdDrawIndexedIndirectCount") == 0) {
-        return (PFN_vkVoidFunction)vkmock_CmdDrawIndexedIndirectCount;
-    }
-    if (strcmp(pName, "vkCreateRenderPass2") == 0) {
-        return (PFN_vkVoidFunction)vkmock_CreateRenderPass2;
-    }
-    if (strcmp(pName, "vkCmdBeginRenderPass2") == 0) {
-        return (PFN_vkVoidFunction)vkmock_CmdBeginRenderPass2;
-    }
-    if (strcmp(pName, "vkCmdNextSubpass2") == 0) {
-        return (PFN_vkVoidFunction)vkmock_CmdNextSubpass2;
-    }
-    if (strcmp(pName, "vkCmdEndRenderPass2") == 0) {
-        return (PFN_vkVoidFunction)vkmock_CmdEndRenderPass2;
+    if (strcmp(pName, "vkDestroySamplerYcbcrConversion") == 0) {
+        return (PFN_vkVoidFunction)vkmock_DestroySamplerYcbcrConversion;
     }
     if (strcmp(pName, "vkResetQueryPool") == 0) {
         return (PFN_vkVoidFunction)vkmock_ResetQueryPool;
@@ -4416,6 +4446,24 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     }
     if (strcmp(pName, "vkGetDeviceMemoryOpaqueCaptureAddress") == 0) {
         return (PFN_vkVoidFunction)vkmock_GetDeviceMemoryOpaqueCaptureAddress;
+    }
+    if (strcmp(pName, "vkCmdDrawIndirectCount") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdDrawIndirectCount;
+    }
+    if (strcmp(pName, "vkCmdDrawIndexedIndirectCount") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdDrawIndexedIndirectCount;
+    }
+    if (strcmp(pName, "vkCreateRenderPass2") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CreateRenderPass2;
+    }
+    if (strcmp(pName, "vkCmdBeginRenderPass2") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdBeginRenderPass2;
+    }
+    if (strcmp(pName, "vkCmdNextSubpass2") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdNextSubpass2;
+    }
+    if (strcmp(pName, "vkCmdEndRenderPass2") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdEndRenderPass2;
     }
     if (strcmp(pName, "vkDestroySurfaceKHR") == 0) {
         return (PFN_vkVoidFunction)vkmock_DestroySurfaceKHR;
@@ -4892,6 +4940,9 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     if (strcmp(pName, "vkReleaseCapturedPipelineDataKHR") == 0) {
         return (PFN_vkVoidFunction)vkmock_ReleaseCapturedPipelineDataKHR;
     }
+    if (strcmp(pName, "vkReleaseSwapchainImagesKHR") == 0) {
+        return (PFN_vkVoidFunction)vkmock_ReleaseSwapchainImagesKHR;
+    }
     if (strcmp(pName, "vkGetPhysicalDeviceCooperativeMatrixPropertiesKHR") == 0) {
         return (PFN_vkVoidFunction)vkmock_GetPhysicalDeviceCooperativeMatrixPropertiesKHR;
     }
@@ -4921,6 +4972,15 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     }
     if (strcmp(pName, "vkCmdBindDescriptorBufferEmbeddedSamplers2EXT") == 0) {
         return (PFN_vkVoidFunction)vkmock_CmdBindDescriptorBufferEmbeddedSamplers2EXT;
+    }
+    if (strcmp(pName, "vkCmdCopyMemoryIndirectKHR") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdCopyMemoryIndirectKHR;
+    }
+    if (strcmp(pName, "vkCmdCopyMemoryToImageIndirectKHR") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdCopyMemoryToImageIndirectKHR;
+    }
+    if (strcmp(pName, "vkCmdEndRendering2KHR") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdEndRendering2KHR;
     }
     if (strcmp(pName, "vkCreateDebugReportCallbackEXT") == 0) {
         return (PFN_vkVoidFunction)vkmock_CreateDebugReportCallbackEXT;
@@ -5903,6 +5963,12 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     if (strcmp(pName, "vkCmdBindTileMemoryQCOM") == 0) {
         return (PFN_vkVoidFunction)vkmock_CmdBindTileMemoryQCOM;
     }
+    if (strcmp(pName, "vkCmdDecompressMemoryEXT") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdDecompressMemoryEXT;
+    }
+    if (strcmp(pName, "vkCmdDecompressMemoryIndirectCountEXT") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdDecompressMemoryIndirectCountEXT;
+    }
     if (strcmp(pName, "vkCreateExternalComputeQueueNV") == 0) {
         return (PFN_vkVoidFunction)vkmock_CreateExternalComputeQueueNV;
     }
@@ -5954,6 +6020,15 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
 #ifdef VK_USE_PLATFORM_OHOS
     if (strcmp(pName, "vkCreateSurfaceOHOS") == 0) {
         return (PFN_vkVoidFunction)vkmock_CreateSurfaceOHOS;
+    }
+    if (strcmp(pName, "vkGetSwapchainGrallocUsageOHOS") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetSwapchainGrallocUsageOHOS;
+    }
+    if (strcmp(pName, "vkAcquireImageOHOS") == 0) {
+        return (PFN_vkVoidFunction)vkmock_AcquireImageOHOS;
+    }
+    if (strcmp(pName, "vkQueueSignalReleaseImageOHOS") == 0) {
+        return (PFN_vkVoidFunction)vkmock_QueueSignalReleaseImageOHOS;
     }
 #endif  // VK_USE_PLATFORM_OHOS
     if (strcmp(pName, "vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV") == 0) {
@@ -6091,30 +6166,50 @@ void vkmock::Reset() {
     WaitForFences = {};
     CreateSemaphore = {};
     DestroySemaphore = {};
-    CreateEvent = {};
-    DestroyEvent = {};
-    GetEventStatus = {};
-    SetEvent = {};
-    ResetEvent = {};
     CreateQueryPool = {};
     DestroyQueryPool = {};
     GetQueryPoolResults = {};
     CreateBuffer = {};
     DestroyBuffer = {};
-    CreateBufferView = {};
-    DestroyBufferView = {};
     CreateImage = {};
     DestroyImage = {};
     GetImageSubresourceLayout = {};
     CreateImageView = {};
     DestroyImageView = {};
+    CreateCommandPool = {};
+    DestroyCommandPool = {};
+    ResetCommandPool = {};
+    AllocateCommandBuffers = {};
+    FreeCommandBuffers = {};
+    BeginCommandBuffer = {};
+    EndCommandBuffer = {};
+    ResetCommandBuffer = {};
+    CmdCopyBuffer = {};
+    CmdCopyImage = {};
+    CmdCopyBufferToImage = {};
+    CmdCopyImageToBuffer = {};
+    CmdUpdateBuffer = {};
+    CmdFillBuffer = {};
+    CmdPipelineBarrier = {};
+    CmdBeginQuery = {};
+    CmdEndQuery = {};
+    CmdResetQueryPool = {};
+    CmdWriteTimestamp = {};
+    CmdCopyQueryPoolResults = {};
+    CmdExecuteCommands = {};
+    CreateEvent = {};
+    DestroyEvent = {};
+    GetEventStatus = {};
+    SetEvent = {};
+    ResetEvent = {};
+    CreateBufferView = {};
+    DestroyBufferView = {};
     CreateShaderModule = {};
     DestroyShaderModule = {};
     CreatePipelineCache = {};
     DestroyPipelineCache = {};
     GetPipelineCacheData = {};
     MergePipelineCaches = {};
-    CreateGraphicsPipelines = {};
     CreateComputePipelines = {};
     DestroyPipeline = {};
     CreatePipelineLayout = {};
@@ -6129,20 +6224,21 @@ void vkmock::Reset() {
     AllocateDescriptorSets = {};
     FreeDescriptorSets = {};
     UpdateDescriptorSets = {};
+    CmdBindPipeline = {};
+    CmdBindDescriptorSets = {};
+    CmdClearColorImage = {};
+    CmdDispatch = {};
+    CmdDispatchIndirect = {};
+    CmdSetEvent = {};
+    CmdResetEvent = {};
+    CmdWaitEvents = {};
+    CmdPushConstants = {};
+    CreateGraphicsPipelines = {};
     CreateFramebuffer = {};
     DestroyFramebuffer = {};
     CreateRenderPass = {};
     DestroyRenderPass = {};
     GetRenderAreaGranularity = {};
-    CreateCommandPool = {};
-    DestroyCommandPool = {};
-    ResetCommandPool = {};
-    AllocateCommandBuffers = {};
-    FreeCommandBuffers = {};
-    BeginCommandBuffer = {};
-    EndCommandBuffer = {};
-    ResetCommandBuffer = {};
-    CmdBindPipeline = {};
     CmdSetViewport = {};
     CmdSetScissor = {};
     CmdSetLineWidth = {};
@@ -6152,46 +6248,24 @@ void vkmock::Reset() {
     CmdSetStencilCompareMask = {};
     CmdSetStencilWriteMask = {};
     CmdSetStencilReference = {};
-    CmdBindDescriptorSets = {};
     CmdBindIndexBuffer = {};
     CmdBindVertexBuffers = {};
     CmdDraw = {};
     CmdDrawIndexed = {};
     CmdDrawIndirect = {};
     CmdDrawIndexedIndirect = {};
-    CmdDispatch = {};
-    CmdDispatchIndirect = {};
-    CmdCopyBuffer = {};
-    CmdCopyImage = {};
     CmdBlitImage = {};
-    CmdCopyBufferToImage = {};
-    CmdCopyImageToBuffer = {};
-    CmdUpdateBuffer = {};
-    CmdFillBuffer = {};
-    CmdClearColorImage = {};
     CmdClearDepthStencilImage = {};
     CmdClearAttachments = {};
     CmdResolveImage = {};
-    CmdSetEvent = {};
-    CmdResetEvent = {};
-    CmdWaitEvents = {};
-    CmdPipelineBarrier = {};
-    CmdBeginQuery = {};
-    CmdEndQuery = {};
-    CmdResetQueryPool = {};
-    CmdWriteTimestamp = {};
-    CmdCopyQueryPoolResults = {};
-    CmdPushConstants = {};
     CmdBeginRenderPass = {};
     CmdNextSubpass = {};
     CmdEndRenderPass = {};
-    CmdExecuteCommands = {};
     EnumerateInstanceVersion = {};
     BindBufferMemory2 = {};
     BindImageMemory2 = {};
     GetDeviceGroupPeerMemoryFeatures = {};
     CmdSetDeviceMask = {};
-    CmdDispatchBase = {};
     EnumeratePhysicalDeviceGroups = {};
     GetImageMemoryRequirements2 = {};
     GetBufferMemoryRequirements2 = {};
@@ -6205,21 +6279,16 @@ void vkmock::Reset() {
     GetPhysicalDeviceSparseImageFormatProperties2 = {};
     TrimCommandPool = {};
     GetDeviceQueue2 = {};
-    CreateSamplerYcbcrConversion = {};
-    DestroySamplerYcbcrConversion = {};
-    CreateDescriptorUpdateTemplate = {};
-    DestroyDescriptorUpdateTemplate = {};
-    UpdateDescriptorSetWithTemplate = {};
     GetPhysicalDeviceExternalBufferProperties = {};
     GetPhysicalDeviceExternalFenceProperties = {};
     GetPhysicalDeviceExternalSemaphoreProperties = {};
+    CmdDispatchBase = {};
+    CreateDescriptorUpdateTemplate = {};
+    DestroyDescriptorUpdateTemplate = {};
+    UpdateDescriptorSetWithTemplate = {};
     GetDescriptorSetLayoutSupport = {};
-    CmdDrawIndirectCount = {};
-    CmdDrawIndexedIndirectCount = {};
-    CreateRenderPass2 = {};
-    CmdBeginRenderPass2 = {};
-    CmdNextSubpass2 = {};
-    CmdEndRenderPass2 = {};
+    CreateSamplerYcbcrConversion = {};
+    DestroySamplerYcbcrConversion = {};
     ResetQueryPool = {};
     GetSemaphoreCounterValue = {};
     WaitSemaphores = {};
@@ -6227,6 +6296,12 @@ void vkmock::Reset() {
     GetBufferDeviceAddress = {};
     GetBufferOpaqueCaptureAddress = {};
     GetDeviceMemoryOpaqueCaptureAddress = {};
+    CmdDrawIndirectCount = {};
+    CmdDrawIndexedIndirectCount = {};
+    CreateRenderPass2 = {};
+    CmdBeginRenderPass2 = {};
+    CmdNextSubpass2 = {};
+    CmdEndRenderPass2 = {};
     DestroySurfaceKHR = {};
     GetPhysicalDeviceSurfaceSupportKHR = {};
     GetPhysicalDeviceSurfaceCapabilitiesKHR = {};
@@ -6396,6 +6471,7 @@ void vkmock::Reset() {
     GetPipelineKeyKHR = {};
     GetPipelineBinaryDataKHR = {};
     ReleaseCapturedPipelineDataKHR = {};
+    ReleaseSwapchainImagesKHR = {};
     GetPhysicalDeviceCooperativeMatrixPropertiesKHR = {};
     CmdSetLineStippleKHR = {};
     GetPhysicalDeviceCalibrateableTimeDomainsKHR = {};
@@ -6406,6 +6482,9 @@ void vkmock::Reset() {
     CmdPushDescriptorSetWithTemplate2KHR = {};
     CmdSetDescriptorBufferOffsets2EXT = {};
     CmdBindDescriptorBufferEmbeddedSamplers2EXT = {};
+    CmdCopyMemoryIndirectKHR = {};
+    CmdCopyMemoryToImageIndirectKHR = {};
+    CmdEndRendering2KHR = {};
     CreateDebugReportCallbackEXT = {};
     DestroyDebugReportCallbackEXT = {};
     DebugReportMessageEXT = {};
@@ -6757,6 +6836,8 @@ void vkmock::Reset() {
     GetScreenBufferPropertiesQNX = {};
 #endif  // VK_USE_PLATFORM_SCREEN_QNX
     CmdBindTileMemoryQCOM = {};
+    CmdDecompressMemoryEXT = {};
+    CmdDecompressMemoryIndirectCountEXT = {};
     CreateExternalComputeQueueNV = {};
     DestroyExternalComputeQueueNV = {};
     GetExternalComputeQueueDataNV = {};
@@ -6775,6 +6856,9 @@ void vkmock::Reset() {
     UpdateIndirectExecutionSetShaderEXT = {};
 #ifdef VK_USE_PLATFORM_OHOS
     CreateSurfaceOHOS = {};
+    GetSwapchainGrallocUsageOHOS = {};
+    AcquireImageOHOS = {};
+    QueueSignalReleaseImageOHOS = {};
 #endif  // VK_USE_PLATFORM_OHOS
     GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV = {};
 #ifdef VK_USE_PLATFORM_METAL_EXT

@@ -23,53 +23,15 @@ class CommandBuffer {
     VkResult BeginCommandBuffer(const VkCommandBufferBeginInfo* pBeginInfo);
     VkResult EndCommandBuffer();
     VkResult ResetCommandBuffer(VkCommandBufferResetFlags flags);
-    void CmdBindPipeline(VkPipelineBindPoint pipelineBindPoint, VkPipeline pipeline);
-    void CmdSetViewport(uint32_t firstViewport, uint32_t viewportCount, const VkViewport* pViewports);
-    void CmdSetScissor(uint32_t firstScissor, uint32_t scissorCount, const VkRect2D* pScissors);
-    void CmdSetLineWidth(float lineWidth);
-    void CmdSetDepthBias(float depthBiasConstantFactor, float depthBiasClamp, float depthBiasSlopeFactor);
-    void CmdSetBlendConstants(const float blendConstants[4]);
-    void CmdSetDepthBounds(float minDepthBounds, float maxDepthBounds);
-    void CmdSetStencilCompareMask(VkStencilFaceFlags faceMask, uint32_t compareMask);
-    void CmdSetStencilWriteMask(VkStencilFaceFlags faceMask, uint32_t writeMask);
-    void CmdSetStencilReference(VkStencilFaceFlags faceMask, uint32_t reference);
-    void CmdBindDescriptorSets(VkPipelineBindPoint pipelineBindPoint, VkPipelineLayout layout, uint32_t firstSet,
-                               uint32_t descriptorSetCount, const VkDescriptorSet* pDescriptorSets, uint32_t dynamicOffsetCount,
-                               const uint32_t* pDynamicOffsets);
-    void CmdBindIndexBuffer(VkBuffer buffer, VkDeviceSize offset, VkIndexType indexType);
-    void CmdBindVertexBuffers(uint32_t firstBinding, uint32_t bindingCount, const VkBuffer* pBuffers, const VkDeviceSize* pOffsets);
-    void CmdDraw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance);
-    void CmdDrawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, int32_t vertexOffset,
-                        uint32_t firstInstance);
-    void CmdDrawIndirect(VkBuffer buffer, VkDeviceSize offset, uint32_t drawCount, uint32_t stride);
-    void CmdDrawIndexedIndirect(VkBuffer buffer, VkDeviceSize offset, uint32_t drawCount, uint32_t stride);
-    void CmdDispatch(uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ);
-    void CmdDispatchIndirect(VkBuffer buffer, VkDeviceSize offset);
     void CmdCopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, uint32_t regionCount, const VkBufferCopy* pRegions);
     void CmdCopyImage(VkImage srcImage, VkImageLayout srcImageLayout, VkImage dstImage, VkImageLayout dstImageLayout,
                       uint32_t regionCount, const VkImageCopy* pRegions);
-    void CmdBlitImage(VkImage srcImage, VkImageLayout srcImageLayout, VkImage dstImage, VkImageLayout dstImageLayout,
-                      uint32_t regionCount, const VkImageBlit* pRegions, VkFilter filter);
     void CmdCopyBufferToImage(VkBuffer srcBuffer, VkImage dstImage, VkImageLayout dstImageLayout, uint32_t regionCount,
                               const VkBufferImageCopy* pRegions);
     void CmdCopyImageToBuffer(VkImage srcImage, VkImageLayout srcImageLayout, VkBuffer dstBuffer, uint32_t regionCount,
                               const VkBufferImageCopy* pRegions);
     void CmdUpdateBuffer(VkBuffer dstBuffer, VkDeviceSize dstOffset, VkDeviceSize dataSize, const void* pData);
     void CmdFillBuffer(VkBuffer dstBuffer, VkDeviceSize dstOffset, VkDeviceSize size, uint32_t data);
-    void CmdClearColorImage(VkImage image, VkImageLayout imageLayout, const VkClearColorValue* pColor, uint32_t rangeCount,
-                            const VkImageSubresourceRange* pRanges);
-    void CmdClearDepthStencilImage(VkImage image, VkImageLayout imageLayout, const VkClearDepthStencilValue* pDepthStencil,
-                                   uint32_t rangeCount, const VkImageSubresourceRange* pRanges);
-    void CmdClearAttachments(uint32_t attachmentCount, const VkClearAttachment* pAttachments, uint32_t rectCount,
-                             const VkClearRect* pRects);
-    void CmdResolveImage(VkImage srcImage, VkImageLayout srcImageLayout, VkImage dstImage, VkImageLayout dstImageLayout,
-                         uint32_t regionCount, const VkImageResolve* pRegions);
-    void CmdSetEvent(VkEvent event, VkPipelineStageFlags stageMask);
-    void CmdResetEvent(VkEvent event, VkPipelineStageFlags stageMask);
-    void CmdWaitEvents(uint32_t eventCount, const VkEvent* pEvents, VkPipelineStageFlags srcStageMask,
-                       VkPipelineStageFlags dstStageMask, uint32_t memoryBarrierCount, const VkMemoryBarrier* pMemoryBarriers,
-                       uint32_t bufferMemoryBarrierCount, const VkBufferMemoryBarrier* pBufferMemoryBarriers,
-                       uint32_t imageMemoryBarrierCount, const VkImageMemoryBarrier* pImageMemoryBarriers);
     void CmdPipelineBarrier(VkPipelineStageFlags srcStageMask, VkPipelineStageFlags dstStageMask, VkDependencyFlags dependencyFlags,
                             uint32_t memoryBarrierCount, const VkMemoryBarrier* pMemoryBarriers, uint32_t bufferMemoryBarrierCount,
                             const VkBufferMemoryBarrier* pBufferMemoryBarriers, uint32_t imageMemoryBarrierCount,
@@ -80,12 +42,50 @@ class CommandBuffer {
     void CmdWriteTimestamp(VkPipelineStageFlagBits pipelineStage, VkQueryPool queryPool, uint32_t query);
     void CmdCopyQueryPoolResults(VkQueryPool queryPool, uint32_t firstQuery, uint32_t queryCount, VkBuffer dstBuffer,
                                  VkDeviceSize dstOffset, VkDeviceSize stride, VkQueryResultFlags flags);
+    void CmdExecuteCommands(uint32_t commandBufferCount, const VkCommandBuffer* pCommandBuffers);
+    void CmdBindPipeline(VkPipelineBindPoint pipelineBindPoint, VkPipeline pipeline);
+    void CmdBindDescriptorSets(VkPipelineBindPoint pipelineBindPoint, VkPipelineLayout layout, uint32_t firstSet,
+                               uint32_t descriptorSetCount, const VkDescriptorSet* pDescriptorSets, uint32_t dynamicOffsetCount,
+                               const uint32_t* pDynamicOffsets);
+    void CmdClearColorImage(VkImage image, VkImageLayout imageLayout, const VkClearColorValue* pColor, uint32_t rangeCount,
+                            const VkImageSubresourceRange* pRanges);
+    void CmdDispatch(uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ);
+    void CmdDispatchIndirect(VkBuffer buffer, VkDeviceSize offset);
+    void CmdSetEvent(VkEvent event, VkPipelineStageFlags stageMask);
+    void CmdResetEvent(VkEvent event, VkPipelineStageFlags stageMask);
+    void CmdWaitEvents(uint32_t eventCount, const VkEvent* pEvents, VkPipelineStageFlags srcStageMask,
+                       VkPipelineStageFlags dstStageMask, uint32_t memoryBarrierCount, const VkMemoryBarrier* pMemoryBarriers,
+                       uint32_t bufferMemoryBarrierCount, const VkBufferMemoryBarrier* pBufferMemoryBarriers,
+                       uint32_t imageMemoryBarrierCount, const VkImageMemoryBarrier* pImageMemoryBarriers);
     void CmdPushConstants(VkPipelineLayout layout, VkShaderStageFlags stageFlags, uint32_t offset, uint32_t size,
                           const void* pValues);
+    void CmdSetViewport(uint32_t firstViewport, uint32_t viewportCount, const VkViewport* pViewports);
+    void CmdSetScissor(uint32_t firstScissor, uint32_t scissorCount, const VkRect2D* pScissors);
+    void CmdSetLineWidth(float lineWidth);
+    void CmdSetDepthBias(float depthBiasConstantFactor, float depthBiasClamp, float depthBiasSlopeFactor);
+    void CmdSetBlendConstants(const float blendConstants[4]);
+    void CmdSetDepthBounds(float minDepthBounds, float maxDepthBounds);
+    void CmdSetStencilCompareMask(VkStencilFaceFlags faceMask, uint32_t compareMask);
+    void CmdSetStencilWriteMask(VkStencilFaceFlags faceMask, uint32_t writeMask);
+    void CmdSetStencilReference(VkStencilFaceFlags faceMask, uint32_t reference);
+    void CmdBindIndexBuffer(VkBuffer buffer, VkDeviceSize offset, VkIndexType indexType);
+    void CmdBindVertexBuffers(uint32_t firstBinding, uint32_t bindingCount, const VkBuffer* pBuffers, const VkDeviceSize* pOffsets);
+    void CmdDraw(uint32_t vertexCount, uint32_t instanceCount, uint32_t firstVertex, uint32_t firstInstance);
+    void CmdDrawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, int32_t vertexOffset,
+                        uint32_t firstInstance);
+    void CmdDrawIndirect(VkBuffer buffer, VkDeviceSize offset, uint32_t drawCount, uint32_t stride);
+    void CmdDrawIndexedIndirect(VkBuffer buffer, VkDeviceSize offset, uint32_t drawCount, uint32_t stride);
+    void CmdBlitImage(VkImage srcImage, VkImageLayout srcImageLayout, VkImage dstImage, VkImageLayout dstImageLayout,
+                      uint32_t regionCount, const VkImageBlit* pRegions, VkFilter filter);
+    void CmdClearDepthStencilImage(VkImage image, VkImageLayout imageLayout, const VkClearDepthStencilValue* pDepthStencil,
+                                   uint32_t rangeCount, const VkImageSubresourceRange* pRanges);
+    void CmdClearAttachments(uint32_t attachmentCount, const VkClearAttachment* pAttachments, uint32_t rectCount,
+                             const VkClearRect* pRects);
+    void CmdResolveImage(VkImage srcImage, VkImageLayout srcImageLayout, VkImage dstImage, VkImageLayout dstImageLayout,
+                         uint32_t regionCount, const VkImageResolve* pRegions);
     void CmdBeginRenderPass(const VkRenderPassBeginInfo* pRenderPassBegin, VkSubpassContents contents);
     void CmdNextSubpass(VkSubpassContents contents);
     void CmdEndRenderPass();
-    void CmdExecuteCommands(uint32_t commandBufferCount, const VkCommandBuffer* pCommandBuffers);
     void CmdSetDeviceMask(uint32_t deviceMask);
     void CmdDispatchBase(uint32_t baseGroupX, uint32_t baseGroupY, uint32_t baseGroupZ, uint32_t groupCountX, uint32_t groupCountY,
                          uint32_t groupCountZ);
@@ -141,6 +141,9 @@ class CommandBuffer {
     void CmdSetDescriptorBufferOffsets2EXT(const VkSetDescriptorBufferOffsetsInfoEXT* pSetDescriptorBufferOffsetsInfo);
     void CmdBindDescriptorBufferEmbeddedSamplers2EXT(
         const VkBindDescriptorBufferEmbeddedSamplersInfoEXT* pBindDescriptorBufferEmbeddedSamplersInfo);
+    void CmdCopyMemoryIndirectKHR(const VkCopyMemoryIndirectInfoKHR* pCopyMemoryIndirectInfo);
+    void CmdCopyMemoryToImageIndirectKHR(const VkCopyMemoryToImageIndirectInfoKHR* pCopyMemoryToImageIndirectInfo);
+    void CmdEndRendering2KHR(const VkRenderingEndInfoKHR* pRenderingEndInfo);
     void CmdDebugMarkerBeginEXT(const VkDebugMarkerMarkerInfoEXT* pMarkerInfo);
     void CmdDebugMarkerEndEXT();
     void CmdDebugMarkerInsertEXT(const VkDebugMarkerMarkerInfoEXT* pMarkerInfo);
@@ -314,12 +317,16 @@ class CommandBuffer {
     void CmdDispatchDataGraphARM(VkDataGraphPipelineSessionARM session, const VkDataGraphPipelineDispatchInfoARM* pInfo);
     void CmdSetAttachmentFeedbackLoopEnableEXT(VkImageAspectFlags aspectMask);
     void CmdBindTileMemoryQCOM(const VkTileMemoryBindInfoQCOM* pTileMemoryBindInfo);
+    void CmdDecompressMemoryEXT(const VkDecompressMemoryInfoEXT* pDecompressMemoryInfoEXT);
+    void CmdDecompressMemoryIndirectCountEXT(VkMemoryDecompressionMethodFlagsEXT decompressionMethod,
+                                             VkDeviceAddress indirectCommandsAddress, VkDeviceAddress indirectCommandsCountAddress,
+                                             uint32_t maxDecompressionCount, uint32_t stride);
     void CmdBuildClusterAccelerationStructureIndirectNV(const VkClusterAccelerationStructureCommandsInfoNV* pCommandInfos);
     void CmdBuildPartitionedAccelerationStructuresNV(const VkBuildPartitionedAccelerationStructureInfoNV* pBuildInfo);
     void CmdPreprocessGeneratedCommandsEXT(const VkGeneratedCommandsInfoEXT* pGeneratedCommandsInfo,
                                            VkCommandBuffer stateCommandBuffer);
     void CmdExecuteGeneratedCommandsEXT(VkBool32 isPreprocessed, const VkGeneratedCommandsInfoEXT* pGeneratedCommandsInfo);
-    void CmdEndRendering2EXT(const VkRenderingEndInfoEXT* pRenderingEndInfo);
+    void CmdEndRendering2EXT(const VkRenderingEndInfoKHR* pRenderingEndInfo);
     void CmdBuildAccelerationStructuresKHR(uint32_t infoCount, const VkAccelerationStructureBuildGeometryInfoKHR* pInfos,
                                            const VkAccelerationStructureBuildRangeInfoKHR* const* ppBuildRangeInfos);
     void CmdBuildAccelerationStructuresIndirectKHR(uint32_t infoCount, const VkAccelerationStructureBuildGeometryInfoKHR* pInfos,

@@ -265,41 +265,13 @@ void ConvertOutStructToVulkanSC<VkScreenBufferPropertiesQNX>(VkScreenBufferPrope
 #endif  // VK_USE_PLATFORM_SCREEN_QNX
 
 template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceSubgroupProperties>(VkPhysicalDeviceSubgroupProperties* p) {
-    p->supportedStages = p->supportedStages & AllVkShaderStageFlagBits;
-    p->supportedOperations = p->supportedOperations & AllVkSubgroupFeatureFlagBits;
-}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDevice16BitStorageFeatures>(VkPhysicalDevice16BitStorageFeatures* p) {}
-
-template <>
 void ConvertOutStructToVulkanSC<VkMemoryDedicatedRequirements>(VkMemoryDedicatedRequirements* p) {}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDevicePointClippingProperties>(VkPhysicalDevicePointClippingProperties* p) {}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceMultiviewFeatures>(VkPhysicalDeviceMultiviewFeatures* p) {}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceMultiviewProperties>(VkPhysicalDeviceMultiviewProperties* p) {}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceVariablePointersFeatures>(VkPhysicalDeviceVariablePointersFeatures* p) {}
 
 template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceProtectedMemoryFeatures>(VkPhysicalDeviceProtectedMemoryFeatures* p) {}
 
 template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceProtectedMemoryProperties>(VkPhysicalDeviceProtectedMemoryProperties* p) {}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceSamplerYcbcrConversionFeatures>(VkPhysicalDeviceSamplerYcbcrConversionFeatures* p) {
-}
-
-template <>
-void ConvertOutStructToVulkanSC<VkSamplerYcbcrConversionImageFormatProperties>(VkSamplerYcbcrConversionImageFormatProperties* p) {}
 
 template <>
 void ConvertOutStructToVulkanSC<VkExternalImageFormatProperties>(VkExternalImageFormatProperties* p) {
@@ -310,7 +282,35 @@ template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceIDProperties>(VkPhysicalDeviceIDProperties* p) {}
 
 template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceSubgroupProperties>(VkPhysicalDeviceSubgroupProperties* p) {
+    p->supportedStages = p->supportedStages & AllVkShaderStageFlagBits;
+    p->supportedOperations = p->supportedOperations & AllVkSubgroupFeatureFlagBits;
+}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDevice16BitStorageFeatures>(VkPhysicalDevice16BitStorageFeatures* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceVariablePointersFeatures>(VkPhysicalDeviceVariablePointersFeatures* p) {}
+
+template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceMaintenance3Properties>(VkPhysicalDeviceMaintenance3Properties* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceSamplerYcbcrConversionFeatures>(VkPhysicalDeviceSamplerYcbcrConversionFeatures* p) {
+}
+
+template <>
+void ConvertOutStructToVulkanSC<VkSamplerYcbcrConversionImageFormatProperties>(VkSamplerYcbcrConversionImageFormatProperties* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDevicePointClippingProperties>(VkPhysicalDevicePointClippingProperties* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceMultiviewFeatures>(VkPhysicalDeviceMultiviewFeatures* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceMultiviewProperties>(VkPhysicalDeviceMultiviewProperties* p) {}
 
 template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceShaderDrawParametersFeatures>(VkPhysicalDeviceShaderDrawParametersFeatures* p) {}
@@ -336,12 +336,27 @@ void ConvertOutStructToVulkanSC<VkPhysicalDeviceVulkan12Properties>(VkPhysicalDe
 }
 
 template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDevice8BitStorageFeatures>(VkPhysicalDevice8BitStorageFeatures* p) {}
-
-template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceDriverProperties>(VkPhysicalDeviceDriverProperties* p) {
     ConvertOutStructToVulkanSC<VkConformanceVersion>(&p->conformanceVersion);
 }
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceVulkanMemoryModelFeatures>(VkPhysicalDeviceVulkanMemoryModelFeatures* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceHostQueryResetFeatures>(VkPhysicalDeviceHostQueryResetFeatures* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceTimelineSemaphoreFeatures>(VkPhysicalDeviceTimelineSemaphoreFeatures* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceTimelineSemaphoreProperties>(VkPhysicalDeviceTimelineSemaphoreProperties* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceBufferDeviceAddressFeatures>(VkPhysicalDeviceBufferDeviceAddressFeatures* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDevice8BitStorageFeatures>(VkPhysicalDevice8BitStorageFeatures* p) {}
 
 template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceShaderAtomicInt64Features>(VkPhysicalDeviceShaderAtomicInt64Features* p) {}
@@ -363,22 +378,10 @@ void ConvertOutStructToVulkanSC<VkDescriptorSetVariableDescriptorCountLayoutSupp
     VkDescriptorSetVariableDescriptorCountLayoutSupport* p) {}
 
 template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceDepthStencilResolveProperties>(VkPhysicalDeviceDepthStencilResolveProperties* p) {
-    p->supportedDepthResolveModes = p->supportedDepthResolveModes & AllVkResolveModeFlagBits;
-    p->supportedStencilResolveModes = p->supportedStencilResolveModes & AllVkResolveModeFlagBits;
-}
-
-template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceScalarBlockLayoutFeatures>(VkPhysicalDeviceScalarBlockLayoutFeatures* p) {}
 
 template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceSamplerFilterMinmaxProperties>(VkPhysicalDeviceSamplerFilterMinmaxProperties* p) {}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceVulkanMemoryModelFeatures>(VkPhysicalDeviceVulkanMemoryModelFeatures* p) {}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceImagelessFramebufferFeatures>(VkPhysicalDeviceImagelessFramebufferFeatures* p) {}
 
 template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceUniformBufferStandardLayoutFeatures>(
@@ -389,20 +392,17 @@ void ConvertOutStructToVulkanSC<VkPhysicalDeviceShaderSubgroupExtendedTypesFeatu
     VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures* p) {}
 
 template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceDepthStencilResolveProperties>(VkPhysicalDeviceDepthStencilResolveProperties* p) {
+    p->supportedDepthResolveModes = p->supportedDepthResolveModes & AllVkResolveModeFlagBits;
+    p->supportedStencilResolveModes = p->supportedStencilResolveModes & AllVkResolveModeFlagBits;
+}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceImagelessFramebufferFeatures>(VkPhysicalDeviceImagelessFramebufferFeatures* p) {}
+
+template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures>(
     VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures* p) {}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceHostQueryResetFeatures>(VkPhysicalDeviceHostQueryResetFeatures* p) {}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceTimelineSemaphoreFeatures>(VkPhysicalDeviceTimelineSemaphoreFeatures* p) {}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceTimelineSemaphoreProperties>(VkPhysicalDeviceTimelineSemaphoreProperties* p) {}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceBufferDeviceAddressFeatures>(VkPhysicalDeviceBufferDeviceAddressFeatures* p) {}
 
 template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceVulkan13Features>(VkPhysicalDeviceVulkan13Features* p) {}
@@ -413,6 +413,29 @@ void ConvertOutStructToVulkanSC<VkPhysicalDeviceVulkan13Properties>(VkPhysicalDe
 }
 
 template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDevicePrivateDataFeatures>(VkPhysicalDevicePrivateDataFeatures* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceSynchronization2Features>(VkPhysicalDeviceSynchronization2Features* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceTextureCompressionASTCHDRFeatures>(
+    VkPhysicalDeviceTextureCompressionASTCHDRFeatures* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkFormatProperties3>(VkFormatProperties3* p) {
+    p->linearTilingFeatures = p->linearTilingFeatures & AllVkFormatFeatureFlagBits2;
+    p->optimalTilingFeatures = p->optimalTilingFeatures & AllVkFormatFeatureFlagBits2;
+    p->bufferFeatures = p->bufferFeatures & AllVkFormatFeatureFlagBits2;
+}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceMaintenance4Features>(VkPhysicalDeviceMaintenance4Features* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceMaintenance4Properties>(VkPhysicalDeviceMaintenance4Properties* p) {}
+
+template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceShaderTerminateInvocationFeatures>(
     VkPhysicalDeviceShaderTerminateInvocationFeatures* p) {}
 
@@ -421,14 +444,8 @@ void ConvertOutStructToVulkanSC<VkPhysicalDeviceShaderDemoteToHelperInvocationFe
     VkPhysicalDeviceShaderDemoteToHelperInvocationFeatures* p) {}
 
 template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDevicePrivateDataFeatures>(VkPhysicalDevicePrivateDataFeatures* p) {}
-
-template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDevicePipelineCreationCacheControlFeatures>(
     VkPhysicalDevicePipelineCreationCacheControlFeatures* p) {}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceSynchronization2Features>(VkPhysicalDeviceSynchronization2Features* p) {}
 
 template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceZeroInitializeWorkgroupMemoryFeatures>(
@@ -452,13 +469,6 @@ template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceInlineUniformBlockProperties>(VkPhysicalDeviceInlineUniformBlockProperties* p) {}
 
 template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceTextureCompressionASTCHDRFeatures>(
-    VkPhysicalDeviceTextureCompressionASTCHDRFeatures* p) {}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceDynamicRenderingFeatures>(VkPhysicalDeviceDynamicRenderingFeatures* p) {}
-
-template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceShaderIntegerDotProductFeatures>(
     VkPhysicalDeviceShaderIntegerDotProductFeatures* p) {}
 
@@ -471,17 +481,7 @@ void ConvertOutStructToVulkanSC<VkPhysicalDeviceTexelBufferAlignmentProperties>(
 }
 
 template <>
-void ConvertOutStructToVulkanSC<VkFormatProperties3>(VkFormatProperties3* p) {
-    p->linearTilingFeatures = p->linearTilingFeatures & AllVkFormatFeatureFlagBits2;
-    p->optimalTilingFeatures = p->optimalTilingFeatures & AllVkFormatFeatureFlagBits2;
-    p->bufferFeatures = p->bufferFeatures & AllVkFormatFeatureFlagBits2;
-}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceMaintenance4Features>(VkPhysicalDeviceMaintenance4Features* p) {}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceMaintenance4Properties>(VkPhysicalDeviceMaintenance4Properties* p) {}
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceDynamicRenderingFeatures>(VkPhysicalDeviceDynamicRenderingFeatures* p) {}
 
 template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceVulkan14Features>(VkPhysicalDeviceVulkan14Features* p) {}
@@ -496,6 +496,30 @@ template <>
 void ConvertOutStructToVulkanSC<VkQueueFamilyGlobalPriorityProperties>(VkQueueFamilyGlobalPriorityProperties* p) {}
 
 template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceIndexTypeUint8Features>(VkPhysicalDeviceIndexTypeUint8Features* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceMaintenance5Features>(VkPhysicalDeviceMaintenance5Features* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceMaintenance5Properties>(VkPhysicalDeviceMaintenance5Properties* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceMaintenance6Features>(VkPhysicalDeviceMaintenance6Features* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceMaintenance6Properties>(VkPhysicalDeviceMaintenance6Properties* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceHostImageCopyFeatures>(VkPhysicalDeviceHostImageCopyFeatures* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceHostImageCopyProperties>(VkPhysicalDeviceHostImageCopyProperties* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkHostImageCopyDevicePerformanceQuery>(VkHostImageCopyDevicePerformanceQuery* p) {}
+
+template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceShaderSubgroupRotateFeatures>(VkPhysicalDeviceShaderSubgroupRotateFeatures* p) {}
 
 template <>
@@ -503,6 +527,19 @@ void ConvertOutStructToVulkanSC<VkPhysicalDeviceShaderFloatControls2Features>(Vk
 
 template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceShaderExpectAssumeFeatures>(VkPhysicalDeviceShaderExpectAssumeFeatures* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDevicePushDescriptorProperties>(VkPhysicalDevicePushDescriptorProperties* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDevicePipelineProtectedAccessFeatures>(
+    VkPhysicalDevicePipelineProtectedAccessFeatures* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDevicePipelineRobustnessFeatures>(VkPhysicalDevicePipelineRobustnessFeatures* p) {}
+
+template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDevicePipelineRobustnessProperties>(VkPhysicalDevicePipelineRobustnessProperties* p) {}
 
 template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceLineRasterizationFeatures>(VkPhysicalDeviceLineRasterizationFeatures* p) {}
@@ -519,45 +556,8 @@ void ConvertOutStructToVulkanSC<VkPhysicalDeviceVertexAttributeDivisorFeatures>(
 }
 
 template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceIndexTypeUint8Features>(VkPhysicalDeviceIndexTypeUint8Features* p) {}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceMaintenance5Features>(VkPhysicalDeviceMaintenance5Features* p) {}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceMaintenance5Properties>(VkPhysicalDeviceMaintenance5Properties* p) {}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDevicePushDescriptorProperties>(VkPhysicalDevicePushDescriptorProperties* p) {}
-
-template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceDynamicRenderingLocalReadFeatures>(
     VkPhysicalDeviceDynamicRenderingLocalReadFeatures* p) {}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceMaintenance6Features>(VkPhysicalDeviceMaintenance6Features* p) {}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceMaintenance6Properties>(VkPhysicalDeviceMaintenance6Properties* p) {}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDevicePipelineProtectedAccessFeatures>(
-    VkPhysicalDevicePipelineProtectedAccessFeatures* p) {}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDevicePipelineRobustnessFeatures>(VkPhysicalDevicePipelineRobustnessFeatures* p) {}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDevicePipelineRobustnessProperties>(VkPhysicalDevicePipelineRobustnessProperties* p) {}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceHostImageCopyFeatures>(VkPhysicalDeviceHostImageCopyFeatures* p) {}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceHostImageCopyProperties>(VkPhysicalDeviceHostImageCopyProperties* p) {}
-
-template <>
-void ConvertOutStructToVulkanSC<VkHostImageCopyDevicePerformanceQuery>(VkHostImageCopyDevicePerformanceQuery* p) {}
 
 template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceVulkanSC10Features>(VkPhysicalDeviceVulkanSC10Features* p) {}
@@ -830,24 +830,24 @@ void ConvertOutStructChainToVulkanSC<VkPhysicalDeviceFeatures2>(VkPhysicalDevice
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceFeatures2*>(base));
                 break;
 
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_16BIT_STORAGE_FEATURES:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDevice16BitStorageFeatures*>(base));
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROTECTED_MEMORY_FEATURES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceProtectedMemoryFeatures*>(base));
                 break;
 
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTIVIEW_FEATURES:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceMultiviewFeatures*>(base));
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_16BIT_STORAGE_FEATURES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDevice16BitStorageFeatures*>(base));
                 break;
 
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VARIABLE_POINTERS_FEATURES:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceVariablePointersFeatures*>(base));
                 break;
 
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROTECTED_MEMORY_FEATURES:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceProtectedMemoryFeatures*>(base));
-                break;
-
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SAMPLER_YCBCR_CONVERSION_FEATURES:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceSamplerYcbcrConversionFeatures*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTIVIEW_FEATURES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceMultiviewFeatures*>(base));
                 break;
 
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_DRAW_PARAMETERS_FEATURES:
@@ -860,6 +860,22 @@ void ConvertOutStructChainToVulkanSC<VkPhysicalDeviceFeatures2>(VkPhysicalDevice
 
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceVulkan12Features*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_MEMORY_MODEL_FEATURES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceVulkanMemoryModelFeatures*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_QUERY_RESET_FEATURES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceHostQueryResetFeatures*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TIMELINE_SEMAPHORE_FEATURES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceTimelineSemaphoreFeatures*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceBufferDeviceAddressFeatures*>(base));
                 break;
 
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_8BIT_STORAGE_FEATURES:
@@ -882,14 +898,6 @@ void ConvertOutStructChainToVulkanSC<VkPhysicalDeviceFeatures2>(VkPhysicalDevice
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceScalarBlockLayoutFeatures*>(base));
                 break;
 
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_MEMORY_MODEL_FEATURES:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceVulkanMemoryModelFeatures*>(base));
-                break;
-
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGELESS_FRAMEBUFFER_FEATURES:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceImagelessFramebufferFeatures*>(base));
-                break;
-
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_UNIFORM_BUFFER_STANDARD_LAYOUT_FEATURES:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceUniformBufferStandardLayoutFeatures*>(base));
                 break;
@@ -898,24 +906,32 @@ void ConvertOutStructChainToVulkanSC<VkPhysicalDeviceFeatures2>(VkPhysicalDevice
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures*>(base));
                 break;
 
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGELESS_FRAMEBUFFER_FEATURES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceImagelessFramebufferFeatures*>(base));
+                break;
+
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SEPARATE_DEPTH_STENCIL_LAYOUTS_FEATURES:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures*>(base));
                 break;
 
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_QUERY_RESET_FEATURES:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceHostQueryResetFeatures*>(base));
-                break;
-
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TIMELINE_SEMAPHORE_FEATURES:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceTimelineSemaphoreFeatures*>(base));
-                break;
-
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceBufferDeviceAddressFeatures*>(base));
-                break;
-
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_FEATURES:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceVulkan13Features*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRIVATE_DATA_FEATURES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDevicePrivateDataFeatures*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SYNCHRONIZATION_2_FEATURES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceSynchronization2Features*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TEXTURE_COMPRESSION_ASTC_HDR_FEATURES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceTextureCompressionASTCHDRFeatures*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_FEATURES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceMaintenance4Features*>(base));
                 break;
 
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_TERMINATE_INVOCATION_FEATURES:
@@ -926,16 +942,8 @@ void ConvertOutStructChainToVulkanSC<VkPhysicalDeviceFeatures2>(VkPhysicalDevice
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceShaderDemoteToHelperInvocationFeatures*>(base));
                 break;
 
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRIVATE_DATA_FEATURES:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDevicePrivateDataFeatures*>(base));
-                break;
-
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_CREATION_CACHE_CONTROL_FEATURES:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDevicePipelineCreationCacheControlFeatures*>(base));
-                break;
-
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SYNCHRONIZATION_2_FEATURES:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceSynchronization2Features*>(base));
                 break;
 
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ZERO_INITIALIZE_WORKGROUP_MEMORY_FEATURES:
@@ -954,20 +962,12 @@ void ConvertOutStructChainToVulkanSC<VkPhysicalDeviceFeatures2>(VkPhysicalDevice
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceInlineUniformBlockFeatures*>(base));
                 break;
 
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TEXTURE_COMPRESSION_ASTC_HDR_FEATURES:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceTextureCompressionASTCHDRFeatures*>(base));
-                break;
-
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_FEATURES:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceDynamicRenderingFeatures*>(base));
-                break;
-
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_INTEGER_DOT_PRODUCT_FEATURES:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceShaderIntegerDotProductFeatures*>(base));
                 break;
 
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_FEATURES:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceMaintenance4Features*>(base));
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_FEATURES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceDynamicRenderingFeatures*>(base));
                 break;
 
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_4_FEATURES:
@@ -976,6 +976,22 @@ void ConvertOutStructChainToVulkanSC<VkPhysicalDeviceFeatures2>(VkPhysicalDevice
 
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_GLOBAL_PRIORITY_QUERY_FEATURES:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceGlobalPriorityQueryFeatures*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INDEX_TYPE_UINT8_FEATURES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceIndexTypeUint8Features*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_5_FEATURES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceMaintenance5Features*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_6_FEATURES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceMaintenance6Features*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_FEATURES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceHostImageCopyFeatures*>(base));
                 break;
 
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_SUBGROUP_ROTATE_FEATURES:
@@ -990,30 +1006,6 @@ void ConvertOutStructChainToVulkanSC<VkPhysicalDeviceFeatures2>(VkPhysicalDevice
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceShaderExpectAssumeFeatures*>(base));
                 break;
 
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_FEATURES:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceLineRasterizationFeatures*>(base));
-                break;
-
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceVertexAttributeDivisorFeatures*>(base));
-                break;
-
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INDEX_TYPE_UINT8_FEATURES:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceIndexTypeUint8Features*>(base));
-                break;
-
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_5_FEATURES:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceMaintenance5Features*>(base));
-                break;
-
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_LOCAL_READ_FEATURES:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceDynamicRenderingLocalReadFeatures*>(base));
-                break;
-
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_6_FEATURES:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceMaintenance6Features*>(base));
-                break;
-
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_PROTECTED_ACCESS_FEATURES:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDevicePipelineProtectedAccessFeatures*>(base));
                 break;
@@ -1022,8 +1014,16 @@ void ConvertOutStructChainToVulkanSC<VkPhysicalDeviceFeatures2>(VkPhysicalDevice
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDevicePipelineRobustnessFeatures*>(base));
                 break;
 
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_FEATURES:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceHostImageCopyFeatures*>(base));
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_FEATURES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceLineRasterizationFeatures*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceVertexAttributeDivisorFeatures*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DYNAMIC_RENDERING_LOCAL_READ_FEATURES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceDynamicRenderingLocalReadFeatures*>(base));
                 break;
 
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_SC_1_0_FEATURES:
@@ -1144,18 +1144,6 @@ void ConvertOutStructChainToVulkanSC<VkPhysicalDeviceProperties2>(VkPhysicalDevi
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceProperties2*>(base));
                 break;
 
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_PROPERTIES:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceSubgroupProperties*>(base));
-                break;
-
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_POINT_CLIPPING_PROPERTIES:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDevicePointClippingProperties*>(base));
-                break;
-
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTIVIEW_PROPERTIES:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceMultiviewProperties*>(base));
-                break;
-
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROTECTED_MEMORY_PROPERTIES:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceProtectedMemoryProperties*>(base));
                 break;
@@ -1164,8 +1152,20 @@ void ConvertOutStructChainToVulkanSC<VkPhysicalDeviceProperties2>(VkPhysicalDevi
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceIDProperties*>(base));
                 break;
 
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_PROPERTIES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceSubgroupProperties*>(base));
+                break;
+
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_3_PROPERTIES:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceMaintenance3Properties*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_POINT_CLIPPING_PROPERTIES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDevicePointClippingProperties*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTIVIEW_PROPERTIES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceMultiviewProperties*>(base));
                 break;
 
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_1_PROPERTIES:
@@ -1180,6 +1180,10 @@ void ConvertOutStructChainToVulkanSC<VkPhysicalDeviceProperties2>(VkPhysicalDevi
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceDriverProperties*>(base));
                 break;
 
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TIMELINE_SEMAPHORE_PROPERTIES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceTimelineSemaphoreProperties*>(base));
+                break;
+
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FLOAT_CONTROLS_PROPERTIES:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceFloatControlsProperties*>(base));
                 break;
@@ -1188,20 +1192,20 @@ void ConvertOutStructChainToVulkanSC<VkPhysicalDeviceProperties2>(VkPhysicalDevi
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceDescriptorIndexingProperties*>(base));
                 break;
 
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_STENCIL_RESOLVE_PROPERTIES:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceDepthStencilResolveProperties*>(base));
-                break;
-
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SAMPLER_FILTER_MINMAX_PROPERTIES:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceSamplerFilterMinmaxProperties*>(base));
                 break;
 
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TIMELINE_SEMAPHORE_PROPERTIES:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceTimelineSemaphoreProperties*>(base));
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_STENCIL_RESOLVE_PROPERTIES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceDepthStencilResolveProperties*>(base));
                 break;
 
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_3_PROPERTIES:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceVulkan13Properties*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_PROPERTIES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceMaintenance4Properties*>(base));
                 break;
 
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_SIZE_CONTROL_PROPERTIES:
@@ -1220,12 +1224,28 @@ void ConvertOutStructChainToVulkanSC<VkPhysicalDeviceProperties2>(VkPhysicalDevi
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceTexelBufferAlignmentProperties*>(base));
                 break;
 
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_PROPERTIES:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceMaintenance4Properties*>(base));
-                break;
-
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_4_PROPERTIES:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceVulkan14Properties*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_5_PROPERTIES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceMaintenance5Properties*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_6_PROPERTIES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceMaintenance6Properties*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_PROPERTIES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceHostImageCopyProperties*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PUSH_DESCRIPTOR_PROPERTIES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDevicePushDescriptorProperties*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_PROPERTIES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDevicePipelineRobustnessProperties*>(base));
                 break;
 
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LINE_RASTERIZATION_PROPERTIES:
@@ -1234,26 +1254,6 @@ void ConvertOutStructChainToVulkanSC<VkPhysicalDeviceProperties2>(VkPhysicalDevi
 
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_PROPERTIES:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceVertexAttributeDivisorProperties*>(base));
-                break;
-
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_5_PROPERTIES:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceMaintenance5Properties*>(base));
-                break;
-
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PUSH_DESCRIPTOR_PROPERTIES:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDevicePushDescriptorProperties*>(base));
-                break;
-
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_6_PROPERTIES:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceMaintenance6Properties*>(base));
-                break;
-
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_ROBUSTNESS_PROPERTIES:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDevicePipelineRobustnessProperties*>(base));
-                break;
-
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_PROPERTIES:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceHostImageCopyProperties*>(base));
                 break;
 
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_SC_1_0_PROPERTIES:
@@ -1344,12 +1344,12 @@ void ConvertOutStructChainToVulkanSC<VkImageFormatProperties2>(VkImageFormatProp
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkImageFormatProperties2*>(base));
                 break;
 
-            case VK_STRUCTURE_TYPE_SAMPLER_YCBCR_CONVERSION_IMAGE_FORMAT_PROPERTIES:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkSamplerYcbcrConversionImageFormatProperties*>(base));
-                break;
-
             case VK_STRUCTURE_TYPE_EXTERNAL_IMAGE_FORMAT_PROPERTIES:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkExternalImageFormatProperties*>(base));
+                break;
+
+            case VK_STRUCTURE_TYPE_SAMPLER_YCBCR_CONVERSION_IMAGE_FORMAT_PROPERTIES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkSamplerYcbcrConversionImageFormatProperties*>(base));
                 break;
 
             case VK_STRUCTURE_TYPE_HOST_IMAGE_COPY_DEVICE_PERFORMANCE_QUERY:

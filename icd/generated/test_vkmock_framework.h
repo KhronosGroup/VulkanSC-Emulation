@@ -147,13 +147,6 @@ class vkmock {
         CreateSemaphore{};
     inline static std::function<void(VkDevice device, VkSemaphore semaphore, const VkAllocationCallbacks* pAllocator)>
         DestroySemaphore{};
-    inline static std::function<VkResult(VkDevice device, const VkEventCreateInfo* pCreateInfo,
-                                         const VkAllocationCallbacks* pAllocator, VkEvent* pEvent)>
-        CreateEvent{};
-    inline static std::function<void(VkDevice device, VkEvent event, const VkAllocationCallbacks* pAllocator)> DestroyEvent{};
-    inline static std::function<VkResult(VkDevice device, VkEvent event)> GetEventStatus{};
-    inline static std::function<VkResult(VkDevice device, VkEvent event)> SetEvent{};
-    inline static std::function<VkResult(VkDevice device, VkEvent event)> ResetEvent{};
     inline static std::function<VkResult(VkDevice device, const VkQueryPoolCreateInfo* pCreateInfo,
                                          const VkAllocationCallbacks* pAllocator, VkQueryPool* pQueryPool)>
         CreateQueryPool{};
@@ -166,11 +159,6 @@ class vkmock {
                                          const VkAllocationCallbacks* pAllocator, VkBuffer* pBuffer)>
         CreateBuffer{};
     inline static std::function<void(VkDevice device, VkBuffer buffer, const VkAllocationCallbacks* pAllocator)> DestroyBuffer{};
-    inline static std::function<VkResult(VkDevice device, const VkBufferViewCreateInfo* pCreateInfo,
-                                         const VkAllocationCallbacks* pAllocator, VkBufferView* pView)>
-        CreateBufferView{};
-    inline static std::function<void(VkDevice device, VkBufferView bufferView, const VkAllocationCallbacks* pAllocator)>
-        DestroyBufferView{};
     inline static std::function<VkResult(VkDevice device, const VkImageCreateInfo* pCreateInfo,
                                          const VkAllocationCallbacks* pAllocator, VkImage* pImage)>
         CreateImage{};
@@ -183,6 +171,76 @@ class vkmock {
         CreateImageView{};
     inline static std::function<void(VkDevice device, VkImageView imageView, const VkAllocationCallbacks* pAllocator)>
         DestroyImageView{};
+    inline static std::function<VkResult(VkDevice device, const VkCommandPoolCreateInfo* pCreateInfo,
+                                         const VkAllocationCallbacks* pAllocator, VkCommandPool* pCommandPool)>
+        CreateCommandPool{};
+    inline static std::function<void(VkDevice device, VkCommandPool commandPool, const VkAllocationCallbacks* pAllocator)>
+        DestroyCommandPool{};
+    inline static std::function<VkResult(VkDevice device, VkCommandPool commandPool, VkCommandPoolResetFlags flags)>
+        ResetCommandPool{};
+    inline static std::function<VkResult(VkDevice device, const VkCommandBufferAllocateInfo* pAllocateInfo,
+                                         VkCommandBuffer* pCommandBuffers)>
+        AllocateCommandBuffers{};
+    inline static std::function<void(VkDevice device, VkCommandPool commandPool, uint32_t commandBufferCount,
+                                     const VkCommandBuffer* pCommandBuffers)>
+        FreeCommandBuffers{};
+    inline static std::function<VkResult(VkCommandBuffer commandBuffer, const VkCommandBufferBeginInfo* pBeginInfo)>
+        BeginCommandBuffer{};
+    inline static std::function<VkResult(VkCommandBuffer commandBuffer)> EndCommandBuffer{};
+    inline static std::function<VkResult(VkCommandBuffer commandBuffer, VkCommandBufferResetFlags flags)> ResetCommandBuffer{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, VkBuffer srcBuffer, VkBuffer dstBuffer, uint32_t regionCount,
+                                     const VkBufferCopy* pRegions)>
+        CmdCopyBuffer{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, VkImage srcImage, VkImageLayout srcImageLayout,
+                                     VkImage dstImage, VkImageLayout dstImageLayout, uint32_t regionCount,
+                                     const VkImageCopy* pRegions)>
+        CmdCopyImage{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, VkBuffer srcBuffer, VkImage dstImage,
+                                     VkImageLayout dstImageLayout, uint32_t regionCount, const VkBufferImageCopy* pRegions)>
+        CmdCopyBufferToImage{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, VkImage srcImage, VkImageLayout srcImageLayout,
+                                     VkBuffer dstBuffer, uint32_t regionCount, const VkBufferImageCopy* pRegions)>
+        CmdCopyImageToBuffer{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, VkBuffer dstBuffer, VkDeviceSize dstOffset,
+                                     VkDeviceSize dataSize, const void* pData)>
+        CmdUpdateBuffer{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, VkBuffer dstBuffer, VkDeviceSize dstOffset, VkDeviceSize size,
+                                     uint32_t data)>
+        CmdFillBuffer{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, VkPipelineStageFlags srcStageMask,
+                                     VkPipelineStageFlags dstStageMask, VkDependencyFlags dependencyFlags,
+                                     uint32_t memoryBarrierCount, const VkMemoryBarrier* pMemoryBarriers,
+                                     uint32_t bufferMemoryBarrierCount, const VkBufferMemoryBarrier* pBufferMemoryBarriers,
+                                     uint32_t imageMemoryBarrierCount, const VkImageMemoryBarrier* pImageMemoryBarriers)>
+        CmdPipelineBarrier{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, VkQueryPool queryPool, uint32_t query,
+                                     VkQueryControlFlags flags)>
+        CmdBeginQuery{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, VkQueryPool queryPool, uint32_t query)> CmdEndQuery{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, VkQueryPool queryPool, uint32_t firstQuery,
+                                     uint32_t queryCount)>
+        CmdResetQueryPool{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, VkPipelineStageFlagBits pipelineStage, VkQueryPool queryPool,
+                                     uint32_t query)>
+        CmdWriteTimestamp{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, VkQueryPool queryPool, uint32_t firstQuery, uint32_t queryCount,
+                                     VkBuffer dstBuffer, VkDeviceSize dstOffset, VkDeviceSize stride, VkQueryResultFlags flags)>
+        CmdCopyQueryPoolResults{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, uint32_t commandBufferCount,
+                                     const VkCommandBuffer* pCommandBuffers)>
+        CmdExecuteCommands{};
+    inline static std::function<VkResult(VkDevice device, const VkEventCreateInfo* pCreateInfo,
+                                         const VkAllocationCallbacks* pAllocator, VkEvent* pEvent)>
+        CreateEvent{};
+    inline static std::function<void(VkDevice device, VkEvent event, const VkAllocationCallbacks* pAllocator)> DestroyEvent{};
+    inline static std::function<VkResult(VkDevice device, VkEvent event)> GetEventStatus{};
+    inline static std::function<VkResult(VkDevice device, VkEvent event)> SetEvent{};
+    inline static std::function<VkResult(VkDevice device, VkEvent event)> ResetEvent{};
+    inline static std::function<VkResult(VkDevice device, const VkBufferViewCreateInfo* pCreateInfo,
+                                         const VkAllocationCallbacks* pAllocator, VkBufferView* pView)>
+        CreateBufferView{};
+    inline static std::function<void(VkDevice device, VkBufferView bufferView, const VkAllocationCallbacks* pAllocator)>
+        DestroyBufferView{};
     inline static std::function<VkResult(VkDevice device, const VkShaderModuleCreateInfo* pCreateInfo,
                                          const VkAllocationCallbacks* pAllocator, VkShaderModule* pShaderModule)>
         CreateShaderModule{};
@@ -198,10 +256,6 @@ class vkmock {
     inline static std::function<VkResult(VkDevice device, VkPipelineCache dstCache, uint32_t srcCacheCount,
                                          const VkPipelineCache* pSrcCaches)>
         MergePipelineCaches{};
-    inline static std::function<VkResult(VkDevice device, VkPipelineCache pipelineCache, uint32_t createInfoCount,
-                                         const VkGraphicsPipelineCreateInfo* pCreateInfos, const VkAllocationCallbacks* pAllocator,
-                                         VkPipeline* pPipelines)>
-        CreateGraphicsPipelines{};
     inline static std::function<VkResult(VkDevice device, VkPipelineCache pipelineCache, uint32_t createInfoCount,
                                          const VkComputePipelineCreateInfo* pCreateInfos, const VkAllocationCallbacks* pAllocator,
                                          VkPipeline* pPipelines)>
@@ -239,6 +293,34 @@ class vkmock {
     inline static std::function<void(VkDevice device, uint32_t descriptorWriteCount, const VkWriteDescriptorSet* pDescriptorWrites,
                                      uint32_t descriptorCopyCount, const VkCopyDescriptorSet* pDescriptorCopies)>
         UpdateDescriptorSets{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, VkPipelineBindPoint pipelineBindPoint, VkPipeline pipeline)>
+        CmdBindPipeline{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, VkPipelineBindPoint pipelineBindPoint, VkPipelineLayout layout,
+                                     uint32_t firstSet, uint32_t descriptorSetCount, const VkDescriptorSet* pDescriptorSets,
+                                     uint32_t dynamicOffsetCount, const uint32_t* pDynamicOffsets)>
+        CmdBindDescriptorSets{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, VkImage image, VkImageLayout imageLayout,
+                                     const VkClearColorValue* pColor, uint32_t rangeCount, const VkImageSubresourceRange* pRanges)>
+        CmdClearColorImage{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, uint32_t groupCountX, uint32_t groupCountY,
+                                     uint32_t groupCountZ)>
+        CmdDispatch{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, VkBuffer buffer, VkDeviceSize offset)> CmdDispatchIndirect{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, VkEvent event, VkPipelineStageFlags stageMask)> CmdSetEvent{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, VkEvent event, VkPipelineStageFlags stageMask)> CmdResetEvent{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, uint32_t eventCount, const VkEvent* pEvents,
+                                     VkPipelineStageFlags srcStageMask, VkPipelineStageFlags dstStageMask,
+                                     uint32_t memoryBarrierCount, const VkMemoryBarrier* pMemoryBarriers,
+                                     uint32_t bufferMemoryBarrierCount, const VkBufferMemoryBarrier* pBufferMemoryBarriers,
+                                     uint32_t imageMemoryBarrierCount, const VkImageMemoryBarrier* pImageMemoryBarriers)>
+        CmdWaitEvents{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, VkPipelineLayout layout, VkShaderStageFlags stageFlags,
+                                     uint32_t offset, uint32_t size, const void* pValues)>
+        CmdPushConstants{};
+    inline static std::function<VkResult(VkDevice device, VkPipelineCache pipelineCache, uint32_t createInfoCount,
+                                         const VkGraphicsPipelineCreateInfo* pCreateInfos, const VkAllocationCallbacks* pAllocator,
+                                         VkPipeline* pPipelines)>
+        CreateGraphicsPipelines{};
     inline static std::function<VkResult(VkDevice device, const VkFramebufferCreateInfo* pCreateInfo,
                                          const VkAllocationCallbacks* pAllocator, VkFramebuffer* pFramebuffer)>
         CreateFramebuffer{};
@@ -251,25 +333,6 @@ class vkmock {
         DestroyRenderPass{};
     inline static std::function<void(VkDevice device, VkRenderPass renderPass, VkExtent2D* pGranularity)>
         GetRenderAreaGranularity{};
-    inline static std::function<VkResult(VkDevice device, const VkCommandPoolCreateInfo* pCreateInfo,
-                                         const VkAllocationCallbacks* pAllocator, VkCommandPool* pCommandPool)>
-        CreateCommandPool{};
-    inline static std::function<void(VkDevice device, VkCommandPool commandPool, const VkAllocationCallbacks* pAllocator)>
-        DestroyCommandPool{};
-    inline static std::function<VkResult(VkDevice device, VkCommandPool commandPool, VkCommandPoolResetFlags flags)>
-        ResetCommandPool{};
-    inline static std::function<VkResult(VkDevice device, const VkCommandBufferAllocateInfo* pAllocateInfo,
-                                         VkCommandBuffer* pCommandBuffers)>
-        AllocateCommandBuffers{};
-    inline static std::function<void(VkDevice device, VkCommandPool commandPool, uint32_t commandBufferCount,
-                                     const VkCommandBuffer* pCommandBuffers)>
-        FreeCommandBuffers{};
-    inline static std::function<VkResult(VkCommandBuffer commandBuffer, const VkCommandBufferBeginInfo* pBeginInfo)>
-        BeginCommandBuffer{};
-    inline static std::function<VkResult(VkCommandBuffer commandBuffer)> EndCommandBuffer{};
-    inline static std::function<VkResult(VkCommandBuffer commandBuffer, VkCommandBufferResetFlags flags)> ResetCommandBuffer{};
-    inline static std::function<void(VkCommandBuffer commandBuffer, VkPipelineBindPoint pipelineBindPoint, VkPipeline pipeline)>
-        CmdBindPipeline{};
     inline static std::function<void(VkCommandBuffer commandBuffer, uint32_t firstViewport, uint32_t viewportCount,
                                      const VkViewport* pViewports)>
         CmdSetViewport{};
@@ -289,10 +352,6 @@ class vkmock {
         CmdSetStencilWriteMask{};
     inline static std::function<void(VkCommandBuffer commandBuffer, VkStencilFaceFlags faceMask, uint32_t reference)>
         CmdSetStencilReference{};
-    inline static std::function<void(VkCommandBuffer commandBuffer, VkPipelineBindPoint pipelineBindPoint, VkPipelineLayout layout,
-                                     uint32_t firstSet, uint32_t descriptorSetCount, const VkDescriptorSet* pDescriptorSets,
-                                     uint32_t dynamicOffsetCount, const uint32_t* pDynamicOffsets)>
-        CmdBindDescriptorSets{};
     inline static std::function<void(VkCommandBuffer commandBuffer, VkBuffer buffer, VkDeviceSize offset, VkIndexType indexType)>
         CmdBindIndexBuffer{};
     inline static std::function<void(VkCommandBuffer commandBuffer, uint32_t firstBinding, uint32_t bindingCount,
@@ -310,36 +369,10 @@ class vkmock {
     inline static std::function<void(VkCommandBuffer commandBuffer, VkBuffer buffer, VkDeviceSize offset, uint32_t drawCount,
                                      uint32_t stride)>
         CmdDrawIndexedIndirect{};
-    inline static std::function<void(VkCommandBuffer commandBuffer, uint32_t groupCountX, uint32_t groupCountY,
-                                     uint32_t groupCountZ)>
-        CmdDispatch{};
-    inline static std::function<void(VkCommandBuffer commandBuffer, VkBuffer buffer, VkDeviceSize offset)> CmdDispatchIndirect{};
-    inline static std::function<void(VkCommandBuffer commandBuffer, VkBuffer srcBuffer, VkBuffer dstBuffer, uint32_t regionCount,
-                                     const VkBufferCopy* pRegions)>
-        CmdCopyBuffer{};
-    inline static std::function<void(VkCommandBuffer commandBuffer, VkImage srcImage, VkImageLayout srcImageLayout,
-                                     VkImage dstImage, VkImageLayout dstImageLayout, uint32_t regionCount,
-                                     const VkImageCopy* pRegions)>
-        CmdCopyImage{};
     inline static std::function<void(VkCommandBuffer commandBuffer, VkImage srcImage, VkImageLayout srcImageLayout,
                                      VkImage dstImage, VkImageLayout dstImageLayout, uint32_t regionCount,
                                      const VkImageBlit* pRegions, VkFilter filter)>
         CmdBlitImage{};
-    inline static std::function<void(VkCommandBuffer commandBuffer, VkBuffer srcBuffer, VkImage dstImage,
-                                     VkImageLayout dstImageLayout, uint32_t regionCount, const VkBufferImageCopy* pRegions)>
-        CmdCopyBufferToImage{};
-    inline static std::function<void(VkCommandBuffer commandBuffer, VkImage srcImage, VkImageLayout srcImageLayout,
-                                     VkBuffer dstBuffer, uint32_t regionCount, const VkBufferImageCopy* pRegions)>
-        CmdCopyImageToBuffer{};
-    inline static std::function<void(VkCommandBuffer commandBuffer, VkBuffer dstBuffer, VkDeviceSize dstOffset,
-                                     VkDeviceSize dataSize, const void* pData)>
-        CmdUpdateBuffer{};
-    inline static std::function<void(VkCommandBuffer commandBuffer, VkBuffer dstBuffer, VkDeviceSize dstOffset, VkDeviceSize size,
-                                     uint32_t data)>
-        CmdFillBuffer{};
-    inline static std::function<void(VkCommandBuffer commandBuffer, VkImage image, VkImageLayout imageLayout,
-                                     const VkClearColorValue* pColor, uint32_t rangeCount, const VkImageSubresourceRange* pRanges)>
-        CmdClearColorImage{};
     inline static std::function<void(VkCommandBuffer commandBuffer, VkImage image, VkImageLayout imageLayout,
                                      const VkClearDepthStencilValue* pDepthStencil, uint32_t rangeCount,
                                      const VkImageSubresourceRange* pRanges)>
@@ -351,44 +384,11 @@ class vkmock {
                                      VkImage dstImage, VkImageLayout dstImageLayout, uint32_t regionCount,
                                      const VkImageResolve* pRegions)>
         CmdResolveImage{};
-    inline static std::function<void(VkCommandBuffer commandBuffer, VkEvent event, VkPipelineStageFlags stageMask)> CmdSetEvent{};
-    inline static std::function<void(VkCommandBuffer commandBuffer, VkEvent event, VkPipelineStageFlags stageMask)> CmdResetEvent{};
-    inline static std::function<void(VkCommandBuffer commandBuffer, uint32_t eventCount, const VkEvent* pEvents,
-                                     VkPipelineStageFlags srcStageMask, VkPipelineStageFlags dstStageMask,
-                                     uint32_t memoryBarrierCount, const VkMemoryBarrier* pMemoryBarriers,
-                                     uint32_t bufferMemoryBarrierCount, const VkBufferMemoryBarrier* pBufferMemoryBarriers,
-                                     uint32_t imageMemoryBarrierCount, const VkImageMemoryBarrier* pImageMemoryBarriers)>
-        CmdWaitEvents{};
-    inline static std::function<void(VkCommandBuffer commandBuffer, VkPipelineStageFlags srcStageMask,
-                                     VkPipelineStageFlags dstStageMask, VkDependencyFlags dependencyFlags,
-                                     uint32_t memoryBarrierCount, const VkMemoryBarrier* pMemoryBarriers,
-                                     uint32_t bufferMemoryBarrierCount, const VkBufferMemoryBarrier* pBufferMemoryBarriers,
-                                     uint32_t imageMemoryBarrierCount, const VkImageMemoryBarrier* pImageMemoryBarriers)>
-        CmdPipelineBarrier{};
-    inline static std::function<void(VkCommandBuffer commandBuffer, VkQueryPool queryPool, uint32_t query,
-                                     VkQueryControlFlags flags)>
-        CmdBeginQuery{};
-    inline static std::function<void(VkCommandBuffer commandBuffer, VkQueryPool queryPool, uint32_t query)> CmdEndQuery{};
-    inline static std::function<void(VkCommandBuffer commandBuffer, VkQueryPool queryPool, uint32_t firstQuery,
-                                     uint32_t queryCount)>
-        CmdResetQueryPool{};
-    inline static std::function<void(VkCommandBuffer commandBuffer, VkPipelineStageFlagBits pipelineStage, VkQueryPool queryPool,
-                                     uint32_t query)>
-        CmdWriteTimestamp{};
-    inline static std::function<void(VkCommandBuffer commandBuffer, VkQueryPool queryPool, uint32_t firstQuery, uint32_t queryCount,
-                                     VkBuffer dstBuffer, VkDeviceSize dstOffset, VkDeviceSize stride, VkQueryResultFlags flags)>
-        CmdCopyQueryPoolResults{};
-    inline static std::function<void(VkCommandBuffer commandBuffer, VkPipelineLayout layout, VkShaderStageFlags stageFlags,
-                                     uint32_t offset, uint32_t size, const void* pValues)>
-        CmdPushConstants{};
     inline static std::function<void(VkCommandBuffer commandBuffer, const VkRenderPassBeginInfo* pRenderPassBegin,
                                      VkSubpassContents contents)>
         CmdBeginRenderPass{};
     inline static std::function<void(VkCommandBuffer commandBuffer, VkSubpassContents contents)> CmdNextSubpass{};
     inline static std::function<void(VkCommandBuffer commandBuffer)> CmdEndRenderPass{};
-    inline static std::function<void(VkCommandBuffer commandBuffer, uint32_t commandBufferCount,
-                                     const VkCommandBuffer* pCommandBuffers)>
-        CmdExecuteCommands{};
     inline static std::function<VkResult(uint32_t* pApiVersion)> EnumerateInstanceVersion{};
     inline static std::function<VkResult(VkDevice device, uint32_t bindInfoCount, const VkBindBufferMemoryInfo* pBindInfos)>
         BindBufferMemory2{};
@@ -398,9 +398,6 @@ class vkmock {
                                      VkPeerMemoryFeatureFlags* pPeerMemoryFeatures)>
         GetDeviceGroupPeerMemoryFeatures{};
     inline static std::function<void(VkCommandBuffer commandBuffer, uint32_t deviceMask)> CmdSetDeviceMask{};
-    inline static std::function<void(VkCommandBuffer commandBuffer, uint32_t baseGroupX, uint32_t baseGroupY, uint32_t baseGroupZ,
-                                     uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ)>
-        CmdDispatchBase{};
     inline static std::function<VkResult(VkInstance instance, uint32_t* pPhysicalDeviceGroupCount,
                                          VkPhysicalDeviceGroupProperties* pPhysicalDeviceGroupProperties)>
         EnumeratePhysicalDeviceGroups{};
@@ -433,22 +430,6 @@ class vkmock {
         GetPhysicalDeviceSparseImageFormatProperties2{};
     inline static std::function<void(VkDevice device, VkCommandPool commandPool, VkCommandPoolTrimFlags flags)> TrimCommandPool{};
     inline static std::function<void(VkDevice device, const VkDeviceQueueInfo2* pQueueInfo, VkQueue* pQueue)> GetDeviceQueue2{};
-    inline static std::function<VkResult(VkDevice device, const VkSamplerYcbcrConversionCreateInfo* pCreateInfo,
-                                         const VkAllocationCallbacks* pAllocator, VkSamplerYcbcrConversion* pYcbcrConversion)>
-        CreateSamplerYcbcrConversion{};
-    inline static std::function<void(VkDevice device, VkSamplerYcbcrConversion ycbcrConversion,
-                                     const VkAllocationCallbacks* pAllocator)>
-        DestroySamplerYcbcrConversion{};
-    inline static std::function<VkResult(VkDevice device, const VkDescriptorUpdateTemplateCreateInfo* pCreateInfo,
-                                         const VkAllocationCallbacks* pAllocator,
-                                         VkDescriptorUpdateTemplate* pDescriptorUpdateTemplate)>
-        CreateDescriptorUpdateTemplate{};
-    inline static std::function<void(VkDevice device, VkDescriptorUpdateTemplate descriptorUpdateTemplate,
-                                     const VkAllocationCallbacks* pAllocator)>
-        DestroyDescriptorUpdateTemplate{};
-    inline static std::function<void(VkDevice device, VkDescriptorSet descriptorSet,
-                                     VkDescriptorUpdateTemplate descriptorUpdateTemplate, const void* pData)>
-        UpdateDescriptorSetWithTemplate{};
     inline static std::function<void(VkPhysicalDevice physicalDevice, const VkPhysicalDeviceExternalBufferInfo* pExternalBufferInfo,
                                      VkExternalBufferProperties* pExternalBufferProperties)>
         GetPhysicalDeviceExternalBufferProperties{};
@@ -459,9 +440,37 @@ class vkmock {
                                      const VkPhysicalDeviceExternalSemaphoreInfo* pExternalSemaphoreInfo,
                                      VkExternalSemaphoreProperties* pExternalSemaphoreProperties)>
         GetPhysicalDeviceExternalSemaphoreProperties{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, uint32_t baseGroupX, uint32_t baseGroupY, uint32_t baseGroupZ,
+                                     uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ)>
+        CmdDispatchBase{};
+    inline static std::function<VkResult(VkDevice device, const VkDescriptorUpdateTemplateCreateInfo* pCreateInfo,
+                                         const VkAllocationCallbacks* pAllocator,
+                                         VkDescriptorUpdateTemplate* pDescriptorUpdateTemplate)>
+        CreateDescriptorUpdateTemplate{};
+    inline static std::function<void(VkDevice device, VkDescriptorUpdateTemplate descriptorUpdateTemplate,
+                                     const VkAllocationCallbacks* pAllocator)>
+        DestroyDescriptorUpdateTemplate{};
+    inline static std::function<void(VkDevice device, VkDescriptorSet descriptorSet,
+                                     VkDescriptorUpdateTemplate descriptorUpdateTemplate, const void* pData)>
+        UpdateDescriptorSetWithTemplate{};
     inline static std::function<void(VkDevice device, const VkDescriptorSetLayoutCreateInfo* pCreateInfo,
                                      VkDescriptorSetLayoutSupport* pSupport)>
         GetDescriptorSetLayoutSupport{};
+    inline static std::function<VkResult(VkDevice device, const VkSamplerYcbcrConversionCreateInfo* pCreateInfo,
+                                         const VkAllocationCallbacks* pAllocator, VkSamplerYcbcrConversion* pYcbcrConversion)>
+        CreateSamplerYcbcrConversion{};
+    inline static std::function<void(VkDevice device, VkSamplerYcbcrConversion ycbcrConversion,
+                                     const VkAllocationCallbacks* pAllocator)>
+        DestroySamplerYcbcrConversion{};
+    inline static std::function<void(VkDevice device, VkQueryPool queryPool, uint32_t firstQuery, uint32_t queryCount)>
+        ResetQueryPool{};
+    inline static std::function<VkResult(VkDevice device, VkSemaphore semaphore, uint64_t* pValue)> GetSemaphoreCounterValue{};
+    inline static std::function<VkResult(VkDevice device, const VkSemaphoreWaitInfo* pWaitInfo, uint64_t timeout)> WaitSemaphores{};
+    inline static std::function<VkResult(VkDevice device, const VkSemaphoreSignalInfo* pSignalInfo)> SignalSemaphore{};
+    inline static std::function<VkDeviceAddress(VkDevice device, const VkBufferDeviceAddressInfo* pInfo)> GetBufferDeviceAddress{};
+    inline static std::function<uint64_t(VkDevice device, const VkBufferDeviceAddressInfo* pInfo)> GetBufferOpaqueCaptureAddress{};
+    inline static std::function<uint64_t(VkDevice device, const VkDeviceMemoryOpaqueCaptureAddressInfo* pInfo)>
+        GetDeviceMemoryOpaqueCaptureAddress{};
     inline static std::function<void(VkCommandBuffer commandBuffer, VkBuffer buffer, VkDeviceSize offset, VkBuffer countBuffer,
                                      VkDeviceSize countBufferOffset, uint32_t maxDrawCount, uint32_t stride)>
         CmdDrawIndirectCount{};
@@ -478,15 +487,6 @@ class vkmock {
                                      const VkSubpassEndInfo* pSubpassEndInfo)>
         CmdNextSubpass2{};
     inline static std::function<void(VkCommandBuffer commandBuffer, const VkSubpassEndInfo* pSubpassEndInfo)> CmdEndRenderPass2{};
-    inline static std::function<void(VkDevice device, VkQueryPool queryPool, uint32_t firstQuery, uint32_t queryCount)>
-        ResetQueryPool{};
-    inline static std::function<VkResult(VkDevice device, VkSemaphore semaphore, uint64_t* pValue)> GetSemaphoreCounterValue{};
-    inline static std::function<VkResult(VkDevice device, const VkSemaphoreWaitInfo* pWaitInfo, uint64_t timeout)> WaitSemaphores{};
-    inline static std::function<VkResult(VkDevice device, const VkSemaphoreSignalInfo* pSignalInfo)> SignalSemaphore{};
-    inline static std::function<VkDeviceAddress(VkDevice device, const VkBufferDeviceAddressInfo* pInfo)> GetBufferDeviceAddress{};
-    inline static std::function<uint64_t(VkDevice device, const VkBufferDeviceAddressInfo* pInfo)> GetBufferOpaqueCaptureAddress{};
-    inline static std::function<uint64_t(VkDevice device, const VkDeviceMemoryOpaqueCaptureAddressInfo* pInfo)>
-        GetDeviceMemoryOpaqueCaptureAddress{};
     inline static std::function<void(VkInstance instance, VkSurfaceKHR surface, const VkAllocationCallbacks* pAllocator)>
         DestroySurfaceKHR{};
     inline static std::function<VkResult(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, VkSurfaceKHR surface,
@@ -888,6 +888,8 @@ class vkmock {
     inline static std::function<VkResult(VkDevice device, const VkReleaseCapturedPipelineDataInfoKHR* pInfo,
                                          const VkAllocationCallbacks* pAllocator)>
         ReleaseCapturedPipelineDataKHR{};
+    inline static std::function<VkResult(VkDevice device, const VkReleaseSwapchainImagesInfoKHR* pReleaseInfo)>
+        ReleaseSwapchainImagesKHR{};
     inline static std::function<VkResult(VkPhysicalDevice physicalDevice, uint32_t* pPropertyCount,
                                          VkCooperativeMatrixPropertiesKHR* pProperties)>
         GetPhysicalDeviceCooperativeMatrixPropertiesKHR{};
@@ -915,6 +917,13 @@ class vkmock {
     inline static std::function<void(VkCommandBuffer commandBuffer, const VkBindDescriptorBufferEmbeddedSamplersInfoEXT*
                                                                         pBindDescriptorBufferEmbeddedSamplersInfo)>
         CmdBindDescriptorBufferEmbeddedSamplers2EXT{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, const VkCopyMemoryIndirectInfoKHR* pCopyMemoryIndirectInfo)>
+        CmdCopyMemoryIndirectKHR{};
+    inline static std::function<void(VkCommandBuffer commandBuffer,
+                                     const VkCopyMemoryToImageIndirectInfoKHR* pCopyMemoryToImageIndirectInfo)>
+        CmdCopyMemoryToImageIndirectKHR{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, const VkRenderingEndInfoKHR* pRenderingEndInfo)>
+        CmdEndRendering2KHR{};
     inline static std::function<VkResult(VkInstance instance, const VkDebugReportCallbackCreateInfoEXT* pCreateInfo,
                                          const VkAllocationCallbacks* pAllocator, VkDebugReportCallbackEXT* pCallback)>
         CreateDebugReportCallbackEXT{};
@@ -1301,7 +1310,7 @@ class vkmock {
     inline static std::function<void(VkDevice device, VkImage image, const VkImageSubresource2* pSubresource,
                                      VkSubresourceLayout2* pLayout)>
         GetImageSubresourceLayout2EXT{};
-    inline static std::function<VkResult(VkDevice device, const VkReleaseSwapchainImagesInfoEXT* pReleaseInfo)>
+    inline static std::function<VkResult(VkDevice device, const VkReleaseSwapchainImagesInfoKHR* pReleaseInfo)>
         ReleaseSwapchainImagesEXT{};
     inline static std::function<void(VkDevice device, const VkGeneratedCommandsMemoryRequirementsInfoNV* pInfo,
                                      VkMemoryRequirements2* pMemoryRequirements)>
@@ -1734,6 +1743,12 @@ class vkmock {
 #endif  // VK_USE_PLATFORM_SCREEN_QNX
     inline static std::function<void(VkCommandBuffer commandBuffer, const VkTileMemoryBindInfoQCOM* pTileMemoryBindInfo)>
         CmdBindTileMemoryQCOM{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, const VkDecompressMemoryInfoEXT* pDecompressMemoryInfoEXT)>
+        CmdDecompressMemoryEXT{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, VkMemoryDecompressionMethodFlagsEXT decompressionMethod,
+                                     VkDeviceAddress indirectCommandsAddress, VkDeviceAddress indirectCommandsCountAddress,
+                                     uint32_t maxDecompressionCount, uint32_t stride)>
+        CmdDecompressMemoryIndirectCountEXT{};
     inline static std::function<VkResult(VkDevice device, const VkExternalComputeQueueCreateInfoNV* pCreateInfo,
                                          const VkAllocationCallbacks* pAllocator, VkExternalComputeQueueNV* pExternalQueue)>
         CreateExternalComputeQueueNV{};
@@ -1789,6 +1804,14 @@ class vkmock {
     inline static std::function<VkResult(VkInstance instance, const VkSurfaceCreateInfoOHOS* pCreateInfo,
                                          const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface)>
         CreateSurfaceOHOS{};
+    inline static std::function<VkResult(VkDevice device, VkFormat format, VkImageUsageFlags imageUsage, uint64_t* grallocUsage)>
+        GetSwapchainGrallocUsageOHOS{};
+    inline static std::function<VkResult(VkDevice device, VkImage image, int32_t nativeFenceFd, VkSemaphore semaphore,
+                                         VkFence fence)>
+        AcquireImageOHOS{};
+    inline static std::function<VkResult(VkQueue queue, uint32_t waitSemaphoreCount, const VkSemaphore* pWaitSemaphores,
+                                         VkImage image, int32_t* pNativeFenceFd)>
+        QueueSignalReleaseImageOHOS{};
 #endif  // VK_USE_PLATFORM_OHOS
     inline static std::function<VkResult(VkPhysicalDevice physicalDevice, uint32_t* pPropertyCount,
                                          VkCooperativeMatrixFlexibleDimensionsPropertiesNV* pProperties)>
@@ -1800,7 +1823,7 @@ class vkmock {
                                          VkMemoryMetalHandlePropertiesEXT* pMemoryMetalHandleProperties)>
         GetMemoryMetalHandlePropertiesEXT{};
 #endif  // VK_USE_PLATFORM_METAL_EXT
-    inline static std::function<void(VkCommandBuffer commandBuffer, const VkRenderingEndInfoEXT* pRenderingEndInfo)>
+    inline static std::function<void(VkCommandBuffer commandBuffer, const VkRenderingEndInfoKHR* pRenderingEndInfo)>
         CmdEndRendering2EXT{};
     inline static std::function<VkResult(VkDevice device, const VkAccelerationStructureCreateInfoKHR* pCreateInfo,
                                          const VkAllocationCallbacks* pAllocator,

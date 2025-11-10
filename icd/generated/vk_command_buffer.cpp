@@ -21,8 +21,89 @@ VkResult CommandBuffer::EndCommandBuffer() { return dispatch_table_.EndCommandBu
 VkResult CommandBuffer::ResetCommandBuffer(VkCommandBufferResetFlags flags) {
     return dispatch_table_.ResetCommandBuffer(handle_, flags);
 }
+void CommandBuffer::CmdCopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, uint32_t regionCount, const VkBufferCopy* pRegions) {
+    dispatch_table_.CmdCopyBuffer(handle_, srcBuffer, dstBuffer, regionCount, pRegions);
+}
+void CommandBuffer::CmdCopyImage(VkImage srcImage, VkImageLayout srcImageLayout, VkImage dstImage, VkImageLayout dstImageLayout,
+                                 uint32_t regionCount, const VkImageCopy* pRegions) {
+    dispatch_table_.CmdCopyImage(handle_, srcImage, srcImageLayout, dstImage, dstImageLayout, regionCount, pRegions);
+}
+void CommandBuffer::CmdCopyBufferToImage(VkBuffer srcBuffer, VkImage dstImage, VkImageLayout dstImageLayout, uint32_t regionCount,
+                                         const VkBufferImageCopy* pRegions) {
+    dispatch_table_.CmdCopyBufferToImage(handle_, srcBuffer, dstImage, dstImageLayout, regionCount, pRegions);
+}
+void CommandBuffer::CmdCopyImageToBuffer(VkImage srcImage, VkImageLayout srcImageLayout, VkBuffer dstBuffer, uint32_t regionCount,
+                                         const VkBufferImageCopy* pRegions) {
+    dispatch_table_.CmdCopyImageToBuffer(handle_, srcImage, srcImageLayout, dstBuffer, regionCount, pRegions);
+}
+void CommandBuffer::CmdUpdateBuffer(VkBuffer dstBuffer, VkDeviceSize dstOffset, VkDeviceSize dataSize, const void* pData) {
+    dispatch_table_.CmdUpdateBuffer(handle_, dstBuffer, dstOffset, dataSize, pData);
+}
+void CommandBuffer::CmdFillBuffer(VkBuffer dstBuffer, VkDeviceSize dstOffset, VkDeviceSize size, uint32_t data) {
+    dispatch_table_.CmdFillBuffer(handle_, dstBuffer, dstOffset, size, data);
+}
+void CommandBuffer::CmdPipelineBarrier(VkPipelineStageFlags srcStageMask, VkPipelineStageFlags dstStageMask,
+                                       VkDependencyFlags dependencyFlags, uint32_t memoryBarrierCount,
+                                       const VkMemoryBarrier* pMemoryBarriers, uint32_t bufferMemoryBarrierCount,
+                                       const VkBufferMemoryBarrier* pBufferMemoryBarriers, uint32_t imageMemoryBarrierCount,
+                                       const VkImageMemoryBarrier* pImageMemoryBarriers) {
+    dispatch_table_.CmdPipelineBarrier(handle_, srcStageMask, dstStageMask, dependencyFlags, memoryBarrierCount, pMemoryBarriers,
+                                       bufferMemoryBarrierCount, pBufferMemoryBarriers, imageMemoryBarrierCount,
+                                       pImageMemoryBarriers);
+}
+void CommandBuffer::CmdBeginQuery(VkQueryPool queryPool, uint32_t query, VkQueryControlFlags flags) {
+    dispatch_table_.CmdBeginQuery(handle_, queryPool, query, flags);
+}
+void CommandBuffer::CmdEndQuery(VkQueryPool queryPool, uint32_t query) { dispatch_table_.CmdEndQuery(handle_, queryPool, query); }
+void CommandBuffer::CmdResetQueryPool(VkQueryPool queryPool, uint32_t firstQuery, uint32_t queryCount) {
+    dispatch_table_.CmdResetQueryPool(handle_, queryPool, firstQuery, queryCount);
+}
+void CommandBuffer::CmdWriteTimestamp(VkPipelineStageFlagBits pipelineStage, VkQueryPool queryPool, uint32_t query) {
+    dispatch_table_.CmdWriteTimestamp(handle_, pipelineStage, queryPool, query);
+}
+void CommandBuffer::CmdCopyQueryPoolResults(VkQueryPool queryPool, uint32_t firstQuery, uint32_t queryCount, VkBuffer dstBuffer,
+                                            VkDeviceSize dstOffset, VkDeviceSize stride, VkQueryResultFlags flags) {
+    dispatch_table_.CmdCopyQueryPoolResults(handle_, queryPool, firstQuery, queryCount, dstBuffer, dstOffset, stride, flags);
+}
+void CommandBuffer::CmdExecuteCommands(uint32_t commandBufferCount, const VkCommandBuffer* pCommandBuffers) {
+    dispatch_table_.CmdExecuteCommands(handle_, commandBufferCount, pCommandBuffers);
+}
 void CommandBuffer::CmdBindPipeline(VkPipelineBindPoint pipelineBindPoint, VkPipeline pipeline) {
     dispatch_table_.CmdBindPipeline(handle_, pipelineBindPoint, pipeline);
+}
+void CommandBuffer::CmdBindDescriptorSets(VkPipelineBindPoint pipelineBindPoint, VkPipelineLayout layout, uint32_t firstSet,
+                                          uint32_t descriptorSetCount, const VkDescriptorSet* pDescriptorSets,
+                                          uint32_t dynamicOffsetCount, const uint32_t* pDynamicOffsets) {
+    dispatch_table_.CmdBindDescriptorSets(handle_, pipelineBindPoint, layout, firstSet, descriptorSetCount, pDescriptorSets,
+                                          dynamicOffsetCount, pDynamicOffsets);
+}
+void CommandBuffer::CmdClearColorImage(VkImage image, VkImageLayout imageLayout, const VkClearColorValue* pColor,
+                                       uint32_t rangeCount, const VkImageSubresourceRange* pRanges) {
+    dispatch_table_.CmdClearColorImage(handle_, image, imageLayout, pColor, rangeCount, pRanges);
+}
+void CommandBuffer::CmdDispatch(uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ) {
+    dispatch_table_.CmdDispatch(handle_, groupCountX, groupCountY, groupCountZ);
+}
+void CommandBuffer::CmdDispatchIndirect(VkBuffer buffer, VkDeviceSize offset) {
+    dispatch_table_.CmdDispatchIndirect(handle_, buffer, offset);
+}
+void CommandBuffer::CmdSetEvent(VkEvent event, VkPipelineStageFlags stageMask) {
+    dispatch_table_.CmdSetEvent(handle_, event, stageMask);
+}
+void CommandBuffer::CmdResetEvent(VkEvent event, VkPipelineStageFlags stageMask) {
+    dispatch_table_.CmdResetEvent(handle_, event, stageMask);
+}
+void CommandBuffer::CmdWaitEvents(uint32_t eventCount, const VkEvent* pEvents, VkPipelineStageFlags srcStageMask,
+                                  VkPipelineStageFlags dstStageMask, uint32_t memoryBarrierCount,
+                                  const VkMemoryBarrier* pMemoryBarriers, uint32_t bufferMemoryBarrierCount,
+                                  const VkBufferMemoryBarrier* pBufferMemoryBarriers, uint32_t imageMemoryBarrierCount,
+                                  const VkImageMemoryBarrier* pImageMemoryBarriers) {
+    dispatch_table_.CmdWaitEvents(handle_, eventCount, pEvents, srcStageMask, dstStageMask, memoryBarrierCount, pMemoryBarriers,
+                                  bufferMemoryBarrierCount, pBufferMemoryBarriers, imageMemoryBarrierCount, pImageMemoryBarriers);
+}
+void CommandBuffer::CmdPushConstants(VkPipelineLayout layout, VkShaderStageFlags stageFlags, uint32_t offset, uint32_t size,
+                                     const void* pValues) {
+    dispatch_table_.CmdPushConstants(handle_, layout, stageFlags, offset, size, pValues);
 }
 void CommandBuffer::CmdSetViewport(uint32_t firstViewport, uint32_t viewportCount, const VkViewport* pViewports) {
     dispatch_table_.CmdSetViewport(handle_, firstViewport, viewportCount, pViewports);
@@ -49,12 +130,6 @@ void CommandBuffer::CmdSetStencilWriteMask(VkStencilFaceFlags faceMask, uint32_t
 void CommandBuffer::CmdSetStencilReference(VkStencilFaceFlags faceMask, uint32_t reference) {
     dispatch_table_.CmdSetStencilReference(handle_, faceMask, reference);
 }
-void CommandBuffer::CmdBindDescriptorSets(VkPipelineBindPoint pipelineBindPoint, VkPipelineLayout layout, uint32_t firstSet,
-                                          uint32_t descriptorSetCount, const VkDescriptorSet* pDescriptorSets,
-                                          uint32_t dynamicOffsetCount, const uint32_t* pDynamicOffsets) {
-    dispatch_table_.CmdBindDescriptorSets(handle_, pipelineBindPoint, layout, firstSet, descriptorSetCount, pDescriptorSets,
-                                          dynamicOffsetCount, pDynamicOffsets);
-}
 void CommandBuffer::CmdBindIndexBuffer(VkBuffer buffer, VkDeviceSize offset, VkIndexType indexType) {
     dispatch_table_.CmdBindIndexBuffer(handle_, buffer, offset, indexType);
 }
@@ -75,40 +150,9 @@ void CommandBuffer::CmdDrawIndirect(VkBuffer buffer, VkDeviceSize offset, uint32
 void CommandBuffer::CmdDrawIndexedIndirect(VkBuffer buffer, VkDeviceSize offset, uint32_t drawCount, uint32_t stride) {
     dispatch_table_.CmdDrawIndexedIndirect(handle_, buffer, offset, drawCount, stride);
 }
-void CommandBuffer::CmdDispatch(uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ) {
-    dispatch_table_.CmdDispatch(handle_, groupCountX, groupCountY, groupCountZ);
-}
-void CommandBuffer::CmdDispatchIndirect(VkBuffer buffer, VkDeviceSize offset) {
-    dispatch_table_.CmdDispatchIndirect(handle_, buffer, offset);
-}
-void CommandBuffer::CmdCopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, uint32_t regionCount, const VkBufferCopy* pRegions) {
-    dispatch_table_.CmdCopyBuffer(handle_, srcBuffer, dstBuffer, regionCount, pRegions);
-}
-void CommandBuffer::CmdCopyImage(VkImage srcImage, VkImageLayout srcImageLayout, VkImage dstImage, VkImageLayout dstImageLayout,
-                                 uint32_t regionCount, const VkImageCopy* pRegions) {
-    dispatch_table_.CmdCopyImage(handle_, srcImage, srcImageLayout, dstImage, dstImageLayout, regionCount, pRegions);
-}
 void CommandBuffer::CmdBlitImage(VkImage srcImage, VkImageLayout srcImageLayout, VkImage dstImage, VkImageLayout dstImageLayout,
                                  uint32_t regionCount, const VkImageBlit* pRegions, VkFilter filter) {
     dispatch_table_.CmdBlitImage(handle_, srcImage, srcImageLayout, dstImage, dstImageLayout, regionCount, pRegions, filter);
-}
-void CommandBuffer::CmdCopyBufferToImage(VkBuffer srcBuffer, VkImage dstImage, VkImageLayout dstImageLayout, uint32_t regionCount,
-                                         const VkBufferImageCopy* pRegions) {
-    dispatch_table_.CmdCopyBufferToImage(handle_, srcBuffer, dstImage, dstImageLayout, regionCount, pRegions);
-}
-void CommandBuffer::CmdCopyImageToBuffer(VkImage srcImage, VkImageLayout srcImageLayout, VkBuffer dstBuffer, uint32_t regionCount,
-                                         const VkBufferImageCopy* pRegions) {
-    dispatch_table_.CmdCopyImageToBuffer(handle_, srcImage, srcImageLayout, dstBuffer, regionCount, pRegions);
-}
-void CommandBuffer::CmdUpdateBuffer(VkBuffer dstBuffer, VkDeviceSize dstOffset, VkDeviceSize dataSize, const void* pData) {
-    dispatch_table_.CmdUpdateBuffer(handle_, dstBuffer, dstOffset, dataSize, pData);
-}
-void CommandBuffer::CmdFillBuffer(VkBuffer dstBuffer, VkDeviceSize dstOffset, VkDeviceSize size, uint32_t data) {
-    dispatch_table_.CmdFillBuffer(handle_, dstBuffer, dstOffset, size, data);
-}
-void CommandBuffer::CmdClearColorImage(VkImage image, VkImageLayout imageLayout, const VkClearColorValue* pColor,
-                                       uint32_t rangeCount, const VkImageSubresourceRange* pRanges) {
-    dispatch_table_.CmdClearColorImage(handle_, image, imageLayout, pColor, rangeCount, pRanges);
 }
 void CommandBuffer::CmdClearDepthStencilImage(VkImage image, VkImageLayout imageLayout,
                                               const VkClearDepthStencilValue* pDepthStencil, uint32_t rangeCount,
@@ -123,55 +167,11 @@ void CommandBuffer::CmdResolveImage(VkImage srcImage, VkImageLayout srcImageLayo
                                     uint32_t regionCount, const VkImageResolve* pRegions) {
     dispatch_table_.CmdResolveImage(handle_, srcImage, srcImageLayout, dstImage, dstImageLayout, regionCount, pRegions);
 }
-void CommandBuffer::CmdSetEvent(VkEvent event, VkPipelineStageFlags stageMask) {
-    dispatch_table_.CmdSetEvent(handle_, event, stageMask);
-}
-void CommandBuffer::CmdResetEvent(VkEvent event, VkPipelineStageFlags stageMask) {
-    dispatch_table_.CmdResetEvent(handle_, event, stageMask);
-}
-void CommandBuffer::CmdWaitEvents(uint32_t eventCount, const VkEvent* pEvents, VkPipelineStageFlags srcStageMask,
-                                  VkPipelineStageFlags dstStageMask, uint32_t memoryBarrierCount,
-                                  const VkMemoryBarrier* pMemoryBarriers, uint32_t bufferMemoryBarrierCount,
-                                  const VkBufferMemoryBarrier* pBufferMemoryBarriers, uint32_t imageMemoryBarrierCount,
-                                  const VkImageMemoryBarrier* pImageMemoryBarriers) {
-    dispatch_table_.CmdWaitEvents(handle_, eventCount, pEvents, srcStageMask, dstStageMask, memoryBarrierCount, pMemoryBarriers,
-                                  bufferMemoryBarrierCount, pBufferMemoryBarriers, imageMemoryBarrierCount, pImageMemoryBarriers);
-}
-void CommandBuffer::CmdPipelineBarrier(VkPipelineStageFlags srcStageMask, VkPipelineStageFlags dstStageMask,
-                                       VkDependencyFlags dependencyFlags, uint32_t memoryBarrierCount,
-                                       const VkMemoryBarrier* pMemoryBarriers, uint32_t bufferMemoryBarrierCount,
-                                       const VkBufferMemoryBarrier* pBufferMemoryBarriers, uint32_t imageMemoryBarrierCount,
-                                       const VkImageMemoryBarrier* pImageMemoryBarriers) {
-    dispatch_table_.CmdPipelineBarrier(handle_, srcStageMask, dstStageMask, dependencyFlags, memoryBarrierCount, pMemoryBarriers,
-                                       bufferMemoryBarrierCount, pBufferMemoryBarriers, imageMemoryBarrierCount,
-                                       pImageMemoryBarriers);
-}
-void CommandBuffer::CmdBeginQuery(VkQueryPool queryPool, uint32_t query, VkQueryControlFlags flags) {
-    dispatch_table_.CmdBeginQuery(handle_, queryPool, query, flags);
-}
-void CommandBuffer::CmdEndQuery(VkQueryPool queryPool, uint32_t query) { dispatch_table_.CmdEndQuery(handle_, queryPool, query); }
-void CommandBuffer::CmdResetQueryPool(VkQueryPool queryPool, uint32_t firstQuery, uint32_t queryCount) {
-    dispatch_table_.CmdResetQueryPool(handle_, queryPool, firstQuery, queryCount);
-}
-void CommandBuffer::CmdWriteTimestamp(VkPipelineStageFlagBits pipelineStage, VkQueryPool queryPool, uint32_t query) {
-    dispatch_table_.CmdWriteTimestamp(handle_, pipelineStage, queryPool, query);
-}
-void CommandBuffer::CmdCopyQueryPoolResults(VkQueryPool queryPool, uint32_t firstQuery, uint32_t queryCount, VkBuffer dstBuffer,
-                                            VkDeviceSize dstOffset, VkDeviceSize stride, VkQueryResultFlags flags) {
-    dispatch_table_.CmdCopyQueryPoolResults(handle_, queryPool, firstQuery, queryCount, dstBuffer, dstOffset, stride, flags);
-}
-void CommandBuffer::CmdPushConstants(VkPipelineLayout layout, VkShaderStageFlags stageFlags, uint32_t offset, uint32_t size,
-                                     const void* pValues) {
-    dispatch_table_.CmdPushConstants(handle_, layout, stageFlags, offset, size, pValues);
-}
 void CommandBuffer::CmdBeginRenderPass(const VkRenderPassBeginInfo* pRenderPassBegin, VkSubpassContents contents) {
     dispatch_table_.CmdBeginRenderPass(handle_, pRenderPassBegin, contents);
 }
 void CommandBuffer::CmdNextSubpass(VkSubpassContents contents) { dispatch_table_.CmdNextSubpass(handle_, contents); }
 void CommandBuffer::CmdEndRenderPass() { dispatch_table_.CmdEndRenderPass(handle_); }
-void CommandBuffer::CmdExecuteCommands(uint32_t commandBufferCount, const VkCommandBuffer* pCommandBuffers) {
-    dispatch_table_.CmdExecuteCommands(handle_, commandBufferCount, pCommandBuffers);
-}
 void CommandBuffer::CmdSetDeviceMask(uint32_t deviceMask) { dispatch_table_.CmdSetDeviceMask(handle_, deviceMask); }
 void CommandBuffer::CmdDispatchBase(uint32_t baseGroupX, uint32_t baseGroupY, uint32_t baseGroupZ, uint32_t groupCountX,
                                     uint32_t groupCountY, uint32_t groupCountZ) {
@@ -316,6 +316,15 @@ void CommandBuffer::CmdSetDescriptorBufferOffsets2EXT(const VkSetDescriptorBuffe
 void CommandBuffer::CmdBindDescriptorBufferEmbeddedSamplers2EXT(
     const VkBindDescriptorBufferEmbeddedSamplersInfoEXT* pBindDescriptorBufferEmbeddedSamplersInfo) {
     dispatch_table_.CmdBindDescriptorBufferEmbeddedSamplers2EXT(handle_, pBindDescriptorBufferEmbeddedSamplersInfo);
+}
+void CommandBuffer::CmdCopyMemoryIndirectKHR(const VkCopyMemoryIndirectInfoKHR* pCopyMemoryIndirectInfo) {
+    dispatch_table_.CmdCopyMemoryIndirectKHR(handle_, pCopyMemoryIndirectInfo);
+}
+void CommandBuffer::CmdCopyMemoryToImageIndirectKHR(const VkCopyMemoryToImageIndirectInfoKHR* pCopyMemoryToImageIndirectInfo) {
+    dispatch_table_.CmdCopyMemoryToImageIndirectKHR(handle_, pCopyMemoryToImageIndirectInfo);
+}
+void CommandBuffer::CmdEndRendering2KHR(const VkRenderingEndInfoKHR* pRenderingEndInfo) {
+    dispatch_table_.CmdEndRendering2KHR(handle_, pRenderingEndInfo);
 }
 void CommandBuffer::CmdDebugMarkerBeginEXT(const VkDebugMarkerMarkerInfoEXT* pMarkerInfo) {
     dispatch_table_.CmdDebugMarkerBeginEXT(handle_, pMarkerInfo);
@@ -760,6 +769,16 @@ void CommandBuffer::CmdSetAttachmentFeedbackLoopEnableEXT(VkImageAspectFlags asp
 void CommandBuffer::CmdBindTileMemoryQCOM(const VkTileMemoryBindInfoQCOM* pTileMemoryBindInfo) {
     dispatch_table_.CmdBindTileMemoryQCOM(handle_, pTileMemoryBindInfo);
 }
+void CommandBuffer::CmdDecompressMemoryEXT(const VkDecompressMemoryInfoEXT* pDecompressMemoryInfoEXT) {
+    dispatch_table_.CmdDecompressMemoryEXT(handle_, pDecompressMemoryInfoEXT);
+}
+void CommandBuffer::CmdDecompressMemoryIndirectCountEXT(VkMemoryDecompressionMethodFlagsEXT decompressionMethod,
+                                                        VkDeviceAddress indirectCommandsAddress,
+                                                        VkDeviceAddress indirectCommandsCountAddress,
+                                                        uint32_t maxDecompressionCount, uint32_t stride) {
+    dispatch_table_.CmdDecompressMemoryIndirectCountEXT(handle_, decompressionMethod, indirectCommandsAddress,
+                                                        indirectCommandsCountAddress, maxDecompressionCount, stride);
+}
 void CommandBuffer::CmdBuildClusterAccelerationStructureIndirectNV(
     const VkClusterAccelerationStructureCommandsInfoNV* pCommandInfos) {
     dispatch_table_.CmdBuildClusterAccelerationStructureIndirectNV(handle_, pCommandInfos);
@@ -775,7 +794,7 @@ void CommandBuffer::CmdExecuteGeneratedCommandsEXT(VkBool32 isPreprocessed,
                                                    const VkGeneratedCommandsInfoEXT* pGeneratedCommandsInfo) {
     dispatch_table_.CmdExecuteGeneratedCommandsEXT(handle_, isPreprocessed, pGeneratedCommandsInfo);
 }
-void CommandBuffer::CmdEndRendering2EXT(const VkRenderingEndInfoEXT* pRenderingEndInfo) {
+void CommandBuffer::CmdEndRendering2EXT(const VkRenderingEndInfoKHR* pRenderingEndInfo) {
     dispatch_table_.CmdEndRendering2EXT(handle_, pRenderingEndInfo);
 }
 void CommandBuffer::CmdBuildAccelerationStructuresKHR(uint32_t infoCount, const VkAccelerationStructureBuildGeometryInfoKHR* pInfos,
