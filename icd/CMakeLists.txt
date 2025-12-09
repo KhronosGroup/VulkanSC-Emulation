@@ -108,9 +108,9 @@ set_target_properties(icd PROPERTIES OUTPUT_NAME ${ICD_NAME})
 set(INPUT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/${ICD_NAME}.json.in")
 set(INTERMEDIATE_FILE "${CMAKE_CURRENT_BINARY_DIR}/json/icd.json")
 set(OUTPUT_FILE_FINAL_NAME "${ICD_NAME}.json")
-set(LAYER_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR})
+set(COMPONENT_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR})
 if (WIN32)
-    set(LAYER_INSTALL_DIR ${CMAKE_INSTALL_BINDIR}) # WIN32 expect the dll in the `bin` dir, this matches our WIN32 SDK process
+    set(COMPONENT_INSTALL_DIR ${CMAKE_INSTALL_BINDIR}) # WIN32 expect the dll in the `bin` dir, this matches our WIN32 SDK process
 endif()
 
 if (WIN32)
@@ -145,7 +145,24 @@ if (UNIX)
 endif()
 
 if (WIN32)
-    install(FILES ${INTERMEDIATE_FILE} DESTINATION ${LAYER_INSTALL_DIR} RENAME ${OUTPUT_FILE_FINAL_NAME})
+    install(FILES ${INTERMEDIATE_FILE} DESTINATION ${COMPONENT_INSTALL_DIR} RENAME ${OUTPUT_FILE_FINAL_NAME})
+    if(INSTALL_WITH_REGISTRATION)
+        get_property(GENERATOR_IS_MULTI_CONFIG GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+        if(GENERATOR_IS_MULTI_CONFIG)
+            set(CONFIGS "${CMAKE_CONFIGURATION_TYPES}")
+        else()
+            set(CONFIGS "${CMAKE_BUILD_TYPE}")
+        endif()
+        set(ECOSYSTEM_COMPONENT Drivers)
+        foreach(CONFIG IN LISTS CONFIGS)
+            configure_file(
+                "${PROJECT_SOURCE_DIR}/scripts/RegisterComponent.in.cmake"
+                "${CMAKE_CURRENT_BINARY_DIR}/Register${ECOSYSTEM_COMPONENT}.${CONFIG}.cmake"
+                @ONLY
+            )
+        endforeach()
+        install(SCRIPT "${CMAKE_CURRENT_BINARY_DIR}/Register${ECOSYSTEM_COMPONENT}.$<CONFIG>.cmake" COMPONENT icd)
+    endif()
 endif()
 
-install(TARGETS icd DESTINATION ${LAYER_INSTALL_DIR})
+install(TARGETS icd DESTINATION ${COMPONENT_INSTALL_DIR})

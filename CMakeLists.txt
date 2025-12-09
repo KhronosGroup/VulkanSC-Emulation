@@ -27,6 +27,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 option(BUILD_ICD "Build Vulkan SC emulation ICD" ON)
 option(BUILD_PCC "Build Vulkan SC emulation PCC" ON)
 option(BUILD_WSI_XCB_SUPPORT "Build with XCB support" ON)
+option(INSTALL_WITH_REGISTRATION "Register the install tree to the OS-specific location for the Vulkan SC Loader and SDK to discover" OFF)
 
 option(ENABLE_ADDRESS_SANITIZER "Use address sanitization")
 if (ENABLE_ADDRESS_SANITIZER)
