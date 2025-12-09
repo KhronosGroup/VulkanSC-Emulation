@@ -34,10 +34,37 @@ if(${CMAKE_CXX_COMPILER_ID} MATCHES "GNU")
     )
 endif()
 
-target_include_directories(pcc PRIVATE
-    .
-)
+target_include_directories(pcc PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
 
 set_target_properties(pcc PROPERTIES OUTPUT_NAME ${PCC_NAME})
 
+set(INPUT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/${PCC_NAME}.json.in")
+set(INTERMEDIATE_FILE "${CMAKE_CURRENT_BINARY_DIR}/pcc/pcc.json")
+set(OUTPUT_FILE_FINAL_NAME "${PCC_NAME}.json")
+
+if(WIN32)
+    set(JSON_PCC_PATH ".\\\\${PCC_NAME}${CMAKE_EXECUTABLE_SUFFIX}")
+else()
+    set(JSON_PCC_PATH "./${PCC_NAME}${CMAKE_EXECUTABLE_SUFFIX}")
+endif()
+
+configure_file(${INPUT_FILE} ${INTERMEDIATE_FILE} @ONLY)
+
+# To support both multi/single configuration generators just copy the json to the correct directory
+add_custom_command(TARGET pcc POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${INTERMEDIATE_FILE} $<TARGET_FILE_DIR:pcc>/${OUTPUT_FILE_FINAL_NAME}
+)
+
+if(WIN32)
+    set(COMPONENT_INSTALL_DIR ${CMAKE_INSTALL_BINDIR}) # WIN32 expect the dll in the `bin` dir, this matches our WIN32 SDK process
+else()
+    set(COMPONENT_INSTALL_DIR ${CMAKE_INSTALL_DATAROOTDIR}/${API_TYPE}/pcc.d)
+endif()
+
+set(INTERMEDIATE_FILE "${CMAKE_CURRENT_BINARY_DIR}/pcc/install_pcc.json")
+set(JSON_PCC_PATH "${PCC_NAME}${CMAKE_EXECUTABLE_SUFFIX}")
+
+configure_file(${INPUT_FILE} ${INTERMEDIATE_FILE} @ONLY)
+
+install(FILES ${INTERMEDIATE_FILE} DESTINATION ${COMPONENT_INSTALL_DIR} RENAME ${OUTPUT_FILE_FINAL_NAME})
 install(TARGETS pcc)

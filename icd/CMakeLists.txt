@@ -108,17 +108,11 @@ set_target_properties(icd PROPERTIES OUTPUT_NAME ${ICD_NAME})
 set(INPUT_FILE "${CMAKE_CURRENT_SOURCE_DIR}/${ICD_NAME}.json.in")
 set(INTERMEDIATE_FILE "${CMAKE_CURRENT_BINARY_DIR}/json/icd.json")
 set(OUTPUT_FILE_FINAL_NAME "${ICD_NAME}.json")
-set(LAYER_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR})
-if (WIN32)
-    set(LAYER_INSTALL_DIR ${CMAKE_INSTALL_BINDIR}) # WIN32 expect the dll in the `bin` dir, this matches our WIN32 SDK process
-endif()
 
-if (WIN32)
-    set(JSON_LIBRARY_PATH ".\\\\${ICD_NAME}.dll")
-elseif(APPLE)
-    set(JSON_LIBRARY_PATH "./lib${ICD_NAME}.dylib")
+if(WIN32)
+    set(JSON_LIBRARY_PATH ".\\\\${CMAKE_SHARED_LIBRARY_PREFIX}${ICD_NAME}${CMAKE_SHARED_LIBRARY_SUFFIX}")
 else()
-    set(JSON_LIBRARY_PATH "./lib${ICD_NAME}.so")
+    set(JSON_LIBRARY_PATH "./${CMAKE_SHARED_LIBRARY_PREFIX}${ICD_NAME}${CMAKE_SHARED_LIBRARY_SUFFIX}")
 endif()
 
 configure_file(${INPUT_FILE} ${INTERMEDIATE_FILE} @ONLY)
@@ -130,22 +124,25 @@ add_custom_command(TARGET icd POST_BUILD
 
 # For UNIX-based systems, `library_path` should not contain a relative path (indicated by "./") before installing to system directories
 # This json isn't used for regular local development, it's used for installation
+if(WIN32)
+    set(ICD_INSTALL_DIR ${CMAKE_INSTALL_BINDIR})
+    set(MANIFEST_INSTALL_DIR ${CMAKE_INSTALL_BINDIR})
+else()
+    set(ICD_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR})
+    set(MANIFEST_INSTALL_DIR ${CMAKE_INSTALL_DATAROOTDIR}/${API_TYPE}/icd.d)
+endif()
+
 if (UNIX)
     set(UNIX_INTERMEDIATE_FILE "${CMAKE_CURRENT_BINARY_DIR}/json/unix_install_icd.json")
-
-    if(APPLE)
-        set(JSON_LIBRARY_PATH "lib${ICD_NAME}.dylib")
-    else()
-        set(JSON_LIBRARY_PATH "lib${ICD_NAME}.so")
-    endif()
+    set(JSON_LIBRARY_PATH "${CMAKE_SHARED_LIBRARY_PREFIX}${ICD_NAME}${CMAKE_SHARED_LIBRARY_SUFFIX}")
 
     configure_file(${INPUT_FILE} ${UNIX_INTERMEDIATE_FILE} @ONLY)
 
-    install(FILES ${UNIX_INTERMEDIATE_FILE} DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${API_TYPE}/icd.d RENAME ${OUTPUT_FILE_FINAL_NAME})
+    install(FILES ${UNIX_INTERMEDIATE_FILE} DESTINATION ${MANIFEST_INSTALL_DIR} RENAME ${OUTPUT_FILE_FINAL_NAME})
 endif()
 
 if (WIN32)
-    install(FILES ${INTERMEDIATE_FILE} DESTINATION ${LAYER_INSTALL_DIR} RENAME ${OUTPUT_FILE_FINAL_NAME})
+    install(FILES ${INTERMEDIATE_FILE} DESTINATION ${MANIFEST_INSTALL_DIR} RENAME ${OUTPUT_FILE_FINAL_NAME})
 endif()
 
-install(TARGETS icd DESTINATION ${LAYER_INSTALL_DIR})
+install(TARGETS icd LIBRARY DESTINATION ${ICD_INSTALL_DIR})
