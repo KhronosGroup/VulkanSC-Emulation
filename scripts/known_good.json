@@ -112,7 +112,7 @@
             "commit": "v3.2.1",
             "cmake_options": [
                 "-DCXXOPTS_BUILD_EXAMPLES=OFF",
-                "-DSCXXOPTS_BUILD_TESTS=OFF",
+                "-DCXXOPTS_BUILD_TESTS=OFF",
                 "-DCXXOPTS_ENABLE_WARNINGS=OFF"
             ]
         }
