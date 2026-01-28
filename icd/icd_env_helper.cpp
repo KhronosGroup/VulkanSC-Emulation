@@ -8,6 +8,7 @@
 #include "icd_env_helper.h"
 
 #include <stdlib.h>
+#include <string.h>
 #include <sstream>
 
 #ifdef _WIN32
@@ -123,6 +124,13 @@ const std::unordered_map<const char*, std::string> EnvironmentHelper::InitLayere
         auto env_var_value = getenv(layered_env_var.c_str());
         if (env_var_value != nullptr) {
             layered_envs.emplace(loader_env_var, env_var_value);
+        } else if (strcmp(loader_env_var, "VK_LOADER_LAYERS_DISABLE") == 0) {
+            // NOTE: We disable Vulkan implicit layers unless otherwise instructed by the environment
+            // as none of the device select / switchable graphics / optimus layers operate correctly
+            // in most non-trivial environments, and it is anyway questionable whether we want any
+            // Vulkan implicit layers to take effect when running Vulkan SC applications against the
+            // emulation driver stack.
+            layered_envs.emplace("VK_LOADER_LAYERS_DISABLE", "~implicit~");
         }
     }
     return layered_envs;

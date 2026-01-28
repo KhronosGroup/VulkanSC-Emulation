@@ -44,6 +44,11 @@ TEST_F(InfrastructureTest, EnvironmentVariables) {
         auto value = getenv(env_var_name.c_str());
         if (value == nullptr) {
             env_vars[env_var_name] = "";
+
+            // Expect that the Emulation ICD will disable all Vulkan implicit layers by default
+            if (env_var_name == "VK_LOADER_LAYERS_DISABLE") {
+                env_vars[env_var_name] = "~implicit~";
+            }
         } else {
             env_vars[env_var_name] = value;
         }
@@ -72,7 +77,7 @@ TEST_F(InfrastructureTest, EnvironmentVariables) {
                 if (value == nullptr) {
                     value = "";
                 }
-                EXPECT_STREQ(env_vars[vksc_emu_env_var_name].c_str(), value) << env_var_name << " has incorrect value";
+                EXPECT_STREQ(env_vars[env_var_name].c_str(), value) << env_var_name << " has incorrect value";
 
                 // Expect VKSC_EMU_VK_* to also have the value of VKSC_EMU_VK_*
                 const char* vksc_emu_value = getenv(vksc_emu_env_var_name.c_str());
