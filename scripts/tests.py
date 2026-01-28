@@ -167,19 +167,15 @@ def RunVKSCEmuICDTests(args):
         test_env['VKSC_EMU_VULKANSC_LIB_PATH'] = os.path.join(CI_INSTALL_DIR, emu_icd_path)
         test_env['VKSC_EMU_TEST_WITH_VULKAN_LOADER'] = '1'
         test_env['VKSC_EMU_VK_DRIVER_FILES'] = os.path.join(CI_INSTALL_DIR, mock_driver_file)
-        test_env['VKSC_EMU_VK_LOADER_LAYERS_DISABLE'] = '~implicit~'
     elif (not args.vkloader) and (args.vkscloader): # Test VKSC Loader
         test_env['VKSC_EMU_VULKAN_LIB_PATH'] = os.path.join(CI_INSTALL_DIR, mock_icd_path)
         test_env['VKSC_EMU_TEST_WITH_VULKANSC_LOADER'] = '1'
         test_env['VK_DRIVER_FILES'] = os.path.join(CI_INSTALL_DIR, emu_driver_file)
-        test_env['VK_LOADER_LAYERS_DISABLE'] = '~implicit~'
     else: # Test Both Loader
         test_env['VKSC_EMU_TEST_WITH_VULKAN_LOADER'] = '1'
         test_env['VKSC_EMU_VK_DRIVER_FILES'] = os.path.join(CI_INSTALL_DIR, mock_driver_file)
-        test_env['VKSC_EMU_VK_LOADER_LAYERS_DISABLE'] = '~implicit~'
         test_env['VKSC_EMU_TEST_WITH_VULKANSC_LOADER'] = '1'
         test_env['VK_DRIVER_FILES'] = os.path.join(CI_INSTALL_DIR, emu_driver_file)
-        test_env['VK_LOADER_LAYERS_DISABLE'] = '~implicit~'
 
     # This enables better stack traces from tools like leak sanitizer by using the loader feature which prevents unloading of libraries at shutdown.
     test_env['VK_LOADER_DISABLE_DYNAMIC_LIBRARY_UNLOADING'] = '1'

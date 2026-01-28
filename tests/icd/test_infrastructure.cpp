@@ -17,6 +17,9 @@
 
 class InfrastructureTest : public IcdTest {};
 
+// NOTE: The MSVC runtime seems to cache environment variables on startup or doing
+// something other out-of-spec behavior which makes this test case unreliable on Windows
+#ifndef _WIN32
 TEST_F(InfrastructureTest, EnvironmentVariables) {
     TEST_DESCRIPTION("Test handling and translation of loader environment variables");
 
@@ -72,7 +75,13 @@ TEST_F(InfrastructureTest, EnvironmentVariables) {
                 if (value == nullptr) {
                     value = "";
                 }
-                EXPECT_STREQ(env_vars[vksc_emu_env_var_name].c_str(), value) << env_var_name << " has incorrect value";
+
+                if (env_var_name == "VK_LOADER_LAYERS_DISABLE") {
+                    // Expect that the Emulation ICD will disable all Vulkan implicit layers by default
+                    EXPECT_STREQ("~implicit~", value) << env_var_name << " has incorrect value";
+                } else {
+                    EXPECT_STREQ(env_vars[vksc_emu_env_var_name].c_str(), value) << env_var_name << " has incorrect value";
+                }
 
                 // Expect VKSC_EMU_VK_* to also have the value of VKSC_EMU_VK_*
                 const char* vksc_emu_value = getenv(vksc_emu_env_var_name.c_str());
@@ -93,6 +102,7 @@ TEST_F(InfrastructureTest, EnvironmentVariables) {
 
     EXPECT_TRUE(vkmock_create_instance_called);
 }
+#endif
 
 TEST_F(InfrastructureTest, CreateInstanceLayerNotPresent) {
     TEST_DESCRIPTION("Test that no layers can be used at the ICD level");
