@@ -396,6 +396,10 @@ VkResult Display::CreateSurface(Instance& instance, DisplayMode& display_mode, c
         surface_->message_handler = std::thread([this] {
             bool quit = false;
             while (!quit) {
+                if (xcb_connection_has_error(surface_->connection)) {
+                    quit = true;
+                    break;
+                }
                 xcb_generic_event_t* event = nullptr;
                 event = xcb_wait_for_event(surface_->connection);
                 if (event != nullptr) {
@@ -441,6 +445,7 @@ void Display::DestroySurface() {
     event.window = surface_->window;
     xcb_send_event(surface_->connection, false, surface_->window,
                    XCB_EVENT_MASK_SUBSTRUCTURE_REDIRECT | XCB_EVENT_MASK_SUBSTRUCTURE_NOTIFY, (const char*)&event);
+    xcb_flush(surface_->connection);
     surface_->message_handler.join();
 
     xcb_destroy_window(surface_->connection, surface_->window);
