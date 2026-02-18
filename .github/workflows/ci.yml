@@ -32,15 +32,21 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
+    env:
+      CLANG_FORMAT_VERSION: 18
+      CLANG_FORMAT_FILES: "*.c *.h *.cpp *.hpp"
     steps:
-    - uses: actions/checkout@v4
-    - name: Run clang-format
-      uses: jidicula/clang-format-action@v4.13.0
-      with:
-        clang-format-version: '14'
-        check-path: ${{ matrix.path }}
+    - name: ${{ format('Checkout {0}', github.repository) }}
+      uses: actions/checkout@v4
+    - name: Check code formatting
+      run: |
+        for f in $(git ls-files -- ${CLANG_FORMAT_FILES}); do
+          echo "Checking $f"
+          clang-format-${CLANG_FORMAT_VERSION} -i --Werror "$f"
+        done
+        git diff --exit-code
     - name: REUSE Compliance Check
-      uses: fsfe/reuse-action@v4.0.0
+      uses: fsfe/reuse-action@v5.0.0
 
   codegen:
     needs: check_emu
