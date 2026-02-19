@@ -153,16 +153,30 @@ class OutputStructSanitizerGenerator(BaseGenerator):
                 if member.type in self.all_output_structs:
                     assert(not member.const)
                     if member.length:
-                        # Array case
-                        out.append(f'''
-                            for (uint32_t i = 0; i < p->{member.length}; ++i) {{
-                                ConvertOutStructToVulkanSC<{member.type}>(&p->{member.name}[i]);
-                            }}
-                            ''')
+                        if member.pointer:
+                            # Pointer to array case
+                            out.append(f'''
+                                if (p->{member.name} != nullptr) {{
+                                    for (uint32_t i = 0; i < p->{member.length}; ++i) {{
+                                        ConvertOutStructToVulkanSC<{member.type}>(&p->{member.name}[i]);
+                                    }}
+                                }}
+                                ''')
+                        else:
+                            # Embedded array case
+                            out.append(f'''
+                                for (uint32_t i = 0; i < p->{member.length}; ++i) {{
+                                    ConvertOutStructToVulkanSC<{member.type}>(&p->{member.name}[i]);
+                                }}
+                                ''')
                     else:
                         if member.pointer:
                             # Pointer case
-                            out.append(f'ConvertOutStructToVulkanSC<{member.type}>(p->{member.name});')
+                            out.append(f'''
+                                if (p->{member.name} != nullptr) {{
+                                    ConvertOutStructToVulkanSC<{member.type}>(p->{member.name});
+                                }}
+                            ''')
                         else:
                             # Embedded case
                             out.append(f'ConvertOutStructToVulkanSC<{member.type}>(&p->{member.name});')
