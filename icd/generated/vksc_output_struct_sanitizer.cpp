@@ -620,15 +620,19 @@ void ConvertOutStructToVulkanSC<VkPhysicalDeviceBlendOperationAdvancedProperties
 
 template <>
 void ConvertOutStructToVulkanSC<VkDrmFormatModifierPropertiesListEXT>(VkDrmFormatModifierPropertiesListEXT* p) {
-    for (uint32_t i = 0; i < p->drmFormatModifierCount; ++i) {
-        ConvertOutStructToVulkanSC<VkDrmFormatModifierPropertiesEXT>(&p->pDrmFormatModifierProperties[i]);
+    if (p->pDrmFormatModifierProperties != nullptr) {
+        for (uint32_t i = 0; i < p->drmFormatModifierCount; ++i) {
+            ConvertOutStructToVulkanSC<VkDrmFormatModifierPropertiesEXT>(&p->pDrmFormatModifierProperties[i]);
+        }
     }
 }
 
 template <>
 void ConvertOutStructToVulkanSC<VkDrmFormatModifierPropertiesList2EXT>(VkDrmFormatModifierPropertiesList2EXT* p) {
-    for (uint32_t i = 0; i < p->drmFormatModifierCount; ++i) {
-        ConvertOutStructToVulkanSC<VkDrmFormatModifierProperties2EXT>(&p->pDrmFormatModifierProperties[i]);
+    if (p->pDrmFormatModifierProperties != nullptr) {
+        for (uint32_t i = 0; i < p->drmFormatModifierCount; ++i) {
+            ConvertOutStructToVulkanSC<VkDrmFormatModifierProperties2EXT>(&p->pDrmFormatModifierProperties[i]);
+        }
     }
 }
 
