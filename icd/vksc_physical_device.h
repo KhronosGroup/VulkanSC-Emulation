@@ -99,7 +99,7 @@ class PhysicalDevice : public Dispatchable<PhysicalDevice, VkPhysicalDevice>, pu
                                              VkDisplayPlaneCapabilities2KHR* pCapabilities);
 
     constexpr uint32_t GetMaxQueryFaultCount() const { return 16; }
-    constexpr VkDeviceSize GetMaxCommandBufferSize() const { return 1 << 20; }
+    constexpr VkDeviceSize GetMaxCommandBufferSize() const { return 1 << 28; }
 
   private:
     void UpdatePhysicalDeviceFeaturesForVulkanSC(VkPhysicalDeviceFeatures& features);
