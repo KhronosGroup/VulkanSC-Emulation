@@ -279,7 +279,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateInstance(const VkInstanceCreateInfo* pCre
     }
 
     // Handle display emulation extensions
-    bool uses_display_emulation = true;
+    bool uses_display_emulation = false;
     for (uint32_t i = 0; i < pCreateInfo->enabledExtensionCount; ++i) {
         vksc::ExtensionNumber ext_num = vksc::GetExtensionNumber(pCreateInfo->ppEnabledExtensionNames[i]);
         if (vksc::ICD.IsInstanceExtensionSupported(ext_num) && vksc::ICD.GetDisplayManager().IsEmulatedExtension(ext_num)) {
