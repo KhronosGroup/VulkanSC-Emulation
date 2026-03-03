@@ -133,6 +133,7 @@ class PhysicalDevice {
     VkResult GetRandROutputDisplayEXT(Display* dpy, RROutput rrOutput, VkDisplayKHR* pDisplay);
 #endif  // VK_USE_PLATFORM_XLIB_XRANDR_EXT
     VkResult GetPhysicalDeviceSurfaceCapabilities2EXT(VkSurfaceKHR surface, VkSurfaceCapabilities2EXT* pSurfaceCapabilities);
+    VkDeviceSize GetPhysicalDeviceDescriptorSizeEXT(VkDescriptorType descriptorType);
     void GetPhysicalDeviceMultisamplePropertiesEXT(VkSampleCountFlagBits samples,
                                                    VkMultisamplePropertiesEXT* pMultisampleProperties);
     VkResult GetPhysicalDeviceCalibrateableTimeDomainsEXT(uint32_t* pTimeDomainCount, VkTimeDomainKHR* pTimeDomains);
@@ -170,6 +171,12 @@ class PhysicalDevice {
         VkQueueFamilyDataGraphProcessingEnginePropertiesARM* pQueueFamilyDataGraphProcessingEngineProperties);
     VkResult GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV(
         uint32_t* pPropertyCount, VkCooperativeMatrixFlexibleDimensionsPropertiesNV* pProperties);
+    VkResult EnumeratePhysicalDeviceQueueFamilyPerformanceCountersByRegionARM(
+        uint32_t queueFamilyIndex, uint32_t* pCounterCount, VkPerformanceCounterARM* pCounters,
+        VkPerformanceCounterDescriptionARM* pCounterDescriptions);
+#ifdef VK_USE_PLATFORM_UBM_SEC
+    VkBool32 GetPhysicalDeviceUbmPresentationSupportSEC(uint32_t queueFamilyIndex, struct ubm_device* device);
+#endif  // VK_USE_PLATFORM_UBM_SEC
 
     VkPhysicalDevice VkHandle() const { return handle_; }
     const DispatchTable& VkDispatch() const { return dispatch_table_; }

@@ -157,6 +157,12 @@ VkResult Instance::CreateSurfaceOHOS(const VkSurfaceCreateInfoOHOS* pCreateInfo,
     return dispatch_table_.CreateSurfaceOHOS(handle_, pCreateInfo, pAllocator, pSurface);
 }
 #endif  // VK_USE_PLATFORM_OHOS
+#ifdef VK_USE_PLATFORM_UBM_SEC
+VkResult Instance::CreateUbmSurfaceSEC(const VkUbmSurfaceCreateInfoSEC* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                                       VkSurfaceKHR* pSurface) {
+    return dispatch_table_.CreateUbmSurfaceSEC(handle_, pCreateInfo, pAllocator, pSurface);
+}
+#endif  // VK_USE_PLATFORM_UBM_SEC
 
 }  // namespace vk
 

@@ -399,6 +399,7 @@ class DispatchTable {
     const PFN_vkGetImageViewHandleNVX GetImageViewHandleNVX;
     const PFN_vkGetImageViewHandle64NVX GetImageViewHandle64NVX;
     const PFN_vkGetImageViewAddressNVX GetImageViewAddressNVX;
+    const PFN_vkGetDeviceCombinedImageSamplerIndexNVX GetDeviceCombinedImageSamplerIndexNVX;
     const PFN_vkCmdDrawIndirectCountAMD CmdDrawIndirectCountAMD;
     const PFN_vkCmdDrawIndexedIndirectCountAMD CmdDrawIndexedIndirectCountAMD;
     const PFN_vkGetShaderInfoAMD GetShaderInfoAMD;
@@ -461,6 +462,16 @@ class DispatchTable {
     const PFN_vkCmdDispatchGraphIndirectAMDX CmdDispatchGraphIndirectAMDX;
     const PFN_vkCmdDispatchGraphIndirectCountAMDX CmdDispatchGraphIndirectCountAMDX;
 #endif  // VK_ENABLE_BETA_EXTENSIONS
+    const PFN_vkWriteSamplerDescriptorsEXT WriteSamplerDescriptorsEXT;
+    const PFN_vkWriteResourceDescriptorsEXT WriteResourceDescriptorsEXT;
+    const PFN_vkCmdBindSamplerHeapEXT CmdBindSamplerHeapEXT;
+    const PFN_vkCmdBindResourceHeapEXT CmdBindResourceHeapEXT;
+    const PFN_vkCmdPushDataEXT CmdPushDataEXT;
+    const PFN_vkGetImageOpaqueCaptureDataEXT GetImageOpaqueCaptureDataEXT;
+    const PFN_vkGetPhysicalDeviceDescriptorSizeEXT GetPhysicalDeviceDescriptorSizeEXT;
+    const PFN_vkRegisterCustomBorderColorEXT RegisterCustomBorderColorEXT;
+    const PFN_vkUnregisterCustomBorderColorEXT UnregisterCustomBorderColorEXT;
+    const PFN_vkGetTensorOpaqueCaptureDataARM GetTensorOpaqueCaptureDataARM;
     const PFN_vkCmdSetSampleLocationsEXT CmdSetSampleLocationsEXT;
     const PFN_vkGetPhysicalDeviceMultisamplePropertiesEXT GetPhysicalDeviceMultisamplePropertiesEXT;
     const PFN_vkGetImageDrmFormatModifierPropertiesEXT GetImageDrmFormatModifierPropertiesEXT;
@@ -497,6 +508,10 @@ class DispatchTable {
     const PFN_vkCmdSetCheckpointNV CmdSetCheckpointNV;
     const PFN_vkGetQueueCheckpointDataNV GetQueueCheckpointDataNV;
     const PFN_vkGetQueueCheckpointData2NV GetQueueCheckpointData2NV;
+    const PFN_vkSetSwapchainPresentTimingQueueSizeEXT SetSwapchainPresentTimingQueueSizeEXT;
+    const PFN_vkGetSwapchainTimingPropertiesEXT GetSwapchainTimingPropertiesEXT;
+    const PFN_vkGetSwapchainTimeDomainPropertiesEXT GetSwapchainTimeDomainPropertiesEXT;
+    const PFN_vkGetPastPresentationTimingEXT GetPastPresentationTimingEXT;
     const PFN_vkInitializePerformanceApiINTEL InitializePerformanceApiINTEL;
     const PFN_vkUninitializePerformanceApiINTEL UninitializePerformanceApiINTEL;
     const PFN_vkCmdSetPerformanceMarkerINTEL CmdSetPerformanceMarkerINTEL;
@@ -648,6 +663,10 @@ class DispatchTable {
     const PFN_vkGetPipelineIndirectMemoryRequirementsNV GetPipelineIndirectMemoryRequirementsNV;
     const PFN_vkCmdUpdatePipelineIndirectBufferNV CmdUpdatePipelineIndirectBufferNV;
     const PFN_vkGetPipelineIndirectDeviceAddressNV GetPipelineIndirectDeviceAddressNV;
+#ifdef VK_USE_PLATFORM_OHOS
+    const PFN_vkGetNativeBufferPropertiesOHOS GetNativeBufferPropertiesOHOS;
+    const PFN_vkGetMemoryNativeBufferOHOS GetMemoryNativeBufferOHOS;
+#endif  // VK_USE_PLATFORM_OHOS
     const PFN_vkCmdSetDepthClampEnableEXT CmdSetDepthClampEnableEXT;
     const PFN_vkCmdSetPolygonModeEXT CmdSetPolygonModeEXT;
     const PFN_vkCmdSetRasterizationSamplesEXT CmdSetRasterizationSamplesEXT;
@@ -750,9 +769,6 @@ class DispatchTable {
     const PFN_vkUpdateIndirectExecutionSetShaderEXT UpdateIndirectExecutionSetShaderEXT;
 #ifdef VK_USE_PLATFORM_OHOS
     const PFN_vkCreateSurfaceOHOS CreateSurfaceOHOS;
-    const PFN_vkGetSwapchainGrallocUsageOHOS GetSwapchainGrallocUsageOHOS;
-    const PFN_vkAcquireImageOHOS AcquireImageOHOS;
-    const PFN_vkQueueSignalReleaseImageOHOS QueueSignalReleaseImageOHOS;
 #endif  // VK_USE_PLATFORM_OHOS
     const PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV
         GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
@@ -760,7 +776,15 @@ class DispatchTable {
     const PFN_vkGetMemoryMetalHandleEXT GetMemoryMetalHandleEXT;
     const PFN_vkGetMemoryMetalHandlePropertiesEXT GetMemoryMetalHandlePropertiesEXT;
 #endif  // VK_USE_PLATFORM_METAL_EXT
+    const PFN_vkEnumeratePhysicalDeviceQueueFamilyPerformanceCountersByRegionARM
+        EnumeratePhysicalDeviceQueueFamilyPerformanceCountersByRegionARM;
     const PFN_vkCmdEndRendering2EXT CmdEndRendering2EXT;
+    const PFN_vkCmdBeginCustomResolveEXT CmdBeginCustomResolveEXT;
+    const PFN_vkCmdSetComputeOccupancyPriorityNV CmdSetComputeOccupancyPriorityNV;
+#ifdef VK_USE_PLATFORM_UBM_SEC
+    const PFN_vkCreateUbmSurfaceSEC CreateUbmSurfaceSEC;
+    const PFN_vkGetPhysicalDeviceUbmPresentationSupportSEC GetPhysicalDeviceUbmPresentationSupportSEC;
+#endif  // VK_USE_PLATFORM_UBM_SEC
     const PFN_vkCreateAccelerationStructureKHR CreateAccelerationStructureKHR;
     const PFN_vkDestroyAccelerationStructureKHR DestroyAccelerationStructureKHR;
     const PFN_vkCmdBuildAccelerationStructuresKHR CmdBuildAccelerationStructuresKHR;

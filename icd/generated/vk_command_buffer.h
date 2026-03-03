@@ -179,6 +179,9 @@ class CommandBuffer {
                                       const VkDispatchGraphCountInfoAMDX* pCountInfo);
     void CmdDispatchGraphIndirectCountAMDX(VkDeviceAddress scratch, VkDeviceSize scratchSize, VkDeviceAddress countInfo);
 #endif  // VK_ENABLE_BETA_EXTENSIONS
+    void CmdBindSamplerHeapEXT(const VkBindHeapInfoEXT* pBindInfo);
+    void CmdBindResourceHeapEXT(const VkBindHeapInfoEXT* pBindInfo);
+    void CmdPushDataEXT(const VkPushDataInfoEXT* pPushDataInfo);
     void CmdSetSampleLocationsEXT(const VkSampleLocationsInfoEXT* pSampleLocationsInfo);
     void CmdBindShadingRateImageNV(VkImageView imageView, VkImageLayout imageLayout);
     void CmdSetViewportShadingRatePaletteNV(uint32_t firstViewport, uint32_t viewportCount,
@@ -327,6 +330,8 @@ class CommandBuffer {
                                            VkCommandBuffer stateCommandBuffer);
     void CmdExecuteGeneratedCommandsEXT(VkBool32 isPreprocessed, const VkGeneratedCommandsInfoEXT* pGeneratedCommandsInfo);
     void CmdEndRendering2EXT(const VkRenderingEndInfoKHR* pRenderingEndInfo);
+    void CmdBeginCustomResolveEXT(const VkBeginCustomResolveInfoEXT* pBeginCustomResolveInfo);
+    void CmdSetComputeOccupancyPriorityNV(const VkComputeOccupancyPriorityParametersNV* pParameters);
     void CmdBuildAccelerationStructuresKHR(uint32_t infoCount, const VkAccelerationStructureBuildGeometryInfoKHR* pInfos,
                                            const VkAccelerationStructureBuildRangeInfoKHR* const* ppBuildRangeInfos);
     void CmdBuildAccelerationStructuresIndirectKHR(uint32_t infoCount, const VkAccelerationStructureBuildGeometryInfoKHR* pInfos,

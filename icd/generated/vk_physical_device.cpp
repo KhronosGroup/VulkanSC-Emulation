@@ -473,6 +473,9 @@ VkResult PhysicalDevice::GetPhysicalDeviceSurfaceCapabilities2EXT(VkSurfaceKHR s
     }
     return result;
 }
+VkDeviceSize PhysicalDevice::GetPhysicalDeviceDescriptorSizeEXT(VkDescriptorType descriptorType) {
+    return dispatch_table_.GetPhysicalDeviceDescriptorSizeEXT(handle_, descriptorType);
+}
 void PhysicalDevice::GetPhysicalDeviceMultisamplePropertiesEXT(VkSampleCountFlagBits samples,
                                                                VkMultisamplePropertiesEXT* pMultisampleProperties) {
     dispatch_table_.GetPhysicalDeviceMultisamplePropertiesEXT(handle_, samples, pMultisampleProperties);
@@ -606,6 +609,25 @@ VkResult PhysicalDevice::GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPro
     }
     return result;
 }
+VkResult PhysicalDevice::EnumeratePhysicalDeviceQueueFamilyPerformanceCountersByRegionARM(
+    uint32_t queueFamilyIndex, uint32_t* pCounterCount, VkPerformanceCounterARM* pCounters,
+    VkPerformanceCounterDescriptionARM* pCounterDescriptions) {
+    VkResult result = dispatch_table_.EnumeratePhysicalDeviceQueueFamilyPerformanceCountersByRegionARM(
+        handle_, queueFamilyIndex, pCounterCount, pCounters, pCounterDescriptions);
+    if (pCounters != nullptr) {
+        for (uint32_t i = 0; i < *pCounterCount; ++i) vksc::ConvertOutStructChainToVulkanSC<VkPerformanceCounterARM>(&pCounters[i]);
+    }
+    if (pCounterDescriptions != nullptr) {
+        for (uint32_t i = 0; i < *pCounterCount; ++i)
+            vksc::ConvertOutStructChainToVulkanSC<VkPerformanceCounterDescriptionARM>(&pCounterDescriptions[i]);
+    }
+    return result;
+}
+#ifdef VK_USE_PLATFORM_UBM_SEC
+VkBool32 PhysicalDevice::GetPhysicalDeviceUbmPresentationSupportSEC(uint32_t queueFamilyIndex, struct ubm_device* device) {
+    return dispatch_table_.GetPhysicalDeviceUbmPresentationSupportSEC(handle_, queueFamilyIndex, device);
+}
+#endif  // VK_USE_PLATFORM_UBM_SEC
 
 }  // namespace vk
 

@@ -2002,6 +2002,11 @@ static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetImageViewAddressNVX(VkDevice dev
     return vkmock::GetImageViewAddressNVX(device, imageView, pProperties);
 }
 
+static VKAPI_ATTR uint64_t VKAPI_CALL vkmock_GetDeviceCombinedImageSamplerIndexNVX(VkDevice device, uint64_t imageViewIndex,
+                                                                                   uint64_t samplerIndex) {
+    return vkmock::GetDeviceCombinedImageSamplerIndexNVX(device, imageViewIndex, samplerIndex);
+}
+
 static VKAPI_ATTR void VKAPI_CALL vkmock_CmdDrawIndirectCountAMD(VkCommandBuffer commandBuffer, VkBuffer buffer,
                                                                  VkDeviceSize offset, VkBuffer countBuffer,
                                                                  VkDeviceSize countBufferOffset, uint32_t maxDrawCount,
@@ -2266,6 +2271,55 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_CmdDispatchGraphIndirectCountAMDX(VkCom
 }
 
 #endif  // VK_ENABLE_BETA_EXTENSIONS
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_WriteSamplerDescriptorsEXT(VkDevice device, uint32_t samplerCount,
+                                                                        const VkSamplerCreateInfo* pSamplers,
+                                                                        const VkHostAddressRangeEXT* pDescriptors) {
+    return vkmock::WriteSamplerDescriptorsEXT(device, samplerCount, pSamplers, pDescriptors);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_WriteResourceDescriptorsEXT(VkDevice device, uint32_t resourceCount,
+                                                                         const VkResourceDescriptorInfoEXT* pResources,
+                                                                         const VkHostAddressRangeEXT* pDescriptors) {
+    return vkmock::WriteResourceDescriptorsEXT(device, resourceCount, pResources, pDescriptors);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdBindSamplerHeapEXT(VkCommandBuffer commandBuffer, const VkBindHeapInfoEXT* pBindInfo) {
+    return vkmock::CmdBindSamplerHeapEXT(commandBuffer, pBindInfo);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdBindResourceHeapEXT(VkCommandBuffer commandBuffer, const VkBindHeapInfoEXT* pBindInfo) {
+    return vkmock::CmdBindResourceHeapEXT(commandBuffer, pBindInfo);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdPushDataEXT(VkCommandBuffer commandBuffer, const VkPushDataInfoEXT* pPushDataInfo) {
+    return vkmock::CmdPushDataEXT(commandBuffer, pPushDataInfo);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetImageOpaqueCaptureDataEXT(VkDevice device, uint32_t imageCount,
+                                                                          const VkImage* pImages, VkHostAddressRangeEXT* pDatas) {
+    return vkmock::GetImageOpaqueCaptureDataEXT(device, imageCount, pImages, pDatas);
+}
+
+static VKAPI_ATTR VkDeviceSize VKAPI_CALL vkmock_GetPhysicalDeviceDescriptorSizeEXT(VkPhysicalDevice physicalDevice,
+                                                                                    VkDescriptorType descriptorType) {
+    return vkmock::GetPhysicalDeviceDescriptorSizeEXT(physicalDevice, descriptorType);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_RegisterCustomBorderColorEXT(
+    VkDevice device, const VkSamplerCustomBorderColorCreateInfoEXT* pBorderColor, VkBool32 requestIndex, uint32_t* pIndex) {
+    return vkmock::RegisterCustomBorderColorEXT(device, pBorderColor, requestIndex, pIndex);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_UnregisterCustomBorderColorEXT(VkDevice device, uint32_t index) {
+    return vkmock::UnregisterCustomBorderColorEXT(device, index);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetTensorOpaqueCaptureDataARM(VkDevice device, uint32_t tensorCount,
+                                                                           const VkTensorARM* pTensors,
+                                                                           VkHostAddressRangeEXT* pDatas) {
+    return vkmock::GetTensorOpaqueCaptureDataARM(device, tensorCount, pTensors, pDatas);
+}
+
 static VKAPI_ATTR void VKAPI_CALL vkmock_CmdSetSampleLocationsEXT(VkCommandBuffer commandBuffer,
                                                                   const VkSampleLocationsInfoEXT* pSampleLocationsInfo) {
     return vkmock::CmdSetSampleLocationsEXT(commandBuffer, pSampleLocationsInfo);
@@ -2481,6 +2535,30 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_GetQueueCheckpointDataNV(VkQueue queue,
 static VKAPI_ATTR void VKAPI_CALL vkmock_GetQueueCheckpointData2NV(VkQueue queue, uint32_t* pCheckpointDataCount,
                                                                    VkCheckpointData2NV* pCheckpointData) {
     return vkmock::GetQueueCheckpointData2NV(queue, pCheckpointDataCount, pCheckpointData);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_SetSwapchainPresentTimingQueueSizeEXT(VkDevice device, VkSwapchainKHR swapchain,
+                                                                                   uint32_t size) {
+    return vkmock::SetSwapchainPresentTimingQueueSizeEXT(device, swapchain, size);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetSwapchainTimingPropertiesEXT(
+    VkDevice device, VkSwapchainKHR swapchain, VkSwapchainTimingPropertiesEXT* pSwapchainTimingProperties,
+    uint64_t* pSwapchainTimingPropertiesCounter) {
+    return vkmock::GetSwapchainTimingPropertiesEXT(device, swapchain, pSwapchainTimingProperties,
+                                                   pSwapchainTimingPropertiesCounter);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetSwapchainTimeDomainPropertiesEXT(
+    VkDevice device, VkSwapchainKHR swapchain, VkSwapchainTimeDomainPropertiesEXT* pSwapchainTimeDomainProperties,
+    uint64_t* pTimeDomainsCounter) {
+    return vkmock::GetSwapchainTimeDomainPropertiesEXT(device, swapchain, pSwapchainTimeDomainProperties, pTimeDomainsCounter);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL
+vkmock_GetPastPresentationTimingEXT(VkDevice device, const VkPastPresentationTimingInfoEXT* pPastPresentationTimingInfo,
+                                    VkPastPresentationTimingPropertiesEXT* pPastPresentationTimingProperties) {
+    return vkmock::GetPastPresentationTimingEXT(device, pPastPresentationTimingInfo, pPastPresentationTimingProperties);
 }
 
 static VKAPI_ATTR VkResult VKAPI_CALL
@@ -3200,6 +3278,19 @@ vkmock_GetPipelineIndirectDeviceAddressNV(VkDevice device, const VkPipelineIndir
     return vkmock::GetPipelineIndirectDeviceAddressNV(device, pInfo);
 }
 
+#ifdef VK_USE_PLATFORM_OHOS
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetNativeBufferPropertiesOHOS(VkDevice device, const struct OH_NativeBuffer* buffer,
+                                                                           VkNativeBufferPropertiesOHOS* pProperties) {
+    return vkmock::GetNativeBufferPropertiesOHOS(device, buffer, pProperties);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetMemoryNativeBufferOHOS(VkDevice device,
+                                                                       const VkMemoryGetNativeBufferInfoOHOS* pInfo,
+                                                                       struct OH_NativeBuffer** pBuffer) {
+    return vkmock::GetMemoryNativeBufferOHOS(device, pInfo, pBuffer);
+}
+
+#endif  // VK_USE_PLATFORM_OHOS
 static VKAPI_ATTR void VKAPI_CALL vkmock_CmdSetDepthClampEnableEXT(VkCommandBuffer commandBuffer, VkBool32 depthClampEnable) {
     return vkmock::CmdSetDepthClampEnableEXT(commandBuffer, depthClampEnable);
 }
@@ -3729,22 +3820,6 @@ static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateSurfaceOHOS(VkInstance instan
     return vkmock::CreateSurfaceOHOS(instance, pCreateInfo, pAllocator, pSurface);
 }
 
-static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetSwapchainGrallocUsageOHOS(VkDevice device, VkFormat format,
-                                                                          VkImageUsageFlags imageUsage, uint64_t* grallocUsage) {
-    return vkmock::GetSwapchainGrallocUsageOHOS(device, format, imageUsage, grallocUsage);
-}
-
-static VKAPI_ATTR VkResult VKAPI_CALL vkmock_AcquireImageOHOS(VkDevice device, VkImage image, int32_t nativeFenceFd,
-                                                              VkSemaphore semaphore, VkFence fence) {
-    return vkmock::AcquireImageOHOS(device, image, nativeFenceFd, semaphore, fence);
-}
-
-static VKAPI_ATTR VkResult VKAPI_CALL vkmock_QueueSignalReleaseImageOHOS(VkQueue queue, uint32_t waitSemaphoreCount,
-                                                                         const VkSemaphore* pWaitSemaphores, VkImage image,
-                                                                         int32_t* pNativeFenceFd) {
-    return vkmock::QueueSignalReleaseImageOHOS(queue, waitSemaphoreCount, pWaitSemaphores, image, pNativeFenceFd);
-}
-
 #endif  // VK_USE_PLATFORM_OHOS
 static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV(
     VkPhysicalDevice physicalDevice, uint32_t* pPropertyCount, VkCooperativeMatrixFlexibleDimensionsPropertiesNV* pProperties) {
@@ -3765,11 +3840,41 @@ vkmock_GetMemoryMetalHandlePropertiesEXT(VkDevice device, VkExternalMemoryHandle
 }
 
 #endif  // VK_USE_PLATFORM_METAL_EXT
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_EnumeratePhysicalDeviceQueueFamilyPerformanceCountersByRegionARM(
+    VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, uint32_t* pCounterCount, VkPerformanceCounterARM* pCounters,
+    VkPerformanceCounterDescriptionARM* pCounterDescriptions) {
+    return vkmock::EnumeratePhysicalDeviceQueueFamilyPerformanceCountersByRegionARM(physicalDevice, queueFamilyIndex, pCounterCount,
+                                                                                    pCounters, pCounterDescriptions);
+}
+
 static VKAPI_ATTR void VKAPI_CALL vkmock_CmdEndRendering2EXT(VkCommandBuffer commandBuffer,
                                                              const VkRenderingEndInfoKHR* pRenderingEndInfo) {
     return vkmock::CmdEndRendering2EXT(commandBuffer, pRenderingEndInfo);
 }
 
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdBeginCustomResolveEXT(VkCommandBuffer commandBuffer,
+                                                                  const VkBeginCustomResolveInfoEXT* pBeginCustomResolveInfo) {
+    return vkmock::CmdBeginCustomResolveEXT(commandBuffer, pBeginCustomResolveInfo);
+}
+
+static VKAPI_ATTR void VKAPI_CALL
+vkmock_CmdSetComputeOccupancyPriorityNV(VkCommandBuffer commandBuffer, const VkComputeOccupancyPriorityParametersNV* pParameters) {
+    return vkmock::CmdSetComputeOccupancyPriorityNV(commandBuffer, pParameters);
+}
+
+#ifdef VK_USE_PLATFORM_UBM_SEC
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateUbmSurfaceSEC(VkInstance instance, const VkUbmSurfaceCreateInfoSEC* pCreateInfo,
+                                                                 const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface) {
+    return vkmock::CreateUbmSurfaceSEC(instance, pCreateInfo, pAllocator, pSurface);
+}
+
+static VKAPI_ATTR VkBool32 VKAPI_CALL vkmock_GetPhysicalDeviceUbmPresentationSupportSEC(VkPhysicalDevice physicalDevice,
+                                                                                        uint32_t queueFamilyIndex,
+                                                                                        struct ubm_device* device) {
+    return vkmock::GetPhysicalDeviceUbmPresentationSupportSEC(physicalDevice, queueFamilyIndex, device);
+}
+
+#endif  // VK_USE_PLATFORM_UBM_SEC
 static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateAccelerationStructureKHR(VkDevice device,
                                                                             const VkAccelerationStructureCreateInfoKHR* pCreateInfo,
                                                                             const VkAllocationCallbacks* pAllocator,
@@ -5048,6 +5153,9 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     if (strcmp(pName, "vkGetImageViewAddressNVX") == 0) {
         return (PFN_vkVoidFunction)vkmock_GetImageViewAddressNVX;
     }
+    if (strcmp(pName, "vkGetDeviceCombinedImageSamplerIndexNVX") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetDeviceCombinedImageSamplerIndexNVX;
+    }
     if (strcmp(pName, "vkCmdDrawIndirectCountAMD") == 0) {
         return (PFN_vkVoidFunction)vkmock_CmdDrawIndirectCountAMD;
     }
@@ -5202,6 +5310,36 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
         return (PFN_vkVoidFunction)vkmock_CmdDispatchGraphIndirectCountAMDX;
     }
 #endif  // VK_ENABLE_BETA_EXTENSIONS
+    if (strcmp(pName, "vkWriteSamplerDescriptorsEXT") == 0) {
+        return (PFN_vkVoidFunction)vkmock_WriteSamplerDescriptorsEXT;
+    }
+    if (strcmp(pName, "vkWriteResourceDescriptorsEXT") == 0) {
+        return (PFN_vkVoidFunction)vkmock_WriteResourceDescriptorsEXT;
+    }
+    if (strcmp(pName, "vkCmdBindSamplerHeapEXT") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdBindSamplerHeapEXT;
+    }
+    if (strcmp(pName, "vkCmdBindResourceHeapEXT") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdBindResourceHeapEXT;
+    }
+    if (strcmp(pName, "vkCmdPushDataEXT") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdPushDataEXT;
+    }
+    if (strcmp(pName, "vkGetImageOpaqueCaptureDataEXT") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetImageOpaqueCaptureDataEXT;
+    }
+    if (strcmp(pName, "vkGetPhysicalDeviceDescriptorSizeEXT") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetPhysicalDeviceDescriptorSizeEXT;
+    }
+    if (strcmp(pName, "vkRegisterCustomBorderColorEXT") == 0) {
+        return (PFN_vkVoidFunction)vkmock_RegisterCustomBorderColorEXT;
+    }
+    if (strcmp(pName, "vkUnregisterCustomBorderColorEXT") == 0) {
+        return (PFN_vkVoidFunction)vkmock_UnregisterCustomBorderColorEXT;
+    }
+    if (strcmp(pName, "vkGetTensorOpaqueCaptureDataARM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetTensorOpaqueCaptureDataARM;
+    }
     if (strcmp(pName, "vkCmdSetSampleLocationsEXT") == 0) {
         return (PFN_vkVoidFunction)vkmock_CmdSetSampleLocationsEXT;
     }
@@ -5309,6 +5447,18 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     }
     if (strcmp(pName, "vkGetQueueCheckpointData2NV") == 0) {
         return (PFN_vkVoidFunction)vkmock_GetQueueCheckpointData2NV;
+    }
+    if (strcmp(pName, "vkSetSwapchainPresentTimingQueueSizeEXT") == 0) {
+        return (PFN_vkVoidFunction)vkmock_SetSwapchainPresentTimingQueueSizeEXT;
+    }
+    if (strcmp(pName, "vkGetSwapchainTimingPropertiesEXT") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetSwapchainTimingPropertiesEXT;
+    }
+    if (strcmp(pName, "vkGetSwapchainTimeDomainPropertiesEXT") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetSwapchainTimeDomainPropertiesEXT;
+    }
+    if (strcmp(pName, "vkGetPastPresentationTimingEXT") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetPastPresentationTimingEXT;
     }
     if (strcmp(pName, "vkInitializePerformanceApiINTEL") == 0) {
         return (PFN_vkVoidFunction)vkmock_InitializePerformanceApiINTEL;
@@ -5724,6 +5874,14 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     if (strcmp(pName, "vkGetPipelineIndirectDeviceAddressNV") == 0) {
         return (PFN_vkVoidFunction)vkmock_GetPipelineIndirectDeviceAddressNV;
     }
+#ifdef VK_USE_PLATFORM_OHOS
+    if (strcmp(pName, "vkGetNativeBufferPropertiesOHOS") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetNativeBufferPropertiesOHOS;
+    }
+    if (strcmp(pName, "vkGetMemoryNativeBufferOHOS") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetMemoryNativeBufferOHOS;
+    }
+#endif  // VK_USE_PLATFORM_OHOS
     if (strcmp(pName, "vkCmdSetDepthClampEnableEXT") == 0) {
         return (PFN_vkVoidFunction)vkmock_CmdSetDepthClampEnableEXT;
     }
@@ -6021,15 +6179,6 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     if (strcmp(pName, "vkCreateSurfaceOHOS") == 0) {
         return (PFN_vkVoidFunction)vkmock_CreateSurfaceOHOS;
     }
-    if (strcmp(pName, "vkGetSwapchainGrallocUsageOHOS") == 0) {
-        return (PFN_vkVoidFunction)vkmock_GetSwapchainGrallocUsageOHOS;
-    }
-    if (strcmp(pName, "vkAcquireImageOHOS") == 0) {
-        return (PFN_vkVoidFunction)vkmock_AcquireImageOHOS;
-    }
-    if (strcmp(pName, "vkQueueSignalReleaseImageOHOS") == 0) {
-        return (PFN_vkVoidFunction)vkmock_QueueSignalReleaseImageOHOS;
-    }
 #endif  // VK_USE_PLATFORM_OHOS
     if (strcmp(pName, "vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV") == 0) {
         return (PFN_vkVoidFunction)vkmock_GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV;
@@ -6042,9 +6191,26 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
         return (PFN_vkVoidFunction)vkmock_GetMemoryMetalHandlePropertiesEXT;
     }
 #endif  // VK_USE_PLATFORM_METAL_EXT
+    if (strcmp(pName, "vkEnumeratePhysicalDeviceQueueFamilyPerformanceCountersByRegionARM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_EnumeratePhysicalDeviceQueueFamilyPerformanceCountersByRegionARM;
+    }
     if (strcmp(pName, "vkCmdEndRendering2EXT") == 0) {
         return (PFN_vkVoidFunction)vkmock_CmdEndRendering2EXT;
     }
+    if (strcmp(pName, "vkCmdBeginCustomResolveEXT") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdBeginCustomResolveEXT;
+    }
+    if (strcmp(pName, "vkCmdSetComputeOccupancyPriorityNV") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdSetComputeOccupancyPriorityNV;
+    }
+#ifdef VK_USE_PLATFORM_UBM_SEC
+    if (strcmp(pName, "vkCreateUbmSurfaceSEC") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CreateUbmSurfaceSEC;
+    }
+    if (strcmp(pName, "vkGetPhysicalDeviceUbmPresentationSupportSEC") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetPhysicalDeviceUbmPresentationSupportSEC;
+    }
+#endif  // VK_USE_PLATFORM_UBM_SEC
     if (strcmp(pName, "vkCreateAccelerationStructureKHR") == 0) {
         return (PFN_vkVoidFunction)vkmock_CreateAccelerationStructureKHR;
     }
@@ -6507,6 +6673,7 @@ void vkmock::Reset() {
     GetImageViewHandleNVX = {};
     GetImageViewHandle64NVX = {};
     GetImageViewAddressNVX = {};
+    GetDeviceCombinedImageSamplerIndexNVX = {};
     CmdDrawIndirectCountAMD = {};
     CmdDrawIndexedIndirectCountAMD = {};
     GetShaderInfoAMD = {};
@@ -6569,6 +6736,16 @@ void vkmock::Reset() {
     CmdDispatchGraphIndirectAMDX = {};
     CmdDispatchGraphIndirectCountAMDX = {};
 #endif  // VK_ENABLE_BETA_EXTENSIONS
+    WriteSamplerDescriptorsEXT = {};
+    WriteResourceDescriptorsEXT = {};
+    CmdBindSamplerHeapEXT = {};
+    CmdBindResourceHeapEXT = {};
+    CmdPushDataEXT = {};
+    GetImageOpaqueCaptureDataEXT = {};
+    GetPhysicalDeviceDescriptorSizeEXT = {};
+    RegisterCustomBorderColorEXT = {};
+    UnregisterCustomBorderColorEXT = {};
+    GetTensorOpaqueCaptureDataARM = {};
     CmdSetSampleLocationsEXT = {};
     GetPhysicalDeviceMultisamplePropertiesEXT = {};
     GetImageDrmFormatModifierPropertiesEXT = {};
@@ -6605,6 +6782,10 @@ void vkmock::Reset() {
     CmdSetCheckpointNV = {};
     GetQueueCheckpointDataNV = {};
     GetQueueCheckpointData2NV = {};
+    SetSwapchainPresentTimingQueueSizeEXT = {};
+    GetSwapchainTimingPropertiesEXT = {};
+    GetSwapchainTimeDomainPropertiesEXT = {};
+    GetPastPresentationTimingEXT = {};
     InitializePerformanceApiINTEL = {};
     UninitializePerformanceApiINTEL = {};
     CmdSetPerformanceMarkerINTEL = {};
@@ -6755,6 +6936,10 @@ void vkmock::Reset() {
     GetPipelineIndirectMemoryRequirementsNV = {};
     CmdUpdatePipelineIndirectBufferNV = {};
     GetPipelineIndirectDeviceAddressNV = {};
+#ifdef VK_USE_PLATFORM_OHOS
+    GetNativeBufferPropertiesOHOS = {};
+    GetMemoryNativeBufferOHOS = {};
+#endif  // VK_USE_PLATFORM_OHOS
     CmdSetDepthClampEnableEXT = {};
     CmdSetPolygonModeEXT = {};
     CmdSetRasterizationSamplesEXT = {};
@@ -6856,16 +7041,20 @@ void vkmock::Reset() {
     UpdateIndirectExecutionSetShaderEXT = {};
 #ifdef VK_USE_PLATFORM_OHOS
     CreateSurfaceOHOS = {};
-    GetSwapchainGrallocUsageOHOS = {};
-    AcquireImageOHOS = {};
-    QueueSignalReleaseImageOHOS = {};
 #endif  // VK_USE_PLATFORM_OHOS
     GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV = {};
 #ifdef VK_USE_PLATFORM_METAL_EXT
     GetMemoryMetalHandleEXT = {};
     GetMemoryMetalHandlePropertiesEXT = {};
 #endif  // VK_USE_PLATFORM_METAL_EXT
+    EnumeratePhysicalDeviceQueueFamilyPerformanceCountersByRegionARM = {};
     CmdEndRendering2EXT = {};
+    CmdBeginCustomResolveEXT = {};
+    CmdSetComputeOccupancyPriorityNV = {};
+#ifdef VK_USE_PLATFORM_UBM_SEC
+    CreateUbmSurfaceSEC = {};
+    GetPhysicalDeviceUbmPresentationSupportSEC = {};
+#endif  // VK_USE_PLATFORM_UBM_SEC
     CreateAccelerationStructureKHR = {};
     DestroyAccelerationStructureKHR = {};
     CmdBuildAccelerationStructuresKHR = {};

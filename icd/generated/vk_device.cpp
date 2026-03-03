@@ -800,6 +800,9 @@ VkResult Device::GetImageViewAddressNVX(VkImageView imageView, VkImageViewAddres
     }
     return result;
 }
+uint64_t Device::GetDeviceCombinedImageSamplerIndexNVX(uint64_t imageViewIndex, uint64_t samplerIndex) {
+    return dispatch_table_.GetDeviceCombinedImageSamplerIndexNVX(handle_, imageViewIndex, samplerIndex);
+}
 VkResult Device::GetShaderInfoAMD(VkPipeline pipeline, VkShaderStageFlagBits shaderStage, VkShaderInfoTypeAMD infoType,
                                   size_t* pInfoSize, void* pInfo) {
     return dispatch_table_.GetShaderInfoAMD(handle_, pipeline, shaderStage, infoType, pInfoSize, pInfo);
@@ -894,6 +897,33 @@ VkResult Device::GetExecutionGraphPipelineNodeIndexAMDX(VkPipeline executionGrap
     return dispatch_table_.GetExecutionGraphPipelineNodeIndexAMDX(handle_, executionGraph, pNodeInfo, pNodeIndex);
 }
 #endif  // VK_ENABLE_BETA_EXTENSIONS
+VkResult Device::WriteSamplerDescriptorsEXT(uint32_t samplerCount, const VkSamplerCreateInfo* pSamplers,
+                                            const VkHostAddressRangeEXT* pDescriptors) {
+    return dispatch_table_.WriteSamplerDescriptorsEXT(handle_, samplerCount, pSamplers, pDescriptors);
+}
+VkResult Device::WriteResourceDescriptorsEXT(uint32_t resourceCount, const VkResourceDescriptorInfoEXT* pResources,
+                                             const VkHostAddressRangeEXT* pDescriptors) {
+    return dispatch_table_.WriteResourceDescriptorsEXT(handle_, resourceCount, pResources, pDescriptors);
+}
+VkResult Device::GetImageOpaqueCaptureDataEXT(uint32_t imageCount, const VkImage* pImages, VkHostAddressRangeEXT* pDatas) {
+    VkResult result = dispatch_table_.GetImageOpaqueCaptureDataEXT(handle_, imageCount, pImages, pDatas);
+    if (pDatas != nullptr) {
+        for (uint32_t i = 0; i < imageCount; ++i) vksc::ConvertOutStructToVulkanSC<VkHostAddressRangeEXT>(&pDatas[i]);
+    }
+    return result;
+}
+VkResult Device::RegisterCustomBorderColorEXT(const VkSamplerCustomBorderColorCreateInfoEXT* pBorderColor, VkBool32 requestIndex,
+                                              uint32_t* pIndex) {
+    return dispatch_table_.RegisterCustomBorderColorEXT(handle_, pBorderColor, requestIndex, pIndex);
+}
+void Device::UnregisterCustomBorderColorEXT(uint32_t index) { dispatch_table_.UnregisterCustomBorderColorEXT(handle_, index); }
+VkResult Device::GetTensorOpaqueCaptureDataARM(uint32_t tensorCount, const VkTensorARM* pTensors, VkHostAddressRangeEXT* pDatas) {
+    VkResult result = dispatch_table_.GetTensorOpaqueCaptureDataARM(handle_, tensorCount, pTensors, pDatas);
+    if (pDatas != nullptr) {
+        for (uint32_t i = 0; i < tensorCount; ++i) vksc::ConvertOutStructToVulkanSC<VkHostAddressRangeEXT>(&pDatas[i]);
+    }
+    return result;
+}
 VkResult Device::GetImageDrmFormatModifierPropertiesEXT(VkImage image, VkImageDrmFormatModifierPropertiesEXT* pProperties) {
     VkResult result = dispatch_table_.GetImageDrmFormatModifierPropertiesEXT(handle_, image, pProperties);
     if (pProperties != nullptr) {
@@ -967,6 +997,41 @@ VkResult Device::GetMemoryHostPointerPropertiesEXT(VkExternalMemoryHandleTypeFla
 VkResult Device::GetCalibratedTimestampsEXT(uint32_t timestampCount, const VkCalibratedTimestampInfoKHR* pTimestampInfos,
                                             uint64_t* pTimestamps, uint64_t* pMaxDeviation) {
     return dispatch_table_.GetCalibratedTimestampsEXT(handle_, timestampCount, pTimestampInfos, pTimestamps, pMaxDeviation);
+}
+VkResult Device::SetSwapchainPresentTimingQueueSizeEXT(VkSwapchainKHR swapchain, uint32_t size) {
+    return dispatch_table_.SetSwapchainPresentTimingQueueSizeEXT(handle_, swapchain, size);
+}
+VkResult Device::GetSwapchainTimingPropertiesEXT(VkSwapchainKHR swapchain,
+                                                 VkSwapchainTimingPropertiesEXT* pSwapchainTimingProperties,
+                                                 uint64_t* pSwapchainTimingPropertiesCounter) {
+    VkResult result = dispatch_table_.GetSwapchainTimingPropertiesEXT(handle_, swapchain, pSwapchainTimingProperties,
+                                                                      pSwapchainTimingPropertiesCounter);
+    if (pSwapchainTimingProperties != nullptr) {
+        vksc::ConvertOutStructChainToVulkanSC<VkSwapchainTimingPropertiesEXT>(pSwapchainTimingProperties);
+    }
+    return result;
+}
+VkResult Device::GetSwapchainTimeDomainPropertiesEXT(VkSwapchainKHR swapchain,
+                                                     VkSwapchainTimeDomainPropertiesEXT* pSwapchainTimeDomainProperties,
+                                                     uint64_t* pTimeDomainsCounter) {
+    VkResult result = dispatch_table_.GetSwapchainTimeDomainPropertiesEXT(handle_, swapchain, pSwapchainTimeDomainProperties,
+                                                                          pTimeDomainsCounter);
+    if (pSwapchainTimeDomainProperties != nullptr) {
+        vksc::ConvertOutStructChainToVulkanSC<VkSwapchainTimeDomainPropertiesEXT>(pSwapchainTimeDomainProperties);
+    }
+    return result;
+}
+VkResult Device::GetPastPresentationTimingEXT(const VkPastPresentationTimingInfoEXT* pPastPresentationTimingInfo,
+                                              VkPastPresentationTimingPropertiesEXT* pPastPresentationTimingProperties) {
+    VkResult result =
+        dispatch_table_.GetPastPresentationTimingEXT(handle_, pPastPresentationTimingInfo, pPastPresentationTimingProperties);
+    if (result == VK_ERROR_DEVICE_LOST) {
+        fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);
+    }
+    if (pPastPresentationTimingProperties != nullptr) {
+        vksc::ConvertOutStructChainToVulkanSC<VkPastPresentationTimingPropertiesEXT>(pPastPresentationTimingProperties);
+    }
+    return result;
 }
 VkResult Device::InitializePerformanceApiINTEL(const VkInitializePerformanceApiInfoINTEL* pInitializeInfo) {
     return dispatch_table_.InitializePerformanceApiINTEL(handle_, pInitializeInfo);
@@ -1242,6 +1307,18 @@ void Device::GetPipelineIndirectMemoryRequirementsNV(const VkComputePipelineCrea
 VkDeviceAddress Device::GetPipelineIndirectDeviceAddressNV(const VkPipelineIndirectDeviceAddressInfoNV* pInfo) {
     return dispatch_table_.GetPipelineIndirectDeviceAddressNV(handle_, pInfo);
 }
+#ifdef VK_USE_PLATFORM_OHOS
+VkResult Device::GetNativeBufferPropertiesOHOS(const struct OH_NativeBuffer* buffer, VkNativeBufferPropertiesOHOS* pProperties) {
+    VkResult result = dispatch_table_.GetNativeBufferPropertiesOHOS(handle_, buffer, pProperties);
+    if (pProperties != nullptr) {
+        vksc::ConvertOutStructChainToVulkanSC<VkNativeBufferPropertiesOHOS>(pProperties);
+    }
+    return result;
+}
+VkResult Device::GetMemoryNativeBufferOHOS(const VkMemoryGetNativeBufferInfoOHOS* pInfo, struct OH_NativeBuffer** pBuffer) {
+    return dispatch_table_.GetMemoryNativeBufferOHOS(handle_, pInfo, pBuffer);
+}
+#endif  // VK_USE_PLATFORM_OHOS
 VkResult Device::CreateTensorARM(const VkTensorCreateInfoARM* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                                  VkTensorARM* pTensor) {
     return dispatch_table_.CreateTensorARM(handle_, pCreateInfo, pAllocator, pTensor);
@@ -1462,14 +1539,6 @@ void Device::UpdateIndirectExecutionSetShaderEXT(VkIndirectExecutionSetEXT indir
                                                  const VkWriteIndirectExecutionSetShaderEXT* pExecutionSetWrites) {
     dispatch_table_.UpdateIndirectExecutionSetShaderEXT(handle_, indirectExecutionSet, executionSetWriteCount, pExecutionSetWrites);
 }
-#ifdef VK_USE_PLATFORM_OHOS
-VkResult Device::GetSwapchainGrallocUsageOHOS(VkFormat format, VkImageUsageFlags imageUsage, uint64_t* grallocUsage) {
-    return dispatch_table_.GetSwapchainGrallocUsageOHOS(handle_, format, imageUsage, grallocUsage);
-}
-VkResult Device::AcquireImageOHOS(VkImage image, int32_t nativeFenceFd, VkSemaphore semaphore, VkFence fence) {
-    return dispatch_table_.AcquireImageOHOS(handle_, image, nativeFenceFd, semaphore, fence);
-}
-#endif  // VK_USE_PLATFORM_OHOS
 #ifdef VK_USE_PLATFORM_METAL_EXT
 VkResult Device::GetMemoryMetalHandleEXT(const VkMemoryGetMetalHandleInfoEXT* pGetMetalHandleInfo, void** pHandle) {
     return dispatch_table_.GetMemoryMetalHandleEXT(handle_, pGetMetalHandleInfo, pHandle);

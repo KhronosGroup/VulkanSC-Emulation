@@ -976,6 +976,8 @@ class vkmock {
     inline static std::function<uint64_t(VkDevice device, const VkImageViewHandleInfoNVX* pInfo)> GetImageViewHandle64NVX{};
     inline static std::function<VkResult(VkDevice device, VkImageView imageView, VkImageViewAddressPropertiesNVX* pProperties)>
         GetImageViewAddressNVX{};
+    inline static std::function<uint64_t(VkDevice device, uint64_t imageViewIndex, uint64_t samplerIndex)>
+        GetDeviceCombinedImageSamplerIndexNVX{};
     inline static std::function<void(VkCommandBuffer commandBuffer, VkBuffer buffer, VkDeviceSize offset, VkBuffer countBuffer,
                                      VkDeviceSize countBufferOffset, uint32_t maxDrawCount, uint32_t stride)>
         CmdDrawIndirectCountAMD{};
@@ -1113,6 +1115,27 @@ class vkmock {
                                      VkDeviceAddress countInfo)>
         CmdDispatchGraphIndirectCountAMDX{};
 #endif  // VK_ENABLE_BETA_EXTENSIONS
+    inline static std::function<VkResult(VkDevice device, uint32_t samplerCount, const VkSamplerCreateInfo* pSamplers,
+                                         const VkHostAddressRangeEXT* pDescriptors)>
+        WriteSamplerDescriptorsEXT{};
+    inline static std::function<VkResult(VkDevice device, uint32_t resourceCount, const VkResourceDescriptorInfoEXT* pResources,
+                                         const VkHostAddressRangeEXT* pDescriptors)>
+        WriteResourceDescriptorsEXT{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, const VkBindHeapInfoEXT* pBindInfo)> CmdBindSamplerHeapEXT{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, const VkBindHeapInfoEXT* pBindInfo)> CmdBindResourceHeapEXT{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, const VkPushDataInfoEXT* pPushDataInfo)> CmdPushDataEXT{};
+    inline static std::function<VkResult(VkDevice device, uint32_t imageCount, const VkImage* pImages,
+                                         VkHostAddressRangeEXT* pDatas)>
+        GetImageOpaqueCaptureDataEXT{};
+    inline static std::function<VkDeviceSize(VkPhysicalDevice physicalDevice, VkDescriptorType descriptorType)>
+        GetPhysicalDeviceDescriptorSizeEXT{};
+    inline static std::function<VkResult(VkDevice device, const VkSamplerCustomBorderColorCreateInfoEXT* pBorderColor,
+                                         VkBool32 requestIndex, uint32_t* pIndex)>
+        RegisterCustomBorderColorEXT{};
+    inline static std::function<void(VkDevice device, uint32_t index)> UnregisterCustomBorderColorEXT{};
+    inline static std::function<VkResult(VkDevice device, uint32_t tensorCount, const VkTensorARM* pTensors,
+                                         VkHostAddressRangeEXT* pDatas)>
+        GetTensorOpaqueCaptureDataARM{};
     inline static std::function<void(VkCommandBuffer commandBuffer, const VkSampleLocationsInfoEXT* pSampleLocationsInfo)>
         CmdSetSampleLocationsEXT{};
     inline static std::function<void(VkPhysicalDevice physicalDevice, VkSampleCountFlagBits samples,
@@ -1219,6 +1242,19 @@ class vkmock {
         GetQueueCheckpointDataNV{};
     inline static std::function<void(VkQueue queue, uint32_t* pCheckpointDataCount, VkCheckpointData2NV* pCheckpointData)>
         GetQueueCheckpointData2NV{};
+    inline static std::function<VkResult(VkDevice device, VkSwapchainKHR swapchain, uint32_t size)>
+        SetSwapchainPresentTimingQueueSizeEXT{};
+    inline static std::function<VkResult(VkDevice device, VkSwapchainKHR swapchain,
+                                         VkSwapchainTimingPropertiesEXT* pSwapchainTimingProperties,
+                                         uint64_t* pSwapchainTimingPropertiesCounter)>
+        GetSwapchainTimingPropertiesEXT{};
+    inline static std::function<VkResult(VkDevice device, VkSwapchainKHR swapchain,
+                                         VkSwapchainTimeDomainPropertiesEXT* pSwapchainTimeDomainProperties,
+                                         uint64_t* pTimeDomainsCounter)>
+        GetSwapchainTimeDomainPropertiesEXT{};
+    inline static std::function<VkResult(VkDevice device, const VkPastPresentationTimingInfoEXT* pPastPresentationTimingInfo,
+                                         VkPastPresentationTimingPropertiesEXT* pPastPresentationTimingProperties)>
+        GetPastPresentationTimingEXT{};
     inline static std::function<VkResult(VkDevice device, const VkInitializePerformanceApiInfoINTEL* pInitializeInfo)>
         InitializePerformanceApiINTEL{};
     inline static std::function<void(VkDevice device)> UninitializePerformanceApiINTEL{};
@@ -1551,6 +1587,14 @@ class vkmock {
         CmdUpdatePipelineIndirectBufferNV{};
     inline static std::function<VkDeviceAddress(VkDevice device, const VkPipelineIndirectDeviceAddressInfoNV* pInfo)>
         GetPipelineIndirectDeviceAddressNV{};
+#ifdef VK_USE_PLATFORM_OHOS
+    inline static std::function<VkResult(VkDevice device, const struct OH_NativeBuffer* buffer,
+                                         VkNativeBufferPropertiesOHOS* pProperties)>
+        GetNativeBufferPropertiesOHOS{};
+    inline static std::function<VkResult(VkDevice device, const VkMemoryGetNativeBufferInfoOHOS* pInfo,
+                                         struct OH_NativeBuffer** pBuffer)>
+        GetMemoryNativeBufferOHOS{};
+#endif  // VK_USE_PLATFORM_OHOS
     inline static std::function<void(VkCommandBuffer commandBuffer, VkBool32 depthClampEnable)> CmdSetDepthClampEnableEXT{};
     inline static std::function<void(VkCommandBuffer commandBuffer, VkPolygonMode polygonMode)> CmdSetPolygonModeEXT{};
     inline static std::function<void(VkCommandBuffer commandBuffer, VkSampleCountFlagBits rasterizationSamples)>
@@ -1804,14 +1848,6 @@ class vkmock {
     inline static std::function<VkResult(VkInstance instance, const VkSurfaceCreateInfoOHOS* pCreateInfo,
                                          const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface)>
         CreateSurfaceOHOS{};
-    inline static std::function<VkResult(VkDevice device, VkFormat format, VkImageUsageFlags imageUsage, uint64_t* grallocUsage)>
-        GetSwapchainGrallocUsageOHOS{};
-    inline static std::function<VkResult(VkDevice device, VkImage image, int32_t nativeFenceFd, VkSemaphore semaphore,
-                                         VkFence fence)>
-        AcquireImageOHOS{};
-    inline static std::function<VkResult(VkQueue queue, uint32_t waitSemaphoreCount, const VkSemaphore* pWaitSemaphores,
-                                         VkImage image, int32_t* pNativeFenceFd)>
-        QueueSignalReleaseImageOHOS{};
 #endif  // VK_USE_PLATFORM_OHOS
     inline static std::function<VkResult(VkPhysicalDevice physicalDevice, uint32_t* pPropertyCount,
                                          VkCooperativeMatrixFlexibleDimensionsPropertiesNV* pProperties)>
@@ -1823,8 +1859,23 @@ class vkmock {
                                          VkMemoryMetalHandlePropertiesEXT* pMemoryMetalHandleProperties)>
         GetMemoryMetalHandlePropertiesEXT{};
 #endif  // VK_USE_PLATFORM_METAL_EXT
+    inline static std::function<VkResult(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, uint32_t* pCounterCount,
+                                         VkPerformanceCounterARM* pCounters,
+                                         VkPerformanceCounterDescriptionARM* pCounterDescriptions)>
+        EnumeratePhysicalDeviceQueueFamilyPerformanceCountersByRegionARM{};
     inline static std::function<void(VkCommandBuffer commandBuffer, const VkRenderingEndInfoKHR* pRenderingEndInfo)>
         CmdEndRendering2EXT{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, const VkBeginCustomResolveInfoEXT* pBeginCustomResolveInfo)>
+        CmdBeginCustomResolveEXT{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, const VkComputeOccupancyPriorityParametersNV* pParameters)>
+        CmdSetComputeOccupancyPriorityNV{};
+#ifdef VK_USE_PLATFORM_UBM_SEC
+    inline static std::function<VkResult(VkInstance instance, const VkUbmSurfaceCreateInfoSEC* pCreateInfo,
+                                         const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface)>
+        CreateUbmSurfaceSEC{};
+    inline static std::function<VkBool32(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, struct ubm_device* device)>
+        GetPhysicalDeviceUbmPresentationSupportSEC{};
+#endif  // VK_USE_PLATFORM_UBM_SEC
     inline static std::function<VkResult(VkDevice device, const VkAccelerationStructureCreateInfoKHR* pCreateInfo,
                                          const VkAllocationCallbacks* pAllocator,
                                          VkAccelerationStructureKHR* pAccelerationStructure)>

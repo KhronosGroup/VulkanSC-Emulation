@@ -316,6 +316,11 @@ template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceShaderDrawParametersFeatures>(VkPhysicalDeviceShaderDrawParametersFeatures* p) {}
 
 template <>
+void ConvertOutStructToVulkanSC<VkPhysicalDeviceDriverProperties>(VkPhysicalDeviceDriverProperties* p) {
+    ConvertOutStructToVulkanSC<VkConformanceVersion>(&p->conformanceVersion);
+}
+
+template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceVulkan11Features>(VkPhysicalDeviceVulkan11Features* p) {}
 
 template <>
@@ -333,11 +338,6 @@ void ConvertOutStructToVulkanSC<VkPhysicalDeviceVulkan12Properties>(VkPhysicalDe
     p->supportedDepthResolveModes = p->supportedDepthResolveModes & AllVkResolveModeFlagBits;
     p->supportedStencilResolveModes = p->supportedStencilResolveModes & AllVkResolveModeFlagBits;
     p->framebufferIntegerColorSampleCounts = p->framebufferIntegerColorSampleCounts & AllVkSampleCountFlagBits;
-}
-
-template <>
-void ConvertOutStructToVulkanSC<VkPhysicalDeviceDriverProperties>(VkPhysicalDeviceDriverProperties* p) {
-    ConvertOutStructToVulkanSC<VkConformanceVersion>(&p->conformanceVersion);
 }
 
 template <>
@@ -1172,16 +1172,16 @@ void ConvertOutStructChainToVulkanSC<VkPhysicalDeviceProperties2>(VkPhysicalDevi
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceMultiviewProperties*>(base));
                 break;
 
+            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DRIVER_PROPERTIES:
+                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceDriverProperties*>(base));
+                break;
+
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_1_PROPERTIES:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceVulkan11Properties*>(base));
                 break;
 
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_PROPERTIES:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceVulkan12Properties*>(base));
-                break;
-
-            case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DRIVER_PROPERTIES:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkPhysicalDeviceDriverProperties*>(base));
                 break;
 
             case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TIMELINE_SEMAPHORE_PROPERTIES:

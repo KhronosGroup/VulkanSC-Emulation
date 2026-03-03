@@ -100,6 +100,10 @@ class Instance {
     VkResult CreateSurfaceOHOS(const VkSurfaceCreateInfoOHOS* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                                VkSurfaceKHR* pSurface);
 #endif  // VK_USE_PLATFORM_OHOS
+#ifdef VK_USE_PLATFORM_UBM_SEC
+    VkResult CreateUbmSurfaceSEC(const VkUbmSurfaceCreateInfoSEC* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                                 VkSurfaceKHR* pSurface);
+#endif  // VK_USE_PLATFORM_UBM_SEC
 
     VkInstance VkHandle() const { return handle_; }
     const DispatchTable& VkDispatch() const { return dispatch_table_; }

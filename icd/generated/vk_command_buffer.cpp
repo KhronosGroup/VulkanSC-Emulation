@@ -412,6 +412,15 @@ void CommandBuffer::CmdDispatchGraphIndirectCountAMDX(VkDeviceAddress scratch, V
     dispatch_table_.CmdDispatchGraphIndirectCountAMDX(handle_, scratch, scratchSize, countInfo);
 }
 #endif  // VK_ENABLE_BETA_EXTENSIONS
+void CommandBuffer::CmdBindSamplerHeapEXT(const VkBindHeapInfoEXT* pBindInfo) {
+    dispatch_table_.CmdBindSamplerHeapEXT(handle_, pBindInfo);
+}
+void CommandBuffer::CmdBindResourceHeapEXT(const VkBindHeapInfoEXT* pBindInfo) {
+    dispatch_table_.CmdBindResourceHeapEXT(handle_, pBindInfo);
+}
+void CommandBuffer::CmdPushDataEXT(const VkPushDataInfoEXT* pPushDataInfo) {
+    dispatch_table_.CmdPushDataEXT(handle_, pPushDataInfo);
+}
 void CommandBuffer::CmdSetSampleLocationsEXT(const VkSampleLocationsInfoEXT* pSampleLocationsInfo) {
     dispatch_table_.CmdSetSampleLocationsEXT(handle_, pSampleLocationsInfo);
 }
@@ -796,6 +805,12 @@ void CommandBuffer::CmdExecuteGeneratedCommandsEXT(VkBool32 isPreprocessed,
 }
 void CommandBuffer::CmdEndRendering2EXT(const VkRenderingEndInfoKHR* pRenderingEndInfo) {
     dispatch_table_.CmdEndRendering2EXT(handle_, pRenderingEndInfo);
+}
+void CommandBuffer::CmdBeginCustomResolveEXT(const VkBeginCustomResolveInfoEXT* pBeginCustomResolveInfo) {
+    dispatch_table_.CmdBeginCustomResolveEXT(handle_, pBeginCustomResolveInfo);
+}
+void CommandBuffer::CmdSetComputeOccupancyPriorityNV(const VkComputeOccupancyPriorityParametersNV* pParameters) {
+    dispatch_table_.CmdSetComputeOccupancyPriorityNV(handle_, pParameters);
 }
 void CommandBuffer::CmdBuildAccelerationStructuresKHR(uint32_t infoCount, const VkAccelerationStructureBuildGeometryInfoKHR* pInfos,
                                                       const VkAccelerationStructureBuildRangeInfoKHR* const* ppBuildRangeInfos) {

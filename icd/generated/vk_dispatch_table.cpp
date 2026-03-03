@@ -567,6 +567,8 @@ DispatchTable::DispatchTable(VkInstance instance, PFN_vkGetInstanceProcAddr get_
       GetImageViewHandle64NVX(
           reinterpret_cast<PFN_vkGetImageViewHandle64NVX>(get_proc_addr(instance, "vkGetImageViewHandle64NVX"))),
       GetImageViewAddressNVX(reinterpret_cast<PFN_vkGetImageViewAddressNVX>(get_proc_addr(instance, "vkGetImageViewAddressNVX"))),
+      GetDeviceCombinedImageSamplerIndexNVX(reinterpret_cast<PFN_vkGetDeviceCombinedImageSamplerIndexNVX>(
+          get_proc_addr(instance, "vkGetDeviceCombinedImageSamplerIndexNVX"))),
       CmdDrawIndirectCountAMD(
           reinterpret_cast<PFN_vkCmdDrawIndirectCountAMD>(get_proc_addr(instance, "vkCmdDrawIndirectCountAMD"))),
       CmdDrawIndexedIndirectCountAMD(
@@ -663,6 +665,23 @@ DispatchTable::DispatchTable(VkInstance instance, PFN_vkGetInstanceProcAddr get_
       CmdDispatchGraphIndirectCountAMDX(reinterpret_cast<PFN_vkCmdDispatchGraphIndirectCountAMDX>(
           get_proc_addr(instance, "vkCmdDispatchGraphIndirectCountAMDX"))),
 #endif  // VK_ENABLE_BETA_EXTENSIONS
+      WriteSamplerDescriptorsEXT(
+          reinterpret_cast<PFN_vkWriteSamplerDescriptorsEXT>(get_proc_addr(instance, "vkWriteSamplerDescriptorsEXT"))),
+      WriteResourceDescriptorsEXT(
+          reinterpret_cast<PFN_vkWriteResourceDescriptorsEXT>(get_proc_addr(instance, "vkWriteResourceDescriptorsEXT"))),
+      CmdBindSamplerHeapEXT(reinterpret_cast<PFN_vkCmdBindSamplerHeapEXT>(get_proc_addr(instance, "vkCmdBindSamplerHeapEXT"))),
+      CmdBindResourceHeapEXT(reinterpret_cast<PFN_vkCmdBindResourceHeapEXT>(get_proc_addr(instance, "vkCmdBindResourceHeapEXT"))),
+      CmdPushDataEXT(reinterpret_cast<PFN_vkCmdPushDataEXT>(get_proc_addr(instance, "vkCmdPushDataEXT"))),
+      GetImageOpaqueCaptureDataEXT(
+          reinterpret_cast<PFN_vkGetImageOpaqueCaptureDataEXT>(get_proc_addr(instance, "vkGetImageOpaqueCaptureDataEXT"))),
+      GetPhysicalDeviceDescriptorSizeEXT(reinterpret_cast<PFN_vkGetPhysicalDeviceDescriptorSizeEXT>(
+          get_proc_addr(instance, "vkGetPhysicalDeviceDescriptorSizeEXT"))),
+      RegisterCustomBorderColorEXT(
+          reinterpret_cast<PFN_vkRegisterCustomBorderColorEXT>(get_proc_addr(instance, "vkRegisterCustomBorderColorEXT"))),
+      UnregisterCustomBorderColorEXT(
+          reinterpret_cast<PFN_vkUnregisterCustomBorderColorEXT>(get_proc_addr(instance, "vkUnregisterCustomBorderColorEXT"))),
+      GetTensorOpaqueCaptureDataARM(
+          reinterpret_cast<PFN_vkGetTensorOpaqueCaptureDataARM>(get_proc_addr(instance, "vkGetTensorOpaqueCaptureDataARM"))),
       CmdSetSampleLocationsEXT(
           reinterpret_cast<PFN_vkCmdSetSampleLocationsEXT>(get_proc_addr(instance, "vkCmdSetSampleLocationsEXT"))),
       GetPhysicalDeviceMultisamplePropertiesEXT(reinterpret_cast<PFN_vkGetPhysicalDeviceMultisamplePropertiesEXT>(
@@ -731,6 +750,14 @@ DispatchTable::DispatchTable(VkInstance instance, PFN_vkGetInstanceProcAddr get_
           reinterpret_cast<PFN_vkGetQueueCheckpointDataNV>(get_proc_addr(instance, "vkGetQueueCheckpointDataNV"))),
       GetQueueCheckpointData2NV(
           reinterpret_cast<PFN_vkGetQueueCheckpointData2NV>(get_proc_addr(instance, "vkGetQueueCheckpointData2NV"))),
+      SetSwapchainPresentTimingQueueSizeEXT(reinterpret_cast<PFN_vkSetSwapchainPresentTimingQueueSizeEXT>(
+          get_proc_addr(instance, "vkSetSwapchainPresentTimingQueueSizeEXT"))),
+      GetSwapchainTimingPropertiesEXT(
+          reinterpret_cast<PFN_vkGetSwapchainTimingPropertiesEXT>(get_proc_addr(instance, "vkGetSwapchainTimingPropertiesEXT"))),
+      GetSwapchainTimeDomainPropertiesEXT(reinterpret_cast<PFN_vkGetSwapchainTimeDomainPropertiesEXT>(
+          get_proc_addr(instance, "vkGetSwapchainTimeDomainPropertiesEXT"))),
+      GetPastPresentationTimingEXT(
+          reinterpret_cast<PFN_vkGetPastPresentationTimingEXT>(get_proc_addr(instance, "vkGetPastPresentationTimingEXT"))),
       InitializePerformanceApiINTEL(
           reinterpret_cast<PFN_vkInitializePerformanceApiINTEL>(get_proc_addr(instance, "vkInitializePerformanceApiINTEL"))),
       UninitializePerformanceApiINTEL(
@@ -975,6 +1002,12 @@ DispatchTable::DispatchTable(VkInstance instance, PFN_vkGetInstanceProcAddr get_
           get_proc_addr(instance, "vkCmdUpdatePipelineIndirectBufferNV"))),
       GetPipelineIndirectDeviceAddressNV(reinterpret_cast<PFN_vkGetPipelineIndirectDeviceAddressNV>(
           get_proc_addr(instance, "vkGetPipelineIndirectDeviceAddressNV"))),
+#ifdef VK_USE_PLATFORM_OHOS
+      GetNativeBufferPropertiesOHOS(
+          reinterpret_cast<PFN_vkGetNativeBufferPropertiesOHOS>(get_proc_addr(instance, "vkGetNativeBufferPropertiesOHOS"))),
+      GetMemoryNativeBufferOHOS(
+          reinterpret_cast<PFN_vkGetMemoryNativeBufferOHOS>(get_proc_addr(instance, "vkGetMemoryNativeBufferOHOS"))),
+#endif  // VK_USE_PLATFORM_OHOS
       CmdSetDepthClampEnableEXT(
           reinterpret_cast<PFN_vkCmdSetDepthClampEnableEXT>(get_proc_addr(instance, "vkCmdSetDepthClampEnableEXT"))),
       CmdSetPolygonModeEXT(reinterpret_cast<PFN_vkCmdSetPolygonModeEXT>(get_proc_addr(instance, "vkCmdSetPolygonModeEXT"))),
@@ -1154,11 +1187,6 @@ DispatchTable::DispatchTable(VkInstance instance, PFN_vkGetInstanceProcAddr get_
           get_proc_addr(instance, "vkUpdateIndirectExecutionSetShaderEXT"))),
 #ifdef VK_USE_PLATFORM_OHOS
       CreateSurfaceOHOS(reinterpret_cast<PFN_vkCreateSurfaceOHOS>(get_proc_addr(instance, "vkCreateSurfaceOHOS"))),
-      GetSwapchainGrallocUsageOHOS(
-          reinterpret_cast<PFN_vkGetSwapchainGrallocUsageOHOS>(get_proc_addr(instance, "vkGetSwapchainGrallocUsageOHOS"))),
-      AcquireImageOHOS(reinterpret_cast<PFN_vkAcquireImageOHOS>(get_proc_addr(instance, "vkAcquireImageOHOS"))),
-      QueueSignalReleaseImageOHOS(
-          reinterpret_cast<PFN_vkQueueSignalReleaseImageOHOS>(get_proc_addr(instance, "vkQueueSignalReleaseImageOHOS"))),
 #endif  // VK_USE_PLATFORM_OHOS
       GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV(
           reinterpret_cast<PFN_vkGetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV>(
@@ -1169,7 +1197,19 @@ DispatchTable::DispatchTable(VkInstance instance, PFN_vkGetInstanceProcAddr get_
       GetMemoryMetalHandlePropertiesEXT(reinterpret_cast<PFN_vkGetMemoryMetalHandlePropertiesEXT>(
           get_proc_addr(instance, "vkGetMemoryMetalHandlePropertiesEXT"))),
 #endif  // VK_USE_PLATFORM_METAL_EXT
+      EnumeratePhysicalDeviceQueueFamilyPerformanceCountersByRegionARM(
+          reinterpret_cast<PFN_vkEnumeratePhysicalDeviceQueueFamilyPerformanceCountersByRegionARM>(
+              get_proc_addr(instance, "vkEnumeratePhysicalDeviceQueueFamilyPerformanceCountersByRegionARM"))),
       CmdEndRendering2EXT(reinterpret_cast<PFN_vkCmdEndRendering2EXT>(get_proc_addr(instance, "vkCmdEndRendering2EXT"))),
+      CmdBeginCustomResolveEXT(
+          reinterpret_cast<PFN_vkCmdBeginCustomResolveEXT>(get_proc_addr(instance, "vkCmdBeginCustomResolveEXT"))),
+      CmdSetComputeOccupancyPriorityNV(
+          reinterpret_cast<PFN_vkCmdSetComputeOccupancyPriorityNV>(get_proc_addr(instance, "vkCmdSetComputeOccupancyPriorityNV"))),
+#ifdef VK_USE_PLATFORM_UBM_SEC
+      CreateUbmSurfaceSEC(reinterpret_cast<PFN_vkCreateUbmSurfaceSEC>(get_proc_addr(instance, "vkCreateUbmSurfaceSEC"))),
+      GetPhysicalDeviceUbmPresentationSupportSEC(reinterpret_cast<PFN_vkGetPhysicalDeviceUbmPresentationSupportSEC>(
+          get_proc_addr(instance, "vkGetPhysicalDeviceUbmPresentationSupportSEC"))),
+#endif  // VK_USE_PLATFORM_UBM_SEC
       CreateAccelerationStructureKHR(
           reinterpret_cast<PFN_vkCreateAccelerationStructureKHR>(get_proc_addr(instance, "vkCreateAccelerationStructureKHR"))),
       DestroyAccelerationStructureKHR(

@@ -85,45 +85,6 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBaseOutSt
 }
 
 template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBufferMemoryBarrier>(VkStructureType type) {
-    switch (type) {
-        default:
-            // Unknown structure
-            return {0, 0};
-    }
-}
-
-template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageSubresourceRange>(VkStructureType type) {
-    switch (type) {
-        default:
-            // Unknown structure
-            return {0, 0};
-    }
-}
-
-template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageMemoryBarrier>(VkStructureType type) {
-    switch (type) {
-        case VK_STRUCTURE_TYPE_SAMPLE_LOCATIONS_INFO_EXT:
-            return {alignof(VkSampleLocationsInfoEXT), sizeof(VkSampleLocationsInfoEXT)};
-
-        default:
-            // Unknown structure
-            return {0, 0};
-    }
-}
-
-template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryBarrier>(VkStructureType type) {
-    switch (type) {
-        default:
-            // Unknown structure
-            return {0, 0};
-    }
-}
-
-template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkAllocationCallbacks>(VkStructureType type) {
     switch (type) {
         default:
@@ -673,6 +634,15 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkComponent
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageSubresourceRange>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageViewCreateInfo>(VkStructureType type) {
     switch (type) {
         case VK_STRUCTURE_TYPE_IMAGE_VIEW_ASTC_DECODE_MODE_EXT:
@@ -766,6 +736,36 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBufferIma
 
 template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageCopy>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBufferMemoryBarrier>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageMemoryBarrier>(VkStructureType type) {
+    switch (type) {
+        case VK_STRUCTURE_TYPE_SAMPLE_LOCATIONS_INFO_EXT:
+            return {alignof(VkSampleLocationsInfoEXT), sizeof(VkSampleLocationsInfoEXT)};
+
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryBarrier>(VkStructureType type) {
     switch (type) {
         default:
             // Unknown structure
@@ -895,6 +895,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineL
 template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSamplerCreateInfo>(VkStructureType type) {
     switch (type) {
+        case VK_STRUCTURE_TYPE_DEBUG_UTILS_OBJECT_NAME_INFO_EXT:
+            return {alignof(VkDebugUtilsObjectNameInfoEXT), sizeof(VkDebugUtilsObjectNameInfoEXT)};
         case VK_STRUCTURE_TYPE_SAMPLER_CUSTOM_BORDER_COLOR_CREATE_INFO_EXT:
             return {alignof(VkSamplerCustomBorderColorCreateInfoEXT), sizeof(VkSamplerCustomBorderColorCreateInfoEXT)};
         case VK_STRUCTURE_TYPE_SAMPLER_REDUCTION_MODE_CREATE_INFO:
@@ -1030,7 +1032,7 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDrawIndir
 }
 
 template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVertexInputBindingDescription>(VkStructureType type) {
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkStencilOpState>(VkStructureType type) {
     switch (type) {
         default:
             // Unknown structure
@@ -1048,33 +1050,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVertexInp
 }
 
 template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineVertexInputStateCreateInfo>(VkStructureType type) {
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkVertexInputBindingDescription>(VkStructureType type) {
     switch (type) {
-        case VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_DIVISOR_STATE_CREATE_INFO:
-            return {alignof(VkPipelineVertexInputDivisorStateCreateInfo), sizeof(VkPipelineVertexInputDivisorStateCreateInfo)};
-
-        default:
-            // Unknown structure
-            return {0, 0};
-    }
-}
-
-template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineInputAssemblyStateCreateInfo>(VkStructureType type) {
-    switch (type) {
-        default:
-            // Unknown structure
-            return {0, 0};
-    }
-}
-
-template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineTessellationStateCreateInfo>(VkStructureType type) {
-    switch (type) {
-        case VK_STRUCTURE_TYPE_PIPELINE_TESSELLATION_DOMAIN_ORIGIN_STATE_CREATE_INFO:
-            return {alignof(VkPipelineTessellationDomainOriginStateCreateInfo),
-                    sizeof(VkPipelineTessellationDomainOriginStateCreateInfo)};
-
         default:
             // Unknown structure
             return {0, 0};
@@ -1083,63 +1060,6 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineT
 
 template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkViewport>(VkStructureType type) {
-    switch (type) {
-        default:
-            // Unknown structure
-            return {0, 0};
-    }
-}
-
-template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineViewportStateCreateInfo>(VkStructureType type) {
-    switch (type) {
-        default:
-            // Unknown structure
-            return {0, 0};
-    }
-}
-
-template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineRasterizationStateCreateInfo>(VkStructureType type) {
-    switch (type) {
-        case VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_CONSERVATIVE_STATE_CREATE_INFO_EXT:
-            return {alignof(VkPipelineRasterizationConservativeStateCreateInfoEXT),
-                    sizeof(VkPipelineRasterizationConservativeStateCreateInfoEXT)};
-        case VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_DEPTH_CLIP_STATE_CREATE_INFO_EXT:
-            return {alignof(VkPipelineRasterizationDepthClipStateCreateInfoEXT),
-                    sizeof(VkPipelineRasterizationDepthClipStateCreateInfoEXT)};
-        case VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_LINE_STATE_CREATE_INFO:
-            return {alignof(VkPipelineRasterizationLineStateCreateInfo), sizeof(VkPipelineRasterizationLineStateCreateInfo)};
-
-        default:
-            // Unknown structure
-            return {0, 0};
-    }
-}
-
-template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineMultisampleStateCreateInfo>(VkStructureType type) {
-    switch (type) {
-        case VK_STRUCTURE_TYPE_PIPELINE_SAMPLE_LOCATIONS_STATE_CREATE_INFO_EXT:
-            return {alignof(VkPipelineSampleLocationsStateCreateInfoEXT), sizeof(VkPipelineSampleLocationsStateCreateInfoEXT)};
-
-        default:
-            // Unknown structure
-            return {0, 0};
-    }
-}
-
-template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkStencilOpState>(VkStructureType type) {
-    switch (type) {
-        default:
-            // Unknown structure
-            return {0, 0};
-    }
-}
-
-template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineDepthStencilStateCreateInfo>(VkStructureType type) {
     switch (type) {
         default:
             // Unknown structure
@@ -1172,7 +1092,89 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineC
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineDepthStencilStateCreateInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineDynamicStateCreateInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineInputAssemblyStateCreateInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineMultisampleStateCreateInfo>(VkStructureType type) {
+    switch (type) {
+        case VK_STRUCTURE_TYPE_PIPELINE_SAMPLE_LOCATIONS_STATE_CREATE_INFO_EXT:
+            return {alignof(VkPipelineSampleLocationsStateCreateInfoEXT), sizeof(VkPipelineSampleLocationsStateCreateInfoEXT)};
+
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineRasterizationStateCreateInfo>(VkStructureType type) {
+    switch (type) {
+        case VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_CONSERVATIVE_STATE_CREATE_INFO_EXT:
+            return {alignof(VkPipelineRasterizationConservativeStateCreateInfoEXT),
+                    sizeof(VkPipelineRasterizationConservativeStateCreateInfoEXT)};
+        case VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_DEPTH_CLIP_STATE_CREATE_INFO_EXT:
+            return {alignof(VkPipelineRasterizationDepthClipStateCreateInfoEXT),
+                    sizeof(VkPipelineRasterizationDepthClipStateCreateInfoEXT)};
+        case VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_LINE_STATE_CREATE_INFO:
+            return {alignof(VkPipelineRasterizationLineStateCreateInfo), sizeof(VkPipelineRasterizationLineStateCreateInfo)};
+
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineTessellationStateCreateInfo>(VkStructureType type) {
+    switch (type) {
+        case VK_STRUCTURE_TYPE_PIPELINE_TESSELLATION_DOMAIN_ORIGIN_STATE_CREATE_INFO:
+            return {alignof(VkPipelineTessellationDomainOriginStateCreateInfo),
+                    sizeof(VkPipelineTessellationDomainOriginStateCreateInfo)};
+
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineVertexInputStateCreateInfo>(VkStructureType type) {
+    switch (type) {
+        case VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_DIVISOR_STATE_CREATE_INFO:
+            return {alignof(VkPipelineVertexInputDivisorStateCreateInfo), sizeof(VkPipelineVertexInputDivisorStateCreateInfo)};
+
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineViewportStateCreateInfo>(VkStructureType type) {
     switch (type) {
         default:
             // Unknown structure
@@ -1240,7 +1242,7 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkFramebuff
 }
 
 template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSubpassDescription>(VkStructureType type) {
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSubpassDependency>(VkStructureType type) {
     switch (type) {
         default:
             // Unknown structure
@@ -1249,7 +1251,7 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSubpassDe
 }
 
 template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSubpassDependency>(VkStructureType type) {
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSubpassDescription>(VkStructureType type) {
     switch (type) {
         default:
             // Unknown structure
@@ -1281,6 +1283,15 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkClearDept
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkClearRect>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkClearValue>(VkStructureType type) {
     switch (type) {
         default:
@@ -1291,15 +1302,6 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkClearValu
 
 template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkClearAttachment>(VkStructureType type) {
-    switch (type) {
-        default:
-            // Unknown structure
-            return {0, 0};
-    }
-}
-
-template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkClearRect>(VkStructureType type) {
     switch (type) {
         default:
             // Unknown structure
@@ -2234,6 +2236,24 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkConformanceVersion>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDriverProperties>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceVulkan11Features>(VkStructureType type) {
     switch (type) {
         default:
@@ -2261,15 +2281,6 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
 }
 
 template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkConformanceVersion>(VkStructureType type) {
-    switch (type) {
-        default:
-            // Unknown structure
-            return {0, 0};
-    }
-}
-
-template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceVulkan12Properties>(VkStructureType type) {
     switch (type) {
         default:
@@ -2280,15 +2291,6 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
 
 template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageFormatListCreateInfo>(VkStructureType type) {
-    switch (type) {
-        default:
-            // Unknown structure
-            return {0, 0};
-    }
-}
-
-template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDriverProperties>(VkStructureType type) {
     switch (type) {
         default:
             // Unknown structure
@@ -2607,15 +2609,6 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSubpassDe
 }
 
 template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRenderPassCreateInfo2>(VkStructureType type) {
-    switch (type) {
-        default:
-            // Unknown structure
-            return {0, 0};
-    }
-}
-
-template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSubpassBeginInfo>(VkStructureType type) {
     switch (type) {
         default:
@@ -2626,6 +2619,15 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSubpassBe
 
 template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSubpassEndInfo>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRenderPassCreateInfo2>(VkStructureType type) {
     switch (type) {
         default:
             // Unknown structure
@@ -2682,7 +2684,7 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkFramebuff
 }
 
 template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkFramebufferAttachmentsCreateInfo>(VkStructureType type) {
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRenderPassAttachmentBeginInfo>(VkStructureType type) {
     switch (type) {
         default:
             // Unknown structure
@@ -2691,7 +2693,7 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkFramebuff
 }
 
 template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRenderPassAttachmentBeginInfo>(VkStructureType type) {
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkFramebufferAttachmentsCreateInfo>(VkStructureType type) {
     switch (type) {
         default:
             // Unknown structure
@@ -3323,6 +3325,18 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSubresourceLayout2>(VkStructureType type) {
+    switch (type) {
+        case VK_STRUCTURE_TYPE_SUBRESOURCE_HOST_MEMCPY_SIZE:
+            return {alignof(VkSubresourceHostMemcpySize), sizeof(VkSubresourceHostMemcpySize)};
+
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageSubresource2>(VkStructureType type) {
     switch (type) {
         default:
@@ -3334,18 +3348,6 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageSubr
 template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceImageSubresourceInfo>(VkStructureType type) {
     switch (type) {
-        default:
-            // Unknown structure
-            return {0, 0};
-    }
-}
-
-template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSubresourceLayout2>(VkStructureType type) {
-    switch (type) {
-        case VK_STRUCTURE_TYPE_SUBRESOURCE_HOST_MEMCPY_SIZE:
-            return {alignof(VkSubresourceHostMemcpySize), sizeof(VkSubresourceHostMemcpySize)};
-
         default:
             // Unknown structure
             return {0, 0};

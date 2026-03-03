@@ -271,6 +271,7 @@ class Device {
     uint32_t GetImageViewHandleNVX(const VkImageViewHandleInfoNVX* pInfo);
     uint64_t GetImageViewHandle64NVX(const VkImageViewHandleInfoNVX* pInfo);
     VkResult GetImageViewAddressNVX(VkImageView imageView, VkImageViewAddressPropertiesNVX* pProperties);
+    uint64_t GetDeviceCombinedImageSamplerIndexNVX(uint64_t imageViewIndex, uint64_t samplerIndex);
     VkResult GetShaderInfoAMD(VkPipeline pipeline, VkShaderStageFlagBits shaderStage, VkShaderInfoTypeAMD infoType,
                               size_t* pInfoSize, void* pInfo);
 #ifdef VK_USE_PLATFORM_WIN32_KHR
@@ -303,6 +304,15 @@ class Device {
     VkResult GetExecutionGraphPipelineNodeIndexAMDX(VkPipeline executionGraph,
                                                     const VkPipelineShaderStageNodeCreateInfoAMDX* pNodeInfo, uint32_t* pNodeIndex);
 #endif  // VK_ENABLE_BETA_EXTENSIONS
+    VkResult WriteSamplerDescriptorsEXT(uint32_t samplerCount, const VkSamplerCreateInfo* pSamplers,
+                                        const VkHostAddressRangeEXT* pDescriptors);
+    VkResult WriteResourceDescriptorsEXT(uint32_t resourceCount, const VkResourceDescriptorInfoEXT* pResources,
+                                         const VkHostAddressRangeEXT* pDescriptors);
+    VkResult GetImageOpaqueCaptureDataEXT(uint32_t imageCount, const VkImage* pImages, VkHostAddressRangeEXT* pDatas);
+    VkResult RegisterCustomBorderColorEXT(const VkSamplerCustomBorderColorCreateInfoEXT* pBorderColor, VkBool32 requestIndex,
+                                          uint32_t* pIndex);
+    void UnregisterCustomBorderColorEXT(uint32_t index);
+    VkResult GetTensorOpaqueCaptureDataARM(uint32_t tensorCount, const VkTensorARM* pTensors, VkHostAddressRangeEXT* pDatas);
     VkResult GetImageDrmFormatModifierPropertiesEXT(VkImage image, VkImageDrmFormatModifierPropertiesEXT* pProperties);
     VkResult CreateValidationCacheEXT(const VkValidationCacheCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                                       VkValidationCacheEXT* pValidationCache);
@@ -330,6 +340,14 @@ class Device {
                                                VkMemoryHostPointerPropertiesEXT* pMemoryHostPointerProperties);
     VkResult GetCalibratedTimestampsEXT(uint32_t timestampCount, const VkCalibratedTimestampInfoKHR* pTimestampInfos,
                                         uint64_t* pTimestamps, uint64_t* pMaxDeviation);
+    VkResult SetSwapchainPresentTimingQueueSizeEXT(VkSwapchainKHR swapchain, uint32_t size);
+    VkResult GetSwapchainTimingPropertiesEXT(VkSwapchainKHR swapchain, VkSwapchainTimingPropertiesEXT* pSwapchainTimingProperties,
+                                             uint64_t* pSwapchainTimingPropertiesCounter);
+    VkResult GetSwapchainTimeDomainPropertiesEXT(VkSwapchainKHR swapchain,
+                                                 VkSwapchainTimeDomainPropertiesEXT* pSwapchainTimeDomainProperties,
+                                                 uint64_t* pTimeDomainsCounter);
+    VkResult GetPastPresentationTimingEXT(const VkPastPresentationTimingInfoEXT* pPastPresentationTimingInfo,
+                                          VkPastPresentationTimingPropertiesEXT* pPastPresentationTimingProperties);
     VkResult InitializePerformanceApiINTEL(const VkInitializePerformanceApiInfoINTEL* pInitializeInfo);
     void UninitializePerformanceApiINTEL();
     VkResult AcquirePerformanceConfigurationINTEL(const VkPerformanceConfigurationAcquireInfoINTEL* pAcquireInfo,
@@ -427,6 +445,10 @@ class Device {
     void GetPipelineIndirectMemoryRequirementsNV(const VkComputePipelineCreateInfo* pCreateInfo,
                                                  VkMemoryRequirements2* pMemoryRequirements);
     VkDeviceAddress GetPipelineIndirectDeviceAddressNV(const VkPipelineIndirectDeviceAddressInfoNV* pInfo);
+#ifdef VK_USE_PLATFORM_OHOS
+    VkResult GetNativeBufferPropertiesOHOS(const struct OH_NativeBuffer* buffer, VkNativeBufferPropertiesOHOS* pProperties);
+    VkResult GetMemoryNativeBufferOHOS(const VkMemoryGetNativeBufferInfoOHOS* pInfo, struct OH_NativeBuffer** pBuffer);
+#endif  // VK_USE_PLATFORM_OHOS
     VkResult CreateTensorARM(const VkTensorCreateInfoARM* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                              VkTensorARM* pTensor);
     void DestroyTensorARM(VkTensorARM tensor, const VkAllocationCallbacks* pAllocator);
@@ -502,10 +524,6 @@ class Device {
                                                const VkWriteIndirectExecutionSetPipelineEXT* pExecutionSetWrites);
     void UpdateIndirectExecutionSetShaderEXT(VkIndirectExecutionSetEXT indirectExecutionSet, uint32_t executionSetWriteCount,
                                              const VkWriteIndirectExecutionSetShaderEXT* pExecutionSetWrites);
-#ifdef VK_USE_PLATFORM_OHOS
-    VkResult GetSwapchainGrallocUsageOHOS(VkFormat format, VkImageUsageFlags imageUsage, uint64_t* grallocUsage);
-    VkResult AcquireImageOHOS(VkImage image, int32_t nativeFenceFd, VkSemaphore semaphore, VkFence fence);
-#endif  // VK_USE_PLATFORM_OHOS
 #ifdef VK_USE_PLATFORM_METAL_EXT
     VkResult GetMemoryMetalHandleEXT(const VkMemoryGetMetalHandleInfoEXT* pGetMetalHandleInfo, void** pHandle);
     VkResult GetMemoryMetalHandlePropertiesEXT(VkExternalMemoryHandleTypeFlagBits handleType, const void* pHandle,
