@@ -202,10 +202,11 @@ static bool validate_spirv(const Json::Value& enabled_extensions, const Json::Va
             }
 
             // Then parse SPIR-V instructions to collect the SPIR-V ID of specialization constant IDs
-            std::unordered_map<uint32_t, uint32_t> id_to_spec_id;
+            std::unordered_map<uint32_t, uint32_t> id_to_spec_id{};
             spvtools::SpirvTools parser(target_env);
             parser.Parse(
-                *spirv, [](const spv_endianness_t endianess, const spv_parsed_header_t& instruction) { return SPV_SUCCESS; },
+                flattened_spirv,
+                [](const spv_endianness_t endianess, const spv_parsed_header_t& instruction) { return SPV_SUCCESS; },
                 [&](const spv_parsed_instruction_t& instruction) {
                     if (instruction.opcode == spv::OpDecorate && instruction.words[2] == spv::DecorationSpecId) {
                         id_to_spec_id[instruction.words[1]] = instruction.words[3];
