@@ -451,7 +451,8 @@ VkResult Device::AllocateMemory(const VkMemoryAllocateInfo* pAllocateInfo, const
         }
         return result;
     } else {
-        // We ran out of requested device memory objects
+        Log().Error("VKSC-EMU-AllocateMemory-OutOfReservedDeviceMemoryObjects",
+                    "Ran out of the reserved number of VkDeviceMemory objects");
         return VK_ERROR_OUT_OF_HOST_MEMORY;
     }
 }
@@ -486,7 +487,8 @@ VkResult Device::CreateCommandPool(const VkCommandPoolCreateInfo* pCreateInfo, c
         }
         return result;
     } else {
-        // We ran out of requested command pool objects
+        Log().Error("VKSC-EMU-CreateCommandPool-OutOfReservedCommandPoolObjects",
+                    "Ran out of the reserved number of VkCommandPool objects");
         return VK_ERROR_OUT_OF_HOST_MEMORY;
     }
 }
@@ -500,7 +502,8 @@ VkResult Device::CreateDescriptorPool(const VkDescriptorPoolCreateInfo* pCreateI
         }
         return result;
     } else {
-        // We ran out of requested descriptor pool objects
+        Log().Error("VKSC-EMU-CreateDescriptorPool-OutOfReservedDescriptorPoolObjects",
+                    "Ran out of the reserved number of VkDescriptorPool objects");
         return VK_ERROR_OUT_OF_HOST_MEMORY;
     }
 }
@@ -514,7 +517,8 @@ VkResult Device::CreateQueryPool(const VkQueryPoolCreateInfo* pCreateInfo, const
         }
         return result;
     } else {
-        // We ran out of requested query pool objects
+        Log().Error("VKSC-EMU-CreateQueryPool-OutOfReservedQueryPoolObjects",
+                    "Ran out of the reserved number of VkQueryPool objects");
         return VK_ERROR_OUT_OF_HOST_MEMORY;
     }
 }
@@ -528,7 +532,8 @@ VkResult Device::CreateSwapchainKHR(const VkSwapchainCreateInfoKHR* pCreateInfo,
         }
         return result;
     } else {
-        // We ran out of requested query pool objects
+        Log().Error("VKSC-EMU-CreateSwapchainKHR-OutOfReservedSwapchainObjects",
+                    "Ran out of the reserved number of VkSwapchainKHR objects");
         return VK_ERROR_OUT_OF_HOST_MEMORY;
     }
 }
@@ -542,7 +547,8 @@ VkResult Device::CreateSharedSwapchainsKHR(uint32_t swapchainCount, const VkSwap
         }
         return result;
     } else {
-        // We ran out of requested query pool objects
+        Log().Error("VKSC-EMU-CreateSharedSwapchainsKHR-OutOfReservedSwapchainObjects",
+                    "Ran out of the reserved number of VkSwapchainKHR objects");
         return VK_ERROR_OUT_OF_HOST_MEMORY;
     }
 }
