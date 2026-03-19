@@ -6,7 +6,7 @@
 # ~~~
 cmake_minimum_required(VERSION 3.17.2)
 
-project(VulkanSC-Emulation)
+project(VulkanSC-Emulation VERSION 1.0.21)
 
 set(API_TYPE "vulkansc")
 add_definitions(-DVULKANSC)
