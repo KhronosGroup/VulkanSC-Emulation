@@ -229,6 +229,8 @@ void PhysicalDevice::GetPhysicalDeviceProperties(VkPhysicalDeviceProperties* pPr
 }
 
 void PhysicalDevice::GetPhysicalDeviceProperties2(VkPhysicalDeviceProperties2* pProperties) {
+    static constexpr VkConformanceVersion kConformanceVersion = {1, 0, 2, 1};
+
     NEXT::GetPhysicalDeviceProperties2(pProperties);
     UpdatePhysicalDevicePropertiesForVulkanSC(pProperties->properties);
 
@@ -271,7 +273,7 @@ void PhysicalDevice::GetPhysicalDeviceProperties2(VkPhysicalDeviceProperties2* p
         memset(driver_props->driverName, 0, VK_MAX_DRIVER_NAME_SIZE);
         strncpy(driver_props->driverName, driver_name, VK_MAX_DRIVER_NAME_SIZE - 1);
         strncpy(driver_props->driverInfo, driver_info.c_str(), VK_MAX_DRIVER_INFO_SIZE - 1);
-        driver_props->conformanceVersion = {0, 0, 0, 0};
+        driver_props->conformanceVersion = kConformanceVersion;
     }
     auto vk11_props = vku::FindStructInPNextChain<VkPhysicalDeviceVulkan11Properties>(pProperties->pNext);
     if (vk11_props) {
@@ -287,7 +289,7 @@ void PhysicalDevice::GetPhysicalDeviceProperties2(VkPhysicalDeviceProperties2* p
         memset(vk12_props->driverName, 0, VK_MAX_DRIVER_NAME_SIZE);
         strncpy(vk12_props->driverName, driver_name, VK_MAX_DRIVER_NAME_SIZE - 1);
         strncpy(vk12_props->driverInfo, driver_info.c_str(), VK_MAX_DRIVER_INFO_SIZE - 1);
-        vk12_props->conformanceVersion = {0, 0, 0, 0};
+        vk12_props->conformanceVersion = kConformanceVersion;
     }
 }
 
