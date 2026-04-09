@@ -51,6 +51,8 @@ class PhysicalDevice : public Dispatchable<PhysicalDevice, VkPhysicalDevice>, pu
 
     const Instance& GetInstance() const { return instance_; }
 
+    void OnLogicalDeviceDestroyed() const { --logical_device_count_; }
+
     VkResult EnumerateDeviceExtensionProperties(const char* pLayerName, uint32_t* pPropertyCount,
                                                 VkExtensionProperties* pProperties);
 
@@ -115,6 +117,8 @@ class PhysicalDevice : public Dispatchable<PhysicalDevice, VkPhysicalDevice>, pu
     std::vector<VkExtensionProperties> device_extension_list_{};
     std::unordered_set<ExtensionNumber> device_extensions_{};
     std::unordered_set<vk::ExtensionNumber> vk_device_extensions_{};
+
+    mutable std::atomic_uint32_t logical_device_count_{0};
 };
 
 }  // namespace vksc

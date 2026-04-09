@@ -102,7 +102,10 @@ VkResult Device::SetupDevice(const VkDeviceCreateInfo& create_info) {
 
 PFN_vkVoidFunction Device::GetDeviceProcAddr(const char* pName) { return icd::GetDeviceProcAddr(VkSCHandle(), pName); }
 
-void Device::DestroyDevice(const VkAllocationCallbacks* pAllocator) { Destroy(VkDispatch().DestroyDevice, VkHandle(), pAllocator); }
+void Device::DestroyDevice(const VkAllocationCallbacks* pAllocator) {
+    GetPhysicalDevice().OnLogicalDeviceDestroyed();
+    Destroy(VkDispatch().DestroyDevice, VkHandle(), pAllocator);
+}
 
 void Device::GetDeviceQueue(uint32_t queueFamilyIndex, uint32_t queueIndex, VkQueue* pQueue) {
     NEXT::GetDeviceQueue(queueFamilyIndex, queueIndex, pQueue);

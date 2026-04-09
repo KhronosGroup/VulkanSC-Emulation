@@ -112,6 +112,13 @@ VkResult PhysicalDevice::EnumerateDeviceExtensionProperties(const char* pLayerNa
 
 VkResult PhysicalDevice::CreateDevice(const VkDeviceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                                       VkDevice* pDevice) {
+    if (logical_device_count_.fetch_add(1) >= ICD.Environment().GetMaxLogicalDevices()) {
+        --logical_device_count_;
+        Log().Error("VKSC-EMU-DeviceCountLimitExceeeded", "Logical device limit (%u) exceeded",
+                    ICD.Environment().GetMaxLogicalDevices());
+        return VK_ERROR_TOO_MANY_OBJECTS;
+    }
+
     // Vulkan SC limits the supported physical device features. If a logical device is requested with any of those features,
     // VK_ERROR_FEATURE_NOT_PRESENT shall be returned, even if the underlying device would support them.
     if (pCreateInfo->pEnabledFeatures != nullptr) {

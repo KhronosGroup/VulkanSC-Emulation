@@ -20,6 +20,7 @@ namespace icd {
 EnvironmentHelper::EnvironmentHelper()
     : log_severity_(ParseLogSeverity()),
       recycle_pipeline_memory_(ParseRecyclePipelineMemory()),
+      max_logical_devices_(ParseMaxLogicalDevices()),
       emulated_display_count_(ParseEmulatedDisplayCount()),
       emulated_display_config_(getenv("VKSC_EMULATION_DISPLAY_CONFIG")),
       private_envs_(InitPrivateEnvs()),
@@ -94,6 +95,16 @@ bool EnvironmentHelper::ParseRecyclePipelineMemory() {
     }
     // Default to recycling
     return true;
+}
+
+uint32_t EnvironmentHelper::ParseMaxLogicalDevices() {
+    // Default is to allow up to 64K logical devices for each physical device
+    uint32_t value = 65536;
+    auto env_var_value = getenv("VKSC_EMULATION_MAX_LOGICAL_DEVICES");
+    if (env_var_value != nullptr) {
+        value = atoi(env_var_value);
+    }
+    return value;
 }
 
 uint32_t EnvironmentHelper::ParseEmulatedDisplayCount() {
