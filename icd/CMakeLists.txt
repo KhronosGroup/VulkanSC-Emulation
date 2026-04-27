@@ -78,6 +78,14 @@ target_link_libraries(icd PRIVATE
     SPIRV-Headers::SPIRV-Headers
 )
 
+if (${CMAKE_CXX_COMPILER_ID} MATCHES "(GNU|Clang)")
+    # These flags enable more efficient PIC generation by avoiding GOT lookups for data
+    # They also explicitly circumvent semantic interposition related problems
+    target_compile_options(icd PRIVATE "-fno-semantic-interposition")
+    target_link_options(icd PRIVATE "-Wl,-Bsymbolic")
+    target_link_options(icd PRIVATE "-Wl,-Bsymbolic-functions")
+endif()
+
 if(BUILD_WSI_XCB_SUPPORT)
     # We link to the XCB libraries to enable WSI display emulation
     target_link_libraries(icd PRIVATE ${XCB_LIBRARIES})
