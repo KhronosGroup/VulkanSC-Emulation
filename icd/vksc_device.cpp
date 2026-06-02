@@ -221,7 +221,6 @@ const icd::Pipeline* Device::GetPipelineFromCache(const icd::PipelineCache& pipe
     }
 
     if (pipeline->GetMemorySize() > offline_info->poolEntrySize) {
-        ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_INVALID_API_USAGE);
         Log().Error("VKSC-EMU-CreatePipeline-InvalidPoolEntrySize",
                     "Attempted to create pipeline (%s) with memory size %" PRIu64 " but poolEntrySize (%" PRIu64 ") is too small",
                     pipeline->ID().toString().c_str(), pipeline->GetMemorySize(), offline_info->poolEntrySize);
