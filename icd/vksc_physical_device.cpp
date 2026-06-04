@@ -175,22 +175,26 @@ VkResult PhysicalDevice::CreateDevice(const VkDeviceCreateInfo* pCreateInfo, con
     VkDevice device = VK_NULL_HANDLE;
     VkResult result = NEXT::CreateDevice(&vk_create_info, pAllocator, &device);
     if (result >= VK_SUCCESS) {
-        *pDevice = vksc::Device::Create(device, *this, *pCreateInfo);
-        result = vksc::Device::FromHandle(*pDevice)->GetStatus();
+        device = vksc::Device::Create(device, *this, *pCreateInfo);
+        result = vksc::Device::FromHandle(device)->GetStatus();
         if (result < VK_SUCCESS) {
-            vksc::Device::FromHandle(*pDevice)->DestroyDevice(pAllocator);
+            vksc::Device::FromHandle(device)->DestroyDevice(pAllocator);
         }
     }
 
-    if (result == VK_SUCCESS) {
+    if (result >= VK_SUCCESS) {
         // Check device count against the limit only after all other checks completed and we would have otherwise succeeded device
         // creation (this matches the behavior of other Vulkan SC implementations that have logical device count limits)
         if (logical_device_count_.fetch_add(1) >= ICD.Environment().GetMaxLogicalDevices()) {
             Log().Error("VKSC-EMU-DeviceCountLimitExceeeded", "Logical device limit (%u) exceeded",
                         ICD.Environment().GetMaxLogicalDevices());
-            vksc::Device::FromHandle(*pDevice)->DestroyDevice(pAllocator);
+            vksc::Device::FromHandle(device)->DestroyDevice(pAllocator);
             result = VK_ERROR_TOO_MANY_OBJECTS;
         }
+    }
+
+    if (result >= VK_SUCCESS) {
+        *pDevice = device;
     }
 
     return result;

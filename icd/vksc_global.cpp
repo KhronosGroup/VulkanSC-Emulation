@@ -296,11 +296,15 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateInstance(const VkInstanceCreateInfo* pCre
     VkInstance instance = VK_NULL_HANDLE;
     VkResult result = vksc::ICD.VkDispatch().CreateInstance(&vk_create_info, pAllocator, &instance);
     if (result >= VK_SUCCESS) {
-        *pInstance = vksc::Instance::Create(instance, vksc::ICD, *pCreateInfo);
-        result = vksc::Instance::FromHandle(*pInstance)->GetStatus();
+        instance = vksc::Instance::Create(instance, vksc::ICD, *pCreateInfo);
+        result = vksc::Instance::FromHandle(instance)->GetStatus();
         if (result < VK_SUCCESS) {
-            vksc::Instance::FromHandle(*pInstance)->DestroyInstance(pAllocator);
+            vksc::Instance::FromHandle(instance)->DestroyInstance(pAllocator);
         }
+    }
+
+    if (result >= VK_SUCCESS) {
+        *pInstance = instance;
     }
 
     return result;
