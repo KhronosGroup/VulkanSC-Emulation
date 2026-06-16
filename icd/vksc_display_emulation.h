@@ -180,6 +180,9 @@ class Display {
     const PhysicalDevice& physical_device_;
     const DisplayConfig& display_config_;
     const std::string name_;
+#if defined(VK_USE_PLATFORM_WIN32_KHR)
+    const std::string win_class_name_;
+#endif
     const VkDisplayPropertiesKHR properties_;
     const DisplayModes predefined_modes_;
     std::unique_ptr<PlatformSurface> surface_{};

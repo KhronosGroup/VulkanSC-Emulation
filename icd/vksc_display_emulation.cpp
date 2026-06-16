@@ -205,8 +205,12 @@ Display::Display(const PhysicalDevice& physical_device, uint32_t index)
     : physical_device_(physical_device),
       display_config_(ICD.GetDisplayManager().GetDisplayConfig()[index]),
       name_(display_config_.name),
+#if defined(VK_USE_PLATFORM_WIN32_KHR)
+      win_class_name_(std::to_string((std::uintptr_t)physical_device_.VkHandle()) + ":" + name_),
+#endif
       properties_(InitDisplayProperties()),
-      predefined_modes_(InitPredefinedDisplayModes()) {}
+      predefined_modes_(InitPredefinedDisplayModes()) {
+}
 
 VkResult Display::CreateSurface(Instance& instance, DisplayMode& display_mode, const VkDisplaySurfaceCreateInfoKHR& create_info,
                                 VkSurfaceKHR& surface) {
@@ -255,7 +259,7 @@ VkResult Display::CreateSurface(Instance& instance, DisplayMode& display_mode, c
             win_class.hCursor = LoadCursor(NULL, IDC_ARROW);
             win_class.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
             win_class.lpszMenuName = NULL;
-            win_class.lpszClassName = name_.c_str();
+            win_class.lpszClassName = win_class_name_.c_str();
             win_class.hIconSm = LoadIcon(NULL, IDI_WINLOGO);
 
             if (RegisterClassEx(&win_class)) {
@@ -272,8 +276,9 @@ VkResult Display::CreateSurface(Instance& instance, DisplayMode& display_mode, c
             DWORD style = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU;
             RECT wr = {0, 0, (LONG)window_size.width, (LONG)window_size.height};
             AdjustWindowRect(&wr, style, FALSE);
-            surface_->window = CreateWindowEx(0, name_.c_str(), name_.c_str(), style, window_location.x, window_location.y,
-                                              wr.right - wr.left, wr.bottom - wr.top, NULL, NULL, surface_->win_inst, NULL);
+            surface_->window =
+                CreateWindowEx(0, win_class_name_.c_str(), name_.c_str(), style, window_location.x, window_location.y,
+                               wr.right - wr.left, wr.bottom - wr.top, NULL, NULL, surface_->win_inst, NULL);
             if (surface_->window) {
                 ShowWindow(surface_->window, SW_SHOWDEFAULT);
                 win_created = true;
@@ -313,11 +318,11 @@ VkResult Display::CreateSurface(Instance& instance, DisplayMode& display_mode, c
                     DispatchMessage(&msg);
                 }
                 DestroyWindow(surface_->window);
-                UnregisterClass(name_.c_str(), surface_->win_inst);
+                UnregisterClass(win_class_name_.c_str(), surface_->win_inst);
             }();
         } else {
             if (win_class_registered) {
-                UnregisterClass(name_.c_str(), surface_->win_inst);
+                UnregisterClass(win_class_name_.c_str(), surface_->win_inst);
             }
             if (win_created) {
                 DestroyWindow(surface_->window);
@@ -421,6 +426,9 @@ VkResult Display::CreateSurface(Instance& instance, DisplayMode& display_mode, c
 #endif
 
     if (result != VK_SUCCESS) {
+        if (surface_ != nullptr && surface_->message_handler.joinable()) {
+            surface_->message_handler.join();
+        }
         surface_ = nullptr;
     }
 
