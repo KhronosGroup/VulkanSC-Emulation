@@ -359,8 +359,9 @@ VkResult Display::CreateSurface(Instance& instance, DisplayMode& display_mode, c
 
         surface_->window = xcb_generate_id(surface_->connection);
 
-        const uint32_t value_mask = XCB_CW_BACK_PIXEL;
-        const uint32_t value_list[] = {surface_->screen->black_pixel};
+        const uint32_t value_mask = XCB_CW_BACK_PIXEL | XCB_CW_EVENT_MASK;
+        const uint32_t value_list[] = {surface_->screen->black_pixel,
+                                       XCB_EVENT_MASK_SUBSTRUCTURE_REDIRECT | XCB_EVENT_MASK_SUBSTRUCTURE_NOTIFY};
 
         xcb_create_window(surface_->connection, XCB_COPY_FROM_PARENT, surface_->window, surface_->screen->root, 0, 0,
                           window_size.width, window_size.height, 0, XCB_WINDOW_CLASS_INPUT_OUTPUT, surface_->screen->root_visual,
