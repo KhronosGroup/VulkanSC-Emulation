@@ -169,11 +169,20 @@ class PhysicalDevice {
     void GetPhysicalDeviceQueueFamilyDataGraphProcessingEnginePropertiesARM(
         const VkPhysicalDeviceQueueFamilyDataGraphProcessingEngineInfoARM* pQueueFamilyDataGraphProcessingEngineInfo,
         VkQueueFamilyDataGraphProcessingEnginePropertiesARM* pQueueFamilyDataGraphProcessingEngineProperties);
+    VkResult GetPhysicalDeviceQueueFamilyDataGraphEngineOperationPropertiesARM(
+        uint32_t queueFamilyIndex, const VkQueueFamilyDataGraphPropertiesARM* pQueueFamilyDataGraphProperties,
+        VkBaseOutStructure* pProperties);
     VkResult GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV(
         uint32_t* pPropertyCount, VkCooperativeMatrixFlexibleDimensionsPropertiesNV* pProperties);
     VkResult EnumeratePhysicalDeviceQueueFamilyPerformanceCountersByRegionARM(
         uint32_t queueFamilyIndex, uint32_t* pCounterCount, VkPerformanceCounterARM* pCounters,
         VkPerformanceCounterDescriptionARM* pCounterDescriptions);
+    VkResult EnumeratePhysicalDeviceShaderInstrumentationMetricsARM(uint32_t* pDescriptionCount,
+                                                                    VkShaderInstrumentationMetricDescriptionARM* pDescriptions);
+    VkResult GetPhysicalDeviceQueueFamilyDataGraphOpticalFlowImageFormatsARM(
+        uint32_t queueFamilyIndex, const VkQueueFamilyDataGraphPropertiesARM* pQueueFamilyDataGraphProperties,
+        const VkDataGraphOpticalFlowImageFormatInfoARM* pOpticalFlowImageFormatInfo, uint32_t* pFormatCount,
+        VkDataGraphOpticalFlowImageFormatPropertiesARM* pImageFormatProperties);
 #ifdef VK_USE_PLATFORM_UBM_SEC
     VkBool32 GetPhysicalDeviceUbmPresentationSupportSEC(uint32_t queueFamilyIndex, struct ubm_device* device);
 #endif  // VK_USE_PLATFORM_UBM_SEC

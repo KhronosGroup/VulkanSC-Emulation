@@ -599,6 +599,16 @@ void PhysicalDevice::GetPhysicalDeviceQueueFamilyDataGraphProcessingEngineProper
             pQueueFamilyDataGraphProcessingEngineProperties);
     }
 }
+VkResult PhysicalDevice::GetPhysicalDeviceQueueFamilyDataGraphEngineOperationPropertiesARM(
+    uint32_t queueFamilyIndex, const VkQueueFamilyDataGraphPropertiesARM* pQueueFamilyDataGraphProperties,
+    VkBaseOutStructure* pProperties) {
+    VkResult result = dispatch_table_.GetPhysicalDeviceQueueFamilyDataGraphEngineOperationPropertiesARM(
+        handle_, queueFamilyIndex, pQueueFamilyDataGraphProperties, pProperties);
+    if (pProperties != nullptr) {
+        vksc::ConvertOutStructToVulkanSC<VkBaseOutStructure>(pProperties);
+    }
+    return result;
+}
 VkResult PhysicalDevice::GetPhysicalDeviceCooperativeMatrixFlexibleDimensionsPropertiesNV(
     uint32_t* pPropertyCount, VkCooperativeMatrixFlexibleDimensionsPropertiesNV* pProperties) {
     VkResult result =
@@ -620,6 +630,29 @@ VkResult PhysicalDevice::EnumeratePhysicalDeviceQueueFamilyPerformanceCountersBy
     if (pCounterDescriptions != nullptr) {
         for (uint32_t i = 0; i < *pCounterCount; ++i)
             vksc::ConvertOutStructChainToVulkanSC<VkPerformanceCounterDescriptionARM>(&pCounterDescriptions[i]);
+    }
+    return result;
+}
+VkResult PhysicalDevice::EnumeratePhysicalDeviceShaderInstrumentationMetricsARM(
+    uint32_t* pDescriptionCount, VkShaderInstrumentationMetricDescriptionARM* pDescriptions) {
+    VkResult result =
+        dispatch_table_.EnumeratePhysicalDeviceShaderInstrumentationMetricsARM(handle_, pDescriptionCount, pDescriptions);
+    if (pDescriptions != nullptr) {
+        for (uint32_t i = 0; i < *pDescriptionCount; ++i)
+            vksc::ConvertOutStructChainToVulkanSC<VkShaderInstrumentationMetricDescriptionARM>(&pDescriptions[i]);
+    }
+    return result;
+}
+VkResult PhysicalDevice::GetPhysicalDeviceQueueFamilyDataGraphOpticalFlowImageFormatsARM(
+    uint32_t queueFamilyIndex, const VkQueueFamilyDataGraphPropertiesARM* pQueueFamilyDataGraphProperties,
+    const VkDataGraphOpticalFlowImageFormatInfoARM* pOpticalFlowImageFormatInfo, uint32_t* pFormatCount,
+    VkDataGraphOpticalFlowImageFormatPropertiesARM* pImageFormatProperties) {
+    VkResult result = dispatch_table_.GetPhysicalDeviceQueueFamilyDataGraphOpticalFlowImageFormatsARM(
+        handle_, queueFamilyIndex, pQueueFamilyDataGraphProperties, pOpticalFlowImageFormatInfo, pFormatCount,
+        pImageFormatProperties);
+    if (pImageFormatProperties != nullptr) {
+        for (uint32_t i = 0; i < *pFormatCount; ++i)
+            vksc::ConvertOutStructChainToVulkanSC<VkDataGraphOpticalFlowImageFormatPropertiesARM>(&pImageFormatProperties[i]);
     }
     return result;
 }

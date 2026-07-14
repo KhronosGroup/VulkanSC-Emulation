@@ -680,6 +680,11 @@ VkResult Device::GetEncodedVideoSessionParametersKHR(const VkVideoEncodeSessionP
     }
     return result;
 }
+VkResult Device::CreateAccelerationStructure2KHR(const VkAccelerationStructureCreateInfo2KHR* pCreateInfo,
+                                                 const VkAllocationCallbacks* pAllocator,
+                                                 VkAccelerationStructureKHR* pAccelerationStructure) {
+    return dispatch_table_.CreateAccelerationStructure2KHR(handle_, pCreateInfo, pAllocator, pAccelerationStructure);
+}
 void Device::GetDeviceBufferMemoryRequirementsKHR(const VkDeviceBufferMemoryRequirements* pInfo,
                                                   VkMemoryRequirements2* pMemoryRequirements) {
     dispatch_table_.GetDeviceBufferMemoryRequirementsKHR(handle_, pInfo, pMemoryRequirements);
@@ -766,6 +771,20 @@ VkResult Device::ReleaseSwapchainImagesKHR(const VkReleaseSwapchainImagesInfoKHR
 VkResult Device::GetCalibratedTimestampsKHR(uint32_t timestampCount, const VkCalibratedTimestampInfoKHR* pTimestampInfos,
                                             uint64_t* pTimestamps, uint64_t* pMaxDeviation) {
     return dispatch_table_.GetCalibratedTimestampsKHR(handle_, timestampCount, pTimestampInfos, pTimestamps, pMaxDeviation);
+}
+VkResult Device::GetDeviceFaultReportsKHR(uint64_t timeout, uint32_t* pFaultCounts, VkDeviceFaultInfoKHR* pFaultInfo) {
+    VkResult result = dispatch_table_.GetDeviceFaultReportsKHR(handle_, timeout, pFaultCounts, pFaultInfo);
+    if (pFaultInfo != nullptr) {
+        for (uint32_t i = 0; i < *pFaultCounts; ++i) vksc::ConvertOutStructChainToVulkanSC<VkDeviceFaultInfoKHR>(&pFaultInfo[i]);
+    }
+    return result;
+}
+VkResult Device::GetDeviceFaultDebugInfoKHR(VkDeviceFaultDebugInfoKHR* pDebugInfo) {
+    VkResult result = dispatch_table_.GetDeviceFaultDebugInfoKHR(handle_, pDebugInfo);
+    if (pDebugInfo != nullptr) {
+        vksc::ConvertOutStructChainToVulkanSC<VkDeviceFaultDebugInfoKHR>(pDebugInfo);
+    }
+    return result;
 }
 VkResult Device::DebugMarkerSetObjectTagEXT(const VkDebugMarkerObjectTagInfoEXT* pTagInfo) {
     return dispatch_table_.DebugMarkerSetObjectTagEXT(handle_, pTagInfo);
@@ -876,6 +895,34 @@ VkResult Device::GetMemoryAndroidHardwareBufferANDROID(const VkMemoryGetAndroidH
     return dispatch_table_.GetMemoryAndroidHardwareBufferANDROID(handle_, pInfo, pBuffer);
 }
 #endif  // VK_USE_PLATFORM_ANDROID_KHR
+VkResult Device::CreateGpaSessionAMD(const VkGpaSessionCreateInfoAMD* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                                     VkGpaSessionAMD* pGpaSession) {
+    return dispatch_table_.CreateGpaSessionAMD(handle_, pCreateInfo, pAllocator, pGpaSession);
+}
+void Device::DestroyGpaSessionAMD(VkGpaSessionAMD gpaSession, const VkAllocationCallbacks* pAllocator) {
+    dispatch_table_.DestroyGpaSessionAMD(handle_, gpaSession, pAllocator);
+}
+VkResult Device::SetGpaDeviceClockModeAMD(VkGpaDeviceClockModeInfoAMD* pInfo) {
+    VkResult result = dispatch_table_.SetGpaDeviceClockModeAMD(handle_, pInfo);
+    if (pInfo != nullptr) {
+        vksc::ConvertOutStructChainToVulkanSC<VkGpaDeviceClockModeInfoAMD>(pInfo);
+    }
+    return result;
+}
+VkResult Device::GetGpaDeviceClockInfoAMD(VkGpaDeviceGetClockInfoAMD* pInfo) {
+    VkResult result = dispatch_table_.GetGpaDeviceClockInfoAMD(handle_, pInfo);
+    if (pInfo != nullptr) {
+        vksc::ConvertOutStructChainToVulkanSC<VkGpaDeviceGetClockInfoAMD>(pInfo);
+    }
+    return result;
+}
+VkResult Device::GetGpaSessionStatusAMD(VkGpaSessionAMD gpaSession) {
+    return dispatch_table_.GetGpaSessionStatusAMD(handle_, gpaSession);
+}
+VkResult Device::GetGpaSessionResultsAMD(VkGpaSessionAMD gpaSession, uint32_t sampleID, size_t* pSizeInBytes, void* pData) {
+    return dispatch_table_.GetGpaSessionResultsAMD(handle_, gpaSession, sampleID, pSizeInBytes, pData);
+}
+VkResult Device::ResetGpaSessionAMD(VkGpaSessionAMD gpaSession) { return dispatch_table_.ResetGpaSessionAMD(handle_, gpaSession); }
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 VkResult Device::CreateExecutionGraphPipelinesAMDX(VkPipelineCache pipelineCache, uint32_t createInfoCount,
                                                    const VkExecutionGraphPipelineCreateInfoAMDX* pCreateInfos,
@@ -955,7 +1002,7 @@ void Device::DestroyAccelerationStructureNV(VkAccelerationStructureNV accelerati
     dispatch_table_.DestroyAccelerationStructureNV(handle_, accelerationStructure, pAllocator);
 }
 void Device::GetAccelerationStructureMemoryRequirementsNV(const VkAccelerationStructureMemoryRequirementsInfoNV* pInfo,
-                                                          VkMemoryRequirements2KHR* pMemoryRequirements) {
+                                                          VkMemoryRequirements2* pMemoryRequirements) {
     dispatch_table_.GetAccelerationStructureMemoryRequirementsNV(handle_, pInfo, pMemoryRequirements);
     if (pMemoryRequirements != nullptr) {
         vksc::ConvertOutStructChainToVulkanSC<VkMemoryRequirements2>(pMemoryRequirements);
@@ -1242,7 +1289,7 @@ VkResult Device::GetMemoryRemoteAddressNV(const VkMemoryGetRemoteAddressInfoNV* 
                                           VkRemoteAddressNV* pAddress) {
     return dispatch_table_.GetMemoryRemoteAddressNV(handle_, pMemoryGetRemoteAddressInfo, pAddress);
 }
-VkResult Device::GetPipelinePropertiesEXT(const VkPipelineInfoEXT* pPipelineInfo, VkBaseOutStructure* pPipelineProperties) {
+VkResult Device::GetPipelinePropertiesEXT(const VkPipelineInfoKHR* pPipelineInfo, VkBaseOutStructure* pPipelineProperties) {
     VkResult result = dispatch_table_.GetPipelinePropertiesEXT(handle_, pPipelineInfo, pPipelineProperties);
     if (pPipelineProperties != nullptr) {
         vksc::ConvertOutStructToVulkanSC<VkBaseOutStructure>(pPipelineProperties);
@@ -1552,6 +1599,21 @@ VkResult Device::GetMemoryMetalHandlePropertiesEXT(VkExternalMemoryHandleTypeFla
     return result;
 }
 #endif  // VK_USE_PLATFORM_METAL_EXT
+VkResult Device::CreateShaderInstrumentationARM(const VkShaderInstrumentationCreateInfoARM* pCreateInfo,
+                                                const VkAllocationCallbacks* pAllocator,
+                                                VkShaderInstrumentationARM* pInstrumentation) {
+    return dispatch_table_.CreateShaderInstrumentationARM(handle_, pCreateInfo, pAllocator, pInstrumentation);
+}
+void Device::DestroyShaderInstrumentationARM(VkShaderInstrumentationARM instrumentation, const VkAllocationCallbacks* pAllocator) {
+    dispatch_table_.DestroyShaderInstrumentationARM(handle_, instrumentation, pAllocator);
+}
+VkResult Device::GetShaderInstrumentationValuesARM(VkShaderInstrumentationARM instrumentation, uint32_t* pMetricBlockCount,
+                                                   void* pMetricValues, VkShaderInstrumentationValuesFlagsARM flags) {
+    return dispatch_table_.GetShaderInstrumentationValuesARM(handle_, instrumentation, pMetricBlockCount, pMetricValues, flags);
+}
+void Device::ClearShaderInstrumentationMetricsARM(VkShaderInstrumentationARM instrumentation) {
+    dispatch_table_.ClearShaderInstrumentationMetricsARM(handle_, instrumentation);
+}
 VkResult Device::CreateAccelerationStructureKHR(const VkAccelerationStructureCreateInfoKHR* pCreateInfo,
                                                 const VkAllocationCallbacks* pAllocator,
                                                 VkAccelerationStructureKHR* pAccelerationStructure) {

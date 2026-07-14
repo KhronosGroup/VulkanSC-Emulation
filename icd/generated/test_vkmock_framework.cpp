@@ -1701,6 +1701,128 @@ static VKAPI_ATTR VkResult VKAPI_CALL vkmock_QueueSubmit2KHR(VkQueue queue, uint
     return vkmock::QueueSubmit2KHR(queue, submitCount, pSubmits, fence);
 }
 
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdBindIndexBuffer3KHR(VkCommandBuffer commandBuffer,
+                                                                const VkBindIndexBuffer3InfoKHR* pInfo) {
+    return vkmock::CmdBindIndexBuffer3KHR(commandBuffer, pInfo);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdBindVertexBuffers3KHR(VkCommandBuffer commandBuffer, uint32_t firstBinding,
+                                                                  uint32_t bindingCount,
+                                                                  const VkBindVertexBuffer3InfoKHR* pBindingInfos) {
+    return vkmock::CmdBindVertexBuffers3KHR(commandBuffer, firstBinding, bindingCount, pBindingInfos);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdDrawIndirect2KHR(VkCommandBuffer commandBuffer, const VkDrawIndirect2InfoKHR* pInfo) {
+    return vkmock::CmdDrawIndirect2KHR(commandBuffer, pInfo);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdDrawIndexedIndirect2KHR(VkCommandBuffer commandBuffer,
+                                                                    const VkDrawIndirect2InfoKHR* pInfo) {
+    return vkmock::CmdDrawIndexedIndirect2KHR(commandBuffer, pInfo);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdDispatchIndirect2KHR(VkCommandBuffer commandBuffer,
+                                                                 const VkDispatchIndirect2InfoKHR* pInfo) {
+    return vkmock::CmdDispatchIndirect2KHR(commandBuffer, pInfo);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdCopyMemoryKHR(VkCommandBuffer commandBuffer,
+                                                          const VkCopyDeviceMemoryInfoKHR* pCopyMemoryInfo) {
+    return vkmock::CmdCopyMemoryKHR(commandBuffer, pCopyMemoryInfo);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdCopyMemoryToImageKHR(VkCommandBuffer commandBuffer,
+                                                                 const VkCopyDeviceMemoryImageInfoKHR* pCopyMemoryInfo) {
+    return vkmock::CmdCopyMemoryToImageKHR(commandBuffer, pCopyMemoryInfo);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdCopyImageToMemoryKHR(VkCommandBuffer commandBuffer,
+                                                                 const VkCopyDeviceMemoryImageInfoKHR* pCopyMemoryInfo) {
+    return vkmock::CmdCopyImageToMemoryKHR(commandBuffer, pCopyMemoryInfo);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdUpdateMemoryKHR(VkCommandBuffer commandBuffer, const VkDeviceAddressRangeKHR* pDstRange,
+                                                            VkAddressCommandFlagsKHR dstFlags, VkDeviceSize dataSize,
+                                                            const void* pData) {
+    return vkmock::CmdUpdateMemoryKHR(commandBuffer, pDstRange, dstFlags, dataSize, pData);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdFillMemoryKHR(VkCommandBuffer commandBuffer, const VkDeviceAddressRangeKHR* pDstRange,
+                                                          VkAddressCommandFlagsKHR dstFlags, uint32_t data) {
+    return vkmock::CmdFillMemoryKHR(commandBuffer, pDstRange, dstFlags, data);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdCopyQueryPoolResultsToMemoryKHR(VkCommandBuffer commandBuffer, VkQueryPool queryPool,
+                                                                            uint32_t firstQuery, uint32_t queryCount,
+                                                                            const VkStridedDeviceAddressRangeKHR* pDstRange,
+                                                                            VkAddressCommandFlagsKHR dstFlags,
+                                                                            VkQueryResultFlags queryResultFlags) {
+    return vkmock::CmdCopyQueryPoolResultsToMemoryKHR(commandBuffer, queryPool, firstQuery, queryCount, pDstRange, dstFlags,
+                                                      queryResultFlags);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdDrawIndirectCount2KHR(VkCommandBuffer commandBuffer,
+                                                                  const VkDrawIndirectCount2InfoKHR* pInfo) {
+    return vkmock::CmdDrawIndirectCount2KHR(commandBuffer, pInfo);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdDrawIndexedIndirectCount2KHR(VkCommandBuffer commandBuffer,
+                                                                         const VkDrawIndirectCount2InfoKHR* pInfo) {
+    return vkmock::CmdDrawIndexedIndirectCount2KHR(commandBuffer, pInfo);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdBeginConditionalRendering2EXT(
+    VkCommandBuffer commandBuffer, const VkConditionalRenderingBeginInfo2EXT* pConditionalRenderingBegin) {
+    return vkmock::CmdBeginConditionalRendering2EXT(commandBuffer, pConditionalRenderingBegin);
+}
+
+static VKAPI_ATTR void VKAPI_CALL
+vkmock_CmdBindTransformFeedbackBuffers2EXT(VkCommandBuffer commandBuffer, uint32_t firstBinding, uint32_t bindingCount,
+                                           const VkBindTransformFeedbackBuffer2InfoEXT* pBindingInfos) {
+    return vkmock::CmdBindTransformFeedbackBuffers2EXT(commandBuffer, firstBinding, bindingCount, pBindingInfos);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdBeginTransformFeedback2EXT(VkCommandBuffer commandBuffer, uint32_t firstCounterRange,
+                                                                       uint32_t counterRangeCount,
+                                                                       const VkBindTransformFeedbackBuffer2InfoEXT* pCounterInfos) {
+    return vkmock::CmdBeginTransformFeedback2EXT(commandBuffer, firstCounterRange, counterRangeCount, pCounterInfos);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdEndTransformFeedback2EXT(VkCommandBuffer commandBuffer, uint32_t firstCounterRange,
+                                                                     uint32_t counterRangeCount,
+                                                                     const VkBindTransformFeedbackBuffer2InfoEXT* pCounterInfos) {
+    return vkmock::CmdEndTransformFeedback2EXT(commandBuffer, firstCounterRange, counterRangeCount, pCounterInfos);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdDrawIndirectByteCount2EXT(VkCommandBuffer commandBuffer, uint32_t instanceCount,
+                                                                      uint32_t firstInstance,
+                                                                      const VkBindTransformFeedbackBuffer2InfoEXT* pCounterInfo,
+                                                                      uint32_t counterOffset, uint32_t vertexStride) {
+    return vkmock::CmdDrawIndirectByteCount2EXT(commandBuffer, instanceCount, firstInstance, pCounterInfo, counterOffset,
+                                                vertexStride);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdDrawMeshTasksIndirect2EXT(VkCommandBuffer commandBuffer,
+                                                                      const VkDrawIndirect2InfoKHR* pInfo) {
+    return vkmock::CmdDrawMeshTasksIndirect2EXT(commandBuffer, pInfo);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdDrawMeshTasksIndirectCount2EXT(VkCommandBuffer commandBuffer,
+                                                                           const VkDrawIndirectCount2InfoKHR* pInfo) {
+    return vkmock::CmdDrawMeshTasksIndirectCount2EXT(commandBuffer, pInfo);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdWriteMarkerToMemoryAMD(VkCommandBuffer commandBuffer,
+                                                                   const VkMemoryMarkerInfoAMD* pInfo) {
+    return vkmock::CmdWriteMarkerToMemoryAMD(commandBuffer, pInfo);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateAccelerationStructure2KHR(
+    VkDevice device, const VkAccelerationStructureCreateInfo2KHR* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+    VkAccelerationStructureKHR* pAccelerationStructure) {
+    return vkmock::CreateAccelerationStructure2KHR(device, pCreateInfo, pAllocator, pAccelerationStructure);
+}
+
 static VKAPI_ATTR void VKAPI_CALL vkmock_CmdCopyBuffer2KHR(VkCommandBuffer commandBuffer,
                                                            const VkCopyBufferInfo2* pCopyBufferInfo) {
     return vkmock::CmdCopyBuffer2KHR(commandBuffer, pCopyBufferInfo);
@@ -1875,6 +1997,15 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_CmdCopyMemoryIndirectKHR(VkCommandBuffe
 static VKAPI_ATTR void VKAPI_CALL vkmock_CmdCopyMemoryToImageIndirectKHR(
     VkCommandBuffer commandBuffer, const VkCopyMemoryToImageIndirectInfoKHR* pCopyMemoryToImageIndirectInfo) {
     return vkmock::CmdCopyMemoryToImageIndirectKHR(commandBuffer, pCopyMemoryToImageIndirectInfo);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetDeviceFaultReportsKHR(VkDevice device, uint64_t timeout, uint32_t* pFaultCounts,
+                                                                      VkDeviceFaultInfoKHR* pFaultInfo) {
+    return vkmock::GetDeviceFaultReportsKHR(device, timeout, pFaultCounts, pFaultInfo);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetDeviceFaultDebugInfoKHR(VkDevice device, VkDeviceFaultDebugInfoKHR* pDebugInfo) {
+    return vkmock::GetDeviceFaultDebugInfoKHR(device, pDebugInfo);
 }
 
 static VKAPI_ATTR void VKAPI_CALL vkmock_CmdEndRendering2KHR(VkCommandBuffer commandBuffer,
@@ -2230,6 +2361,61 @@ static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetMemoryAndroidHardwareBufferANDRO
 }
 
 #endif  // VK_USE_PLATFORM_ANDROID_KHR
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateGpaSessionAMD(VkDevice device, const VkGpaSessionCreateInfoAMD* pCreateInfo,
+                                                                 const VkAllocationCallbacks* pAllocator,
+                                                                 VkGpaSessionAMD* pGpaSession) {
+    return vkmock::CreateGpaSessionAMD(device, pCreateInfo, pAllocator, pGpaSession);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_DestroyGpaSessionAMD(VkDevice device, VkGpaSessionAMD gpaSession,
+                                                              const VkAllocationCallbacks* pAllocator) {
+    return vkmock::DestroyGpaSessionAMD(device, gpaSession, pAllocator);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_SetGpaDeviceClockModeAMD(VkDevice device, VkGpaDeviceClockModeInfoAMD* pInfo) {
+    return vkmock::SetGpaDeviceClockModeAMD(device, pInfo);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetGpaDeviceClockInfoAMD(VkDevice device, VkGpaDeviceGetClockInfoAMD* pInfo) {
+    return vkmock::GetGpaDeviceClockInfoAMD(device, pInfo);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CmdBeginGpaSessionAMD(VkCommandBuffer commandBuffer, VkGpaSessionAMD gpaSession) {
+    return vkmock::CmdBeginGpaSessionAMD(commandBuffer, gpaSession);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CmdEndGpaSessionAMD(VkCommandBuffer commandBuffer, VkGpaSessionAMD gpaSession) {
+    return vkmock::CmdEndGpaSessionAMD(commandBuffer, gpaSession);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CmdBeginGpaSampleAMD(VkCommandBuffer commandBuffer, VkGpaSessionAMD gpaSession,
+                                                                  const VkGpaSampleBeginInfoAMD* pGpaSampleBeginInfo,
+                                                                  uint32_t* pSampleID) {
+    return vkmock::CmdBeginGpaSampleAMD(commandBuffer, gpaSession, pGpaSampleBeginInfo, pSampleID);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdEndGpaSampleAMD(VkCommandBuffer commandBuffer, VkGpaSessionAMD gpaSession,
+                                                            uint32_t sampleID) {
+    return vkmock::CmdEndGpaSampleAMD(commandBuffer, gpaSession, sampleID);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetGpaSessionStatusAMD(VkDevice device, VkGpaSessionAMD gpaSession) {
+    return vkmock::GetGpaSessionStatusAMD(device, gpaSession);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetGpaSessionResultsAMD(VkDevice device, VkGpaSessionAMD gpaSession, uint32_t sampleID,
+                                                                     size_t* pSizeInBytes, void* pData) {
+    return vkmock::GetGpaSessionResultsAMD(device, gpaSession, sampleID, pSizeInBytes, pData);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_ResetGpaSessionAMD(VkDevice device, VkGpaSessionAMD gpaSession) {
+    return vkmock::ResetGpaSessionAMD(device, gpaSession);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdCopyGpaSessionResultsAMD(VkCommandBuffer commandBuffer, VkGpaSessionAMD gpaSession) {
+    return vkmock::CmdCopyGpaSessionResultsAMD(commandBuffer, gpaSession);
+}
+
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateExecutionGraphPipelinesAMDX(
     VkDevice device, VkPipelineCache pipelineCache, uint32_t createInfoCount,
@@ -2390,7 +2576,7 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_DestroyAccelerationStructureNV(VkDevice
 }
 
 static VKAPI_ATTR void VKAPI_CALL vkmock_GetAccelerationStructureMemoryRequirementsNV(
-    VkDevice device, const VkAccelerationStructureMemoryRequirementsInfoNV* pInfo, VkMemoryRequirements2KHR* pMemoryRequirements) {
+    VkDevice device, const VkAccelerationStructureMemoryRequirementsInfoNV* pInfo, VkMemoryRequirements2* pMemoryRequirements) {
     return vkmock::GetAccelerationStructureMemoryRequirementsNV(device, pInfo, pMemoryRequirements);
 }
 
@@ -2849,6 +3035,10 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_GetPrivateDataEXT(VkDevice device, VkOb
     return vkmock::GetPrivateDataEXT(device, objectType, objectHandle, privateDataSlot, pData);
 }
 
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_QueueSetPerfHintQCOM(VkQueue queue, const VkPerfHintInfoQCOM* pPerfHintInfo) {
+    return vkmock::QueueSetPerfHintQCOM(queue, pPerfHintInfo);
+}
+
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateCudaModuleNV(VkDevice device, const VkCudaModuleCreateInfoNV* pCreateInfo,
                                                                 const VkAllocationCallbacks* pAllocator, VkCudaModuleNV* pModule) {
@@ -3077,7 +3267,7 @@ static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetMemoryRemoteAddressNV(
     return vkmock::GetMemoryRemoteAddressNV(device, pMemoryGetRemoteAddressInfo, pAddress);
 }
 
-static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetPipelinePropertiesEXT(VkDevice device, const VkPipelineInfoEXT* pPipelineInfo,
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetPipelinePropertiesEXT(VkDevice device, const VkPipelineInfoKHR* pPipelineInfo,
                                                                       VkBaseOutStructure* pPipelineProperties) {
     return vkmock::GetPipelinePropertiesEXT(device, pPipelineInfo, pPipelineProperties);
 }
@@ -3222,6 +3412,11 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_CmdDrawClusterIndirectHUAWEI(VkCommandB
 
 static VKAPI_ATTR void VKAPI_CALL vkmock_SetDeviceMemoryPriorityEXT(VkDevice device, VkDeviceMemory memory, float priority) {
     return vkmock::SetDeviceMemoryPriorityEXT(device, memory, priority);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdSetDispatchParametersARM(VkCommandBuffer commandBuffer,
+                                                                     const VkDispatchParametersARM* pDispatchParameters) {
+    return vkmock::CmdSetDispatchParametersARM(commandBuffer, pDispatchParameters);
 }
 
 static VKAPI_ATTR void VKAPI_CALL
@@ -3694,6 +3889,13 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_GetPhysicalDeviceQueueFamilyDataGraphPr
         physicalDevice, pQueueFamilyDataGraphProcessingEngineInfo, pQueueFamilyDataGraphProcessingEngineProperties);
 }
 
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetPhysicalDeviceQueueFamilyDataGraphEngineOperationPropertiesARM(
+    VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex,
+    const VkQueueFamilyDataGraphPropertiesARM* pQueueFamilyDataGraphProperties, VkBaseOutStructure* pProperties) {
+    return vkmock::GetPhysicalDeviceQueueFamilyDataGraphEngineOperationPropertiesARM(physicalDevice, queueFamilyIndex,
+                                                                                     pQueueFamilyDataGraphProperties, pProperties);
+}
+
 static VKAPI_ATTR void VKAPI_CALL vkmock_CmdSetAttachmentFeedbackLoopEnableEXT(VkCommandBuffer commandBuffer,
                                                                                VkImageAspectFlags aspectMask) {
     return vkmock::CmdSetAttachmentFeedbackLoopEnableEXT(commandBuffer, aspectMask);
@@ -3847,6 +4049,45 @@ static VKAPI_ATTR VkResult VKAPI_CALL vkmock_EnumeratePhysicalDeviceQueueFamilyP
                                                                                     pCounters, pCounterDescriptions);
 }
 
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_EnumeratePhysicalDeviceShaderInstrumentationMetricsARM(
+    VkPhysicalDevice physicalDevice, uint32_t* pDescriptionCount, VkShaderInstrumentationMetricDescriptionARM* pDescriptions) {
+    return vkmock::EnumeratePhysicalDeviceShaderInstrumentationMetricsARM(physicalDevice, pDescriptionCount, pDescriptions);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateShaderInstrumentationARM(VkDevice device,
+                                                                            const VkShaderInstrumentationCreateInfoARM* pCreateInfo,
+                                                                            const VkAllocationCallbacks* pAllocator,
+                                                                            VkShaderInstrumentationARM* pInstrumentation) {
+    return vkmock::CreateShaderInstrumentationARM(device, pCreateInfo, pAllocator, pInstrumentation);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_DestroyShaderInstrumentationARM(VkDevice device,
+                                                                         VkShaderInstrumentationARM instrumentation,
+                                                                         const VkAllocationCallbacks* pAllocator) {
+    return vkmock::DestroyShaderInstrumentationARM(device, instrumentation, pAllocator);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdBeginShaderInstrumentationARM(VkCommandBuffer commandBuffer,
+                                                                          VkShaderInstrumentationARM instrumentation) {
+    return vkmock::CmdBeginShaderInstrumentationARM(commandBuffer, instrumentation);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdEndShaderInstrumentationARM(VkCommandBuffer commandBuffer) {
+    return vkmock::CmdEndShaderInstrumentationARM(commandBuffer);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetShaderInstrumentationValuesARM(VkDevice device,
+                                                                               VkShaderInstrumentationARM instrumentation,
+                                                                               uint32_t* pMetricBlockCount, void* pMetricValues,
+                                                                               VkShaderInstrumentationValuesFlagsARM flags) {
+    return vkmock::GetShaderInstrumentationValuesARM(device, instrumentation, pMetricBlockCount, pMetricValues, flags);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_ClearShaderInstrumentationMetricsARM(VkDevice device,
+                                                                              VkShaderInstrumentationARM instrumentation) {
+    return vkmock::ClearShaderInstrumentationMetricsARM(device, instrumentation);
+}
+
 static VKAPI_ATTR void VKAPI_CALL vkmock_CmdEndRendering2EXT(VkCommandBuffer commandBuffer,
                                                              const VkRenderingEndInfoKHR* pRenderingEndInfo) {
     return vkmock::CmdEndRendering2EXT(commandBuffer, pRenderingEndInfo);
@@ -3855,6 +4096,16 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_CmdEndRendering2EXT(VkCommandBuffer com
 static VKAPI_ATTR void VKAPI_CALL vkmock_CmdBeginCustomResolveEXT(VkCommandBuffer commandBuffer,
                                                                   const VkBeginCustomResolveInfoEXT* pBeginCustomResolveInfo) {
     return vkmock::CmdBeginCustomResolveEXT(commandBuffer, pBeginCustomResolveInfo);
+}
+
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetPhysicalDeviceQueueFamilyDataGraphOpticalFlowImageFormatsARM(
+    VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex,
+    const VkQueueFamilyDataGraphPropertiesARM* pQueueFamilyDataGraphProperties,
+    const VkDataGraphOpticalFlowImageFormatInfoARM* pOpticalFlowImageFormatInfo, uint32_t* pFormatCount,
+    VkDataGraphOpticalFlowImageFormatPropertiesARM* pImageFormatProperties) {
+    return vkmock::GetPhysicalDeviceQueueFamilyDataGraphOpticalFlowImageFormatsARM(
+        physicalDevice, queueFamilyIndex, pQueueFamilyDataGraphProperties, pOpticalFlowImageFormatInfo, pFormatCount,
+        pImageFormatProperties);
 }
 
 static VKAPI_ATTR void VKAPI_CALL
@@ -3875,6 +4126,11 @@ static VKAPI_ATTR VkBool32 VKAPI_CALL vkmock_GetPhysicalDeviceUbmPresentationSup
 }
 
 #endif  // VK_USE_PLATFORM_UBM_SEC
+static VKAPI_ATTR void VKAPI_CALL vkmock_CmdSetPrimitiveRestartIndexEXT(VkCommandBuffer commandBuffer,
+                                                                        uint32_t primitiveRestartIndex) {
+    return vkmock::CmdSetPrimitiveRestartIndexEXT(commandBuffer, primitiveRestartIndex);
+}
+
 static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateAccelerationStructureKHR(VkDevice device,
                                                                             const VkAccelerationStructureCreateInfoKHR* pCreateInfo,
                                                                             const VkAllocationCallbacks* pAllocator,
@@ -4985,6 +5241,72 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     if (strcmp(pName, "vkQueueSubmit2KHR") == 0) {
         return (PFN_vkVoidFunction)vkmock_QueueSubmit2KHR;
     }
+    if (strcmp(pName, "vkCmdBindIndexBuffer3KHR") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdBindIndexBuffer3KHR;
+    }
+    if (strcmp(pName, "vkCmdBindVertexBuffers3KHR") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdBindVertexBuffers3KHR;
+    }
+    if (strcmp(pName, "vkCmdDrawIndirect2KHR") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdDrawIndirect2KHR;
+    }
+    if (strcmp(pName, "vkCmdDrawIndexedIndirect2KHR") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdDrawIndexedIndirect2KHR;
+    }
+    if (strcmp(pName, "vkCmdDispatchIndirect2KHR") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdDispatchIndirect2KHR;
+    }
+    if (strcmp(pName, "vkCmdCopyMemoryKHR") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdCopyMemoryKHR;
+    }
+    if (strcmp(pName, "vkCmdCopyMemoryToImageKHR") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdCopyMemoryToImageKHR;
+    }
+    if (strcmp(pName, "vkCmdCopyImageToMemoryKHR") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdCopyImageToMemoryKHR;
+    }
+    if (strcmp(pName, "vkCmdUpdateMemoryKHR") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdUpdateMemoryKHR;
+    }
+    if (strcmp(pName, "vkCmdFillMemoryKHR") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdFillMemoryKHR;
+    }
+    if (strcmp(pName, "vkCmdCopyQueryPoolResultsToMemoryKHR") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdCopyQueryPoolResultsToMemoryKHR;
+    }
+    if (strcmp(pName, "vkCmdDrawIndirectCount2KHR") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdDrawIndirectCount2KHR;
+    }
+    if (strcmp(pName, "vkCmdDrawIndexedIndirectCount2KHR") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdDrawIndexedIndirectCount2KHR;
+    }
+    if (strcmp(pName, "vkCmdBeginConditionalRendering2EXT") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdBeginConditionalRendering2EXT;
+    }
+    if (strcmp(pName, "vkCmdBindTransformFeedbackBuffers2EXT") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdBindTransformFeedbackBuffers2EXT;
+    }
+    if (strcmp(pName, "vkCmdBeginTransformFeedback2EXT") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdBeginTransformFeedback2EXT;
+    }
+    if (strcmp(pName, "vkCmdEndTransformFeedback2EXT") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdEndTransformFeedback2EXT;
+    }
+    if (strcmp(pName, "vkCmdDrawIndirectByteCount2EXT") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdDrawIndirectByteCount2EXT;
+    }
+    if (strcmp(pName, "vkCmdDrawMeshTasksIndirect2EXT") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdDrawMeshTasksIndirect2EXT;
+    }
+    if (strcmp(pName, "vkCmdDrawMeshTasksIndirectCount2EXT") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdDrawMeshTasksIndirectCount2EXT;
+    }
+    if (strcmp(pName, "vkCmdWriteMarkerToMemoryAMD") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdWriteMarkerToMemoryAMD;
+    }
+    if (strcmp(pName, "vkCreateAccelerationStructure2KHR") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CreateAccelerationStructure2KHR;
+    }
     if (strcmp(pName, "vkCmdCopyBuffer2KHR") == 0) {
         return (PFN_vkVoidFunction)vkmock_CmdCopyBuffer2KHR;
     }
@@ -5083,6 +5405,12 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     }
     if (strcmp(pName, "vkCmdCopyMemoryToImageIndirectKHR") == 0) {
         return (PFN_vkVoidFunction)vkmock_CmdCopyMemoryToImageIndirectKHR;
+    }
+    if (strcmp(pName, "vkGetDeviceFaultReportsKHR") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetDeviceFaultReportsKHR;
+    }
+    if (strcmp(pName, "vkGetDeviceFaultDebugInfoKHR") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetDeviceFaultDebugInfoKHR;
     }
     if (strcmp(pName, "vkCmdEndRendering2KHR") == 0) {
         return (PFN_vkVoidFunction)vkmock_CmdEndRendering2KHR;
@@ -5287,6 +5615,42 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
         return (PFN_vkVoidFunction)vkmock_GetMemoryAndroidHardwareBufferANDROID;
     }
 #endif  // VK_USE_PLATFORM_ANDROID_KHR
+    if (strcmp(pName, "vkCreateGpaSessionAMD") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CreateGpaSessionAMD;
+    }
+    if (strcmp(pName, "vkDestroyGpaSessionAMD") == 0) {
+        return (PFN_vkVoidFunction)vkmock_DestroyGpaSessionAMD;
+    }
+    if (strcmp(pName, "vkSetGpaDeviceClockModeAMD") == 0) {
+        return (PFN_vkVoidFunction)vkmock_SetGpaDeviceClockModeAMD;
+    }
+    if (strcmp(pName, "vkGetGpaDeviceClockInfoAMD") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetGpaDeviceClockInfoAMD;
+    }
+    if (strcmp(pName, "vkCmdBeginGpaSessionAMD") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdBeginGpaSessionAMD;
+    }
+    if (strcmp(pName, "vkCmdEndGpaSessionAMD") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdEndGpaSessionAMD;
+    }
+    if (strcmp(pName, "vkCmdBeginGpaSampleAMD") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdBeginGpaSampleAMD;
+    }
+    if (strcmp(pName, "vkCmdEndGpaSampleAMD") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdEndGpaSampleAMD;
+    }
+    if (strcmp(pName, "vkGetGpaSessionStatusAMD") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetGpaSessionStatusAMD;
+    }
+    if (strcmp(pName, "vkGetGpaSessionResultsAMD") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetGpaSessionResultsAMD;
+    }
+    if (strcmp(pName, "vkResetGpaSessionAMD") == 0) {
+        return (PFN_vkVoidFunction)vkmock_ResetGpaSessionAMD;
+    }
+    if (strcmp(pName, "vkCmdCopyGpaSessionResultsAMD") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdCopyGpaSessionResultsAMD;
+    }
 #ifdef VK_ENABLE_BETA_EXTENSIONS
     if (strcmp(pName, "vkCreateExecutionGraphPipelinesAMDX") == 0) {
         return (PFN_vkVoidFunction)vkmock_CreateExecutionGraphPipelinesAMDX;
@@ -5628,6 +5992,9 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     if (strcmp(pName, "vkGetPrivateDataEXT") == 0) {
         return (PFN_vkVoidFunction)vkmock_GetPrivateDataEXT;
     }
+    if (strcmp(pName, "vkQueueSetPerfHintQCOM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_QueueSetPerfHintQCOM;
+    }
 #ifdef VK_ENABLE_BETA_EXTENSIONS
     if (strcmp(pName, "vkCreateCudaModuleNV") == 0) {
         return (PFN_vkVoidFunction)vkmock_CreateCudaModuleNV;
@@ -5846,6 +6213,9 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     }
     if (strcmp(pName, "vkSetDeviceMemoryPriorityEXT") == 0) {
         return (PFN_vkVoidFunction)vkmock_SetDeviceMemoryPriorityEXT;
+    }
+    if (strcmp(pName, "vkCmdSetDispatchParametersARM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdSetDispatchParametersARM;
     }
     if (strcmp(pName, "vkGetDescriptorSetLayoutHostMappingInfoVALVE") == 0) {
         return (PFN_vkVoidFunction)vkmock_GetDescriptorSetLayoutHostMappingInfoVALVE;
@@ -6110,6 +6480,9 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     if (strcmp(pName, "vkGetPhysicalDeviceQueueFamilyDataGraphProcessingEnginePropertiesARM") == 0) {
         return (PFN_vkVoidFunction)vkmock_GetPhysicalDeviceQueueFamilyDataGraphProcessingEnginePropertiesARM;
     }
+    if (strcmp(pName, "vkGetPhysicalDeviceQueueFamilyDataGraphEngineOperationPropertiesARM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetPhysicalDeviceQueueFamilyDataGraphEngineOperationPropertiesARM;
+    }
     if (strcmp(pName, "vkCmdSetAttachmentFeedbackLoopEnableEXT") == 0) {
         return (PFN_vkVoidFunction)vkmock_CmdSetAttachmentFeedbackLoopEnableEXT;
     }
@@ -6194,11 +6567,35 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     if (strcmp(pName, "vkEnumeratePhysicalDeviceQueueFamilyPerformanceCountersByRegionARM") == 0) {
         return (PFN_vkVoidFunction)vkmock_EnumeratePhysicalDeviceQueueFamilyPerformanceCountersByRegionARM;
     }
+    if (strcmp(pName, "vkEnumeratePhysicalDeviceShaderInstrumentationMetricsARM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_EnumeratePhysicalDeviceShaderInstrumentationMetricsARM;
+    }
+    if (strcmp(pName, "vkCreateShaderInstrumentationARM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CreateShaderInstrumentationARM;
+    }
+    if (strcmp(pName, "vkDestroyShaderInstrumentationARM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_DestroyShaderInstrumentationARM;
+    }
+    if (strcmp(pName, "vkCmdBeginShaderInstrumentationARM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdBeginShaderInstrumentationARM;
+    }
+    if (strcmp(pName, "vkCmdEndShaderInstrumentationARM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdEndShaderInstrumentationARM;
+    }
+    if (strcmp(pName, "vkGetShaderInstrumentationValuesARM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetShaderInstrumentationValuesARM;
+    }
+    if (strcmp(pName, "vkClearShaderInstrumentationMetricsARM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_ClearShaderInstrumentationMetricsARM;
+    }
     if (strcmp(pName, "vkCmdEndRendering2EXT") == 0) {
         return (PFN_vkVoidFunction)vkmock_CmdEndRendering2EXT;
     }
     if (strcmp(pName, "vkCmdBeginCustomResolveEXT") == 0) {
         return (PFN_vkVoidFunction)vkmock_CmdBeginCustomResolveEXT;
+    }
+    if (strcmp(pName, "vkGetPhysicalDeviceQueueFamilyDataGraphOpticalFlowImageFormatsARM") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetPhysicalDeviceQueueFamilyDataGraphOpticalFlowImageFormatsARM;
     }
     if (strcmp(pName, "vkCmdSetComputeOccupancyPriorityNV") == 0) {
         return (PFN_vkVoidFunction)vkmock_CmdSetComputeOccupancyPriorityNV;
@@ -6211,6 +6608,9 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
         return (PFN_vkVoidFunction)vkmock_GetPhysicalDeviceUbmPresentationSupportSEC;
     }
 #endif  // VK_USE_PLATFORM_UBM_SEC
+    if (strcmp(pName, "vkCmdSetPrimitiveRestartIndexEXT") == 0) {
+        return (PFN_vkVoidFunction)vkmock_CmdSetPrimitiveRestartIndexEXT;
+    }
     if (strcmp(pName, "vkCreateAccelerationStructureKHR") == 0) {
         return (PFN_vkVoidFunction)vkmock_CreateAccelerationStructureKHR;
     }
@@ -6617,6 +7017,28 @@ void vkmock::Reset() {
     CmdPipelineBarrier2KHR = {};
     CmdWriteTimestamp2KHR = {};
     QueueSubmit2KHR = {};
+    CmdBindIndexBuffer3KHR = {};
+    CmdBindVertexBuffers3KHR = {};
+    CmdDrawIndirect2KHR = {};
+    CmdDrawIndexedIndirect2KHR = {};
+    CmdDispatchIndirect2KHR = {};
+    CmdCopyMemoryKHR = {};
+    CmdCopyMemoryToImageKHR = {};
+    CmdCopyImageToMemoryKHR = {};
+    CmdUpdateMemoryKHR = {};
+    CmdFillMemoryKHR = {};
+    CmdCopyQueryPoolResultsToMemoryKHR = {};
+    CmdDrawIndirectCount2KHR = {};
+    CmdDrawIndexedIndirectCount2KHR = {};
+    CmdBeginConditionalRendering2EXT = {};
+    CmdBindTransformFeedbackBuffers2EXT = {};
+    CmdBeginTransformFeedback2EXT = {};
+    CmdEndTransformFeedback2EXT = {};
+    CmdDrawIndirectByteCount2EXT = {};
+    CmdDrawMeshTasksIndirect2EXT = {};
+    CmdDrawMeshTasksIndirectCount2EXT = {};
+    CmdWriteMarkerToMemoryAMD = {};
+    CreateAccelerationStructure2KHR = {};
     CmdCopyBuffer2KHR = {};
     CmdCopyImage2KHR = {};
     CmdCopyBufferToImage2KHR = {};
@@ -6650,6 +7072,8 @@ void vkmock::Reset() {
     CmdBindDescriptorBufferEmbeddedSamplers2EXT = {};
     CmdCopyMemoryIndirectKHR = {};
     CmdCopyMemoryToImageIndirectKHR = {};
+    GetDeviceFaultReportsKHR = {};
+    GetDeviceFaultDebugInfoKHR = {};
     CmdEndRendering2KHR = {};
     CreateDebugReportCallbackEXT = {};
     DestroyDebugReportCallbackEXT = {};
@@ -6727,6 +7151,18 @@ void vkmock::Reset() {
     GetAndroidHardwareBufferPropertiesANDROID = {};
     GetMemoryAndroidHardwareBufferANDROID = {};
 #endif  // VK_USE_PLATFORM_ANDROID_KHR
+    CreateGpaSessionAMD = {};
+    DestroyGpaSessionAMD = {};
+    SetGpaDeviceClockModeAMD = {};
+    GetGpaDeviceClockInfoAMD = {};
+    CmdBeginGpaSessionAMD = {};
+    CmdEndGpaSessionAMD = {};
+    CmdBeginGpaSampleAMD = {};
+    CmdEndGpaSampleAMD = {};
+    GetGpaSessionStatusAMD = {};
+    GetGpaSessionResultsAMD = {};
+    ResetGpaSessionAMD = {};
+    CmdCopyGpaSessionResultsAMD = {};
 #ifdef VK_ENABLE_BETA_EXTENSIONS
     CreateExecutionGraphPipelinesAMDX = {};
     GetExecutionGraphPipelineScratchSizeAMDX = {};
@@ -6846,6 +7282,7 @@ void vkmock::Reset() {
     DestroyPrivateDataSlotEXT = {};
     SetPrivateDataEXT = {};
     GetPrivateDataEXT = {};
+    QueueSetPerfHintQCOM = {};
 #ifdef VK_ENABLE_BETA_EXTENSIONS
     CreateCudaModuleNV = {};
     GetCudaModuleCacheNV = {};
@@ -6927,6 +7364,7 @@ void vkmock::Reset() {
     CmdDrawClusterHUAWEI = {};
     CmdDrawClusterIndirectHUAWEI = {};
     SetDeviceMemoryPriorityEXT = {};
+    CmdSetDispatchParametersARM = {};
     GetDescriptorSetLayoutHostMappingInfoVALVE = {};
     GetDescriptorSetHostMappingVALVE = {};
     CmdCopyMemoryIndirectNV = {};
@@ -7016,6 +7454,7 @@ void vkmock::Reset() {
     GetDataGraphPipelinePropertiesARM = {};
     GetPhysicalDeviceQueueFamilyDataGraphPropertiesARM = {};
     GetPhysicalDeviceQueueFamilyDataGraphProcessingEnginePropertiesARM = {};
+    GetPhysicalDeviceQueueFamilyDataGraphEngineOperationPropertiesARM = {};
     CmdSetAttachmentFeedbackLoopEnableEXT = {};
 #ifdef VK_USE_PLATFORM_SCREEN_QNX
     GetScreenBufferPropertiesQNX = {};
@@ -7048,13 +7487,22 @@ void vkmock::Reset() {
     GetMemoryMetalHandlePropertiesEXT = {};
 #endif  // VK_USE_PLATFORM_METAL_EXT
     EnumeratePhysicalDeviceQueueFamilyPerformanceCountersByRegionARM = {};
+    EnumeratePhysicalDeviceShaderInstrumentationMetricsARM = {};
+    CreateShaderInstrumentationARM = {};
+    DestroyShaderInstrumentationARM = {};
+    CmdBeginShaderInstrumentationARM = {};
+    CmdEndShaderInstrumentationARM = {};
+    GetShaderInstrumentationValuesARM = {};
+    ClearShaderInstrumentationMetricsARM = {};
     CmdEndRendering2EXT = {};
     CmdBeginCustomResolveEXT = {};
+    GetPhysicalDeviceQueueFamilyDataGraphOpticalFlowImageFormatsARM = {};
     CmdSetComputeOccupancyPriorityNV = {};
 #ifdef VK_USE_PLATFORM_UBM_SEC
     CreateUbmSurfaceSEC = {};
     GetPhysicalDeviceUbmPresentationSupportSEC = {};
 #endif  // VK_USE_PLATFORM_UBM_SEC
+    CmdSetPrimitiveRestartIndexEXT = {};
     CreateAccelerationStructureKHR = {};
     DestroyAccelerationStructureKHR = {};
     CmdBuildAccelerationStructuresKHR = {};

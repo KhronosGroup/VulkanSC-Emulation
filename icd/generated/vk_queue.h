@@ -31,6 +31,7 @@ class Queue {
     void GetQueueCheckpointDataNV(uint32_t* pCheckpointDataCount, VkCheckpointDataNV* pCheckpointData);
     void GetQueueCheckpointData2NV(uint32_t* pCheckpointDataCount, VkCheckpointData2NV* pCheckpointData);
     VkResult QueueSetPerformanceConfigurationINTEL(VkPerformanceConfigurationINTEL configuration);
+    VkResult QueueSetPerfHintQCOM(const VkPerfHintInfoQCOM* pPerfHintInfo);
     void QueueNotifyOutOfBandNV(const VkOutOfBandQueueTypeInfoNV* pQueueTypeInfo);
 
     VkQueue VkHandle() const { return handle_; }

@@ -125,6 +125,35 @@ class CommandBuffer {
     void CmdWaitEvents2KHR(uint32_t eventCount, const VkEvent* pEvents, const VkDependencyInfo* pDependencyInfos);
     void CmdPipelineBarrier2KHR(const VkDependencyInfo* pDependencyInfo);
     void CmdWriteTimestamp2KHR(VkPipelineStageFlags2 stage, VkQueryPool queryPool, uint32_t query);
+    void CmdBindIndexBuffer3KHR(const VkBindIndexBuffer3InfoKHR* pInfo);
+    void CmdBindVertexBuffers3KHR(uint32_t firstBinding, uint32_t bindingCount, const VkBindVertexBuffer3InfoKHR* pBindingInfos);
+    void CmdDrawIndirect2KHR(const VkDrawIndirect2InfoKHR* pInfo);
+    void CmdDrawIndexedIndirect2KHR(const VkDrawIndirect2InfoKHR* pInfo);
+    void CmdDispatchIndirect2KHR(const VkDispatchIndirect2InfoKHR* pInfo);
+    void CmdCopyMemoryKHR(const VkCopyDeviceMemoryInfoKHR* pCopyMemoryInfo);
+    void CmdCopyMemoryToImageKHR(const VkCopyDeviceMemoryImageInfoKHR* pCopyMemoryInfo);
+    void CmdCopyImageToMemoryKHR(const VkCopyDeviceMemoryImageInfoKHR* pCopyMemoryInfo);
+    void CmdUpdateMemoryKHR(const VkDeviceAddressRangeKHR* pDstRange, VkAddressCommandFlagsKHR dstFlags, VkDeviceSize dataSize,
+                            const void* pData);
+    void CmdFillMemoryKHR(const VkDeviceAddressRangeKHR* pDstRange, VkAddressCommandFlagsKHR dstFlags, uint32_t data);
+    void CmdCopyQueryPoolResultsToMemoryKHR(VkQueryPool queryPool, uint32_t firstQuery, uint32_t queryCount,
+                                            const VkStridedDeviceAddressRangeKHR* pDstRange, VkAddressCommandFlagsKHR dstFlags,
+                                            VkQueryResultFlags queryResultFlags);
+    void CmdDrawIndirectCount2KHR(const VkDrawIndirectCount2InfoKHR* pInfo);
+    void CmdDrawIndexedIndirectCount2KHR(const VkDrawIndirectCount2InfoKHR* pInfo);
+    void CmdBeginConditionalRendering2EXT(const VkConditionalRenderingBeginInfo2EXT* pConditionalRenderingBegin);
+    void CmdBindTransformFeedbackBuffers2EXT(uint32_t firstBinding, uint32_t bindingCount,
+                                             const VkBindTransformFeedbackBuffer2InfoEXT* pBindingInfos);
+    void CmdBeginTransformFeedback2EXT(uint32_t firstCounterRange, uint32_t counterRangeCount,
+                                       const VkBindTransformFeedbackBuffer2InfoEXT* pCounterInfos);
+    void CmdEndTransformFeedback2EXT(uint32_t firstCounterRange, uint32_t counterRangeCount,
+                                     const VkBindTransformFeedbackBuffer2InfoEXT* pCounterInfos);
+    void CmdDrawIndirectByteCount2EXT(uint32_t instanceCount, uint32_t firstInstance,
+                                      const VkBindTransformFeedbackBuffer2InfoEXT* pCounterInfo, uint32_t counterOffset,
+                                      uint32_t vertexStride);
+    void CmdDrawMeshTasksIndirect2EXT(const VkDrawIndirect2InfoKHR* pInfo);
+    void CmdDrawMeshTasksIndirectCount2EXT(const VkDrawIndirectCount2InfoKHR* pInfo);
+    void CmdWriteMarkerToMemoryAMD(const VkMemoryMarkerInfoAMD* pInfo);
     void CmdCopyBuffer2KHR(const VkCopyBufferInfo2* pCopyBufferInfo);
     void CmdCopyImage2KHR(const VkCopyImageInfo2* pCopyImageInfo);
     void CmdCopyBufferToImage2KHR(const VkCopyBufferToImageInfo2* pCopyBufferToImageInfo);
@@ -172,6 +201,12 @@ class CommandBuffer {
     void CmdBeginDebugUtilsLabelEXT(const VkDebugUtilsLabelEXT* pLabelInfo);
     void CmdEndDebugUtilsLabelEXT();
     void CmdInsertDebugUtilsLabelEXT(const VkDebugUtilsLabelEXT* pLabelInfo);
+    VkResult CmdBeginGpaSessionAMD(VkGpaSessionAMD gpaSession);
+    VkResult CmdEndGpaSessionAMD(VkGpaSessionAMD gpaSession);
+    VkResult CmdBeginGpaSampleAMD(VkGpaSessionAMD gpaSession, const VkGpaSampleBeginInfoAMD* pGpaSampleBeginInfo,
+                                  uint32_t* pSampleID);
+    void CmdEndGpaSampleAMD(VkGpaSessionAMD gpaSession, uint32_t sampleID);
+    void CmdCopyGpaSessionResultsAMD(VkGpaSessionAMD gpaSession);
 #ifdef VK_ENABLE_BETA_EXTENSIONS
     void CmdInitializeGraphScratchMemoryAMDX(VkPipeline executionGraph, VkDeviceAddress scratch, VkDeviceSize scratchSize);
     void CmdDispatchGraphAMDX(VkDeviceAddress scratch, VkDeviceSize scratchSize, const VkDispatchGraphCountInfoAMDX* pCountInfo);
@@ -272,6 +307,7 @@ class CommandBuffer {
                                         VkQueryPool queryPool, uint32_t firstQuery);
     void CmdDrawClusterHUAWEI(uint32_t groupCountX, uint32_t groupCountY, uint32_t groupCountZ);
     void CmdDrawClusterIndirectHUAWEI(VkBuffer buffer, VkDeviceSize offset);
+    void CmdSetDispatchParametersARM(const VkDispatchParametersARM* pDispatchParameters);
     void CmdCopyMemoryIndirectNV(VkDeviceAddress copyBufferAddress, uint32_t copyCount, uint32_t stride);
     void CmdCopyMemoryToImageIndirectNV(VkDeviceAddress copyBufferAddress, uint32_t copyCount, uint32_t stride, VkImage dstImage,
                                         VkImageLayout dstImageLayout, const VkImageSubresourceLayers* pImageSubresources);
@@ -329,9 +365,12 @@ class CommandBuffer {
     void CmdPreprocessGeneratedCommandsEXT(const VkGeneratedCommandsInfoEXT* pGeneratedCommandsInfo,
                                            VkCommandBuffer stateCommandBuffer);
     void CmdExecuteGeneratedCommandsEXT(VkBool32 isPreprocessed, const VkGeneratedCommandsInfoEXT* pGeneratedCommandsInfo);
+    void CmdBeginShaderInstrumentationARM(VkShaderInstrumentationARM instrumentation);
+    void CmdEndShaderInstrumentationARM();
     void CmdEndRendering2EXT(const VkRenderingEndInfoKHR* pRenderingEndInfo);
     void CmdBeginCustomResolveEXT(const VkBeginCustomResolveInfoEXT* pBeginCustomResolveInfo);
     void CmdSetComputeOccupancyPriorityNV(const VkComputeOccupancyPriorityParametersNV* pParameters);
+    void CmdSetPrimitiveRestartIndexEXT(uint32_t primitiveRestartIndex);
     void CmdBuildAccelerationStructuresKHR(uint32_t infoCount, const VkAccelerationStructureBuildGeometryInfoKHR* pInfos,
                                            const VkAccelerationStructureBuildRangeInfoKHR* const* ppBuildRangeInfos);
     void CmdBuildAccelerationStructuresIndirectKHR(uint32_t infoCount, const VkAccelerationStructureBuildGeometryInfoKHR* pInfos,

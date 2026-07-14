@@ -165,7 +165,9 @@ const ExtensionMap& GetDeviceExtensionsMap() {
         {ExtensionNumber::KHR_vulkan_memory_model, VK_KHR_VULKAN_MEMORY_MODEL_SPEC_VERSION},
         {ExtensionNumber::KHR_shader_terminate_invocation, VK_KHR_SHADER_TERMINATE_INVOCATION_SPEC_VERSION},
         {ExtensionNumber::KHR_fragment_shading_rate, VK_KHR_FRAGMENT_SHADING_RATE_SPEC_VERSION},
+        {ExtensionNumber::KHR_shader_constant_data, VK_KHR_SHADER_CONSTANT_DATA_SPEC_VERSION},
         {ExtensionNumber::KHR_dynamic_rendering_local_read, VK_KHR_DYNAMIC_RENDERING_LOCAL_READ_SPEC_VERSION},
+        {ExtensionNumber::KHR_shader_abort, VK_KHR_SHADER_ABORT_SPEC_VERSION},
         {ExtensionNumber::KHR_shader_quad_control, VK_KHR_SHADER_QUAD_CONTROL_SPEC_VERSION},
         {ExtensionNumber::KHR_spirv_1_4, VK_KHR_SPIRV_1_4_SPEC_VERSION},
         {ExtensionNumber::KHR_separate_depth_stencil_layouts, VK_KHR_SEPARATE_DEPTH_STENCIL_LAYOUTS_SPEC_VERSION},
@@ -181,6 +183,7 @@ const ExtensionMap& GetDeviceExtensionsMap() {
         {ExtensionNumber::KHR_present_id, VK_KHR_PRESENT_ID_SPEC_VERSION},
         {ExtensionNumber::KHR_video_encode_queue, VK_KHR_VIDEO_ENCODE_QUEUE_SPEC_VERSION},
         {ExtensionNumber::KHR_synchronization2, VK_KHR_SYNCHRONIZATION_2_SPEC_VERSION},
+        {ExtensionNumber::KHR_device_address_commands, VK_KHR_DEVICE_ADDRESS_COMMANDS_SPEC_VERSION},
         {ExtensionNumber::KHR_fragment_shader_barycentric, VK_KHR_FRAGMENT_SHADER_BARYCENTRIC_SPEC_VERSION},
         {ExtensionNumber::KHR_shader_subgroup_uniform_control_flow, VK_KHR_SHADER_SUBGROUP_UNIFORM_CONTROL_FLOW_SPEC_VERSION},
         {ExtensionNumber::KHR_zero_initialize_workgroup_memory, VK_KHR_ZERO_INITIALIZE_WORKGROUP_MEMORY_SPEC_VERSION},
@@ -219,14 +222,19 @@ const ExtensionMap& GetDeviceExtensionsMap() {
         {ExtensionNumber::KHR_video_encode_quantization_map, VK_KHR_VIDEO_ENCODE_QUANTIZATION_MAP_SPEC_VERSION},
         {ExtensionNumber::KHR_shader_relaxed_extended_instruction, VK_KHR_SHADER_RELAXED_EXTENDED_INSTRUCTION_SPEC_VERSION},
         {ExtensionNumber::KHR_maintenance7, VK_KHR_MAINTENANCE_7_SPEC_VERSION},
+        {ExtensionNumber::KHR_device_fault, VK_KHR_DEVICE_FAULT_SPEC_VERSION},
         {ExtensionNumber::KHR_maintenance8, VK_KHR_MAINTENANCE_8_SPEC_VERSION},
         {ExtensionNumber::KHR_shader_fma, VK_KHR_SHADER_FMA_SPEC_VERSION},
         {ExtensionNumber::KHR_maintenance9, VK_KHR_MAINTENANCE_9_SPEC_VERSION},
         {ExtensionNumber::KHR_video_maintenance2, VK_KHR_VIDEO_MAINTENANCE_2_SPEC_VERSION},
+        {ExtensionNumber::KHR_video_encode_feedback2, VK_KHR_VIDEO_ENCODE_FEEDBACK_2_SPEC_VERSION},
         {ExtensionNumber::KHR_depth_clamp_zero_one, VK_KHR_DEPTH_CLAMP_ZERO_ONE_SPEC_VERSION},
         {ExtensionNumber::KHR_robustness2, VK_KHR_ROBUSTNESS_2_SPEC_VERSION},
         {ExtensionNumber::KHR_present_mode_fifo_latest_ready, VK_KHR_PRESENT_MODE_FIFO_LATEST_READY_SPEC_VERSION},
+        {ExtensionNumber::KHR_opacity_micromap, VK_KHR_OPACITY_MICROMAP_SPEC_VERSION},
         {ExtensionNumber::KHR_maintenance10, VK_KHR_MAINTENANCE_10_SPEC_VERSION},
+        {ExtensionNumber::KHR_maintenance11, VK_KHR_MAINTENANCE_11_SPEC_VERSION},
+        {ExtensionNumber::KHR_extended_flags, VK_KHR_EXTENDED_FLAGS_SPEC_VERSION},
         {ExtensionNumber::NV_glsl_shader, VK_NV_GLSL_SHADER_SPEC_VERSION},
         {ExtensionNumber::EXT_depth_range_unrestricted, VK_EXT_DEPTH_RANGE_UNRESTRICTED_SPEC_VERSION},
         {ExtensionNumber::IMG_filter_cubic, VK_IMG_FILTER_CUBIC_SPEC_VERSION},
@@ -280,6 +288,7 @@ const ExtensionMap& GetDeviceExtensionsMap() {
 #endif  // VK_USE_PLATFORM_ANDROID_KHR
         {ExtensionNumber::EXT_sampler_filter_minmax, VK_EXT_SAMPLER_FILTER_MINMAX_SPEC_VERSION},
         {ExtensionNumber::AMD_gpu_shader_int16, VK_AMD_GPU_SHADER_INT16_SPEC_VERSION},
+        {ExtensionNumber::AMD_gpa_interface, VK_AMD_GPA_INTERFACE_SPEC_VERSION},
 #ifdef VK_ENABLE_BETA_EXTENSIONS
         {ExtensionNumber::AMDX_shader_enqueue, VK_AMDX_SHADER_ENQUEUE_SPEC_VERSION},
 #endif  // VK_ENABLE_BETA_EXTENSIONS
@@ -305,6 +314,7 @@ const ExtensionMap& GetDeviceExtensionsMap() {
         {ExtensionNumber::EXT_filter_cubic, VK_EXT_FILTER_CUBIC_SPEC_VERSION},
         {ExtensionNumber::QCOM_render_pass_shader_resolve, VK_QCOM_RENDER_PASS_SHADER_RESOLVE_SPEC_VERSION},
         {ExtensionNumber::QCOM_cooperative_matrix_conversion, VK_QCOM_COOPERATIVE_MATRIX_CONVERSION_SPEC_VERSION},
+        {ExtensionNumber::QCOM_elapsed_timer_query, VK_QCOM_ELAPSED_TIMER_QUERY_SPEC_VERSION},
         {ExtensionNumber::EXT_global_priority, VK_EXT_GLOBAL_PRIORITY_SPEC_VERSION},
         {ExtensionNumber::EXT_external_memory_host, VK_EXT_EXTERNAL_MEMORY_HOST_SPEC_VERSION},
         {ExtensionNumber::AMD_buffer_marker, VK_AMD_BUFFER_MARKER_SPEC_VERSION},
@@ -376,6 +386,10 @@ const ExtensionMap& GetDeviceExtensionsMap() {
         {ExtensionNumber::EXT_pipeline_creation_cache_control, VK_EXT_PIPELINE_CREATION_CACHE_CONTROL_SPEC_VERSION},
         {ExtensionNumber::NV_device_diagnostics_config, VK_NV_DEVICE_DIAGNOSTICS_CONFIG_SPEC_VERSION},
         {ExtensionNumber::QCOM_render_pass_store_ops, VK_QCOM_RENDER_PASS_STORE_OPS_SPEC_VERSION},
+        {ExtensionNumber::QCOM_queue_perf_hint, VK_QCOM_QUEUE_PERF_HINT_SPEC_VERSION},
+        {ExtensionNumber::QCOM_image_processing3, VK_QCOM_IMAGE_PROCESSING_3_SPEC_VERSION},
+        {ExtensionNumber::QCOM_shader_multiple_wait_queues, VK_QCOM_SHADER_MULTIPLE_WAIT_QUEUES_SPEC_VERSION},
+        {ExtensionNumber::EXT_shader_split_barrier, VK_EXT_SHADER_SPLIT_BARRIER_SPEC_VERSION},
 #ifdef VK_ENABLE_BETA_EXTENSIONS
         {ExtensionNumber::NV_cuda_kernel_launch, VK_NV_CUDA_KERNEL_LAUNCH_SPEC_VERSION},
 #endif  // VK_ENABLE_BETA_EXTENSIONS
@@ -486,6 +500,7 @@ const ExtensionMap& GetDeviceExtensionsMap() {
         {ExtensionNumber::EXT_dynamic_rendering_unused_attachments, VK_EXT_DYNAMIC_RENDERING_UNUSED_ATTACHMENTS_SPEC_VERSION},
         {ExtensionNumber::NV_low_latency2, VK_NV_LOW_LATENCY_2_SPEC_VERSION},
         {ExtensionNumber::ARM_data_graph, VK_ARM_DATA_GRAPH_SPEC_VERSION},
+        {ExtensionNumber::ARM_data_graph_instruction_set_tosa, VK_ARM_DATA_GRAPH_INSTRUCTION_SET_TOSA_SPEC_VERSION},
         {ExtensionNumber::QCOM_multiview_per_view_render_areas, VK_QCOM_MULTIVIEW_PER_VIEW_RENDER_AREAS_SPEC_VERSION},
         {ExtensionNumber::NV_per_stage_descriptor_set, VK_NV_PER_STAGE_DESCRIPTOR_SET_SPEC_VERSION},
         {ExtensionNumber::QCOM_image_processing2, VK_QCOM_IMAGE_PROCESSING_2_SPEC_VERSION},
@@ -505,6 +520,7 @@ const ExtensionMap& GetDeviceExtensionsMap() {
         {ExtensionNumber::NV_command_buffer_inheritance, VK_NV_COMMAND_BUFFER_INHERITANCE_SPEC_VERSION},
         {ExtensionNumber::NV_shader_atomic_float16_vector, VK_NV_SHADER_ATOMIC_FLOAT16_VECTOR_SPEC_VERSION},
         {ExtensionNumber::EXT_shader_replicated_composites, VK_EXT_SHADER_REPLICATED_COMPOSITES_SPEC_VERSION},
+        {ExtensionNumber::ARM_tensor_controls, VK_ARM_TENSOR_CONTROLS_SPEC_VERSION},
         {ExtensionNumber::EXT_shader_float8, VK_EXT_SHADER_FLOAT8_SPEC_VERSION},
         {ExtensionNumber::NV_ray_tracing_validation, VK_NV_RAY_TRACING_VALIDATION_SPEC_VERSION},
         {ExtensionNumber::NV_cluster_acceleration_structure, VK_NV_CLUSTER_ACCELERATION_STRUCTURE_SPEC_VERSION},
@@ -517,27 +533,35 @@ const ExtensionMap& GetDeviceExtensionsMap() {
         {ExtensionNumber::HUAWEI_hdr_vivid, VK_HUAWEI_HDR_VIVID_SPEC_VERSION},
         {ExtensionNumber::NV_cooperative_matrix2, VK_NV_COOPERATIVE_MATRIX_2_SPEC_VERSION},
         {ExtensionNumber::ARM_pipeline_opacity_micromap, VK_ARM_PIPELINE_OPACITY_MICROMAP_SPEC_VERSION},
+        {ExtensionNumber::IMG_filter_linear_2d, VK_IMG_FILTER_LINEAR_2D_SPEC_VERSION},
 #ifdef VK_USE_PLATFORM_METAL_EXT
         {ExtensionNumber::EXT_external_memory_metal, VK_EXT_EXTERNAL_MEMORY_METAL_SPEC_VERSION},
 #endif  // VK_USE_PLATFORM_METAL_EXT
         {ExtensionNumber::ARM_performance_counters_by_region, VK_ARM_PERFORMANCE_COUNTERS_BY_REGION_SPEC_VERSION},
+        {ExtensionNumber::ARM_shader_instrumentation, VK_ARM_SHADER_INSTRUMENTATION_SPEC_VERSION},
         {ExtensionNumber::EXT_vertex_attribute_robustness, VK_EXT_VERTEX_ATTRIBUTE_ROBUSTNESS_SPEC_VERSION},
         {ExtensionNumber::ARM_format_pack, VK_ARM_FORMAT_PACK_SPEC_VERSION},
         {ExtensionNumber::VALVE_fragment_density_map_layered, VK_VALVE_FRAGMENT_DENSITY_MAP_LAYERED_SPEC_VERSION},
-#ifdef VK_ENABLE_BETA_EXTENSIONS
         {ExtensionNumber::NV_present_metering, VK_NV_PRESENT_METERING_SPEC_VERSION},
-#endif  // VK_ENABLE_BETA_EXTENSIONS
+        {ExtensionNumber::EXT_multisampled_render_to_swapchain, VK_EXT_MULTISAMPLED_RENDER_TO_SWAPCHAIN_SPEC_VERSION},
         {ExtensionNumber::EXT_fragment_density_map_offset, VK_EXT_FRAGMENT_DENSITY_MAP_OFFSET_SPEC_VERSION},
         {ExtensionNumber::EXT_zero_initialize_device_memory, VK_EXT_ZERO_INITIALIZE_DEVICE_MEMORY_SPEC_VERSION},
         {ExtensionNumber::EXT_shader_64bit_indexing, VK_EXT_SHADER_64BIT_INDEXING_SPEC_VERSION},
         {ExtensionNumber::EXT_custom_resolve, VK_EXT_CUSTOM_RESOLVE_SPEC_VERSION},
         {ExtensionNumber::QCOM_data_graph_model, VK_QCOM_DATA_GRAPH_MODEL_SPEC_VERSION},
+        {ExtensionNumber::ARM_data_graph_optical_flow, VK_ARM_DATA_GRAPH_OPTICAL_FLOW_SPEC_VERSION},
         {ExtensionNumber::EXT_shader_long_vector, VK_EXT_SHADER_LONG_VECTOR_SPEC_VERSION},
         {ExtensionNumber::SEC_pipeline_cache_incremental_mode, VK_SEC_PIPELINE_CACHE_INCREMENTAL_MODE_SPEC_VERSION},
         {ExtensionNumber::EXT_shader_uniform_buffer_unsized_array, VK_EXT_SHADER_UNIFORM_BUFFER_UNSIZED_ARRAY_SPEC_VERSION},
         {ExtensionNumber::NV_compute_occupancy_priority, VK_NV_COMPUTE_OCCUPANCY_PRIORITY_SPEC_VERSION},
         {ExtensionNumber::EXT_shader_subgroup_partitioned, VK_EXT_SHADER_SUBGROUP_PARTITIONED_SPEC_VERSION},
+        {ExtensionNumber::EXT_shader_ocp_microscaling_types, VK_EXT_SHADER_OCP_MICROSCALING_TYPES_SPEC_VERSION},
         {ExtensionNumber::VALVE_shader_mixed_float_dot_product, VK_VALVE_SHADER_MIXED_FLOAT_DOT_PRODUCT_SPEC_VERSION},
+        {ExtensionNumber::SEC_throttle_hint, VK_SEC_THROTTLE_HINT_SPEC_VERSION},
+        {ExtensionNumber::ARM_data_graph_neural_accelerator_statistics,
+         VK_ARM_DATA_GRAPH_NEURAL_ACCELERATOR_STATISTICS_SPEC_VERSION},
+        {ExtensionNumber::EXT_primitive_restart_index, VK_EXT_PRIMITIVE_RESTART_INDEX_SPEC_VERSION},
+        {ExtensionNumber::NV_cooperative_matrix_decode_vector, VK_NV_COOPERATIVE_MATRIX_DECODE_VECTOR_SPEC_VERSION},
         {ExtensionNumber::KHR_acceleration_structure, VK_KHR_ACCELERATION_STRUCTURE_SPEC_VERSION},
         {ExtensionNumber::KHR_ray_tracing_pipeline, VK_KHR_RAY_TRACING_PIPELINE_SPEC_VERSION},
         {ExtensionNumber::KHR_ray_query, VK_KHR_RAY_QUERY_SPEC_VERSION},
@@ -641,7 +665,9 @@ ExtensionNumber GetExtensionNumber(const char* extension_name) {
         {"VK_KHR_vulkan_memory_model", ExtensionNumber::KHR_vulkan_memory_model},
         {"VK_KHR_shader_terminate_invocation", ExtensionNumber::KHR_shader_terminate_invocation},
         {"VK_KHR_fragment_shading_rate", ExtensionNumber::KHR_fragment_shading_rate},
+        {"VK_KHR_shader_constant_data", ExtensionNumber::KHR_shader_constant_data},
         {"VK_KHR_dynamic_rendering_local_read", ExtensionNumber::KHR_dynamic_rendering_local_read},
+        {"VK_KHR_shader_abort", ExtensionNumber::KHR_shader_abort},
         {"VK_KHR_shader_quad_control", ExtensionNumber::KHR_shader_quad_control},
         {"VK_KHR_spirv_1_4", ExtensionNumber::KHR_spirv_1_4},
         {"VK_KHR_surface_protected_capabilities", ExtensionNumber::KHR_surface_protected_capabilities},
@@ -658,6 +684,7 @@ ExtensionNumber GetExtensionNumber(const char* extension_name) {
         {"VK_KHR_present_id", ExtensionNumber::KHR_present_id},
         {"VK_KHR_video_encode_queue", ExtensionNumber::KHR_video_encode_queue},
         {"VK_KHR_synchronization2", ExtensionNumber::KHR_synchronization2},
+        {"VK_KHR_device_address_commands", ExtensionNumber::KHR_device_address_commands},
         {"VK_KHR_fragment_shader_barycentric", ExtensionNumber::KHR_fragment_shader_barycentric},
         {"VK_KHR_shader_subgroup_uniform_control_flow", ExtensionNumber::KHR_shader_subgroup_uniform_control_flow},
         {"VK_KHR_zero_initialize_workgroup_memory", ExtensionNumber::KHR_zero_initialize_workgroup_memory},
@@ -698,14 +725,19 @@ ExtensionNumber GetExtensionNumber(const char* extension_name) {
         {"VK_KHR_video_encode_quantization_map", ExtensionNumber::KHR_video_encode_quantization_map},
         {"VK_KHR_shader_relaxed_extended_instruction", ExtensionNumber::KHR_shader_relaxed_extended_instruction},
         {"VK_KHR_maintenance7", ExtensionNumber::KHR_maintenance7},
+        {"VK_KHR_device_fault", ExtensionNumber::KHR_device_fault},
         {"VK_KHR_maintenance8", ExtensionNumber::KHR_maintenance8},
         {"VK_KHR_shader_fma", ExtensionNumber::KHR_shader_fma},
         {"VK_KHR_maintenance9", ExtensionNumber::KHR_maintenance9},
         {"VK_KHR_video_maintenance2", ExtensionNumber::KHR_video_maintenance2},
+        {"VK_KHR_video_encode_feedback2", ExtensionNumber::KHR_video_encode_feedback2},
         {"VK_KHR_depth_clamp_zero_one", ExtensionNumber::KHR_depth_clamp_zero_one},
         {"VK_KHR_robustness2", ExtensionNumber::KHR_robustness2},
         {"VK_KHR_present_mode_fifo_latest_ready", ExtensionNumber::KHR_present_mode_fifo_latest_ready},
+        {"VK_KHR_opacity_micromap", ExtensionNumber::KHR_opacity_micromap},
         {"VK_KHR_maintenance10", ExtensionNumber::KHR_maintenance10},
+        {"VK_KHR_maintenance11", ExtensionNumber::KHR_maintenance11},
+        {"VK_KHR_extended_flags", ExtensionNumber::KHR_extended_flags},
         {"VK_EXT_debug_report", ExtensionNumber::EXT_debug_report},
         {"VK_NV_glsl_shader", ExtensionNumber::NV_glsl_shader},
         {"VK_EXT_depth_range_unrestricted", ExtensionNumber::EXT_depth_range_unrestricted},
@@ -780,6 +812,7 @@ ExtensionNumber GetExtensionNumber(const char* extension_name) {
 #endif  // VK_USE_PLATFORM_ANDROID_KHR
         {"VK_EXT_sampler_filter_minmax", ExtensionNumber::EXT_sampler_filter_minmax},
         {"VK_AMD_gpu_shader_int16", ExtensionNumber::AMD_gpu_shader_int16},
+        {"VK_AMD_gpa_interface", ExtensionNumber::AMD_gpa_interface},
 #ifdef VK_ENABLE_BETA_EXTENSIONS
         {"VK_AMDX_shader_enqueue", ExtensionNumber::AMDX_shader_enqueue},
 #endif  // VK_ENABLE_BETA_EXTENSIONS
@@ -805,6 +838,7 @@ ExtensionNumber GetExtensionNumber(const char* extension_name) {
         {"VK_EXT_filter_cubic", ExtensionNumber::EXT_filter_cubic},
         {"VK_QCOM_render_pass_shader_resolve", ExtensionNumber::QCOM_render_pass_shader_resolve},
         {"VK_QCOM_cooperative_matrix_conversion", ExtensionNumber::QCOM_cooperative_matrix_conversion},
+        {"VK_QCOM_elapsed_timer_query", ExtensionNumber::QCOM_elapsed_timer_query},
         {"VK_EXT_global_priority", ExtensionNumber::EXT_global_priority},
         {"VK_EXT_external_memory_host", ExtensionNumber::EXT_external_memory_host},
         {"VK_AMD_buffer_marker", ExtensionNumber::AMD_buffer_marker},
@@ -886,6 +920,10 @@ ExtensionNumber GetExtensionNumber(const char* extension_name) {
         {"VK_EXT_pipeline_creation_cache_control", ExtensionNumber::EXT_pipeline_creation_cache_control},
         {"VK_NV_device_diagnostics_config", ExtensionNumber::NV_device_diagnostics_config},
         {"VK_QCOM_render_pass_store_ops", ExtensionNumber::QCOM_render_pass_store_ops},
+        {"VK_QCOM_queue_perf_hint", ExtensionNumber::QCOM_queue_perf_hint},
+        {"VK_QCOM_image_processing3", ExtensionNumber::QCOM_image_processing3},
+        {"VK_QCOM_shader_multiple_wait_queues", ExtensionNumber::QCOM_shader_multiple_wait_queues},
+        {"VK_EXT_shader_split_barrier", ExtensionNumber::EXT_shader_split_barrier},
 #ifdef VK_ENABLE_BETA_EXTENSIONS
         {"VK_NV_cuda_kernel_launch", ExtensionNumber::NV_cuda_kernel_launch},
 #endif  // VK_ENABLE_BETA_EXTENSIONS
@@ -1005,6 +1043,7 @@ ExtensionNumber GetExtensionNumber(const char* extension_name) {
         {"VK_EXT_dynamic_rendering_unused_attachments", ExtensionNumber::EXT_dynamic_rendering_unused_attachments},
         {"VK_NV_low_latency2", ExtensionNumber::NV_low_latency2},
         {"VK_ARM_data_graph", ExtensionNumber::ARM_data_graph},
+        {"VK_ARM_data_graph_instruction_set_tosa", ExtensionNumber::ARM_data_graph_instruction_set_tosa},
         {"VK_QCOM_multiview_per_view_render_areas", ExtensionNumber::QCOM_multiview_per_view_render_areas},
         {"VK_NV_per_stage_descriptor_set", ExtensionNumber::NV_per_stage_descriptor_set},
         {"VK_QCOM_image_processing2", ExtensionNumber::QCOM_image_processing2},
@@ -1025,6 +1064,7 @@ ExtensionNumber GetExtensionNumber(const char* extension_name) {
         {"VK_NV_command_buffer_inheritance", ExtensionNumber::NV_command_buffer_inheritance},
         {"VK_NV_shader_atomic_float16_vector", ExtensionNumber::NV_shader_atomic_float16_vector},
         {"VK_EXT_shader_replicated_composites", ExtensionNumber::EXT_shader_replicated_composites},
+        {"VK_ARM_tensor_controls", ExtensionNumber::ARM_tensor_controls},
         {"VK_EXT_shader_float8", ExtensionNumber::EXT_shader_float8},
         {"VK_NV_ray_tracing_validation", ExtensionNumber::NV_ray_tracing_validation},
         {"VK_NV_cluster_acceleration_structure", ExtensionNumber::NV_cluster_acceleration_structure},
@@ -1040,21 +1080,23 @@ ExtensionNumber GetExtensionNumber(const char* extension_name) {
         {"VK_HUAWEI_hdr_vivid", ExtensionNumber::HUAWEI_hdr_vivid},
         {"VK_NV_cooperative_matrix2", ExtensionNumber::NV_cooperative_matrix2},
         {"VK_ARM_pipeline_opacity_micromap", ExtensionNumber::ARM_pipeline_opacity_micromap},
+        {"VK_IMG_filter_linear_2d", ExtensionNumber::IMG_filter_linear_2d},
 #ifdef VK_USE_PLATFORM_METAL_EXT
         {"VK_EXT_external_memory_metal", ExtensionNumber::EXT_external_memory_metal},
 #endif  // VK_USE_PLATFORM_METAL_EXT
         {"VK_ARM_performance_counters_by_region", ExtensionNumber::ARM_performance_counters_by_region},
+        {"VK_ARM_shader_instrumentation", ExtensionNumber::ARM_shader_instrumentation},
         {"VK_EXT_vertex_attribute_robustness", ExtensionNumber::EXT_vertex_attribute_robustness},
         {"VK_ARM_format_pack", ExtensionNumber::ARM_format_pack},
         {"VK_VALVE_fragment_density_map_layered", ExtensionNumber::VALVE_fragment_density_map_layered},
-#ifdef VK_ENABLE_BETA_EXTENSIONS
         {"VK_NV_present_metering", ExtensionNumber::NV_present_metering},
-#endif  // VK_ENABLE_BETA_EXTENSIONS
+        {"VK_EXT_multisampled_render_to_swapchain", ExtensionNumber::EXT_multisampled_render_to_swapchain},
         {"VK_EXT_fragment_density_map_offset", ExtensionNumber::EXT_fragment_density_map_offset},
         {"VK_EXT_zero_initialize_device_memory", ExtensionNumber::EXT_zero_initialize_device_memory},
         {"VK_EXT_shader_64bit_indexing", ExtensionNumber::EXT_shader_64bit_indexing},
         {"VK_EXT_custom_resolve", ExtensionNumber::EXT_custom_resolve},
         {"VK_QCOM_data_graph_model", ExtensionNumber::QCOM_data_graph_model},
+        {"VK_ARM_data_graph_optical_flow", ExtensionNumber::ARM_data_graph_optical_flow},
         {"VK_EXT_shader_long_vector", ExtensionNumber::EXT_shader_long_vector},
         {"VK_SEC_pipeline_cache_incremental_mode", ExtensionNumber::SEC_pipeline_cache_incremental_mode},
         {"VK_EXT_shader_uniform_buffer_unsized_array", ExtensionNumber::EXT_shader_uniform_buffer_unsized_array},
@@ -1063,7 +1105,12 @@ ExtensionNumber GetExtensionNumber(const char* extension_name) {
 #ifdef VK_USE_PLATFORM_UBM_SEC
         {"VK_SEC_ubm_surface", ExtensionNumber::SEC_ubm_surface},
 #endif  // VK_USE_PLATFORM_UBM_SEC
+        {"VK_EXT_shader_ocp_microscaling_types", ExtensionNumber::EXT_shader_ocp_microscaling_types},
         {"VK_VALVE_shader_mixed_float_dot_product", ExtensionNumber::VALVE_shader_mixed_float_dot_product},
+        {"VK_SEC_throttle_hint", ExtensionNumber::SEC_throttle_hint},
+        {"VK_ARM_data_graph_neural_accelerator_statistics", ExtensionNumber::ARM_data_graph_neural_accelerator_statistics},
+        {"VK_EXT_primitive_restart_index", ExtensionNumber::EXT_primitive_restart_index},
+        {"VK_NV_cooperative_matrix_decode_vector", ExtensionNumber::NV_cooperative_matrix_decode_vector},
         {"VK_KHR_acceleration_structure", ExtensionNumber::KHR_acceleration_structure},
         {"VK_KHR_ray_tracing_pipeline", ExtensionNumber::KHR_ray_tracing_pipeline},
         {"VK_KHR_ray_query", ExtensionNumber::KHR_ray_query},
@@ -1319,8 +1366,14 @@ const char* GetExtensionName(ExtensionNumber extension_number) {
         case ExtensionNumber::KHR_fragment_shading_rate:
             return "VK_KHR_fragment_shading_rate";
             break;
+        case ExtensionNumber::KHR_shader_constant_data:
+            return "VK_KHR_shader_constant_data";
+            break;
         case ExtensionNumber::KHR_dynamic_rendering_local_read:
             return "VK_KHR_dynamic_rendering_local_read";
+            break;
+        case ExtensionNumber::KHR_shader_abort:
+            return "VK_KHR_shader_abort";
             break;
         case ExtensionNumber::KHR_shader_quad_control:
             return "VK_KHR_shader_quad_control";
@@ -1369,6 +1422,9 @@ const char* GetExtensionName(ExtensionNumber extension_number) {
             break;
         case ExtensionNumber::KHR_synchronization2:
             return "VK_KHR_synchronization2";
+            break;
+        case ExtensionNumber::KHR_device_address_commands:
+            return "VK_KHR_device_address_commands";
             break;
         case ExtensionNumber::KHR_fragment_shader_barycentric:
             return "VK_KHR_fragment_shader_barycentric";
@@ -1490,6 +1546,9 @@ const char* GetExtensionName(ExtensionNumber extension_number) {
         case ExtensionNumber::KHR_maintenance7:
             return "VK_KHR_maintenance7";
             break;
+        case ExtensionNumber::KHR_device_fault:
+            return "VK_KHR_device_fault";
+            break;
         case ExtensionNumber::KHR_maintenance8:
             return "VK_KHR_maintenance8";
             break;
@@ -1502,6 +1561,9 @@ const char* GetExtensionName(ExtensionNumber extension_number) {
         case ExtensionNumber::KHR_video_maintenance2:
             return "VK_KHR_video_maintenance2";
             break;
+        case ExtensionNumber::KHR_video_encode_feedback2:
+            return "VK_KHR_video_encode_feedback2";
+            break;
         case ExtensionNumber::KHR_depth_clamp_zero_one:
             return "VK_KHR_depth_clamp_zero_one";
             break;
@@ -1511,8 +1573,17 @@ const char* GetExtensionName(ExtensionNumber extension_number) {
         case ExtensionNumber::KHR_present_mode_fifo_latest_ready:
             return "VK_KHR_present_mode_fifo_latest_ready";
             break;
+        case ExtensionNumber::KHR_opacity_micromap:
+            return "VK_KHR_opacity_micromap";
+            break;
         case ExtensionNumber::KHR_maintenance10:
             return "VK_KHR_maintenance10";
+            break;
+        case ExtensionNumber::KHR_maintenance11:
+            return "VK_KHR_maintenance11";
+            break;
+        case ExtensionNumber::KHR_extended_flags:
+            return "VK_KHR_extended_flags";
             break;
         case ExtensionNumber::EXT_debug_report:
             return "VK_EXT_debug_report";
@@ -1708,6 +1779,9 @@ const char* GetExtensionName(ExtensionNumber extension_number) {
         case ExtensionNumber::AMD_gpu_shader_int16:
             return "VK_AMD_gpu_shader_int16";
             break;
+        case ExtensionNumber::AMD_gpa_interface:
+            return "VK_AMD_gpa_interface";
+            break;
 #ifdef VK_ENABLE_BETA_EXTENSIONS
         case ExtensionNumber::AMDX_shader_enqueue:
             return "VK_AMDX_shader_enqueue";
@@ -1778,6 +1852,9 @@ const char* GetExtensionName(ExtensionNumber extension_number) {
             break;
         case ExtensionNumber::QCOM_cooperative_matrix_conversion:
             return "VK_QCOM_cooperative_matrix_conversion";
+            break;
+        case ExtensionNumber::QCOM_elapsed_timer_query:
+            return "VK_QCOM_elapsed_timer_query";
             break;
         case ExtensionNumber::EXT_global_priority:
             return "VK_EXT_global_priority";
@@ -2005,6 +2082,18 @@ const char* GetExtensionName(ExtensionNumber extension_number) {
             break;
         case ExtensionNumber::QCOM_render_pass_store_ops:
             return "VK_QCOM_render_pass_store_ops";
+            break;
+        case ExtensionNumber::QCOM_queue_perf_hint:
+            return "VK_QCOM_queue_perf_hint";
+            break;
+        case ExtensionNumber::QCOM_image_processing3:
+            return "VK_QCOM_image_processing3";
+            break;
+        case ExtensionNumber::QCOM_shader_multiple_wait_queues:
+            return "VK_QCOM_shader_multiple_wait_queues";
+            break;
+        case ExtensionNumber::EXT_shader_split_barrier:
+            return "VK_EXT_shader_split_barrier";
             break;
 #ifdef VK_ENABLE_BETA_EXTENSIONS
         case ExtensionNumber::NV_cuda_kernel_launch:
@@ -2323,6 +2412,9 @@ const char* GetExtensionName(ExtensionNumber extension_number) {
         case ExtensionNumber::ARM_data_graph:
             return "VK_ARM_data_graph";
             break;
+        case ExtensionNumber::ARM_data_graph_instruction_set_tosa:
+            return "VK_ARM_data_graph_instruction_set_tosa";
+            break;
         case ExtensionNumber::QCOM_multiview_per_view_render_areas:
             return "VK_QCOM_multiview_per_view_render_areas";
             break;
@@ -2379,6 +2471,9 @@ const char* GetExtensionName(ExtensionNumber extension_number) {
         case ExtensionNumber::EXT_shader_replicated_composites:
             return "VK_EXT_shader_replicated_composites";
             break;
+        case ExtensionNumber::ARM_tensor_controls:
+            return "VK_ARM_tensor_controls";
+            break;
         case ExtensionNumber::EXT_shader_float8:
             return "VK_EXT_shader_float8";
             break;
@@ -2420,6 +2515,9 @@ const char* GetExtensionName(ExtensionNumber extension_number) {
         case ExtensionNumber::ARM_pipeline_opacity_micromap:
             return "VK_ARM_pipeline_opacity_micromap";
             break;
+        case ExtensionNumber::IMG_filter_linear_2d:
+            return "VK_IMG_filter_linear_2d";
+            break;
 #ifdef VK_USE_PLATFORM_METAL_EXT
         case ExtensionNumber::EXT_external_memory_metal:
             return "VK_EXT_external_memory_metal";
@@ -2427,6 +2525,9 @@ const char* GetExtensionName(ExtensionNumber extension_number) {
 #endif  // VK_USE_PLATFORM_METAL_EXT
         case ExtensionNumber::ARM_performance_counters_by_region:
             return "VK_ARM_performance_counters_by_region";
+            break;
+        case ExtensionNumber::ARM_shader_instrumentation:
+            return "VK_ARM_shader_instrumentation";
             break;
         case ExtensionNumber::EXT_vertex_attribute_robustness:
             return "VK_EXT_vertex_attribute_robustness";
@@ -2437,11 +2538,12 @@ const char* GetExtensionName(ExtensionNumber extension_number) {
         case ExtensionNumber::VALVE_fragment_density_map_layered:
             return "VK_VALVE_fragment_density_map_layered";
             break;
-#ifdef VK_ENABLE_BETA_EXTENSIONS
         case ExtensionNumber::NV_present_metering:
             return "VK_NV_present_metering";
             break;
-#endif  // VK_ENABLE_BETA_EXTENSIONS
+        case ExtensionNumber::EXT_multisampled_render_to_swapchain:
+            return "VK_EXT_multisampled_render_to_swapchain";
+            break;
         case ExtensionNumber::EXT_fragment_density_map_offset:
             return "VK_EXT_fragment_density_map_offset";
             break;
@@ -2456,6 +2558,9 @@ const char* GetExtensionName(ExtensionNumber extension_number) {
             break;
         case ExtensionNumber::QCOM_data_graph_model:
             return "VK_QCOM_data_graph_model";
+            break;
+        case ExtensionNumber::ARM_data_graph_optical_flow:
+            return "VK_ARM_data_graph_optical_flow";
             break;
         case ExtensionNumber::EXT_shader_long_vector:
             return "VK_EXT_shader_long_vector";
@@ -2477,8 +2582,23 @@ const char* GetExtensionName(ExtensionNumber extension_number) {
             return "VK_SEC_ubm_surface";
             break;
 #endif  // VK_USE_PLATFORM_UBM_SEC
+        case ExtensionNumber::EXT_shader_ocp_microscaling_types:
+            return "VK_EXT_shader_ocp_microscaling_types";
+            break;
         case ExtensionNumber::VALVE_shader_mixed_float_dot_product:
             return "VK_VALVE_shader_mixed_float_dot_product";
+            break;
+        case ExtensionNumber::SEC_throttle_hint:
+            return "VK_SEC_throttle_hint";
+            break;
+        case ExtensionNumber::ARM_data_graph_neural_accelerator_statistics:
+            return "VK_ARM_data_graph_neural_accelerator_statistics";
+            break;
+        case ExtensionNumber::EXT_primitive_restart_index:
+            return "VK_EXT_primitive_restart_index";
+            break;
+        case ExtensionNumber::NV_cooperative_matrix_decode_vector:
+            return "VK_NV_cooperative_matrix_decode_vector";
             break;
         case ExtensionNumber::KHR_acceleration_structure:
             return "VK_KHR_acceleration_structure";

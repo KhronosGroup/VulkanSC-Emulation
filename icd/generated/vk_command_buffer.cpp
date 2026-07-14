@@ -270,6 +270,79 @@ void CommandBuffer::CmdPipelineBarrier2KHR(const VkDependencyInfo* pDependencyIn
 void CommandBuffer::CmdWriteTimestamp2KHR(VkPipelineStageFlags2 stage, VkQueryPool queryPool, uint32_t query) {
     dispatch_table_.CmdWriteTimestamp2KHR(handle_, stage, queryPool, query);
 }
+void CommandBuffer::CmdBindIndexBuffer3KHR(const VkBindIndexBuffer3InfoKHR* pInfo) {
+    dispatch_table_.CmdBindIndexBuffer3KHR(handle_, pInfo);
+}
+void CommandBuffer::CmdBindVertexBuffers3KHR(uint32_t firstBinding, uint32_t bindingCount,
+                                             const VkBindVertexBuffer3InfoKHR* pBindingInfos) {
+    dispatch_table_.CmdBindVertexBuffers3KHR(handle_, firstBinding, bindingCount, pBindingInfos);
+}
+void CommandBuffer::CmdDrawIndirect2KHR(const VkDrawIndirect2InfoKHR* pInfo) {
+    dispatch_table_.CmdDrawIndirect2KHR(handle_, pInfo);
+}
+void CommandBuffer::CmdDrawIndexedIndirect2KHR(const VkDrawIndirect2InfoKHR* pInfo) {
+    dispatch_table_.CmdDrawIndexedIndirect2KHR(handle_, pInfo);
+}
+void CommandBuffer::CmdDispatchIndirect2KHR(const VkDispatchIndirect2InfoKHR* pInfo) {
+    dispatch_table_.CmdDispatchIndirect2KHR(handle_, pInfo);
+}
+void CommandBuffer::CmdCopyMemoryKHR(const VkCopyDeviceMemoryInfoKHR* pCopyMemoryInfo) {
+    dispatch_table_.CmdCopyMemoryKHR(handle_, pCopyMemoryInfo);
+}
+void CommandBuffer::CmdCopyMemoryToImageKHR(const VkCopyDeviceMemoryImageInfoKHR* pCopyMemoryInfo) {
+    dispatch_table_.CmdCopyMemoryToImageKHR(handle_, pCopyMemoryInfo);
+}
+void CommandBuffer::CmdCopyImageToMemoryKHR(const VkCopyDeviceMemoryImageInfoKHR* pCopyMemoryInfo) {
+    dispatch_table_.CmdCopyImageToMemoryKHR(handle_, pCopyMemoryInfo);
+}
+void CommandBuffer::CmdUpdateMemoryKHR(const VkDeviceAddressRangeKHR* pDstRange, VkAddressCommandFlagsKHR dstFlags,
+                                       VkDeviceSize dataSize, const void* pData) {
+    dispatch_table_.CmdUpdateMemoryKHR(handle_, pDstRange, dstFlags, dataSize, pData);
+}
+void CommandBuffer::CmdFillMemoryKHR(const VkDeviceAddressRangeKHR* pDstRange, VkAddressCommandFlagsKHR dstFlags, uint32_t data) {
+    dispatch_table_.CmdFillMemoryKHR(handle_, pDstRange, dstFlags, data);
+}
+void CommandBuffer::CmdCopyQueryPoolResultsToMemoryKHR(VkQueryPool queryPool, uint32_t firstQuery, uint32_t queryCount,
+                                                       const VkStridedDeviceAddressRangeKHR* pDstRange,
+                                                       VkAddressCommandFlagsKHR dstFlags, VkQueryResultFlags queryResultFlags) {
+    dispatch_table_.CmdCopyQueryPoolResultsToMemoryKHR(handle_, queryPool, firstQuery, queryCount, pDstRange, dstFlags,
+                                                       queryResultFlags);
+}
+void CommandBuffer::CmdDrawIndirectCount2KHR(const VkDrawIndirectCount2InfoKHR* pInfo) {
+    dispatch_table_.CmdDrawIndirectCount2KHR(handle_, pInfo);
+}
+void CommandBuffer::CmdDrawIndexedIndirectCount2KHR(const VkDrawIndirectCount2InfoKHR* pInfo) {
+    dispatch_table_.CmdDrawIndexedIndirectCount2KHR(handle_, pInfo);
+}
+void CommandBuffer::CmdBeginConditionalRendering2EXT(const VkConditionalRenderingBeginInfo2EXT* pConditionalRenderingBegin) {
+    dispatch_table_.CmdBeginConditionalRendering2EXT(handle_, pConditionalRenderingBegin);
+}
+void CommandBuffer::CmdBindTransformFeedbackBuffers2EXT(uint32_t firstBinding, uint32_t bindingCount,
+                                                        const VkBindTransformFeedbackBuffer2InfoEXT* pBindingInfos) {
+    dispatch_table_.CmdBindTransformFeedbackBuffers2EXT(handle_, firstBinding, bindingCount, pBindingInfos);
+}
+void CommandBuffer::CmdBeginTransformFeedback2EXT(uint32_t firstCounterRange, uint32_t counterRangeCount,
+                                                  const VkBindTransformFeedbackBuffer2InfoEXT* pCounterInfos) {
+    dispatch_table_.CmdBeginTransformFeedback2EXT(handle_, firstCounterRange, counterRangeCount, pCounterInfos);
+}
+void CommandBuffer::CmdEndTransformFeedback2EXT(uint32_t firstCounterRange, uint32_t counterRangeCount,
+                                                const VkBindTransformFeedbackBuffer2InfoEXT* pCounterInfos) {
+    dispatch_table_.CmdEndTransformFeedback2EXT(handle_, firstCounterRange, counterRangeCount, pCounterInfos);
+}
+void CommandBuffer::CmdDrawIndirectByteCount2EXT(uint32_t instanceCount, uint32_t firstInstance,
+                                                 const VkBindTransformFeedbackBuffer2InfoEXT* pCounterInfo, uint32_t counterOffset,
+                                                 uint32_t vertexStride) {
+    dispatch_table_.CmdDrawIndirectByteCount2EXT(handle_, instanceCount, firstInstance, pCounterInfo, counterOffset, vertexStride);
+}
+void CommandBuffer::CmdDrawMeshTasksIndirect2EXT(const VkDrawIndirect2InfoKHR* pInfo) {
+    dispatch_table_.CmdDrawMeshTasksIndirect2EXT(handle_, pInfo);
+}
+void CommandBuffer::CmdDrawMeshTasksIndirectCount2EXT(const VkDrawIndirectCount2InfoKHR* pInfo) {
+    dispatch_table_.CmdDrawMeshTasksIndirectCount2EXT(handle_, pInfo);
+}
+void CommandBuffer::CmdWriteMarkerToMemoryAMD(const VkMemoryMarkerInfoAMD* pInfo) {
+    dispatch_table_.CmdWriteMarkerToMemoryAMD(handle_, pInfo);
+}
 void CommandBuffer::CmdCopyBuffer2KHR(const VkCopyBufferInfo2* pCopyBufferInfo) {
     dispatch_table_.CmdCopyBuffer2KHR(handle_, pCopyBufferInfo);
 }
@@ -393,6 +466,22 @@ void CommandBuffer::CmdBeginDebugUtilsLabelEXT(const VkDebugUtilsLabelEXT* pLabe
 void CommandBuffer::CmdEndDebugUtilsLabelEXT() { dispatch_table_.CmdEndDebugUtilsLabelEXT(handle_); }
 void CommandBuffer::CmdInsertDebugUtilsLabelEXT(const VkDebugUtilsLabelEXT* pLabelInfo) {
     dispatch_table_.CmdInsertDebugUtilsLabelEXT(handle_, pLabelInfo);
+}
+VkResult CommandBuffer::CmdBeginGpaSessionAMD(VkGpaSessionAMD gpaSession) {
+    return dispatch_table_.CmdBeginGpaSessionAMD(handle_, gpaSession);
+}
+VkResult CommandBuffer::CmdEndGpaSessionAMD(VkGpaSessionAMD gpaSession) {
+    return dispatch_table_.CmdEndGpaSessionAMD(handle_, gpaSession);
+}
+VkResult CommandBuffer::CmdBeginGpaSampleAMD(VkGpaSessionAMD gpaSession, const VkGpaSampleBeginInfoAMD* pGpaSampleBeginInfo,
+                                             uint32_t* pSampleID) {
+    return dispatch_table_.CmdBeginGpaSampleAMD(handle_, gpaSession, pGpaSampleBeginInfo, pSampleID);
+}
+void CommandBuffer::CmdEndGpaSampleAMD(VkGpaSessionAMD gpaSession, uint32_t sampleID) {
+    dispatch_table_.CmdEndGpaSampleAMD(handle_, gpaSession, sampleID);
+}
+void CommandBuffer::CmdCopyGpaSessionResultsAMD(VkGpaSessionAMD gpaSession) {
+    dispatch_table_.CmdCopyGpaSessionResultsAMD(handle_, gpaSession);
 }
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 void CommandBuffer::CmdInitializeGraphScratchMemoryAMDX(VkPipeline executionGraph, VkDeviceAddress scratch,
@@ -637,6 +726,9 @@ void CommandBuffer::CmdDrawClusterHUAWEI(uint32_t groupCountX, uint32_t groupCou
 void CommandBuffer::CmdDrawClusterIndirectHUAWEI(VkBuffer buffer, VkDeviceSize offset) {
     dispatch_table_.CmdDrawClusterIndirectHUAWEI(handle_, buffer, offset);
 }
+void CommandBuffer::CmdSetDispatchParametersARM(const VkDispatchParametersARM* pDispatchParameters) {
+    dispatch_table_.CmdSetDispatchParametersARM(handle_, pDispatchParameters);
+}
 void CommandBuffer::CmdCopyMemoryIndirectNV(VkDeviceAddress copyBufferAddress, uint32_t copyCount, uint32_t stride) {
     dispatch_table_.CmdCopyMemoryIndirectNV(handle_, copyBufferAddress, copyCount, stride);
 }
@@ -803,6 +895,10 @@ void CommandBuffer::CmdExecuteGeneratedCommandsEXT(VkBool32 isPreprocessed,
                                                    const VkGeneratedCommandsInfoEXT* pGeneratedCommandsInfo) {
     dispatch_table_.CmdExecuteGeneratedCommandsEXT(handle_, isPreprocessed, pGeneratedCommandsInfo);
 }
+void CommandBuffer::CmdBeginShaderInstrumentationARM(VkShaderInstrumentationARM instrumentation) {
+    dispatch_table_.CmdBeginShaderInstrumentationARM(handle_, instrumentation);
+}
+void CommandBuffer::CmdEndShaderInstrumentationARM() { dispatch_table_.CmdEndShaderInstrumentationARM(handle_); }
 void CommandBuffer::CmdEndRendering2EXT(const VkRenderingEndInfoKHR* pRenderingEndInfo) {
     dispatch_table_.CmdEndRendering2EXT(handle_, pRenderingEndInfo);
 }
@@ -811,6 +907,9 @@ void CommandBuffer::CmdBeginCustomResolveEXT(const VkBeginCustomResolveInfoEXT* 
 }
 void CommandBuffer::CmdSetComputeOccupancyPriorityNV(const VkComputeOccupancyPriorityParametersNV* pParameters) {
     dispatch_table_.CmdSetComputeOccupancyPriorityNV(handle_, pParameters);
+}
+void CommandBuffer::CmdSetPrimitiveRestartIndexEXT(uint32_t primitiveRestartIndex) {
+    dispatch_table_.CmdSetPrimitiveRestartIndexEXT(handle_, primitiveRestartIndex);
 }
 void CommandBuffer::CmdBuildAccelerationStructuresKHR(uint32_t infoCount, const VkAccelerationStructureBuildGeometryInfoKHR* pInfos,
                                                       const VkAccelerationStructureBuildRangeInfoKHR* const* ppBuildRangeInfos) {

@@ -628,15 +628,6 @@ void ConvertOutStructToVulkanSC<VkDrmFormatModifierPropertiesListEXT>(VkDrmForma
 }
 
 template <>
-void ConvertOutStructToVulkanSC<VkDrmFormatModifierPropertiesList2EXT>(VkDrmFormatModifierPropertiesList2EXT* p) {
-    if (p->pDrmFormatModifierProperties != nullptr) {
-        for (uint32_t i = 0; i < p->drmFormatModifierCount; ++i) {
-            ConvertOutStructToVulkanSC<VkDrmFormatModifierProperties2EXT>(&p->pDrmFormatModifierProperties[i]);
-        }
-    }
-}
-
-template <>
 void ConvertOutStructToVulkanSC<VkFilterCubicImageViewImageFormatPropertiesEXT>(VkFilterCubicImageViewImageFormatPropertiesEXT* p) {
 }
 
@@ -779,11 +770,6 @@ void ConvertOutStructToVulkanSC<VkConformanceVersion>(VkConformanceVersion* p) {
 template <>
 void ConvertOutStructToVulkanSC<VkDrmFormatModifierPropertiesEXT>(VkDrmFormatModifierPropertiesEXT* p) {
     p->drmFormatModifierTilingFeatures = p->drmFormatModifierTilingFeatures & AllVkFormatFeatureFlagBits;
-}
-
-template <>
-void ConvertOutStructToVulkanSC<VkDrmFormatModifierProperties2EXT>(VkDrmFormatModifierProperties2EXT* p) {
-    p->drmFormatModifierTilingFeatures = p->drmFormatModifierTilingFeatures & AllVkFormatFeatureFlagBits2;
 }
 
 template <>
@@ -1326,10 +1312,6 @@ void ConvertOutStructChainToVulkanSC<VkFormatProperties2>(VkFormatProperties2* c
 
             case VK_STRUCTURE_TYPE_DRM_FORMAT_MODIFIER_PROPERTIES_LIST_EXT:
                 ConvertOutStructToVulkanSC(reinterpret_cast<VkDrmFormatModifierPropertiesListEXT*>(base));
-                break;
-
-            case VK_STRUCTURE_TYPE_DRM_FORMAT_MODIFIER_PROPERTIES_LIST_2_EXT:
-                ConvertOutStructToVulkanSC(reinterpret_cast<VkDrmFormatModifierPropertiesList2EXT*>(base));
                 break;
 
             default:

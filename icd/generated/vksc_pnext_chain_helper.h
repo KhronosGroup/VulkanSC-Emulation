@@ -1774,8 +1774,6 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
 template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkFormatProperties2>(VkStructureType type) {
     switch (type) {
-        case VK_STRUCTURE_TYPE_DRM_FORMAT_MODIFIER_PROPERTIES_LIST_2_EXT:
-            return {alignof(VkDrmFormatModifierPropertiesList2EXT), sizeof(VkDrmFormatModifierPropertiesList2EXT)};
         case VK_STRUCTURE_TYPE_DRM_FORMAT_MODIFIER_PROPERTIES_LIST_EXT:
             return {alignof(VkDrmFormatModifierPropertiesListEXT), sizeof(VkDrmFormatModifierPropertiesListEXT)};
         case VK_STRUCTURE_TYPE_FORMAT_PROPERTIES_3:
@@ -4681,24 +4679,6 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageDrmF
 
 template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageDrmFormatModifierPropertiesEXT>(VkStructureType type) {
-    switch (type) {
-        default:
-            // Unknown structure
-            return {0, 0};
-    }
-}
-
-template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDrmFormatModifierProperties2EXT>(VkStructureType type) {
-    switch (type) {
-        default:
-            // Unknown structure
-            return {0, 0};
-    }
-}
-
-template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDrmFormatModifierPropertiesList2EXT>(VkStructureType type) {
     switch (type) {
         default:
             // Unknown structure

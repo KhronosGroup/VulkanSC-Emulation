@@ -343,6 +343,28 @@ class DispatchTable {
     const PFN_vkCmdPipelineBarrier2KHR CmdPipelineBarrier2KHR;
     const PFN_vkCmdWriteTimestamp2KHR CmdWriteTimestamp2KHR;
     const PFN_vkQueueSubmit2KHR QueueSubmit2KHR;
+    const PFN_vkCmdBindIndexBuffer3KHR CmdBindIndexBuffer3KHR;
+    const PFN_vkCmdBindVertexBuffers3KHR CmdBindVertexBuffers3KHR;
+    const PFN_vkCmdDrawIndirect2KHR CmdDrawIndirect2KHR;
+    const PFN_vkCmdDrawIndexedIndirect2KHR CmdDrawIndexedIndirect2KHR;
+    const PFN_vkCmdDispatchIndirect2KHR CmdDispatchIndirect2KHR;
+    const PFN_vkCmdCopyMemoryKHR CmdCopyMemoryKHR;
+    const PFN_vkCmdCopyMemoryToImageKHR CmdCopyMemoryToImageKHR;
+    const PFN_vkCmdCopyImageToMemoryKHR CmdCopyImageToMemoryKHR;
+    const PFN_vkCmdUpdateMemoryKHR CmdUpdateMemoryKHR;
+    const PFN_vkCmdFillMemoryKHR CmdFillMemoryKHR;
+    const PFN_vkCmdCopyQueryPoolResultsToMemoryKHR CmdCopyQueryPoolResultsToMemoryKHR;
+    const PFN_vkCmdDrawIndirectCount2KHR CmdDrawIndirectCount2KHR;
+    const PFN_vkCmdDrawIndexedIndirectCount2KHR CmdDrawIndexedIndirectCount2KHR;
+    const PFN_vkCmdBeginConditionalRendering2EXT CmdBeginConditionalRendering2EXT;
+    const PFN_vkCmdBindTransformFeedbackBuffers2EXT CmdBindTransformFeedbackBuffers2EXT;
+    const PFN_vkCmdBeginTransformFeedback2EXT CmdBeginTransformFeedback2EXT;
+    const PFN_vkCmdEndTransformFeedback2EXT CmdEndTransformFeedback2EXT;
+    const PFN_vkCmdDrawIndirectByteCount2EXT CmdDrawIndirectByteCount2EXT;
+    const PFN_vkCmdDrawMeshTasksIndirect2EXT CmdDrawMeshTasksIndirect2EXT;
+    const PFN_vkCmdDrawMeshTasksIndirectCount2EXT CmdDrawMeshTasksIndirectCount2EXT;
+    const PFN_vkCmdWriteMarkerToMemoryAMD CmdWriteMarkerToMemoryAMD;
+    const PFN_vkCreateAccelerationStructure2KHR CreateAccelerationStructure2KHR;
     const PFN_vkCmdCopyBuffer2KHR CmdCopyBuffer2KHR;
     const PFN_vkCmdCopyImage2KHR CmdCopyImage2KHR;
     const PFN_vkCmdCopyBufferToImage2KHR CmdCopyBufferToImage2KHR;
@@ -376,6 +398,8 @@ class DispatchTable {
     const PFN_vkCmdBindDescriptorBufferEmbeddedSamplers2EXT CmdBindDescriptorBufferEmbeddedSamplers2EXT;
     const PFN_vkCmdCopyMemoryIndirectKHR CmdCopyMemoryIndirectKHR;
     const PFN_vkCmdCopyMemoryToImageIndirectKHR CmdCopyMemoryToImageIndirectKHR;
+    const PFN_vkGetDeviceFaultReportsKHR GetDeviceFaultReportsKHR;
+    const PFN_vkGetDeviceFaultDebugInfoKHR GetDeviceFaultDebugInfoKHR;
     const PFN_vkCmdEndRendering2KHR CmdEndRendering2KHR;
     const PFN_vkCreateDebugReportCallbackEXT CreateDebugReportCallbackEXT;
     const PFN_vkDestroyDebugReportCallbackEXT DestroyDebugReportCallbackEXT;
@@ -453,6 +477,18 @@ class DispatchTable {
     const PFN_vkGetAndroidHardwareBufferPropertiesANDROID GetAndroidHardwareBufferPropertiesANDROID;
     const PFN_vkGetMemoryAndroidHardwareBufferANDROID GetMemoryAndroidHardwareBufferANDROID;
 #endif  // VK_USE_PLATFORM_ANDROID_KHR
+    const PFN_vkCreateGpaSessionAMD CreateGpaSessionAMD;
+    const PFN_vkDestroyGpaSessionAMD DestroyGpaSessionAMD;
+    const PFN_vkSetGpaDeviceClockModeAMD SetGpaDeviceClockModeAMD;
+    const PFN_vkGetGpaDeviceClockInfoAMD GetGpaDeviceClockInfoAMD;
+    const PFN_vkCmdBeginGpaSessionAMD CmdBeginGpaSessionAMD;
+    const PFN_vkCmdEndGpaSessionAMD CmdEndGpaSessionAMD;
+    const PFN_vkCmdBeginGpaSampleAMD CmdBeginGpaSampleAMD;
+    const PFN_vkCmdEndGpaSampleAMD CmdEndGpaSampleAMD;
+    const PFN_vkGetGpaSessionStatusAMD GetGpaSessionStatusAMD;
+    const PFN_vkGetGpaSessionResultsAMD GetGpaSessionResultsAMD;
+    const PFN_vkResetGpaSessionAMD ResetGpaSessionAMD;
+    const PFN_vkCmdCopyGpaSessionResultsAMD CmdCopyGpaSessionResultsAMD;
 #ifdef VK_ENABLE_BETA_EXTENSIONS
     const PFN_vkCreateExecutionGraphPipelinesAMDX CreateExecutionGraphPipelinesAMDX;
     const PFN_vkGetExecutionGraphPipelineScratchSizeAMDX GetExecutionGraphPipelineScratchSizeAMDX;
@@ -573,6 +609,7 @@ class DispatchTable {
     const PFN_vkDestroyPrivateDataSlotEXT DestroyPrivateDataSlotEXT;
     const PFN_vkSetPrivateDataEXT SetPrivateDataEXT;
     const PFN_vkGetPrivateDataEXT GetPrivateDataEXT;
+    const PFN_vkQueueSetPerfHintQCOM QueueSetPerfHintQCOM;
 #ifdef VK_ENABLE_BETA_EXTENSIONS
     const PFN_vkCreateCudaModuleNV CreateCudaModuleNV;
     const PFN_vkGetCudaModuleCacheNV GetCudaModuleCacheNV;
@@ -654,6 +691,7 @@ class DispatchTable {
     const PFN_vkCmdDrawClusterHUAWEI CmdDrawClusterHUAWEI;
     const PFN_vkCmdDrawClusterIndirectHUAWEI CmdDrawClusterIndirectHUAWEI;
     const PFN_vkSetDeviceMemoryPriorityEXT SetDeviceMemoryPriorityEXT;
+    const PFN_vkCmdSetDispatchParametersARM CmdSetDispatchParametersARM;
     const PFN_vkGetDescriptorSetLayoutHostMappingInfoVALVE GetDescriptorSetLayoutHostMappingInfoVALVE;
     const PFN_vkGetDescriptorSetHostMappingVALVE GetDescriptorSetHostMappingVALVE;
     const PFN_vkCmdCopyMemoryIndirectNV CmdCopyMemoryIndirectNV;
@@ -744,6 +782,8 @@ class DispatchTable {
     const PFN_vkGetPhysicalDeviceQueueFamilyDataGraphPropertiesARM GetPhysicalDeviceQueueFamilyDataGraphPropertiesARM;
     const PFN_vkGetPhysicalDeviceQueueFamilyDataGraphProcessingEnginePropertiesARM
         GetPhysicalDeviceQueueFamilyDataGraphProcessingEnginePropertiesARM;
+    const PFN_vkGetPhysicalDeviceQueueFamilyDataGraphEngineOperationPropertiesARM
+        GetPhysicalDeviceQueueFamilyDataGraphEngineOperationPropertiesARM;
     const PFN_vkCmdSetAttachmentFeedbackLoopEnableEXT CmdSetAttachmentFeedbackLoopEnableEXT;
 #ifdef VK_USE_PLATFORM_SCREEN_QNX
     const PFN_vkGetScreenBufferPropertiesQNX GetScreenBufferPropertiesQNX;
@@ -778,13 +818,23 @@ class DispatchTable {
 #endif  // VK_USE_PLATFORM_METAL_EXT
     const PFN_vkEnumeratePhysicalDeviceQueueFamilyPerformanceCountersByRegionARM
         EnumeratePhysicalDeviceQueueFamilyPerformanceCountersByRegionARM;
+    const PFN_vkEnumeratePhysicalDeviceShaderInstrumentationMetricsARM EnumeratePhysicalDeviceShaderInstrumentationMetricsARM;
+    const PFN_vkCreateShaderInstrumentationARM CreateShaderInstrumentationARM;
+    const PFN_vkDestroyShaderInstrumentationARM DestroyShaderInstrumentationARM;
+    const PFN_vkCmdBeginShaderInstrumentationARM CmdBeginShaderInstrumentationARM;
+    const PFN_vkCmdEndShaderInstrumentationARM CmdEndShaderInstrumentationARM;
+    const PFN_vkGetShaderInstrumentationValuesARM GetShaderInstrumentationValuesARM;
+    const PFN_vkClearShaderInstrumentationMetricsARM ClearShaderInstrumentationMetricsARM;
     const PFN_vkCmdEndRendering2EXT CmdEndRendering2EXT;
     const PFN_vkCmdBeginCustomResolveEXT CmdBeginCustomResolveEXT;
+    const PFN_vkGetPhysicalDeviceQueueFamilyDataGraphOpticalFlowImageFormatsARM
+        GetPhysicalDeviceQueueFamilyDataGraphOpticalFlowImageFormatsARM;
     const PFN_vkCmdSetComputeOccupancyPriorityNV CmdSetComputeOccupancyPriorityNV;
 #ifdef VK_USE_PLATFORM_UBM_SEC
     const PFN_vkCreateUbmSurfaceSEC CreateUbmSurfaceSEC;
     const PFN_vkGetPhysicalDeviceUbmPresentationSupportSEC GetPhysicalDeviceUbmPresentationSupportSEC;
 #endif  // VK_USE_PLATFORM_UBM_SEC
+    const PFN_vkCmdSetPrimitiveRestartIndexEXT CmdSetPrimitiveRestartIndexEXT;
     const PFN_vkCreateAccelerationStructureKHR CreateAccelerationStructureKHR;
     const PFN_vkDestroyAccelerationStructureKHR DestroyAccelerationStructureKHR;
     const PFN_vkCmdBuildAccelerationStructuresKHR CmdBuildAccelerationStructuresKHR;

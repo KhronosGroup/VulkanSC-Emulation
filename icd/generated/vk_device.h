@@ -238,6 +238,9 @@ class Device {
     VkResult GetEncodedVideoSessionParametersKHR(const VkVideoEncodeSessionParametersGetInfoKHR* pVideoSessionParametersInfo,
                                                  VkVideoEncodeSessionParametersFeedbackInfoKHR* pFeedbackInfo, size_t* pDataSize,
                                                  void* pData);
+    VkResult CreateAccelerationStructure2KHR(const VkAccelerationStructureCreateInfo2KHR* pCreateInfo,
+                                             const VkAllocationCallbacks* pAllocator,
+                                             VkAccelerationStructureKHR* pAccelerationStructure);
     void GetDeviceBufferMemoryRequirementsKHR(const VkDeviceBufferMemoryRequirements* pInfo,
                                               VkMemoryRequirements2* pMemoryRequirements);
     void GetDeviceImageMemoryRequirementsKHR(const VkDeviceImageMemoryRequirements* pInfo,
@@ -260,6 +263,8 @@ class Device {
     VkResult ReleaseSwapchainImagesKHR(const VkReleaseSwapchainImagesInfoKHR* pReleaseInfo);
     VkResult GetCalibratedTimestampsKHR(uint32_t timestampCount, const VkCalibratedTimestampInfoKHR* pTimestampInfos,
                                         uint64_t* pTimestamps, uint64_t* pMaxDeviation);
+    VkResult GetDeviceFaultReportsKHR(uint64_t timeout, uint32_t* pFaultCounts, VkDeviceFaultInfoKHR* pFaultInfo);
+    VkResult GetDeviceFaultDebugInfoKHR(VkDeviceFaultDebugInfoKHR* pDebugInfo);
     VkResult DebugMarkerSetObjectTagEXT(const VkDebugMarkerObjectTagInfoEXT* pTagInfo);
     VkResult DebugMarkerSetObjectNameEXT(const VkDebugMarkerObjectNameInfoEXT* pNameInfo);
     VkResult CreateCuModuleNVX(const VkCuModuleCreateInfoNVX* pCreateInfo, const VkAllocationCallbacks* pAllocator,
@@ -295,6 +300,14 @@ class Device {
     VkResult GetMemoryAndroidHardwareBufferANDROID(const VkMemoryGetAndroidHardwareBufferInfoANDROID* pInfo,
                                                    struct AHardwareBuffer** pBuffer);
 #endif  // VK_USE_PLATFORM_ANDROID_KHR
+    VkResult CreateGpaSessionAMD(const VkGpaSessionCreateInfoAMD* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                                 VkGpaSessionAMD* pGpaSession);
+    void DestroyGpaSessionAMD(VkGpaSessionAMD gpaSession, const VkAllocationCallbacks* pAllocator);
+    VkResult SetGpaDeviceClockModeAMD(VkGpaDeviceClockModeInfoAMD* pInfo);
+    VkResult GetGpaDeviceClockInfoAMD(VkGpaDeviceGetClockInfoAMD* pInfo);
+    VkResult GetGpaSessionStatusAMD(VkGpaSessionAMD gpaSession);
+    VkResult GetGpaSessionResultsAMD(VkGpaSessionAMD gpaSession, uint32_t sampleID, size_t* pSizeInBytes, void* pData);
+    VkResult ResetGpaSessionAMD(VkGpaSessionAMD gpaSession);
 #ifdef VK_ENABLE_BETA_EXTENSIONS
     VkResult CreateExecutionGraphPipelinesAMDX(VkPipelineCache pipelineCache, uint32_t createInfoCount,
                                                const VkExecutionGraphPipelineCreateInfoAMDX* pCreateInfos,
@@ -325,7 +338,7 @@ class Device {
                                            VkAccelerationStructureNV* pAccelerationStructure);
     void DestroyAccelerationStructureNV(VkAccelerationStructureNV accelerationStructure, const VkAllocationCallbacks* pAllocator);
     void GetAccelerationStructureMemoryRequirementsNV(const VkAccelerationStructureMemoryRequirementsInfoNV* pInfo,
-                                                      VkMemoryRequirements2KHR* pMemoryRequirements);
+                                                      VkMemoryRequirements2* pMemoryRequirements);
     VkResult BindAccelerationStructureMemoryNV(uint32_t bindInfoCount, const VkBindAccelerationStructureMemoryInfoNV* pBindInfos);
     VkResult CreateRayTracingPipelinesNV(VkPipelineCache pipelineCache, uint32_t createInfoCount,
                                          const VkRayTracingPipelineCreateInfoNV* pCreateInfos,
@@ -424,7 +437,7 @@ class Device {
     VkResult GetDeviceSubpassShadingMaxWorkgroupSizeHUAWEI(VkRenderPass renderpass, VkExtent2D* pMaxWorkgroupSize);
     VkResult GetMemoryRemoteAddressNV(const VkMemoryGetRemoteAddressInfoNV* pMemoryGetRemoteAddressInfo,
                                       VkRemoteAddressNV* pAddress);
-    VkResult GetPipelinePropertiesEXT(const VkPipelineInfoEXT* pPipelineInfo, VkBaseOutStructure* pPipelineProperties);
+    VkResult GetPipelinePropertiesEXT(const VkPipelineInfoKHR* pPipelineInfo, VkBaseOutStructure* pPipelineProperties);
     VkResult CreateMicromapEXT(const VkMicromapCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                                VkMicromapEXT* pMicromap);
     void DestroyMicromapEXT(VkMicromapEXT micromap, const VkAllocationCallbacks* pAllocator);
@@ -529,6 +542,12 @@ class Device {
     VkResult GetMemoryMetalHandlePropertiesEXT(VkExternalMemoryHandleTypeFlagBits handleType, const void* pHandle,
                                                VkMemoryMetalHandlePropertiesEXT* pMemoryMetalHandleProperties);
 #endif  // VK_USE_PLATFORM_METAL_EXT
+    VkResult CreateShaderInstrumentationARM(const VkShaderInstrumentationCreateInfoARM* pCreateInfo,
+                                            const VkAllocationCallbacks* pAllocator, VkShaderInstrumentationARM* pInstrumentation);
+    void DestroyShaderInstrumentationARM(VkShaderInstrumentationARM instrumentation, const VkAllocationCallbacks* pAllocator);
+    VkResult GetShaderInstrumentationValuesARM(VkShaderInstrumentationARM instrumentation, uint32_t* pMetricBlockCount,
+                                               void* pMetricValues, VkShaderInstrumentationValuesFlagsARM flags);
+    void ClearShaderInstrumentationMetricsARM(VkShaderInstrumentationARM instrumentation);
     VkResult CreateAccelerationStructureKHR(const VkAccelerationStructureCreateInfoKHR* pCreateInfo,
                                             const VkAllocationCallbacks* pAllocator,
                                             VkAccelerationStructureKHR* pAccelerationStructure);

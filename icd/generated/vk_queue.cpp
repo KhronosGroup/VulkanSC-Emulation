@@ -73,6 +73,13 @@ void Queue::GetQueueCheckpointData2NV(uint32_t* pCheckpointDataCount, VkCheckpoi
 VkResult Queue::QueueSetPerformanceConfigurationINTEL(VkPerformanceConfigurationINTEL configuration) {
     return dispatch_table_.QueueSetPerformanceConfigurationINTEL(handle_, configuration);
 }
+VkResult Queue::QueueSetPerfHintQCOM(const VkPerfHintInfoQCOM* pPerfHintInfo) {
+    VkResult result = dispatch_table_.QueueSetPerfHintQCOM(handle_, pPerfHintInfo);
+    if (result == VK_ERROR_DEVICE_LOST) {
+        fault_handler_.ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_PHYSICAL_DEVICE);
+    }
+    return result;
+}
 void Queue::QueueNotifyOutOfBandNV(const VkOutOfBandQueueTypeInfoNV* pQueueTypeInfo) {
     dispatch_table_.QueueNotifyOutOfBandNV(handle_, pQueueTypeInfo);
 }
