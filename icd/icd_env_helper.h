@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2024-2025 The Khronos Group Inc.
- * Copyright (c) 2024-2025 RasterGrid Kft.
+ * Copyright (c) 2024-2026 The Khronos Group Inc.
+ * Copyright (c) 2024-2026 RasterGrid Kft.
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -53,7 +53,7 @@ class EnvironmentOverride {
     ~EnvironmentOverride();
 
   private:
-    std::lock_guard<std::mutex> lock_;
+    std::unique_lock<std::mutex> lock_;
     const EnvironmentHelper& env_;
 };
 

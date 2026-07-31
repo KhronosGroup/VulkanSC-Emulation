@@ -1,6 +1,6 @@
 # ~~~
-# Copyright (c) 2024-2025 The Khronos Group Inc.
-# Copyright (c) 2024-2025 RasterGrid Kft.
+# Copyright (c) 2024-2026 The Khronos Group Inc.
+# Copyright (c) 2024-2026 RasterGrid Kft.
 #
 # SPDX-License-Identifier: Apache-2.0
 # ~~~
@@ -54,16 +54,23 @@ target_sources(icd PRIVATE
     vksc_command_buffer.cpp
     vksc_command_pool.h
     vksc_command_pool.cpp
+    vksc_descriptor_pool.h
+    vksc_descriptor_pool.cpp
+    vksc_descriptor_set_layout.h
     vksc_device.h
     vksc_device.cpp
     vksc_display_emulation.h
     vksc_display_emulation.cpp
     vksc_global.h
     vksc_global.cpp
+    vksc_image.h
+    vksc_image_view.h
     vksc_instance.h
     vksc_instance.cpp
     vksc_physical_device.h
     vksc_physical_device.cpp
+    vksc_pipeline.h
+    vksc_render_pass.h
     vksc_queue.h
     vksc_queue.cpp
 )

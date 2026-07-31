@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2024-2025 The Khronos Group Inc.
- * Copyright (c) 2024-2025 RasterGrid Kft.
+ * Copyright (c) 2024-2026 The Khronos Group Inc.
+ * Copyright (c) 2024-2026 RasterGrid Kft.
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,28 +28,15 @@ CommandPool::~CommandPool() {
 
 bool CommandPool::operator==(const VkCommandPool& rhs) const { return this->handle_ == rhs; }
 
-VkDeviceSize CommandPool::GetReservedMemorySize() const {
-    const std::lock_guard<std::recursive_mutex> lock{mutex_};
-    return reserved_memory_size_;
-}
-
-VkDeviceSize CommandPool::GetAllocatedMemorySize() const {
-    const std::lock_guard<std::recursive_mutex> lock{mutex_};
-    return allocated_memory_size_;
-}
-
-uint32_t CommandPool::GetReservedCount() const {
-    const std::lock_guard<std::recursive_mutex> lock{mutex_};
-    return max_command_buffer_count_;
-}
-
-uint32_t CommandPool::GetAllocatedCount() const {
-    const std::lock_guard<std::recursive_mutex> lock{mutex_};
-    return static_cast<uint32_t>(command_buffers_.size());
+void CommandPool::GetMemoryConsumption(VkCommandPoolMemoryConsumption* pConsumption) const {
+    std::unique_lock lock(mutex_);
+    pConsumption->commandPoolReservedSize = reserved_memory_size_;
+    pConsumption->commandPoolAllocated = allocated_memory_size_;
 }
 
 VkResult CommandPool::AllocateMemory(VkDeviceSize size) {
-    if (const std::lock_guard<std::recursive_mutex> lock{mutex_}; allocated_memory_size_ + size <= reserved_memory_size_) {
+    std::unique_lock lock(mutex_);
+    if (allocated_memory_size_ + size <= reserved_memory_size_) {
         allocated_memory_size_ += size;
         return VK_SUCCESS;
     } else {
@@ -64,7 +51,8 @@ icd::ObjectReservation<CommandPool, VkCommandBuffer> CommandPool::ReserveCommand
 }
 
 VkResult CommandPool::FreeMemory(VkDeviceSize size) {
-    if (const std::lock_guard<std::recursive_mutex> lock{mutex_}; size <= allocated_memory_size_) {
+    std::unique_lock lock(mutex_);
+    if (size <= allocated_memory_size_) {
         allocated_memory_size_ -= size;
         return VK_SUCCESS;
     } else {
@@ -76,7 +64,7 @@ VkResult CommandPool::FreeMemory(VkDeviceSize size) {
 }
 
 VkResult CommandPool::FreeCommandBuffers(uint32_t count, const VkCommandBuffer* buffers) {
-    const std::lock_guard<std::recursive_mutex> lock{mutex_};
+    std::unique_lock lock(mutex_);
 
     for (uint32_t i = 0; i < count; ++i) {
         if (buffers[i] == VK_NULL_HANDLE) {
@@ -92,11 +80,13 @@ VkResult CommandPool::FreeCommandBuffers(uint32_t count, const VkCommandBuffer* 
         }
         command_buffers_.erase(it);
     }
+
     return VK_SUCCESS;
 }
 
 VkResult CommandPool::ResetCommandPool(VkCommandPoolResetFlags) {
-    const std::lock_guard<std::recursive_mutex> lock{mutex_};
+    std::unique_lock lock(mutex_);
+
     VkResult result = VK_SUCCESS;
 
     for (auto& command_buffer : command_buffers_) {
@@ -119,7 +109,7 @@ uint32_t CommandPool::ReserveInternal(uint32_t count) {
     }
 }
 
-void CommandPool::CancelInternal() { mutex_.unlock(); }
+void CommandPool::CancelInternal(uint32_t count) { mutex_.unlock(); }
 
 void CommandPool::CommitInternal(VkCommandBuffer* handles, uint32_t count) {
     for (uint32_t i = 0; i < count; ++i) {

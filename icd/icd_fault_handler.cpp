@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2024-2025 The Khronos Group Inc.
- * Copyright (c) 2024-2025 RasterGrid Kft.
+ * Copyright (c) 2024-2026 The Khronos Group Inc.
+ * Copyright (c) 2024-2026 RasterGrid Kft.
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,31 +18,32 @@ FaultHandler::FaultHandler(uint32_t max_fault_count, const VkFaultCallbackInfo* 
 }
 
 void FaultHandler::ReportFault(VkFaultLevel level, VkFaultType type) {
+    std::unique_lock lock(faults_mutex_);
+
     VkFaultData fault_data = {VK_STRUCTURE_TYPE_FAULT_DATA, nullptr, level, type};
 
     if (fault_callback_) {
-        fault_callback_.value().pfnFaultCallback(unrecorded_faults_.load(), 1, &fault_data);
+        fault_callback_.value().pfnFaultCallback(unrecorded_faults_, 1, &fault_data);
     }
 
     if (max_fault_count_ != 0) {
-        std::lock_guard<std::mutex> lock{faults_mutex_};
-
         if (faults_.size() < max_fault_count_) {
             faults_.push_back(fault_data);
         } else {
-            unrecorded_faults_.store(true);
+            unrecorded_faults_ = true;
         }
     }
 }
 
 VkResult FaultHandler::GetFaultData(VkFaultQueryBehavior faultQueryBehavior, VkBool32* pUnrecordedFaults, uint32_t* pFaultCount,
                                     VkFaultData* pFaults) {
-    std::lock_guard<std::mutex> lock{faults_mutex_};
+    std::unique_lock lock(faults_mutex_);
 
     switch (faultQueryBehavior) {
         case VkFaultQueryBehavior::VK_FAULT_QUERY_BEHAVIOR_GET_AND_CLEAR_ALL_FAULTS:
             if (pUnrecordedFaults != nullptr) {
-                *pUnrecordedFaults = unrecorded_faults_.exchange(false);
+                *pUnrecordedFaults = unrecorded_faults_;
+                unrecorded_faults_ = false;
             }
 
             if (pFaults == nullptr) {

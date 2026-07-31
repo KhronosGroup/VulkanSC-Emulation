@@ -22,15 +22,13 @@
     } while (0)
 
 static void InitDefaultMockHandlers(IcdTest *test_case = nullptr) {
+    static VkMockNonDispatchableObjectGenerator mock_gen{};
     static VkMockObject<VkInstance> mock_instance{};
     static VkMockObject<VkPhysicalDevice> mock_physical_device{};
     static VkMockObject<VkDevice> mock_device{};
     static VkMockObject<VkQueue> mock_queue{};
-    static VkMockObject<VkCommandPool> mock_command_pool{};
     static std::vector<VkMockObject<VkCommandBuffer>> mock_command_buffers{};
-    static VkMockObject<VkBuffer> mock_buffer{};
     static VkDeviceSize mock_buffer_size = 0;
-    static VkMockObject<VkDeviceMemory> mock_memory{};
 
     vkmock::Reset();
 
@@ -154,12 +152,28 @@ static void InitDefaultMockHandlers(IcdTest *test_case = nullptr) {
     vkmock::GetBufferMemoryRequirements2 = [&](auto device, auto pInfo, auto pMemoryRequirements) {
         vkmock::GetBufferMemoryRequirements(device, pInfo->buffer, &pMemoryRequirements->memoryRequirements);
     };
+    vkmock::CreateSampler = [&](auto, auto, auto, auto pSampler) {
+        *pSampler = mock_gen.Alloc<VkSampler>();
+        return VK_SUCCESS;
+    };
     vkmock::CreateBuffer = [&](auto, auto, auto, auto pBuffer) {
-        *pBuffer = mock_buffer;
+        *pBuffer = mock_gen.Alloc<VkBuffer>();
+        return VK_SUCCESS;
+    };
+    vkmock::CreateImage = [&](auto, auto, auto, auto pImage) {
+        *pImage = mock_gen.Alloc<VkImage>();
+        return VK_SUCCESS;
+    };
+    vkmock::CreateImageView = [&](auto, auto, auto, auto pView) {
+        *pView = mock_gen.Alloc<VkImageView>();
         return VK_SUCCESS;
     };
     vkmock::CreateCommandPool = [&](auto, const auto pCreateInfo, const auto, auto pCommandPool) {
-        *pCommandPool = mock_command_pool;
+        *pCommandPool = mock_gen.Alloc<VkCommandPool>();
+        return VK_SUCCESS;
+    };
+    vkmock::CreateQueryPool = [&](auto, const auto pCreateInfo, const auto, auto pQueryPool) {
+        *pQueryPool = mock_gen.Alloc<VkQueryPool>();
         return VK_SUCCESS;
     };
     vkmock::AllocateCommandBuffers = [&](auto, auto pCreateInfo, auto pCommandBuffers) {
@@ -170,16 +184,20 @@ static void InitDefaultMockHandlers(IcdTest *test_case = nullptr) {
         return VK_SUCCESS;
     };
     vkmock::AllocateMemory = [&](auto, auto, auto, auto pMemory) {
-        *pMemory = mock_memory;
+        *pMemory = mock_gen.Alloc<VkDeviceMemory>();
         return VK_SUCCESS;
     };
     vkmock::FreeMemory = [&](auto, auto, auto) {};
+    vkmock::DestroySampler = [&](auto, auto, auto) {};
     vkmock::DestroyBuffer = [&](auto, auto, auto) {};
+    vkmock::DestroyImage = [&](auto, auto, auto) {};
+    vkmock::DestroyImageView = [&](auto, auto, auto) {};
     vkmock::FreeCommandBuffers = [&](auto, auto, auto, auto) {};
     vkmock::BindBufferMemory2 = [&](auto, auto, auto) { return VK_SUCCESS; };
     vkmock::BeginCommandBuffer = [&](auto, auto) { return VK_SUCCESS; };
     vkmock::EndCommandBuffer = [&](auto) { return VK_SUCCESS; };
     vkmock::DestroyCommandPool = [&](auto, auto, auto) {};
+    vkmock::DestroyQueryPool = [&](auto, auto, auto) {};
     vkmock::CreateInstance = [&](auto, auto, auto pInstance) {
         *pInstance = mock_instance;
         return VK_SUCCESS;
@@ -190,6 +208,26 @@ static void InitDefaultMockHandlers(IcdTest *test_case = nullptr) {
         return VK_SUCCESS;
     };
     vkmock::DestroyDevice = [&](auto, auto) {};
+    vkmock::CreateDescriptorSetLayout = [&](auto, auto, auto, auto pSetLayout) {
+        *pSetLayout = mock_gen.Alloc<VkDescriptorSetLayout>();
+        return VK_SUCCESS;
+    };
+    vkmock::DestroyDescriptorSetLayout = [&](auto, auto, auto) {};
+    vkmock::CreatePipelineLayout = [&](auto, auto, auto, auto pPipelineLayout) {
+        *pPipelineLayout = mock_gen.Alloc<VkPipelineLayout>();
+        return VK_SUCCESS;
+    };
+    vkmock::DestroyPipelineLayout = [&](auto, auto, auto) {};
+    vkmock::CreateShaderModule = [&](auto, auto, auto, auto pShaderModule) {
+        *pShaderModule = mock_gen.Alloc<VkShaderModule>();
+        return VK_SUCCESS;
+    };
+    vkmock::DestroyShaderModule = [&](auto, auto, auto) {};
+    vkmock::CreateRenderPass = [&](auto, auto, auto, auto pRenderPass) {
+        *pRenderPass = mock_gen.Alloc<VkRenderPass>();
+        return VK_SUCCESS;
+    };
+    vkmock::DestroyRenderPass = [&](auto, auto, auto) {};
 }
 
 void Framework::SetUp() {
