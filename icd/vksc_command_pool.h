@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2024-2025 The Khronos Group Inc.
- * Copyright (c) 2024-2025 RasterGrid Kft.
+ * Copyright (c) 2024-2026 The Khronos Group Inc.
+ * Copyright (c) 2024-2026 RasterGrid Kft.
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -29,10 +29,7 @@ class CommandPool {
 
     Device& GetDevice() const { return device_; }
 
-    VkDeviceSize GetReservedMemorySize() const;
-    VkDeviceSize GetAllocatedMemorySize() const;
-    uint32_t GetReservedCount() const;
-    uint32_t GetAllocatedCount() const;
+    void GetMemoryConsumption(VkCommandPoolMemoryConsumption* pConsumption) const;
 
     VkResult AllocateMemory(VkDeviceSize size);
     icd::ObjectReservation<CommandPool, VkCommandBuffer> ReserveCommandBuffers(uint32_t count, const VkCommandBuffer* buffers);
@@ -47,7 +44,7 @@ class CommandPool {
     friend class icd::ObjectReservation<CommandPool, VkCommandBuffer>;
 
     uint32_t ReserveInternal(uint32_t count);
-    void CancelInternal();
+    void CancelInternal(uint32_t count);
     void CommitInternal(VkCommandBuffer* handles, uint32_t count);
 
     VkCommandPool handle_;

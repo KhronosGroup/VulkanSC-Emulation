@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2024-2025 The Khronos Group Inc.
- * Copyright (c) 2024-2025 RasterGrid Kft.
+ * Copyright (c) 2024-2026 The Khronos Group Inc.
+ * Copyright (c) 2024-2026 RasterGrid Kft.
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,6 +18,7 @@
 #include <unordered_set>
 #include <vector>
 #include <memory>
+#include <atomic>
 
 namespace vksc {
 

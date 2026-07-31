@@ -10,7 +10,10 @@
 #include <gtest/gtest.h>
 #include <string>
 #include <vector>
+#include <unordered_map>
 #include <utility>
+#include <mutex>
+#include <atomic>
 
 #include <vulkan/utility/vk_struct_helper.hpp>
 #include <vulkan/vk_icd.h>
@@ -40,12 +43,69 @@ class Framework : public ::testing::Environment {
 template <typename T>
 class VkMockObject {
   public:
-    VkMockObject() { set_loader_magic_value(this); }
-    T handle() { return (T)this; }
-    operator T() { return (T)this; }
+    VkMockObject() {}
+    T handle() {
+        set_loader_magic_value(this);
+        return (T)this;
+    }
+    operator T() {
+        set_loader_magic_value(this);
+        return (T)this;
+    }
 
   private:
     VK_LOADER_DATA loader_data_;
+};
+
+template <typename T>
+class VkMockObjects {
+  public:
+    void Reset(uint32_t count) {
+        std::unique_lock lock(mutex_);
+        mock_objects_.clear();
+        unused_mock_objects_.clear();
+        mock_objects_.resize(count);
+        unused_mock_objects_.reserve(count);
+        for (auto& mock_object : mock_objects_) {
+            unused_mock_objects_.push_back(mock_object);
+        }
+    }
+
+    T Alloc() {
+        std::unique_lock lock(mutex_);
+        if (!unused_mock_objects_.empty()) {
+            auto handle = unused_mock_objects_.back();
+            unused_mock_objects_.pop_back();
+            // Need to reset loader magic value on reuse
+            set_loader_magic_value(handle);
+            return handle;
+        } else {
+            return VK_NULL_HANDLE;
+        }
+    }
+
+    void Free(T handle) {
+        if (handle != VK_NULL_HANDLE) {
+            std::unique_lock lock(mutex_);
+            unused_mock_objects_.push_back(handle);
+        }
+    }
+
+  private:
+    std::mutex mutex_{};
+    std::vector<VkMockObject<T>> mock_objects_{};
+    std::vector<T> unused_mock_objects_{};
+};
+
+class VkMockNonDispatchableObjectGenerator {
+  public:
+    template <typename T>
+    T Alloc() {
+        return reinterpret_cast<T>(next_mock_handle_.fetch_add(1));
+    }
+
+  private:
+    std::atomic_uint64_t next_mock_handle_{42};
 };
 
 class IcdTest : public ::testing::Test {

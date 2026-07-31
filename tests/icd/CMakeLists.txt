@@ -82,6 +82,7 @@ target_sources(icd_tests PRIVATE
     test_infrastructure.cpp
     test_memory_consumption.cpp
     test_pipeline_cache.cpp
+    test_object_reservation.cpp
     test_output_struct_sanitizer.cpp
 )
 

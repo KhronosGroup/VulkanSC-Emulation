@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2024-2025 The Khronos Group Inc.
- * Copyright (c) 2024-2025 RasterGrid Kft.
+ * Copyright (c) 2024-2026 The Khronos Group Inc.
+ * Copyright (c) 2024-2026 RasterGrid Kft.
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,6 +8,12 @@
 #pragma once
 
 #include "vksc_command_pool.h"
+#include "vksc_descriptor_pool.h"
+#include "vksc_pipeline.h"
+#include "vksc_render_pass.h"
+#include "vksc_image.h"
+#include "vksc_image_view.h"
+#include "vksc_descriptor_set_layout.h"
 #include "vksc_dispatchable.h"
 #include "vksc_physical_device.h"
 #include "vksc_extension_helper.h"
@@ -98,10 +104,64 @@ class Device : public Dispatchable<Device, VkDevice>, public vk::Device {
     VkResult SetDebugUtilsObjectNameEXT(const VkDebugUtilsObjectNameInfoEXT* pNameInfo);
     VkResult SetDebugUtilsObjectTagEXT(const VkDebugUtilsObjectTagInfoEXT* pTagInfo);
 
+    VkResult CreateSemaphore(const VkSemaphoreCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                             VkSemaphore* pSemaphore);
+    void DestroySemaphore(VkSemaphore semaphore, const VkAllocationCallbacks* pAllocator);
+
+    VkResult CreateFence(const VkFenceCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkFence* pFence);
+    void DestroyFence(VkFence fence, const VkAllocationCallbacks* pAllocator);
+
+    VkResult CreateEvent(const VkEventCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkEvent* pEvent);
+    void DestroyEvent(VkEvent event, const VkAllocationCallbacks* pAllocator);
+
+    VkResult CreateBuffer(const VkBufferCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkBuffer* pBuffer);
+    void DestroyBuffer(VkBuffer buffer, const VkAllocationCallbacks* pAllocator);
+
+    VkResult CreateBufferView(const VkBufferViewCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                              VkBufferView* pView);
+    void DestroyBufferView(VkBufferView bufferView, const VkAllocationCallbacks* pAllocator);
+
+    VkResult CreateImage(const VkImageCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkImage* pImage);
+    void DestroyImage(VkImage image, const VkAllocationCallbacks* pAllocator);
+
+    VkResult CreateImageView(const VkImageViewCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkImageView* pView);
+    void DestroyImageView(VkImageView imageView, const VkAllocationCallbacks* pAllocator);
+
+    VkResult CreateSampler(const VkSamplerCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkSampler* pSampler);
+    void DestroySampler(VkSampler sampler, const VkAllocationCallbacks* pAllocator);
+
+    VkResult CreateSamplerYcbcrConversion(const VkSamplerYcbcrConversionCreateInfo* pCreateInfo,
+                                          const VkAllocationCallbacks* pAllocator, VkSamplerYcbcrConversion* pYcbcrConversion);
+    void DestroySamplerYcbcrConversion(VkSamplerYcbcrConversion ycbcrConversion, const VkAllocationCallbacks* pAllocator);
+
+    VkResult ResetDescriptorPool(VkDescriptorPool descriptorPool, VkDescriptorPoolResetFlags flags);
+    VkResult AllocateDescriptorSets(const VkDescriptorSetAllocateInfo* pAllocateInfo, VkDescriptorSet* pDescriptorSets);
+    VkResult FreeDescriptorSets(VkDescriptorPool descriptorPool, uint32_t descriptorSetCount,
+                                const VkDescriptorSet* pDescriptorSets);
+
+    VkResult CreateDescriptorSetLayout(const VkDescriptorSetLayoutCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                                       VkDescriptorSetLayout* pSetLayout);
+    void DestroyDescriptorSetLayout(VkDescriptorSetLayout descriptorSetLayout, const VkAllocationCallbacks* pAllocator);
+
+    VkResult CreatePipelineLayout(const VkPipelineLayoutCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                                  VkPipelineLayout* pPipelineLayout);
+    void DestroyPipelineLayout(VkPipelineLayout pipelineLayout, const VkAllocationCallbacks* pAllocator);
+
+    VkResult CreateRenderPass(const VkRenderPassCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                              VkRenderPass* pRenderPass);
+    VkResult CreateRenderPass2(const VkRenderPassCreateInfo2* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                               VkRenderPass* pRenderPass);
+    void DestroyRenderPass(VkRenderPass renderPass, const VkAllocationCallbacks* pAllocator);
+
+    VkResult CreateFramebuffer(const VkFramebufferCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
+                               VkFramebuffer* pFramebuffer);
+    void DestroyFramebuffer(VkFramebuffer framebuffer, const VkAllocationCallbacks* pAllocator);
+
   private:
     VkResult SetupDevice(const VkDeviceCreateInfo& create_info);
     const icd::Pipeline* GetPipelineFromCache(const icd::PipelineCache& pipeline_cache,
                                               const VkPipelineOfflineCreateInfo* offline_info, VkResult& out_result);
+    bool InitSwapchainImageInfo(VkSwapchainKHR, VkExtent2D extent, uint32_t array_layers);
 
     icd::DeviceObjectTracker& GetObjectTracker() { return object_tracker_; }
 
@@ -124,12 +184,14 @@ class Device : public Dispatchable<Device, VkDevice>, public vk::Device {
     std::unordered_map<uint64_t, uint32_t> reserved_pipeline_pool_entries_map_{};
     std::unordered_map<uint64_t, std::atomic_uint32_t> used_pipeline_pool_entries_map_{};
 
-    // Map of pipelines and corresponding pool entry sizes (used only when pipeline pool entry recycling is enabled)
-    std::mutex pipeline_pool_size_map_mutex_{};
-    std::unordered_map<VkPipeline, uint64_t> pipeline_pool_size_map_{};
-
-    std::mutex command_pool_mutex_{};
-    std::unordered_map<VkCommandPool, std::unique_ptr<CommandPool>> command_pools_{};
+    // Object state trackers
+    icd::ObjectStateTracker<DescriptorSetLayout, VkDescriptorSetLayout> descriptor_set_layouts_{};
+    icd::ObjectStateTracker<Pipeline, VkPipeline> pipelines_{};
+    icd::ObjectStateTracker<CommandPool, VkCommandPool> command_pools_{};
+    icd::ObjectStateTracker<DescriptorPool, VkDescriptorPool> descriptor_pools_{};
+    icd::ObjectStateTracker<RenderPass, VkRenderPass> render_passes_{};
+    icd::ObjectStateTracker<Image, VkImage> images_{};
+    icd::ObjectStateTracker<ImageView, VkImageView> image_views_{};
 };
 
 }  // namespace vksc

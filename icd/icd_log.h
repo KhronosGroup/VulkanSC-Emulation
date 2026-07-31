@@ -1,6 +1,6 @@
 /*
- * Copyright (c) 2024-2025 The Khronos Group Inc.
- * Copyright (c) 2024-2025 RasterGrid Kft.
+ * Copyright (c) 2024-2026 The Khronos Group Inc.
+ * Copyright (c) 2024-2026 RasterGrid Kft.
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -78,37 +78,37 @@ class Logger {
     }
 
     template <typename... ARGS>
-    void Fatal(const char* msg_id, const char* format, ARGS... args) const {
+    void Fatal(const char* msg_id, const char* format, ARGS&&... args) const {
         Log(true, VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT, VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT, msg_id, format,
             std::forward<ARGS>(args)...);
     }
 
     template <typename... ARGS>
-    void Error(const char* msg_id, const char* format, ARGS... args) const {
+    void Error(const char* msg_id, const char* format, ARGS&&... args) const {
         Log(false, VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT, VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT, msg_id, format,
             std::forward<ARGS>(args)...);
     }
 
     template <typename... ARGS>
-    void Warning(const char* msg_id, const char* format, ARGS... args) const {
+    void Warning(const char* msg_id, const char* format, ARGS&&... args) const {
         Log(false, VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT, VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT, msg_id, format,
             std::forward<ARGS>(args)...);
     }
 
     template <typename... ARGS>
-    void Info(const char* msg_id, const char* format, ARGS... args) const {
+    void Info(const char* msg_id, const char* format, ARGS&&... args) const {
         Log(false, VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT, VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT, msg_id, format,
             std::forward<ARGS>(args)...);
     }
 
     template <typename... ARGS>
-    void Debug(const char* msg_id, const char* format, ARGS... args) const {
+    void Debug(const char* msg_id, const char* format, ARGS&&... args) const {
         Log(false, VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT, VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT, msg_id, format,
             std::forward<ARGS>(args)...);
     }
 
     template <typename... ARGS>
-    void ValidationError(const char* msg_id, const char* format, ARGS... args) const {
+    void ValidationError(const char* msg_id, const char* format, ARGS&&... args) const {
         Log(false, VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT, VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT, msg_id, format,
             std::forward<ARGS>(args)...);
     }
