@@ -1273,7 +1273,7 @@ bool Device::InitSwapchainImageInfo(VkSwapchainKHR swapchain, VkExtent2D extent,
     for (uint32_t i = 0; i < image_count; ++i) {
         images_.Add(images[i], VK_IMAGE_TYPE_2D, VkExtent3D{extent.width, extent.height, 1}, 1, array_layers);
     }
-    return false;
+    return true;
 }
 
 }  // namespace vksc
