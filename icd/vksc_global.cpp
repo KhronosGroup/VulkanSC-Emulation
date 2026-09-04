@@ -214,7 +214,9 @@ VKAPI_ATTR VkResult VKAPI_CALL vkEnumerateInstanceVersion(uint32_t* pApiVersion)
 
 VKAPI_ATTR VkResult VKAPI_CALL vkEnumerateInstanceExtensionProperties(const char* pLayerName, uint32_t* pPropertyCount,
                                                                       VkExtensionProperties* pProperties) {
-    icd::EnvironmentOverride override(vksc::ICD.Environment());
+    // No EnvironmentOverride here: this entry point only reads the cached instance extension list and
+    // never calls into the Vulkan loader, so clearing the loader environment variables has no effect at
+    // this site, while the clearing itself is process-wide and visible to concurrent driver discovery.
     return vksc::ICD.EnumerateInstanceExtensionProperties(pLayerName, pPropertyCount, pProperties);
 }
 
