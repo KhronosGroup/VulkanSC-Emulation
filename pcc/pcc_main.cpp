@@ -445,7 +445,7 @@ int main(int argc, char* argv[]) {
             cxxopts::value<bool>()->default_value("false"))
         ("log", "Log file name.",
             cxxopts::value<std::string>(), "<filename>")
-        ("level", "Log Level.",
+        ("level", "Log Level (defaults to warning, therefore only outputting log entries if there are warnings or errors)." ,
             cxxopts::value<std::string>(), "<info|warning|error|quiet>")
         ("help", "Show this help.");
     // clang-format on
