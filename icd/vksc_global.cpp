@@ -214,7 +214,6 @@ VKAPI_ATTR VkResult VKAPI_CALL vkEnumerateInstanceVersion(uint32_t* pApiVersion)
 
 VKAPI_ATTR VkResult VKAPI_CALL vkEnumerateInstanceExtensionProperties(const char* pLayerName, uint32_t* pPropertyCount,
                                                                       VkExtensionProperties* pProperties) {
-    icd::EnvironmentOverride override(vksc::ICD.Environment());
     return vksc::ICD.EnumerateInstanceExtensionProperties(pLayerName, pPropertyCount, pProperties);
 }
 
