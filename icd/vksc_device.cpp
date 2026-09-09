@@ -746,11 +746,46 @@ VkResult Device::CreateSharedSwapchainsKHR(uint32_t swapchainCount, const VkSwap
     return result;
 }
 
+namespace {
+
+// Returns the handle of the underlying Vulkan object corresponding to a wrapped object handle.
+template <typename HandleType, typename ObjectType>
+uint64_t UnwrapObjectHandle(uint64_t object_handle) {
+    auto* object = ObjectType::FromHandle(reinterpret_cast<HandleType>(static_cast<uintptr_t>(object_handle)));
+    return static_cast<uint64_t>(reinterpret_cast<uintptr_t>(object->VkHandle()));
+}
+
+// Unwraps the handles debug utils object info structures carry before they are forwarded to the
+// underlying Vulkan implementation.
+uint64_t TranslateDebugUtilsObjectHandle(VkObjectType object_type, uint64_t object_handle) {
+    if (object_handle == 0) {
+        return object_handle;
+    }
+    switch (object_type) {
+        case VK_OBJECT_TYPE_INSTANCE:
+            return UnwrapObjectHandle<VkInstance, Instance>(object_handle);
+        case VK_OBJECT_TYPE_PHYSICAL_DEVICE:
+            return UnwrapObjectHandle<VkPhysicalDevice, PhysicalDevice>(object_handle);
+        case VK_OBJECT_TYPE_DEVICE:
+            return UnwrapObjectHandle<VkDevice, Device>(object_handle);
+        case VK_OBJECT_TYPE_QUEUE:
+            return UnwrapObjectHandle<VkQueue, Queue>(object_handle);
+        case VK_OBJECT_TYPE_COMMAND_BUFFER:
+            return UnwrapObjectHandle<VkCommandBuffer, CommandBuffer>(object_handle);
+        default:
+            return object_handle;
+    }
+}
+
+}  // namespace
+
 VkResult Device::SetDebugUtilsObjectNameEXT(const VkDebugUtilsObjectNameInfoEXT* pNameInfo) {
     // NOTE: We do not currently include debug util object names in our debug messages
     if (ICD.IsInstanceExtensionSupported(vk::ExtensionNumber::EXT_debug_utils)) {
         // Forward call to the underlying Vulkan implementation if it supports it
-        return NEXT::SetDebugUtilsObjectNameEXT(pNameInfo);
+        VkDebugUtilsObjectNameInfoEXT name_info = *pNameInfo;
+        name_info.objectHandle = TranslateDebugUtilsObjectHandle(name_info.objectType, name_info.objectHandle);
+        return NEXT::SetDebugUtilsObjectNameEXT(&name_info);
     }
     return VK_SUCCESS;
 }
@@ -759,7 +794,9 @@ VkResult Device::SetDebugUtilsObjectTagEXT(const VkDebugUtilsObjectTagInfoEXT* p
     // NOTE: We do not currently include debug util object tags in our debug messages
     if (ICD.IsInstanceExtensionSupported(vk::ExtensionNumber::EXT_debug_utils)) {
         // Forward call to the underlying Vulkan implementation if it supports it
-        return NEXT::SetDebugUtilsObjectTagEXT(pTagInfo);
+        VkDebugUtilsObjectTagInfoEXT tag_info = *pTagInfo;
+        tag_info.objectHandle = TranslateDebugUtilsObjectHandle(tag_info.objectType, tag_info.objectHandle);
+        return NEXT::SetDebugUtilsObjectTagEXT(&tag_info);
     }
     return VK_SUCCESS;
 }
