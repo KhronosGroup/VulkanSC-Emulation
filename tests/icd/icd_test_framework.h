@@ -43,15 +43,9 @@ class Framework : public ::testing::Environment {
 template <typename T>
 class VkMockObject {
   public:
-    VkMockObject() {}
-    T handle() {
-        set_loader_magic_value(this);
-        return (T)this;
-    }
-    operator T() {
-        set_loader_magic_value(this);
-        return (T)this;
-    }
+    VkMockObject() { set_loader_magic_value(this); }
+    T handle() { return (T)this; }
+    operator T() { return (T)this; }
 
   private:
     VK_LOADER_DATA loader_data_;

@@ -11,6 +11,8 @@
 
 #include "vk_device.h"
 #include "vksc_output_struct_sanitizer.h"
+#include "vksc_dispatchable.h"
+#include "icd_pnext_chain_utils.h"
 
 namespace vk {
 
@@ -218,7 +220,14 @@ void Device::DestroyPipelineLayout(VkPipelineLayout pipelineLayout, const VkAllo
 }
 VkResult Device::CreateSampler(const VkSamplerCreateInfo* pCreateInfo, const VkAllocationCallbacks* pAllocator,
                                VkSampler* pSampler) {
-    return dispatch_table_.CreateSampler(handle_, pCreateInfo, pAllocator, pSampler);
+    auto vk_mod_pCreateInfo = *pCreateInfo;
+    icd::ShadowStack::Frame stack_frame{};
+    icd::ModifiablePNextChain vk_mod_pCreateInfo_pnext_chain(stack_frame, vk_mod_pCreateInfo);
+    if (auto vk_mod_struct = vk_mod_pCreateInfo_pnext_chain.GetStruct<VkDebugUtilsObjectNameInfoEXT>()) {
+        vk_mod_struct->objectHandle = vksc::ConvertVkSCHandleToVulkan(vk_mod_struct->objectType, vk_mod_struct->objectHandle);
+        vk_mod_pCreateInfo.pNext = vk_mod_pCreateInfo_pnext_chain.GetModifiedPNext();
+    }
+    return dispatch_table_.CreateSampler(handle_, &vk_mod_pCreateInfo, pAllocator, pSampler);
 }
 void Device::DestroySampler(VkSampler sampler, const VkAllocationCallbacks* pAllocator) {
     dispatch_table_.DestroySampler(handle_, sampler, pAllocator);
@@ -876,10 +885,14 @@ void Device::SetHdrMetadataEXT(uint32_t swapchainCount, const VkSwapchainKHR* pS
     dispatch_table_.SetHdrMetadataEXT(handle_, swapchainCount, pSwapchains, pMetadata);
 }
 VkResult Device::SetDebugUtilsObjectNameEXT(const VkDebugUtilsObjectNameInfoEXT* pNameInfo) {
-    return dispatch_table_.SetDebugUtilsObjectNameEXT(handle_, pNameInfo);
+    auto vk_mod_pNameInfo = *pNameInfo;
+    vk_mod_pNameInfo.objectHandle = vksc::ConvertVkSCHandleToVulkan(vk_mod_pNameInfo.objectType, vk_mod_pNameInfo.objectHandle);
+    return dispatch_table_.SetDebugUtilsObjectNameEXT(handle_, &vk_mod_pNameInfo);
 }
 VkResult Device::SetDebugUtilsObjectTagEXT(const VkDebugUtilsObjectTagInfoEXT* pTagInfo) {
-    return dispatch_table_.SetDebugUtilsObjectTagEXT(handle_, pTagInfo);
+    auto vk_mod_pTagInfo = *pTagInfo;
+    vk_mod_pTagInfo.objectHandle = vksc::ConvertVkSCHandleToVulkan(vk_mod_pTagInfo.objectType, vk_mod_pTagInfo.objectHandle);
+    return dispatch_table_.SetDebugUtilsObjectTagEXT(handle_, &vk_mod_pTagInfo);
 }
 #ifdef VK_USE_PLATFORM_ANDROID_KHR
 VkResult Device::GetAndroidHardwareBufferPropertiesANDROID(const struct AHardwareBuffer* buffer,
@@ -946,11 +959,25 @@ VkResult Device::GetExecutionGraphPipelineNodeIndexAMDX(VkPipeline executionGrap
 #endif  // VK_ENABLE_BETA_EXTENSIONS
 VkResult Device::WriteSamplerDescriptorsEXT(uint32_t samplerCount, const VkSamplerCreateInfo* pSamplers,
                                             const VkHostAddressRangeEXT* pDescriptors) {
-    return dispatch_table_.WriteSamplerDescriptorsEXT(handle_, samplerCount, pSamplers, pDescriptors);
+    auto vk_mod_pSamplers = *pSamplers;
+    icd::ShadowStack::Frame stack_frame{};
+    icd::ModifiablePNextChain vk_mod_pSamplers_pnext_chain(stack_frame, vk_mod_pSamplers);
+    if (auto vk_mod_struct = vk_mod_pSamplers_pnext_chain.GetStruct<VkDebugUtilsObjectNameInfoEXT>()) {
+        vk_mod_struct->objectHandle = vksc::ConvertVkSCHandleToVulkan(vk_mod_struct->objectType, vk_mod_struct->objectHandle);
+        vk_mod_pSamplers.pNext = vk_mod_pSamplers_pnext_chain.GetModifiedPNext();
+    }
+    return dispatch_table_.WriteSamplerDescriptorsEXT(handle_, samplerCount, &vk_mod_pSamplers, pDescriptors);
 }
 VkResult Device::WriteResourceDescriptorsEXT(uint32_t resourceCount, const VkResourceDescriptorInfoEXT* pResources,
                                              const VkHostAddressRangeEXT* pDescriptors) {
-    return dispatch_table_.WriteResourceDescriptorsEXT(handle_, resourceCount, pResources, pDescriptors);
+    auto vk_mod_pResources = *pResources;
+    icd::ShadowStack::Frame stack_frame{};
+    icd::ModifiablePNextChain vk_mod_pResources_pnext_chain(stack_frame, vk_mod_pResources);
+    if (auto vk_mod_struct = vk_mod_pResources_pnext_chain.GetStruct<VkDebugUtilsObjectNameInfoEXT>()) {
+        vk_mod_struct->objectHandle = vksc::ConvertVkSCHandleToVulkan(vk_mod_struct->objectType, vk_mod_struct->objectHandle);
+        vk_mod_pResources.pNext = vk_mod_pResources_pnext_chain.GetModifiedPNext();
+    }
+    return dispatch_table_.WriteResourceDescriptorsEXT(handle_, resourceCount, &vk_mod_pResources, pDescriptors);
 }
 VkResult Device::GetImageOpaqueCaptureDataEXT(uint32_t imageCount, const VkImage* pImages, VkHostAddressRangeEXT* pDatas) {
     VkResult result = dispatch_table_.GetImageOpaqueCaptureDataEXT(handle_, imageCount, pImages, pDatas);
@@ -1165,10 +1192,12 @@ void Device::DestroyPrivateDataSlotEXT(VkPrivateDataSlot privateDataSlot, const 
 }
 VkResult Device::SetPrivateDataEXT(VkObjectType objectType, uint64_t objectHandle, VkPrivateDataSlot privateDataSlot,
                                    uint64_t data) {
-    return dispatch_table_.SetPrivateDataEXT(handle_, objectType, objectHandle, privateDataSlot, data);
+    return dispatch_table_.SetPrivateDataEXT(handle_, objectType, vksc::ConvertVkSCHandleToVulkan(objectType, objectHandle),
+                                             privateDataSlot, data);
 }
 void Device::GetPrivateDataEXT(VkObjectType objectType, uint64_t objectHandle, VkPrivateDataSlot privateDataSlot, uint64_t* pData) {
-    dispatch_table_.GetPrivateDataEXT(handle_, objectType, objectHandle, privateDataSlot, pData);
+    dispatch_table_.GetPrivateDataEXT(handle_, objectType, vksc::ConvertVkSCHandleToVulkan(objectType, objectHandle),
+                                      privateDataSlot, pData);
 }
 #ifdef VK_ENABLE_BETA_EXTENSIONS
 VkResult Device::CreateCudaModuleNV(const VkCudaModuleCreateInfoNV* pCreateInfo, const VkAllocationCallbacks* pAllocator,

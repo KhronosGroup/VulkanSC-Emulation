@@ -6,6 +6,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import os
+from typing import OrderedDict
 from base_generator import BaseGenerator
 from generators.generator_utils import PlatformGuardHelper, CommandHelper
 
@@ -99,11 +100,40 @@ class VkDispatchableGenerator(BaseGenerator):
 
         self.write("".join(out))
 
+    def addShadowStackFrameDecl(self, decl: OrderedDict):
+        if not 'stack_frame' in decl:
+            decl['stack_frame'] = 'icd::ShadowStack::Frame stack_frame{};\n'
+
+
+    def modifiedInputStructName(self, param):
+        return f'vk_mod_{param.name}'
+    
+    def addModifiedInputStructDecl(self, decl: OrderedDict, param):
+        name = self.modifiedInputStructName(param)
+        if not name in decl:
+            decl[name] = f'auto {name} = *{param.name};\n'
+        return name
+
+
+    def modifiedInputPNextChainName(self, param):
+        return f'vk_mod_{param.name}_pnext_chain'
+
+    def addModifiedInputPNextChainDecl(self, decl: OrderedDict, param):
+        name = self.modifiedInputPNextChainName(param)
+        if not name in decl:
+            self.addShadowStackFrameDecl(decl)
+            inputVarName = self.addModifiedInputStructDecl(decl, param)
+            decl[name] = f'icd::ModifiablePNextChain {name}(stack_frame, {inputVarName});\n'
+        return name
+
+
     def generateSource(self, handle_type: str):
         out = []
         out.append(f'''
             #include "{self.filename.replace('.cpp', '.h')}"
             #include "vksc_output_struct_sanitizer.h"
+            #include "vksc_dispatchable.h"
+            #include "icd_pnext_chain_utils.h"
 
             namespace vk {{
 
@@ -128,7 +158,52 @@ class VkDispatchableGenerator(BaseGenerator):
                     if not param.const and param.pointer and param.type in self.vk.structs:
                         output_structure_params.append(param)
 
+                # Check if the command can return VK_ERROR_DEVICE_LOST
                 can_return_device_lost = (command.errorCodes is not None and 'VK_ERROR_DEVICE_LOST' in command.errorCodes)
+
+                # Check if the command takes any object type + handle parameter pairs
+                # directly or indirectly (inside structures) and make sure they are
+                # unwrapped
+                declarations : OrderedDict = {}
+                statements = []
+                for i, param in enumerate(command.params):
+                    if param.objectType is not None:
+                        # Direct parameter case
+                        objectTypeParam = [x for x in command.params if x.name == param.objectType][0]
+                        if objectTypeParam.type == 'VkObjectType':
+                            params_pass[i] = f'vksc::ConvertVkSCHandleToVulkan({objectTypeParam.name}, {param.name})'
+                    elif param.const and param.pointer and param.type in self.vk.structs:
+                        struct = self.vk.structs[param.type]
+                        for member in struct.members:
+                            if member.objectType is not None:
+                                # Base struct member case
+                                objectTypeMember = [x for x in struct.members if x.name == member.objectType][0]
+                                if objectTypeMember.type == 'VkObjectType':
+                                    varName = self.addModifiedInputStructDecl(declarations, param)
+                                    statements.append(f'{varName}.{member.name} = vksc::ConvertVkSCHandleToVulkan({varName}.{objectTypeMember.name}, {varName}.{member.name});\n')
+                                    params_pass[i] = f'&{varName}'
+                        for extStructName in struct.extendedBy:
+                            extStruct = self.vk.structs[extStructName]
+                            for member in extStruct.members:
+                                if member.objectType is not None:
+                                    # Extension struct member case
+                                    objectTypeMember = [x for x in extStruct.members if x.name == member.objectType][0]
+                                    if objectTypeMember.type == 'VkObjectType':
+                                        varName = self.addModifiedInputStructDecl(declarations, param)
+                                        pnextVarName = self.addModifiedInputPNextChainDecl(declarations, param)
+                                        extStructGuard = PlatformGuardHelper()
+                                        statements.extend(extStructGuard.add_guard(extStruct.protect))
+                                        statements.append(f'''if (auto vk_mod_struct = {pnextVarName}.GetStruct<{extStruct.name}>()) {{
+                                                vk_mod_struct->{member.name} = vksc::ConvertVkSCHandleToVulkan(vk_mod_struct->{objectTypeMember.name}, vk_mod_struct->{member.name});
+                                                {varName}.pNext = {pnextVarName}.GetModifiedPNext();
+                                            }}
+                                            ''')
+                                        statements.extend(extStructGuard.add_guard(None))
+                                        params_pass[i] = f'&{varName}'
+                # Dump declarations and statements
+                out.extend(declarations.values())
+                out.extend(statements)
+
                 # Additional processing of the outputs is necessary if:
                 # * the command has output structures that we have to sanitize, or
                 # * the command can return VK_ERROR_DEVICE_LOST which should generate a fault
