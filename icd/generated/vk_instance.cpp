@@ -11,6 +11,8 @@
 
 #include "vk_instance.h"
 #include "vksc_output_struct_sanitizer.h"
+#include "vksc_dispatchable.h"
+#include "icd_pnext_chain_utils.h"
 
 namespace vk {
 

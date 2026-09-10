@@ -59,6 +59,8 @@ target_sources(icd PRIVATE
     vksc_descriptor_set_layout.h
     vksc_device.h
     vksc_device.cpp
+    vksc_dispatchable.h
+    vksc_dispatchable.cpp
     vksc_display_emulation.h
     vksc_display_emulation.cpp
     vksc_global.h

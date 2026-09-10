@@ -40,6 +40,10 @@ def RunGenerators(api: str, registry: str, directory: str, styleFile: str, targe
     sys.path.insert(0, registry_headers_path)
     from reg import Registry
 
+    # TODO: We temporarily have to use a custom base_generator and vulkan_object
+    # until support for the objecttype attributes lands in the headers repo
+    sys.path.insert(0, scripts_directory_path)
+
     from base_generator import BaseGeneratorOptions
 
     from generators.command_buffer_memory_tracker_generator import CommandBufferMemoryTrackerGenerator

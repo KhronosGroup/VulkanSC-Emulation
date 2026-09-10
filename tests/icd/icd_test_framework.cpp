@@ -204,7 +204,7 @@ static void InitDefaultMockHandlers(IcdTest *test_case = nullptr) {
     };
     vkmock::DestroyInstance = [&](auto, auto) {};
     vkmock::CreateDevice = [&](auto, auto, auto, auto pDevice) {
-        *pDevice = mock_device;
+        *pDevice = mock_device = {};
         return VK_SUCCESS;
     };
     vkmock::DestroyDevice = [&](auto, auto) {};

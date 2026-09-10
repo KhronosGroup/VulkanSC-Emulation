@@ -79,4 +79,17 @@ class DispatchableChildren {
     std::unordered_map<HANDLE, std::unique_ptr<OBJ>> children_{};
 };
 
+template <typename OBJ, typename HANDLE>
+uint64_t ConvertVkSCHandleToVulkan(uint64_t object_handle) {
+    if (object_handle != 0) {
+        auto obj = OBJ::FromHandle(reinterpret_cast<HANDLE>(static_cast<uintptr_t>(object_handle)));
+        return static_cast<uint64_t>(reinterpret_cast<uintptr_t>(obj->VkHandle()));
+    } else {
+        // Null handles always convert to null handles
+        return 0;
+    }
+}
+
+uint64_t ConvertVkSCHandleToVulkan(VkObjectType object_type, uint64_t object_handle);
+
 }  // namespace vksc

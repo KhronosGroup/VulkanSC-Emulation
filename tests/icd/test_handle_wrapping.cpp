@@ -18,6 +18,17 @@
 class HandleWrappingTest : public IcdTest {
   public:
     HandleWrappingTest() : IcdTest{} {}
+
+    class HandleValue {
+      public:
+        template <typename HANDLE>
+        HandleValue(HANDLE handle) : value_(static_cast<uint64_t>(reinterpret_cast<uintptr_t>(handle))) {}
+
+        operator uint64_t() const { return value_; }
+
+      protected:
+        uint64_t value_;
+    };
 };
 
 TEST_F(HandleWrappingTest, CmdExecuteCommands) {
@@ -172,4 +183,118 @@ TEST_F(HandleWrappingTest, QueueSubmit) {
 
     vksc::DestroyBuffer(device, buffer, nullptr);
     vksc::FreeCommandBuffers(device, command_pool, command_buffers.size(), command_buffers.data());
+}
+
+TEST_F(HandleWrappingTest, DebugUtilsObjectHandles) {
+    TEST_DESCRIPTION("Test that dispatchable object handles are properly unwrapped in the debug utils structures");
+
+    if (!Framework::WithVulkanLoader()) {
+        GTEST_SKIP() << "VK_EXT_debug_utils API call forwarding requires the Vulkan loader (which exposes the extension)";
+    }
+
+    static VkMockObject<VkPhysicalDevice> mock_physical_device{};
+    vkmock::EnumeratePhysicalDevices = [&](auto, auto pPhysicalDeviceCount, auto pPhysicalDevices) {
+        if (pPhysicalDevices != nullptr) {
+            if (*pPhysicalDeviceCount > 0) {
+                *pPhysicalDeviceCount = 1;
+                *pPhysicalDevices = mock_physical_device;
+                return VK_SUCCESS;
+            } else {
+                return VK_INCOMPLETE;
+            }
+        } else {
+            *pPhysicalDeviceCount = 1;
+            return VK_SUCCESS;
+        }
+    };
+
+    static VkMockObject<VkDevice> mock_device{};
+    vkmock::CreateDevice = [&](auto, auto, auto, auto pDevice) {
+        *pDevice = mock_device;
+        return VK_SUCCESS;
+    };
+
+    static VkMockObject<VkQueue> mock_queue{};
+    vkmock::GetDeviceQueue = [&](auto, auto, auto, auto pQueue) { *pQueue = mock_queue; };
+    vkmock::GetDeviceQueue2 = [&](auto, auto, auto pQueue) { *pQueue = mock_queue; };
+
+    static VkMockObject<VkCommandBuffer> mock_cmd_buffer{};
+    vkmock::AllocateCommandBuffers = [&](auto, auto, auto pCommandBuffers) {
+        pCommandBuffers[0] = mock_cmd_buffer;
+        return VK_SUCCESS;
+    };
+
+    const uint32_t tag_data = 42;
+
+    uint64_t named_handle = 0;
+    vkmock::SetDebugUtilsObjectNameEXT = [&](VkDevice, const VkDebugUtilsObjectNameInfoEXT *pNameInfo) {
+        named_handle = pNameInfo->objectHandle;
+        // The rest of the structure has to be forwarded unmodified
+        EXPECT_STREQ(pNameInfo->pObjectName, "TestObject");
+        return VK_SUCCESS;
+    };
+
+    uint64_t tagged_handle = 0;
+    vkmock::SetDebugUtilsObjectTagEXT = [&](VkDevice, const VkDebugUtilsObjectTagInfoEXT *pTagInfo) {
+        tagged_handle = pTagInfo->objectHandle;
+        // The rest of the structure has to be forwarded unmodified
+        EXPECT_EQ(pTagInfo->tagName, 1u);
+        EXPECT_EQ(pTagInfo->tagSize, sizeof(tag_data));
+        EXPECT_EQ(pTagInfo->pTag, &tag_data);
+        return VK_SUCCESS;
+    };
+
+    EnableInstanceExtension(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+    InitInstance();
+    auto device = InitDevice();
+    auto cmd_pool = CreateCommandPool(65536);
+    auto cmd_buffer = CreateCommandBuffers(cmd_pool)[0];
+
+    // The physical device handle is replaced three times on its way down: the emulation ICD replaces
+    // the wrapped handle with the one of the underlying physical device, and the Vulkan loader then
+    // replaces that in both its trampoline and its terminator, ending up with the handle the
+    // underlying implementation returned
+    //
+    // VK_OBJECT_TYPE_INSTANCE is not covered because the Vulkan loader replaces the instance handle
+    // with its own before the underlying implementation sees it, whether it was translated or not
+    const struct {
+        const char *description;
+        VkObjectType object_type;
+        HandleValue wrapped;
+        HandleValue underlying;
+    } test_cases[] = {
+        {"device", VK_OBJECT_TYPE_DEVICE, device, mock_device.handle()},
+        {"physical device", VK_OBJECT_TYPE_PHYSICAL_DEVICE, GetPhysicalDevice(), mock_physical_device.handle()},
+        {"queue", VK_OBJECT_TYPE_QUEUE, GetQueue(), mock_queue.handle()},
+        {"command buffer", VK_OBJECT_TYPE_COMMAND_BUFFER, cmd_buffer, mock_cmd_buffer.handle()},
+    };
+
+    for (const auto &test_case : test_cases) {
+        SCOPED_TRACE(test_case.description);
+
+        // The test is only meaningful if the handle of the underlying object was picked up and the
+        // object is actually wrapped by the emulation ICD
+        ASSERT_NE(test_case.underlying, 0u);
+        ASSERT_NE(test_case.wrapped, test_case.underlying);
+
+        named_handle = 0;
+        auto name_info = vku::InitStruct<VkDebugUtilsObjectNameInfoEXT>();
+        name_info.objectType = test_case.object_type;
+        name_info.objectHandle = test_case.wrapped;
+        name_info.pObjectName = "TestObject";
+        EXPECT_EQ(vksc::SetDebugUtilsObjectNameEXT(device, &name_info), VK_SUCCESS);
+        EXPECT_EQ(named_handle, test_case.underlying);
+
+        tagged_handle = 0;
+        auto tag_info = vku::InitStruct<VkDebugUtilsObjectTagInfoEXT>();
+        tag_info.objectType = test_case.object_type;
+        tag_info.objectHandle = test_case.wrapped;
+        tag_info.tagName = 1;
+        tag_info.tagSize = sizeof(tag_data);
+        tag_info.pTag = &tag_data;
+        EXPECT_EQ(vksc::SetDebugUtilsObjectTagEXT(device, &tag_info), VK_SUCCESS);
+        EXPECT_EQ(tagged_handle, test_case.underlying);
+    }
+
+    vksc::FreeCommandBuffers(device, cmd_pool, 1, &cmd_buffer);
 }
