@@ -13,6 +13,7 @@
 #include <vector>
 #include <unordered_map>
 #include <mutex>
+#include <optional>
 
 namespace icd {
 
@@ -22,6 +23,7 @@ class EnvironmentHelper {
 
     VkDebugUtilsMessageSeverityFlagsEXT LogSeverityEnv() const { return log_severity_; }
     bool RecyclePipelineMemory() const { return recycle_pipeline_memory_; }
+    const std::optional<uint32_t>& GetGlobalMaxInstances() const { return global_max_instances_; }
     uint32_t GetMaxLogicalDevices() const { return max_logical_devices_; }
     uint32_t GetEmulatedDisplayCount() const { return emulated_display_count_; }
     const char* GetEmulatedDisplayConfig() const { return emulated_display_config_; }
@@ -32,6 +34,7 @@ class EnvironmentHelper {
   private:
     VkDebugUtilsMessageSeverityFlagsEXT ParseLogSeverity();
     bool ParseRecyclePipelineMemory();
+    std::optional<uint32_t> ParseGlobalMaxInstances();
     uint32_t ParseMaxLogicalDevices();
     uint32_t ParseEmulatedDisplayCount();
     const std::unordered_map<const char*, std::string> InitPrivateEnvs();
@@ -40,6 +43,7 @@ class EnvironmentHelper {
 
     const VkDebugUtilsMessageSeverityFlagsEXT log_severity_;
     const bool recycle_pipeline_memory_;
+    const std::optional<uint32_t> global_max_instances_;
     const uint32_t max_logical_devices_;
     const uint32_t emulated_display_count_;
     const char* emulated_display_config_;

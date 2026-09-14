@@ -51,6 +51,7 @@ VkResult Instance::SetupInstance(const VkInstanceCreateInfo& create_info) {
 }
 
 void Instance::DestroyInstance(const VkAllocationCallbacks* pAllocator) {
+    vksc::ICD.FreeInstance();
     Destroy(VkDispatch().DestroyInstance, VkHandle(), pAllocator);
 }
 
