@@ -54,6 +54,9 @@ class Global {
     const DispatchTable& VkDispatch() const { return vk_dispatch_table_; }
     PFN_vkGetInstanceProcAddr VkGetProcAddr() const { return vk_get_instance_proc_addr_; }
 
+    bool AllocateInstance() const;
+    void FreeInstance() const;
+
     VkResult EnumerateInstanceExtensionProperties(const char* pLayerName, uint32_t* pPropertyCount,
                                                   VkExtensionProperties* pProperties);
 

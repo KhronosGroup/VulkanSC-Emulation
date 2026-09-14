@@ -20,6 +20,7 @@ namespace icd {
 EnvironmentHelper::EnvironmentHelper()
     : log_severity_(ParseLogSeverity()),
       recycle_pipeline_memory_(ParseRecyclePipelineMemory()),
+      global_max_instances_(ParseGlobalMaxInstances()),
       max_logical_devices_(ParseMaxLogicalDevices()),
       emulated_display_count_(ParseEmulatedDisplayCount()),
       emulated_display_config_(getenv("VKSC_EMULATION_DISPLAY_CONFIG")),
@@ -95,6 +96,14 @@ bool EnvironmentHelper::ParseRecyclePipelineMemory() {
     }
     // Default to recycling
     return true;
+}
+
+std::optional<uint32_t> EnvironmentHelper::ParseGlobalMaxInstances() {
+    auto env_var_value = getenv("VKSC_EMULATION_GLOBAL_MAX_INSTANCES");
+    if (env_var_value != nullptr) {
+        return atoi(env_var_value);
+    }
+    return {};
 }
 
 uint32_t EnvironmentHelper::ParseMaxLogicalDevices() {

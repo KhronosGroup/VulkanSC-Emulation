@@ -20,11 +20,19 @@
 #include <windows.h>
 #else
 #include <dlfcn.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <semaphore.h>
 #endif
 
 #include <stdlib.h>
 
 namespace vksc {
+
+#ifndef _WIN32
+static const char* g_global_instance_count_sema_name = "/vksconvk.global_instance_count";
+static sem_t* g_global_instance_count_sema = nullptr;
+#endif
 
 Global ICD;
 
@@ -167,6 +175,20 @@ Global::Global() : environment_(), logger_(Environment().LogSeverityEnv()), disp
             return;
         }
     }
+
+#ifndef _WIN32
+    // A named semaphore is used to track global instance count
+    auto global_max_instances = Environment().GetGlobalMaxInstances();
+    if (global_max_instances.has_value()) {
+        g_global_instance_count_sema = sem_open(g_global_instance_count_sema_name, O_CREAT, 0644, global_max_instances.value());
+        if (g_global_instance_count_sema == SEM_FAILED) {
+            Log().Fatal("VKSC-EMU-GlobalMaxInstances", "Failed to create/open named semaphore to enfore global instance count");
+            g_global_instance_count_sema = nullptr;
+            valid_ = false;
+            return;
+        }
+    }
+#endif
 }
 
 Global::~Global() {
@@ -177,6 +199,14 @@ Global::~Global() {
         dlclose(vk_loader_module_);
 #endif
     }
+
+#ifndef _WIN32
+    if (g_global_instance_count_sema) {
+        sem_close(g_global_instance_count_sema);
+        sem_unlink(g_global_instance_count_sema_name);
+        g_global_instance_count_sema = nullptr;
+    }
+#endif
 }
 
 VkResult Global::EnumerateInstanceExtensionProperties(const char* pLayerName, uint32_t* pPropertyCount,
@@ -201,6 +231,23 @@ VkResult Global::EnumerateInstanceExtensionProperties(const char* pLayerName, ui
     }
 
     return result;
+}
+
+bool Global::AllocateInstance() const {
+#ifndef _WIN32
+    if (g_global_instance_count_sema) {
+        return sem_trywait(g_global_instance_count_sema) == 0;
+    }
+#endif
+    return true;
+}
+
+void Global::FreeInstance() const {
+#ifndef _WIN32
+    if (g_global_instance_count_sema) {
+        sem_post(g_global_instance_count_sema);
+    }
+#endif
 }
 
 }  // namespace vksc
@@ -299,6 +346,15 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateInstance(const VkInstanceCreateInfo* pCre
         result = vksc::Instance::FromHandle(instance)->GetStatus();
         if (result < VK_SUCCESS) {
             vksc::Instance::FromHandle(instance)->DestroyInstance(pAllocator);
+        }
+    }
+
+    if (result >= VK_SUCCESS) {
+        if (!vksc::ICD.AllocateInstance()) {
+            vksc::ICD.Log().Error("VKSC-EMU-GlobalInstanceLimitExceeded", "Global instance limit (%u) exceeded",
+                                  vksc::ICD.Environment().GetGlobalMaxInstances().value());
+            vksc::Instance::FromHandle(instance)->DestroyInstance(pAllocator);
+            result = VK_ERROR_TOO_MANY_OBJECTS;
         }
     }
 
