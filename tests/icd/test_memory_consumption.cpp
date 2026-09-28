@@ -251,7 +251,11 @@ TEST_F(MemConsumptionTest, ResetCommandPool) {
     EXPECT_LE(buffer_update_size, 65536);  // test param assertion. VkCmdUpdateBuffer is capped at 65536
 
     vkmock::CmdUpdateBuffer = [&](auto, auto, auto, auto, auto) {};
-    vkmock::ResetCommandPool = [&](auto, auto, auto) { return VK_SUCCESS; };
+    VkCommandPool reset_command_pool = VK_NULL_HANDLE;
+    vkmock::ResetCommandPool = [&](auto, VkCommandPool pool, auto) {
+        reset_command_pool = pool;
+        return VK_SUCCESS;
+    };
 
     auto physical_device = GetPhysicalDevice();
     auto vksc_physical_device_props = vku::InitStruct<VkPhysicalDeviceVulkanSC10Properties>();
@@ -281,6 +285,7 @@ TEST_F(MemConsumptionTest, ResetCommandPool) {
     EXPECT_EQ(vksc::EndCommandBuffer(command_buffers2.front()), VK_ERROR_OUT_OF_DEVICE_MEMORY);
 
     EXPECT_EQ(vksc::ResetCommandPool(device, command_pool, 0), VK_SUCCESS);
+    EXPECT_EQ(reset_command_pool, command_pool);
 
     auto command_buffers3 = CreateCommandBuffers(command_pool);
     vksc::BeginCommandBuffer(command_buffers3.front(), &begin_info);
