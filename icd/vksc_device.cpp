@@ -470,7 +470,12 @@ VkResult Device::ResetCommandPool(VkCommandPool commandPool, VkCommandPoolResetF
         return VK_ERROR_VALIDATION_FAILED;
     }
 
-    return command_pool_state->ResetCommandPool();
+    VkResult result = NEXT::ResetCommandPool(commandPool, flags);
+    if (result != VK_SUCCESS) {
+        return result;
+    }
+
+    return command_pool_state->ResetCommandPool(flags);
 }
 
 VkResult Device::GetFaultData(VkFaultQueryBehavior faultQueryBehavior, VkBool32* pUnrecordedFaults, uint32_t* pFaultCount,
