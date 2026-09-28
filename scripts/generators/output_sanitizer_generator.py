@@ -9,7 +9,7 @@ import os
 from base_generator import BaseGenerator
 from generators.generator_utils import PlatformGuardHelper, CommandHelper
 
-class OutputStructSanitizerGenerator(BaseGenerator):
+class OutputSanitizerGenerator(BaseGenerator):
     def __init__(self):
         BaseGenerator.__init__(self)
 
@@ -55,16 +55,34 @@ class OutputStructSanitizerGenerator(BaseGenerator):
         for nested_struct in nested_structs:
             self.all_output_structs[nested_struct] = self.vk.structs[nested_struct]
 
-        # Then collect all bitmask types that are contained within these as we will have to filter out
-        # any flags that are supported in Vulkan but not in Vulkan SC
+        # Then collect all enum types and bitmask types that are contained within these or used as
+        # direct outputs from any command as we will have to filter out any flags and potentially even
+        # enums that are supported in Vulkan but not in Vulkan SC
+        # TODO: We currently do not actively and automatically filter out entries with enums as it
+        # gets complicated when you consider what you would do about any field containing enums that
+        # are not supported in Vulkan SC (for array outputs we might be able to drop the corresponding
+        # entries, but what about singular outputs? error out?), but we do include helpers for them
+        # too so that manual code can detect unsupported enum constants
+        self.enums : dict[str, vulkan_object.Enum] = {}
         self.bitmasks : dict[str, vulkan_object.Bitmask] = {}
         self.flags : dict[str, vulkan_object.Bitmask] = {}
+        for command in self.vk.commands.values():
+            for param in command.params:
+                if not param.const and param.pointer:
+                    if param.type in self.vk.enums:
+                        self.enums[param.type] = self.vk.enums[param.type]
+                    elif param.type in self.vk.bitmasks:
+                        self.bitmasks[param.type] = self.vk.bitmasks[param.type]
+                    elif param.type in self.vk.flags:
+                        self.flags[param.type] = self.vk.flags[param.type]
         for output_struct_name in self.all_output_structs:
             struct = self.vk.structs[output_struct_name]
             for member in struct.members:
                 flag_name = member.type.replace('Flags', 'FlagBits')
                 bitmask = None
-                if member.type in self.vk.bitmasks and self.vk.bitmasks[member.type].name not in self.bitmasks:
+                if member.type in self.vk.enums and member.type != 'VkStructureType':
+                    self.enums[member.type] = self.vk.enums[member.type]
+                elif member.type in self.vk.bitmasks and self.vk.bitmasks[member.type].name not in self.bitmasks:
                     bitmask = self.vk.bitmasks[member.type]
                 elif flag_name in self.vk.bitmasks and self.vk.bitmasks[flag_name].name not in self.bitmasks:
                     bitmask = self.vk.bitmasks[flag_name]
@@ -72,9 +90,9 @@ class OutputStructSanitizerGenerator(BaseGenerator):
                     self.bitmasks[bitmask.name] = bitmask
                     self.flags[bitmask.flagName] = bitmask
 
-        if self.filename == f'vksc_output_struct_sanitizer.h':
+        if self.filename == f'vksc_output_sanitizer.h':
             self.generateHeader()
-        elif self.filename == f'vksc_output_struct_sanitizer.cpp':
+        elif self.filename == f'vksc_output_sanitizer.cpp':
             self.generateSource()
         else:
             self.write(f'\nFile name {self.filename} has no code to generate\n')
@@ -101,13 +119,15 @@ class OutputStructSanitizerGenerator(BaseGenerator):
 
         guard_helper = PlatformGuardHelper()
 
-        # Generate max bitmasks supported by Vulkan SC
-        out.append('// clang-format off\n')
-        for bitmask in self.bitmasks.values():
-            out.extend(guard_helper.add_guard(bitmask.protect))
-            out.append(f'const {bitmask.flagName} All{bitmask.name} = {"|".join([flag.name for flag in bitmask.flags])};\n')
+        # Generate individual enum constant validators
+        for enum in self.enums.values():
+            out.extend(guard_helper.add_guard(enum.protect))
+            out.append(f'bool Is{enum.name}InVulkanSC({enum.name} value);\n')
         out.extend(guard_helper.add_guard(None))
-        out.append('// clang-format on\n')
+        for bitmask in self.bitmasks.values():
+            out.extend(guard_helper.add_guard(enum.protect))
+            out.append(f'bool Is{bitmask.name}InVulkanSC({bitmask.name} value);\n')
+        out.extend(guard_helper.add_guard(None))
 
         # Generate individual struct sanitizers
         for struct in self.all_output_structs.values():
@@ -130,13 +150,52 @@ class OutputStructSanitizerGenerator(BaseGenerator):
     def generateSource(self):
         out = []
         out.append(f'''
-            #include "vksc_output_struct_sanitizer.h"
+            #include "vksc_output_sanitizer.h"
 
             namespace vksc {{
 
             ''')
 
         guard_helper = PlatformGuardHelper()
+
+        # Generate individual enum constant validators
+        for enum in self.enums.values():
+            out.extend(guard_helper.add_guard(enum.protect))
+            out.append(f'''
+                bool Is{enum.name}InVulkanSC({enum.name} value) {{
+                    switch (value) {{
+                ''')
+            for field in enum.fields:
+                out.append(f'case {field.name}: return true;\n')
+            out.append(f'''
+                    default:return false;
+                    }}
+                }}
+                ''')
+        out.extend(guard_helper.add_guard(None))
+        for bitmask in self.bitmasks.values():
+            out.extend(guard_helper.add_guard(enum.protect))
+            out.append(f'''
+                bool Is{bitmask.name}InVulkanSC({bitmask.name} value) {{
+                    switch (value) {{
+                ''')
+            for flag in bitmask.flags:
+                out.append(f'case {flag.name}: return true;\n')
+            out.append(f'''
+                    default:
+                        return false;
+                    }}
+                }}
+                ''')
+        out.extend(guard_helper.add_guard(None))
+
+        # Generate max bitmasks supported by Vulkan SC
+        out.append('// clang-format off\n')
+        for bitmask in self.bitmasks.values():
+            out.extend(guard_helper.add_guard(bitmask.protect))
+            out.append(f'const {bitmask.flagName} All{bitmask.name} = {"|".join([flag.name for flag in bitmask.flags])};\n')
+        out.extend(guard_helper.add_guard(None))
+        out.append('// clang-format on\n')
 
         # Generate individual struct sanitizers
         for struct in self.all_output_structs.values():

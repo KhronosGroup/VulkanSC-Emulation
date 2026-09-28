@@ -29,8 +29,8 @@ target_sources(icd PRIVATE
     generated/vksc_entry_points.cpp
     generated/vksc_extension_helper.h
     generated/vksc_extension_helper.cpp
-    generated/vksc_output_struct_sanitizer.h
-    generated/vksc_output_struct_sanitizer.cpp
+    generated/vksc_output_sanitizer.h
+    generated/vksc_output_sanitizer.cpp
     generated/vksc_pnext_chain_helper.h
     generated/vksc_proc_addr_helper.h
     generated/vksc_proc_addr_helper.cpp

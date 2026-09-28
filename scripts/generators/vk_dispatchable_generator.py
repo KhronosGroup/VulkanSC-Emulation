@@ -131,7 +131,7 @@ class VkDispatchableGenerator(BaseGenerator):
         out = []
         out.append(f'''
             #include "{self.filename.replace('.cpp', '.h')}"
-            #include "vksc_output_struct_sanitizer.h"
+            #include "vksc_output_sanitizer.h"
             #include "vksc_dispatchable.h"
             #include "icd_pnext_chain_utils.h"
 

@@ -9,6 +9,7 @@
 #include "vksc_instance.h"
 #include "vksc_device.h"
 #include "vksc_global.h"
+#include "vksc_output_sanitizer.h"
 #include "icd_extension_helper.h"
 #include "icd_defs.h"
 #include "icd_shadow_stack.h"
@@ -396,6 +397,54 @@ VkResult PhysicalDevice::ReleaseDisplayEXT(VkDisplayKHR display) {
     } else {
         return NEXT::ReleaseDisplayEXT(display);
     }
+}
+
+VkResult PhysicalDevice::GetPhysicalDeviceSurfacePresentModesKHR(VkSurfaceKHR surface, uint32_t* pPresentModeCount,
+                                                                 VkPresentModeKHR* pPresentModes) {
+    // We need to filter out present modes that are not supported in Vulkan SC
+    // TODO: preferably we should have a general code-gen based solution for this but it is unclear whether dropping
+    // entries containing unsupported enums in struct array outputs is the right solution in all cases and what
+    // should be the action for single-struct outputs that contain unsupported enums
+    VkResult result = VK_SUCCESS;
+
+    // In order to report the correct count, we have to retrieve the entries even if the incoming pPresentModes is null
+    icd::ShadowStack::Frame stack_frame{};
+    uint32_t total_count = 0;
+    result = NEXT::GetPhysicalDeviceSurfacePresentModesKHR(surface, &total_count, nullptr);
+    if (result != VK_SUCCESS) {
+        return result;
+    }
+    VkPresentModeKHR* entries = stack_frame.Alloc<VkPresentModeKHR>(total_count);
+    result = NEXT::GetPhysicalDeviceSurfacePresentModesKHR(surface, &total_count, entries);
+    if (result != VK_SUCCESS) {
+        return result;
+    }
+
+    // Count entries that are actually supported in Vulkan SC
+    uint32_t filtered_count = 0;
+    for (uint32_t i = 0; i < total_count; ++i) {
+        if (IsVkPresentModeKHRInVulkanSC(entries[i])) {
+            filtered_count++;
+        }
+    }
+
+    if (pPresentModes != nullptr) {
+        uint32_t entries_written = 0;
+        for (uint32_t i = 0; i < total_count; ++i) {
+            if (IsVkPresentModeKHRInVulkanSC(entries[i])) {
+                if (entries_written < *pPresentModeCount) {
+                    pPresentModes[entries_written++] = entries[i];
+                } else {
+                    result = VK_INCOMPLETE;
+                    break;
+                }
+            }
+        }
+        *pPresentModeCount = entries_written;
+    } else {
+        *pPresentModeCount = filtered_count;
+    }
+    return result;
 }
 
 VkResult PhysicalDevice::GetPhysicalDeviceDisplayPropertiesKHR(uint32_t* pPropertyCount, VkDisplayPropertiesKHR* pProperties) {

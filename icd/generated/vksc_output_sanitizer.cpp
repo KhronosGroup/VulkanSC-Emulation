@@ -1,5 +1,5 @@
 // *** THIS FILE IS GENERATED - DO NOT EDIT ***
-// See output_struct_sanitizer_generator.py for modifications
+// See output_sanitizer_generator.py for modifications
 
 /*
  * Copyright (c) 2024-2025 The Khronos Group Inc.
@@ -9,9 +9,1547 @@
  */
 // NOLINTBEGIN
 
-#include "vksc_output_struct_sanitizer.h"
+#include "vksc_output_sanitizer.h"
 
 namespace vksc {
+
+bool IsVkPresentModeKHRInVulkanSC(VkPresentModeKHR value) {
+    switch (value) {
+        case VK_PRESENT_MODE_IMMEDIATE_KHR:
+            return true;
+        case VK_PRESENT_MODE_MAILBOX_KHR:
+            return true;
+        case VK_PRESENT_MODE_FIFO_KHR:
+            return true;
+        case VK_PRESENT_MODE_FIFO_RELAXED_KHR:
+            return true;
+        case VK_PRESENT_MODE_SHARED_DEMAND_REFRESH_KHR:
+            return true;
+        case VK_PRESENT_MODE_SHARED_CONTINUOUS_REFRESH_KHR:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkObjectTypeInVulkanSC(VkObjectType value) {
+    switch (value) {
+        case VK_OBJECT_TYPE_UNKNOWN:
+            return true;
+        case VK_OBJECT_TYPE_INSTANCE:
+            return true;
+        case VK_OBJECT_TYPE_PHYSICAL_DEVICE:
+            return true;
+        case VK_OBJECT_TYPE_DEVICE:
+            return true;
+        case VK_OBJECT_TYPE_QUEUE:
+            return true;
+        case VK_OBJECT_TYPE_SEMAPHORE:
+            return true;
+        case VK_OBJECT_TYPE_COMMAND_BUFFER:
+            return true;
+        case VK_OBJECT_TYPE_FENCE:
+            return true;
+        case VK_OBJECT_TYPE_DEVICE_MEMORY:
+            return true;
+        case VK_OBJECT_TYPE_BUFFER:
+            return true;
+        case VK_OBJECT_TYPE_IMAGE:
+            return true;
+        case VK_OBJECT_TYPE_EVENT:
+            return true;
+        case VK_OBJECT_TYPE_QUERY_POOL:
+            return true;
+        case VK_OBJECT_TYPE_BUFFER_VIEW:
+            return true;
+        case VK_OBJECT_TYPE_IMAGE_VIEW:
+            return true;
+        case VK_OBJECT_TYPE_SHADER_MODULE:
+            return true;
+        case VK_OBJECT_TYPE_PIPELINE_CACHE:
+            return true;
+        case VK_OBJECT_TYPE_PIPELINE_LAYOUT:
+            return true;
+        case VK_OBJECT_TYPE_RENDER_PASS:
+            return true;
+        case VK_OBJECT_TYPE_PIPELINE:
+            return true;
+        case VK_OBJECT_TYPE_DESCRIPTOR_SET_LAYOUT:
+            return true;
+        case VK_OBJECT_TYPE_SAMPLER:
+            return true;
+        case VK_OBJECT_TYPE_DESCRIPTOR_POOL:
+            return true;
+        case VK_OBJECT_TYPE_DESCRIPTOR_SET:
+            return true;
+        case VK_OBJECT_TYPE_FRAMEBUFFER:
+            return true;
+        case VK_OBJECT_TYPE_COMMAND_POOL:
+            return true;
+        case VK_OBJECT_TYPE_SAMPLER_YCBCR_CONVERSION:
+            return true;
+        case VK_OBJECT_TYPE_PRIVATE_DATA_SLOT:
+            return true;
+        case VK_OBJECT_TYPE_SURFACE_KHR:
+            return true;
+        case VK_OBJECT_TYPE_SWAPCHAIN_KHR:
+            return true;
+        case VK_OBJECT_TYPE_DISPLAY_KHR:
+            return true;
+        case VK_OBJECT_TYPE_DISPLAY_MODE_KHR:
+            return true;
+        case VK_OBJECT_TYPE_DEBUG_UTILS_MESSENGER_EXT:
+            return true;
+        case VK_OBJECT_TYPE_SEMAPHORE_SCI_SYNC_POOL_NV:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkTimeDomainKHRInVulkanSC(VkTimeDomainKHR value) {
+    switch (value) {
+        case VK_TIME_DOMAIN_DEVICE_KHR:
+            return true;
+        case VK_TIME_DOMAIN_CLOCK_MONOTONIC_KHR:
+            return true;
+        case VK_TIME_DOMAIN_CLOCK_MONOTONIC_RAW_KHR:
+            return true;
+        case VK_TIME_DOMAIN_QUERY_PERFORMANCE_COUNTER_KHR:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkPhysicalDeviceTypeInVulkanSC(VkPhysicalDeviceType value) {
+    switch (value) {
+        case VK_PHYSICAL_DEVICE_TYPE_OTHER:
+            return true;
+        case VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU:
+            return true;
+        case VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU:
+            return true;
+        case VK_PHYSICAL_DEVICE_TYPE_VIRTUAL_GPU:
+            return true;
+        case VK_PHYSICAL_DEVICE_TYPE_CPU:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkFaultLevelInVulkanSC(VkFaultLevel value) {
+    switch (value) {
+        case VK_FAULT_LEVEL_UNASSIGNED:
+            return true;
+        case VK_FAULT_LEVEL_CRITICAL:
+            return true;
+        case VK_FAULT_LEVEL_RECOVERABLE:
+            return true;
+        case VK_FAULT_LEVEL_WARNING:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkFaultTypeInVulkanSC(VkFaultType value) {
+    switch (value) {
+        case VK_FAULT_TYPE_INVALID:
+            return true;
+        case VK_FAULT_TYPE_UNASSIGNED:
+            return true;
+        case VK_FAULT_TYPE_IMPLEMENTATION:
+            return true;
+        case VK_FAULT_TYPE_SYSTEM:
+            return true;
+        case VK_FAULT_TYPE_PHYSICAL_DEVICE:
+            return true;
+        case VK_FAULT_TYPE_COMMAND_BUFFER_FULL:
+            return true;
+        case VK_FAULT_TYPE_INVALID_API_USAGE:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkFormatInVulkanSC(VkFormat value) {
+    switch (value) {
+        case VK_FORMAT_UNDEFINED:
+            return true;
+        case VK_FORMAT_R4G4_UNORM_PACK8:
+            return true;
+        case VK_FORMAT_R4G4B4A4_UNORM_PACK16:
+            return true;
+        case VK_FORMAT_B4G4R4A4_UNORM_PACK16:
+            return true;
+        case VK_FORMAT_R5G6B5_UNORM_PACK16:
+            return true;
+        case VK_FORMAT_B5G6R5_UNORM_PACK16:
+            return true;
+        case VK_FORMAT_R5G5B5A1_UNORM_PACK16:
+            return true;
+        case VK_FORMAT_B5G5R5A1_UNORM_PACK16:
+            return true;
+        case VK_FORMAT_A1R5G5B5_UNORM_PACK16:
+            return true;
+        case VK_FORMAT_R8_UNORM:
+            return true;
+        case VK_FORMAT_R8_SNORM:
+            return true;
+        case VK_FORMAT_R8_USCALED:
+            return true;
+        case VK_FORMAT_R8_SSCALED:
+            return true;
+        case VK_FORMAT_R8_UINT:
+            return true;
+        case VK_FORMAT_R8_SINT:
+            return true;
+        case VK_FORMAT_R8_SRGB:
+            return true;
+        case VK_FORMAT_R8G8_UNORM:
+            return true;
+        case VK_FORMAT_R8G8_SNORM:
+            return true;
+        case VK_FORMAT_R8G8_USCALED:
+            return true;
+        case VK_FORMAT_R8G8_SSCALED:
+            return true;
+        case VK_FORMAT_R8G8_UINT:
+            return true;
+        case VK_FORMAT_R8G8_SINT:
+            return true;
+        case VK_FORMAT_R8G8_SRGB:
+            return true;
+        case VK_FORMAT_R8G8B8_UNORM:
+            return true;
+        case VK_FORMAT_R8G8B8_SNORM:
+            return true;
+        case VK_FORMAT_R8G8B8_USCALED:
+            return true;
+        case VK_FORMAT_R8G8B8_SSCALED:
+            return true;
+        case VK_FORMAT_R8G8B8_UINT:
+            return true;
+        case VK_FORMAT_R8G8B8_SINT:
+            return true;
+        case VK_FORMAT_R8G8B8_SRGB:
+            return true;
+        case VK_FORMAT_B8G8R8_UNORM:
+            return true;
+        case VK_FORMAT_B8G8R8_SNORM:
+            return true;
+        case VK_FORMAT_B8G8R8_USCALED:
+            return true;
+        case VK_FORMAT_B8G8R8_SSCALED:
+            return true;
+        case VK_FORMAT_B8G8R8_UINT:
+            return true;
+        case VK_FORMAT_B8G8R8_SINT:
+            return true;
+        case VK_FORMAT_B8G8R8_SRGB:
+            return true;
+        case VK_FORMAT_R8G8B8A8_UNORM:
+            return true;
+        case VK_FORMAT_R8G8B8A8_SNORM:
+            return true;
+        case VK_FORMAT_R8G8B8A8_USCALED:
+            return true;
+        case VK_FORMAT_R8G8B8A8_SSCALED:
+            return true;
+        case VK_FORMAT_R8G8B8A8_UINT:
+            return true;
+        case VK_FORMAT_R8G8B8A8_SINT:
+            return true;
+        case VK_FORMAT_R8G8B8A8_SRGB:
+            return true;
+        case VK_FORMAT_B8G8R8A8_UNORM:
+            return true;
+        case VK_FORMAT_B8G8R8A8_SNORM:
+            return true;
+        case VK_FORMAT_B8G8R8A8_USCALED:
+            return true;
+        case VK_FORMAT_B8G8R8A8_SSCALED:
+            return true;
+        case VK_FORMAT_B8G8R8A8_UINT:
+            return true;
+        case VK_FORMAT_B8G8R8A8_SINT:
+            return true;
+        case VK_FORMAT_B8G8R8A8_SRGB:
+            return true;
+        case VK_FORMAT_A8B8G8R8_UNORM_PACK32:
+            return true;
+        case VK_FORMAT_A8B8G8R8_SNORM_PACK32:
+            return true;
+        case VK_FORMAT_A8B8G8R8_USCALED_PACK32:
+            return true;
+        case VK_FORMAT_A8B8G8R8_SSCALED_PACK32:
+            return true;
+        case VK_FORMAT_A8B8G8R8_UINT_PACK32:
+            return true;
+        case VK_FORMAT_A8B8G8R8_SINT_PACK32:
+            return true;
+        case VK_FORMAT_A8B8G8R8_SRGB_PACK32:
+            return true;
+        case VK_FORMAT_A2R10G10B10_UNORM_PACK32:
+            return true;
+        case VK_FORMAT_A2R10G10B10_SNORM_PACK32:
+            return true;
+        case VK_FORMAT_A2R10G10B10_USCALED_PACK32:
+            return true;
+        case VK_FORMAT_A2R10G10B10_SSCALED_PACK32:
+            return true;
+        case VK_FORMAT_A2R10G10B10_UINT_PACK32:
+            return true;
+        case VK_FORMAT_A2R10G10B10_SINT_PACK32:
+            return true;
+        case VK_FORMAT_A2B10G10R10_UNORM_PACK32:
+            return true;
+        case VK_FORMAT_A2B10G10R10_SNORM_PACK32:
+            return true;
+        case VK_FORMAT_A2B10G10R10_USCALED_PACK32:
+            return true;
+        case VK_FORMAT_A2B10G10R10_SSCALED_PACK32:
+            return true;
+        case VK_FORMAT_A2B10G10R10_UINT_PACK32:
+            return true;
+        case VK_FORMAT_A2B10G10R10_SINT_PACK32:
+            return true;
+        case VK_FORMAT_R16_UNORM:
+            return true;
+        case VK_FORMAT_R16_SNORM:
+            return true;
+        case VK_FORMAT_R16_USCALED:
+            return true;
+        case VK_FORMAT_R16_SSCALED:
+            return true;
+        case VK_FORMAT_R16_UINT:
+            return true;
+        case VK_FORMAT_R16_SINT:
+            return true;
+        case VK_FORMAT_R16_SFLOAT:
+            return true;
+        case VK_FORMAT_R16G16_UNORM:
+            return true;
+        case VK_FORMAT_R16G16_SNORM:
+            return true;
+        case VK_FORMAT_R16G16_USCALED:
+            return true;
+        case VK_FORMAT_R16G16_SSCALED:
+            return true;
+        case VK_FORMAT_R16G16_UINT:
+            return true;
+        case VK_FORMAT_R16G16_SINT:
+            return true;
+        case VK_FORMAT_R16G16_SFLOAT:
+            return true;
+        case VK_FORMAT_R16G16B16_UNORM:
+            return true;
+        case VK_FORMAT_R16G16B16_SNORM:
+            return true;
+        case VK_FORMAT_R16G16B16_USCALED:
+            return true;
+        case VK_FORMAT_R16G16B16_SSCALED:
+            return true;
+        case VK_FORMAT_R16G16B16_UINT:
+            return true;
+        case VK_FORMAT_R16G16B16_SINT:
+            return true;
+        case VK_FORMAT_R16G16B16_SFLOAT:
+            return true;
+        case VK_FORMAT_R16G16B16A16_UNORM:
+            return true;
+        case VK_FORMAT_R16G16B16A16_SNORM:
+            return true;
+        case VK_FORMAT_R16G16B16A16_USCALED:
+            return true;
+        case VK_FORMAT_R16G16B16A16_SSCALED:
+            return true;
+        case VK_FORMAT_R16G16B16A16_UINT:
+            return true;
+        case VK_FORMAT_R16G16B16A16_SINT:
+            return true;
+        case VK_FORMAT_R16G16B16A16_SFLOAT:
+            return true;
+        case VK_FORMAT_R32_UINT:
+            return true;
+        case VK_FORMAT_R32_SINT:
+            return true;
+        case VK_FORMAT_R32_SFLOAT:
+            return true;
+        case VK_FORMAT_R32G32_UINT:
+            return true;
+        case VK_FORMAT_R32G32_SINT:
+            return true;
+        case VK_FORMAT_R32G32_SFLOAT:
+            return true;
+        case VK_FORMAT_R32G32B32_UINT:
+            return true;
+        case VK_FORMAT_R32G32B32_SINT:
+            return true;
+        case VK_FORMAT_R32G32B32_SFLOAT:
+            return true;
+        case VK_FORMAT_R32G32B32A32_UINT:
+            return true;
+        case VK_FORMAT_R32G32B32A32_SINT:
+            return true;
+        case VK_FORMAT_R32G32B32A32_SFLOAT:
+            return true;
+        case VK_FORMAT_R64_UINT:
+            return true;
+        case VK_FORMAT_R64_SINT:
+            return true;
+        case VK_FORMAT_R64_SFLOAT:
+            return true;
+        case VK_FORMAT_R64G64_UINT:
+            return true;
+        case VK_FORMAT_R64G64_SINT:
+            return true;
+        case VK_FORMAT_R64G64_SFLOAT:
+            return true;
+        case VK_FORMAT_R64G64B64_UINT:
+            return true;
+        case VK_FORMAT_R64G64B64_SINT:
+            return true;
+        case VK_FORMAT_R64G64B64_SFLOAT:
+            return true;
+        case VK_FORMAT_R64G64B64A64_UINT:
+            return true;
+        case VK_FORMAT_R64G64B64A64_SINT:
+            return true;
+        case VK_FORMAT_R64G64B64A64_SFLOAT:
+            return true;
+        case VK_FORMAT_B10G11R11_UFLOAT_PACK32:
+            return true;
+        case VK_FORMAT_E5B9G9R9_UFLOAT_PACK32:
+            return true;
+        case VK_FORMAT_D16_UNORM:
+            return true;
+        case VK_FORMAT_X8_D24_UNORM_PACK32:
+            return true;
+        case VK_FORMAT_D32_SFLOAT:
+            return true;
+        case VK_FORMAT_S8_UINT:
+            return true;
+        case VK_FORMAT_D16_UNORM_S8_UINT:
+            return true;
+        case VK_FORMAT_D24_UNORM_S8_UINT:
+            return true;
+        case VK_FORMAT_D32_SFLOAT_S8_UINT:
+            return true;
+        case VK_FORMAT_BC1_RGB_UNORM_BLOCK:
+            return true;
+        case VK_FORMAT_BC1_RGB_SRGB_BLOCK:
+            return true;
+        case VK_FORMAT_BC1_RGBA_UNORM_BLOCK:
+            return true;
+        case VK_FORMAT_BC1_RGBA_SRGB_BLOCK:
+            return true;
+        case VK_FORMAT_BC2_UNORM_BLOCK:
+            return true;
+        case VK_FORMAT_BC2_SRGB_BLOCK:
+            return true;
+        case VK_FORMAT_BC3_UNORM_BLOCK:
+            return true;
+        case VK_FORMAT_BC3_SRGB_BLOCK:
+            return true;
+        case VK_FORMAT_BC4_UNORM_BLOCK:
+            return true;
+        case VK_FORMAT_BC4_SNORM_BLOCK:
+            return true;
+        case VK_FORMAT_BC5_UNORM_BLOCK:
+            return true;
+        case VK_FORMAT_BC5_SNORM_BLOCK:
+            return true;
+        case VK_FORMAT_BC6H_UFLOAT_BLOCK:
+            return true;
+        case VK_FORMAT_BC6H_SFLOAT_BLOCK:
+            return true;
+        case VK_FORMAT_BC7_UNORM_BLOCK:
+            return true;
+        case VK_FORMAT_BC7_SRGB_BLOCK:
+            return true;
+        case VK_FORMAT_ETC2_R8G8B8_UNORM_BLOCK:
+            return true;
+        case VK_FORMAT_ETC2_R8G8B8_SRGB_BLOCK:
+            return true;
+        case VK_FORMAT_ETC2_R8G8B8A1_UNORM_BLOCK:
+            return true;
+        case VK_FORMAT_ETC2_R8G8B8A1_SRGB_BLOCK:
+            return true;
+        case VK_FORMAT_ETC2_R8G8B8A8_UNORM_BLOCK:
+            return true;
+        case VK_FORMAT_ETC2_R8G8B8A8_SRGB_BLOCK:
+            return true;
+        case VK_FORMAT_EAC_R11_UNORM_BLOCK:
+            return true;
+        case VK_FORMAT_EAC_R11_SNORM_BLOCK:
+            return true;
+        case VK_FORMAT_EAC_R11G11_UNORM_BLOCK:
+            return true;
+        case VK_FORMAT_EAC_R11G11_SNORM_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_4x4_UNORM_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_4x4_SRGB_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_5x4_UNORM_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_5x4_SRGB_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_5x5_UNORM_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_5x5_SRGB_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_6x5_UNORM_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_6x5_SRGB_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_6x6_UNORM_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_6x6_SRGB_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_8x5_UNORM_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_8x5_SRGB_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_8x6_UNORM_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_8x6_SRGB_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_8x8_UNORM_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_8x8_SRGB_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_10x5_UNORM_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_10x5_SRGB_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_10x6_UNORM_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_10x6_SRGB_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_10x8_UNORM_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_10x8_SRGB_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_10x10_UNORM_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_10x10_SRGB_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_12x10_UNORM_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_12x10_SRGB_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_12x12_UNORM_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_12x12_SRGB_BLOCK:
+            return true;
+        case VK_FORMAT_G8B8G8R8_422_UNORM:
+            return true;
+        case VK_FORMAT_B8G8R8G8_422_UNORM:
+            return true;
+        case VK_FORMAT_G8_B8_R8_3PLANE_420_UNORM:
+            return true;
+        case VK_FORMAT_G8_B8R8_2PLANE_420_UNORM:
+            return true;
+        case VK_FORMAT_G8_B8_R8_3PLANE_422_UNORM:
+            return true;
+        case VK_FORMAT_G8_B8R8_2PLANE_422_UNORM:
+            return true;
+        case VK_FORMAT_G8_B8_R8_3PLANE_444_UNORM:
+            return true;
+        case VK_FORMAT_R10X6_UNORM_PACK16:
+            return true;
+        case VK_FORMAT_R10X6G10X6_UNORM_2PACK16:
+            return true;
+        case VK_FORMAT_R10X6G10X6B10X6A10X6_UNORM_4PACK16:
+            return true;
+        case VK_FORMAT_G10X6B10X6G10X6R10X6_422_UNORM_4PACK16:
+            return true;
+        case VK_FORMAT_B10X6G10X6R10X6G10X6_422_UNORM_4PACK16:
+            return true;
+        case VK_FORMAT_G10X6_B10X6_R10X6_3PLANE_420_UNORM_3PACK16:
+            return true;
+        case VK_FORMAT_G10X6_B10X6R10X6_2PLANE_420_UNORM_3PACK16:
+            return true;
+        case VK_FORMAT_G10X6_B10X6_R10X6_3PLANE_422_UNORM_3PACK16:
+            return true;
+        case VK_FORMAT_G10X6_B10X6R10X6_2PLANE_422_UNORM_3PACK16:
+            return true;
+        case VK_FORMAT_G10X6_B10X6_R10X6_3PLANE_444_UNORM_3PACK16:
+            return true;
+        case VK_FORMAT_R12X4_UNORM_PACK16:
+            return true;
+        case VK_FORMAT_R12X4G12X4_UNORM_2PACK16:
+            return true;
+        case VK_FORMAT_R12X4G12X4B12X4A12X4_UNORM_4PACK16:
+            return true;
+        case VK_FORMAT_G12X4B12X4G12X4R12X4_422_UNORM_4PACK16:
+            return true;
+        case VK_FORMAT_B12X4G12X4R12X4G12X4_422_UNORM_4PACK16:
+            return true;
+        case VK_FORMAT_G12X4_B12X4_R12X4_3PLANE_420_UNORM_3PACK16:
+            return true;
+        case VK_FORMAT_G12X4_B12X4R12X4_2PLANE_420_UNORM_3PACK16:
+            return true;
+        case VK_FORMAT_G12X4_B12X4_R12X4_3PLANE_422_UNORM_3PACK16:
+            return true;
+        case VK_FORMAT_G12X4_B12X4R12X4_2PLANE_422_UNORM_3PACK16:
+            return true;
+        case VK_FORMAT_G12X4_B12X4_R12X4_3PLANE_444_UNORM_3PACK16:
+            return true;
+        case VK_FORMAT_G16B16G16R16_422_UNORM:
+            return true;
+        case VK_FORMAT_B16G16R16G16_422_UNORM:
+            return true;
+        case VK_FORMAT_G16_B16_R16_3PLANE_420_UNORM:
+            return true;
+        case VK_FORMAT_G16_B16R16_2PLANE_420_UNORM:
+            return true;
+        case VK_FORMAT_G16_B16_R16_3PLANE_422_UNORM:
+            return true;
+        case VK_FORMAT_G16_B16R16_2PLANE_422_UNORM:
+            return true;
+        case VK_FORMAT_G16_B16_R16_3PLANE_444_UNORM:
+            return true;
+        case VK_FORMAT_G8_B8R8_2PLANE_444_UNORM:
+            return true;
+        case VK_FORMAT_G10X6_B10X6R10X6_2PLANE_444_UNORM_3PACK16:
+            return true;
+        case VK_FORMAT_G12X4_B12X4R12X4_2PLANE_444_UNORM_3PACK16:
+            return true;
+        case VK_FORMAT_G16_B16R16_2PLANE_444_UNORM:
+            return true;
+        case VK_FORMAT_A4R4G4B4_UNORM_PACK16:
+            return true;
+        case VK_FORMAT_A4B4G4R4_UNORM_PACK16:
+            return true;
+        case VK_FORMAT_ASTC_4x4_SFLOAT_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_5x4_SFLOAT_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_5x5_SFLOAT_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_6x5_SFLOAT_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_6x6_SFLOAT_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_8x5_SFLOAT_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_8x6_SFLOAT_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_8x8_SFLOAT_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_10x5_SFLOAT_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_10x6_SFLOAT_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_10x8_SFLOAT_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_10x10_SFLOAT_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_12x10_SFLOAT_BLOCK:
+            return true;
+        case VK_FORMAT_ASTC_12x12_SFLOAT_BLOCK:
+            return true;
+        case VK_FORMAT_A1B5G5R5_UNORM_PACK16:
+            return true;
+        case VK_FORMAT_A8_UNORM:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkColorSpaceKHRInVulkanSC(VkColorSpaceKHR value) {
+    switch (value) {
+        case VK_COLOR_SPACE_SRGB_NONLINEAR_KHR:
+            return true;
+        case VK_COLOR_SPACE_DISPLAY_P3_NONLINEAR_EXT:
+            return true;
+        case VK_COLOR_SPACE_EXTENDED_SRGB_LINEAR_EXT:
+            return true;
+        case VK_COLOR_SPACE_DISPLAY_P3_LINEAR_EXT:
+            return true;
+        case VK_COLOR_SPACE_DCI_P3_NONLINEAR_EXT:
+            return true;
+        case VK_COLOR_SPACE_BT709_LINEAR_EXT:
+            return true;
+        case VK_COLOR_SPACE_BT709_NONLINEAR_EXT:
+            return true;
+        case VK_COLOR_SPACE_BT2020_LINEAR_EXT:
+            return true;
+        case VK_COLOR_SPACE_HDR10_ST2084_EXT:
+            return true;
+        case VK_COLOR_SPACE_DOLBYVISION_EXT:
+            return true;
+        case VK_COLOR_SPACE_HDR10_HLG_EXT:
+            return true;
+        case VK_COLOR_SPACE_ADOBERGB_LINEAR_EXT:
+            return true;
+        case VK_COLOR_SPACE_ADOBERGB_NONLINEAR_EXT:
+            return true;
+        case VK_COLOR_SPACE_PASS_THROUGH_EXT:
+            return true;
+        case VK_COLOR_SPACE_EXTENDED_SRGB_NONLINEAR_EXT:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkPerformanceCounterUnitKHRInVulkanSC(VkPerformanceCounterUnitKHR value) {
+    switch (value) {
+        case VK_PERFORMANCE_COUNTER_UNIT_GENERIC_KHR:
+            return true;
+        case VK_PERFORMANCE_COUNTER_UNIT_PERCENTAGE_KHR:
+            return true;
+        case VK_PERFORMANCE_COUNTER_UNIT_NANOSECONDS_KHR:
+            return true;
+        case VK_PERFORMANCE_COUNTER_UNIT_BYTES_KHR:
+            return true;
+        case VK_PERFORMANCE_COUNTER_UNIT_BYTES_PER_SECOND_KHR:
+            return true;
+        case VK_PERFORMANCE_COUNTER_UNIT_KELVIN_KHR:
+            return true;
+        case VK_PERFORMANCE_COUNTER_UNIT_WATTS_KHR:
+            return true;
+        case VK_PERFORMANCE_COUNTER_UNIT_VOLTS_KHR:
+            return true;
+        case VK_PERFORMANCE_COUNTER_UNIT_AMPS_KHR:
+            return true;
+        case VK_PERFORMANCE_COUNTER_UNIT_HERTZ_KHR:
+            return true;
+        case VK_PERFORMANCE_COUNTER_UNIT_CYCLES_KHR:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkPerformanceCounterScopeKHRInVulkanSC(VkPerformanceCounterScopeKHR value) {
+    switch (value) {
+        case VK_PERFORMANCE_COUNTER_SCOPE_COMMAND_BUFFER_KHR:
+            return true;
+        case VK_PERFORMANCE_COUNTER_SCOPE_RENDER_PASS_KHR:
+            return true;
+        case VK_PERFORMANCE_COUNTER_SCOPE_COMMAND_KHR:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkPerformanceCounterStorageKHRInVulkanSC(VkPerformanceCounterStorageKHR value) {
+    switch (value) {
+        case VK_PERFORMANCE_COUNTER_STORAGE_INT32_KHR:
+            return true;
+        case VK_PERFORMANCE_COUNTER_STORAGE_INT64_KHR:
+            return true;
+        case VK_PERFORMANCE_COUNTER_STORAGE_UINT32_KHR:
+            return true;
+        case VK_PERFORMANCE_COUNTER_STORAGE_UINT64_KHR:
+            return true;
+        case VK_PERFORMANCE_COUNTER_STORAGE_FLOAT32_KHR:
+            return true;
+        case VK_PERFORMANCE_COUNTER_STORAGE_FLOAT64_KHR:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkPointClippingBehaviorInVulkanSC(VkPointClippingBehavior value) {
+    switch (value) {
+        case VK_POINT_CLIPPING_BEHAVIOR_ALL_CLIP_PLANES:
+            return true;
+        case VK_POINT_CLIPPING_BEHAVIOR_USER_CLIP_PLANES_ONLY:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkDriverIdInVulkanSC(VkDriverId value) {
+    switch (value) {
+        case VK_DRIVER_ID_AMD_PROPRIETARY:
+            return true;
+        case VK_DRIVER_ID_AMD_OPEN_SOURCE:
+            return true;
+        case VK_DRIVER_ID_MESA_RADV:
+            return true;
+        case VK_DRIVER_ID_NVIDIA_PROPRIETARY:
+            return true;
+        case VK_DRIVER_ID_INTEL_PROPRIETARY_WINDOWS:
+            return true;
+        case VK_DRIVER_ID_INTEL_OPEN_SOURCE_MESA:
+            return true;
+        case VK_DRIVER_ID_IMAGINATION_PROPRIETARY:
+            return true;
+        case VK_DRIVER_ID_QUALCOMM_PROPRIETARY:
+            return true;
+        case VK_DRIVER_ID_ARM_PROPRIETARY:
+            return true;
+        case VK_DRIVER_ID_GOOGLE_SWIFTSHADER:
+            return true;
+        case VK_DRIVER_ID_GGP_PROPRIETARY:
+            return true;
+        case VK_DRIVER_ID_BROADCOM_PROPRIETARY:
+            return true;
+        case VK_DRIVER_ID_MESA_LLVMPIPE:
+            return true;
+        case VK_DRIVER_ID_MOLTENVK:
+            return true;
+        case VK_DRIVER_ID_COREAVI_PROPRIETARY:
+            return true;
+        case VK_DRIVER_ID_JUICE_PROPRIETARY:
+            return true;
+        case VK_DRIVER_ID_VERISILICON_PROPRIETARY:
+            return true;
+        case VK_DRIVER_ID_MESA_TURNIP:
+            return true;
+        case VK_DRIVER_ID_MESA_V3DV:
+            return true;
+        case VK_DRIVER_ID_MESA_PANVK:
+            return true;
+        case VK_DRIVER_ID_SAMSUNG_PROPRIETARY:
+            return true;
+        case VK_DRIVER_ID_MESA_VENUS:
+            return true;
+        case VK_DRIVER_ID_MESA_DOZEN:
+            return true;
+        case VK_DRIVER_ID_MESA_NVK:
+            return true;
+        case VK_DRIVER_ID_IMAGINATION_OPEN_SOURCE_MESA:
+            return true;
+        case VK_DRIVER_ID_MESA_HONEYKRISP:
+            return true;
+        case VK_DRIVER_ID_VULKAN_SC_EMULATION_ON_VULKAN:
+            return true;
+        case VK_DRIVER_ID_MESA_KOSMICKRISP:
+            return true;
+        case VK_DRIVER_ID_MESA_GFXSTREAM:
+            return true;
+        case VK_DRIVER_ID_APE_SOFT:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkShaderFloatControlsIndependenceInVulkanSC(VkShaderFloatControlsIndependence value) {
+    switch (value) {
+        case VK_SHADER_FLOAT_CONTROLS_INDEPENDENCE_32_BIT_ONLY:
+            return true;
+        case VK_SHADER_FLOAT_CONTROLS_INDEPENDENCE_ALL:
+            return true;
+        case VK_SHADER_FLOAT_CONTROLS_INDEPENDENCE_NONE:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkPipelineRobustnessBufferBehaviorInVulkanSC(VkPipelineRobustnessBufferBehavior value) {
+    switch (value) {
+        case VK_PIPELINE_ROBUSTNESS_BUFFER_BEHAVIOR_DEVICE_DEFAULT:
+            return true;
+        case VK_PIPELINE_ROBUSTNESS_BUFFER_BEHAVIOR_DISABLED:
+            return true;
+        case VK_PIPELINE_ROBUSTNESS_BUFFER_BEHAVIOR_ROBUST_BUFFER_ACCESS:
+            return true;
+        case VK_PIPELINE_ROBUSTNESS_BUFFER_BEHAVIOR_ROBUST_BUFFER_ACCESS_2:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkPipelineRobustnessImageBehaviorInVulkanSC(VkPipelineRobustnessImageBehavior value) {
+    switch (value) {
+        case VK_PIPELINE_ROBUSTNESS_IMAGE_BEHAVIOR_DEVICE_DEFAULT:
+            return true;
+        case VK_PIPELINE_ROBUSTNESS_IMAGE_BEHAVIOR_DISABLED:
+            return true;
+        case VK_PIPELINE_ROBUSTNESS_IMAGE_BEHAVIOR_ROBUST_IMAGE_ACCESS:
+            return true;
+        case VK_PIPELINE_ROBUSTNESS_IMAGE_BEHAVIOR_ROBUST_IMAGE_ACCESS_2:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkImageLayoutInVulkanSC(VkImageLayout value) {
+    switch (value) {
+        case VK_IMAGE_LAYOUT_UNDEFINED:
+            return true;
+        case VK_IMAGE_LAYOUT_GENERAL:
+            return true;
+        case VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL:
+            return true;
+        case VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL:
+            return true;
+        case VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL:
+            return true;
+        case VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL:
+            return true;
+        case VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL:
+            return true;
+        case VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL:
+            return true;
+        case VK_IMAGE_LAYOUT_PREINITIALIZED:
+            return true;
+        case VK_IMAGE_LAYOUT_DEPTH_READ_ONLY_STENCIL_ATTACHMENT_OPTIMAL:
+            return true;
+        case VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_STENCIL_READ_ONLY_OPTIMAL:
+            return true;
+        case VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_OPTIMAL:
+            return true;
+        case VK_IMAGE_LAYOUT_DEPTH_READ_ONLY_OPTIMAL:
+            return true;
+        case VK_IMAGE_LAYOUT_STENCIL_ATTACHMENT_OPTIMAL:
+            return true;
+        case VK_IMAGE_LAYOUT_STENCIL_READ_ONLY_OPTIMAL:
+            return true;
+        case VK_IMAGE_LAYOUT_READ_ONLY_OPTIMAL:
+            return true;
+        case VK_IMAGE_LAYOUT_ATTACHMENT_OPTIMAL:
+            return true;
+        case VK_IMAGE_LAYOUT_RENDERING_LOCAL_READ:
+            return true;
+        case VK_IMAGE_LAYOUT_PRESENT_SRC_KHR:
+            return true;
+        case VK_IMAGE_LAYOUT_SHARED_PRESENT_KHR:
+            return true;
+        case VK_IMAGE_LAYOUT_FRAGMENT_SHADING_RATE_ATTACHMENT_OPTIMAL_KHR:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkQueueGlobalPriorityInVulkanSC(VkQueueGlobalPriority value) {
+    switch (value) {
+        case VK_QUEUE_GLOBAL_PRIORITY_LOW:
+            return true;
+        case VK_QUEUE_GLOBAL_PRIORITY_MEDIUM:
+            return true;
+        case VK_QUEUE_GLOBAL_PRIORITY_HIGH:
+            return true;
+        case VK_QUEUE_GLOBAL_PRIORITY_REALTIME:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkSamplerYcbcrModelConversionInVulkanSC(VkSamplerYcbcrModelConversion value) {
+    switch (value) {
+        case VK_SAMPLER_YCBCR_MODEL_CONVERSION_RGB_IDENTITY:
+            return true;
+        case VK_SAMPLER_YCBCR_MODEL_CONVERSION_YCBCR_IDENTITY:
+            return true;
+        case VK_SAMPLER_YCBCR_MODEL_CONVERSION_YCBCR_709:
+            return true;
+        case VK_SAMPLER_YCBCR_MODEL_CONVERSION_YCBCR_601:
+            return true;
+        case VK_SAMPLER_YCBCR_MODEL_CONVERSION_YCBCR_2020:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkSamplerYcbcrRangeInVulkanSC(VkSamplerYcbcrRange value) {
+    switch (value) {
+        case VK_SAMPLER_YCBCR_RANGE_ITU_FULL:
+            return true;
+        case VK_SAMPLER_YCBCR_RANGE_ITU_NARROW:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkChromaLocationInVulkanSC(VkChromaLocation value) {
+    switch (value) {
+        case VK_CHROMA_LOCATION_COSITED_EVEN:
+            return true;
+        case VK_CHROMA_LOCATION_MIDPOINT:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkComponentSwizzleInVulkanSC(VkComponentSwizzle value) {
+    switch (value) {
+        case VK_COMPONENT_SWIZZLE_IDENTITY:
+            return true;
+        case VK_COMPONENT_SWIZZLE_ZERO:
+            return true;
+        case VK_COMPONENT_SWIZZLE_ONE:
+            return true;
+        case VK_COMPONENT_SWIZZLE_R:
+            return true;
+        case VK_COMPONENT_SWIZZLE_G:
+            return true;
+        case VK_COMPONENT_SWIZZLE_B:
+            return true;
+        case VK_COMPONENT_SWIZZLE_A:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkFormatFeatureFlagBitsInVulkanSC(VkFormatFeatureFlagBits value) {
+    switch (value) {
+        case VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_STORAGE_IMAGE_ATOMIC_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_STORAGE_TEXEL_BUFFER_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_STORAGE_TEXEL_BUFFER_ATOMIC_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BLEND_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_BLIT_SRC_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_BLIT_DST_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_TRANSFER_SRC_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_TRANSFER_DST_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_MIDPOINT_CHROMA_SAMPLES_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_SAMPLED_IMAGE_YCBCR_CONVERSION_LINEAR_FILTER_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_SAMPLED_IMAGE_YCBCR_CONVERSION_SEPARATE_RECONSTRUCTION_FILTER_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_SAMPLED_IMAGE_YCBCR_CONVERSION_CHROMA_RECONSTRUCTION_EXPLICIT_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_SAMPLED_IMAGE_YCBCR_CONVERSION_CHROMA_RECONSTRUCTION_EXPLICIT_FORCEABLE_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_DISJOINT_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_COSITED_CHROMA_SAMPLES_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_MINMAX_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_CUBIC_BIT_EXT:
+            return true;
+        case VK_FORMAT_FEATURE_FRAGMENT_SHADING_RATE_ATTACHMENT_BIT_KHR:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkSampleCountFlagBitsInVulkanSC(VkSampleCountFlagBits value) {
+    switch (value) {
+        case VK_SAMPLE_COUNT_1_BIT:
+            return true;
+        case VK_SAMPLE_COUNT_2_BIT:
+            return true;
+        case VK_SAMPLE_COUNT_4_BIT:
+            return true;
+        case VK_SAMPLE_COUNT_8_BIT:
+            return true;
+        case VK_SAMPLE_COUNT_16_BIT:
+            return true;
+        case VK_SAMPLE_COUNT_32_BIT:
+            return true;
+        case VK_SAMPLE_COUNT_64_BIT:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkQueueFlagBitsInVulkanSC(VkQueueFlagBits value) {
+    switch (value) {
+        case VK_QUEUE_GRAPHICS_BIT:
+            return true;
+        case VK_QUEUE_COMPUTE_BIT:
+            return true;
+        case VK_QUEUE_TRANSFER_BIT:
+            return true;
+        case VK_QUEUE_PROTECTED_BIT:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkExternalFenceHandleTypeFlagBitsInVulkanSC(VkExternalFenceHandleTypeFlagBits value) {
+    switch (value) {
+        case VK_EXTERNAL_FENCE_HANDLE_TYPE_OPAQUE_FD_BIT:
+            return true;
+        case VK_EXTERNAL_FENCE_HANDLE_TYPE_OPAQUE_WIN32_BIT:
+            return true;
+        case VK_EXTERNAL_FENCE_HANDLE_TYPE_OPAQUE_WIN32_KMT_BIT:
+            return true;
+        case VK_EXTERNAL_FENCE_HANDLE_TYPE_SYNC_FD_BIT:
+            return true;
+        case VK_EXTERNAL_FENCE_HANDLE_TYPE_SCI_SYNC_OBJ_BIT_NV:
+            return true;
+        case VK_EXTERNAL_FENCE_HANDLE_TYPE_SCI_SYNC_FENCE_BIT_NV:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkExternalFenceFeatureFlagBitsInVulkanSC(VkExternalFenceFeatureFlagBits value) {
+    switch (value) {
+        case VK_EXTERNAL_FENCE_FEATURE_EXPORTABLE_BIT:
+            return true;
+        case VK_EXTERNAL_FENCE_FEATURE_IMPORTABLE_BIT:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkExternalSemaphoreHandleTypeFlagBitsInVulkanSC(VkExternalSemaphoreHandleTypeFlagBits value) {
+    switch (value) {
+        case VK_EXTERNAL_SEMAPHORE_HANDLE_TYPE_OPAQUE_FD_BIT:
+            return true;
+        case VK_EXTERNAL_SEMAPHORE_HANDLE_TYPE_OPAQUE_WIN32_BIT:
+            return true;
+        case VK_EXTERNAL_SEMAPHORE_HANDLE_TYPE_OPAQUE_WIN32_KMT_BIT:
+            return true;
+        case VK_EXTERNAL_SEMAPHORE_HANDLE_TYPE_D3D12_FENCE_BIT:
+            return true;
+        case VK_EXTERNAL_SEMAPHORE_HANDLE_TYPE_SYNC_FD_BIT:
+            return true;
+        case VK_EXTERNAL_SEMAPHORE_HANDLE_TYPE_SCI_SYNC_OBJ_BIT_NV:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkExternalSemaphoreFeatureFlagBitsInVulkanSC(VkExternalSemaphoreFeatureFlagBits value) {
+    switch (value) {
+        case VK_EXTERNAL_SEMAPHORE_FEATURE_EXPORTABLE_BIT:
+            return true;
+        case VK_EXTERNAL_SEMAPHORE_FEATURE_IMPORTABLE_BIT:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkSurfaceTransformFlagBitsKHRInVulkanSC(VkSurfaceTransformFlagBitsKHR value) {
+    switch (value) {
+        case VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR:
+            return true;
+        case VK_SURFACE_TRANSFORM_ROTATE_90_BIT_KHR:
+            return true;
+        case VK_SURFACE_TRANSFORM_ROTATE_180_BIT_KHR:
+            return true;
+        case VK_SURFACE_TRANSFORM_ROTATE_270_BIT_KHR:
+            return true;
+        case VK_SURFACE_TRANSFORM_HORIZONTAL_MIRROR_BIT_KHR:
+            return true;
+        case VK_SURFACE_TRANSFORM_HORIZONTAL_MIRROR_ROTATE_90_BIT_KHR:
+            return true;
+        case VK_SURFACE_TRANSFORM_HORIZONTAL_MIRROR_ROTATE_180_BIT_KHR:
+            return true;
+        case VK_SURFACE_TRANSFORM_HORIZONTAL_MIRROR_ROTATE_270_BIT_KHR:
+            return true;
+        case VK_SURFACE_TRANSFORM_INHERIT_BIT_KHR:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkCompositeAlphaFlagBitsKHRInVulkanSC(VkCompositeAlphaFlagBitsKHR value) {
+    switch (value) {
+        case VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR:
+            return true;
+        case VK_COMPOSITE_ALPHA_PRE_MULTIPLIED_BIT_KHR:
+            return true;
+        case VK_COMPOSITE_ALPHA_POST_MULTIPLIED_BIT_KHR:
+            return true;
+        case VK_COMPOSITE_ALPHA_INHERIT_BIT_KHR:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkImageUsageFlagBitsInVulkanSC(VkImageUsageFlagBits value) {
+    switch (value) {
+        case VK_IMAGE_USAGE_TRANSFER_SRC_BIT:
+            return true;
+        case VK_IMAGE_USAGE_TRANSFER_DST_BIT:
+            return true;
+        case VK_IMAGE_USAGE_SAMPLED_BIT:
+            return true;
+        case VK_IMAGE_USAGE_STORAGE_BIT:
+            return true;
+        case VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT:
+            return true;
+        case VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT:
+            return true;
+        case VK_IMAGE_USAGE_TRANSIENT_ATTACHMENT_BIT:
+            return true;
+        case VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT:
+            return true;
+        case VK_IMAGE_USAGE_HOST_TRANSFER_BIT:
+            return true;
+        case VK_IMAGE_USAGE_FRAGMENT_SHADING_RATE_ATTACHMENT_BIT_KHR:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkDeviceGroupPresentModeFlagBitsKHRInVulkanSC(VkDeviceGroupPresentModeFlagBitsKHR value) {
+    switch (value) {
+        case VK_DEVICE_GROUP_PRESENT_MODE_LOCAL_BIT_KHR:
+            return true;
+        case VK_DEVICE_GROUP_PRESENT_MODE_REMOTE_BIT_KHR:
+            return true;
+        case VK_DEVICE_GROUP_PRESENT_MODE_SUM_BIT_KHR:
+            return true;
+        case VK_DEVICE_GROUP_PRESENT_MODE_LOCAL_MULTI_DEVICE_BIT_KHR:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkDisplayPlaneAlphaFlagBitsKHRInVulkanSC(VkDisplayPlaneAlphaFlagBitsKHR value) {
+    switch (value) {
+        case VK_DISPLAY_PLANE_ALPHA_OPAQUE_BIT_KHR:
+            return true;
+        case VK_DISPLAY_PLANE_ALPHA_GLOBAL_BIT_KHR:
+            return true;
+        case VK_DISPLAY_PLANE_ALPHA_PER_PIXEL_BIT_KHR:
+            return true;
+        case VK_DISPLAY_PLANE_ALPHA_PER_PIXEL_PREMULTIPLIED_BIT_KHR:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkPerformanceCounterDescriptionFlagBitsKHRInVulkanSC(VkPerformanceCounterDescriptionFlagBitsKHR value) {
+    switch (value) {
+        case VK_PERFORMANCE_COUNTER_DESCRIPTION_PERFORMANCE_IMPACTING_BIT_KHR:
+            return true;
+        case VK_PERFORMANCE_COUNTER_DESCRIPTION_CONCURRENTLY_IMPACTED_BIT_KHR:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkSurfaceCounterFlagBitsEXTInVulkanSC(VkSurfaceCounterFlagBitsEXT value) {
+    switch (value) {
+        case VK_SURFACE_COUNTER_VBLANK_BIT_EXT:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkShaderStageFlagBitsInVulkanSC(VkShaderStageFlagBits value) {
+    switch (value) {
+        case VK_SHADER_STAGE_VERTEX_BIT:
+            return true;
+        case VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT:
+            return true;
+        case VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT:
+            return true;
+        case VK_SHADER_STAGE_GEOMETRY_BIT:
+            return true;
+        case VK_SHADER_STAGE_FRAGMENT_BIT:
+            return true;
+        case VK_SHADER_STAGE_COMPUTE_BIT:
+            return true;
+        case VK_SHADER_STAGE_ALL_GRAPHICS:
+            return true;
+        case VK_SHADER_STAGE_ALL:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkSubgroupFeatureFlagBitsInVulkanSC(VkSubgroupFeatureFlagBits value) {
+    switch (value) {
+        case VK_SUBGROUP_FEATURE_BASIC_BIT:
+            return true;
+        case VK_SUBGROUP_FEATURE_VOTE_BIT:
+            return true;
+        case VK_SUBGROUP_FEATURE_ARITHMETIC_BIT:
+            return true;
+        case VK_SUBGROUP_FEATURE_BALLOT_BIT:
+            return true;
+        case VK_SUBGROUP_FEATURE_SHUFFLE_BIT:
+            return true;
+        case VK_SUBGROUP_FEATURE_SHUFFLE_RELATIVE_BIT:
+            return true;
+        case VK_SUBGROUP_FEATURE_CLUSTERED_BIT:
+            return true;
+        case VK_SUBGROUP_FEATURE_QUAD_BIT:
+            return true;
+        case VK_SUBGROUP_FEATURE_ROTATE_BIT:
+            return true;
+        case VK_SUBGROUP_FEATURE_ROTATE_CLUSTERED_BIT:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkResolveModeFlagBitsInVulkanSC(VkResolveModeFlagBits value) {
+    switch (value) {
+        case VK_RESOLVE_MODE_NONE:
+            return true;
+        case VK_RESOLVE_MODE_SAMPLE_ZERO_BIT:
+            return true;
+        case VK_RESOLVE_MODE_AVERAGE_BIT:
+            return true;
+        case VK_RESOLVE_MODE_MIN_BIT:
+            return true;
+        case VK_RESOLVE_MODE_MAX_BIT:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkFormatFeatureFlagBits2InVulkanSC(VkFormatFeatureFlagBits2 value) {
+    switch (value) {
+        case VK_FORMAT_FEATURE_2_SAMPLED_IMAGE_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_2_STORAGE_IMAGE_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_2_STORAGE_IMAGE_ATOMIC_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_2_UNIFORM_TEXEL_BUFFER_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_2_STORAGE_TEXEL_BUFFER_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_2_STORAGE_TEXEL_BUFFER_ATOMIC_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_2_VERTEX_BUFFER_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_2_COLOR_ATTACHMENT_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_2_COLOR_ATTACHMENT_BLEND_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_2_DEPTH_STENCIL_ATTACHMENT_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_2_BLIT_SRC_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_2_BLIT_DST_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_2_SAMPLED_IMAGE_FILTER_LINEAR_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_2_TRANSFER_SRC_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_2_TRANSFER_DST_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_2_SAMPLED_IMAGE_FILTER_MINMAX_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_2_MIDPOINT_CHROMA_SAMPLES_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_2_SAMPLED_IMAGE_YCBCR_CONVERSION_LINEAR_FILTER_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_2_SAMPLED_IMAGE_YCBCR_CONVERSION_SEPARATE_RECONSTRUCTION_FILTER_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_2_SAMPLED_IMAGE_YCBCR_CONVERSION_CHROMA_RECONSTRUCTION_EXPLICIT_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_2_SAMPLED_IMAGE_YCBCR_CONVERSION_CHROMA_RECONSTRUCTION_EXPLICIT_FORCEABLE_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_2_DISJOINT_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_2_COSITED_CHROMA_SAMPLES_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_2_STORAGE_READ_WITHOUT_FORMAT_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_2_STORAGE_WRITE_WITHOUT_FORMAT_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_2_SAMPLED_IMAGE_DEPTH_COMPARISON_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_2_SAMPLED_IMAGE_FILTER_CUBIC_BIT:
+            return true;
+        case VK_FORMAT_FEATURE_2_HOST_IMAGE_TRANSFER_BIT:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkMemoryPropertyFlagBitsInVulkanSC(VkMemoryPropertyFlagBits value) {
+    switch (value) {
+        case VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT:
+            return true;
+        case VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT:
+            return true;
+        case VK_MEMORY_PROPERTY_HOST_COHERENT_BIT:
+            return true;
+        case VK_MEMORY_PROPERTY_HOST_CACHED_BIT:
+            return true;
+        case VK_MEMORY_PROPERTY_LAZILY_ALLOCATED_BIT:
+            return true;
+        case VK_MEMORY_PROPERTY_PROTECTED_BIT:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkMemoryHeapFlagBitsInVulkanSC(VkMemoryHeapFlagBits value) {
+    switch (value) {
+        case VK_MEMORY_HEAP_DEVICE_LOCAL_BIT:
+            return true;
+        case VK_MEMORY_HEAP_MULTI_INSTANCE_BIT:
+            return true;
+        case VK_MEMORY_HEAP_SEU_SAFE_BIT:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkExternalMemoryFeatureFlagBitsInVulkanSC(VkExternalMemoryFeatureFlagBits value) {
+    switch (value) {
+        case VK_EXTERNAL_MEMORY_FEATURE_DEDICATED_ONLY_BIT:
+            return true;
+        case VK_EXTERNAL_MEMORY_FEATURE_EXPORTABLE_BIT:
+            return true;
+        case VK_EXTERNAL_MEMORY_FEATURE_IMPORTABLE_BIT:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+bool IsVkExternalMemoryHandleTypeFlagBitsInVulkanSC(VkExternalMemoryHandleTypeFlagBits value) {
+    switch (value) {
+        case VK_EXTERNAL_MEMORY_HANDLE_TYPE_OPAQUE_FD_BIT:
+            return true;
+        case VK_EXTERNAL_MEMORY_HANDLE_TYPE_OPAQUE_WIN32_BIT:
+            return true;
+        case VK_EXTERNAL_MEMORY_HANDLE_TYPE_OPAQUE_WIN32_KMT_BIT:
+            return true;
+        case VK_EXTERNAL_MEMORY_HANDLE_TYPE_D3D11_TEXTURE_BIT:
+            return true;
+        case VK_EXTERNAL_MEMORY_HANDLE_TYPE_D3D11_TEXTURE_KMT_BIT:
+            return true;
+        case VK_EXTERNAL_MEMORY_HANDLE_TYPE_D3D12_HEAP_BIT:
+            return true;
+        case VK_EXTERNAL_MEMORY_HANDLE_TYPE_D3D12_RESOURCE_BIT:
+            return true;
+        case VK_EXTERNAL_MEMORY_HANDLE_TYPE_DMA_BUF_BIT_EXT:
+            return true;
+        case VK_EXTERNAL_MEMORY_HANDLE_TYPE_HOST_ALLOCATION_BIT_EXT:
+            return true;
+        case VK_EXTERNAL_MEMORY_HANDLE_TYPE_HOST_MAPPED_FOREIGN_MEMORY_BIT_EXT:
+            return true;
+        case VK_EXTERNAL_MEMORY_HANDLE_TYPE_SCI_BUF_BIT_NV:
+            return true;
+        case VK_EXTERNAL_MEMORY_HANDLE_TYPE_SCREEN_BUFFER_BIT_QNX:
+            return true;
+
+        default:
+            return false;
+    }
+}
+// clang-format off
+const VkFormatFeatureFlags AllVkFormatFeatureFlagBits = VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT|VK_FORMAT_FEATURE_STORAGE_IMAGE_BIT|VK_FORMAT_FEATURE_STORAGE_IMAGE_ATOMIC_BIT|VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT|VK_FORMAT_FEATURE_STORAGE_TEXEL_BUFFER_BIT|VK_FORMAT_FEATURE_STORAGE_TEXEL_BUFFER_ATOMIC_BIT|VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT|VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BIT|VK_FORMAT_FEATURE_COLOR_ATTACHMENT_BLEND_BIT|VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT|VK_FORMAT_FEATURE_BLIT_SRC_BIT|VK_FORMAT_FEATURE_BLIT_DST_BIT|VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_LINEAR_BIT|VK_FORMAT_FEATURE_TRANSFER_SRC_BIT|VK_FORMAT_FEATURE_TRANSFER_DST_BIT|VK_FORMAT_FEATURE_MIDPOINT_CHROMA_SAMPLES_BIT|VK_FORMAT_FEATURE_SAMPLED_IMAGE_YCBCR_CONVERSION_LINEAR_FILTER_BIT|VK_FORMAT_FEATURE_SAMPLED_IMAGE_YCBCR_CONVERSION_SEPARATE_RECONSTRUCTION_FILTER_BIT|VK_FORMAT_FEATURE_SAMPLED_IMAGE_YCBCR_CONVERSION_CHROMA_RECONSTRUCTION_EXPLICIT_BIT|VK_FORMAT_FEATURE_SAMPLED_IMAGE_YCBCR_CONVERSION_CHROMA_RECONSTRUCTION_EXPLICIT_FORCEABLE_BIT|VK_FORMAT_FEATURE_DISJOINT_BIT|VK_FORMAT_FEATURE_COSITED_CHROMA_SAMPLES_BIT|VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_MINMAX_BIT|VK_FORMAT_FEATURE_SAMPLED_IMAGE_FILTER_CUBIC_BIT_EXT|VK_FORMAT_FEATURE_FRAGMENT_SHADING_RATE_ATTACHMENT_BIT_KHR;
+const VkSampleCountFlags AllVkSampleCountFlagBits = VK_SAMPLE_COUNT_1_BIT|VK_SAMPLE_COUNT_2_BIT|VK_SAMPLE_COUNT_4_BIT|VK_SAMPLE_COUNT_8_BIT|VK_SAMPLE_COUNT_16_BIT|VK_SAMPLE_COUNT_32_BIT|VK_SAMPLE_COUNT_64_BIT;
+const VkQueueFlags AllVkQueueFlagBits = VK_QUEUE_GRAPHICS_BIT|VK_QUEUE_COMPUTE_BIT|VK_QUEUE_TRANSFER_BIT|VK_QUEUE_PROTECTED_BIT;
+const VkExternalFenceHandleTypeFlags AllVkExternalFenceHandleTypeFlagBits = VK_EXTERNAL_FENCE_HANDLE_TYPE_OPAQUE_FD_BIT|VK_EXTERNAL_FENCE_HANDLE_TYPE_OPAQUE_WIN32_BIT|VK_EXTERNAL_FENCE_HANDLE_TYPE_OPAQUE_WIN32_KMT_BIT|VK_EXTERNAL_FENCE_HANDLE_TYPE_SYNC_FD_BIT|VK_EXTERNAL_FENCE_HANDLE_TYPE_SCI_SYNC_OBJ_BIT_NV|VK_EXTERNAL_FENCE_HANDLE_TYPE_SCI_SYNC_FENCE_BIT_NV;
+const VkExternalFenceFeatureFlags AllVkExternalFenceFeatureFlagBits = VK_EXTERNAL_FENCE_FEATURE_EXPORTABLE_BIT|VK_EXTERNAL_FENCE_FEATURE_IMPORTABLE_BIT;
+const VkExternalSemaphoreHandleTypeFlags AllVkExternalSemaphoreHandleTypeFlagBits = VK_EXTERNAL_SEMAPHORE_HANDLE_TYPE_OPAQUE_FD_BIT|VK_EXTERNAL_SEMAPHORE_HANDLE_TYPE_OPAQUE_WIN32_BIT|VK_EXTERNAL_SEMAPHORE_HANDLE_TYPE_OPAQUE_WIN32_KMT_BIT|VK_EXTERNAL_SEMAPHORE_HANDLE_TYPE_D3D12_FENCE_BIT|VK_EXTERNAL_SEMAPHORE_HANDLE_TYPE_SYNC_FD_BIT|VK_EXTERNAL_SEMAPHORE_HANDLE_TYPE_SCI_SYNC_OBJ_BIT_NV;
+const VkExternalSemaphoreFeatureFlags AllVkExternalSemaphoreFeatureFlagBits = VK_EXTERNAL_SEMAPHORE_FEATURE_EXPORTABLE_BIT|VK_EXTERNAL_SEMAPHORE_FEATURE_IMPORTABLE_BIT;
+const VkSurfaceTransformFlagsKHR AllVkSurfaceTransformFlagBitsKHR = VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR|VK_SURFACE_TRANSFORM_ROTATE_90_BIT_KHR|VK_SURFACE_TRANSFORM_ROTATE_180_BIT_KHR|VK_SURFACE_TRANSFORM_ROTATE_270_BIT_KHR|VK_SURFACE_TRANSFORM_HORIZONTAL_MIRROR_BIT_KHR|VK_SURFACE_TRANSFORM_HORIZONTAL_MIRROR_ROTATE_90_BIT_KHR|VK_SURFACE_TRANSFORM_HORIZONTAL_MIRROR_ROTATE_180_BIT_KHR|VK_SURFACE_TRANSFORM_HORIZONTAL_MIRROR_ROTATE_270_BIT_KHR|VK_SURFACE_TRANSFORM_INHERIT_BIT_KHR;
+const VkCompositeAlphaFlagsKHR AllVkCompositeAlphaFlagBitsKHR = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR|VK_COMPOSITE_ALPHA_PRE_MULTIPLIED_BIT_KHR|VK_COMPOSITE_ALPHA_POST_MULTIPLIED_BIT_KHR|VK_COMPOSITE_ALPHA_INHERIT_BIT_KHR;
+const VkImageUsageFlags AllVkImageUsageFlagBits = VK_IMAGE_USAGE_TRANSFER_SRC_BIT|VK_IMAGE_USAGE_TRANSFER_DST_BIT|VK_IMAGE_USAGE_SAMPLED_BIT|VK_IMAGE_USAGE_STORAGE_BIT|VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT|VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT|VK_IMAGE_USAGE_TRANSIENT_ATTACHMENT_BIT|VK_IMAGE_USAGE_INPUT_ATTACHMENT_BIT|VK_IMAGE_USAGE_HOST_TRANSFER_BIT|VK_IMAGE_USAGE_FRAGMENT_SHADING_RATE_ATTACHMENT_BIT_KHR;
+const VkDeviceGroupPresentModeFlagsKHR AllVkDeviceGroupPresentModeFlagBitsKHR = VK_DEVICE_GROUP_PRESENT_MODE_LOCAL_BIT_KHR|VK_DEVICE_GROUP_PRESENT_MODE_REMOTE_BIT_KHR|VK_DEVICE_GROUP_PRESENT_MODE_SUM_BIT_KHR|VK_DEVICE_GROUP_PRESENT_MODE_LOCAL_MULTI_DEVICE_BIT_KHR;
+const VkDisplayPlaneAlphaFlagsKHR AllVkDisplayPlaneAlphaFlagBitsKHR = VK_DISPLAY_PLANE_ALPHA_OPAQUE_BIT_KHR|VK_DISPLAY_PLANE_ALPHA_GLOBAL_BIT_KHR|VK_DISPLAY_PLANE_ALPHA_PER_PIXEL_BIT_KHR|VK_DISPLAY_PLANE_ALPHA_PER_PIXEL_PREMULTIPLIED_BIT_KHR;
+const VkPerformanceCounterDescriptionFlagsKHR AllVkPerformanceCounterDescriptionFlagBitsKHR = VK_PERFORMANCE_COUNTER_DESCRIPTION_PERFORMANCE_IMPACTING_BIT_KHR|VK_PERFORMANCE_COUNTER_DESCRIPTION_CONCURRENTLY_IMPACTED_BIT_KHR;
+const VkSurfaceCounterFlagsEXT AllVkSurfaceCounterFlagBitsEXT = VK_SURFACE_COUNTER_VBLANK_BIT_EXT;
+const VkShaderStageFlags AllVkShaderStageFlagBits = VK_SHADER_STAGE_VERTEX_BIT|VK_SHADER_STAGE_TESSELLATION_CONTROL_BIT|VK_SHADER_STAGE_TESSELLATION_EVALUATION_BIT|VK_SHADER_STAGE_GEOMETRY_BIT|VK_SHADER_STAGE_FRAGMENT_BIT|VK_SHADER_STAGE_COMPUTE_BIT|VK_SHADER_STAGE_ALL_GRAPHICS|VK_SHADER_STAGE_ALL;
+const VkSubgroupFeatureFlags AllVkSubgroupFeatureFlagBits = VK_SUBGROUP_FEATURE_BASIC_BIT|VK_SUBGROUP_FEATURE_VOTE_BIT|VK_SUBGROUP_FEATURE_ARITHMETIC_BIT|VK_SUBGROUP_FEATURE_BALLOT_BIT|VK_SUBGROUP_FEATURE_SHUFFLE_BIT|VK_SUBGROUP_FEATURE_SHUFFLE_RELATIVE_BIT|VK_SUBGROUP_FEATURE_CLUSTERED_BIT|VK_SUBGROUP_FEATURE_QUAD_BIT|VK_SUBGROUP_FEATURE_ROTATE_BIT|VK_SUBGROUP_FEATURE_ROTATE_CLUSTERED_BIT;
+const VkResolveModeFlags AllVkResolveModeFlagBits = VK_RESOLVE_MODE_NONE|VK_RESOLVE_MODE_SAMPLE_ZERO_BIT|VK_RESOLVE_MODE_AVERAGE_BIT|VK_RESOLVE_MODE_MIN_BIT|VK_RESOLVE_MODE_MAX_BIT;
+const VkFormatFeatureFlags2 AllVkFormatFeatureFlagBits2 = VK_FORMAT_FEATURE_2_SAMPLED_IMAGE_BIT|VK_FORMAT_FEATURE_2_STORAGE_IMAGE_BIT|VK_FORMAT_FEATURE_2_STORAGE_IMAGE_ATOMIC_BIT|VK_FORMAT_FEATURE_2_UNIFORM_TEXEL_BUFFER_BIT|VK_FORMAT_FEATURE_2_STORAGE_TEXEL_BUFFER_BIT|VK_FORMAT_FEATURE_2_STORAGE_TEXEL_BUFFER_ATOMIC_BIT|VK_FORMAT_FEATURE_2_VERTEX_BUFFER_BIT|VK_FORMAT_FEATURE_2_COLOR_ATTACHMENT_BIT|VK_FORMAT_FEATURE_2_COLOR_ATTACHMENT_BLEND_BIT|VK_FORMAT_FEATURE_2_DEPTH_STENCIL_ATTACHMENT_BIT|VK_FORMAT_FEATURE_2_BLIT_SRC_BIT|VK_FORMAT_FEATURE_2_BLIT_DST_BIT|VK_FORMAT_FEATURE_2_SAMPLED_IMAGE_FILTER_LINEAR_BIT|VK_FORMAT_FEATURE_2_TRANSFER_SRC_BIT|VK_FORMAT_FEATURE_2_TRANSFER_DST_BIT|VK_FORMAT_FEATURE_2_SAMPLED_IMAGE_FILTER_MINMAX_BIT|VK_FORMAT_FEATURE_2_MIDPOINT_CHROMA_SAMPLES_BIT|VK_FORMAT_FEATURE_2_SAMPLED_IMAGE_YCBCR_CONVERSION_LINEAR_FILTER_BIT|VK_FORMAT_FEATURE_2_SAMPLED_IMAGE_YCBCR_CONVERSION_SEPARATE_RECONSTRUCTION_FILTER_BIT|VK_FORMAT_FEATURE_2_SAMPLED_IMAGE_YCBCR_CONVERSION_CHROMA_RECONSTRUCTION_EXPLICIT_BIT|VK_FORMAT_FEATURE_2_SAMPLED_IMAGE_YCBCR_CONVERSION_CHROMA_RECONSTRUCTION_EXPLICIT_FORCEABLE_BIT|VK_FORMAT_FEATURE_2_DISJOINT_BIT|VK_FORMAT_FEATURE_2_COSITED_CHROMA_SAMPLES_BIT|VK_FORMAT_FEATURE_2_STORAGE_READ_WITHOUT_FORMAT_BIT|VK_FORMAT_FEATURE_2_STORAGE_WRITE_WITHOUT_FORMAT_BIT|VK_FORMAT_FEATURE_2_SAMPLED_IMAGE_DEPTH_COMPARISON_BIT|VK_FORMAT_FEATURE_2_SAMPLED_IMAGE_FILTER_CUBIC_BIT|VK_FORMAT_FEATURE_2_HOST_IMAGE_TRANSFER_BIT;
+const VkMemoryPropertyFlags AllVkMemoryPropertyFlagBits = VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT|VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT|VK_MEMORY_PROPERTY_HOST_COHERENT_BIT|VK_MEMORY_PROPERTY_HOST_CACHED_BIT|VK_MEMORY_PROPERTY_LAZILY_ALLOCATED_BIT|VK_MEMORY_PROPERTY_PROTECTED_BIT;
+const VkMemoryHeapFlags AllVkMemoryHeapFlagBits = VK_MEMORY_HEAP_DEVICE_LOCAL_BIT|VK_MEMORY_HEAP_MULTI_INSTANCE_BIT|VK_MEMORY_HEAP_SEU_SAFE_BIT;
+const VkExternalMemoryFeatureFlags AllVkExternalMemoryFeatureFlagBits = VK_EXTERNAL_MEMORY_FEATURE_DEDICATED_ONLY_BIT|VK_EXTERNAL_MEMORY_FEATURE_EXPORTABLE_BIT|VK_EXTERNAL_MEMORY_FEATURE_IMPORTABLE_BIT;
+const VkExternalMemoryHandleTypeFlags AllVkExternalMemoryHandleTypeFlagBits = VK_EXTERNAL_MEMORY_HANDLE_TYPE_OPAQUE_FD_BIT|VK_EXTERNAL_MEMORY_HANDLE_TYPE_OPAQUE_WIN32_BIT|VK_EXTERNAL_MEMORY_HANDLE_TYPE_OPAQUE_WIN32_KMT_BIT|VK_EXTERNAL_MEMORY_HANDLE_TYPE_D3D11_TEXTURE_BIT|VK_EXTERNAL_MEMORY_HANDLE_TYPE_D3D11_TEXTURE_KMT_BIT|VK_EXTERNAL_MEMORY_HANDLE_TYPE_D3D12_HEAP_BIT|VK_EXTERNAL_MEMORY_HANDLE_TYPE_D3D12_RESOURCE_BIT|VK_EXTERNAL_MEMORY_HANDLE_TYPE_DMA_BUF_BIT_EXT|VK_EXTERNAL_MEMORY_HANDLE_TYPE_HOST_ALLOCATION_BIT_EXT|VK_EXTERNAL_MEMORY_HANDLE_TYPE_HOST_MAPPED_FOREIGN_MEMORY_BIT_EXT|VK_EXTERNAL_MEMORY_HANDLE_TYPE_SCI_BUF_BIT_NV|VK_EXTERNAL_MEMORY_HANDLE_TYPE_SCREEN_BUFFER_BIT_QNX;
+// clang-format on
 
 template <>
 void ConvertOutStructToVulkanSC<VkPhysicalDeviceFeatures>(VkPhysicalDeviceFeatures* p) {}
