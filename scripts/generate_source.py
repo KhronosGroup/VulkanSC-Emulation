@@ -52,7 +52,7 @@ def RunGenerators(api: str, registry: str, directory: str, styleFile: str, targe
     from generators.vk_dispatchable_generator import VkDispatchableGenerator
     from generators.vk_dispatch_table_generator import VkDispatchTableGenerator
     from generators.extension_helper_generator import ExtensionHelperGenerator
-    from generators.output_struct_sanitizer_generator import OutputStructSanitizerGenerator
+    from generators.output_sanitizer_generator import OutputSanitizerGenerator
     from generators.pnext_chain_helper_generator import PNextChainHelperGenerator
 
     from generators.test_vksc_dispatch_table_generator import TestVkSCDispatchTableGenerator
@@ -170,13 +170,13 @@ def RunGenerators(api: str, registry: str, directory: str, styleFile: str, targe
             'api': 'vulkansc',
             'genCombined': False
         },
-        'vksc_output_struct_sanitizer.h': {
-            'generator': OutputStructSanitizerGenerator,
+        'vksc_output_sanitizer.h': {
+            'generator': OutputSanitizerGenerator,
             'api': 'vulkansc',
             'genCombined': False
         },
-        'vksc_output_struct_sanitizer.cpp': {
-            'generator': OutputStructSanitizerGenerator,
+        'vksc_output_sanitizer.cpp': {
+            'generator': OutputSanitizerGenerator,
             'api': 'vulkansc',
             'genCombined': False
         },

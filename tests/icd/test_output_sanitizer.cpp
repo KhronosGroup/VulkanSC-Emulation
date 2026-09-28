@@ -15,12 +15,12 @@
 #include <array>
 #include <numeric>
 
-class OutputStructSanitizerTest : public IcdTest {
+class OutputSanitizerTest : public IcdTest {
   public:
-    OutputStructSanitizerTest() : IcdTest{} {}
+    OutputSanitizerTest() : IcdTest{} {}
 };
 
-TEST_F(OutputStructSanitizerTest, MemoryPropertyFlagBits) {
+TEST_F(OutputSanitizerTest, MemoryPropertyFlagBits) {
     TEST_DESCRIPTION("Test that memory property flags are properly sanitized");
 
     InitInstance();
@@ -59,7 +59,7 @@ TEST_F(OutputStructSanitizerTest, MemoryPropertyFlagBits) {
               VkMemoryPropertyFlags{});
 }
 
-TEST_F(OutputStructSanitizerTest, QueueFlagBits) {
+TEST_F(OutputSanitizerTest, QueueFlagBits) {
     TEST_DESCRIPTION("Test if queue flags are properly sanitized");
 
     InitInstance();
@@ -109,7 +109,7 @@ TEST_F(OutputStructSanitizerTest, QueueFlagBits) {
     }
 }
 
-TEST_F(OutputStructSanitizerTest, FragmentShadingRateSpecialCase11) {
+TEST_F(OutputSanitizerTest, FragmentShadingRateSpecialCase11) {
     TEST_DESCRIPTION(
         "Test that we restore a sampleCount of ~0 for fragmentSize {1,1} in the results of "
         "vkGetPhysicalDeviceFragmentShadingRatesKHR");
@@ -180,4 +180,70 @@ TEST_F(OutputStructSanitizerTest, FragmentShadingRateSpecialCase11) {
     EXPECT_EQ(results[0].fragmentSize.width, 2);
     EXPECT_EQ(results[0].fragmentSize.height, 1);
     EXPECT_EQ(results[0].sampleCounts, VK_SAMPLE_COUNT_1_BIT | VK_SAMPLE_COUNT_4_BIT);
+}
+
+TEST_F(OutputSanitizerTest, SurfacePresentModes) {
+    TEST_DESCRIPTION("Test if surface present modes are properly sanitized");
+
+    // For simplicity we only test this without loaders as it allows us to avoid surface creation
+    if (Framework::WithVulkanLoader() || Framework::WithVulkanSCLoader()) {
+        GTEST_SKIP() << "Tested only without loaders in the call stack";
+    }
+
+    EnableInstanceExtension(VK_KHR_SURFACE_EXTENSION_NAME);
+    InitInstance();
+    auto physical_device = GetPhysicalDevice();
+
+    vkmock::GetPhysicalDeviceSurfacePresentModesKHR = [](auto, auto, uint32_t *pPresentModeCount, VkPresentModeKHR *pPresentModes) {
+        static const std::vector<VkPresentModeKHR> present_modes = {
+            VK_PRESENT_MODE_FIFO_KHR, VK_PRESENT_MODE_MAILBOX_KHR,
+            VK_PRESENT_MODE_FIFO_LATEST_READY_KHR,  // not supported in Vulkan SC
+            VK_PRESENT_MODE_FIFO_RELAXED_KHR};
+        VkResult result = VK_SUCCESS;
+        if (pPresentModes == nullptr) {
+            *pPresentModeCount = static_cast<uint32_t>(present_modes.size());
+        } else {
+            if (*pPresentModeCount < present_modes.size()) {
+                result = VK_INCOMPLETE;
+            }
+            *pPresentModeCount = std::min(*pPresentModeCount, static_cast<uint32_t>(present_modes.size()));
+            for (uint32_t i = 0; i < *pPresentModeCount; ++i) {
+                pPresentModes[i] = present_modes[i];
+            }
+        }
+        return result;
+    };
+
+    VkSurfaceKHR placeholder_surface = (VkSurfaceKHR)42;
+    uint32_t present_mode_count = 0;
+    EXPECT_EQ(vksc::GetPhysicalDeviceSurfacePresentModesKHR(physical_device, placeholder_surface, &present_mode_count, nullptr),
+              VK_SUCCESS);
+    EXPECT_EQ(present_mode_count, 3);
+
+    std::vector<VkPresentModeKHR> present_modes(present_mode_count + 1);
+    EXPECT_EQ(vksc::GetPhysicalDeviceSurfacePresentModesKHR(physical_device, placeholder_surface, &present_mode_count,
+                                                            present_modes.data()),
+              VK_SUCCESS);
+    EXPECT_EQ(present_modes[0], VK_PRESENT_MODE_FIFO_KHR);
+    EXPECT_EQ(present_modes[1], VK_PRESENT_MODE_MAILBOX_KHR);
+    EXPECT_EQ(present_modes[2], VK_PRESENT_MODE_FIFO_RELAXED_KHR);
+
+    present_mode_count = 4;
+    EXPECT_EQ(vksc::GetPhysicalDeviceSurfacePresentModesKHR(physical_device, placeholder_surface, &present_mode_count,
+                                                            present_modes.data()),
+              VK_SUCCESS);
+    EXPECT_EQ(present_mode_count, 3);
+    EXPECT_EQ(present_modes[0], VK_PRESENT_MODE_FIFO_KHR);
+    EXPECT_EQ(present_modes[1], VK_PRESENT_MODE_MAILBOX_KHR);
+    EXPECT_EQ(present_modes[2], VK_PRESENT_MODE_FIFO_RELAXED_KHR);
+
+    present_mode_count = 2;
+    present_modes[2] = VK_PRESENT_MODE_MAX_ENUM_KHR;
+    EXPECT_EQ(vksc::GetPhysicalDeviceSurfacePresentModesKHR(physical_device, placeholder_surface, &present_mode_count,
+                                                            present_modes.data()),
+              VK_INCOMPLETE);
+    EXPECT_EQ(present_mode_count, 2);
+    EXPECT_EQ(present_modes[0], VK_PRESENT_MODE_FIFO_KHR);
+    EXPECT_EQ(present_modes[1], VK_PRESENT_MODE_MAILBOX_KHR);
+    EXPECT_EQ(present_modes[2], VK_PRESENT_MODE_MAX_ENUM_KHR);
 }

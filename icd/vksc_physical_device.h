@@ -82,6 +82,9 @@ class PhysicalDevice : public Dispatchable<PhysicalDevice, VkPhysicalDevice>, pu
 #endif
     VkResult ReleaseDisplayEXT(VkDisplayKHR display);
 
+    VkResult GetPhysicalDeviceSurfacePresentModesKHR(VkSurfaceKHR surface, uint32_t* pPresentModeCount,
+                                                     VkPresentModeKHR* pPresentModes);
+
     VkResult GetPhysicalDeviceDisplayPropertiesKHR(uint32_t* pPropertyCount, VkDisplayPropertiesKHR* pProperties);
     VkResult GetPhysicalDeviceDisplayProperties2KHR(uint32_t* pPropertyCount, VkDisplayProperties2KHR* pProperties);
 

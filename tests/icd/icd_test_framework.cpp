@@ -42,6 +42,7 @@ static void InitDefaultMockHandlers(IcdTest *test_case = nullptr) {
         // We report support for VK_KHR_display and VK_KHR_get_display_properties2 to test display emulation interactions
         // We also report the correspnding target platform extensions
         static const std::vector<VkExtensionProperties> extensions = {
+            {VK_KHR_SURFACE_EXTENSION_NAME, VK_KHR_SURFACE_SPEC_VERSION},
             {VK_KHR_DISPLAY_EXTENSION_NAME, VK_KHR_DISPLAY_SPEC_VERSION},
             {VK_KHR_GET_DISPLAY_PROPERTIES_2_EXTENSION_NAME, VK_KHR_GET_DISPLAY_PROPERTIES_2_SPEC_VERSION},
 #if defined(VK_USE_PLATFORM_WIN32_KHR)
