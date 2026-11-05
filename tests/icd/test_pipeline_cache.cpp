@@ -27,13 +27,14 @@ class PipelineCacheTest : public IcdTest {
     }
 };
 
-TEST_F(PipelineCacheTest, CreateDeviceSingleCache) {
-    TEST_DESCRIPTION("Test device creation with single pipeline cache");
+TEST_F(PipelineCacheTest, ShaderModuleCreation) {
+    TEST_DESCRIPTION("Test shader module handling");
 
     PipelineCacheInfo caches;
     // clang-format off
     caches.in_pipeline_pools = {
-        PipelinePoolDesc{65536, 2}
+        PipelinePoolDesc{65536, 8},
+        PipelinePoolDesc{8192, 8}
     };
     caches.in_pipeline_caches = {
         PipelineCacheDesc{
@@ -56,92 +57,228 @@ TEST_F(PipelineCacheTest, CreateDeviceSingleCache) {
                     }
                 }
             }
+        },
+        PipelineCacheDesc{
+            {
+                PipelineDesc{
+                    "b23d0e5c-70a0-4d67-8781-99ec3798cd31",
+                    6512,
+                    kSampleComputePipelineJson,
+                    {
+                        CompileSPV(kSampleComputeShaderSpv2),
+                    }
+                }
+            }
+        },
+        PipelineCacheDesc{
+            {
+                PipelineDesc{
+                    "1265a236-e369-11ed-b5ea-0242ac121402",
+                    49658,
+                    kSampleGraphicsPipelineJson,
+                    {
+                        CompileSPV(kSampleVertexShaderSpv2),
+                        CompileSPV(kSampleFragmentShaderSpv2)
+                    }
+                }
+            }
         }
     };
     // clang-format on
 
     VkMockShaderModules mock_shader_modules(caches);
 
-    InitDeviceWithPipelineCaches(caches);
-    mock_shader_modules.VerifyShaderModulesCreated();
+    VkMockObjects<VkPipelineCache> mock_pipeline_caches{};
+    mock_pipeline_caches.Reset(4);
+    vkmock::CreatePipelineCache = [&](auto, auto, auto, auto pHandle) {
+        *pHandle = mock_pipeline_caches.Alloc();
+        return VK_SUCCESS;
+    };
+    vkmock::DestroyPipelineCache = [&](auto, auto handle, auto) { mock_pipeline_caches.Free(handle); };
 
-    EXPECT_EQ(mock_shader_modules.GetTotalShaderModuleCount(), 3);
+    VkMockObjects<VkPipeline> mock_pipelines{};
+    mock_pipelines.Reset(32);
+    vkmock::CreateGraphicsPipelines = [&](auto, auto, auto count, auto, auto, auto pHandles) {
+        for (uint32_t i = 0; i < count; ++i) {
+            pHandles[i] = mock_pipelines.Alloc();
+        }
+        return VK_SUCCESS;
+    };
+    vkmock::CreateComputePipelines = [&](auto, auto, auto count, auto, auto, auto pHandles) {
+        for (uint32_t i = 0; i < count; ++i) {
+            pHandles[i] = mock_pipelines.Alloc();
+        }
+        return VK_SUCCESS;
+    };
+    vkmock::DestroyPipeline = [&](auto, auto handle, auto) { mock_pipelines.Free(handle); };
+
+    // Shader modules are not instantiated at device create time as SPIR-V validation can only
+    // happen at pipeline creation time, therefore shader module creation also has to be delayed
+    auto device = InitDeviceWithPipelineCaches(caches);
+    EXPECT_EQ(mock_shader_modules.GetTotalShaderModuleCount(), 0);
+
+    // Shader modules are also not instantiated at pipeline cache creation time
+    std::vector<VkPipelineCache> pipeline_caches(caches.in_pipeline_caches.size(), VK_NULL_HANDLE);
+    for (uint32_t i = 0; i < pipeline_caches.size(); ++i) {
+        ASSERT_EQ(vksc::CreatePipelineCache(device, &caches.out_pipeline_cache_create_info[i], nullptr, &pipeline_caches[i]),
+                  VK_SUCCESS);
+        EXPECT_NE(pipeline_caches[i], VK_NULL_HANDLE);
+        EXPECT_EQ(mock_shader_modules.GetTotalShaderModuleCount(), 0);
+    }
+    EXPECT_EQ(mock_shader_modules.GetTotalShaderModuleCount(), 0);
+
+    // Shader modules are instantiated when vkCreate*Pipelines is called but only once
+    std::vector<VkPipelineShaderStageCreateInfo> stage_infos(2, vku::InitStruct<VkPipelineShaderStageCreateInfo>());
+    stage_infos[0].stage = VK_SHADER_STAGE_VERTEX_BIT;
+    stage_infos[1].stage = VK_SHADER_STAGE_FRAGMENT_BIT;
+
+    std::vector<VkPipelineOfflineCreateInfo> graphics_offline_infos(2, vku::InitStruct<VkPipelineOfflineCreateInfo>());
+    for (auto &offline_info : graphics_offline_infos) {
+        offline_info.matchControl = VK_PIPELINE_MATCH_CONTROL_APPLICATION_UUID_EXACT_MATCH;
+        offline_info.poolEntrySize = 65536;
+    }
+    utils::UUID(caches.in_pipeline_caches[0].pipelines[0].uuid).CopyToArray(graphics_offline_infos[0].pipelineIdentifier);
+    utils::UUID(caches.in_pipeline_caches[2].pipelines[0].uuid).CopyToArray(graphics_offline_infos[1].pipelineIdentifier);
+
+    std::vector<VkGraphicsPipelineCreateInfo> graphics_create_infos(3, vku::InitStruct<VkGraphicsPipelineCreateInfo>());
+    for (auto &create_info : graphics_create_infos) {
+        create_info.stageCount = 2;
+        create_info.pStages = stage_infos.data();
+    }
+
+    std::vector<VkPipelineOfflineCreateInfo> compute_offline_infos(2, vku::InitStruct<VkPipelineOfflineCreateInfo>());
+    for (auto &offline_info : compute_offline_infos) {
+        offline_info.matchControl = VK_PIPELINE_MATCH_CONTROL_APPLICATION_UUID_EXACT_MATCH;
+        offline_info.poolEntrySize = 8192;
+    }
+    utils::UUID(caches.in_pipeline_caches[0].pipelines[1].uuid).CopyToArray(compute_offline_infos[0].pipelineIdentifier);
+    utils::UUID(caches.in_pipeline_caches[1].pipelines[0].uuid).CopyToArray(compute_offline_infos[1].pipelineIdentifier);
+
+    std::vector<VkComputePipelineCreateInfo> compute_create_infos(3, vku::InitStruct<VkComputePipelineCreateInfo>());
+    for (auto &create_info : compute_create_infos) {
+        create_info.stage.stage = VK_SHADER_STAGE_COMPUTE_BIT;
+    }
+
+    // Create graphics pipeline from cache #0
+    VkPipeline pipeline = VK_NULL_HANDLE;
+    graphics_create_infos[0].pNext = &graphics_offline_infos[0];
+    ASSERT_EQ(vksc::CreateGraphicsPipelines(device, pipeline_caches[0], 1, &graphics_create_infos[0], nullptr, &pipeline),
+              VK_SUCCESS);
+    EXPECT_NE(pipeline, VK_NULL_HANDLE);
+
+    // At this point the 2 shaders in the pipeline should be instantiated
+    EXPECT_EQ(mock_shader_modules.GetTotalShaderModuleCount(), 2);
+    EXPECT_EQ(mock_shader_modules.GetShaderModuleCount(0, "1265a236-e369-11ed-b5ea-0242ac120002"), 2);
+    EXPECT_EQ(mock_shader_modules.GetShaderModuleCount(0, "b23d0e5c-70a0-4d67-8781-99ec3798ed31"), 0);
+    EXPECT_EQ(mock_shader_modules.GetShaderModuleCount(1, "b23d0e5c-70a0-4d67-8781-99ec3798cd31"), 0);
+    EXPECT_EQ(mock_shader_modules.GetShaderModuleCount(2, "1265a236-e369-11ed-b5ea-0242ac121402"), 0);
+
+    // Creating multiple instances of the same pipeline does not increase the shader module count
+    for (uint32_t i = 0; i < 5; ++i) {
+        VkPipeline additional_pipeline_instance = VK_NULL_HANDLE;
+        ASSERT_EQ(vksc::CreateGraphicsPipelines(device, pipeline_caches[0], 1, &graphics_create_infos[0], nullptr,
+                                                &additional_pipeline_instance),
+                  VK_SUCCESS);
+        EXPECT_NE(additional_pipeline_instance, VK_NULL_HANDLE);
+        EXPECT_EQ(mock_shader_modules.GetTotalShaderModuleCount(), 2);
+        EXPECT_EQ(mock_shader_modules.GetShaderModuleCount(0, "1265a236-e369-11ed-b5ea-0242ac120002"), 2);
+        vksc::DestroyPipeline(device, additional_pipeline_instance, nullptr);
+    }
+
+    // Destroying all pipeline instances does not destroy the shader modules (they remain cached)
+    vksc::DestroyPipeline(device, pipeline, nullptr);
+    EXPECT_EQ(mock_shader_modules.GetTotalShaderModuleCount(), 2);
+    pipeline = VK_NULL_HANDLE;
+
+    // Now we create the graphics pipeline from cache #2, multiple at once
+    std::vector<VkPipeline> pipelines(graphics_create_infos.size(), VK_NULL_HANDLE);
+    for (size_t i = 0; i < pipelines.size(); ++i) {
+        graphics_create_infos[i].pNext = &graphics_offline_infos[1];
+    }
+    ASSERT_EQ(vksc::CreateGraphicsPipelines(device, pipeline_caches[2], static_cast<uint32_t>(pipelines.size()),
+                                            graphics_create_infos.data(), nullptr, pipelines.data()),
+              VK_SUCCESS);
+
+    // At this point additional 2 shaders in the pipeline should be instantiated
+    EXPECT_EQ(mock_shader_modules.GetTotalShaderModuleCount(), 4);
+    EXPECT_EQ(mock_shader_modules.GetShaderModuleCount(0, "1265a236-e369-11ed-b5ea-0242ac120002"), 2);
+    EXPECT_EQ(mock_shader_modules.GetShaderModuleCount(0, "b23d0e5c-70a0-4d67-8781-99ec3798ed31"), 0);
+    EXPECT_EQ(mock_shader_modules.GetShaderModuleCount(1, "b23d0e5c-70a0-4d67-8781-99ec3798cd31"), 0);
+    EXPECT_EQ(mock_shader_modules.GetShaderModuleCount(2, "1265a236-e369-11ed-b5ea-0242ac121402"), 2);
+
+    for (size_t i = 0; i < pipelines.size(); ++i) {
+        EXPECT_NE(pipelines[i], VK_NULL_HANDLE);
+        vksc::DestroyPipeline(device, pipelines[i], nullptr);
+    }
+    pipelines.clear();
+
+    EXPECT_EQ(mock_shader_modules.GetTotalShaderModuleCount(), 4);
+    EXPECT_EQ(mock_shader_modules.GetShaderModuleCount(0, "1265a236-e369-11ed-b5ea-0242ac120002"), 2);
+    EXPECT_EQ(mock_shader_modules.GetShaderModuleCount(0, "b23d0e5c-70a0-4d67-8781-99ec3798ed31"), 0);
+    EXPECT_EQ(mock_shader_modules.GetShaderModuleCount(1, "b23d0e5c-70a0-4d67-8781-99ec3798cd31"), 0);
+    EXPECT_EQ(mock_shader_modules.GetShaderModuleCount(2, "1265a236-e369-11ed-b5ea-0242ac121402"), 2);
+
+    // Now do some similar tests with the compute pipelines
+    // Create compute pipeline from cache #0
+    compute_create_infos[0].pNext = &compute_offline_infos[0];
+    ASSERT_EQ(vksc::CreateComputePipelines(device, pipeline_caches[0], 1, &compute_create_infos[0], nullptr, &pipeline),
+              VK_SUCCESS);
+    EXPECT_NE(pipeline, VK_NULL_HANDLE);
+
+    // At this point one more compute shader should appear
+    EXPECT_EQ(mock_shader_modules.GetTotalShaderModuleCount(), 5);
     EXPECT_EQ(mock_shader_modules.GetShaderModuleCount(0, "1265a236-e369-11ed-b5ea-0242ac120002"), 2);
     EXPECT_EQ(mock_shader_modules.GetShaderModuleCount(0, "b23d0e5c-70a0-4d67-8781-99ec3798ed31"), 1);
+    EXPECT_EQ(mock_shader_modules.GetShaderModuleCount(1, "b23d0e5c-70a0-4d67-8781-99ec3798cd31"), 0);
+    EXPECT_EQ(mock_shader_modules.GetShaderModuleCount(2, "1265a236-e369-11ed-b5ea-0242ac121402"), 2);
 
-    DestroyDevice();
-    mock_shader_modules.VerifyShaderModulesDestroyed();
-}
+    // Creating multiple instances of the same pipeline does not increase the shader module count
+    for (uint32_t i = 0; i < 5; ++i) {
+        VkPipeline additional_pipeline_instance = VK_NULL_HANDLE;
+        ASSERT_EQ(vksc::CreateComputePipelines(device, pipeline_caches[0], 1, &compute_create_infos[0], nullptr,
+                                               &additional_pipeline_instance),
+                  VK_SUCCESS);
+        EXPECT_NE(additional_pipeline_instance, VK_NULL_HANDLE);
+        EXPECT_EQ(mock_shader_modules.GetTotalShaderModuleCount(), 5);
+        EXPECT_EQ(mock_shader_modules.GetShaderModuleCount(0, "b23d0e5c-70a0-4d67-8781-99ec3798ed31"), 1);
+        vksc::DestroyPipeline(device, additional_pipeline_instance, nullptr);
+    }
 
-TEST_F(PipelineCacheTest, CreateDeviceMultipleCaches) {
-    TEST_DESCRIPTION("Test device creation with multiple pipeline caches");
+    // Destroying all pipeline instances does not destroy the shader modules (they remain cached)
+    vksc::DestroyPipeline(device, pipeline, nullptr);
+    EXPECT_EQ(mock_shader_modules.GetTotalShaderModuleCount(), 5);
+    pipeline = VK_NULL_HANDLE;
 
-    PipelineCacheInfo caches;
-    // clang-format off
-    caches.in_pipeline_pools = {
-        PipelinePoolDesc{65536, 2}
-    };
-    caches.in_pipeline_caches = {
-        PipelineCacheDesc{
-            {
-                PipelineDesc{
-                    "1265a236-e369-11ed-b5ea-0242ac120002",
-                    49658,
-                    kSampleGraphicsPipelineJson,
-                    {
-                        CompileSPV(kSampleVertexShaderSpv),
-                        CompileSPV(kSampleFragmentShaderSpv)
-                    }
-                },
-                PipelineDesc{
-                    "b23d0e5c-70a0-4d67-8781-99ec3798ed31",
-                    6512,
-                    kSampleComputePipelineJson,
-                    {
-                        CompileSPV(kSampleComputeShaderSpv),
-                    }
-                }
-            }
-        },
-        PipelineCacheDesc{
-            {
-                PipelineDesc{
-                    "b23d0e5c-70a0-4d67-8781-99ec3798ed31",
-                    6512,
-                    kSampleComputePipelineJson,
-                    {
-                        CompileSPV(kSampleComputeShaderSpv),
-                    }
-                }
-            }
-        },
-        PipelineCacheDesc{
-            {
-                PipelineDesc{
-                    "1265a236-e369-11ed-b5ea-0242ac120002",
-                    49658,
-                    kSampleGraphicsPipelineJson,
-                    {
-                        CompileSPV(kSampleVertexShaderSpv),
-                        CompileSPV(kSampleFragmentShaderSpv)
-                    }
-                }
-            }
-        }
-    };
-    // clang-format on
+    // Now we create the compute pipeline from cache #1, multiple at once
+    pipelines.resize(compute_create_infos.size());
+    for (size_t i = 0; i < pipelines.size(); ++i) {
+        compute_create_infos[i].pNext = &compute_offline_infos[1];
+    }
+    ASSERT_EQ(vksc::CreateComputePipelines(device, pipeline_caches[1], static_cast<uint32_t>(pipelines.size()),
+                                           compute_create_infos.data(), nullptr, pipelines.data()),
+              VK_SUCCESS);
 
-    VkMockShaderModules mock_shader_modules(caches);
-
-    InitDeviceWithPipelineCaches(caches);
-    mock_shader_modules.VerifyShaderModulesCreated();
-
+    // At this point an additional shader in the pipeline should be instantiated
     EXPECT_EQ(mock_shader_modules.GetTotalShaderModuleCount(), 6);
     EXPECT_EQ(mock_shader_modules.GetShaderModuleCount(0, "1265a236-e369-11ed-b5ea-0242ac120002"), 2);
     EXPECT_EQ(mock_shader_modules.GetShaderModuleCount(0, "b23d0e5c-70a0-4d67-8781-99ec3798ed31"), 1);
-    EXPECT_EQ(mock_shader_modules.GetShaderModuleCount(1, "b23d0e5c-70a0-4d67-8781-99ec3798ed31"), 1);
-    EXPECT_EQ(mock_shader_modules.GetShaderModuleCount(2, "1265a236-e369-11ed-b5ea-0242ac120002"), 2);
+    EXPECT_EQ(mock_shader_modules.GetShaderModuleCount(1, "b23d0e5c-70a0-4d67-8781-99ec3798cd31"), 1);
+    EXPECT_EQ(mock_shader_modules.GetShaderModuleCount(2, "1265a236-e369-11ed-b5ea-0242ac121402"), 2);
 
+    for (size_t i = 0; i < pipelines.size(); ++i) {
+        EXPECT_NE(pipelines[i], VK_NULL_HANDLE);
+        vksc::DestroyPipeline(device, pipelines[i], nullptr);
+        pipelines[i] = VK_NULL_HANDLE;
+    }
+
+    for (uint32_t i = 0; i < 3; ++i) {
+        vksc::DestroyPipelineCache(device, pipeline_caches[i], nullptr);
+    }
+
+    // Even after deleting everything, the shader modules should remain cached
+    EXPECT_EQ(mock_shader_modules.GetTotalShaderModuleCount(), 6);
+
+    // Device destruction destroys all shader modules
     DestroyDevice();
     mock_shader_modules.VerifyShaderModulesDestroyed();
 }
@@ -361,12 +498,6 @@ TEST_F(PipelineCacheTest, CreateGraphicsPipelines) {
 
     auto device = InitDeviceWithPipelineCaches(caches);
 
-    auto vertex_shader = mock_shader_modules.GetShaderModule(0, pipeline_uuid, 0);
-    EXPECT_NE(vertex_shader, VK_NULL_HANDLE);
-
-    auto fragment_shader = mock_shader_modules.GetShaderModule(0, pipeline_uuid, 1);
-    EXPECT_NE(fragment_shader, VK_NULL_HANDLE);
-
     VkPipelineCache cache = VK_NULL_HANDLE;
     ASSERT_EQ(vksc::CreatePipelineCache(device, &caches.out_pipeline_cache_create_info[0], nullptr, &cache), VK_SUCCESS);
 
@@ -383,6 +514,13 @@ TEST_F(PipelineCacheTest, CreateGraphicsPipelines) {
             pPipelines[0] = mock_pipelines[num_calls].handle();
         }
         num_calls++;
+
+        // Shader modules are only instantiated at pipeline creation time
+        auto vertex_shader = mock_shader_modules.GetShaderModule(0, pipeline_uuid, 0);
+        EXPECT_NE(vertex_shader, VK_NULL_HANDLE);
+
+        auto fragment_shader = mock_shader_modules.GetShaderModule(0, pipeline_uuid, 1);
+        EXPECT_NE(fragment_shader, VK_NULL_HANDLE);
 
         // No pipeline cache should be sent down to the Vulkan stack
         EXPECT_EQ(pipelineCache, VK_NULL_HANDLE);
@@ -447,6 +585,202 @@ TEST_F(PipelineCacheTest, CreateGraphicsPipelines) {
     DestroyDevice();
 }
 
+TEST_F(PipelineCacheTest, CreateGraphicsPipelinesInvalidSpirv) {
+    TEST_DESCRIPTION("Test graphics pipeline creation with invalid SPIR-V");
+
+    const char *pipeline_uuid_invalid1 = "1265a236-e369-11ed-b5ea-0242ac120002";
+    const char *pipeline_uuid_invalid2 = "1265a236-e369-11ed-b5ea-0242ac120003";
+    const char *pipeline_uuid_invalid3 = "1265a236-e369-11ed-b5ea-0242ac120004";
+    const char *pipeline_uuid_valid = "1265a236-e369-11ed-b5ea-0242ac120005";
+
+    const char kInvalidVertexShaderSpv[] = R"spirv(
+                OpCapability Shader
+                OpCapability ImageRect
+                OpMemoryModel Logical GLSL450
+                OpEntryPoint Vertex %main "main"
+                OpSource GLSL 450
+        %void = OpTypeVoid
+        %3 = OpTypeFunction %void
+        %main = OpFunction %void None %3
+        %5 = OpLabel
+                OpReturn
+                OpFunctionEnd
+    )spirv";
+
+    const char kInvalidVertexShaderSpv2[] = R"spirv(
+                OpCapability Shader
+                OpCapability ImageBuffer
+                OpCapability ImageRect
+                OpMemoryModel Logical GLSL450
+                OpEntryPoint Vertex %main "main"
+                OpSource GLSL 450
+        %void = OpTypeVoid
+        %3 = OpTypeFunction %void
+        %main = OpFunction %void None %3
+        %5 = OpLabel
+                OpReturn
+                OpFunctionEnd
+    )spirv";
+
+    const char kInvalidFragmentShaderSpv[] = R"spirv(
+                OpCapability Shader
+                OpCapability ImageRect
+                OpMemoryModel Logical GLSL450
+                OpEntryPoint Fragment %main "main"
+                OpExecutionMode %main OriginUpperLeft
+        %void = OpTypeVoid
+        %3 = OpTypeFunction %void
+        %main = OpFunction %void None %3
+        %5 = OpLabel
+                OpReturn
+                OpFunctionEnd
+    )spirv";
+
+    const char kInvalidFragmentShaderSpv2[] = R"spirv(
+                OpCapability Shader
+                OpCapability ImageBuffer
+                OpCapability ImageRect
+                OpMemoryModel Logical GLSL450
+                OpEntryPoint Fragment %main "main"
+                OpExecutionMode %main OriginUpperLeft
+        %void = OpTypeVoid
+        %3 = OpTypeFunction %void
+        %main = OpFunction %void None %3
+        %5 = OpLabel
+                OpReturn
+                OpFunctionEnd
+    )spirv";
+
+    PipelineCacheInfo caches;
+    // clang-format off
+    caches.in_pipeline_pools = {
+        PipelinePoolDesc{65536, 4}
+    };
+    caches.in_pipeline_caches = {
+        PipelineCacheDesc{
+            {
+                PipelineDesc{
+                    pipeline_uuid_invalid1,
+                    49658,
+                    kSampleGraphicsPipelineJson,
+                    {
+                        CompileSPV(kInvalidVertexShaderSpv),
+                        CompileSPV(kInvalidFragmentShaderSpv)
+                    }
+                },
+                PipelineDesc{
+                    pipeline_uuid_invalid2,
+                    49658,
+                    kSampleGraphicsPipelineJson,
+                    {
+                        CompileSPV(kSampleVertexShaderSpv),
+                        CompileSPV(kInvalidFragmentShaderSpv2)
+                    }
+                },
+                PipelineDesc{
+                    pipeline_uuid_invalid3,
+                    49658,
+                    kSampleGraphicsPipelineJson,
+                    {
+                        CompileSPV(kInvalidVertexShaderSpv2),
+                        CompileSPV(kSampleFragmentShaderSpv)
+                    }
+                },
+                PipelineDesc{
+                    pipeline_uuid_valid,
+                    49658,
+                    kSampleGraphicsPipelineJson,
+                    {
+                        CompileSPV(kSampleVertexShaderSpv2),
+                        CompileSPV(kSampleFragmentShaderSpv2)
+                    }
+                }
+            }
+        }
+    };
+    // clang-format on
+
+    VkMockShaderModules mock_shader_modules(caches);
+
+    auto device = InitDeviceWithPipelineCaches(caches);
+
+    VkPipelineCache cache = VK_NULL_HANDLE;
+    ASSERT_EQ(vksc::CreatePipelineCache(device, &caches.out_pipeline_cache_create_info[0], nullptr, &cache), VK_SUCCESS);
+
+    std::unordered_map<VkPipeline, std::unique_ptr<VkMockObject<VkPipeline>>> vkmock_pipelines{};
+    vkmock::CreateGraphicsPipelines = [&](auto, auto pipelineCache, auto createInfoCount, auto pCreateInfos, auto,
+                                          auto pPipelines) {
+        auto mock_pipeline = std::make_unique<VkMockObject<VkPipeline>>();
+        pPipelines[0] = mock_pipeline->handle();
+        vkmock_pipelines[pPipelines[0]] = std::move(mock_pipeline);
+        return VK_SUCCESS;
+    };
+    vkmock::DestroyPipeline = [&](auto, auto pipeline, auto) { vkmock_pipelines.erase(pipeline); };
+
+    std::vector<VkPipelineShaderStageCreateInfo> stage_infos(2, vku::InitStruct<VkPipelineShaderStageCreateInfo>());
+    stage_infos[0].stage = VK_SHADER_STAGE_VERTEX_BIT;
+    stage_infos[1].stage = VK_SHADER_STAGE_FRAGMENT_BIT;
+
+    auto offline_info = vku::InitStruct<VkPipelineOfflineCreateInfo>();
+    offline_info.matchControl = VK_PIPELINE_MATCH_CONTROL_APPLICATION_UUID_EXACT_MATCH;
+    offline_info.poolEntrySize = 65536;
+
+    auto create_info = vku::InitStruct<VkGraphicsPipelineCreateInfo>(&offline_info);
+    create_info.stageCount = 2;
+    create_info.pStages = stage_infos.data();
+
+    VkPipeline pipeline = VK_NULL_HANDLE;
+
+    // Both shader stages contain invalid SPIR-V
+    utils::UUID(pipeline_uuid_invalid1).CopyToArray(offline_info.pipelineIdentifier);
+    ASSERT_EQ(vksc::CreateGraphicsPipelines(device, cache, 1, &create_info, nullptr, &pipeline), VK_ERROR_VALIDATION_FAILED);
+    EXPECT_EQ(pipeline, VK_NULL_HANDLE);
+
+    // Fragment shader contains invalid SPIR-V
+    utils::UUID(pipeline_uuid_invalid2).CopyToArray(offline_info.pipelineIdentifier);
+    ASSERT_EQ(vksc::CreateGraphicsPipelines(device, cache, 1, &create_info, nullptr, &pipeline), VK_ERROR_VALIDATION_FAILED);
+    EXPECT_EQ(pipeline, VK_NULL_HANDLE);
+
+    // Vertex shader contains invalid SPIR-V
+    utils::UUID(pipeline_uuid_invalid3).CopyToArray(offline_info.pipelineIdentifier);
+    ASSERT_EQ(vksc::CreateGraphicsPipelines(device, cache, 1, &create_info, nullptr, &pipeline), VK_ERROR_VALIDATION_FAILED);
+    EXPECT_EQ(pipeline, VK_NULL_HANDLE);
+
+    // Both shader stages are valid, should succeed
+    utils::UUID(pipeline_uuid_valid).CopyToArray(offline_info.pipelineIdentifier);
+    ASSERT_EQ(vksc::CreateGraphicsPipelines(device, cache, 1, &create_info, nullptr, &pipeline), VK_SUCCESS);
+    EXPECT_NE(pipeline, VK_NULL_HANDLE);
+    vksc::DestroyPipeline(device, pipeline, nullptr);
+
+    // Attempting to create all at once should result in error, but the last (valid) pipeline should be created successfully
+    const uint32_t pipeline_count = static_cast<uint32_t>(caches.in_pipeline_caches[0].pipelines.size());
+    std::vector<VkPipelineOfflineCreateInfo> offline_infos(pipeline_count, vku::InitStruct<VkPipelineOfflineCreateInfo>());
+    std::vector<VkGraphicsPipelineCreateInfo> create_infos(pipeline_count, vku::InitStruct<VkGraphicsPipelineCreateInfo>());
+    for (uint32_t i = 0; i < pipeline_count; ++i) {
+        utils::UUID(caches.in_pipeline_caches[0].pipelines[i].uuid).CopyToArray(offline_infos[i].pipelineIdentifier);
+        offline_infos[i].matchControl = VK_PIPELINE_MATCH_CONTROL_APPLICATION_UUID_EXACT_MATCH;
+        offline_infos[i].poolEntrySize = 65536;
+        create_infos[i].pNext = &offline_infos[i];
+        create_infos[i].stageCount = 2;
+        create_infos[i].pStages = stage_infos.data();
+    }
+    std::vector<VkPipeline> pipelines(pipeline_count, VK_NULL_HANDLE);
+    ASSERT_EQ(vksc::CreateGraphicsPipelines(device, cache, pipeline_count, create_infos.data(), nullptr, pipelines.data()),
+              VK_ERROR_VALIDATION_FAILED);
+    for (uint32_t i = 0; i < pipeline_count; ++i) {
+        if (strcmp(caches.in_pipeline_caches[0].pipelines[i].uuid, pipeline_uuid_valid) == 0) {
+            EXPECT_NE(pipelines[i], VK_NULL_HANDLE);
+        } else {
+            EXPECT_EQ(pipelines[i], VK_NULL_HANDLE);
+        }
+        vksc::DestroyPipeline(device, pipelines[i], nullptr);
+    }
+
+    vksc::DestroyPipelineCache(device, cache, nullptr);
+
+    DestroyDevice();
+}
+
 TEST_F(PipelineCacheTest, CreateComputePipelines) {
     TEST_DESCRIPTION("Test compute pipeline creation");
 
@@ -477,9 +811,6 @@ TEST_F(PipelineCacheTest, CreateComputePipelines) {
 
     auto device = InitDeviceWithPipelineCaches(caches);
 
-    auto compute_shader = mock_shader_modules.GetShaderModule(0, pipeline_uuid, 0);
-    EXPECT_NE(compute_shader, VK_NULL_HANDLE);
-
     VkPipelineCache cache = VK_NULL_HANDLE;
     ASSERT_EQ(vksc::CreatePipelineCache(device, &caches.out_pipeline_cache_create_info[0], nullptr, &cache), VK_SUCCESS);
 
@@ -495,6 +826,10 @@ TEST_F(PipelineCacheTest, CreateComputePipelines) {
             pPipelines[0] = mock_pipelines[num_calls].handle();
         }
         num_calls++;
+
+        // Shader module is only instantiated at pipeline creation time
+        auto compute_shader = mock_shader_modules.GetShaderModule(0, pipeline_uuid, 0);
+        EXPECT_NE(compute_shader, VK_NULL_HANDLE);
 
         // No pipeline cache should be sent down to the Vulkan stack
         EXPECT_EQ(pipelineCache, VK_NULL_HANDLE);
@@ -546,6 +881,121 @@ TEST_F(PipelineCacheTest, CreateComputePipelines) {
     DestroyDevice();
 }
 
+TEST_F(PipelineCacheTest, CreateComputePipelinesInvalidSpirv) {
+    TEST_DESCRIPTION("Test compute pipeline creation with invalid SPIR-V");
+
+    const char *pipeline_uuid_invalid = "b23d0e5c-70a0-4d67-8781-99ec3798ed31";
+    const char *pipeline_uuid_valid = "b23d0e5c-70a0-4d67-8781-99ec3798ed32";
+
+    const char kInvalidComputeShaderSpv[] = R"spirv(
+                OpCapability Shader
+                OpCapability ImageRect
+        %1 = OpExtInstImport "GLSL.std.450"
+                OpMemoryModel Logical GLSL450
+                OpEntryPoint GLCompute %main "main"
+                OpExecutionMode %main LocalSize 2 1 1
+                OpSource GLSL 450
+        %void = OpTypeVoid
+        %3 = OpTypeFunction %void
+        %main = OpFunction %void None %3
+        %5 = OpLabel
+                OpReturn
+                OpFunctionEnd
+    )spirv";
+
+    PipelineCacheInfo caches;
+    // clang-format off
+    caches.in_pipeline_pools = {
+        PipelinePoolDesc{8192, 2}
+    };
+    caches.in_pipeline_caches = {
+        PipelineCacheDesc{
+            {
+                PipelineDesc{
+                    pipeline_uuid_invalid,
+                    6512,
+                    kSampleComputePipelineJson,
+                    {
+                        CompileSPV(kInvalidComputeShaderSpv),
+                    }
+                },
+                PipelineDesc{
+                    pipeline_uuid_valid,
+                    6512,
+                    kSampleComputePipelineJson,
+                    {
+                        CompileSPV(kSampleComputeShaderSpv),
+                    }
+                }
+            }
+        }
+    };
+    // clang-format on
+
+    VkMockShaderModules mock_shader_modules(caches);
+
+    auto device = InitDeviceWithPipelineCaches(caches);
+
+    VkPipelineCache cache = VK_NULL_HANDLE;
+    ASSERT_EQ(vksc::CreatePipelineCache(device, &caches.out_pipeline_cache_create_info[0], nullptr, &cache), VK_SUCCESS);
+
+    std::unordered_map<VkPipeline, std::unique_ptr<VkMockObject<VkPipeline>>> vkmock_pipelines{};
+    vkmock::CreateComputePipelines = [&](auto, auto pipelineCache, auto createInfoCount, auto pCreateInfos, auto, auto pPipelines) {
+        auto mock_pipeline = std::make_unique<VkMockObject<VkPipeline>>();
+        pPipelines[0] = mock_pipeline->handle();
+        vkmock_pipelines[pPipelines[0]] = std::move(mock_pipeline);
+        return VK_SUCCESS;
+    };
+    vkmock::DestroyPipeline = [&](auto, auto pipeline, auto) { vkmock_pipelines.erase(pipeline); };
+
+    auto offline_info = vku::InitStruct<VkPipelineOfflineCreateInfo>();
+    offline_info.matchControl = VK_PIPELINE_MATCH_CONTROL_APPLICATION_UUID_EXACT_MATCH;
+    offline_info.poolEntrySize = 8192;
+
+    auto create_info = vku::InitStruct<VkComputePipelineCreateInfo>(&offline_info);
+    create_info.stage.stage = VK_SHADER_STAGE_COMPUTE_BIT;
+
+    VkPipeline pipeline = VK_NULL_HANDLE;
+
+    // Pipeline contains invalid SPIR-V
+    utils::UUID(pipeline_uuid_invalid).CopyToArray(offline_info.pipelineIdentifier);
+    ASSERT_EQ(vksc::CreateComputePipelines(device, cache, 1, &create_info, nullptr, &pipeline), VK_ERROR_VALIDATION_FAILED);
+    EXPECT_EQ(pipeline, VK_NULL_HANDLE);
+
+    // Pipeline contains valid SPIR-V, should succeed
+    utils::UUID(pipeline_uuid_valid).CopyToArray(offline_info.pipelineIdentifier);
+    ASSERT_EQ(vksc::CreateComputePipelines(device, cache, 1, &create_info, nullptr, &pipeline), VK_SUCCESS);
+    EXPECT_NE(pipeline, VK_NULL_HANDLE);
+    vksc::DestroyPipeline(device, pipeline, nullptr);
+
+    // Attempting to create all at once should result in error, but the last (valid) pipeline should be created successfully
+    const uint32_t pipeline_count = static_cast<uint32_t>(caches.in_pipeline_caches[0].pipelines.size());
+    std::vector<VkPipelineOfflineCreateInfo> offline_infos(pipeline_count, vku::InitStruct<VkPipelineOfflineCreateInfo>());
+    std::vector<VkComputePipelineCreateInfo> create_infos(pipeline_count, vku::InitStruct<VkComputePipelineCreateInfo>());
+    for (uint32_t i = 0; i < pipeline_count; ++i) {
+        utils::UUID(caches.in_pipeline_caches[0].pipelines[i].uuid).CopyToArray(offline_infos[i].pipelineIdentifier);
+        offline_infos[i].matchControl = VK_PIPELINE_MATCH_CONTROL_APPLICATION_UUID_EXACT_MATCH;
+        offline_infos[i].poolEntrySize = 8192;
+        create_infos[i].pNext = &offline_infos[i];
+        create_infos[i].stage.stage = VK_SHADER_STAGE_COMPUTE_BIT;
+    }
+    std::vector<VkPipeline> pipelines(pipeline_count, VK_NULL_HANDLE);
+    ASSERT_EQ(vksc::CreateComputePipelines(device, cache, pipeline_count, create_infos.data(), nullptr, pipelines.data()),
+              VK_ERROR_VALIDATION_FAILED);
+    for (uint32_t i = 0; i < pipeline_count; ++i) {
+        if (strcmp(caches.in_pipeline_caches[0].pipelines[i].uuid, pipeline_uuid_valid) == 0) {
+            EXPECT_NE(pipelines[i], VK_NULL_HANDLE);
+        } else {
+            EXPECT_EQ(pipelines[i], VK_NULL_HANDLE);
+        }
+        vksc::DestroyPipeline(device, pipelines[i], nullptr);
+    }
+
+    vksc::DestroyPipelineCache(device, cache, nullptr);
+
+    DestroyDevice();
+}
+
 TEST_F(PipelineCacheTest, PipelinePoolUsage) {
     TEST_DESCRIPTION("Test pipeline pool exhaustion o");
 
@@ -581,7 +1031,7 @@ TEST_F(PipelineCacheTest, PipelinePoolUsage) {
                     6512,
                     kSampleComputePipelineJson,
                     {
-                        CompileSPV(kSampleComputeShaderSpv),
+                        CompileSPV(kSampleComputeShaderSpv2),
                     }
                 }
             }

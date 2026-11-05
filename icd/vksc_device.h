@@ -58,6 +58,9 @@ class Device : public Dispatchable<Device, VkDevice>, public vk::Device {
         return enabled_extensions_.find(ext_num) != enabled_extensions_.end();
     }
 
+    spv_target_env GetSpirvEnvironment() const { return SPV_ENV_VULKAN_1_2; }
+    const spvtools::ValidatorOptions& GetSpirvValidatorOptions() const { return spvval_options_; };
+
     PFN_vkVoidFunction GetDeviceProcAddr(const char* pName);
     void DestroyDevice(const VkAllocationCallbacks* pAllocator);
     void GetDeviceQueue(uint32_t queueFamilyIndex, uint32_t queueIndex, VkQueue* pQueue);
@@ -159,6 +162,7 @@ class Device : public Dispatchable<Device, VkDevice>, public vk::Device {
 
   private:
     VkResult SetupDevice(const VkDeviceCreateInfo& create_info);
+    void AdjustSpirvValidatorOptions(const VkDeviceCreateInfo& device_create_info, spvtools::ValidatorOptions& options);
     const icd::Pipeline* GetPipelineFromCache(const icd::PipelineCache& pipeline_cache,
                                               const VkPipelineOfflineCreateInfo* offline_info, VkResult& out_result);
     bool InitSwapchainImageInfo(VkSwapchainKHR, VkExtent2D extent, uint32_t array_layers);
@@ -174,6 +178,8 @@ class Device : public Dispatchable<Device, VkDevice>, public vk::Device {
 
     DispatchableChildren<Queue, VkQueue> device_queues_;
     icd::DeviceObjectTracker object_tracker_;
+
+    spvtools::ValidatorOptions spvval_options_{};
 
     std::unordered_set<ExtensionNumber> enabled_extensions_{};
 
