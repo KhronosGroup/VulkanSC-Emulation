@@ -16,6 +16,7 @@
 #include <string>
 #include <vector>
 #include <optional>
+#include <mutex>
 #include <unordered_map>
 
 namespace vksc {
@@ -132,9 +133,9 @@ class PipelineStage {
     PipelineStage(PipelineStage&& stage)
         : device_(stage.device_),
           stage_idx_(stage.stage_idx_),
-          shader_module_(stage.shader_module_),
           spirv_(std::move(stage.spirv_)),
-          entry_point_(std::move(stage.entry_point_)) {
+          entry_point_(std::move(stage.entry_point_)),
+          shader_module_(stage.shader_module_) {
         stage.shader_module_ = VK_NULL_HANDLE;
     }
     PipelineStage& operator=(PipelineStage&& stage) = delete;
@@ -146,14 +147,17 @@ class PipelineStage {
     VkShaderModule GetShaderModule() const { return shader_module_; }
     const std::string& GetEntryPoint() const { return entry_point_; }
 
+    VkResult ValidateStage(const Pipeline& pipeline) const;
+
   protected:
-    VkShaderModule CreateShaderModule(const Pipeline& pipeline, const std::vector<uint32_t>& spirv);
+    VkResult CreateShaderModule(const Pipeline& pipeline, const std::vector<uint32_t>& spirv) const;
 
     vksc::Device& device_;
     uint32_t stage_idx_;
-    VkShaderModule shader_module_;
     std::vector<uint32_t> spirv_;
     std::string entry_point_;
+    mutable std::mutex shader_module_mutex_{};
+    mutable VkShaderModule shader_module_{VK_NULL_HANDLE};
 };
 
 class Pipeline {
@@ -170,12 +174,24 @@ class Pipeline {
     uint64_t GetMemorySize() const { return memory_size_; }
 
     bool AddStage(PipelineStage&& stage) {
-        if (stage.GetShaderModule() != VK_NULL_HANDLE) {
-            stages_.emplace_back(std::move(stage));
-            return true;
-        } else {
-            return false;
+        stages_.emplace_back(std::move(stage));
+        return true;
+    }
+
+    VkResult ValidateStages() const {
+        VkResult result = VK_SUCCESS;
+        for (const auto& stage : stages_) {
+            VkResult stage_result = stage.ValidateStage(*this);
+            if (stage_result < VK_SUCCESS) {
+                if (stage_result != VK_ERROR_VALIDATION_FAILED) {
+                    // Return immediately if we got an error other than validation failure
+                    // as it means that an error was received from the underlying Vulkan driver
+                    return stage_result;
+                }
+                result = stage_result;
+            }
         }
+        return result;
     }
 
     const PipelineStage& GetStage(uint32_t stage_idx) const { return stages_[stage_idx]; }
@@ -189,7 +205,7 @@ class Pipeline {
 
 class PipelineCache {
   public:
-    PipelineCache(vksc::Device& device, const VkDeviceCreateInfo& device_create_info, const VkPipelineCacheCreateInfo& create_info);
+    PipelineCache(vksc::Device& device, const VkPipelineCacheCreateInfo& create_info);
     PipelineCache(const PipelineCache&) = delete;
     PipelineCache& operator=(const PipelineCache&) = delete;
     PipelineCache(PipelineCache&&) = default;
@@ -212,12 +228,9 @@ class PipelineCache {
     VkPipelineCache VkSCHandle() { return reinterpret_cast<VkPipelineCache>(this); }
 
   protected:
-    spv_target_env GetSpirvEnv() const;
-    void AdjustValidatorOptions(const VkDeviceCreateInfo& device_create_info, spvtools::ValidatorOptions& options);
-
     bool ValidatePipelineCacheDataHeader(const icd::PipelineCacheData& data);
-    bool ValidatePipelineCacheDataEntry(const VkDeviceCreateInfo& device_create_info, const icd::PipelineCacheData& data,
-                                        uint32_t pipeline_idx, std::vector<std::string>* entry_points);
+    bool ValidatePipelineCacheDataEntry(const icd::PipelineCacheData& data, uint32_t pipeline_idx,
+                                        std::vector<std::string>* entry_points);
 
     bool valid_{true};
 

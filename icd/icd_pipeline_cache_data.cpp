@@ -17,11 +17,7 @@
 namespace icd {
 
 PipelineStage::PipelineStage(const Pipeline& pipeline, uint32_t stage_idx, std::vector<uint32_t>&& spirv, std::string&& entry_point)
-    : device_(pipeline.GetDevice()),
-      stage_idx_(stage_idx),
-      shader_module_(CreateShaderModule(pipeline, spirv)),
-      spirv_(std::move(spirv)),
-      entry_point_(std::move(entry_point)) {}
+    : device_(pipeline.GetDevice()), stage_idx_(stage_idx), spirv_(std::move(spirv)), entry_point_(std::move(entry_point)) {}
 
 PipelineStage::~PipelineStage() {
     if (shader_module_ != VK_NULL_HANDLE) {
@@ -29,27 +25,63 @@ PipelineStage::~PipelineStage() {
     }
 }
 
-VkShaderModule PipelineStage::CreateShaderModule(const Pipeline& pipeline, const std::vector<uint32_t>& spirv) {
-    VkShaderModule shader_module = VK_NULL_HANDLE;
+VkResult PipelineStage::ValidateStage(const Pipeline& pipeline) const {
+    std::unique_lock lock(shader_module_mutex_);
+    if (shader_module_ != VK_NULL_HANDLE) {
+        // If we already managed to create the shader module for this stage of the pipeline
+        // then no need to redo validation
+        return VK_SUCCESS;
+    }
+
+    // TODO: We should probably validate the pipeline JSON PhysicalDeviceFeatures against the device create features
+    // although anything that does affect the SPIR-V semantics is expected to be caught by SPIR-V validation
+
+    // Validate SPIR-V
+    spv_target_env spirv_environment = GetDevice().GetSpirvEnvironment();
+    spv_context ctx = spvContextCreate(spirv_environment);
+    spv_const_binary_t binary{spirv_.data(), spirv_.size()};
+    spv_diagnostic diag = nullptr;
+    const auto& options = GetDevice().GetSpirvValidatorOptions();
+    spv_result_t spv_valid = spvValidateWithOptions(ctx, options, &binary, &diag);
+    if (spv_valid != SPV_SUCCESS) {
+        if (spv_valid == SPV_WARNING) {
+            GetDevice().Log().Warning("VKSC-EMU-PipelineCacheData-SpirvVal",
+                                      "SPIR-V data at stage index %u for pipeline (%s) produced spirv-val warning:\n%s", stage_idx_,
+                                      pipeline.ID().toString().c_str(), diag && diag->error ? diag->error : "(no error text)");
+        } else {
+            GetDevice().ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_INVALID_API_USAGE);
+            GetDevice().Log().Error("VKSC-EMU-PipelineCacheData-SpirvVal",
+                                    "SPIR-V data at stage index %u for pipeline (%s) produced spirv-val error:\n%s", stage_idx_,
+                                    pipeline.ID().toString().c_str(), diag && diag->error ? diag->error : "(no error text)");
+            spvDiagnosticDestroy(diag);
+            spvContextDestroy(ctx);
+            return VK_ERROR_VALIDATION_FAILED;
+        }
+    }
+    spvDiagnosticDestroy(diag);
+    spvContextDestroy(ctx);
+
+    return CreateShaderModule(pipeline, spirv_);
+}
+
+VkResult PipelineStage::CreateShaderModule(const Pipeline& pipeline, const std::vector<uint32_t>& spirv) const {
     auto create_info = vku::InitStruct<VkShaderModuleCreateInfo>();
     create_info.codeSize = spirv.size() * sizeof(uint32_t);
     create_info.pCode = spirv.data();
-    auto result = GetDevice().CreateShaderModule(&create_info, nullptr, &shader_module);
+    auto result = GetDevice().CreateShaderModule(&create_info, nullptr, &shader_module_);
     if (result < VK_SUCCESS) {
         GetDevice().ReportFault(VK_FAULT_LEVEL_CRITICAL, VK_FAULT_TYPE_IMPLEMENTATION);
         GetDevice().Log().Error("VKSC-EMU-Shader-ShaderModuleCreateFailed",
                                 "Failed to create VkShaderModule for pipeline %s stage index %u (result: %d)",
                                 pipeline.ID().toString().c_str(), GetIndex(), result);
     }
-    return shader_module;
+    return result;
 }
 
 Pipeline::Pipeline(const PipelineCache& pipeline_cache, const utils::UUID& id, uint64_t memory_size)
     : device_(pipeline_cache.GetDevice()), id_(id), memory_size_(memory_size), stages_() {}
 
-PipelineCache::PipelineCache(vksc::Device& device, const VkDeviceCreateInfo& device_create_info,
-                             const VkPipelineCacheCreateInfo& create_info)
-    : device_(device), pipelines_() {
+PipelineCache::PipelineCache(vksc::Device& device, const VkPipelineCacheCreateInfo& create_info) : device_(device), pipelines_() {
     if (create_info.pInitialData == nullptr) {
         valid_ = false;
         return;
@@ -63,7 +95,7 @@ PipelineCache::PipelineCache(vksc::Device& device, const VkDeviceCreateInfo& dev
 
     for (uint32_t pipeline_idx = 0; pipeline_idx < data.PipelineIndexCount(); ++pipeline_idx) {
         std::vector<std::string> entry_points{};
-        if (!ValidatePipelineCacheDataEntry(device_create_info, data, pipeline_idx, &entry_points)) {
+        if (!ValidatePipelineCacheDataEntry(data, pipeline_idx, &entry_points)) {
             valid_ = false;
             return;
         }
@@ -86,29 +118,6 @@ PipelineCache::PipelineCache(vksc::Device& device, const VkDeviceCreateInfo& dev
             valid_ = false;
             return;
         }
-    }
-}
-
-spv_target_env PipelineCache::GetSpirvEnv() const { return SPV_ENV_VULKAN_1_2; }
-
-void PipelineCache::AdjustValidatorOptions(const VkDeviceCreateInfo& device_create_info, spvtools::ValidatorOptions& options) {
-    // Adjust SPIR-V validation options based on the enabled features
-    options.SetRelaxBlockLayout(true);
-    auto vulkan12_features = vku::FindStructInPNextChain<VkPhysicalDeviceVulkan12Features>(device_create_info.pNext);
-    auto uniform_buffer_standard_layout_features =
-        vku::FindStructInPNextChain<VkPhysicalDeviceUniformBufferStandardLayoutFeatures>(device_create_info.pNext);
-    auto scalar_block_layout_features =
-        vku::FindStructInPNextChain<VkPhysicalDeviceScalarBlockLayoutFeatures>(device_create_info.pNext);
-
-    if ((vulkan12_features != nullptr && vulkan12_features->uniformBufferStandardLayout) ||
-        (uniform_buffer_standard_layout_features != nullptr &&
-         uniform_buffer_standard_layout_features->uniformBufferStandardLayout)) {
-        options.SetUniformBufferStandardLayout(true);
-    }
-
-    if ((vulkan12_features != nullptr && vulkan12_features->scalarBlockLayout) ||
-        (scalar_block_layout_features != nullptr && scalar_block_layout_features->scalarBlockLayout)) {
-        options.SetScalarBlockLayout(true);
     }
 }
 
@@ -153,8 +162,8 @@ bool PipelineCache::ValidatePipelineCacheDataHeader(const icd::PipelineCacheData
     return true;
 }
 
-bool PipelineCache::ValidatePipelineCacheDataEntry(const VkDeviceCreateInfo& device_create_info, const icd::PipelineCacheData& data,
-                                                   uint32_t pipeline_idx, std::vector<std::string>* entry_points) {
+bool PipelineCache::ValidatePipelineCacheDataEntry(const icd::PipelineCacheData& data, uint32_t pipeline_idx,
+                                                   std::vector<std::string>* entry_points) {
     auto entry = data.PipelineIndexEntry(pipeline_idx);
     if (!entry) {
         GetDevice().Log().Error("VKSC-EMU-PipelineCacheData-InvalidPipelineEntry",
@@ -227,10 +236,7 @@ bool PipelineCache::ValidatePipelineCacheDataEntry(const VkDeviceCreateInfo& dev
         }
     }
 
-    // TODO: We should probably validate the pipeline JSON PhysicalDeviceFeatures against the device create features
-    // although anything that does affect the SPIR-V semantics is expected to be caught by SPIR-V validation
-
-    // Validate stages
+    // Validate stage entry metadata but do not actually validate SPIR-V here (with the exception of the header)
     for (uint32_t stage_idx = 0; stage_idx < entry.StageIndexCount(); ++stage_idx) {
         auto stage_info = entry.StageIndexEntry(stage_idx);
         if (!entry) {
@@ -249,36 +255,14 @@ bool PipelineCache::ValidatePipelineCacheDataEntry(const VkDeviceCreateInfo& dev
             return false;
         }
 
-        auto spirv = entry.StageSPIRV(stage_idx);
-
-        // Validate SPIR-V
-        spv_target_env spirv_environment = GetSpirvEnv();
-        spv_context ctx = spvContextCreate(spirv_environment);
-        spv_const_binary_t binary{spirv.data(), spirv.size()};
-        spv_diagnostic diag = nullptr;
-        spvtools::ValidatorOptions options;
-        AdjustValidatorOptions(device_create_info, options);
-        spv_result_t spv_valid = spvValidateWithOptions(ctx, options, &binary, &diag);
-        if (spv_valid != SPV_SUCCESS) {
-            if (spv_valid == SPV_WARNING) {
-                GetDevice().Log().Warning("VKSC-EMU-PipelineCacheData-SpirvVal",
-                                          "SPIR-V data at stage index %u for pipeline (%s) in pipeline cache data (%p) produced "
-                                          "spirv-val warning:\n%s",
-                                          stage_idx, entry.PipelineID().toString().c_str(), data.Data(),
-                                          diag && diag->error ? diag->error : "(no error text)");
-            } else {
-                GetDevice().Log().Error("VKSC-EMU-PipelineCacheData-SpirvVal",
-                                        "SPIR-V data at stage index %u for pipeline (%s) in pipeline cache data (%p) produced "
-                                        "spirv-val error:\n%s",
-                                        stage_idx, entry.PipelineID().toString().c_str(), data.Data(),
-                                        diag && diag->error ? diag->error : "(no error text)");
-                spvDiagnosticDestroy(diag);
-                spvContextDestroy(ctx);
-                return false;
-            }
+        uint32_t spv_header = 0;
+        memcpy(&spv_header, data.Data() + stage_info->codeOffset, sizeof(spv_header));
+        if (spv_header != spv::MagicNumber) {
+            GetDevice().Log().Error("VKSC-EMU-PipelineCacheData-InvalidSpirvHeader",
+                                    "SPIR-V header is invalid for stage index %u for pipeline (%s) in pipeline cache data (%p)",
+                                    stage_idx, entry.PipelineID().toString().c_str(), data.Data());
+            return false;
         }
-        spvDiagnosticDestroy(diag);
-        spvContextDestroy(ctx);
     }
 
     return true;

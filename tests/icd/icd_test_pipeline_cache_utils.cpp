@@ -11,53 +11,50 @@
 #include <string.h>
 
 VkMockShaderModules::VkMockShaderModules(const PipelineCacheInfo &info)
-    : info_(info), cache_index_(0), pipeline_index_(0), stage_index_(0), mock_objects_(), per_pipeline_mock_objects_() {
+    : mutex_(), spirv_data_to_pipeline_id_map_(), mock_objects_(), per_pipeline_mock_objects_() {
     vkmock::CreateShaderModule = [&](auto, auto pCreateInfo, auto, auto pShaderModule) {
-        EXPECT_LT(cache_index_, info.in_pipeline_caches.size());
-        if (cache_index_ >= info.in_pipeline_caches.size()) {
+        std::unique_lock lock(mutex_);
+        std::vector<uint32_t> spirv_code(pCreateInfo->codeSize / sizeof(uint32_t));
+        memcpy(spirv_code.data(), pCreateInfo->pCode, pCreateInfo->codeSize);
+        auto it = spirv_data_to_pipeline_id_map_.find(spirv_code);
+        EXPECT_NE(it, spirv_data_to_pipeline_id_map_.end());
+        if (it == spirv_data_to_pipeline_id_map_.end()) {
             return VK_ERROR_INITIALIZATION_FAILED;
         }
+        // The shader modules of a given pipeline should never be instantiated twice
+        EXPECT_FALSE(it->second.already_created);
+        it->second.already_created = true;
 
-        const auto &cache = info.in_pipeline_caches[cache_index_];
-        EXPECT_LT(pipeline_index_, cache.pipelines.size());
-        if (pipeline_index_ >= cache.pipelines.size()) {
-            return VK_ERROR_INITIALIZATION_FAILED;
-        }
-
-        const auto &pipeline = cache.pipelines[pipeline_index_];
-        EXPECT_LT(stage_index_, pipeline.spirv_stages.size());
-        if (stage_index_ >= pipeline.spirv_stages.size()) {
-            return VK_ERROR_INITIALIZATION_FAILED;
-        }
-
-        const auto &spirv = pipeline.spirv_stages[stage_index_];
-        EXPECT_EQ(pCreateInfo->codeSize, spirv.size() * sizeof(uint32_t));
-        if (pCreateInfo->codeSize != spirv.size() * sizeof(uint32_t)) {
-            return VK_ERROR_INITIALIZATION_FAILED;
-        }
-        EXPECT_EQ(memcmp(pCreateInfo->pCode, spirv.data(), pCreateInfo->codeSize), 0);
-        if (memcmp(pCreateInfo->pCode, spirv.data(), pCreateInfo->codeSize) != 0) {
-            return VK_ERROR_INITIALIZATION_FAILED;
-        }
+        const auto &cache = info.in_pipeline_caches[it->second.cache_index];
+        const auto &pipeline = cache.pipelines[it->second.pipeline_index];
 
         auto mock_object = std::make_shared<VkMockObject<VkShaderModule>>();
         mock_objects_.insert(mock_object->handle());
 
         *pShaderModule = mock_object->handle();
 
-        per_pipeline_mock_objects_.resize(cache_index_ + 1);
-        per_pipeline_mock_objects_[cache_index_][utils::UUID(pipeline.uuid)].push_back(std::move(mock_object));
-
-        if (++stage_index_ >= pipeline.spirv_stages.size()) {
-            stage_index_ = 0;
-            if (++pipeline_index_ >= cache.pipelines.size()) {
-                pipeline_index_ = 0;
-                ++cache_index_;
-            }
-        }
+        per_pipeline_mock_objects_[it->second.cache_index][utils::UUID(pipeline.uuid)].push_back(std::move(mock_object));
 
         return VK_SUCCESS;
     };
+
+    // Initialize SPIR-V binary to pipeline stage ID mapping so that we can reverse engineer
+    // the pipeline stage ID based on the shader binary received in vkCreateShaderModule
+    for (uint32_t cache_idx = 0; cache_idx < info.in_pipeline_caches.size(); ++cache_idx) {
+        const auto &cache = info.in_pipeline_caches[cache_idx];
+        for (uint32_t pipeline_idx = 0; pipeline_idx < cache.pipelines.size(); ++pipeline_idx) {
+            const auto &pipeline = cache.pipelines[pipeline_idx];
+            for (uint32_t stage_idx = 0; stage_idx < pipeline.spirv_stages.size(); ++stage_idx) {
+                const auto &stage = pipeline.spirv_stages[stage_idx];
+                // VkMockShaderModules expects the SPIR-V code to be unique for each pipeline stage
+                // as the shader binary is used as the key for the lookup
+                EXPECT_EQ(spirv_data_to_pipeline_id_map_.find(stage), spirv_data_to_pipeline_id_map_.end());
+                spirv_data_to_pipeline_id_map_[stage] = PipelineStageId{cache_idx, pipeline_idx, stage_idx};
+            }
+        }
+    }
+
+    per_pipeline_mock_objects_.resize(info.in_pipeline_caches.size());
 
     vkmock::DestroyShaderModule = [&](auto, auto shaderModule, auto) {
         auto it = mock_objects_.find(shaderModule);
@@ -65,8 +62,6 @@ VkMockShaderModules::VkMockShaderModules(const PipelineCacheInfo &info)
         mock_objects_.erase(shaderModule);
     };
 }
-
-void VkMockShaderModules::VerifyShaderModulesCreated() { EXPECT_EQ(cache_index_, info_.in_pipeline_caches.size()); }
 
 void VkMockShaderModules::VerifyShaderModulesDestroyed() { EXPECT_TRUE(mock_objects_.empty()); }
 

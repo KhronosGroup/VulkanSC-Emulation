@@ -11,9 +11,12 @@
 #include "pcc_builder.h"
 
 #include <spirv-tools/libspirv.h>
+#include <mutex>
 #include <memory>
 #include <vector>
+#include <map>
 #include <unordered_set>
+#include <unordered_map>
 
 struct PipelineStageDesc {
     std::vector<uint32_t> spirv_stages;
@@ -50,12 +53,12 @@ struct PipelineCacheInfo {
 class VkMockShaderModules {
   public:
     VkMockShaderModules(const PipelineCacheInfo& info);
-    void VerifyShaderModulesCreated();
     void VerifyShaderModulesDestroyed();
 
     std::size_t GetTotalShaderModuleCount() const { return mock_objects_.size(); }
 
     std::size_t GetShaderModuleCount(uint32_t cache_index, const char* pipeline_uuid) const {
+        std::unique_lock lock(mutex_);
         if (cache_index >= per_pipeline_mock_objects_.size()) {
             return 0;
         } else {
@@ -69,6 +72,7 @@ class VkMockShaderModules {
     }
 
     VkShaderModule GetShaderModule(uint32_t cache_index, const char* pipeline_uuid, uint32_t stage_index) const {
+        std::unique_lock lock(mutex_);
         if (cache_index >= per_pipeline_mock_objects_.size()) {
             return VK_NULL_HANDLE;
         } else {
@@ -82,10 +86,15 @@ class VkMockShaderModules {
     }
 
   private:
-    const PipelineCacheInfo& info_;
-    uint32_t cache_index_;
-    uint32_t pipeline_index_;
-    uint32_t stage_index_;
+    mutable std::mutex mutex_;
+
+    struct PipelineStageId {
+        uint32_t cache_index;
+        uint32_t pipeline_index;
+        uint32_t stage_index;
+        bool already_created{false};
+    };
+    std::map<std::vector<uint32_t>, PipelineStageId> spirv_data_to_pipeline_id_map_;
     std::unordered_set<VkShaderModule> mock_objects_;
 
     // Indexed by cache index, keyed by pipeline UUID, contains array of mock shader module objects
@@ -290,6 +299,21 @@ void BuildPipelineCaches(PipelineCacheInfo& info);
             OpFunctionEnd
 )spirv";
 
+[[maybe_unused]] static char const kSampleComputeShaderSpv2[] = R"spirv(
+            OpCapability Shader
+       %1 = OpExtInstImport "GLSL.std.450"
+            OpMemoryModel Logical GLSL450
+            OpEntryPoint GLCompute %main "main"
+            OpExecutionMode %main LocalSize 4 4 1
+            OpSource GLSL 450
+    %void = OpTypeVoid
+       %3 = OpTypeFunction %void
+    %main = OpFunction %void None %3
+       %5 = OpLabel
+            OpReturn
+            OpFunctionEnd
+)spirv";
+
 [[maybe_unused]] static char const kSampleVertexShaderSpv[] = R"spirv(
             OpCapability Shader
             OpMemoryModel Logical GLSL450
@@ -303,7 +327,34 @@ void BuildPipelineCaches(PipelineCacheInfo& info);
             OpFunctionEnd
 )spirv";
 
+[[maybe_unused]] static char const kSampleVertexShaderSpv2[] = R"spirv(
+            OpCapability Shader
+            OpCapability ImageBuffer
+            OpMemoryModel Logical GLSL450
+            OpEntryPoint Vertex %main "main"
+            OpSource GLSL 450
+    %void = OpTypeVoid
+       %3 = OpTypeFunction %void
+    %main = OpFunction %void None %3
+       %5 = OpLabel
+            OpReturn
+            OpFunctionEnd
+)spirv";
+
 [[maybe_unused]] static char const kSampleFragmentShaderSpv[] = R"spirv(
+            OpCapability Shader
+            OpMemoryModel Logical GLSL450
+            OpEntryPoint Fragment %main "main"
+            OpExecutionMode %main OriginUpperLeft
+    %void = OpTypeVoid
+       %3 = OpTypeFunction %void
+    %main = OpFunction %void None %3
+       %5 = OpLabel
+            OpReturn
+            OpFunctionEnd
+)spirv";
+
+[[maybe_unused]] static char const kSampleFragmentShaderSpv2[] = R"spirv(
             OpCapability Shader
             OpCapability ImageBuffer
             OpMemoryModel Logical GLSL450

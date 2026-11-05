@@ -51,6 +51,9 @@ VkResult Device::SetupDevice(const VkDeviceCreateInfo& create_info) {
         return VK_ERROR_INITIALIZATION_FAILED;
     }
 
+    // Initialize SPIR-V validation options based on the device creation info
+    AdjustSpirvValidatorOptions(create_info, spvval_options_);
+
     while (object_reservation_info != nullptr) {
         // Initialize pipeline cache info
         for (uint32_t i = 0; i < object_reservation_info->pipelineCacheCreateInfoCount; ++i) {
@@ -61,7 +64,7 @@ VkResult Device::SetupDevice(const VkDeviceCreateInfo& create_info) {
                 return VK_ERROR_INVALID_PIPELINE_CACHE_DATA;
             }
 
-            icd::PipelineCache pipeline_cache(*this, create_info, cache_create_info);
+            icd::PipelineCache pipeline_cache(*this, cache_create_info);
             if (pipeline_cache.IsValid()) {
                 pipeline_cache_map_.emplace(std::make_pair(cache_create_info.pInitialData, std::move(pipeline_cache)));
             } else {
@@ -96,6 +99,27 @@ VkResult Device::SetupDevice(const VkDeviceCreateInfo& create_info) {
     }
 
     return result;
+}
+
+void Device::AdjustSpirvValidatorOptions(const VkDeviceCreateInfo& device_create_info, spvtools::ValidatorOptions& options) {
+    // Adjust SPIR-V validation options based on the enabled features
+    options.SetRelaxBlockLayout(true);
+    auto vulkan12_features = vku::FindStructInPNextChain<VkPhysicalDeviceVulkan12Features>(device_create_info.pNext);
+    auto uniform_buffer_standard_layout_features =
+        vku::FindStructInPNextChain<VkPhysicalDeviceUniformBufferStandardLayoutFeatures>(device_create_info.pNext);
+    auto scalar_block_layout_features =
+        vku::FindStructInPNextChain<VkPhysicalDeviceScalarBlockLayoutFeatures>(device_create_info.pNext);
+
+    if ((vulkan12_features != nullptr && vulkan12_features->uniformBufferStandardLayout) ||
+        (uniform_buffer_standard_layout_features != nullptr &&
+         uniform_buffer_standard_layout_features->uniformBufferStandardLayout)) {
+        options.SetUniformBufferStandardLayout(true);
+    }
+
+    if ((vulkan12_features != nullptr && vulkan12_features->scalarBlockLayout) ||
+        (scalar_block_layout_features != nullptr && scalar_block_layout_features->scalarBlockLayout)) {
+        options.SetScalarBlockLayout(true);
+    }
 }
 
 PFN_vkVoidFunction Device::GetDeviceProcAddr(const char* pName) { return icd::GetDeviceProcAddr(VkSCHandle(), pName); }
@@ -233,7 +257,11 @@ const icd::Pipeline* Device::GetPipelineFromCache(const icd::PipelineCache& pipe
         return nullptr;
     }
 
-    out_result = VK_SUCCESS;
+    out_result = pipeline->ValidateStages();
+    if (out_result < VK_SUCCESS) {
+        return nullptr;
+    }
+
     return pipeline;
 }
 
