@@ -87,15 +87,14 @@ target_link_libraries(icd PRIVATE
     SPIRV-Headers::SPIRV-Headers
 )
 
-if (${CMAKE_CXX_COMPILER_ID} MATCHES "(GNU|Clang)")
-    # These flags enable more efficient PIC generation by avoiding GOT lookups for data
-    # They also explicitly circumvent semantic interposition related problems
+# These flags enable more efficient PIC generation by avoiding GOT lookups for data
+# They also explicitly circumvent semantic interposition related problems
+if (${CMAKE_CXX_COMPILER_ID} MATCHES "GNU")
+    target_compile_options(icd PRIVATE "-fno-semantic-interposition")
+endif()
+if (${CMAKE_CXX_COMPILER_LINKER_ID} MATCHES "GNU")
     target_link_options(icd PRIVATE "-Wl,-Bsymbolic")
     target_link_options(icd PRIVATE "-Wl,-Bsymbolic-functions")
-    if (${CMAKE_CXX_COMPILER_ID} MATCHES "GNU")
-        # Unfortunately, clang does not yet recognize -fno-semantic-interposition on all platforms
-        target_compile_options(icd PRIVATE "-fno-semantic-interposition")
-    endif()
 endif()
 
 if(BUILD_WSI_XCB_SUPPORT)
