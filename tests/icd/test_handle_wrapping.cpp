@@ -46,8 +46,8 @@ TEST_F(HandleWrappingTest, CmdExecuteCommands) {
         CreateCommandPool(secondary_command_buffer_count * (buffer_update_size + 2048), secondary_command_buffer_count + 1);
 
     std::vector<VkMockObject<VkCommandBuffer>> mock_command_buffers(secondary_command_buffer_count + 1);
-    vkmock::AllocateCommandBuffers = [&, counter = 0](auto, const VkCommandBufferAllocateInfo *pAllocateInfo,
-                                                      VkCommandBuffer *pCommandBuffers) mutable {
+    vkmock::AllocateCommandBuffers = [&, counter = 0](auto, const VkCommandBufferAllocateInfo* pAllocateInfo,
+                                                      VkCommandBuffer* pCommandBuffers) mutable {
         for (uint32_t i = 0; i < pAllocateInfo->commandBufferCount; ++i, ++counter) {
             pCommandBuffers[i] = mock_command_buffers[counter];
         }
@@ -74,7 +74,7 @@ TEST_F(HandleWrappingTest, CmdExecuteCommands) {
     }
 
     vkmock::CmdExecuteCommands = [&](VkCommandBuffer commandBuffer, uint32_t commandBufferCount,
-                                     const VkCommandBuffer *pCommandBuffers) {
+                                     const VkCommandBuffer* pCommandBuffers) {
         EXPECT_EQ(commandBuffer, mock_command_buffers[0].handle());
         for (uint32_t i = 0; i < commandBufferCount; ++i) {
             EXPECT_EQ(pCommandBuffers[i], mock_command_buffers[i + 1].handle());
@@ -97,7 +97,7 @@ TEST_F(HandleWrappingTest, QueueSubmit) {
     const uint32_t buffers_per_submit = command_buffer_count / submit_count;
 
     vkmock::CmdUpdateBuffer = [&](auto, auto, auto, auto, auto) {};
-    vkmock::CreateFence = [](auto, auto, auto, VkFence *pFence) {
+    vkmock::CreateFence = [](auto, auto, auto, VkFence* pFence) {
         static std::vector<std::unique_ptr<VkMockObject<VkFence>>> fences;
         fences.emplace_back(new VkMockObject<VkFence>);
         *pFence = fences.back()->handle();
@@ -111,7 +111,7 @@ TEST_F(HandleWrappingTest, QueueSubmit) {
     auto command_pool = CreateCommandPool(command_buffer_count * (buffer_update_size + 2048), command_buffer_count);
 
     std::vector<VkMockObject<VkCommandBuffer>> mock_command_buffers(command_buffer_count);
-    vkmock::AllocateCommandBuffers = [&](auto, const VkCommandBufferAllocateInfo *pAllocateInfo, VkCommandBuffer *pCommandBuffers) {
+    vkmock::AllocateCommandBuffers = [&](auto, const VkCommandBufferAllocateInfo* pAllocateInfo, VkCommandBuffer* pCommandBuffers) {
         for (uint32_t i = 0; i < pAllocateInfo->commandBufferCount; ++i) {
             pCommandBuffers[i] = mock_command_buffers[i];
         }
@@ -134,7 +134,7 @@ TEST_F(HandleWrappingTest, QueueSubmit) {
         EXPECT_EQ(vksc::EndCommandBuffer(command_buffers[i]), VK_SUCCESS);
     }
 
-    vkmock::QueueSubmit = [&](auto, uint32_t submitCount, const VkSubmitInfo *pSubmits, auto) {
+    vkmock::QueueSubmit = [&](auto, uint32_t submitCount, const VkSubmitInfo* pSubmits, auto) {
         for (uint32_t i = 0; i < submitCount; ++i) {
             for (uint32_t j = 0; j < pSubmits[i].commandBufferCount; ++j) {
                 EXPECT_EQ(pSubmits[i].pCommandBuffers[j], mock_command_buffers[i * pSubmits[i].commandBufferCount + j].handle());
@@ -157,7 +157,7 @@ TEST_F(HandleWrappingTest, QueueSubmit) {
     EXPECT_EQ(vksc::QueueSubmit(queue, submit_count, submit_infos.data(), fence), VK_SUCCESS);
     EXPECT_EQ(vksc::WaitForFences(device, 1, &fence, VK_TRUE, 1'000'000), VK_SUCCESS);
 
-    vkmock::QueueSubmit2KHR = [&](auto, uint32_t submitCount, const VkSubmitInfo2 *pSubmits, VkFence fence) {
+    vkmock::QueueSubmit2KHR = [&](auto, uint32_t submitCount, const VkSubmitInfo2* pSubmits, VkFence fence) {
         for (uint32_t i = 0; i < submitCount; ++i) {
             for (uint32_t j = 0; j < pSubmits[i].commandBufferInfoCount; ++j) {
                 EXPECT_EQ(pSubmits[i].pCommandBufferInfos[j].commandBuffer,
@@ -227,7 +227,7 @@ TEST_F(HandleWrappingTest, DebugUtilsObjectHandles) {
     const uint32_t tag_data = 42;
 
     uint64_t named_handle = 0;
-    vkmock::SetDebugUtilsObjectNameEXT = [&](VkDevice, const VkDebugUtilsObjectNameInfoEXT *pNameInfo) {
+    vkmock::SetDebugUtilsObjectNameEXT = [&](VkDevice, const VkDebugUtilsObjectNameInfoEXT* pNameInfo) {
         named_handle = pNameInfo->objectHandle;
         // The rest of the structure has to be forwarded unmodified
         EXPECT_STREQ(pNameInfo->pObjectName, "TestObject");
@@ -235,7 +235,7 @@ TEST_F(HandleWrappingTest, DebugUtilsObjectHandles) {
     };
 
     uint64_t tagged_handle = 0;
-    vkmock::SetDebugUtilsObjectTagEXT = [&](VkDevice, const VkDebugUtilsObjectTagInfoEXT *pTagInfo) {
+    vkmock::SetDebugUtilsObjectTagEXT = [&](VkDevice, const VkDebugUtilsObjectTagInfoEXT* pTagInfo) {
         tagged_handle = pTagInfo->objectHandle;
         // The rest of the structure has to be forwarded unmodified
         EXPECT_EQ(pTagInfo->tagName, 1u);
@@ -258,7 +258,7 @@ TEST_F(HandleWrappingTest, DebugUtilsObjectHandles) {
     // VK_OBJECT_TYPE_INSTANCE is not covered because the Vulkan loader replaces the instance handle
     // with its own before the underlying implementation sees it, whether it was translated or not
     const struct {
-        const char *description;
+        const char* description;
         VkObjectType object_type;
         HandleValue wrapped;
         HandleValue underlying;
@@ -269,7 +269,7 @@ TEST_F(HandleWrappingTest, DebugUtilsObjectHandles) {
         {"command buffer", VK_OBJECT_TYPE_COMMAND_BUFFER, cmd_buffer, mock_cmd_buffer.handle()},
     };
 
-    for (const auto &test_case : test_cases) {
+    for (const auto& test_case : test_cases) {
         SCOPED_TRACE(test_case.description);
 
         // The test is only meaningful if the handle of the underlying object was picked up and the

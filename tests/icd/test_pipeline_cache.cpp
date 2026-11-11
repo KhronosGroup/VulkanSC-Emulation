@@ -12,7 +12,7 @@ class PipelineCacheTest : public IcdTest {
   public:
     PipelineCacheTest() : IcdTest{} {}
 
-    VkDevice InitDeviceWithPipelineCaches(PipelineCacheInfo &caches, VkResult expected_result = VK_SUCCESS) {
+    VkDevice InitDeviceWithPipelineCaches(PipelineCacheInfo& caches, VkResult expected_result = VK_SUCCESS) {
         BuildPipelineCaches(caches);
         auto create_info = GetDefaultDeviceCreateInfo(&caches.out_object_reservation_info);
         if (expected_result == VK_SUCCESS) {
@@ -133,7 +133,7 @@ TEST_F(PipelineCacheTest, ShaderModuleCreation) {
     stage_infos[1].stage = VK_SHADER_STAGE_FRAGMENT_BIT;
 
     std::vector<VkPipelineOfflineCreateInfo> graphics_offline_infos(2, vku::InitStruct<VkPipelineOfflineCreateInfo>());
-    for (auto &offline_info : graphics_offline_infos) {
+    for (auto& offline_info : graphics_offline_infos) {
         offline_info.matchControl = VK_PIPELINE_MATCH_CONTROL_APPLICATION_UUID_EXACT_MATCH;
         offline_info.poolEntrySize = 65536;
     }
@@ -141,13 +141,13 @@ TEST_F(PipelineCacheTest, ShaderModuleCreation) {
     utils::UUID(caches.in_pipeline_caches[2].pipelines[0].uuid).CopyToArray(graphics_offline_infos[1].pipelineIdentifier);
 
     std::vector<VkGraphicsPipelineCreateInfo> graphics_create_infos(3, vku::InitStruct<VkGraphicsPipelineCreateInfo>());
-    for (auto &create_info : graphics_create_infos) {
+    for (auto& create_info : graphics_create_infos) {
         create_info.stageCount = 2;
         create_info.pStages = stage_infos.data();
     }
 
     std::vector<VkPipelineOfflineCreateInfo> compute_offline_infos(2, vku::InitStruct<VkPipelineOfflineCreateInfo>());
-    for (auto &offline_info : compute_offline_infos) {
+    for (auto& offline_info : compute_offline_infos) {
         offline_info.matchControl = VK_PIPELINE_MATCH_CONTROL_APPLICATION_UUID_EXACT_MATCH;
         offline_info.poolEntrySize = 8192;
     }
@@ -155,7 +155,7 @@ TEST_F(PipelineCacheTest, ShaderModuleCreation) {
     utils::UUID(caches.in_pipeline_caches[1].pipelines[0].uuid).CopyToArray(compute_offline_infos[1].pipelineIdentifier);
 
     std::vector<VkComputePipelineCreateInfo> compute_create_infos(3, vku::InitStruct<VkComputePipelineCreateInfo>());
-    for (auto &create_info : compute_create_infos) {
+    for (auto& create_info : compute_create_infos) {
         create_info.stage.stage = VK_SHADER_STAGE_COMPUTE_BIT;
     }
 
@@ -470,7 +470,7 @@ TEST_F(PipelineCacheTest, CreatePipelineCacheUnknown) {
 TEST_F(PipelineCacheTest, CreateGraphicsPipelines) {
     TEST_DESCRIPTION("Test graphics pipeline creation");
 
-    const char *pipeline_uuid = "1265a236-e369-11ed-b5ea-0242ac120002";
+    const char* pipeline_uuid = "1265a236-e369-11ed-b5ea-0242ac120002";
 
     PipelineCacheInfo caches;
     // clang-format off
@@ -560,7 +560,7 @@ TEST_F(PipelineCacheTest, CreateGraphicsPipelines) {
     offline_info.poolEntrySize = 65536;
 
     std::vector<VkGraphicsPipelineCreateInfo> create_infos(3, vku::InitStruct<VkGraphicsPipelineCreateInfo>(&offline_info));
-    for (auto &create_info : create_infos) {
+    for (auto& create_info : create_infos) {
         create_info.stageCount = 2;
         create_info.pStages = stage_infos.data();
     }
@@ -588,10 +588,10 @@ TEST_F(PipelineCacheTest, CreateGraphicsPipelines) {
 TEST_F(PipelineCacheTest, CreateGraphicsPipelinesInvalidSpirv) {
     TEST_DESCRIPTION("Test graphics pipeline creation with invalid SPIR-V");
 
-    const char *pipeline_uuid_invalid1 = "1265a236-e369-11ed-b5ea-0242ac120002";
-    const char *pipeline_uuid_invalid2 = "1265a236-e369-11ed-b5ea-0242ac120003";
-    const char *pipeline_uuid_invalid3 = "1265a236-e369-11ed-b5ea-0242ac120004";
-    const char *pipeline_uuid_valid = "1265a236-e369-11ed-b5ea-0242ac120005";
+    const char* pipeline_uuid_invalid1 = "1265a236-e369-11ed-b5ea-0242ac120002";
+    const char* pipeline_uuid_invalid2 = "1265a236-e369-11ed-b5ea-0242ac120003";
+    const char* pipeline_uuid_invalid3 = "1265a236-e369-11ed-b5ea-0242ac120004";
+    const char* pipeline_uuid_valid = "1265a236-e369-11ed-b5ea-0242ac120005";
 
     const char kInvalidVertexShaderSpv[] = R"spirv(
                 OpCapability Shader
@@ -784,7 +784,7 @@ TEST_F(PipelineCacheTest, CreateGraphicsPipelinesInvalidSpirv) {
 TEST_F(PipelineCacheTest, CreateComputePipelines) {
     TEST_DESCRIPTION("Test compute pipeline creation");
 
-    const char *pipeline_uuid = "b23d0e5c-70a0-4d67-8781-99ec3798ed31";
+    const char* pipeline_uuid = "b23d0e5c-70a0-4d67-8781-99ec3798ed31";
 
     PipelineCacheInfo caches;
     // clang-format off
@@ -856,7 +856,7 @@ TEST_F(PipelineCacheTest, CreateComputePipelines) {
     VkSpecializationInfo specialization_info{};
 
     std::vector<VkComputePipelineCreateInfo> create_infos(3, vku::InitStruct<VkComputePipelineCreateInfo>(&offline_info));
-    for (auto &create_info : create_infos) {
+    for (auto& create_info : create_infos) {
         create_info.stage.stage = VK_SHADER_STAGE_COMPUTE_BIT;
         create_info.stage.pSpecializationInfo = &specialization_info;
     }
@@ -884,8 +884,8 @@ TEST_F(PipelineCacheTest, CreateComputePipelines) {
 TEST_F(PipelineCacheTest, CreateComputePipelinesInvalidSpirv) {
     TEST_DESCRIPTION("Test compute pipeline creation with invalid SPIR-V");
 
-    const char *pipeline_uuid_invalid = "b23d0e5c-70a0-4d67-8781-99ec3798ed31";
-    const char *pipeline_uuid_valid = "b23d0e5c-70a0-4d67-8781-99ec3798ed32";
+    const char* pipeline_uuid_invalid = "b23d0e5c-70a0-4d67-8781-99ec3798ed31";
+    const char* pipeline_uuid_valid = "b23d0e5c-70a0-4d67-8781-99ec3798ed32";
 
     const char kInvalidComputeShaderSpv[] = R"spirv(
                 OpCapability Shader
@@ -1066,7 +1066,7 @@ TEST_F(PipelineCacheTest, PipelinePoolUsage) {
     offline_info.matchControl = VK_PIPELINE_MATCH_CONTROL_APPLICATION_UUID_EXACT_MATCH;
 
     std::vector<VkComputePipelineCreateInfo> compute_ci(10, vku::InitStruct<VkComputePipelineCreateInfo>(&offline_info));
-    for (auto &create_info : compute_ci) {
+    for (auto& create_info : compute_ci) {
         create_info.stage.stage = VK_SHADER_STAGE_COMPUTE_BIT;
     }
 
@@ -1075,7 +1075,7 @@ TEST_F(PipelineCacheTest, PipelinePoolUsage) {
     stage_infos[1].stage = VK_SHADER_STAGE_FRAGMENT_BIT;
 
     std::vector<VkGraphicsPipelineCreateInfo> graphics_ci(10, vku::InitStruct<VkGraphicsPipelineCreateInfo>(&offline_info));
-    for (auto &create_info : graphics_ci) {
+    for (auto& create_info : graphics_ci) {
         create_info.stageCount = 2;
         create_info.pStages = stage_infos.data();
     }

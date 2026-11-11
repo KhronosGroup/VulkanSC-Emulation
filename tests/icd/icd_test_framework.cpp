@@ -21,7 +21,7 @@
         }                                                                                                      \
     } while (0)
 
-static void InitDefaultMockHandlers(IcdTest *test_case = nullptr) {
+static void InitDefaultMockHandlers(IcdTest* test_case = nullptr) {
     static VkMockNonDispatchableObjectGenerator mock_gen{};
     static VkMockObject<VkInstance> mock_instance{};
     static VkMockObject<VkPhysicalDevice> mock_physical_device{};
@@ -273,7 +273,7 @@ void Framework::TearDown() {
     vkmock::UnloadLib();
 }
 
-static bool GetCLIFlag(int *argc, char *argv[], const char *flag, bool remove = true) {
+static bool GetCLIFlag(int* argc, char* argv[], const char* flag, bool remove = true) {
     for (int i = 0; i < *argc; ++i) {
         if (strcmp(argv[i], flag) == 0) {
             if (remove) {
@@ -288,13 +288,13 @@ static bool GetCLIFlag(int *argc, char *argv[], const char *flag, bool remove = 
     return false;
 }
 
-static bool GetEnvironmentFlag(const char *name) {
+static bool GetEnvironmentFlag(const char* name) {
     auto value = getenv(name);
     return !(value == nullptr || strcmp(value, "false") == 0 || strcmp(value, "FALSE") == 0 || strcmp(value, "0") == 0 ||
              strcmp(value, "") == 0);
 }
 
-void Framework::InitArgs(int *argc, char *argv[]) {
+void Framework::InitArgs(int* argc, char* argv[]) {
     if (GetCLIFlag(argc, argv, "--help") || GetCLIFlag(argc, argv, "-h")) {
         printf("\nOther options:\n");
         printf(
@@ -479,9 +479,9 @@ void IcdTest::DestroyInstance() {
     }
 }
 
-void IcdTest::EnableInstanceExtension(const char *extension_name) { instance_extensions_.push_back(extension_name); }
+void IcdTest::EnableInstanceExtension(const char* extension_name) { instance_extensions_.push_back(extension_name); }
 
-const VkInstanceCreateInfo IcdTest::GetDefaultInstanceCreateInfo(void *pnext_chain) const {
+const VkInstanceCreateInfo IcdTest::GetDefaultInstanceCreateInfo(void* pnext_chain) const {
     static auto result = [] {
         static auto create_info = vku::InitStruct<VkInstanceCreateInfo>();
         create_info.pApplicationInfo = [] {
@@ -501,7 +501,7 @@ const VkInstanceCreateInfo IcdTest::GetDefaultInstanceCreateInfo(void *pnext_cha
     return result;
 }
 
-VkInstance IcdTest::InitInstance(VkInstanceCreateInfo *create_info) {
+VkInstance IcdTest::InitInstance(VkInstanceCreateInfo* create_info) {
     auto default_ci = GetDefaultInstanceCreateInfo();
     if (create_info == nullptr) {
         create_info = &default_ci;
@@ -518,9 +518,9 @@ VkInstance IcdTest::InitInstance(VkInstanceCreateInfo *create_info) {
     return instance_;
 }
 
-void IcdTest::EnableDeviceExtension(const char *extension_name) { device_extensions_.push_back(extension_name); }
+void IcdTest::EnableDeviceExtension(const char* extension_name) { device_extensions_.push_back(extension_name); }
 
-const VkDeviceCreateInfo IcdTest::GetDefaultDeviceCreateInfo(void *pnext_chain) const {
+const VkDeviceCreateInfo IcdTest::GetDefaultDeviceCreateInfo(void* pnext_chain) const {
     auto result = [] {
         static auto create_info = vku::InitStruct<VkDeviceCreateInfo>();
         create_info.queueCreateInfoCount = 1;
@@ -552,7 +552,7 @@ const VkDeviceCreateInfo IcdTest::GetDefaultDeviceCreateInfo(void *pnext_chain) 
             auto last_struct = vku::FindLastStructInPNextChain(pnext_chain);
             if (last_struct != nullptr) {
                 last_struct->pNext =
-                    const_cast<VkBaseOutStructure *>(reinterpret_cast<const VkBaseOutStructure *>(&object_reservation_));
+                    const_cast<VkBaseOutStructure*>(reinterpret_cast<const VkBaseOutStructure*>(&object_reservation_));
             }
         }
     } else {
@@ -582,7 +582,7 @@ VkPhysicalDevice IcdTest::GetPhysicalDevice() {
     return physical_device_;
 }
 
-VkDevice IcdTest::InitDevice(VkDeviceCreateInfo *create_info) {
+VkDevice IcdTest::InitDevice(VkDeviceCreateInfo* create_info) {
     if (instance_ == VK_NULL_HANDLE) {
         InitInstance();
     }
@@ -604,7 +604,7 @@ VkDevice IcdTest::InitDevice(VkDeviceCreateInfo *create_info) {
     return device_;
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     Framework::InitArgs(&argc, argv);
 

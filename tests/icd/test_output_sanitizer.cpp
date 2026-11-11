@@ -26,7 +26,7 @@ TEST_F(OutputSanitizerTest, MemoryPropertyFlagBits) {
     InitInstance();
     auto physical_device = GetPhysicalDevice();
 
-    vkmock::GetPhysicalDeviceMemoryProperties = [](auto, VkPhysicalDeviceMemoryProperties *pMemoryProperties) {
+    vkmock::GetPhysicalDeviceMemoryProperties = [](auto, VkPhysicalDeviceMemoryProperties* pMemoryProperties) {
         pMemoryProperties[0] = VkPhysicalDeviceMemoryProperties{
             3,
             {{VkMemoryPropertyFlags{VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT | VK_MEMORY_PROPERTY_DEVICE_COHERENT_BIT_AMD}, 0},
@@ -37,7 +37,7 @@ TEST_F(OutputSanitizerTest, MemoryPropertyFlagBits) {
              {65536, VkMemoryHeapFlags{VK_MEMORY_HEAP_DEVICE_LOCAL_BIT}},
              {65536, VkMemoryHeapFlags{VK_MEMORY_HEAP_DEVICE_LOCAL_BIT}}}};
     };
-    vkmock::GetPhysicalDeviceMemoryProperties2 = [&](auto, VkPhysicalDeviceMemoryProperties2 *pMemoryProperties) {
+    vkmock::GetPhysicalDeviceMemoryProperties2 = [&](auto, VkPhysicalDeviceMemoryProperties2* pMemoryProperties) {
         vkmock::GetPhysicalDeviceMemoryProperties(VK_NULL_HANDLE, &pMemoryProperties->memoryProperties);
     };
 
@@ -65,8 +65,8 @@ TEST_F(OutputSanitizerTest, QueueFlagBits) {
     InitInstance();
     auto physical_device = GetPhysicalDevice();
 
-    vkmock::GetPhysicalDeviceQueueFamilyProperties = [](auto, uint32_t *pQueueFamilyPropertyCount,
-                                                        VkQueueFamilyProperties *pQueueFamilyProperties) {
+    vkmock::GetPhysicalDeviceQueueFamilyProperties = [](auto, uint32_t* pQueueFamilyPropertyCount,
+                                                        VkQueueFamilyProperties* pQueueFamilyProperties) {
         static std::vector<VkQueueFamilyProperties> props = {
             {VkQueueFlags{VK_QUEUE_GRAPHICS_BIT | VK_QUEUE_COMPUTE_BIT | VK_QUEUE_TRANSFER_BIT | VK_QUEUE_SPARSE_BINDING_BIT |
                           VK_QUEUE_PROTECTED_BIT | VK_QUEUE_OPTICAL_FLOW_BIT_NV},
@@ -83,8 +83,8 @@ TEST_F(OutputSanitizerTest, QueueFlagBits) {
             pQueueFamilyProperties[i] = props[i];
         }
     };
-    vkmock::GetPhysicalDeviceQueueFamilyProperties2 = [&](auto, uint32_t *pQueueFamilyPropertyCount,
-                                                          VkQueueFamilyProperties2 *pQueueFamilyProperties2) {
+    vkmock::GetPhysicalDeviceQueueFamilyProperties2 = [&](auto, uint32_t* pQueueFamilyPropertyCount,
+                                                          VkQueueFamilyProperties2* pQueueFamilyProperties2) {
         *pQueueFamilyPropertyCount = 2;
         std::vector<VkQueueFamilyProperties> props(2);
         vkmock::GetPhysicalDeviceQueueFamilyProperties(VK_NULL_HANDLE, pQueueFamilyPropertyCount, props.data());
@@ -117,8 +117,8 @@ TEST_F(OutputSanitizerTest, FragmentShadingRateSpecialCase11) {
     InitInstance();
     auto physical_device = GetPhysicalDevice();
 
-    vkmock::GetPhysicalDeviceFragmentShadingRatesKHR = [&](auto, uint32_t *pFragmentShadingRateCount,
-                                                           VkPhysicalDeviceFragmentShadingRateKHR *pFragmentShadingRates) {
+    vkmock::GetPhysicalDeviceFragmentShadingRatesKHR = [&](auto, uint32_t* pFragmentShadingRateCount,
+                                                           VkPhysicalDeviceFragmentShadingRateKHR* pFragmentShadingRates) {
         static const std::vector<VkPhysicalDeviceFragmentShadingRateKHR> fragment_shading_rates = {
             VkPhysicalDeviceFragmentShadingRateKHR{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FRAGMENT_SHADING_RATE_KHR, nullptr,
                                                    VK_SAMPLE_COUNT_1_BIT | VK_SAMPLE_COUNT_4_BIT, VkExtent2D{2, 1}},
@@ -194,7 +194,7 @@ TEST_F(OutputSanitizerTest, SurfacePresentModes) {
     InitInstance();
     auto physical_device = GetPhysicalDevice();
 
-    vkmock::GetPhysicalDeviceSurfacePresentModesKHR = [](auto, auto, uint32_t *pPresentModeCount, VkPresentModeKHR *pPresentModes) {
+    vkmock::GetPhysicalDeviceSurfacePresentModesKHR = [](auto, auto, uint32_t* pPresentModeCount, VkPresentModeKHR* pPresentModes) {
         static const std::vector<VkPresentModeKHR> present_modes = {
             VK_PRESENT_MODE_FIFO_KHR, VK_PRESENT_MODE_MAILBOX_KHR,
             VK_PRESENT_MODE_FIFO_LATEST_READY_KHR,  // not supported in Vulkan SC

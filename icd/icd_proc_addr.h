@@ -25,19 +25,19 @@ enum class ProcTypeMask {
     Device = DeviceProc
 };
 
-inline PFN_vkVoidFunction GetInstanceProcAddr(VkInstance instance, const char *proc_name) {
+inline PFN_vkVoidFunction GetInstanceProcAddr(VkInstance instance, const char* proc_name) {
     if (strcmp(proc_name, "vkGetInstanceProcAddr") == 0) {
         // instance = NULL  && "pName == vkGetInstanceProcAddr"
         // instance = valid && "pName == vkGetInstanceProcAddr"
         return (PFN_vkVoidFunction)::icd::GetInstanceProcAddr;
     }
     if (instance != VK_NULL_HANDLE) {
-        const auto &global_proc = vksc::GetGlobalProcAddrMap().find(proc_name);
+        const auto& global_proc = vksc::GetGlobalProcAddrMap().find(proc_name);
         if (global_proc != vksc::GetGlobalProcAddrMap().end()) {
             // instance = NULL && global command
             return global_proc->second.pfn;
         }
-        const auto &instance_proc = vksc::GetInstanceProcAddrMap().find(proc_name);
+        const auto& instance_proc = vksc::GetInstanceProcAddrMap().find(proc_name);
         if (instance_proc != vksc::GetInstanceProcAddrMap().end()) {
             for (auto ext_num : instance_proc->second.enabled_by) {
                 if (vksc::GetInstanceExtensionsMap().find(ext_num) != vksc::GetInstanceExtensionsMap().cend() &&
@@ -49,7 +49,7 @@ inline PFN_vkVoidFunction GetInstanceProcAddr(VkInstance instance, const char *p
             // instance = valid && core dispatchable command
             return instance_proc->second.pfn;
         }
-        const auto &physdev_proc = vksc::GetPhysicalDeviceProcAddrMap().find(proc_name);
+        const auto& physdev_proc = vksc::GetPhysicalDeviceProcAddrMap().find(proc_name);
         if (physdev_proc != vksc::GetPhysicalDeviceProcAddrMap().end()) {
             for (auto ext_num : physdev_proc->second.enabled_by) {
                 if (vksc::GetInstanceExtensionsMap().find(ext_num) != vksc::GetInstanceExtensionsMap().cend() &&
@@ -60,7 +60,7 @@ inline PFN_vkVoidFunction GetInstanceProcAddr(VkInstance instance, const char *p
             }
             return physdev_proc->second.pfn;
         }
-        const auto &dev_proc = vksc::GetDeviceProcAddrMap().find(proc_name);
+        const auto& dev_proc = vksc::GetDeviceProcAddrMap().find(proc_name);
         if (dev_proc != vksc::GetDeviceProcAddrMap().end()) {
             if (!dev_proc->second.enabled_by.empty()) {
                 // TODO: We could check available device extensions here
@@ -68,7 +68,7 @@ inline PFN_vkVoidFunction GetInstanceProcAddr(VkInstance instance, const char *p
             return dev_proc->second.pfn;
         }
     } else {
-        const auto &global_proc = vksc::GetGlobalProcAddrMap().find(proc_name);
+        const auto& global_proc = vksc::GetGlobalProcAddrMap().find(proc_name);
         if (global_proc != vksc::GetGlobalProcAddrMap().end()) {
             // instance = NULL && global command
             return global_proc->second.pfn;
@@ -78,9 +78,9 @@ inline PFN_vkVoidFunction GetInstanceProcAddr(VkInstance instance, const char *p
     return nullptr;
 }
 
-inline PFN_vkVoidFunction GetDeviceProcAddr(VkDevice device, const char *proc_name) {
+inline PFN_vkVoidFunction GetDeviceProcAddr(VkDevice device, const char* proc_name) {
     if (device != VK_NULL_HANDLE) {
-        const auto &proc = vksc::GetDeviceProcAddrMap().find(proc_name);
+        const auto& proc = vksc::GetDeviceProcAddrMap().find(proc_name);
         if (proc != vksc::GetDeviceProcAddrMap().end()) {
             for (auto ext_num : proc->second.enabled_by) {
                 if (vksc::GetDeviceExtensionsMap().find(ext_num) != vksc::GetDeviceExtensionsMap().cend() &&
@@ -97,28 +97,28 @@ inline PFN_vkVoidFunction GetDeviceProcAddr(VkDevice device, const char *proc_na
     return nullptr;
 }
 
-inline PFN_vkVoidFunction GetProcAddr(ProcTypeMask proc_type_mask, const char *proc_name) {
+inline PFN_vkVoidFunction GetProcAddr(ProcTypeMask proc_type_mask, const char* proc_name) {
     uint32_t mask = static_cast<uint32_t>(proc_type_mask);
     if (mask & GlobalProc) {
-        const auto &proc = vksc::GetGlobalProcAddrMap().find(proc_name);
+        const auto& proc = vksc::GetGlobalProcAddrMap().find(proc_name);
         if (proc != vksc::GetGlobalProcAddrMap().end()) {
             return proc->second.pfn;
         }
     }
     if (mask & InstanceProc) {
-        const auto &proc = vksc::GetInstanceProcAddrMap().find(proc_name);
+        const auto& proc = vksc::GetInstanceProcAddrMap().find(proc_name);
         if (proc != vksc::GetInstanceProcAddrMap().end()) {
             return proc->second.pfn;
         }
     }
     if (mask & PhysicalDeviceProc) {
-        const auto &proc = vksc::GetPhysicalDeviceProcAddrMap().find(proc_name);
+        const auto& proc = vksc::GetPhysicalDeviceProcAddrMap().find(proc_name);
         if (proc != vksc::GetPhysicalDeviceProcAddrMap().end()) {
             return proc->second.pfn;
         }
     }
     if (mask & DeviceProc) {
-        const auto &proc = vksc::GetDeviceProcAddrMap().find(proc_name);
+        const auto& proc = vksc::GetDeviceProcAddrMap().find(proc_name);
         if (proc != vksc::GetDeviceProcAddrMap().end()) {
             return proc->second.pfn;
         }

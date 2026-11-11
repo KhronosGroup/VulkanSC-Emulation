@@ -10,7 +10,7 @@
 
 #include <string.h>
 
-VkMockShaderModules::VkMockShaderModules(const PipelineCacheInfo &info)
+VkMockShaderModules::VkMockShaderModules(const PipelineCacheInfo& info)
     : mutex_(), spirv_data_to_pipeline_id_map_(), mock_objects_(), per_pipeline_mock_objects_() {
     vkmock::CreateShaderModule = [&](auto, auto pCreateInfo, auto, auto pShaderModule) {
         std::unique_lock lock(mutex_);
@@ -25,8 +25,8 @@ VkMockShaderModules::VkMockShaderModules(const PipelineCacheInfo &info)
         EXPECT_FALSE(it->second.already_created);
         it->second.already_created = true;
 
-        const auto &cache = info.in_pipeline_caches[it->second.cache_index];
-        const auto &pipeline = cache.pipelines[it->second.pipeline_index];
+        const auto& cache = info.in_pipeline_caches[it->second.cache_index];
+        const auto& pipeline = cache.pipelines[it->second.pipeline_index];
 
         auto mock_object = std::make_shared<VkMockObject<VkShaderModule>>();
         mock_objects_.insert(mock_object->handle());
@@ -41,11 +41,11 @@ VkMockShaderModules::VkMockShaderModules(const PipelineCacheInfo &info)
     // Initialize SPIR-V binary to pipeline stage ID mapping so that we can reverse engineer
     // the pipeline stage ID based on the shader binary received in vkCreateShaderModule
     for (uint32_t cache_idx = 0; cache_idx < info.in_pipeline_caches.size(); ++cache_idx) {
-        const auto &cache = info.in_pipeline_caches[cache_idx];
+        const auto& cache = info.in_pipeline_caches[cache_idx];
         for (uint32_t pipeline_idx = 0; pipeline_idx < cache.pipelines.size(); ++pipeline_idx) {
-            const auto &pipeline = cache.pipelines[pipeline_idx];
+            const auto& pipeline = cache.pipelines[pipeline_idx];
             for (uint32_t stage_idx = 0; stage_idx < pipeline.spirv_stages.size(); ++stage_idx) {
-                const auto &stage = pipeline.spirv_stages[stage_idx];
+                const auto& stage = pipeline.spirv_stages[stage_idx];
                 // VkMockShaderModules expects the SPIR-V code to be unique for each pipeline stage
                 // as the shader binary is used as the key for the lookup
                 EXPECT_EQ(spirv_data_to_pipeline_id_map_.find(stage), spirv_data_to_pipeline_id_map_.end());
@@ -65,7 +65,7 @@ VkMockShaderModules::VkMockShaderModules(const PipelineCacheInfo &info)
 
 void VkMockShaderModules::VerifyShaderModulesDestroyed() { EXPECT_TRUE(mock_objects_.empty()); }
 
-std::vector<uint32_t> CompileSPV(const char *spv, const spv_target_env target_env) {
+std::vector<uint32_t> CompileSPV(const char* spv, const spv_target_env target_env) {
     std::vector<uint32_t> output{};
 
     spv_binary binary;
@@ -85,10 +85,10 @@ std::vector<uint32_t> CompileSPV(const char *spv, const spv_target_env target_en
     return output;
 }
 
-void BuildPipelineCaches(PipelineCacheInfo &info) {
+void BuildPipelineCaches(PipelineCacheInfo& info) {
     info.out_pipeline_pool_sizes.clear();
     info.out_pipeline_pool_sizes.reserve(info.in_pipeline_pools.size());
-    for (auto &pipeline_pool : info.in_pipeline_pools) {
+    for (auto& pipeline_pool : info.in_pipeline_pools) {
         auto pool_size = vku::InitStruct<VkPipelinePoolSize>();
         pool_size.poolEntrySize = pipeline_pool.size;
         pool_size.poolEntryCount = pipeline_pool.count;
@@ -99,8 +99,8 @@ void BuildPipelineCaches(PipelineCacheInfo &info) {
     info.out_pipeline_cache_create_info.reserve(info.in_pipeline_caches.size());
     info.builders.clear();
     info.builders.reserve(info.in_pipeline_caches.size());
-    for (auto &pipeline_cache : info.in_pipeline_caches) {
-        auto &builder = info.builders.emplace_back();
+    for (auto& pipeline_cache : info.in_pipeline_caches) {
+        auto& builder = info.builders.emplace_back();
 
         auto header = builder.AddHeader();
         header->headerVersionOne.vendorID = VK_VENDOR_ID_KHRONOS;
