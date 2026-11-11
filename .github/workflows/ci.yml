@@ -27,13 +27,13 @@ permissions:
     contents: read
 
 jobs:
-  check_emu:
-    name: clang-format
+  pre_build:
+    name: Pre-build tests
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
     env:
-      CLANG_FORMAT_VERSION: 18
+      CLANG_FORMAT_VERSION: 22
       CLANG_FORMAT_FILES: "*.c *.h *.cpp *.hpp"
     steps:
     - name: ${{ format('Checkout {0}', github.repository) }}
@@ -45,23 +45,21 @@ jobs:
           clang-format-${CLANG_FORMAT_VERSION} -i --Werror "$f"
         done
         git diff --exit-code
-    - name: REUSE Compliance Check
+    - name: Check REUSE compliance
       uses: fsfe/reuse-action@v5.0.0
-
-  codegen:
-    needs: check_emu
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
-      - run: python3 -m pip install pyparsing
-      - run: scripts/update_deps.py --dir external --no-build
-      - run: scripts/generate_source.py --verify external/Vulkan-Headers/registry/
+    - name: Install Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+    - run: python3 -m pip install pyparsing
+    - name: Codegen identity
+      run: |
+        python3 scripts/update_deps.py --dir external --no-build
+        python3 scripts/generate_source.py external/Vulkan-Headers/registry/
+        git diff --exit-code
 
   linux:
-    needs: codegen
+    needs: pre_build
     runs-on: ${{matrix.os}}
     name: "linux (${{matrix.os}}, ${{matrix.config}})"
     strategy:
@@ -92,7 +90,7 @@ jobs:
         run: python scripts/tests.py --test-icd --vkloader --vkscloader
 
   linux-sanitize:
-    needs: codegen
+    needs: pre_build
     runs-on: ${{matrix.os}}
     name: "linux (${{matrix.sanitize}} sanitizer, ${{matrix.os}}, ${{matrix.config}})"
     strategy:
@@ -131,7 +129,7 @@ jobs:
         run: python scripts/tests.py --test-icd --vkloader --vkscloader
 
   windows:
-    needs: codegen
+    needs: pre_build
     runs-on: windows-latest
     strategy:
       matrix:

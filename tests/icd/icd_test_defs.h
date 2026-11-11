@@ -15,5 +15,5 @@
 #define EXPORT
 #endif
 
-typedef PFN_vkVoidFunction(VKAPI_PTR *PFN_vkmockGetProcAddr)(const char *);
-typedef void(VKAPI_PTR *PFN_vkmockInit)(PFN_vkmockGetProcAddr);
+typedef PFN_vkVoidFunction(VKAPI_PTR* PFN_vkmockGetProcAddr)(const char*);
+typedef void(VKAPI_PTR* PFN_vkmockInit)(PFN_vkmockGetProcAddr);

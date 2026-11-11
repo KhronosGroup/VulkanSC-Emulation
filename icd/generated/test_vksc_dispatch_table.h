@@ -23,7 +23,7 @@
 #include <stdlib.h>
 
 class vksc {
-    inline static void *lib_handle_{nullptr};
+    inline static void* lib_handle_{nullptr};
 
   public:
     static void UnloadLib() {
@@ -36,7 +36,7 @@ class vksc {
         }
     }
 
-    static void LoadLib(const char *full_lib_name) {
+    static void LoadLib(const char* full_lib_name) {
 #if defined(_WIN32)
         lib_handle_ = LoadLibraryA(full_lib_name);
 #else
