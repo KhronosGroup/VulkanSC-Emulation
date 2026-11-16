@@ -354,7 +354,7 @@ VKAPI_ATTR VkResult VKAPI_CALL vkCreateInstance(const VkInstanceCreateInfo* pCre
             vksc::ICD.Log().Error("VKSC-EMU-GlobalInstanceLimitExceeded", "Global instance limit (%u) exceeded",
                                   vksc::ICD.Environment().GetGlobalMaxInstances().value());
             vksc::Instance::FromHandle(instance)->DestroyInstance(pAllocator);
-            result = VK_ERROR_TOO_MANY_OBJECTS;
+            result = VK_ERROR_INITIALIZATION_FAILED;
         }
     }
 
