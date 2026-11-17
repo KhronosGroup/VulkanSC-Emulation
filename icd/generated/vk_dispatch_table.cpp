@@ -931,6 +931,18 @@ DispatchTable::DispatchTable(VkInstance instance, PFN_vkGetInstanceProcAddr get_
           reinterpret_cast<PFN_vkCmdBeginPerTileExecutionQCOM>(get_proc_addr(instance, "vkCmdBeginPerTileExecutionQCOM"))),
       CmdEndPerTileExecutionQCOM(
           reinterpret_cast<PFN_vkCmdEndPerTileExecutionQCOM>(get_proc_addr(instance, "vkCmdEndPerTileExecutionQCOM"))),
+      SetLatencySleepModeLegacyNV(
+          reinterpret_cast<PFN_vkSetLatencySleepModeLegacyNV>(get_proc_addr(instance, "vkSetLatencySleepModeLegacyNV"))),
+      LatencySleepLegacyNV(reinterpret_cast<PFN_vkLatencySleepLegacyNV>(get_proc_addr(instance, "vkLatencySleepLegacyNV"))),
+      SetLatencyMarkerLegacyNV(
+          reinterpret_cast<PFN_vkSetLatencyMarkerLegacyNV>(get_proc_addr(instance, "vkSetLatencyMarkerLegacyNV"))),
+      GetLatencyTimingsLegacyNV(
+          reinterpret_cast<PFN_vkGetLatencyTimingsLegacyNV>(get_proc_addr(instance, "vkGetLatencyTimingsLegacyNV"))),
+      QueueNotifyOutOfBandLegacyNV(
+          reinterpret_cast<PFN_vkQueueNotifyOutOfBandLegacyNV>(get_proc_addr(instance, "vkQueueNotifyOutOfBandLegacyNV"))),
+      GetSleepStatusLegacyNV(reinterpret_cast<PFN_vkGetSleepStatusLegacyNV>(get_proc_addr(instance, "vkGetSleepStatusLegacyNV"))),
+      ShutdownLatencyDeviceLegacyNV(
+          reinterpret_cast<PFN_vkShutdownLatencyDeviceLegacyNV>(get_proc_addr(instance, "vkShutdownLatencyDeviceLegacyNV"))),
 #ifdef VK_USE_PLATFORM_METAL_EXT
       ExportMetalObjectsEXT(reinterpret_cast<PFN_vkExportMetalObjectsEXT>(get_proc_addr(instance, "vkExportMetalObjectsEXT"))),
 #endif  // VK_USE_PLATFORM_METAL_EXT
@@ -1288,11 +1300,21 @@ DispatchTable::DispatchTable(VkInstance instance, PFN_vkGetInstanceProcAddr get_
               get_proc_addr(instance, "vkGetPhysicalDeviceQueueFamilyDataGraphOpticalFlowImageFormatsARM"))),
       CmdSetComputeOccupancyPriorityNV(
           reinterpret_cast<PFN_vkCmdSetComputeOccupancyPriorityNV>(get_proc_addr(instance, "vkCmdSetComputeOccupancyPriorityNV"))),
+      GetPhysicalDeviceCooperativeMatrixProperties2EXT(reinterpret_cast<PFN_vkGetPhysicalDeviceCooperativeMatrixProperties2EXT>(
+          get_proc_addr(instance, "vkGetPhysicalDeviceCooperativeMatrixProperties2EXT"))),
 #ifdef VK_USE_PLATFORM_UBM_SEC
       CreateUbmSurfaceSEC(reinterpret_cast<PFN_vkCreateUbmSurfaceSEC>(get_proc_addr(instance, "vkCreateUbmSurfaceSEC"))),
       GetPhysicalDeviceUbmPresentationSupportSEC(reinterpret_cast<PFN_vkGetPhysicalDeviceUbmPresentationSupportSEC>(
           get_proc_addr(instance, "vkGetPhysicalDeviceUbmPresentationSupportSEC"))),
 #endif  // VK_USE_PLATFORM_UBM_SEC
+      GetPhysicalDeviceInternalHandleNV(reinterpret_cast<PFN_vkGetPhysicalDeviceInternalHandleNV>(
+          get_proc_addr(instance, "vkGetPhysicalDeviceInternalHandleNV"))),
+      GetDeviceInternalHandleNV(
+          reinterpret_cast<PFN_vkGetDeviceInternalHandleNV>(get_proc_addr(instance, "vkGetDeviceInternalHandleNV"))),
+      GetQueueInternalHandleNV(
+          reinterpret_cast<PFN_vkGetQueueInternalHandleNV>(get_proc_addr(instance, "vkGetQueueInternalHandleNV"))),
+      GetCommandBufferInternalHandleNV(
+          reinterpret_cast<PFN_vkGetCommandBufferInternalHandleNV>(get_proc_addr(instance, "vkGetCommandBufferInternalHandleNV"))),
       CmdSetPrimitiveRestartIndexEXT(
           reinterpret_cast<PFN_vkCmdSetPrimitiveRestartIndexEXT>(get_proc_addr(instance, "vkCmdSetPrimitiveRestartIndexEXT"))),
       CreateAccelerationStructureKHR(

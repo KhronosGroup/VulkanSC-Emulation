@@ -82,9 +82,11 @@ VkResult Queue::QueueSetPerfHintQCOM(const VkPerfHintInfoQCOM* pPerfHintInfo) {
     }
     return result;
 }
+void Queue::QueueNotifyOutOfBandLegacyNV(uint32_t queueType) { dispatch_table_.QueueNotifyOutOfBandLegacyNV(handle_, queueType); }
 void Queue::QueueNotifyOutOfBandNV(const VkOutOfBandQueueTypeInfoNV* pQueueTypeInfo) {
     dispatch_table_.QueueNotifyOutOfBandNV(handle_, pQueueTypeInfo);
 }
+void Queue::GetQueueInternalHandleNV(VkInternalHandleNV* pHandle) { dispatch_table_.GetQueueInternalHandleNV(handle_, pHandle); }
 
 }  // namespace vk
 

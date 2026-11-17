@@ -849,6 +849,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineS
         case VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_REQUIRED_SUBGROUP_SIZE_CREATE_INFO:
             return {alignof(VkPipelineShaderStageRequiredSubgroupSizeCreateInfo),
                     sizeof(VkPipelineShaderStageRequiredSubgroupSizeCreateInfo)};
+        case VK_STRUCTURE_TYPE_VALIDATION_FEATURES_EXT:
+            return {alignof(VkValidationFeaturesEXT), sizeof(VkValidationFeaturesEXT)};
 
         default:
             // Unknown structure
@@ -867,6 +869,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkComputePi
             return {alignof(VkPipelineOfflineCreateInfo), sizeof(VkPipelineOfflineCreateInfo)};
         case VK_STRUCTURE_TYPE_PIPELINE_ROBUSTNESS_CREATE_INFO:
             return {alignof(VkPipelineRobustnessCreateInfo), sizeof(VkPipelineRobustnessCreateInfo)};
+        case VK_STRUCTURE_TYPE_VALIDATION_FEATURES_EXT:
+            return {alignof(VkValidationFeaturesEXT), sizeof(VkValidationFeaturesEXT)};
 
         default:
             // Unknown structure
@@ -1204,6 +1208,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkGraphicsP
             return {alignof(VkRenderingAttachmentLocationInfo), sizeof(VkRenderingAttachmentLocationInfo)};
         case VK_STRUCTURE_TYPE_RENDERING_INPUT_ATTACHMENT_INDEX_INFO:
             return {alignof(VkRenderingInputAttachmentIndexInfo), sizeof(VkRenderingInputAttachmentIndexInfo)};
+        case VK_STRUCTURE_TYPE_VALIDATION_FEATURES_EXT:
+            return {alignof(VkValidationFeaturesEXT), sizeof(VkValidationFeaturesEXT)};
 
         default:
             // Unknown structure

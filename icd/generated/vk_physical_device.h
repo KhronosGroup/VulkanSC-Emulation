@@ -183,9 +183,13 @@ class PhysicalDevice {
         uint32_t queueFamilyIndex, const VkQueueFamilyDataGraphPropertiesARM* pQueueFamilyDataGraphProperties,
         const VkDataGraphOpticalFlowImageFormatInfoARM* pOpticalFlowImageFormatInfo, uint32_t* pFormatCount,
         VkDataGraphOpticalFlowImageFormatPropertiesARM* pImageFormatProperties);
+    VkResult GetPhysicalDeviceCooperativeMatrixProperties2EXT(
+        const VkPhysicalDeviceCooperativeMatrixInfo2EXT* pCooperativeMatrixInfo, uint32_t* pPropertyCount,
+        VkCooperativeMatrixProperties2EXT* pProperties);
 #ifdef VK_USE_PLATFORM_UBM_SEC
     VkBool32 GetPhysicalDeviceUbmPresentationSupportSEC(uint32_t queueFamilyIndex, struct ubm_device* device);
 #endif  // VK_USE_PLATFORM_UBM_SEC
+    void GetPhysicalDeviceInternalHandleNV(VkInternalHandleNV* pHandle);
 
     VkPhysicalDevice VkHandle() const { return handle_; }
     const DispatchTable& VkDispatch() const { return dispatch_table_; }

@@ -403,6 +403,12 @@ class Device {
     void DestroyCudaModuleNV(VkCudaModuleNV module, const VkAllocationCallbacks* pAllocator);
     void DestroyCudaFunctionNV(VkCudaFunctionNV function, const VkAllocationCallbacks* pAllocator);
 #endif  // VK_ENABLE_BETA_EXTENSIONS
+    void SetLatencySleepModeLegacyNV(VkBool32 lowLatencyMode, VkBool32 lowLatencyBoost, uint32_t minimumIntervalUs);
+    void LatencySleepLegacyNV(VkSemaphore signalSemaphore, uint64_t value);
+    void SetLatencyMarkerLegacyNV(uint64_t frameID, uint32_t marker);
+    void GetLatencyTimingsLegacyNV(void* pTimings);
+    void GetSleepStatusLegacyNV(VkBool32* pLowLatencyMode);
+    void ShutdownLatencyDeviceLegacyNV();
 #ifdef VK_USE_PLATFORM_METAL_EXT
     void ExportMetalObjectsEXT(VkExportMetalObjectsInfoEXT* pMetalObjectsInfo);
 #endif  // VK_USE_PLATFORM_METAL_EXT
@@ -548,6 +554,7 @@ class Device {
     VkResult GetShaderInstrumentationValuesARM(VkShaderInstrumentationARM instrumentation, uint32_t* pMetricBlockCount,
                                                void* pMetricValues, VkShaderInstrumentationValuesFlagsARM flags);
     void ClearShaderInstrumentationMetricsARM(VkShaderInstrumentationARM instrumentation);
+    void GetDeviceInternalHandleNV(VkInternalHandleNV* pHandle);
     VkResult CreateAccelerationStructureKHR(const VkAccelerationStructureCreateInfoKHR* pCreateInfo,
                                             const VkAllocationCallbacks* pAllocator,
                                             VkAccelerationStructureKHR* pAccelerationStructure);

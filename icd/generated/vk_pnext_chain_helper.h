@@ -280,6 +280,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceCre
                     sizeof(VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BORDER_COLOR_SWIZZLE_FEATURES_EXT:
             return {alignof(VkPhysicalDeviceBorderColorSwizzleFeaturesEXT), sizeof(VkPhysicalDeviceBorderColorSwizzleFeaturesEXT)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_ALLOCATION_ALIGNMENT_FEATURES_VALVE:
+            return {alignof(VkPhysicalDeviceBufferDeviceAddressAllocationAlignmentFeaturesVALVE),
+                    sizeof(VkPhysicalDeviceBufferDeviceAddressAllocationAlignmentFeaturesVALVE)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES:
             return {alignof(VkPhysicalDeviceBufferDeviceAddressFeatures), sizeof(VkPhysicalDeviceBufferDeviceAddressFeatures)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES_EXT:
@@ -319,6 +322,12 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceCre
             return {alignof(VkPhysicalDeviceCooperativeMatrixFeaturesKHR), sizeof(VkPhysicalDeviceCooperativeMatrixFeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_FEATURES_NV:
             return {alignof(VkPhysicalDeviceCooperativeMatrixFeaturesNV), sizeof(VkPhysicalDeviceCooperativeMatrixFeaturesNV)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_LAYOUTS_FEATURES_ARM:
+            return {alignof(VkPhysicalDeviceCooperativeMatrixLayoutsFeaturesARM),
+                    sizeof(VkPhysicalDeviceCooperativeMatrixLayoutsFeaturesARM)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_MAINTENANCE_1_FEATURES_EXT:
+            return {alignof(VkPhysicalDeviceCooperativeMatrixMaintenance1FeaturesEXT),
+                    sizeof(VkPhysicalDeviceCooperativeMatrixMaintenance1FeaturesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_VECTOR_FEATURES_NV:
             return {alignof(VkPhysicalDeviceCooperativeVectorFeaturesNV), sizeof(VkPhysicalDeviceCooperativeVectorFeaturesNV)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COPY_MEMORY_INDIRECT_FEATURES_KHR:
@@ -484,6 +493,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceCre
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_GRAPHICS_PIPELINE_LIBRARY_FEATURES_EXT:
             return {alignof(VkPhysicalDeviceGraphicsPipelineLibraryFeaturesEXT),
                     sizeof(VkPhysicalDeviceGraphicsPipelineLibraryFeaturesEXT)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HDR_SMPTE_ST_209450_FEATURES_GOOGLE:
+            return {alignof(VkPhysicalDeviceHdrSmpteSt209450FeaturesGOOGLE),
+                    sizeof(VkPhysicalDeviceHdrSmpteSt209450FeaturesGOOGLE)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HDR_VIVID_FEATURES_HUAWEI:
             return {alignof(VkPhysicalDeviceHdrVividFeaturesHUAWEI), sizeof(VkPhysicalDeviceHdrVividFeaturesHUAWEI)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_FEATURES:
@@ -512,6 +524,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceCre
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_SLICED_VIEW_OF_3D_FEATURES_EXT:
             return {alignof(VkPhysicalDeviceImageSlicedViewOf3DFeaturesEXT),
                     sizeof(VkPhysicalDeviceImageSlicedViewOf3DFeaturesEXT)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_TILING_CONTROL_FEATURES_EXT:
+            return {alignof(VkPhysicalDeviceImageTilingControlFeaturesEXT), sizeof(VkPhysicalDeviceImageTilingControlFeaturesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_VIEW_MIN_LOD_FEATURES_EXT:
             return {alignof(VkPhysicalDeviceImageViewMinLodFeaturesEXT), sizeof(VkPhysicalDeviceImageViewMinLodFeaturesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGELESS_FRAMEBUFFER_FEATURES:
@@ -542,6 +556,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceCre
             return {alignof(VkPhysicalDeviceMaintenance10FeaturesKHR), sizeof(VkPhysicalDeviceMaintenance10FeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_11_FEATURES_KHR:
             return {alignof(VkPhysicalDeviceMaintenance11FeaturesKHR), sizeof(VkPhysicalDeviceMaintenance11FeaturesKHR)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_12_FEATURES_KHR:
+            return {alignof(VkPhysicalDeviceMaintenance12FeaturesKHR), sizeof(VkPhysicalDeviceMaintenance12FeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_FEATURES:
             return {alignof(VkPhysicalDeviceMaintenance4Features), sizeof(VkPhysicalDeviceMaintenance4Features)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_5_FEATURES:
@@ -620,9 +636,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceCre
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_EXECUTABLE_PROPERTIES_FEATURES_KHR:
             return {alignof(VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR),
                     sizeof(VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR)};
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_LIBRARY_GROUP_HANDLES_FEATURES_EXT:
-            return {alignof(VkPhysicalDevicePipelineLibraryGroupHandlesFeaturesEXT),
-                    sizeof(VkPhysicalDevicePipelineLibraryGroupHandlesFeaturesEXT)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_LIBRARY_GROUP_HANDLES_FEATURES_KHR:
+            return {alignof(VkPhysicalDevicePipelineLibraryGroupHandlesFeaturesKHR),
+                    sizeof(VkPhysicalDevicePipelineLibraryGroupHandlesFeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_OPACITY_MICROMAP_FEATURES_ARM:
             return {alignof(VkPhysicalDevicePipelineOpacityMicromapFeaturesARM),
                     sizeof(VkPhysicalDevicePipelineOpacityMicromapFeaturesARM)};
@@ -663,6 +679,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceCre
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRIMITIVES_GENERATED_QUERY_FEATURES_EXT:
             return {alignof(VkPhysicalDevicePrimitivesGeneratedQueryFeaturesEXT),
                     sizeof(VkPhysicalDevicePrimitivesGeneratedQueryFeaturesEXT)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRIVATE_DATA_BASE_HANDLE_FEATURES_NV:
+            return {alignof(VkPhysicalDevicePrivateDataBaseHandleFeaturesNV),
+                    sizeof(VkPhysicalDevicePrivateDataBaseHandleFeaturesNV)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRIVATE_DATA_FEATURES:
             return {alignof(VkPhysicalDevicePrivateDataFeatures), sizeof(VkPhysicalDevicePrivateDataFeatures)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROTECTED_MEMORY_FEATURES:
@@ -882,6 +901,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkDeviceCre
                     sizeof(VkPhysicalDeviceUniformBufferStandardLayoutFeatures)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VARIABLE_POINTERS_FEATURES:
             return {alignof(VkPhysicalDeviceVariablePointersFeatures), sizeof(VkPhysicalDeviceVariablePointersFeatures)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ADDRESS_BINDING_UNRESTRICTED_FEATURES_EXT:
+            return {alignof(VkPhysicalDeviceVertexAddressBindingUnrestrictedFeaturesEXT),
+                    sizeof(VkPhysicalDeviceVertexAddressBindingUnrestrictedFeaturesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES:
             return {alignof(VkPhysicalDeviceVertexAttributeDivisorFeatures),
                     sizeof(VkPhysicalDeviceVertexAttributeDivisorFeatures)};
@@ -1012,6 +1034,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMappedMem
 template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryAllocateInfo>(VkStructureType type) {
     switch (type) {
+        case VK_STRUCTURE_TYPE_BUFFER_DEVICE_ADDRESS_ALIGNMENT_ALLOCATE_INFO_VALVE:
+            return {alignof(VkBufferDeviceAddressAlignmentAllocateInfoVALVE),
+                    sizeof(VkBufferDeviceAddressAlignmentAllocateInfoVALVE)};
         case VK_STRUCTURE_TYPE_DEDICATED_ALLOCATION_MEMORY_ALLOCATE_INFO_NV:
             return {alignof(VkDedicatedAllocationMemoryAllocateInfoNV), sizeof(VkDedicatedAllocationMemoryAllocateInfoNV)};
         case VK_STRUCTURE_TYPE_EXPORT_MEMORY_ALLOCATE_INFO:
@@ -1272,6 +1297,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBufferCre
         case VK_STRUCTURE_TYPE_BUFFER_COLLECTION_BUFFER_CREATE_INFO_FUCHSIA:
             return {alignof(VkBufferCollectionBufferCreateInfoFUCHSIA), sizeof(VkBufferCollectionBufferCreateInfoFUCHSIA)};
 #endif  // VK_USE_PLATFORM_FUCHSIA
+        case VK_STRUCTURE_TYPE_BUFFER_DEVICE_ADDRESS_ALIGNMENT_ALLOCATE_INFO_VALVE:
+            return {alignof(VkBufferDeviceAddressAlignmentAllocateInfoVALVE),
+                    sizeof(VkBufferDeviceAddressAlignmentAllocateInfoVALVE)};
         case VK_STRUCTURE_TYPE_BUFFER_DEVICE_ADDRESS_CREATE_INFO_EXT:
             return {alignof(VkBufferDeviceAddressCreateInfoEXT), sizeof(VkBufferDeviceAddressCreateInfoEXT)};
         case VK_STRUCTURE_TYPE_BUFFER_OPAQUE_CAPTURE_ADDRESS_CREATE_INFO:
@@ -1342,6 +1370,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageCrea
             return {alignof(VkImageStencilUsageCreateInfo), sizeof(VkImageStencilUsageCreateInfo)};
         case VK_STRUCTURE_TYPE_IMAGE_SWAPCHAIN_CREATE_INFO_KHR:
             return {alignof(VkImageSwapchainCreateInfoKHR), sizeof(VkImageSwapchainCreateInfoKHR)};
+        case VK_STRUCTURE_TYPE_IMAGE_TILING_CONTROL_CREATE_INFO_EXT:
+            return {alignof(VkImageTilingControlCreateInfoEXT), sizeof(VkImageTilingControlCreateInfoEXT)};
         case VK_STRUCTURE_TYPE_IMAGE_USAGE_FLAGS_2_CREATE_INFO_KHR:
             return {alignof(VkImageUsageFlags2CreateInfoKHR), sizeof(VkImageUsageFlags2CreateInfoKHR)};
 #ifdef VK_USE_PLATFORM_METAL_EXT
@@ -1686,6 +1716,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineS
             return {alignof(VkShaderModuleCreateInfo), sizeof(VkShaderModuleCreateInfo)};
         case VK_STRUCTURE_TYPE_SHADER_MODULE_VALIDATION_CACHE_CREATE_INFO_EXT:
             return {alignof(VkShaderModuleValidationCacheCreateInfoEXT), sizeof(VkShaderModuleValidationCacheCreateInfoEXT)};
+        case VK_STRUCTURE_TYPE_VALIDATION_FEATURES_EXT:
+            return {alignof(VkValidationFeaturesEXT), sizeof(VkValidationFeaturesEXT)};
 
         default:
             // Unknown structure
@@ -1710,6 +1742,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkComputePi
             return {alignof(VkPipelineRobustnessCreateInfo), sizeof(VkPipelineRobustnessCreateInfo)};
         case VK_STRUCTURE_TYPE_SUBPASS_SHADING_PIPELINE_CREATE_INFO_HUAWEI:
             return {alignof(VkSubpassShadingPipelineCreateInfoHUAWEI), sizeof(VkSubpassShadingPipelineCreateInfoHUAWEI)};
+        case VK_STRUCTURE_TYPE_VALIDATION_FEATURES_EXT:
+            return {alignof(VkValidationFeaturesEXT), sizeof(VkValidationFeaturesEXT)};
 
         default:
             // Unknown structure
@@ -2141,6 +2175,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkGraphicsP
             return {alignof(VkRenderingAttachmentLocationInfo), sizeof(VkRenderingAttachmentLocationInfo)};
         case VK_STRUCTURE_TYPE_RENDERING_INPUT_ATTACHMENT_INDEX_INFO:
             return {alignof(VkRenderingInputAttachmentIndexInfo), sizeof(VkRenderingInputAttachmentIndexInfo)};
+        case VK_STRUCTURE_TYPE_VALIDATION_FEATURES_EXT:
+            return {alignof(VkValidationFeaturesEXT), sizeof(VkValidationFeaturesEXT)};
 
         default:
             // Unknown structure
@@ -2503,6 +2539,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
                     sizeof(VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BORDER_COLOR_SWIZZLE_FEATURES_EXT:
             return {alignof(VkPhysicalDeviceBorderColorSwizzleFeaturesEXT), sizeof(VkPhysicalDeviceBorderColorSwizzleFeaturesEXT)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_ALLOCATION_ALIGNMENT_FEATURES_VALVE:
+            return {alignof(VkPhysicalDeviceBufferDeviceAddressAllocationAlignmentFeaturesVALVE),
+                    sizeof(VkPhysicalDeviceBufferDeviceAddressAllocationAlignmentFeaturesVALVE)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES:
             return {alignof(VkPhysicalDeviceBufferDeviceAddressFeatures), sizeof(VkPhysicalDeviceBufferDeviceAddressFeatures)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES_EXT:
@@ -2542,6 +2581,12 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
             return {alignof(VkPhysicalDeviceCooperativeMatrixFeaturesKHR), sizeof(VkPhysicalDeviceCooperativeMatrixFeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_FEATURES_NV:
             return {alignof(VkPhysicalDeviceCooperativeMatrixFeaturesNV), sizeof(VkPhysicalDeviceCooperativeMatrixFeaturesNV)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_LAYOUTS_FEATURES_ARM:
+            return {alignof(VkPhysicalDeviceCooperativeMatrixLayoutsFeaturesARM),
+                    sizeof(VkPhysicalDeviceCooperativeMatrixLayoutsFeaturesARM)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_MAINTENANCE_1_FEATURES_EXT:
+            return {alignof(VkPhysicalDeviceCooperativeMatrixMaintenance1FeaturesEXT),
+                    sizeof(VkPhysicalDeviceCooperativeMatrixMaintenance1FeaturesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_VECTOR_FEATURES_NV:
             return {alignof(VkPhysicalDeviceCooperativeVectorFeaturesNV), sizeof(VkPhysicalDeviceCooperativeVectorFeaturesNV)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COPY_MEMORY_INDIRECT_FEATURES_KHR:
@@ -2705,6 +2750,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_GRAPHICS_PIPELINE_LIBRARY_FEATURES_EXT:
             return {alignof(VkPhysicalDeviceGraphicsPipelineLibraryFeaturesEXT),
                     sizeof(VkPhysicalDeviceGraphicsPipelineLibraryFeaturesEXT)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HDR_SMPTE_ST_209450_FEATURES_GOOGLE:
+            return {alignof(VkPhysicalDeviceHdrSmpteSt209450FeaturesGOOGLE),
+                    sizeof(VkPhysicalDeviceHdrSmpteSt209450FeaturesGOOGLE)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HDR_VIVID_FEATURES_HUAWEI:
             return {alignof(VkPhysicalDeviceHdrVividFeaturesHUAWEI), sizeof(VkPhysicalDeviceHdrVividFeaturesHUAWEI)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_HOST_IMAGE_COPY_FEATURES:
@@ -2733,6 +2781,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_SLICED_VIEW_OF_3D_FEATURES_EXT:
             return {alignof(VkPhysicalDeviceImageSlicedViewOf3DFeaturesEXT),
                     sizeof(VkPhysicalDeviceImageSlicedViewOf3DFeaturesEXT)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_TILING_CONTROL_FEATURES_EXT:
+            return {alignof(VkPhysicalDeviceImageTilingControlFeaturesEXT), sizeof(VkPhysicalDeviceImageTilingControlFeaturesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_VIEW_MIN_LOD_FEATURES_EXT:
             return {alignof(VkPhysicalDeviceImageViewMinLodFeaturesEXT), sizeof(VkPhysicalDeviceImageViewMinLodFeaturesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGELESS_FRAMEBUFFER_FEATURES:
@@ -2763,6 +2813,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
             return {alignof(VkPhysicalDeviceMaintenance10FeaturesKHR), sizeof(VkPhysicalDeviceMaintenance10FeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_11_FEATURES_KHR:
             return {alignof(VkPhysicalDeviceMaintenance11FeaturesKHR), sizeof(VkPhysicalDeviceMaintenance11FeaturesKHR)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_12_FEATURES_KHR:
+            return {alignof(VkPhysicalDeviceMaintenance12FeaturesKHR), sizeof(VkPhysicalDeviceMaintenance12FeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_FEATURES:
             return {alignof(VkPhysicalDeviceMaintenance4Features), sizeof(VkPhysicalDeviceMaintenance4Features)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_5_FEATURES:
@@ -2841,9 +2893,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_EXECUTABLE_PROPERTIES_FEATURES_KHR:
             return {alignof(VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR),
                     sizeof(VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR)};
-        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_LIBRARY_GROUP_HANDLES_FEATURES_EXT:
-            return {alignof(VkPhysicalDevicePipelineLibraryGroupHandlesFeaturesEXT),
-                    sizeof(VkPhysicalDevicePipelineLibraryGroupHandlesFeaturesEXT)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_LIBRARY_GROUP_HANDLES_FEATURES_KHR:
+            return {alignof(VkPhysicalDevicePipelineLibraryGroupHandlesFeaturesKHR),
+                    sizeof(VkPhysicalDevicePipelineLibraryGroupHandlesFeaturesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_OPACITY_MICROMAP_FEATURES_ARM:
             return {alignof(VkPhysicalDevicePipelineOpacityMicromapFeaturesARM),
                     sizeof(VkPhysicalDevicePipelineOpacityMicromapFeaturesARM)};
@@ -2884,6 +2936,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRIMITIVES_GENERATED_QUERY_FEATURES_EXT:
             return {alignof(VkPhysicalDevicePrimitivesGeneratedQueryFeaturesEXT),
                     sizeof(VkPhysicalDevicePrimitivesGeneratedQueryFeaturesEXT)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRIVATE_DATA_BASE_HANDLE_FEATURES_NV:
+            return {alignof(VkPhysicalDevicePrivateDataBaseHandleFeaturesNV),
+                    sizeof(VkPhysicalDevicePrivateDataBaseHandleFeaturesNV)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PRIVATE_DATA_FEATURES:
             return {alignof(VkPhysicalDevicePrivateDataFeatures), sizeof(VkPhysicalDevicePrivateDataFeatures)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROTECTED_MEMORY_FEATURES:
@@ -3103,6 +3158,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
                     sizeof(VkPhysicalDeviceUniformBufferStandardLayoutFeatures)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VARIABLE_POINTERS_FEATURES:
             return {alignof(VkPhysicalDeviceVariablePointersFeatures), sizeof(VkPhysicalDeviceVariablePointersFeatures)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ADDRESS_BINDING_UNRESTRICTED_FEATURES_EXT:
+            return {alignof(VkPhysicalDeviceVertexAddressBindingUnrestrictedFeaturesEXT),
+                    sizeof(VkPhysicalDeviceVertexAddressBindingUnrestrictedFeaturesEXT)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VERTEX_ATTRIBUTE_DIVISOR_FEATURES:
             return {alignof(VkPhysicalDeviceVertexAttributeDivisorFeatures),
                     sizeof(VkPhysicalDeviceVertexAttributeDivisorFeatures)};
@@ -3174,6 +3232,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BLEND_OPERATION_ADVANCED_PROPERTIES_EXT:
             return {alignof(VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT),
                     sizeof(VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_ALLOCATION_ALIGNMENT_PROPERTIES_VALVE:
+            return {alignof(VkPhysicalDeviceBufferDeviceAddressAllocationAlignmentPropertiesVALVE),
+                    sizeof(VkPhysicalDeviceBufferDeviceAddressAllocationAlignmentPropertiesVALVE)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_CLUSTER_ACCELERATION_STRUCTURE_PROPERTIES_NV:
             return {alignof(VkPhysicalDeviceClusterAccelerationStructurePropertiesNV),
                     sizeof(VkPhysicalDeviceClusterAccelerationStructurePropertiesNV)};
@@ -3301,6 +3362,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
                     sizeof(VkPhysicalDeviceImageProcessing2PropertiesQCOM)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_PROCESSING_PROPERTIES_QCOM:
             return {alignof(VkPhysicalDeviceImageProcessingPropertiesQCOM), sizeof(VkPhysicalDeviceImageProcessingPropertiesQCOM)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INFO_PROPERTIES_INTEL:
+            return {alignof(VkPhysicalDeviceInfoPropertiesINTEL), sizeof(VkPhysicalDeviceInfoPropertiesINTEL)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INLINE_UNIFORM_BLOCK_PROPERTIES:
             return {alignof(VkPhysicalDeviceInlineUniformBlockProperties), sizeof(VkPhysicalDeviceInlineUniformBlockProperties)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LAYERED_API_PROPERTIES_LIST_KHR:
@@ -3314,6 +3377,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
             return {alignof(VkPhysicalDeviceLineRasterizationProperties), sizeof(VkPhysicalDeviceLineRasterizationProperties)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_10_PROPERTIES_KHR:
             return {alignof(VkPhysicalDeviceMaintenance10PropertiesKHR), sizeof(VkPhysicalDeviceMaintenance10PropertiesKHR)};
+        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_12_PROPERTIES_KHR:
+            return {alignof(VkPhysicalDeviceMaintenance12PropertiesKHR), sizeof(VkPhysicalDeviceMaintenance12PropertiesKHR)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_3_PROPERTIES:
             return {alignof(VkPhysicalDeviceMaintenance3Properties), sizeof(VkPhysicalDeviceMaintenance3Properties)};
         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_4_PROPERTIES:
@@ -4640,6 +4705,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPrivateDa
 template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryBarrier2>(VkStructureType type) {
     switch (type) {
+        case VK_STRUCTURE_TYPE_MEMORY_BARRIER_ACCESS_FLAGS_3_KHR:
+            return {alignof(VkMemoryBarrierAccessFlags3KHR), sizeof(VkMemoryBarrierAccessFlags3KHR)};
+
         default:
             // Unknown structure
             return {0, 0};
@@ -6973,6 +7041,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSurfaceCa
         case VK_STRUCTURE_TYPE_SURFACE_CAPABILITIES_FULL_SCREEN_EXCLUSIVE_EXT:
             return {alignof(VkSurfaceCapabilitiesFullScreenExclusiveEXT), sizeof(VkSurfaceCapabilitiesFullScreenExclusiveEXT)};
 #endif  // VK_USE_PLATFORM_WIN32_KHR
+        case VK_STRUCTURE_TYPE_SURFACE_CAPABILITIES_HDR_SMPTE_ST_209450_GOOGLE:
+            return {alignof(VkSurfaceCapabilitiesHdrSmpteSt209450GOOGLE), sizeof(VkSurfaceCapabilitiesHdrSmpteSt209450GOOGLE)};
         case VK_STRUCTURE_TYPE_SURFACE_CAPABILITIES_PRESENT_BARRIER_NV:
             return {alignof(VkSurfaceCapabilitiesPresentBarrierNV), sizeof(VkSurfaceCapabilitiesPresentBarrierNV)};
         case VK_STRUCTURE_TYPE_SURFACE_CAPABILITIES_PRESENT_ID_2_KHR:
@@ -7569,6 +7639,9 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCopyDevic
 template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryRangeBarrierKHR>(VkStructureType type) {
     switch (type) {
+        case VK_STRUCTURE_TYPE_MEMORY_BARRIER_ACCESS_FLAGS_3_KHR:
+            return {alignof(VkMemoryBarrierAccessFlags3KHR), sizeof(VkMemoryBarrierAccessFlags3KHR)};
+
         default:
             // Unknown structure
             return {0, 0};
@@ -7578,9 +7651,6 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryRan
 template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkMemoryRangeBarriersInfoKHR>(VkStructureType type) {
     switch (type) {
-        case VK_STRUCTURE_TYPE_MEMORY_BARRIER_ACCESS_FLAGS_3_KHR:
-            return {alignof(VkMemoryBarrierAccessFlags3KHR), sizeof(VkMemoryBarrierAccessFlags3KHR)};
-
         default:
             // Unknown structure
             return {0, 0};
@@ -7885,6 +7955,17 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineB
 template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPipelineCreateInfoKHR>(VkStructureType type) {
     switch (type) {
+        case VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO:
+            return {alignof(VkComputePipelineCreateInfo), sizeof(VkComputePipelineCreateInfo)};
+#ifdef VK_ENABLE_BETA_EXTENSIONS
+        case VK_STRUCTURE_TYPE_EXECUTION_GRAPH_PIPELINE_CREATE_INFO_AMDX:
+            return {alignof(VkExecutionGraphPipelineCreateInfoAMDX), sizeof(VkExecutionGraphPipelineCreateInfoAMDX)};
+#endif  // VK_ENABLE_BETA_EXTENSIONS
+        case VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO:
+            return {alignof(VkGraphicsPipelineCreateInfo), sizeof(VkGraphicsPipelineCreateInfo)};
+        case VK_STRUCTURE_TYPE_RAY_TRACING_PIPELINE_CREATE_INFO_KHR:
+            return {alignof(VkRayTracingPipelineCreateInfoKHR), sizeof(VkRayTracingPipelineCreateInfoKHR)};
+
         default:
             // Unknown structure
             return {0, 0};
@@ -8966,6 +9047,16 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkResolveIm
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePipelineLibraryGroupHandlesFeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMaintenance11FeaturesKHR>(
     VkStructureType type) {
     switch (type) {
@@ -9042,6 +9133,26 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageSten
 
 template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSharedPresentSurfaceCapabilities2KHR>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMaintenance12FeaturesKHR>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceMaintenance12PropertiesKHR>(
+    VkStructureType type) {
     switch (type) {
         default:
             // Unknown structure
@@ -9592,6 +9703,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkXYColorEX
 template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkHdrMetadataEXT>(VkStructureType type) {
     switch (type) {
+        case VK_STRUCTURE_TYPE_HDR_SMPTE_ST_209450_GOOGLE:
+            return {alignof(VkHdrSmpteSt209450GOOGLE), sizeof(VkHdrSmpteSt209450GOOGLE)};
         case VK_STRUCTURE_TYPE_HDR_VIVID_DYNAMIC_METADATA_HUAWEI:
             return {alignof(VkHdrVividDynamicMetadataHUAWEI), sizeof(VkHdrVividDynamicMetadataHUAWEI)};
 
@@ -14518,16 +14631,6 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
 }
 
 template <>
-inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePipelineLibraryGroupHandlesFeaturesEXT>(
-    VkStructureType type) {
-    switch (type) {
-        default:
-            // Unknown structure
-            return {0, 0};
-    }
-}
-
-template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceDynamicRenderingUnusedAttachmentsFeaturesEXT>(
     VkStructureType type) {
     switch (type) {
@@ -16417,6 +16520,35 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkCooperativeMatrixProperties2EXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceCooperativeMatrixInfo2EXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceCooperativeMatrixMaintenance1FeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderSubgroupPartitionedFeaturesEXT>(
     VkStructureType type) {
     switch (type) {
@@ -16436,6 +16568,16 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkUbmSurfac
     }
 }
 #endif  // VK_USE_PLATFORM_UBM_SEC
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceCooperativeMatrixLayoutsFeaturesARM>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
 
 template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceShaderOCPMicroscalingTypesFeaturesEXT>(
@@ -16517,7 +16659,114 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalD
 }
 
 template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceVertexAddressBindingUnrestrictedFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceImageTilingControlFeaturesEXT>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkImageTilingControlCreateInfoEXT>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
 inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceCooperativeMatrixDecodeVectorFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDevicePrivateDataBaseHandleFeaturesNV>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceInfoPropertiesINTEL>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t>
+GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceBufferDeviceAddressAllocationAlignmentFeaturesVALVE>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t>
+GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceBufferDeviceAddressAllocationAlignmentPropertiesVALVE>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkBufferDeviceAddressAlignmentAllocateInfoVALVE>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkPhysicalDeviceHdrSmpteSt209450FeaturesGOOGLE>(
+    VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkHdrSmpteSt209450GOOGLE>(VkStructureType type) {
+    switch (type) {
+        default:
+            // Unknown structure
+            return {0, 0};
+    }
+}
+
+template <>
+inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkSurfaceCapabilitiesHdrSmpteSt209450GOOGLE>(
     VkStructureType type) {
     switch (type) {
         default:
@@ -16748,6 +16997,8 @@ inline std::pair<size_t, size_t> GetPNextChainStructAlignmentAndSize<VkRayTracin
         case VK_STRUCTURE_TYPE_RAY_TRACING_PIPELINE_CLUSTER_ACCELERATION_STRUCTURE_CREATE_INFO_NV:
             return {alignof(VkRayTracingPipelineClusterAccelerationStructureCreateInfoNV),
                     sizeof(VkRayTracingPipelineClusterAccelerationStructureCreateInfoNV)};
+        case VK_STRUCTURE_TYPE_VALIDATION_FEATURES_EXT:
+            return {alignof(VkValidationFeaturesEXT), sizeof(VkValidationFeaturesEXT)};
 
         default:
             // Unknown structure

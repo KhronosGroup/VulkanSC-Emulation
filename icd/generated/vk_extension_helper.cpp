@@ -233,8 +233,10 @@ const ExtensionMap& GetDeviceExtensionsMap() {
         {ExtensionNumber::KHR_present_mode_fifo_latest_ready, VK_KHR_PRESENT_MODE_FIFO_LATEST_READY_SPEC_VERSION},
         {ExtensionNumber::KHR_opacity_micromap, VK_KHR_OPACITY_MICROMAP_SPEC_VERSION},
         {ExtensionNumber::KHR_maintenance10, VK_KHR_MAINTENANCE_10_SPEC_VERSION},
+        {ExtensionNumber::KHR_pipeline_library_group_handles, VK_KHR_PIPELINE_LIBRARY_GROUP_HANDLES_SPEC_VERSION},
         {ExtensionNumber::KHR_maintenance11, VK_KHR_MAINTENANCE_11_SPEC_VERSION},
         {ExtensionNumber::KHR_extended_flags, VK_KHR_EXTENDED_FLAGS_SPEC_VERSION},
+        {ExtensionNumber::KHR_maintenance12, VK_KHR_MAINTENANCE_12_SPEC_VERSION},
         {ExtensionNumber::NV_glsl_shader, VK_NV_GLSL_SHADER_SPEC_VERSION},
         {ExtensionNumber::EXT_depth_range_unrestricted, VK_EXT_DEPTH_RANGE_UNRESTRICTED_SPEC_VERSION},
         {ExtensionNumber::IMG_filter_cubic, VK_IMG_FILTER_CUBIC_SPEC_VERSION},
@@ -554,14 +556,24 @@ const ExtensionMap& GetDeviceExtensionsMap() {
         {ExtensionNumber::SEC_pipeline_cache_incremental_mode, VK_SEC_PIPELINE_CACHE_INCREMENTAL_MODE_SPEC_VERSION},
         {ExtensionNumber::EXT_shader_uniform_buffer_unsized_array, VK_EXT_SHADER_UNIFORM_BUFFER_UNSIZED_ARRAY_SPEC_VERSION},
         {ExtensionNumber::NV_compute_occupancy_priority, VK_NV_COMPUTE_OCCUPANCY_PRIORITY_SPEC_VERSION},
+        {ExtensionNumber::EXT_cooperative_matrix_maintenance1, VK_EXT_COOPERATIVE_MATRIX_MAINTENANCE_1_SPEC_VERSION},
         {ExtensionNumber::EXT_shader_subgroup_partitioned, VK_EXT_SHADER_SUBGROUP_PARTITIONED_SPEC_VERSION},
+        {ExtensionNumber::NV_internal_handle, VK_NV_INTERNAL_HANDLE_SPEC_VERSION},
+        {ExtensionNumber::ARM_cooperative_matrix_layouts, VK_ARM_COOPERATIVE_MATRIX_LAYOUTS_SPEC_VERSION},
         {ExtensionNumber::EXT_shader_ocp_microscaling_types, VK_EXT_SHADER_OCP_MICROSCALING_TYPES_SPEC_VERSION},
         {ExtensionNumber::VALVE_shader_mixed_float_dot_product, VK_VALVE_SHADER_MIXED_FLOAT_DOT_PRODUCT_SPEC_VERSION},
         {ExtensionNumber::SEC_throttle_hint, VK_SEC_THROTTLE_HINT_SPEC_VERSION},
         {ExtensionNumber::ARM_data_graph_neural_accelerator_statistics,
          VK_ARM_DATA_GRAPH_NEURAL_ACCELERATOR_STATISTICS_SPEC_VERSION},
         {ExtensionNumber::EXT_primitive_restart_index, VK_EXT_PRIMITIVE_RESTART_INDEX_SPEC_VERSION},
+        {ExtensionNumber::EXT_vertex_address_binding_unrestricted, VK_EXT_VERTEX_ADDRESS_BINDING_UNRESTRICTED_SPEC_VERSION},
+        {ExtensionNumber::EXT_image_tiling_control, VK_EXT_IMAGE_TILING_CONTROL_SPEC_VERSION},
         {ExtensionNumber::NV_cooperative_matrix_decode_vector, VK_NV_COOPERATIVE_MATRIX_DECODE_VECTOR_SPEC_VERSION},
+        {ExtensionNumber::NV_private_data_base_handle, VK_NV_PRIVATE_DATA_BASE_HANDLE_SPEC_VERSION},
+        {ExtensionNumber::INTEL_device_info, VK_INTEL_DEVICE_INFO_SPEC_VERSION},
+        {ExtensionNumber::VALVE_buffer_device_address_allocation_alignment,
+         VK_VALVE_BUFFER_DEVICE_ADDRESS_ALLOCATION_ALIGNMENT_SPEC_VERSION},
+        {ExtensionNumber::GOOGLE_hdr_smpte_st_209450_metadata, VK_GOOGLE_HDR_SMPTE_ST_209450_METADATA_SPEC_VERSION},
         {ExtensionNumber::KHR_acceleration_structure, VK_KHR_ACCELERATION_STRUCTURE_SPEC_VERSION},
         {ExtensionNumber::KHR_ray_tracing_pipeline, VK_KHR_RAY_TRACING_PIPELINE_SPEC_VERSION},
         {ExtensionNumber::KHR_ray_query, VK_KHR_RAY_QUERY_SPEC_VERSION},
@@ -736,8 +748,10 @@ ExtensionNumber GetExtensionNumber(const char* extension_name) {
         {"VK_KHR_present_mode_fifo_latest_ready", ExtensionNumber::KHR_present_mode_fifo_latest_ready},
         {"VK_KHR_opacity_micromap", ExtensionNumber::KHR_opacity_micromap},
         {"VK_KHR_maintenance10", ExtensionNumber::KHR_maintenance10},
+        {"VK_KHR_pipeline_library_group_handles", ExtensionNumber::KHR_pipeline_library_group_handles},
         {"VK_KHR_maintenance11", ExtensionNumber::KHR_maintenance11},
         {"VK_KHR_extended_flags", ExtensionNumber::KHR_extended_flags},
+        {"VK_KHR_maintenance12", ExtensionNumber::KHR_maintenance12},
         {"VK_EXT_debug_report", ExtensionNumber::EXT_debug_report},
         {"VK_NV_glsl_shader", ExtensionNumber::NV_glsl_shader},
         {"VK_EXT_depth_range_unrestricted", ExtensionNumber::EXT_depth_range_unrestricted},
@@ -1101,16 +1115,25 @@ ExtensionNumber GetExtensionNumber(const char* extension_name) {
         {"VK_SEC_pipeline_cache_incremental_mode", ExtensionNumber::SEC_pipeline_cache_incremental_mode},
         {"VK_EXT_shader_uniform_buffer_unsized_array", ExtensionNumber::EXT_shader_uniform_buffer_unsized_array},
         {"VK_NV_compute_occupancy_priority", ExtensionNumber::NV_compute_occupancy_priority},
+        {"VK_EXT_cooperative_matrix_maintenance1", ExtensionNumber::EXT_cooperative_matrix_maintenance1},
         {"VK_EXT_shader_subgroup_partitioned", ExtensionNumber::EXT_shader_subgroup_partitioned},
 #ifdef VK_USE_PLATFORM_UBM_SEC
         {"VK_SEC_ubm_surface", ExtensionNumber::SEC_ubm_surface},
 #endif  // VK_USE_PLATFORM_UBM_SEC
+        {"VK_NV_internal_handle", ExtensionNumber::NV_internal_handle},
+        {"VK_ARM_cooperative_matrix_layouts", ExtensionNumber::ARM_cooperative_matrix_layouts},
         {"VK_EXT_shader_ocp_microscaling_types", ExtensionNumber::EXT_shader_ocp_microscaling_types},
         {"VK_VALVE_shader_mixed_float_dot_product", ExtensionNumber::VALVE_shader_mixed_float_dot_product},
         {"VK_SEC_throttle_hint", ExtensionNumber::SEC_throttle_hint},
         {"VK_ARM_data_graph_neural_accelerator_statistics", ExtensionNumber::ARM_data_graph_neural_accelerator_statistics},
         {"VK_EXT_primitive_restart_index", ExtensionNumber::EXT_primitive_restart_index},
+        {"VK_EXT_vertex_address_binding_unrestricted", ExtensionNumber::EXT_vertex_address_binding_unrestricted},
+        {"VK_EXT_image_tiling_control", ExtensionNumber::EXT_image_tiling_control},
         {"VK_NV_cooperative_matrix_decode_vector", ExtensionNumber::NV_cooperative_matrix_decode_vector},
+        {"VK_NV_private_data_base_handle", ExtensionNumber::NV_private_data_base_handle},
+        {"VK_INTEL_device_info", ExtensionNumber::INTEL_device_info},
+        {"VK_VALVE_buffer_device_address_allocation_alignment", ExtensionNumber::VALVE_buffer_device_address_allocation_alignment},
+        {"VK_GOOGLE_hdr_smpte_st_209450_metadata", ExtensionNumber::GOOGLE_hdr_smpte_st_209450_metadata},
         {"VK_KHR_acceleration_structure", ExtensionNumber::KHR_acceleration_structure},
         {"VK_KHR_ray_tracing_pipeline", ExtensionNumber::KHR_ray_tracing_pipeline},
         {"VK_KHR_ray_query", ExtensionNumber::KHR_ray_query},
@@ -1579,11 +1602,17 @@ const char* GetExtensionName(ExtensionNumber extension_number) {
         case ExtensionNumber::KHR_maintenance10:
             return "VK_KHR_maintenance10";
             break;
+        case ExtensionNumber::KHR_pipeline_library_group_handles:
+            return "VK_KHR_pipeline_library_group_handles";
+            break;
         case ExtensionNumber::KHR_maintenance11:
             return "VK_KHR_maintenance11";
             break;
         case ExtensionNumber::KHR_extended_flags:
             return "VK_KHR_extended_flags";
+            break;
+        case ExtensionNumber::KHR_maintenance12:
+            return "VK_KHR_maintenance12";
             break;
         case ExtensionNumber::EXT_debug_report:
             return "VK_EXT_debug_report";
@@ -2574,6 +2603,9 @@ const char* GetExtensionName(ExtensionNumber extension_number) {
         case ExtensionNumber::NV_compute_occupancy_priority:
             return "VK_NV_compute_occupancy_priority";
             break;
+        case ExtensionNumber::EXT_cooperative_matrix_maintenance1:
+            return "VK_EXT_cooperative_matrix_maintenance1";
+            break;
         case ExtensionNumber::EXT_shader_subgroup_partitioned:
             return "VK_EXT_shader_subgroup_partitioned";
             break;
@@ -2582,6 +2614,12 @@ const char* GetExtensionName(ExtensionNumber extension_number) {
             return "VK_SEC_ubm_surface";
             break;
 #endif  // VK_USE_PLATFORM_UBM_SEC
+        case ExtensionNumber::NV_internal_handle:
+            return "VK_NV_internal_handle";
+            break;
+        case ExtensionNumber::ARM_cooperative_matrix_layouts:
+            return "VK_ARM_cooperative_matrix_layouts";
+            break;
         case ExtensionNumber::EXT_shader_ocp_microscaling_types:
             return "VK_EXT_shader_ocp_microscaling_types";
             break;
@@ -2597,8 +2635,26 @@ const char* GetExtensionName(ExtensionNumber extension_number) {
         case ExtensionNumber::EXT_primitive_restart_index:
             return "VK_EXT_primitive_restart_index";
             break;
+        case ExtensionNumber::EXT_vertex_address_binding_unrestricted:
+            return "VK_EXT_vertex_address_binding_unrestricted";
+            break;
+        case ExtensionNumber::EXT_image_tiling_control:
+            return "VK_EXT_image_tiling_control";
+            break;
         case ExtensionNumber::NV_cooperative_matrix_decode_vector:
             return "VK_NV_cooperative_matrix_decode_vector";
+            break;
+        case ExtensionNumber::NV_private_data_base_handle:
+            return "VK_NV_private_data_base_handle";
+            break;
+        case ExtensionNumber::INTEL_device_info:
+            return "VK_INTEL_device_info";
+            break;
+        case ExtensionNumber::VALVE_buffer_device_address_allocation_alignment:
+            return "VK_VALVE_buffer_device_address_allocation_alignment";
+            break;
+        case ExtensionNumber::GOOGLE_hdr_smpte_st_209450_metadata:
+            return "VK_GOOGLE_hdr_smpte_st_209450_metadata";
             break;
         case ExtensionNumber::KHR_acceleration_structure:
             return "VK_KHR_acceleration_structure";

@@ -370,6 +370,7 @@ class CommandBuffer {
     void CmdEndRendering2EXT(const VkRenderingEndInfoKHR* pRenderingEndInfo);
     void CmdBeginCustomResolveEXT(const VkBeginCustomResolveInfoEXT* pBeginCustomResolveInfo);
     void CmdSetComputeOccupancyPriorityNV(const VkComputeOccupancyPriorityParametersNV* pParameters);
+    void GetCommandBufferInternalHandleNV(VkInternalHandleNV* pHandle);
     void CmdSetPrimitiveRestartIndexEXT(uint32_t primitiveRestartIndex);
     void CmdBuildAccelerationStructuresKHR(uint32_t infoCount, const VkAccelerationStructureBuildGeometryInfoKHR* pInfos,
                                            const VkAccelerationStructureBuildRangeInfoKHR* const* ppBuildRangeInfos);
