@@ -1486,6 +1486,15 @@ class vkmock {
         CmdBeginPerTileExecutionQCOM{};
     inline static std::function<void(VkCommandBuffer commandBuffer, const VkPerTileEndInfoQCOM* pPerTileEndInfo)>
         CmdEndPerTileExecutionQCOM{};
+    inline static std::function<void(VkDevice device, VkBool32 lowLatencyMode, VkBool32 lowLatencyBoost,
+                                     uint32_t minimumIntervalUs)>
+        SetLatencySleepModeLegacyNV{};
+    inline static std::function<void(VkDevice device, VkSemaphore signalSemaphore, uint64_t value)> LatencySleepLegacyNV{};
+    inline static std::function<void(VkDevice device, uint64_t frameID, uint32_t marker)> SetLatencyMarkerLegacyNV{};
+    inline static std::function<void(VkDevice device, void* pTimings)> GetLatencyTimingsLegacyNV{};
+    inline static std::function<void(VkQueue queue, uint32_t queueType)> QueueNotifyOutOfBandLegacyNV{};
+    inline static std::function<void(VkDevice device, VkBool32* pLowLatencyMode)> GetSleepStatusLegacyNV{};
+    inline static std::function<void(VkDevice device)> ShutdownLatencyDeviceLegacyNV{};
 #ifdef VK_USE_PLATFORM_METAL_EXT
     inline static std::function<void(VkDevice device, VkExportMetalObjectsInfoEXT* pMetalObjectsInfo)> ExportMetalObjectsEXT{};
 #endif  // VK_USE_PLATFORM_METAL_EXT
@@ -1979,6 +1988,10 @@ class vkmock {
         GetPhysicalDeviceQueueFamilyDataGraphOpticalFlowImageFormatsARM{};
     inline static std::function<void(VkCommandBuffer commandBuffer, const VkComputeOccupancyPriorityParametersNV* pParameters)>
         CmdSetComputeOccupancyPriorityNV{};
+    inline static std::function<VkResult(VkPhysicalDevice physicalDevice,
+                                         const VkPhysicalDeviceCooperativeMatrixInfo2EXT* pCooperativeMatrixInfo,
+                                         uint32_t* pPropertyCount, VkCooperativeMatrixProperties2EXT* pProperties)>
+        GetPhysicalDeviceCooperativeMatrixProperties2EXT{};
 #ifdef VK_USE_PLATFORM_UBM_SEC
     inline static std::function<VkResult(VkInstance instance, const VkUbmSurfaceCreateInfoSEC* pCreateInfo,
                                          const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface)>
@@ -1986,6 +1999,12 @@ class vkmock {
     inline static std::function<VkBool32(VkPhysicalDevice physicalDevice, uint32_t queueFamilyIndex, struct ubm_device* device)>
         GetPhysicalDeviceUbmPresentationSupportSEC{};
 #endif  // VK_USE_PLATFORM_UBM_SEC
+    inline static std::function<void(VkPhysicalDevice physicalDevice, VkInternalHandleNV* pHandle)>
+        GetPhysicalDeviceInternalHandleNV{};
+    inline static std::function<void(VkDevice device, VkInternalHandleNV* pHandle)> GetDeviceInternalHandleNV{};
+    inline static std::function<void(VkQueue queue, VkInternalHandleNV* pHandle)> GetQueueInternalHandleNV{};
+    inline static std::function<void(VkCommandBuffer commandBuffer, VkInternalHandleNV* pHandle)>
+        GetCommandBufferInternalHandleNV{};
     inline static std::function<void(VkCommandBuffer commandBuffer, uint32_t primitiveRestartIndex)>
         CmdSetPrimitiveRestartIndexEXT{};
     inline static std::function<VkResult(VkDevice device, const VkAccelerationStructureCreateInfoKHR* pCreateInfo,

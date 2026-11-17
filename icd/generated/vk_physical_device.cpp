@@ -658,11 +658,25 @@ VkResult PhysicalDevice::GetPhysicalDeviceQueueFamilyDataGraphOpticalFlowImageFo
     }
     return result;
 }
+VkResult PhysicalDevice::GetPhysicalDeviceCooperativeMatrixProperties2EXT(
+    const VkPhysicalDeviceCooperativeMatrixInfo2EXT* pCooperativeMatrixInfo, uint32_t* pPropertyCount,
+    VkCooperativeMatrixProperties2EXT* pProperties) {
+    VkResult result = dispatch_table_.GetPhysicalDeviceCooperativeMatrixProperties2EXT(handle_, pCooperativeMatrixInfo,
+                                                                                       pPropertyCount, pProperties);
+    if (pProperties != nullptr) {
+        for (uint32_t i = 0; i < *pPropertyCount; ++i)
+            vksc::ConvertOutStructChainToVulkanSC<VkCooperativeMatrixProperties2EXT>(&pProperties[i]);
+    }
+    return result;
+}
 #ifdef VK_USE_PLATFORM_UBM_SEC
 VkBool32 PhysicalDevice::GetPhysicalDeviceUbmPresentationSupportSEC(uint32_t queueFamilyIndex, struct ubm_device* device) {
     return dispatch_table_.GetPhysicalDeviceUbmPresentationSupportSEC(handle_, queueFamilyIndex, device);
 }
 #endif  // VK_USE_PLATFORM_UBM_SEC
+void PhysicalDevice::GetPhysicalDeviceInternalHandleNV(VkInternalHandleNV* pHandle) {
+    dispatch_table_.GetPhysicalDeviceInternalHandleNV(handle_, pHandle);
+}
 
 }  // namespace vk
 

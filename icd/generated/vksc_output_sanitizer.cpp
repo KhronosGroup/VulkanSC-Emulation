@@ -847,6 +847,16 @@ bool IsVkDriverIdInVulkanSC(VkDriverId value) {
             return true;
         case VK_DRIVER_ID_APE_SOFT:
             return true;
+        case VK_DRIVER_ID_RESERVED_31:
+            return true;
+        case VK_DRIVER_ID_APEX:
+            return true;
+        case VK_DRIVER_ID_NIKKI:
+            return true;
+        case VK_DRIVER_ID_MOMOTEN:
+            return true;
+        case VK_DRIVER_ID_AURORA_BOREALIS:
+            return true;
 
         default:
             return false;

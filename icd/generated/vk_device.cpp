@@ -1218,6 +1218,18 @@ void Device::DestroyCudaFunctionNV(VkCudaFunctionNV function, const VkAllocation
     dispatch_table_.DestroyCudaFunctionNV(handle_, function, pAllocator);
 }
 #endif  // VK_ENABLE_BETA_EXTENSIONS
+void Device::SetLatencySleepModeLegacyNV(VkBool32 lowLatencyMode, VkBool32 lowLatencyBoost, uint32_t minimumIntervalUs) {
+    dispatch_table_.SetLatencySleepModeLegacyNV(handle_, lowLatencyMode, lowLatencyBoost, minimumIntervalUs);
+}
+void Device::LatencySleepLegacyNV(VkSemaphore signalSemaphore, uint64_t value) {
+    dispatch_table_.LatencySleepLegacyNV(handle_, signalSemaphore, value);
+}
+void Device::SetLatencyMarkerLegacyNV(uint64_t frameID, uint32_t marker) {
+    dispatch_table_.SetLatencyMarkerLegacyNV(handle_, frameID, marker);
+}
+void Device::GetLatencyTimingsLegacyNV(void* pTimings) { dispatch_table_.GetLatencyTimingsLegacyNV(handle_, pTimings); }
+void Device::GetSleepStatusLegacyNV(VkBool32* pLowLatencyMode) { dispatch_table_.GetSleepStatusLegacyNV(handle_, pLowLatencyMode); }
+void Device::ShutdownLatencyDeviceLegacyNV() { dispatch_table_.ShutdownLatencyDeviceLegacyNV(handle_); }
 #ifdef VK_USE_PLATFORM_METAL_EXT
 void Device::ExportMetalObjectsEXT(VkExportMetalObjectsInfoEXT* pMetalObjectsInfo) {
     dispatch_table_.ExportMetalObjectsEXT(handle_, pMetalObjectsInfo);
@@ -1643,6 +1655,7 @@ VkResult Device::GetShaderInstrumentationValuesARM(VkShaderInstrumentationARM in
 void Device::ClearShaderInstrumentationMetricsARM(VkShaderInstrumentationARM instrumentation) {
     dispatch_table_.ClearShaderInstrumentationMetricsARM(handle_, instrumentation);
 }
+void Device::GetDeviceInternalHandleNV(VkInternalHandleNV* pHandle) { dispatch_table_.GetDeviceInternalHandleNV(handle_, pHandle); }
 VkResult Device::CreateAccelerationStructureKHR(const VkAccelerationStructureCreateInfoKHR* pCreateInfo,
                                                 const VkAllocationCallbacks* pAllocator,
                                                 VkAccelerationStructureKHR* pAccelerationStructure) {

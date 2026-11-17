@@ -910,6 +910,9 @@ void CommandBuffer::CmdBeginCustomResolveEXT(const VkBeginCustomResolveInfoEXT* 
 void CommandBuffer::CmdSetComputeOccupancyPriorityNV(const VkComputeOccupancyPriorityParametersNV* pParameters) {
     dispatch_table_.CmdSetComputeOccupancyPriorityNV(handle_, pParameters);
 }
+void CommandBuffer::GetCommandBufferInternalHandleNV(VkInternalHandleNV* pHandle) {
+    dispatch_table_.GetCommandBufferInternalHandleNV(handle_, pHandle);
+}
 void CommandBuffer::CmdSetPrimitiveRestartIndexEXT(uint32_t primitiveRestartIndex) {
     dispatch_table_.CmdSetPrimitiveRestartIndexEXT(handle_, primitiveRestartIndex);
 }

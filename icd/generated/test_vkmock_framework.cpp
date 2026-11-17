@@ -3087,6 +3087,35 @@ static VKAPI_ATTR void VKAPI_CALL vkmock_CmdEndPerTileExecutionQCOM(VkCommandBuf
     return vkmock::CmdEndPerTileExecutionQCOM(commandBuffer, pPerTileEndInfo);
 }
 
+static VKAPI_ATTR void VKAPI_CALL vkmock_SetLatencySleepModeLegacyNV(VkDevice device, VkBool32 lowLatencyMode,
+                                                                     VkBool32 lowLatencyBoost, uint32_t minimumIntervalUs) {
+    return vkmock::SetLatencySleepModeLegacyNV(device, lowLatencyMode, lowLatencyBoost, minimumIntervalUs);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_LatencySleepLegacyNV(VkDevice device, VkSemaphore signalSemaphore, uint64_t value) {
+    return vkmock::LatencySleepLegacyNV(device, signalSemaphore, value);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_SetLatencyMarkerLegacyNV(VkDevice device, uint64_t frameID, uint32_t marker) {
+    return vkmock::SetLatencyMarkerLegacyNV(device, frameID, marker);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_GetLatencyTimingsLegacyNV(VkDevice device, void* pTimings) {
+    return vkmock::GetLatencyTimingsLegacyNV(device, pTimings);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_QueueNotifyOutOfBandLegacyNV(VkQueue queue, uint32_t queueType) {
+    return vkmock::QueueNotifyOutOfBandLegacyNV(queue, queueType);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_GetSleepStatusLegacyNV(VkDevice device, VkBool32* pLowLatencyMode) {
+    return vkmock::GetSleepStatusLegacyNV(device, pLowLatencyMode);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_ShutdownLatencyDeviceLegacyNV(VkDevice device) {
+    return vkmock::ShutdownLatencyDeviceLegacyNV(device);
+}
+
 #ifdef VK_USE_PLATFORM_METAL_EXT
 static VKAPI_ATTR void VKAPI_CALL vkmock_ExportMetalObjectsEXT(VkDevice device, VkExportMetalObjectsInfoEXT* pMetalObjectsInfo) {
     return vkmock::ExportMetalObjectsEXT(device, pMetalObjectsInfo);
@@ -4113,6 +4142,13 @@ vkmock_CmdSetComputeOccupancyPriorityNV(VkCommandBuffer commandBuffer, const VkC
     return vkmock::CmdSetComputeOccupancyPriorityNV(commandBuffer, pParameters);
 }
 
+static VKAPI_ATTR VkResult VKAPI_CALL vkmock_GetPhysicalDeviceCooperativeMatrixProperties2EXT(
+    VkPhysicalDevice physicalDevice, const VkPhysicalDeviceCooperativeMatrixInfo2EXT* pCooperativeMatrixInfo,
+    uint32_t* pPropertyCount, VkCooperativeMatrixProperties2EXT* pProperties) {
+    return vkmock::GetPhysicalDeviceCooperativeMatrixProperties2EXT(physicalDevice, pCooperativeMatrixInfo, pPropertyCount,
+                                                                    pProperties);
+}
+
 #ifdef VK_USE_PLATFORM_UBM_SEC
 static VKAPI_ATTR VkResult VKAPI_CALL vkmock_CreateUbmSurfaceSEC(VkInstance instance, const VkUbmSurfaceCreateInfoSEC* pCreateInfo,
                                                                  const VkAllocationCallbacks* pAllocator, VkSurfaceKHR* pSurface) {
@@ -4126,6 +4162,24 @@ static VKAPI_ATTR VkBool32 VKAPI_CALL vkmock_GetPhysicalDeviceUbmPresentationSup
 }
 
 #endif  // VK_USE_PLATFORM_UBM_SEC
+static VKAPI_ATTR void VKAPI_CALL vkmock_GetPhysicalDeviceInternalHandleNV(VkPhysicalDevice physicalDevice,
+                                                                           VkInternalHandleNV* pHandle) {
+    return vkmock::GetPhysicalDeviceInternalHandleNV(physicalDevice, pHandle);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_GetDeviceInternalHandleNV(VkDevice device, VkInternalHandleNV* pHandle) {
+    return vkmock::GetDeviceInternalHandleNV(device, pHandle);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_GetQueueInternalHandleNV(VkQueue queue, VkInternalHandleNV* pHandle) {
+    return vkmock::GetQueueInternalHandleNV(queue, pHandle);
+}
+
+static VKAPI_ATTR void VKAPI_CALL vkmock_GetCommandBufferInternalHandleNV(VkCommandBuffer commandBuffer,
+                                                                          VkInternalHandleNV* pHandle) {
+    return vkmock::GetCommandBufferInternalHandleNV(commandBuffer, pHandle);
+}
+
 static VKAPI_ATTR void VKAPI_CALL vkmock_CmdSetPrimitiveRestartIndexEXT(VkCommandBuffer commandBuffer,
                                                                         uint32_t primitiveRestartIndex) {
     return vkmock::CmdSetPrimitiveRestartIndexEXT(commandBuffer, primitiveRestartIndex);
@@ -6024,6 +6078,27 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     if (strcmp(pName, "vkCmdEndPerTileExecutionQCOM") == 0) {
         return (PFN_vkVoidFunction)vkmock_CmdEndPerTileExecutionQCOM;
     }
+    if (strcmp(pName, "vkSetLatencySleepModeLegacyNV") == 0) {
+        return (PFN_vkVoidFunction)vkmock_SetLatencySleepModeLegacyNV;
+    }
+    if (strcmp(pName, "vkLatencySleepLegacyNV") == 0) {
+        return (PFN_vkVoidFunction)vkmock_LatencySleepLegacyNV;
+    }
+    if (strcmp(pName, "vkSetLatencyMarkerLegacyNV") == 0) {
+        return (PFN_vkVoidFunction)vkmock_SetLatencyMarkerLegacyNV;
+    }
+    if (strcmp(pName, "vkGetLatencyTimingsLegacyNV") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetLatencyTimingsLegacyNV;
+    }
+    if (strcmp(pName, "vkQueueNotifyOutOfBandLegacyNV") == 0) {
+        return (PFN_vkVoidFunction)vkmock_QueueNotifyOutOfBandLegacyNV;
+    }
+    if (strcmp(pName, "vkGetSleepStatusLegacyNV") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetSleepStatusLegacyNV;
+    }
+    if (strcmp(pName, "vkShutdownLatencyDeviceLegacyNV") == 0) {
+        return (PFN_vkVoidFunction)vkmock_ShutdownLatencyDeviceLegacyNV;
+    }
 #ifdef VK_USE_PLATFORM_METAL_EXT
     if (strcmp(pName, "vkExportMetalObjectsEXT") == 0) {
         return (PFN_vkVoidFunction)vkmock_ExportMetalObjectsEXT;
@@ -6600,6 +6675,9 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
     if (strcmp(pName, "vkCmdSetComputeOccupancyPriorityNV") == 0) {
         return (PFN_vkVoidFunction)vkmock_CmdSetComputeOccupancyPriorityNV;
     }
+    if (strcmp(pName, "vkGetPhysicalDeviceCooperativeMatrixProperties2EXT") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetPhysicalDeviceCooperativeMatrixProperties2EXT;
+    }
 #ifdef VK_USE_PLATFORM_UBM_SEC
     if (strcmp(pName, "vkCreateUbmSurfaceSEC") == 0) {
         return (PFN_vkVoidFunction)vkmock_CreateUbmSurfaceSEC;
@@ -6608,6 +6686,18 @@ PFN_vkVoidFunction vkmock::GetProcAddr(const char* pName) {
         return (PFN_vkVoidFunction)vkmock_GetPhysicalDeviceUbmPresentationSupportSEC;
     }
 #endif  // VK_USE_PLATFORM_UBM_SEC
+    if (strcmp(pName, "vkGetPhysicalDeviceInternalHandleNV") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetPhysicalDeviceInternalHandleNV;
+    }
+    if (strcmp(pName, "vkGetDeviceInternalHandleNV") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetDeviceInternalHandleNV;
+    }
+    if (strcmp(pName, "vkGetQueueInternalHandleNV") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetQueueInternalHandleNV;
+    }
+    if (strcmp(pName, "vkGetCommandBufferInternalHandleNV") == 0) {
+        return (PFN_vkVoidFunction)vkmock_GetCommandBufferInternalHandleNV;
+    }
     if (strcmp(pName, "vkCmdSetPrimitiveRestartIndexEXT") == 0) {
         return (PFN_vkVoidFunction)vkmock_CmdSetPrimitiveRestartIndexEXT;
     }
@@ -7294,6 +7384,13 @@ void vkmock::Reset() {
     CmdDispatchTileQCOM = {};
     CmdBeginPerTileExecutionQCOM = {};
     CmdEndPerTileExecutionQCOM = {};
+    SetLatencySleepModeLegacyNV = {};
+    LatencySleepLegacyNV = {};
+    SetLatencyMarkerLegacyNV = {};
+    GetLatencyTimingsLegacyNV = {};
+    QueueNotifyOutOfBandLegacyNV = {};
+    GetSleepStatusLegacyNV = {};
+    ShutdownLatencyDeviceLegacyNV = {};
 #ifdef VK_USE_PLATFORM_METAL_EXT
     ExportMetalObjectsEXT = {};
 #endif  // VK_USE_PLATFORM_METAL_EXT
@@ -7498,10 +7595,15 @@ void vkmock::Reset() {
     CmdBeginCustomResolveEXT = {};
     GetPhysicalDeviceQueueFamilyDataGraphOpticalFlowImageFormatsARM = {};
     CmdSetComputeOccupancyPriorityNV = {};
+    GetPhysicalDeviceCooperativeMatrixProperties2EXT = {};
 #ifdef VK_USE_PLATFORM_UBM_SEC
     CreateUbmSurfaceSEC = {};
     GetPhysicalDeviceUbmPresentationSupportSEC = {};
 #endif  // VK_USE_PLATFORM_UBM_SEC
+    GetPhysicalDeviceInternalHandleNV = {};
+    GetDeviceInternalHandleNV = {};
+    GetQueueInternalHandleNV = {};
+    GetCommandBufferInternalHandleNV = {};
     CmdSetPrimitiveRestartIndexEXT = {};
     CreateAccelerationStructureKHR = {};
     DestroyAccelerationStructureKHR = {};

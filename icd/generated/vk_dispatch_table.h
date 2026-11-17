@@ -621,6 +621,13 @@ class DispatchTable {
     const PFN_vkCmdDispatchTileQCOM CmdDispatchTileQCOM;
     const PFN_vkCmdBeginPerTileExecutionQCOM CmdBeginPerTileExecutionQCOM;
     const PFN_vkCmdEndPerTileExecutionQCOM CmdEndPerTileExecutionQCOM;
+    const PFN_vkSetLatencySleepModeLegacyNV SetLatencySleepModeLegacyNV;
+    const PFN_vkLatencySleepLegacyNV LatencySleepLegacyNV;
+    const PFN_vkSetLatencyMarkerLegacyNV SetLatencyMarkerLegacyNV;
+    const PFN_vkGetLatencyTimingsLegacyNV GetLatencyTimingsLegacyNV;
+    const PFN_vkQueueNotifyOutOfBandLegacyNV QueueNotifyOutOfBandLegacyNV;
+    const PFN_vkGetSleepStatusLegacyNV GetSleepStatusLegacyNV;
+    const PFN_vkShutdownLatencyDeviceLegacyNV ShutdownLatencyDeviceLegacyNV;
 #ifdef VK_USE_PLATFORM_METAL_EXT
     const PFN_vkExportMetalObjectsEXT ExportMetalObjectsEXT;
 #endif  // VK_USE_PLATFORM_METAL_EXT
@@ -830,10 +837,15 @@ class DispatchTable {
     const PFN_vkGetPhysicalDeviceQueueFamilyDataGraphOpticalFlowImageFormatsARM
         GetPhysicalDeviceQueueFamilyDataGraphOpticalFlowImageFormatsARM;
     const PFN_vkCmdSetComputeOccupancyPriorityNV CmdSetComputeOccupancyPriorityNV;
+    const PFN_vkGetPhysicalDeviceCooperativeMatrixProperties2EXT GetPhysicalDeviceCooperativeMatrixProperties2EXT;
 #ifdef VK_USE_PLATFORM_UBM_SEC
     const PFN_vkCreateUbmSurfaceSEC CreateUbmSurfaceSEC;
     const PFN_vkGetPhysicalDeviceUbmPresentationSupportSEC GetPhysicalDeviceUbmPresentationSupportSEC;
 #endif  // VK_USE_PLATFORM_UBM_SEC
+    const PFN_vkGetPhysicalDeviceInternalHandleNV GetPhysicalDeviceInternalHandleNV;
+    const PFN_vkGetDeviceInternalHandleNV GetDeviceInternalHandleNV;
+    const PFN_vkGetQueueInternalHandleNV GetQueueInternalHandleNV;
+    const PFN_vkGetCommandBufferInternalHandleNV GetCommandBufferInternalHandleNV;
     const PFN_vkCmdSetPrimitiveRestartIndexEXT CmdSetPrimitiveRestartIndexEXT;
     const PFN_vkCreateAccelerationStructureKHR CreateAccelerationStructureKHR;
     const PFN_vkDestroyAccelerationStructureKHR DestroyAccelerationStructureKHR;
