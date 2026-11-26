@@ -115,17 +115,63 @@
                 "-DCXXOPTS_BUILD_TESTS=OFF",
                 "-DCXXOPTS_ENABLE_WARNINGS=OFF"
             ]
+        },
+        {
+            "name": "VulkanSC-pcutil",
+            "api": "vulkansc",
+            "url": "https://github.com/KhronosGroup/VulkanSC-pcutil.git",
+            "sub_dir": "VulkanSC-pcutil",
+            "build_dir": "VulkanSC-pcutil/build",
+            "install_dir": "VulkanSC-pcutil/build/install",
+            "commit": "60f984d4358555da4a59629ce402ed58745deada",
+            "cmake_options": [
+                "-DUPDATE_DEPS=ON",
+                "-DPCJSON_ENABLE_INSTALL=ON",
+                "-DPCU_ENABLE_INSTALL=OFF",
+                "-DBUILD_TESTS=OFF",
+                "-DBUILD_JSON_GEN_LAYER=OFF",
+                "-DBUILD_VKSCPCINFO=OFF",
+                "-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded$<$<CONFIG:Debug>:Debug>"
+            ],
+            "deps": [
+                {
+                    "var_name": "JSONCPP_INSTALL_DIR",
+                    "repo_name": "jsoncpp"
+                },
+                {
+                    "var_name": "VULKAN_HEADERS_INSTALL_DIR",
+                    "repo_name": "Vulkan-Headers"
+                },
+                {
+                    "var_name": "VULKAN_UTILITY_LIBRARIES_INSTALL_DIR",
+                    "repo_name": "Vulkan-Utility-Libraries"
+                },
+                {
+                    "var_name": "SPIRV_HEADERS_INSTALL_DIR",
+                    "repo_name": "SPIRV-Headers"
+                },
+                {
+                    "var_name": "SPIRV_TOOLS_INSTALL_DIR",
+                    "repo_name": "SPIRV-Tools"
+                },
+                {
+                    "var_name": "CXXOPTS_INSTALL_DIR",
+                    "repo_name": "cxxopts"
+                }
+            ]
         }
     ],
     "install_names": {
         "Vulkan-Headers": "VULKAN_HEADERS_INSTALL_DIR",
         "Vulkan-Utility-Libraries": "VULKAN_UTILITY_LIBRARIES_INSTALL_DIR",
         "Vulkan-Loader": "VULKAN_LOADER_INSTALL_DIR",
+        "VulkanSC-pcutil": "VULKANSC_PCUTIL_INSTALL_DIR",
         "SPIRV-Headers": "SPIRV_HEADERS_INSTALL_DIR",
         "SPIRV-Tools": "SPIRV_TOOLS_INSTALL_DIR",
         "googletest": "GOOGLETEST_INSTALL_DIR",
         "jsoncpp": "JSONCPP_INSTALL_DIR",
         "valijson": "VALIJSON_INSTALL_DIR",
-        "cxxopts": "CXXOPTS_INSTALL_DIR"
+        "cxxopts": "CXXOPTS_INSTALL_DIR",
+        "hashlib": "HASHLIB_INSTALL_DIR"
     }
 }

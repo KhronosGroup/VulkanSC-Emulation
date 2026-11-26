@@ -122,6 +122,7 @@
                     "pNext": "NULL",
                     "flags": "0",
                     "stage": "VK_SHADER_STAGE_VERTEX_BIT",
+                    "module": 0,
                     "pName": "main",
                     "pSpecializationInfo": "NULL"
                 },
@@ -130,6 +131,7 @@
                     "pNext": "NULL",
                     "flags": "0",
                     "stage": "VK_SHADER_STAGE_FRAGMENT_BIT",
+                    "module": 0,
                     "pName": "main",
                     "pSpecializationInfo": "NULL"
                 }
@@ -156,9 +158,9 @@
                 "pNext": "NULL",
                 "flags": 0,
                 "viewportCount": 1,
-                "pViewports": [],
+                "pViewports": "NULL",
                 "scissorCount": 1,
-                "pScissors": []
+                "pScissors": "NULL"
             },
             "pRasterizationState": {
                 "sType": "VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO",
@@ -232,7 +234,7 @@
                         "srcAlphaBlendFactor": "VK_BLEND_FACTOR_ZERO",
                         "dstAlphaBlendFactor": "VK_BLEND_FACTOR_ZERO",
                         "alphaBlendOp": "VK_BLEND_OP_ADD",
-                        "colorWriteMask": "0xf"
+                        "colorWriteMask": "VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT"
                     }
                 ],
                 "blendConstants": [
@@ -254,6 +256,7 @@
             },
             "layout": 5,
             "subpass": 0,
+            "renderPass": 0,
             "basePipelineHandle": "",
             "basePipelineIndex": 0
         },

@@ -15,6 +15,7 @@ target_sources(pcc PRIVATE
 )
 
 find_package(cxxopts REQUIRED CONFIG)
+find_package(VulkanSCPCJson REQUIRED CONFIG)
 
 target_link_libraries(pcc PRIVATE
     jsoncpp_static
@@ -25,6 +26,7 @@ target_link_libraries(pcc PRIVATE
     SPIRV-Tools-opt
     SPIRV-Tools-static
     SPIRV-Headers::SPIRV-Headers
+    VulkanSC::PCJson
 )
 
 if(${CMAKE_CXX_COMPILER_ID} MATCHES "GNU")
