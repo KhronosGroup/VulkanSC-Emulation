@@ -50,12 +50,13 @@ Global::Global() : environment_(), logger_(Environment().LogSeverityEnv()), disp
 #else
     // We need RTLD_DEEPBIND otherwise the libvulkan.so symbols might get resolved
     // to the libvulkansc.so symbols resulting in a cyclic call stack
+    // const int dlopen_flags = RTLD_NOW | RTLD_LOCAL | RTLD_DEEPBIND;
     int dlopen_flags = RTLD_NOW | RTLD_LOCAL;
-    #if defined(RTLD_DEEPBIND)
+#if defined(RTLD_DEEPBIND)
     dlopen_flags |= RTLD_DEEPBIND;
-    #elif defined(__QNX__)
+#elif defined(__QNX__)
     dlopen_flags |= RTLD_GROUP;
-    #endif
+#endif
 #endif
 #endif
 
